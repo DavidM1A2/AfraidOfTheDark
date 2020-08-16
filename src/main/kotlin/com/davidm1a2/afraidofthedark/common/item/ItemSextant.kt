@@ -40,7 +40,7 @@ class ItemSextant : AOTDItem("sextant", Properties().maxStackSize(1)) {
         // If the player does not have the research send him a chat message from the server
         else {
             if (!world.isRemote) {
-                player.sendMessage(TextComponentTranslation(LocalizationConstants.Generic.DONT_UNDERSTAND))
+                player.sendMessage(TextComponentTranslation(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
         return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack)

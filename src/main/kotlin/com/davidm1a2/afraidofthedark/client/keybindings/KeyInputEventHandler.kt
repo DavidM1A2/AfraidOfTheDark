@@ -83,7 +83,7 @@ class KeyInputEventHandler {
             // Tell the player what type of bolt will be fired now
             entityPlayer.sendMessage(
                 TextComponentTranslation(
-                    LocalizationConstants.WristCrossbow.BOLT_CHANGE,
+                    "message.afraidofthedark.wrist_crossbow.bolt_change",
                     TextComponentTranslation(BoltOrderHelper.getBoltAt(currentBoltIndex).getUnlocalizedName())
                 )
             )
@@ -115,20 +115,20 @@ class KeyInputEventHandler {
                             }
                         }
                         // No valid wrist crossbow found
-                        entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.WristCrossbow.RELOADING))
+                        entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark.wrist_crossbow.reloading"))
                     } else {
                         entityPlayer.sendMessage(
                             TextComponentTranslation(
-                                LocalizationConstants.WristCrossbow.NO_BOLT,
+                                "message.afraidofthedark.wrist_crossbow.no_bolt",
                                 TextComponentTranslation(boltType.getUnlocalizedName())
                             )
                         )
                     }
                 } else {
-                    entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.WristCrossbow.NO_CROSSBOW))
+                    entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark.wrist_crossbow.no_crossbow"))
                 }
             } else {
-                entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.Generic.DONT_UNDERSTAND))
+                entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
     }
@@ -176,7 +176,7 @@ class KeyInputEventHandler {
                         } else {
                             entityPlayer.sendMessage(
                                 TextComponentTranslation(
-                                    LocalizationConstants.CloakOfAgility.TOO_TIRED,
+                                    "message.afraidofthedark.cloak_of_agility.too_tired",
                                     cloakOfAgility.cooldownRemainingInSeconds(itemStack)
                                 )
                             )
@@ -186,10 +186,10 @@ class KeyInputEventHandler {
                     }
                 }
             } else {
-                entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.CloakOfAgility.NOT_GROUNDED))
+                entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark.cloak_of_agility.not_grounded"))
             }
         } else {
-            entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.Generic.DONT_UNDERSTAND))
+            entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.DONT_UNDERSTAND))
         }
     }
 

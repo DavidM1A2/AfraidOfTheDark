@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item.core
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityLiving
@@ -113,7 +112,7 @@ abstract class AOTDItemChargeableSword(
                     addCharge(swordStack, -100.0)
                 }
             } else {
-                playerIn.sendMessage(TextComponentTranslation(LocalizationConstants.Item.CHARGABLE_SWORD_NOT_ENOUGH_ENERGY))
+                playerIn.sendMessage(TextComponentTranslation("message.afraidofthedark.chargable_sword.not_enough_energy"))
             }
         }
 

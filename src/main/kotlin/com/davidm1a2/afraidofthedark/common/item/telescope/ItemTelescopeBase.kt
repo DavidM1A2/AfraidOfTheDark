@@ -59,10 +59,10 @@ abstract class ItemTelescopeBase(val accuracy: Int, name: String) : AOTDItem(nam
             if (playerResearch.isResearched(research)) {
                 // Tell the player that they need to be higher to see through the clouds
                 if (!highEnough) {
-                    player.sendMessage(TextComponentTranslation(LocalizationConstants.Item.TELESCOPE_NOT_HIGH_ENOUGH))
+                    player.sendMessage(TextComponentTranslation("message.afraidofthedark.telescope.not_high_enough"))
                 }
             } else {
-                player.sendMessage(TextComponentTranslation(LocalizationConstants.Generic.DONT_UNDERSTAND))
+                player.sendMessage(TextComponentTranslation(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
 
@@ -89,10 +89,10 @@ abstract class ItemTelescopeBase(val accuracy: Int, name: String) : AOTDItem(nam
         val player = Minecraft.getInstance().player
 
         if (player != null && player.getResearch().isResearched(getRequiredResearch())) {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TELESCOPE_TOOLTIP_DIRECTIONS))
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TELESCOPE_TOOLTIP_ACCURACY, accuracy))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.telescope.directions"))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.telescope.accuracy", accuracy))
         } else {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Generic.DONT_UNDERSTAND))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.DONT_UNDERSTAND))
         }
     }
 

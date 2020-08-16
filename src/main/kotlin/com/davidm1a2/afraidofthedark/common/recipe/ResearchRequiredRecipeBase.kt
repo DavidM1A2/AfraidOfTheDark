@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.recipe
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.inventory.*
@@ -43,7 +42,7 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe>(val baseRecipe: T, intern
             if (!craftingPlayer.getResearch().isResearched(preRequisite)) {
                 // Before returning false notify the player why the crafting failed if the recipe matched
                 if (matches && !craftingPlayer.world.isRemote) {
-                    craftingPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.Crafting.MISSING_RESEARCH))
+                    craftingPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark.crafting.missing_research"))
                 }
                 return false
             }

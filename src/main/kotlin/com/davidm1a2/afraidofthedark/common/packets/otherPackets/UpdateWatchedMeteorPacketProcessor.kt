@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.packets.otherPackets
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
-import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.PacketProcessor
 import net.minecraft.client.Minecraft
@@ -57,11 +56,11 @@ class UpdateWatchedMeteorPacketProcessor : PacketProcessor<UpdateWatchedMeteorPa
             // Tell the player about the meteor estimated values
             player.sendMessage(
                 TextComponentTranslation(
-                    LocalizationConstants.Sextant.FALLING_METEOR_INFO_HEADER, TextComponentTranslation(watchedMeteor!!.getUnlocalizedName())
+                    "message.afraidofthedark.falling_meteor.info.header", TextComponentTranslation(watchedMeteor!!.getUnlocalizedName())
                 )
             )
-            player.sendMessage(TextComponentTranslation(LocalizationConstants.Sextant.FALLING_METEOR_INFO_DATA, dropAngle, latitude, longitude))
-            player.sendMessage(TextComponentTranslation(LocalizationConstants.Sextant.FALLING_METEOR_INFO_HELP))
+            player.sendMessage(TextComponentTranslation("message.afraidofthedark.falling_meteor.info.data", dropAngle, latitude, longitude))
+            player.sendMessage(TextComponentTranslation("message.afraidofthedark.falling_meteor.info.help"))
 
             // Update the player's watched meteor and send them values
             val playerBasics = player.getBasics()

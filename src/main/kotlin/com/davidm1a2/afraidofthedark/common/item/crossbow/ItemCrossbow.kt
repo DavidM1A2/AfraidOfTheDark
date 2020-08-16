@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item.crossbow
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
@@ -86,7 +85,7 @@ class ItemCrossbow : AOTDItem("crossbow", Properties().maxStackSize(1)) {
                     } else {
                         player.sendMessage(
                             TextComponentTranslation(
-                                LocalizationConstants.Item.CROSSBOW_NO_BOLT,
+                                "message.afraidofthedark.crossbow.no_bolt",
                                 TextComponentTranslation(getCurrentBoltType(itemStack).getUnlocalizedName())
                             )
                         )
@@ -182,7 +181,7 @@ class ItemCrossbow : AOTDItem("crossbow", Properties().maxStackSize(1)) {
             if (!entityPlayer.world.isRemote) {
                 entityPlayer.sendMessage(
                     TextComponentTranslation(
-                        LocalizationConstants.Item.CROSSBOW_BOLT_CHANGE,
+                        "message.afraidofthedark.crossbow.bolt_change",
                         TextComponentTranslation(getCurrentBoltType(itemStack).getUnlocalizedName())
                     )
                 )
@@ -250,17 +249,17 @@ class ItemCrossbow : AOTDItem("crossbow", Properties().maxStackSize(1)) {
             // Skip adding information before the bolts registry is initialized
             return
         }
-        tooltip.add(TextComponentTranslation(LocalizationConstants.Item.CROSSBOW_TOOLTIP_CHANGE_BOLT))
+        tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.crossbow.change_bolt"))
         tooltip.add(
             TextComponentTranslation(
-                LocalizationConstants.Item.CROSSBOW_TOOLTIP_FIRE_BOLT_TYPE,
+                "tooltip.afraidofthedark.crossbow.fire_bolt_type",
                 TextComponentTranslation(getCurrentBoltType(stack).getUnlocalizedName())
             )
         )
         if (isLoaded(stack)) {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.CROSSBOW_TOOLTIP_LOADED))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.crossbow.loaded"))
         } else {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.CROSSBOW_TOOLTIP_UNLOADED))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.crossbow.unloaded"))
         }
     }
 

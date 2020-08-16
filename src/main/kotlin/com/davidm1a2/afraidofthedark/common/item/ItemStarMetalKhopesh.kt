@@ -68,11 +68,11 @@ class ItemStarMetalKhopesh : AOTDItemChargeableSword(
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL)) {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.STAR_METAL_KHOPESH_TOOLTIP_EFFECT1))
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.STAR_METAL_KHOPESH_TOOLTIP_EFFECT2))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.star_metal_khopesh.effect1"))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.star_metal_khopesh.effect2"))
         } else {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

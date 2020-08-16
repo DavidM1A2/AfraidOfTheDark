@@ -58,10 +58,10 @@ class BlockLensCutter : AOTDBlock(
                     worldIn.playSound(null, pos, ModSounds.LENS_CUTTER, SoundCategory.BLOCKS, 0.5f, Random.nextDouble(0.8, 1.2).toFloat())
                     playerIn.addItemStackToInventory(ItemStack(ModItems.LENS))
                 } else {
-                    playerIn.sendMessage(TextComponentTranslation(LocalizationConstants.Block.LENS_CUTTER_WRONG_ITEM))
+                    playerIn.sendMessage(TextComponentTranslation("message.afraidofthedark.lens_cutter.wrong_item"))
                 }
             } else {
-                playerIn.sendMessage(TextComponentTranslation(LocalizationConstants.Generic.DONT_UNDERSTAND))
+                playerIn.sendMessage(TextComponentTranslation(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
 

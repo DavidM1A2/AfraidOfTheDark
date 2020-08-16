@@ -95,11 +95,11 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff", Proper
                     return ActionResult.newResult(EnumActionResult.SUCCESS, heldItem)
                 } else {
                     // If the staff is on cooldown say that
-                    player.sendMessage(TextComponentTranslation(LocalizationConstants.Item.STAR_METAL_STAFF_ON_COOLDOWN, cooldownRemainingInSeconds(heldItem)))
+                    player.sendMessage(TextComponentTranslation("message.afraidofthedark.star_metal_staff.on_cooldown", cooldownRemainingInSeconds(heldItem)))
                 }
             } else {
                 // If the player has the wrong research print an error
-                player.sendMessage(TextComponentTranslation(LocalizationConstants.Generic.DONT_UNDERSTAND))
+                player.sendMessage(TextComponentTranslation(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
         return super.onItemRightClick(world, player, hand)

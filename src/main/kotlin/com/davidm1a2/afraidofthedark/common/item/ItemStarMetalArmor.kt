@@ -61,10 +61,10 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL)) {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_MAGIC_ARMOR_NEVER_BREAKS))
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.STAR_METAL_ARMOR_TOOLTIP_EFFECT))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.TOOLTIP_MAGIC_ARMOR_NEVER_BREAKS))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.star_metal_armor.effect"))
         } else {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

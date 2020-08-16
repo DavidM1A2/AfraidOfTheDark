@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import net.minecraft.entity.player.EntityPlayer
@@ -33,7 +32,7 @@ class ItemInsanitysHeights : AOTDItem("insanitys_heights", Properties().maxStack
             AfraidOfTheDark.proxy.showInsanitysHeightsBook(player)
         } else {
             if (!worldIn.isRemote) {
-                player.sendMessage(TextComponentTranslation(LocalizationConstants.Item.INSANITYS_HEIGHTS_DONT_UNDERSTAND))
+                player.sendMessage(TextComponentTranslation("message.afraidofthedark.insanitys_heights.dont_understand"))
             }
         }
         return ActionResult.newResult(EnumActionResult.SUCCESS, heldItem)

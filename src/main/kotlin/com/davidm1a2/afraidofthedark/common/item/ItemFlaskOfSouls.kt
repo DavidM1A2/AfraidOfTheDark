@@ -74,7 +74,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls", Propertie
                     }
                 }
             } else {
-                player.sendMessage(TextComponentTranslation(LocalizationConstants.Generic.DONT_UNDERSTAND))
+                player.sendMessage(TextComponentTranslation(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
         return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack)
@@ -122,11 +122,11 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls", Propertie
                     }
                 } else {
                     entityPlayer.sendMessage(
-                        TextComponentTranslation(LocalizationConstants.Item.FLASK_OF_SOULS_ON_COOLDOWN, cooldownRemainingInSeconds(itemStack))
+                        TextComponentTranslation("message.afraidofthedark.flask_of_souls.on_cooldown", cooldownRemainingInSeconds(itemStack))
                     )
                 }
             } else {
-                entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.Item.FLASK_OF_SOULS_INCOMPLETE))
+                entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark.flask_of_souls.incomplete"))
             }
         }
     }
@@ -177,34 +177,34 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls", Propertie
         if (player != null && player.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS)) {
             // If the flask is unbound show them information how to bind it
             if (getSpawnedEntity(stack) == null) {
-                tooltip.add(TextComponentTranslation(LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_EMPTY_LINE1))
-                tooltip.add(TextComponentTranslation(LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_EMPTY_LINE2))
-                tooltip.add(TextComponentTranslation(LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_EMPTY_LINE3))
+                tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.flask_of_souls.empty.line1"))
+                tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.flask_of_souls.empty.line2"))
+                tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.flask_of_souls.empty.line3"))
             } else {
                 // If the flask is done show info one way, otherwise show it the other way
                 if (isComplete(stack)) {
                     tooltip.add(
                         TextComponentTranslation(
-                            LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_COMPLETE_LINE1,
+                            "tooltip.afraidofthedark.flask_of_souls.complete.line1",
                             TextComponentTranslation(EntityType.getById(getSpawnedEntity(stack)!!.toString())!!.translationKey)
                         )
                     )
                     tooltip.add(
                         TextComponentTranslation(
-                            LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_COMPLETE_LINE2,
+                            "tooltip.afraidofthedark.flask_of_souls.complete.line2",
                             getCooldownInMilliseconds(stack) / 1000 + 1
                         )
                     )
                 } else {
                     tooltip.add(
                         TextComponentTranslation(
-                            LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_INCOMPLETE_LINE1,
+                            "tooltip.afraidofthedark.flask_of_souls.incomplete.line1",
                             TextComponentTranslation(EntityType.getById(getSpawnedEntity(stack)!!.toString())!!.translationKey)
                         )
                     )
                     tooltip.add(
                         TextComponentTranslation(
-                            LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_INCOMPLETE_LINE2,
+                            "tooltip.afraidofthedark.flask_of_souls.incomplete.line2",
                             getKills(stack),
                             ENTITY_TO_KILLS_REQUIRED[getSpawnedEntity(stack)] ?: DEFAULT_KILLS_REQUIRED
                         )
@@ -212,7 +212,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls", Propertie
                 }
             }
         } else {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

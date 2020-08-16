@@ -70,12 +70,12 @@ class ItemIgneousSword : AOTDItemChargeableSword(
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.IGNEOUS)) {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.IGNEOUS_SWORD_TOOLTIP_LINE1))
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.IGNEOUS_SWORD_TOOLTIP_LINE2))
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.IGNEOUS_SWORD_TOOLTIP_LINE3))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.igneous_sword.line1"))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.igneous_sword.line2"))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.igneous_sword.line3"))
         } else {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockTileEntity
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityVoidChest
 import net.minecraft.block.Block
@@ -88,7 +87,7 @@ class BlockVoidChest : AOTDBlockTileEntity(
                 // Let the player interact with the chest
                 tileEntity.interact(playerIn)
             } else if (!worldIn.isRemote) {
-                playerIn.sendMessage(TextComponentTranslation(LocalizationConstants.VoidChest.DONT_UNDERSTAND))
+                playerIn.sendMessage(TextComponentTranslation("message.afraidofthedark.void_chest.dont_understand"))
             }
         }
         return true

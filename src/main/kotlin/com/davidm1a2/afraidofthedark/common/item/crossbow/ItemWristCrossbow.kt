@@ -41,15 +41,15 @@ class ItemWristCrossbow : AOTDItemWithPerItemCooldown("wrist_crossbow", Properti
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.WRIST_CROSSBOW)) {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.WRIST_CROSSBOW_TOOLTIP_HOW_TO_FIRE, ModKeybindings.FIRE_WRIST_CROSSBOW.key.name))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.wrist_crossbow.how_to_fire", ModKeybindings.FIRE_WRIST_CROSSBOW.key.name))
             tooltip.add(
                 TextComponentTranslation(
-                    LocalizationConstants.Item.WRIST_CROSSBOW_TOOLTIP_CHANGE_BOLT_TYPE,
+                    "tooltip.afraidofthedark.wrist_crossbow.change_bolt_type",
                     ModKeybindings.FIRE_WRIST_CROSSBOW.key.name
                 )
             )
         } else {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

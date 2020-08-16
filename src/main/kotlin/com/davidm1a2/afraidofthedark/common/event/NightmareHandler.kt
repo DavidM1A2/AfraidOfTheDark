@@ -232,7 +232,7 @@ class NightmareHandler {
 
                 // If we didn't find a valid spot around the player's position then throw an error and reject the teleport
                 if (preTeleportPosition == null) {
-                    entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.Dimension.NIGTHMARE_NO_SPAWN))
+                    entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark.dimension.nightmare.no_spawn"))
                     return true
                 } else {
                     playerNightmareData.preTeleportPosition = preTeleportPosition

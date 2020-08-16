@@ -13,7 +13,6 @@ import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.item.ItemJournal
@@ -114,13 +113,13 @@ class BloodStainedJournalSignGUI : AOTDGuiScreen() {
 
                             // Play the sign animation and chat message
                             entityPlayer.playSound(ModSounds.JOURNAL_SIGN, 4.0F, 1.0F)
-                            entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.SignJournal.SUCCESSFUL))
+                            entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark.journal.sign.successful"))
                         }
                     } else {
                         // Test if the user has not yet started AOTD
                         if (!playerBasics.startedAOTD) {
                             // If he has not started then print out a message that the name was wrong
-                            entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.SignJournal.UNSUCCESSFUL))
+                            entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark.journal.sign.unsuccessful"))
                             entityPlayer.closeScreen()
                         }
                     }

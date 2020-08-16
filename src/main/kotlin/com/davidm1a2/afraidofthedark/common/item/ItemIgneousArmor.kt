@@ -61,10 +61,10 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.IGNEOUS)) {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_MAGIC_ARMOR_NEVER_BREAKS))
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.IGNEOUS_ARMOR_TOOLTIP_EFFECT))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.TOOLTIP_MAGIC_ARMOR_NEVER_BREAKS))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.igneous_armor.effect"))
         } else {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

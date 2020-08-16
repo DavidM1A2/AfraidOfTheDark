@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
@@ -73,21 +72,21 @@ class ItemResearchScroll : AOTDItem("research_scroll", Properties()) {
                         playerResearch.setResearch(scrollResearch, true)
                         playerResearch.sync(player, true)
                     } else {
-                        player.sendMessage(TextComponentTranslation(LocalizationConstants.Item.RESEARCH_SCROLL_INCOMPLETE))
+                        player.sendMessage(TextComponentTranslation("message.afraidofthedark.research_scroll.incomplete"))
                     }
                 }
                 // If the player does not yet have the research then state that they need additional research first
                 else if (!playerResearch.isResearched(scrollResearch)) {
-                    player.sendMessage(TextComponentTranslation(LocalizationConstants.Item.RESEARCH_SCROLL_CANT_UNDERSTAND))
+                    player.sendMessage(TextComponentTranslation("message.afraidofthedark.research_scroll.cant_understand"))
                 }
                 // If the player does have the research tell them
                 else {
-                    player.sendMessage(TextComponentTranslation(LocalizationConstants.Item.RESEARCH_SCROLL_ALREADY_RESEARCHED))
+                    player.sendMessage(TextComponentTranslation("message.afraidofthedark.research_scroll.already_researched"))
                 }
             }
             // No valid research detected
             else {
-                player.sendMessage(TextComponentTranslation(LocalizationConstants.Item.RESEARCH_SCROLL_CORRUPT))
+                player.sendMessage(TextComponentTranslation("message.afraidofthedark.research_scroll.corrupt"))
             }
         }
         return super.onItemRightClick(world, player, hand)
@@ -107,7 +106,7 @@ class ItemResearchScroll : AOTDItem("research_scroll", Properties()) {
             if (isPart(stack)) {
                 tooltip.add(
                     TextComponentTranslation(
-                        LocalizationConstants.Item.RESEARCH_SCROLL_TOOLTIP_PART,
+                        "tooltip.afraidofthedark.research_scroll.part",
                         getPartNumber(stack),
                         getNumberParts(stack),
                         TextComponentTranslation(scrollResearch.getUnlocalizedName())
@@ -116,13 +115,13 @@ class ItemResearchScroll : AOTDItem("research_scroll", Properties()) {
             } else {
                 tooltip.add(
                     TextComponentTranslation(
-                        LocalizationConstants.Item.RESEARCH_SCROLL_TOOLTIP_COMPLETE,
+                        "tooltip.afraidofthedark.research_scroll.complete",
                         I18n.format(scrollResearch.getUnlocalizedName())
                     )
                 )
             }
         } else {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.RESEARCH_SCROLL_TOOLTIP_CORRUPT))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.research_scroll.corrupt"))
         }
     }
 

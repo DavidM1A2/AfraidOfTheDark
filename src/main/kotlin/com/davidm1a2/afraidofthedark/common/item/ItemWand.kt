@@ -89,10 +89,10 @@ class ItemWand : AOTDItem("wand", Properties().maxStackSize(1)) {
                     if (toCast != null) {
                         toCast.attemptToCast(player)
                     } else {
-                        player.sendMessage(TextComponentTranslation(LocalizationConstants.Item.WAND_INVALID_SPELL))
+                        player.sendMessage(TextComponentTranslation("message.afraidofthedark.wand.invalid_spell"))
                     }
                 } else {
-                    player.sendMessage(TextComponentTranslation(LocalizationConstants.Item.WAND_NO_BOUND_SPELL))
+                    player.sendMessage(TextComponentTranslation("message.afraidofthedark.wand.no_bound_spell"))
                 }
             }
         }
@@ -117,7 +117,7 @@ class ItemWand : AOTDItem("wand", Properties().maxStackSize(1)) {
 
             // Server side sending only, tell the player the spell was updated
             if (!entityPlayer.world.isRemote) {
-                entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.Item.WAND_SPELL_SET, first.name))
+                entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark.wand.spell_set", first.name))
             }
 
             // Set the NBT spell ID
@@ -125,7 +125,7 @@ class ItemWand : AOTDItem("wand", Properties().maxStackSize(1)) {
         } else {
             // Server side sending only, tell the player he/she has no spells to bind to the wand yet
             if (!entityPlayer.world.isRemote) {
-                entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.Item.WAND_NO_SPELLS))
+                entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark.wand.no_spells"))
             }
         }
     }
@@ -182,17 +182,17 @@ class ItemWand : AOTDItem("wand", Properties().maxStackSize(1)) {
 
                 // If the spell is non-null show the spell's stats
                 if (spell != null) {
-                    tooltip.add(TextComponentTranslation(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_NAME, spell.name))
-                    tooltip.add(TextComponentTranslation(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_COST, spell.getCost()))
+                    tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.wand.spell_name", spell.name))
+                    tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.wand.spell_cost", spell.getCost()))
                 } else {
-                    tooltip.add(TextComponentTranslation(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_INVALID))
+                    tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.wand.spell_invalid"))
                 }
             } else {
-                tooltip.add(TextComponentTranslation(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_NO_SPELL))
-                tooltip.add(TextComponentTranslation(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_SET_SPELL))
+                tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.wand.no_spell"))
+                tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.wand.set_spell"))
             }
         } else {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

@@ -8,7 +8,6 @@ import com.davidm1a2.afraidofthedark.client.gui.guiScreens.SpellListGUI
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
-import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
@@ -111,7 +110,7 @@ class AOTDGuiSpellTablet(
                     // Sync the spell server side
                     spellManager.sync(entityPlayer, spellClone)
                     // Tell the player the save was successful
-                    entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.Spell.SAVE_SUCCEEDED, spellClone.name))
+                    entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark.spell.save_successful", spellClone.name))
                 }
             }
         }

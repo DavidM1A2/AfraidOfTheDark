@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.common.item.telescope
 
 import com.davidm1a2.afraidofthedark.client.gui.guiScreens.TelescopeGUI
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import net.minecraft.client.Minecraft
@@ -75,8 +74,8 @@ class ItemTelescope : ItemTelescopeBase(130, "telescope") {
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         // Show the tooltip if the pre-req is researched
         if (Minecraft.getInstance().player?.getResearch()?.isResearched(getRequiredResearch().preRequisite!!) == true) {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TELESCOPE_TOOLTIP_DIRECTIONS))
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TELESCOPE_TOOLTIP_ACCURACY, accuracy))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.telescope.directions"))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.telescope.accuracy", accuracy))
         } else {
             super.addInformation(stack, world, tooltip, flag)
         }

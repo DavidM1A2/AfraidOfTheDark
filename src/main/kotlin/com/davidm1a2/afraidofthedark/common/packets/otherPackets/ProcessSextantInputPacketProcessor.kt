@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.packets.otherPackets
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
-import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.PacketProcessor
 import com.davidm1a2.afraidofthedark.common.registry.meteor.MeteorEntry
@@ -62,7 +61,7 @@ class ProcessSextantInputPacketProcessor : PacketProcessor<ProcessSextantInputPa
                     zLocOfDrop =
                         zLocOfDrop + (if (Random.nextBoolean()) -1 else 1) * Random.nextInt(accuracy + 1)
 
-                    player.sendMessage(TextComponentTranslation(LocalizationConstants.Sextant.METEOR_LOCATION, xLocOfDrop, zLocOfDrop))
+                    player.sendMessage(TextComponentTranslation("message.afraidofthedark.meteor.location", xLocOfDrop, zLocOfDrop))
 
                     // Clear the player's watched meteors so that the same meteor can't be used twice
                     playerBasics.setWatchedMeteor(null, 0, -1, -1, -1)
@@ -74,7 +73,7 @@ class ProcessSextantInputPacketProcessor : PacketProcessor<ProcessSextantInputPa
             }
             // The values aren't correct so show an error
             else {
-                player.sendMessage(TextComponentTranslation(LocalizationConstants.Sextant.METEOR_PROCESS_INVALID_VALUE))
+                player.sendMessage(TextComponentTranslation("message.afraidofthedark.meteor.process.invalid_vals"))
             }
         }
     }

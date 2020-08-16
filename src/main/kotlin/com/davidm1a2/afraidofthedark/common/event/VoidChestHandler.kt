@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getVoidChestData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility
 import net.minecraft.entity.player.EntityPlayerMP
@@ -105,7 +104,7 @@ class VoidChestHandler {
                 )
                 // If we didn't find a valid spot around the player's position then throw an error and reject the teleport
                 if (preTeleportPosition == null) {
-                    entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.Dimension.VOID_CHEST__NO_SPAWN))
+                    entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark.dimension.void_chest.no_spawn"))
                     return true
                 } else {
                     playerVoidChestData.preTeleportPosition = preTeleportPosition

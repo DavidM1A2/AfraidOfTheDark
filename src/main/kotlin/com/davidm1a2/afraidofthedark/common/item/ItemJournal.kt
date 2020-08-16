@@ -3,7 +3,6 @@ package com.davidm1a2.afraidofthedark.common.item
 import com.davidm1a2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalResearchGUI
 import com.davidm1a2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalSignGUI
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
-import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
@@ -77,7 +76,7 @@ class ItemJournal : AOTDItem("journal", Properties().maxStackSize(1)) {
         } else {
             // Send chat messages on server side only
             if (!world.isRemote) {
-                player.sendMessage(TextComponentTranslation(LocalizationConstants.Item.JOURNAL_CANT_COMPREHEND))
+                player.sendMessage(TextComponentTranslation("message.afraidofthedark.journal.cant_comprehend"))
             }
         }
 
@@ -133,15 +132,15 @@ class ItemJournal : AOTDItem("journal", Properties().maxStackSize(1)) {
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         // If the stack has an owner tag, show who owns the stack, otherwise show that the journal is not bound
         if (NBTHelper.hasTag(stack, NBT_OWNER)) {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.JOURNAL_TOOLTIP_BOUND, NBTHelper.getString(stack, NBT_OWNER)))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.journal.bound", NBTHelper.getString(stack, NBT_OWNER)))
         } else {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.JOURNAL_TOOLTIP_UNBOUND))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.journal.unbound"))
         }
 
         // If the journal is a cheat sheet, show that
         if (NBTHelper.hasTag(stack, NBT_CHEAT_SHEET)) {
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.JOURNAL_TOOLTIP_CHEATSHEET_LINE1))
-            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.JOURNAL_TOOLTIP_CHEATSHEET_LINE2))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.journal.cheatsheet.line1"))
+            tooltip.add(TextComponentTranslation("tooltip.afraidofthedark.journal.cheatsheet.line2"))
         }
     }
 

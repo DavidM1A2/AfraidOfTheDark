@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.common.entity.enaria
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
@@ -192,7 +191,7 @@ class EntityEnaria(world: World) : EntityMob(ModEntities.ENARIA, world), IMCAnim
                 if (damageSource is EntityPlayer) {
                     // If a player hit enaria check if they have the right research
                     if (!damageSource.getResearch().isResearched(ModResearches.ENARIA.preRequisite!!)) {
-                        damageSource.sendMessage(TextComponentTranslation(LocalizationConstants.Enaria.DONT_UNDERSTAND))
+                        damageSource.sendMessage(TextComponentTranslation("message.afraidofthedark.enaria.dont_understand"))
                         // Can't damage enaria without research
                         return false
                     }

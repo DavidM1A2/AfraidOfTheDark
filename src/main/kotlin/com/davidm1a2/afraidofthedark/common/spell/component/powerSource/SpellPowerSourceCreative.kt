@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.powerSource
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
 import net.minecraft.entity.Entity
@@ -47,6 +46,6 @@ class SpellPowerSourceCreative : AOTDSpellPowerSource(ResourceLocation(Constants
      * @return A string describing why the power source doesn't have enough energy
      */
     override fun getUnlocalizedOutOfPowerMsg(): String {
-        return LocalizationConstants.Spell.POWER_SOURCE_CREATIVE_INVALID_MSG
+        return "message.afraidofthedark.spell.power_source.creative.invalid_msg"
     }
 }
