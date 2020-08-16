@@ -79,11 +79,18 @@ abstract class AOTDStructure<T : IFeatureConfig> : Structure<T>() {
         return arrayOf(corner1Height, corner2Height, corner3Height, corner4Height, edge1Height, edge2Height, edge3Height, edge4Height, centerHeight)
     }
 
-    protected fun getInteriorConfigs(x: Int, z: Int, chunkGen: IChunkGenerator<*>, width: Int = getWidth(), length: Int = getLength()): Sequence<T?> {
+    protected fun getInteriorConfigs(
+        x: Int,
+        z: Int,
+        chunkGen: IChunkGenerator<*>,
+        width: Int = getWidth(),
+        length: Int = getLength(),
+        stepNum: Int = 1
+    ): Sequence<T?> {
         val biomeProvider = chunkGen.biomeProvider
         return sequence {
-            for (xPos in x until x + width) {
-                for (zPos in z until z + length) {
+            for (xPos in x until x + width step stepNum) {
+                for (zPos in z until z + length step stepNum) {
                     val biome = biomeProvider.getBiome(BlockPos(xPos, 0, zPos), null)
                     if (biome != null) {
                         yield(chunkGen.getStructureConfig(biome, this@AOTDStructure) as T?)

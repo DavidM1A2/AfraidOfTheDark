@@ -46,7 +46,7 @@ class GnomishCityStructure : AOTDStructure<GnomishCityConfig>() {
 
     override fun setupStructureIn(biome: Biome) {
         if (biome.category in VALID_BIOME_CATEGORIES) {
-            addToBiome(biome, GnomishCityConfig(0.0003 * ModCommonConfiguration.gnomishCityFrequency))
+            addToBiome(biome, GnomishCityConfig())
         }
     }
 
@@ -57,10 +57,7 @@ class GnomishCityStructure : AOTDStructure<GnomishCityConfig>() {
     override fun hasStartAt(worldIn: IWorld, chunkGen: IChunkGenerator<*>, rand: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): Boolean {
         rand.setLargeFeatureSeed(chunkGen.seed, centerChunkX, centerChunkZ)
 
-        val xPos = centerChunkX * 16
-        val zPos = centerChunkZ * 16
-
-        val frequency = getInteriorConfigs(xPos, zPos, chunkGen, 1, 1).map { it?.frequency ?: 0.0 }.min() ?: 0.0
+        val frequency = 0.0003 * ModCommonConfiguration.gnomishCityFrequency
         if (rand.nextDouble() >= frequency) {
             return false
         }

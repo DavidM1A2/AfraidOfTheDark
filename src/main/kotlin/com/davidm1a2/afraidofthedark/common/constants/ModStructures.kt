@@ -5,6 +5,8 @@ import com.davidm1a2.afraidofthedark.common.world.structure.crypt.CryptStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.crypt.CryptStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.darkforest.DarkForestStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.darkforest.DarkForestStructureStart
+import com.davidm1a2.afraidofthedark.common.world.structure.desertoasis.DesertOasisStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.desertoasis.DesertOasisStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.gnomishcity.GnomishCityStairwellClipperStructurePiece
 import com.davidm1a2.afraidofthedark.common.world.structure.gnomishcity.GnomishCityStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.gnomishcity.GnomishCityStructureStart
@@ -36,6 +38,7 @@ object ModStructures {
     val VOID_CHEST_PORTAL = VoidChestPortalStructure()
     val NIGHTMARE_ISLAND = NightmareIslandStructure()
     val GNOMISH_CITY = GnomishCityStructure()
+    val DESERT_OASIS = DesertOasisStructure()
 
     val STRUCTURES = listOf(
         CRYPT,
@@ -46,7 +49,8 @@ object ModStructures {
         VOID_CHEST_BOX,
         VOID_CHEST_PORTAL,
         NIGHTMARE_ISLAND,
-        GNOMISH_CITY
+        GNOMISH_CITY,
+        DESERT_OASIS
     )
 
     val STRUCTURE_STARTS = listOf(
@@ -58,7 +62,8 @@ object ModStructures {
         VOID_CHEST_BOX to VoidChestBoxStructureStart::class.java,
         VOID_CHEST_PORTAL to VoidChestPortalStructureStart::class.java,
         NIGHTMARE_ISLAND to NightmareIslandStructureStart::class.java,
-        GNOMISH_CITY to GnomishCityStructureStart::class.java
+        GNOMISH_CITY to GnomishCityStructureStart::class.java,
+        DESERT_OASIS to DesertOasisStructureStart::class.java
     )
 
     val STRUCTURE_PIECES = listOf(

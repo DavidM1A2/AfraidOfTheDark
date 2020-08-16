@@ -13,9 +13,11 @@ import java.util.*
  * Class representing a loot table that can be used by schematics to generate loot
  *
  * @constructor initializes the loot table
- * @param itemToLootTable The loot table entries that make up this loot table
+ * @param itemProviderToLootTable The loot table entries that make up this loot table
  */
-class LootTable(val name: String, private val itemToLootTable: Map<IItemProvider?, ResourceLocation>) {
+class LootTable(val name: String, itemProviderToLootTable: Map<IItemProvider?, ResourceLocation>) {
+    private val itemToLootTable = itemProviderToLootTable.mapKeys { it.key?.asItem() }
+
     /**
      * Generates the appropriate loot table for the chest tile entity based on what's inside
      *
