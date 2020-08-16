@@ -100,27 +100,16 @@ object ModSchematics {
     )
 
     val ARCH_HOUSE = load("schematics/desert_oasis/small_structures/arch_house.schematic")
-    val ARCH_HOUSE90 = load("schematics/desert_oasis/small_structures/arch_house90.schematic")
     val CIRCLE_OF_POWER = load("schematics/desert_oasis/small_structures/circle_of_power.schematic")
-    val CIRCLE_OF_POWER90 = load("schematics/desert_oasis/small_structures/circle_of_power90.schematic")
     val DEAD_FARM = load("schematics/desert_oasis/small_structures/dead_farm.schematic")
-    val DEAD_FARM90 = load("schematics/desert_oasis/small_structures/dead_farm90.schematic")
     val FLOWER_SHOP = load("schematics/desert_oasis/small_structures/flower_shop.schematic")
-    val FLOWER_SHOP90 = load("schematics/desert_oasis/small_structures/flower_shop90.schematic")
     val GLASS_PIT = load("schematics/desert_oasis/small_structures/glass_pit.schematic")
-    val GLASS_PIT90 = load("schematics/desert_oasis/small_structures/glass_pit90.schematic")
     val NOT_A_BROTHEL = load("schematics/desert_oasis/small_structures/not_a_brothel.schematic")
-    val NOT_A_BROTHEL90 = load("schematics/desert_oasis/small_structures/not_a_brothel90.schematic")
     val OVAL_HUT = load("schematics/desert_oasis/small_structures/oval_hut.schematic")
-    val OVAL_HUT90 = load("schematics/desert_oasis/small_structures/oval_hut90.schematic")
     val STONE_TOWER = load("schematics/desert_oasis/small_structures/stone_tower.schematic")
-    val STONE_TOWER90 = load("schematics/desert_oasis/small_structures/stone_tower90.schematic")
     val T_HOUSE = load("schematics/desert_oasis/small_structures/t_house.schematic")
-    val T_HOUSE90 = load("schematics/desert_oasis/small_structures/t_house90.schematic")
     val TRADE_POST = load("schematics/desert_oasis/small_structures/trade_post.schematic")
-    val TRADE_POST90 = load("schematics/desert_oasis/small_structures/trade_post90.schematic")
     val WOOD_TOWER = load("schematics/desert_oasis/small_structures/wood_tower.schematic")
-    val WOOD_TOWER90 = load("schematics/desert_oasis/small_structures/wood_tower90.schematic")
 
     val DESERT_OASIS_SMALL_PLOTS = arrayOf(
         ARCH_HOUSE,
@@ -135,34 +124,14 @@ object ModSchematics {
         TRADE_POST,
         WOOD_TOWER
     )
-    val DESERT_OASIS_SMALL_PLOTS90 = arrayOf(
-        ARCH_HOUSE90,
-        CIRCLE_OF_POWER90,
-        DEAD_FARM90,
-        FLOWER_SHOP90,
-        GLASS_PIT90,
-        NOT_A_BROTHEL90,
-        OVAL_HUT90,
-        STONE_TOWER90,
-        T_HOUSE90,
-        TRADE_POST90,
-        WOOD_TOWER90
-    )
 
     val ARCH = load("schematics/desert_oasis/medium_structures/arch.schematic")
-    val ARCH90 = load("schematics/desert_oasis/medium_structures/arch90.schematic")
     val BIG_HOUSE = load("schematics/desert_oasis/medium_structures/big_house.schematic")
-    val BIG_HOUSE90 = load("schematics/desert_oasis/medium_structures/big_house90.schematic")
     val FORGE = load("schematics/desert_oasis/medium_structures/forge.schematic")
-    val FORGE90 = load("schematics/desert_oasis/medium_structures/forge90.schematic")
     val SACRED_MANGROVE = load("schematics/desert_oasis/medium_structures/sacred_mangrove.schematic")
-    val SACRED_MANGROVE90 = load("schematics/desert_oasis/medium_structures/sacred_mangrove90.schematic")
     val SAND_PIT = load("schematics/desert_oasis/medium_structures/sand_pit.schematic")
-    val SAND_PIT90 = load("schematics/desert_oasis/medium_structures/sand_pit90.schematic")
     val SPRING = load("schematics/desert_oasis/medium_structures/spring.schematic")
-    val SPRING90 = load("schematics/desert_oasis/medium_structures/spring90.schematic")
     val STABLES = load("schematics/desert_oasis/medium_structures/stables.schematic")
-    val STABLES90 = load("schematics/desert_oasis/medium_structures/stables90.schematic")
 
     val DESERT_OASIS_MEDIUM_PLOTS = arrayOf(
         ARCH,
@@ -172,15 +141,6 @@ object ModSchematics {
         SAND_PIT,
         SPRING,
         STABLES
-    )
-    val DESERT_OASIS_MEDIUM_PLOTS90 = arrayOf(
-        ARCH90,
-        BIG_HOUSE90,
-        FORGE90,
-        SACRED_MANGROVE90,
-        SAND_PIT90,
-        SPRING90,
-        STABLES90
     )
 
     // A list of all schematics present in AOTD
@@ -203,9 +163,7 @@ object ModSchematics {
         ROOM_STAIR_UP,
         *DESERT_OASIS_LARGE_PLOTS,
         *DESERT_OASIS_SMALL_PLOTS,
-        *DESERT_OASIS_SMALL_PLOTS90,
         *DESERT_OASIS_MEDIUM_PLOTS,
-        *DESERT_OASIS_MEDIUM_PLOTS90,
         DESERT_OASIS
     )
 

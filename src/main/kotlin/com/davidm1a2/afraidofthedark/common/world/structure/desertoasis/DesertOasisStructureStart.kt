@@ -46,18 +46,18 @@ class DesertOasisStructureStart : StructureStart {
             )
         )
 
-        PlotTypes.values().forEach { plot ->
-            val shuffledSchematics = plot.schematics.indices.shuffled(random)
-            plot.offsets.forEachIndexed { index, offset ->
+        PlotTypes.values().forEach {
+            val shuffledSchematics = it.schematics.indices.shuffled(random)
+            it.offsets.forEachIndexed { index, offset ->
                 this.components.add(
                     SchematicStructurePiece(
                         cornerPosX + offset.x,
                         cornerPosY + offset.y,
                         cornerPosZ + offset.z,
                         random,
-                        plot.schematics[shuffledSchematics[index]],
+                        it.schematics[shuffledSchematics[index]],
                         ModLootTables.DESERT_OASIS,
-                        EnumFacing.NORTH
+                        if (it != PlotTypes.Large && random.nextBoolean()) it.facing.opposite else it.facing
                     )
                 )
             }
@@ -66,7 +66,7 @@ class DesertOasisStructureStart : StructureStart {
         this.recalculateStructureSize(world)
     }
 
-    private enum class PlotTypes(internal val schematics: Array<Schematic>, internal val offsets: List<BlockPos>) {
+    private enum class PlotTypes(internal val schematics: Array<Schematic>, internal val offsets: List<BlockPos>, internal val facing: EnumFacing) {
         Small(
             ModSchematics.DESERT_OASIS_SMALL_PLOTS,
             listOf(
@@ -75,15 +75,17 @@ class DesertOasisStructureStart : StructureStart {
                 BlockPos(132, 21, 78),
                 BlockPos(43, 21, 99),
                 BlockPos(35, 21, 136)
-            )
+            ),
+            EnumFacing.NORTH
         ),
         Small90(
-            ModSchematics.DESERT_OASIS_SMALL_PLOTS90,
+            ModSchematics.DESERT_OASIS_SMALL_PLOTS,
             listOf(
                 BlockPos(37, 21, 22),
                 BlockPos(10, 21, 77),
                 BlockPos(164, 21, 101)
-            )
+            ),
+            EnumFacing.EAST
         ),
         Medium(
             ModSchematics.DESERT_OASIS_MEDIUM_PLOTS,
@@ -91,21 +93,24 @@ class DesertOasisStructureStart : StructureStart {
                 BlockPos(122, 22, 129),
                 BlockPos(155, 24, 74),
                 BlockPos(84, 25, 119)
-            )
+            ),
+            EnumFacing.NORTH
         ),
         Medium90(
-            ModSchematics.DESERT_OASIS_MEDIUM_PLOTS90,
+            ModSchematics.DESERT_OASIS_MEDIUM_PLOTS,
             listOf(
                 BlockPos(113, 19, 61),
                 BlockPos(45, 22, 42),
                 BlockPos(76, 26, 57)
-            )
+            ),
+            EnumFacing.EAST
         ),
         Large(
             ModSchematics.DESERT_OASIS_LARGE_PLOTS,
             listOf(
                 BlockPos(132, 22, 31)
-            )
+            ),
+            EnumFacing.NORTH
         );
     }
 }

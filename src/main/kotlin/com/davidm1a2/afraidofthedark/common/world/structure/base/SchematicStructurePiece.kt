@@ -142,9 +142,6 @@ class SchematicStructurePiece() : StructurePiece() {
         val height = schematic.getHeight()
         val length = schematic.getLength()
 
-        val cornerLow = BlockPos(getXWithOffset(0, 0), getYWithOffset(0), getZWithOffset(0, 0))
-        val cornerHigh = BlockPos(getXWithOffset(width.toInt(), length.toInt()), getYWithOffset(height.toInt()), getZWithOffset(width.toInt(), length.toInt()))
-
         val posX = 0
         val posY = 0
         val posZ = 0
