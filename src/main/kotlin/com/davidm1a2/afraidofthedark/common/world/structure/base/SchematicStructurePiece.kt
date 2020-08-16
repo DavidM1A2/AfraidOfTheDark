@@ -68,6 +68,8 @@ class SchematicStructurePiece() : StructurePiece() {
         this.schematic = schematic
         this.lootTable = lootTable
 
+        require(facing == null || facing in EnumFacing.Plane.HORIZONTAL)
+
         // The first random number is always 0. No idea why
         random.nextInt(4)
         coordBaseMode = facing ?: EnumFacing.Plane.HORIZONTAL.random(random)

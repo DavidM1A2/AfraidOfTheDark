@@ -95,7 +95,7 @@ class GnomishCityStructure : AOTDStructure<GnomishCityConfig>() {
         val zPos = centerChunkZ * 16
         val centerBiome = generator.biomeProvider.getBiome(BlockPos(xPos, 0, zPos), Biomes.PLAINS)!!
 
-        return GnomishCityStructureStart(worldIn, centerChunkX, centerChunkZ, width, length, centerBiome, random, generator.seed)
+        return GnomishCityStructureStart(worldIn, centerChunkX, centerChunkZ, width, length, centerBiome, random, generator.seed, generator)
     }
 
     companion object {

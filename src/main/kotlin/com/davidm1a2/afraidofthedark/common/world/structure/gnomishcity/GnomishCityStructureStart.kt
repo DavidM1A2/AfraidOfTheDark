@@ -2,18 +2,31 @@ package com.davidm1a2.afraidofthedark.common.world.structure.gnomishcity
 
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.common.world.WorldHeightmap
 import com.davidm1a2.afraidofthedark.common.world.structure.base.SchematicStructurePiece
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.SharedSeedRandom
-import net.minecraft.world.IWorldReaderBase
+import net.minecraft.world.IWorld
 import net.minecraft.world.biome.Biome
+import net.minecraft.world.gen.IChunkGenerator
 import net.minecraft.world.gen.feature.structure.StructureStart
+import kotlin.math.min
 
 class GnomishCityStructureStart : StructureStart {
     // Required for reflection
     constructor() : super()
 
-    constructor(world: IWorldReaderBase, chunkPosX: Int, chunkPosZ: Int, width: Int, length: Int, biome: Biome, random: SharedSeedRandom, seed: Long) : super(
+    constructor(
+        world: IWorld,
+        chunkPosX: Int,
+        chunkPosZ: Int,
+        width: Int,
+        length: Int,
+        biome: Biome,
+        random: SharedSeedRandom,
+        seed: Long,
+        chunkGenerator: IChunkGenerator<*>
+    ) : super(
         chunkPosX,
         chunkPosZ,
         biome,
@@ -41,6 +54,8 @@ class GnomishCityStructureStart : StructureStart {
             .shuffled(random)
             .iterator()
 
+        var amountOfStairRemoved = 0
+
         // floor 0 (bottom) or 1 (upper)
         for (floor in Floor.values()) {
             // Rooms in the x direction
@@ -58,6 +73,7 @@ class GnomishCityStructureStart : StructureStart {
                     when {
                         // If the room is the stair from surface to level 1 and the floor is upper (1) generate the stair room and stairwell
                         currentRoom == stairSurfaceTo1 && floor == Floor.UPPER -> {
+                            val facing = EnumFacing.Plane.HORIZONTAL.random(random)
                             this.components.add(
                                 SchematicStructurePiece(
                                     roomPosX,
@@ -65,19 +81,48 @@ class GnomishCityStructureStart : StructureStart {
                                     roomPosZ,
                                     random,
                                     ModSchematics.ROOM_STAIR_UP,
-                                    ModLootTables.GNOMISH_CITY
+                                    ModLootTables.GNOMISH_CITY,
+                                    facing
                                 )
                             )
 
-                            /*
-                            // Create an NBT for the surface stairs that are used to walk down into the gnomish city
-                            val surfaceStairs = NBTTagCompound()
-                            surfaceStairs.setTag(
-                                Structure.NBT_POSITION,
-                                NBTUtil.writeBlockPos(blockPos.add(xIndex * 50 + 13, floor * 15 + 30, zIndex * 50 + 13))
+                            val stairwellX = roomPosX + 13
+                            val stairwellY = roomPosY + 15
+                            val stairwellZ = roomPosZ + 13
+                            val stairwell = ModSchematics.STAIRWELL
+
+                            val groundHeight = listOf(
+                                WorldHeightmap.getHeight(stairwellX, stairwellZ, world, chunkGenerator),
+                                WorldHeightmap.getHeight(stairwellX + stairwell.getWidth() - 1, stairwellZ, world, chunkGenerator),
+                                WorldHeightmap.getHeight(stairwellX, stairwellZ + stairwell.getLength() - 1, world, chunkGenerator),
+                                WorldHeightmap.getHeight(stairwellX + stairwell.getWidth() - 1, stairwellZ + stairwell.getLength() - 1, world, chunkGenerator),
+                                WorldHeightmap.getHeight(stairwellX + stairwell.getWidth() / 2, stairwellZ + stairwell.getLength() / 2, world, chunkGenerator)
+                            ).min()!!
+
+                            var stairwellTop = stairwellY
+                            while (stairwellTop < min(220, groundHeight)) {
+                                this.components.add(
+                                    SchematicStructurePiece(
+                                        stairwellX,
+                                        stairwellTop,
+                                        stairwellZ,
+                                        random,
+                                        stairwell,
+                                        facing = facing
+                                    )
+                                )
+                                stairwellTop = stairwellTop + stairwell.getHeight() - 1
+                            }
+
+                            this.components.add(
+                                GnomishCityStairwellClipperStructurePiece(
+                                    stairwellX,
+                                    groundHeight,
+                                    stairwellTop,
+                                    stairwellZ
+                                )
                             )
-                            compound.setTag(StructureGnomishCity.NBT_SURFACE_STAIRS, surfaceStairs)
-                             */
+                            amountOfStairRemoved = stairwellTop - groundHeight
                         }
                         // If the room is the stair from level 1 to 2 and the floor is upper (1) generate the stair room
                         currentRoom == stairs1To2 && floor == Floor.UPPER -> {
@@ -188,6 +233,8 @@ class GnomishCityStructureStart : StructureStart {
         }
 
         this.recalculateStructureSize(world)
+        // Don't expand the bounding box past the upward stairs
+        this.boundingBox.maxY = this.boundingBox.maxY - amountOfStairRemoved
     }
 
     private enum class Floor {

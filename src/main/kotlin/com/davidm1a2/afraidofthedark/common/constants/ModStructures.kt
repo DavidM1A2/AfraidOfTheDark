@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.world.structure.crypt.CryptStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.crypt.CryptStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.darkforest.DarkForestStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.darkforest.DarkForestStructureStart
+import com.davidm1a2.afraidofthedark.common.world.structure.gnomishcity.GnomishCityStairwellClipperStructurePiece
 import com.davidm1a2.afraidofthedark.common.world.structure.gnomishcity.GnomishCityStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.gnomishcity.GnomishCityStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.nightmareisland.NightmareIslandStructure
@@ -62,6 +63,7 @@ object ModStructures {
 
     val STRUCTURE_PIECES = listOf(
         ResourceLocation(Constants.MOD_ID, "schematic_structure_piece") to SchematicStructurePiece::class.java,
-        ResourceLocation(Constants.MOD_ID, "void_chest_box_structure_piece") to VoidChestBoxStructurePiece::class.java
+        ResourceLocation(Constants.MOD_ID, "void_chest_box_structure_piece") to VoidChestBoxStructurePiece::class.java,
+        ResourceLocation(Constants.MOD_ID, "gnomish_city_stairwell_clipper_structure_piece") to GnomishCityStairwellClipperStructurePiece::class.java
     )
 }
