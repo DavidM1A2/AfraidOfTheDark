@@ -111,6 +111,7 @@ class BlockImbuedCactus : AOTDBlock(
         if (!state.isValidPosition(world, currentPos)) {
             world.pendingBlockTicks.scheduleTick(currentPos, this, 1)
         }
+        @Suppress("DEPRECATION")
         return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos)
     }
 

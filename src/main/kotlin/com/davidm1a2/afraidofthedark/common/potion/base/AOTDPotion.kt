@@ -12,14 +12,13 @@ import java.awt.Color
  * Base class for all AOTD potions
  *
  * @constructor sets item properties
- * @param name         The name of the potion for the players to see
  * @param registryName The name of the potion in the game registry
  * @param indexX       The X index of the position on the texture sheet
  * @param indexY       The Y index of the position on the texture sheet
  * @param isBad        True if the potion is 'bad', false otherwise
  * @param color        The color of the potion
  */
-open class AOTDPotion(name: String, registryName: String, indexX: Int, indexY: Int, isBad: Boolean, color: Color) :
+open class AOTDPotion(registryName: String, indexX: Int, indexY: Int, isBad: Boolean, color: Color) :
     Potion(isBad, color.hashCode()) {
     init {
         this.setRegistryName("${Constants.MOD_ID}:$registryName")

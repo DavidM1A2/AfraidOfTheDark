@@ -93,6 +93,7 @@ abstract class AOTDStructure<T : IFeatureConfig> : Structure<T>() {
                 for (zPos in z until z + length step stepNum) {
                     val biome = biomeProvider.getBiome(BlockPos(xPos, 0, zPos), null)
                     if (biome != null) {
+                        @Suppress("UNCHECKED_CAST")
                         yield(chunkGen.getStructureConfig(biome, this@AOTDStructure) as T?)
                     }
                 }
@@ -179,7 +180,7 @@ abstract class AOTDStructure<T : IFeatureConfig> : Structure<T>() {
                             .intersectsWith(l, i1, l + 15, i1 + 15)
                     ) {
                         p_212245_2_.getStructurePositionToReferenceMap(this)
-                            .computeIfAbsent(j1) { p_208203_0_: Long -> LongOpenHashSet() }.add(i2)
+                            .computeIfAbsent(j1) { LongOpenHashSet() }.add(i2)
                         p_212245_1_.chunkProvider.provideChunkOrPrimer(j, k, true)!!.addStructureReference(this.structureName, i2)
                         structurestart.generateStructure(p_212245_1_, p_212245_3_, MutableBoundingBox(l, i1, l + 15, i1 + 15), ChunkPos(j, k))
                         structurestart.notifyPostProcessAt(ChunkPos(j, k))

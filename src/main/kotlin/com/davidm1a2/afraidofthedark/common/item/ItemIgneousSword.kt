@@ -42,21 +42,21 @@ class ItemIgneousSword : AOTDItemChargeableSword(
      *
      * @param stack The itemstack that the entity was clicked with
      * @param player The player that clicked the entity
-     * @param entity The entity that was clicked
+     * @param target The entity that was clicked
      * @return True to cancel the interaction, false otherwise
      */
-    override fun onLeftClickEntity(stack: ItemStack, player: EntityPlayer, entity: Entity): Boolean {
+    override fun onLeftClickEntity(stack: ItemStack, player: EntityPlayer, target: Entity): Boolean {
         // If igneous is researched allow the sword to function
         if (player.getResearch().isResearched(ModResearches.IGNEOUS)) {
             // The fire burn time is heavily upgraded by fire aspect enchantment
-            entity.setFire(5 + EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT, stack) * 10)
+            target.setFire(5 + EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT, stack) * 10)
             // Attack the entity from silver damage
-            entity.attackEntityFrom(getSilverDamage(player), attackDamage)
+            target.attackEntityFrom(getSilverDamage(player), attackDamage)
         } else {
             return true
         }
 
-        return super.onLeftClickEntity(stack, player, entity)
+        return super.onLeftClickEntity(stack, player, target)
     }
 
     /**

@@ -29,6 +29,7 @@ class DimensionRegister {
      * @param event The event to register to
      */
     @SubscribeEvent
+    @Suppress("UNUSED_PARAMETER")
     fun registerDimensions(event: RegisterDimensionsEvent) {
         val nightmare = ModDimensions.NIGHTMARE
         ModDimensions.NIGHTMARE_TYPE =

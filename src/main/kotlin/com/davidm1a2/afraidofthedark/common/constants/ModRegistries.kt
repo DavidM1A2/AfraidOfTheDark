@@ -6,7 +6,6 @@ import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
-import com.davidm1a2.afraidofthedark.common.world.structure.old.base.Structure
 import net.minecraftforge.registries.IForgeRegistry
 
 /**
@@ -15,7 +14,6 @@ import net.minecraftforge.registries.IForgeRegistry
  */
 object ModRegistries {
     // Fields that are unchanged and basically final (just not initialized here) representing the registries we are adding. Initialized from RegistryRegister
-    lateinit var STRUCTURE: IForgeRegistry<Structure>
     lateinit var RESEARCH: IForgeRegistry<Research>
     lateinit var BOLTS: IForgeRegistry<BoltEntry>
     lateinit var METEORS: IForgeRegistry<MeteorEntry>

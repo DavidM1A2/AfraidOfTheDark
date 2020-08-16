@@ -29,6 +29,7 @@ class BlockImbuedCactusBlossom : AOTDBlockBush(
 ), IShearable {
     override fun isValidPosition(state: IBlockState, world: IWorldReaderBase, blockPos: BlockPos): Boolean {
         val blockOn = world.getBlockState(blockPos.down())
+        @Suppress("DEPRECATION")
         return super.isValidPosition(state, world, blockPos) && blockOn.block == ModBlocks.IMBUED_CACTUS
     }
 

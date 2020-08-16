@@ -171,7 +171,7 @@ class SchematicStructurePiece() : StructurePiece() {
                     val nextToPlace = blocks[index]
 
                     // If the block in the schematic is air then ignore it
-                    if (!nextToPlace.isAir) {
+                    if (!nextToPlace.isAir(world, BlockPos(x, y, z))) {
                         // Structure void blocks represent air blocks in my schematic system. This allows for easy underground structure generation.
                         if (nextToPlace.block == Blocks.STRUCTURE_VOID) {
                             // Set the block to air

@@ -29,6 +29,7 @@ fun Chunk.setBlockStateFast(pos: BlockPos, state: IBlockState, isMoving: Boolean
         // val j1 = iblockstate.getOpacity(world, pos) // Relocate old light value lookup here, so that it is called before TE is removed.
         // var flag = false
         if (chunksection === Chunk.EMPTY_SECTION) {
+            @Suppress("DEPRECATION")
             if (state.isAir) {
                 return null
             }

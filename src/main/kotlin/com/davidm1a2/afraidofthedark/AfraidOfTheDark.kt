@@ -79,6 +79,7 @@ class AfraidOfTheDark {
     }
 
     @SubscribeEvent
+    @Suppress("UNUSED_PARAMETER")
     fun commonSetupEvent(event: FMLCommonSetupEvent) {
         CapabilityRegister.register()
         RecipeFactoryRegister.register()
@@ -93,6 +94,7 @@ class AfraidOfTheDark {
      * @param event Initialization event is responsible for renders and recipes
      */
     @SubscribeEvent
+    @Suppress("UNUSED_PARAMETER")
     fun initialization(event: FMLServerAboutToStartEvent) {
         // Initialize spell effect overrides
         SpellEffectOverrideRegister.initialize()

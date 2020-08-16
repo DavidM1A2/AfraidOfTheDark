@@ -6,6 +6,6 @@ import java.awt.Color
 /**
  * Sleeping potion makes players 'drowsy'
  *
- * @@C   just sets item properties
+ * @constructor just sets item properties
  */
-class PotionSleeping : AOTDPotion("Drowsiness", "sleeping_potion", 0, 0, false, Color(255, 255, 255))
+class PotionSleeping : AOTDPotion("sleeping_potion", 0, 0, false, Color(255, 255, 255))

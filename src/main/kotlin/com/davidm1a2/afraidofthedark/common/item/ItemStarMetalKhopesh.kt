@@ -42,19 +42,19 @@ class ItemStarMetalKhopesh : AOTDItemChargeableSword(
      *
      * @param stack The itemstack that the entity was clicked with
      * @param player The player that clicked the entity
-     * @param entity The entity that was clicked
+     * @param target The entity that was clicked
      * @return True to cancel the interaction, false otherwise
      */
-    override fun onLeftClickEntity(stack: ItemStack, player: EntityPlayer, entity: Entity): Boolean {
+    override fun onLeftClickEntity(stack: ItemStack, player: EntityPlayer, target: Entity): Boolean {
         // If star metal is researched allow the sword to function
         if (player.getResearch().isResearched(ModResearches.STAR_METAL)) {
             // Ensure the clicked entity was non-null
-            entity.attackEntityFrom(getSilverDamage(player), attackDamage)
+            target.attackEntityFrom(getSilverDamage(player), attackDamage)
         } else {
             return true
         }
 
-        return super.onLeftClickEntity(stack, player, entity)
+        return super.onLeftClickEntity(stack, player, target)
     }
 
     /**

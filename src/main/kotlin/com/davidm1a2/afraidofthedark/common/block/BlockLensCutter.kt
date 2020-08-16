@@ -11,7 +11,6 @@ import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Blocks
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.EnumHand
@@ -54,7 +53,7 @@ class BlockLensCutter : AOTDBlock(
             if (research.isResearched(ModResearches.OPTICS)) {
                 val heldItem = playerIn.getHeldItem(hand)
                 // If they're holding glass reduce the stack size by one and add a lens item
-                if (heldItem.item == Item.getItemFromBlock(Blocks.GLASS)) {
+                if (heldItem.item == Blocks.GLASS.asItem()) {
                     heldItem.shrink(1)
                     worldIn.playSound(null, pos, ModSounds.LENS_CUTTER, SoundCategory.BLOCKS, 0.5f, Random.nextDouble(0.8, 1.2).toFloat())
                     playerIn.addItemStackToInventory(ItemStack(ModItems.LENS))

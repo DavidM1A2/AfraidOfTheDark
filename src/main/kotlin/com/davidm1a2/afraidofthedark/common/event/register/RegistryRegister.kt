@@ -8,7 +8,6 @@ import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
-import com.davidm1a2.afraidofthedark.common.world.structure.old.base.Structure
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.event.RegistryEvent.NewRegistry
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -27,12 +26,6 @@ class RegistryRegister {
     @SubscribeEvent
     @Suppress("UNUSED_PARAMETER")
     fun registryRegister(event: NewRegistry) {
-        // Create a new registry for structures with the name 'afraidofthedark:structures'
-        ModRegistries.STRUCTURE = RegistryBuilder<Structure>()
-            .setType(Structure::class.java)
-            .setName(ResourceLocation(Constants.MOD_ID, "structures"))
-            .create()
-
         // Create a new registry for research with the name 'afraidofthedark:research'
         ModRegistries.RESEARCH = RegistryBuilder<Research>()
             .setType(Research::class.java)

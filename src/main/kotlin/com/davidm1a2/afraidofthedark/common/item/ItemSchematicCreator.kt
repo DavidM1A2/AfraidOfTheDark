@@ -114,7 +114,6 @@ class ItemSchematicCreator : AOTDItem("schematic_creator", Properties().maxStack
 
         val nbtTileEntities = NBTTagList()
         val blocks = Array<IBlockState>(width * height * length) { Blocks.AIR.defaultState }
-        val data = IntArray(width * height * length)
 
         var index = 0
         // Go over each x,y,z coordinate
