@@ -212,8 +212,8 @@ class GnomishCityStructureStart : StructureStart {
                             cornerPosY + floor.ordinal * 15 + 15 + 7,
                             cornerPosZ + j * 50 + 32,
                             random,
-                            ModSchematics.TUNNEL_EW,
-                            facing = EnumFacing.NORTH
+                            ModSchematics.CONNECTOR,
+                            facing = EnumFacing.EAST
                         )
                     )
 
@@ -224,7 +224,7 @@ class GnomishCityStructureStart : StructureStart {
                             cornerPosY + floor.ordinal * 15 + 15 + 7,
                             cornerPosZ + i * 50 + 13,
                             random,
-                            ModSchematics.TUNNEL_NS,
+                            ModSchematics.CONNECTOR,
                             facing = EnumFacing.NORTH
                         )
                     )

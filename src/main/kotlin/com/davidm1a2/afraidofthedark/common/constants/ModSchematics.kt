@@ -65,8 +65,7 @@ object ModSchematics {
 
     val ENARIA_LAIR = load("schematics/gnomish_city/enaria_lair.schematic")
     val STAIRWELL = load("schematics/gnomish_city/stairwell.schematic")
-    val TUNNEL_EW = load("schematics/gnomish_city/tunnel_ew.schematic")
-    val TUNNEL_NS = load("schematics/gnomish_city/tunnel_ns.schematic")
+    val CONNECTOR = load("schematics/gnomish_city/connector.schematic")
     val ROOM_CAVE = load("schematics/gnomish_city/room_cave.schematic")
     val ROOM_FARM = load("schematics/gnomish_city/room_farm.schematic")
     val ROOM_HOTEL = load("schematics/gnomish_city/room_hotel.schematic")
@@ -196,8 +195,7 @@ object ModSchematics {
         BED_HOUSE,
         ENARIA_LAIR,
         STAIRWELL,
-        TUNNEL_EW,
-        TUNNEL_NS,
+        CONNECTOR,
         *DARK_FOREST_TREES,
         *DARK_FOREST_PROPS,
         *GNOMISH_CITY_ROOMS,

@@ -19,17 +19,17 @@ class GnomishCityStructure : AOTDStructure<GnomishCityConfig>() {
     private val length: Int
 
     init {
+        val connectorWidth = ModSchematics.CONNECTOR.getWidth().toInt()
+
         // Room width is the same for all schematics
         val roomWidth = ModSchematics.ROOM_CAVE.getWidth().toInt()
-        val tunnelWidth = ModSchematics.TUNNEL_NS.getWidth().toInt()
         // 3 rooms + 2 tunnels - 4 connector blocks
-        this.width = roomWidth * 3 + tunnelWidth * 2 - 4
+        this.width = roomWidth * 3 + connectorWidth * 2 - 4
 
         // Room length is the same for all schematics
         val roomLength = ModSchematics.ROOM_CAVE.getLength().toInt()
-        val tunnelLength = ModSchematics.TUNNEL_EW.getLength().toInt()
         // 3 rooms + 2 tunnels - 4 connector blocks
-        this.length = roomLength * 3 + tunnelLength * 2 - 4
+        this.length = roomLength * 3 + connectorWidth * 2 - 4
     }
 
     override fun getStructureName(): String {
