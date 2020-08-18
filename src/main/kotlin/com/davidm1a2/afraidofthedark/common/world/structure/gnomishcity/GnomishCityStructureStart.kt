@@ -73,7 +73,7 @@ class GnomishCityStructureStart : StructureStart {
                     when {
                         // If the room is the stair from surface to level 1 and the floor is upper (1) generate the stair room and stairwell
                         currentRoom == stairSurfaceTo1 && floor == Floor.UPPER -> {
-                            val facing = EnumFacing.Plane.HORIZONTAL.random(random)
+                            var facing = EnumFacing.Plane.HORIZONTAL.random(random)
                             this.components.add(
                                 SchematicStructurePiece(
                                     roomPosX,
@@ -111,6 +111,7 @@ class GnomishCityStructureStart : StructureStart {
                                         facing = facing
                                     )
                                 )
+                                facing = facing.rotateY()
                                 stairwellTop = stairwellTop + stairwell.getHeight() - 1
                             }
 

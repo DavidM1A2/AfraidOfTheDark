@@ -8,14 +8,17 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.*
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EntityGhastlyEnaria
-import com.davidm1a2.afraidofthedark.common.world.generateSchematic
+import com.davidm1a2.afraidofthedark.common.world.structure.base.SchematicStructurePiece
 import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.init.Blocks
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagList
+import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.ChunkPos
+import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.WorldServer
 import net.minecraft.world.chunk.Chunk
@@ -29,6 +32,7 @@ import net.minecraftforge.event.world.ChunkEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent
+import java.util.*
 
 /**
  * Class handling events to send players to and from their nightmare realm
@@ -386,7 +390,33 @@ class NightmareHandler {
         if (playerResearch.isResearched(ModResearches.ENARIA)) {
             // If enaria's alter does not exist generate the schematic
             if (nightmareWorld.getBlockState(islandPos.add(101, 74, 233)).block !== ModBlocks.ENARIAS_ALTAR) {
-                nightmareWorld.generateSchematic(ModSchematics.ENARIAS_ALTAR, islandPos.add(67, 40, 179))
+                val posX = islandPos.x + 67
+                val posY = islandPos.y + 40
+                val posZ = islandPos.z + 179
+                val throwawayRandom = Random()
+                val enariasAltar = SchematicStructurePiece(
+                    posX,
+                    posY,
+                    posZ,
+                    throwawayRandom,
+                    ModSchematics.ENARIAS_ALTAR,
+                    null,
+                    EnumFacing.NORTH
+                )
+
+                enariasAltar.addComponentParts(
+                    nightmareWorld,
+                    // Random isn't used
+                    throwawayRandom,
+                    MutableBoundingBox(
+                        posX,
+                        posZ,
+                        posX + ModSchematics.ENARIAS_ALTAR.getWidth(),
+                        posZ + ModSchematics.ENARIAS_ALTAR.getLength()
+                    ),
+                    // ChunkPos is ignored
+                    ChunkPos(0, 0)
+                )
             }
         }
     }
