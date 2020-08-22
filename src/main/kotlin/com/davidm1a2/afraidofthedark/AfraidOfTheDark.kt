@@ -17,6 +17,7 @@ import net.minecraftforge.fml.ModLoadingContext
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.config.ModConfig
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
@@ -86,6 +87,13 @@ class AfraidOfTheDark {
         PacketRegister.initialize()
         EntityRegister.registerSpawnPlacements()
         StructureRegister.register()
+        ParticleRegister.register()
+    }
+
+    @SubscribeEvent
+    @Suppress("UNUSED_PARAMETER")
+    fun loadCompleteEvent(event: FMLLoadCompleteEvent) {
+        proxy.initializeParticleFactories()
     }
 
     /**

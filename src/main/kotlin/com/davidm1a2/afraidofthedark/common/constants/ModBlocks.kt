@@ -59,7 +59,6 @@ object ModBlocks {
     val IMBUED_CACTUS = BlockImbuedCactus()
     val IMBUED_CACTUS_BLOSSOM = BlockImbuedCactusBlossom()
     val DESERT_OASIS = BlockDesertOasis()
-    val SPELL_ALTAR = BlockSpellAltar()
     val LENS_CUTTER = BlockLensCutter()
 
     // An array containing a list of blocks that AOTD adds
@@ -110,7 +109,6 @@ object ModBlocks {
         IMBUED_CACTUS,
         IMBUED_CACTUS_BLOSSOM,
         DESERT_OASIS,
-        SPELL_ALTAR,
         LENS_CUTTER
     )
 }

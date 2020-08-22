@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect.base
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.client.particle.AOTDParticleRegistry
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.packets.otherPackets.ParticlePacket
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.Vec3d
@@ -32,7 +32,7 @@ abstract class AOTDSpellEffect(id: ResourceLocation) : SpellEffect(id) {
             // Send the particle packet
             AfraidOfTheDark.packetHandler.sendToAllAround(
                 ParticlePacket(
-                    AOTDParticleRegistry.ParticleTypes.SPELL_HIT_ID,
+                    ModParticles.SPELL_HIT,
                     positions,
                     List(positions.size) { Vec3d.ZERO }),
                 PacketDistributor.TargetPoint(pos.x, pos.y, pos.z, 100.0, dimension)

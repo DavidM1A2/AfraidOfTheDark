@@ -21,6 +21,10 @@ class ServerProxy : IProxy {
         // Not used
     }
 
+    override fun initializeParticleFactories() {
+        // Not used
+    }
+
     override fun registerKeyBindings() {
         // Not used
     }

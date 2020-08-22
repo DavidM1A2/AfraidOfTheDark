@@ -32,6 +32,8 @@ interface IProxy {
      */
     fun initializeTileEntityRenderers()
 
+    fun initializeParticleFactories()
+
     /**
      * Called to register any key bindings
      */

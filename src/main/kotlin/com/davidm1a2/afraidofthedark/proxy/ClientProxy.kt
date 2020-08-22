@@ -11,9 +11,10 @@ import com.davidm1a2.afraidofthedark.client.entity.splinterDrone.RenderSplinterD
 import com.davidm1a2.afraidofthedark.client.entity.werewolf.RenderWerewolf
 import com.davidm1a2.afraidofthedark.client.keybindings.KeyInputEventHandler
 import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings.KEY_BINDING_LIST
-import com.davidm1a2.afraidofthedark.client.tileEntity.TileEntitySpellAltarRenderer
+import com.davidm1a2.afraidofthedark.client.particle.*
 import com.davidm1a2.afraidofthedark.client.tileEntity.TileEntityVoidChestRenderer
 import com.davidm1a2.afraidofthedark.client.tileEntity.enariasAltar.TileEntityEnariasAltarRenderer
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.entity.bolt.*
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EntityEnaria
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EntityGhastlyEnaria
@@ -24,7 +25,6 @@ import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.EntitySplinterD
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDroneProjectile
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.EntityWerewolf
 import com.davidm1a2.afraidofthedark.common.event.ResearchOverlayHandler
-import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntitySpellAltar
 import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityVoidChest
 import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.TileEntityEnariasAltar
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
@@ -73,8 +73,40 @@ class ClientProxy : IProxy {
     override fun initializeTileEntityRenderers() {
         // Tell MC to render our special tile entities with the special renderer
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest::class.java, TileEntityVoidChestRenderer())
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySpellAltar::class.java, TileEntitySpellAltarRenderer())
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEnariasAltar::class.java, TileEntityEnariasAltarRenderer())
+    }
+
+    override fun initializeParticleFactories() {
+        val particleManager = Minecraft.getInstance().particles
+
+        particleManager.registerFactory(ModParticles.ENARIA_BASIC_ATTACK) { _, worldIn, x, y, z, _, _, _ -> ParticleEnariaBasicAttack(worldIn, x, y, z) }
+        particleManager.registerFactory(ModParticles.ENARIAS_ALTAR) { _, worldIn, x, y, z, _, _, _ -> ParticleEnariasAltar(worldIn, x, y, z) }
+        particleManager.registerFactory(ModParticles.ENARIA_SPELL_CAST) { _, worldIn, x, y, z, _, _, _ -> ParticleEnariaSpellCast(worldIn, x, y, z) }
+        particleManager.registerFactory(ModParticles.ENARIA_SPELL_CAST_2) { _, worldIn, x, y, z, xSpeed, _, zSpeed ->
+            ParticleEnariaSpellCast2(
+                worldIn,
+                x,
+                y,
+                z,
+                xSpeed,
+                zSpeed
+            )
+        }
+        particleManager.registerFactory(ModParticles.ENARIA_TELEPORT) { _, worldIn, x, y, z, _, _, _ -> ParticleEnariaTeleport(worldIn, x, y, z) }
+        particleManager.registerFactory(ModParticles.ENCHANTED_FROG_SPAWN) { _, worldIn, x, y, z, xSpeed, _, zSpeed ->
+            ParticleEnchantedFrogSpawn(
+                worldIn,
+                x,
+                y,
+                z,
+                xSpeed,
+                zSpeed
+            )
+        }
+        particleManager.registerFactory(ModParticles.SMOKE_SCREEN) { _, worldIn, x, y, z, _, _, _ -> ParticleSmokeScreen(worldIn, x, y, z) }
+        particleManager.registerFactory(ModParticles.SPELL_CAST) { _, worldIn, x, y, z, _, _, _ -> ParticleSpellCast(worldIn, x, y, z) }
+        particleManager.registerFactory(ModParticles.SPELL_HIT) { _, worldIn, x, y, z, _, _, _ -> ParticleSpellHit(worldIn, x, y, z) }
+        particleManager.registerFactory(ModParticles.SPELL_LASER) { _, worldIn, x, y, z, _, _, _ -> ParticleSpellLaser(worldIn, x, y, z) }
     }
 
     override fun registerKeyBindings() {

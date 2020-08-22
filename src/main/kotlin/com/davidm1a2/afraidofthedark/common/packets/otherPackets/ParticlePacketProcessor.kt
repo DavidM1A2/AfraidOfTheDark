@@ -1,11 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.packets.otherPackets
 
-import com.davidm1a2.afraidofthedark.client.particle.AOTDParticleRegistry.ParticleTypes
-import com.davidm1a2.afraidofthedark.client.particle.AOTDParticleRegistry.spawnParticle
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.PacketProcessor
 import net.minecraft.client.Minecraft
 import net.minecraft.network.PacketBuffer
+import net.minecraft.particles.IParticleData
+import net.minecraft.particles.ParticleType
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.registry.IRegistry
 import net.minecraftforge.fml.network.NetworkDirection
 import net.minecraftforge.fml.network.NetworkEvent
 
@@ -15,7 +16,8 @@ import net.minecraftforge.fml.network.NetworkEvent
 class ParticlePacketProcessor : PacketProcessor<ParticlePacket> {
     override fun encode(msg: ParticlePacket, buf: PacketBuffer) {
         // Write the particle index first, then the number of particles to spawn, then each position and speed
-        buf.writeInt(msg.particle.ordinal)
+        buf.writeResourceLocation(msg.particle.type.id)
+        msg.particle.write(buf)
         buf.writeInt(msg.positions.size)
         for (i in msg.positions.indices) {
             buf.writeDouble(msg.positions[i].x)
@@ -29,7 +31,9 @@ class ParticlePacketProcessor : PacketProcessor<ParticlePacket> {
 
     override fun decode(buf: PacketBuffer): ParticlePacket {
         // Read the particle, then the number of particles to spawn, then the position/speed of each particle
-        val particle = ParticleTypes.values()[buf.readInt()]
+        @Suppress("UNCHECKED_CAST")
+        val particleType = IRegistry.field_212632_u.func_212608_b(buf.readResourceLocation()) as ParticleType<IParticleData>
+        val particle = particleType.deserializer.read(particleType, buf)
 
         val numPositions = buf.readInt()
         val mutablePositions = mutableListOf<Vec3d>()
@@ -57,7 +61,7 @@ class ParticlePacketProcessor : PacketProcessor<ParticlePacket> {
             for (i in positions.indices) {
                 val position = positions[i]
                 val speed = speeds[i]
-                spawnParticle(msg.particle, player.world, position.x, position.y, position.z, speed.x, speed.y, speed.z)
+                player.world.addParticle(msg.particle, false, position.x, position.y, position.z, speed.x, speed.y, speed.z)
             }
         }
     }

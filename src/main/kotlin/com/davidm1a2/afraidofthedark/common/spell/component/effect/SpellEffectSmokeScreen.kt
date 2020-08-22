@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.client.particle.AOTDParticleRegistry
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.packets.otherPackets.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -50,7 +50,7 @@ class SpellEffectSmokeScreen : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
 
         AfraidOfTheDark.packetHandler.sendToAllAround(
             ParticlePacket(
-                AOTDParticleRegistry.ParticleTypes.SMOKE_SCREEN_ID,
+                ModParticles.SMOKE_SCREEN,
                 positions,
                 Collections.nCopies(positions.size, Vec3d.ZERO)
             ),

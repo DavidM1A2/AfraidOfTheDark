@@ -33,11 +33,6 @@ object ModTileEntities {
         .create { TileEntityDesertOasis() }
         .build(null)
         .setRegistryName(Constants.MOD_ID, "desert_oasis")
-    val SPELL_ALTAR = TileEntityType
-        .Builder
-        .create { TileEntitySpellAltar() }
-        .build(null)
-        .setRegistryName(Constants.MOD_ID, "spell_altar")
     val ENARIAS_ALTAR = TileEntityType
         .Builder
         .create { TileEntityEnariasAltar() }
@@ -51,7 +46,6 @@ object ModTileEntities {
         GHASTLY_ENARIA_SPAWNER,
         ENARIA_SPAWNER,
         DESERT_OASIS,
-        SPELL_ALTAR,
         ENARIAS_ALTAR
     )
 }

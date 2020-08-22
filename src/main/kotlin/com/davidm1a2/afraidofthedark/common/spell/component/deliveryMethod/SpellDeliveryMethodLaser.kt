@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.client.particle.AOTDParticleRegistry
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.packets.otherPackets.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
@@ -108,7 +108,7 @@ class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         // Spawn laser particles
         AfraidOfTheDark.packetHandler.sendToDimension(
             ParticlePacket(
-                AOTDParticleRegistry.ParticleTypes.SPELL_LASER,
+                ModParticles.SPELL_LASER,
                 laserPositions,
                 Collections.nCopies(numParticlesToSpawn, Vec3d.ZERO)
             ),

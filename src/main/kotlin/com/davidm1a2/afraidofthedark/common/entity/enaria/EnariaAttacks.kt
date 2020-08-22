@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.client.particle.AOTDParticleRegistry
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDrone
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.EntityWerewolf
@@ -104,7 +104,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
             }
 
             // Send a packet with all particles at once to everyone in the area
-            summonParticles(ParticlePacket(AOTDParticleRegistry.ParticleTypes.ENARIA_BASIC_ATTACK_ID, positions, speeds))
+            summonParticles(ParticlePacket(ModParticles.ENARIA_BASIC_ATTACK, positions, speeds))
         }
     }
 
@@ -122,7 +122,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
             var speeds = List(50) { Vec3d.ZERO }
 
             // Summon the particles in
-            summonParticles(ParticlePacket(AOTDParticleRegistry.ParticleTypes.ENARIA_SPELL_CAST_ID, positions, speeds))
+            summonParticles(ParticlePacket(ModParticles.ENARIA_SPELL_CAST, positions, speeds))
 
             // Create 20 spell cast 2 particles around enaria that start high and move downwards
             positions = List(20) { Vec3d(enaria.posX, enaria.posY + 3, enaria.posZ) }
@@ -137,7 +137,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
             }
 
             // Summon the particles in
-            summonParticles(ParticlePacket(AOTDParticleRegistry.ParticleTypes.ENARIA_SPELL_CAST_2_ID, positions, speeds))
+            summonParticles(ParticlePacket(ModParticles.ENARIA_SPELL_CAST_2, positions, speeds))
         }
     }
 
@@ -159,7 +159,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
             val speeds = List(positions.size) { Vec3d.ZERO }
 
             // Summon them in
-            summonParticles(ParticlePacket(AOTDParticleRegistry.ParticleTypes.ENARIA_TELEPORT_ID, positions, speeds))
+            summonParticles(ParticlePacket(ModParticles.ENARIA_TELEPORT, positions, speeds))
 
             // Get all players in the allowed fight region and randomly teleport to one
             val entityPlayers = enaria.world.getEntitiesWithinAABB(EntityPlayer::class.java, enaria.allowedRegion)

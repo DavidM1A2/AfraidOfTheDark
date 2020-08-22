@@ -20,7 +20,7 @@ class SpriteRegister {
      */
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
-    fun onTextureStitchEvent(event: TextureStitchEvent.Pre) {
+    fun onPreTextureStitchEvent(event: TextureStitchEvent.Pre) {
         // There's normally only one map, but just to make sure ensure it's the right one
         if (event.map.basePath == "textures") {
             event.map.registerSprite(Minecraft.getInstance().resourceManager, ResourceLocation(Constants.MOD_ID, "particles/enaria_basic_attack"))
@@ -33,7 +33,19 @@ class SpriteRegister {
             event.map.registerSprite(Minecraft.getInstance().resourceManager, ResourceLocation(Constants.MOD_ID, "particles/spell_laser"))
             event.map.registerSprite(Minecraft.getInstance().resourceManager, ResourceLocation(Constants.MOD_ID, "particles/enchanted_frog_spawn"))
             event.map.registerSprite(Minecraft.getInstance().resourceManager, ResourceLocation(Constants.MOD_ID, "particles/enarias_altar"))
+        }
+    }
 
+    /**
+     * Loads our sprites to be used for particle FX
+     *
+     * @param event The event to load sprites from
+     */
+    @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
+    fun onPostTextureStitchEvent(event: TextureStitchEvent.Post) {
+        // There's normally only one map, but just to make sure ensure it's the right one
+        if (event.map.basePath == "textures") {
             ModSprites.ENARIA_BASIC_ATTACK = event.map.getSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_basic_attack"))
             ModSprites.ENARIA_SPELL_CAST = event.map.getSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_spell_cast"))
             ModSprites.ENARIA_SPELL_CAST_2 = event.map.getSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_spell_cast_2"))

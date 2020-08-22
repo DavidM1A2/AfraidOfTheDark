@@ -10,6 +10,7 @@ import net.minecraft.block.state.IBlockState
 import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.tileentity.TileEntity
+import net.minecraft.util.BlockRenderLayer
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.EnumHand
 import net.minecraft.util.math.BlockPos
@@ -62,6 +63,10 @@ class BlockEnariasAltar : AOTDBlockTileEntity(
 
     override fun isFullCube(state: IBlockState): Boolean {
         return false
+    }
+
+    override fun getRenderLayer(): BlockRenderLayer {
+        return BlockRenderLayer.CUTOUT
     }
 
     override fun createTileEntity(state: IBlockState, world: IBlockReader): TileEntity {

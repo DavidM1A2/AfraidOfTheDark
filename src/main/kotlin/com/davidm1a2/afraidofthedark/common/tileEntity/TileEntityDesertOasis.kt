@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.tileEntity
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.client.particle.AOTDParticleRegistry
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EntityEnchantedFrog
@@ -117,7 +117,7 @@ class TileEntityDesertOasis : AOTDTickingTileEntity(ModTileEntities.DESERT_OASIS
             }
             AfraidOfTheDark.packetHandler.sendToAllAround(
                 ParticlePacket(
-                    AOTDParticleRegistry.ParticleTypes.ENCHANTED_FROG_SPAWN,
+                    ModParticles.ENCHANTED_FROG_SPAWN,
                     particlePositions,
                     particleSpeeds
                 ),

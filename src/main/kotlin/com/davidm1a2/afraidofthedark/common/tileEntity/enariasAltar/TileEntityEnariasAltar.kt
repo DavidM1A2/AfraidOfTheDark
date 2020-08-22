@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar
 
-import com.davidm1a2.afraidofthedark.client.particle.AOTDParticleRegistry
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
@@ -58,9 +58,9 @@ class TileEntityEnariasAltar : AOTDAnimatedTileEntity(
      */
     private fun spawnParticlesWithChance(chance: Double) {
         if (Random.nextDouble() < chance) {
-            AOTDParticleRegistry.spawnParticle(
-                AOTDParticleRegistry.ParticleTypes.ENARIAS_ALTAR,
-                world,
+            this.world.addParticle(
+                ModParticles.ENARIAS_ALTAR,
+                false,
                 pos.x + 0.2 + Random.nextDouble(0.0, 0.6),
                 pos.y + 0.1,
                 pos.z + 0.2 + Random.nextDouble(0.0, 0.6),

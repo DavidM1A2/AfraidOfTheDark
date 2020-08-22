@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.spell
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.client.particle.AOTDParticleRegistry
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.packets.otherPackets.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
@@ -93,7 +93,7 @@ class Spell : INBTSerializable<NBTTagCompound> {
                         // Send the particle packet
                         AfraidOfTheDark.packetHandler.sendToAllAround(
                             ParticlePacket(
-                                AOTDParticleRegistry.ParticleTypes.SPELL_CAST_ID,
+                                ModParticles.SPELL_CAST,
                                 positions,
                                 List<Vec3d>(positions.size) { Vec3d.ZERO }
                             ),

@@ -1,14 +1,16 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EntityEnchantedFrog
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
-import com.davidm1a2.afraidofthedark.common.world.generateSchematic
+import com.davidm1a2.afraidofthedark.common.packets.otherPackets.ParticlePacket
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.EnumHand
+import net.minecraft.util.math.Vec3d
 import net.minecraft.util.text.TextComponentString
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
@@ -25,8 +27,9 @@ class ItemDebug : AOTDItem("debug", Properties().maxStackSize(1), displayInCreat
 
     override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack> {
         if (worldIn.isRemote) {
+            //worldIn.spawnParticle(ModParticles.ENARIA_BASIC_ATTACK, playerIn.posX, playerIn.posY + 4, playerIn.posZ, 0.0, 0.0, 0.0)
         } else {
-            worldIn.generateSchematic(ModSchematics.ENARIA_LAIR, playerIn.position.add(1, 0, 1))
+            AfraidOfTheDark.packetHandler.sendToAll(ParticlePacket(ModParticles.ENARIAS_ALTAR, listOf(playerIn.positionVector), listOf(Vec3d.ZERO)))
         }
         return super.onItemRightClick(worldIn, playerIn, handIn)
     }
