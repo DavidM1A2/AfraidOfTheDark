@@ -44,8 +44,9 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
             ResourceUtil.getInputStream(data).use { inputStream ->
                 InputStreamReader(inputStream).use { inputStreamReader ->
                     BufferedReader(inputStreamReader).use { reader ->
+                        val json = reader.readLines().joinToString(separator = "")
                         // Read the file as JSON
-                        val jsonObject = JsonUtils.fromJson(DESERIALIZER, reader, JsonObject::class.java)
+                        val jsonObject = JsonUtils.fromJson(DESERIALIZER, json, JsonObject::class.java)
                         if (jsonObject != null) {
                             // Parse all the fields of the JSON object using the JSONUtils class
                             xPosition = JsonUtils.getInt(jsonObject, "x")

@@ -52,12 +52,12 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
 
     // A set of random spell attacks enaria can perform
     private val possibleSpells: List<() -> Unit> = listOf(
-        { spellAOEPotion() },
-        { spellDarkness() },
-        { spellShuffleInventory() },
-        { spellSummonEnchantedSkeletons() },
-        { spellSummonSplinterDrones() },
-        { spellSummonWerewolves() }
+        this::spellAOEPotion,
+        this::spellDarkness,
+        this::spellShuffleInventory,
+        this::spellSummonEnchantedSkeletons,
+        this::spellSummonSplinterDrones,
+        this::spellSummonWerewolves
     )
 
     /**

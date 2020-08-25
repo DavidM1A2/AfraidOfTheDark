@@ -1,6 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.recipe
 
+import com.davidm1a2.afraidofthedark.common.constants.ModRecipeFactories
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import net.minecraft.item.crafting.IRecipeSerializer
 import net.minecraftforge.common.crafting.IShapedRecipe
 
 /**
@@ -24,5 +26,9 @@ class ResearchRequiredShapedRecipe(baseRecipe: IShapedRecipe, preRequisite: Rese
      */
     override fun getRecipeHeight(): Int {
         return baseRecipe.recipeHeight
+    }
+
+    override fun getSerializer(): IRecipeSerializer<*> {
+        return ModRecipeFactories.RESEARCH_REQUIRED_SHAPED_RECIPE
     }
 }
