@@ -145,7 +145,7 @@
   "afraidofthedark:nightmare": "Nightmare",
   "afraidofthedark:void_chest": "Void Chest",
   "_comment": "Potion Effects",
-  "effect.afraidofthedark.sleeping_potion": "Sleeping Potion",
+  "effect.afraidofthedark.sleeping_potion": "Drowsiness",
   "_comment": "Researches",
   "research.afraidofthedark.an_unbreakable_covenant.name": "An Unbreakable Covenant",
   "research.afraidofthedark.an_unbreakable_covenant.tooltip": "whoops",
