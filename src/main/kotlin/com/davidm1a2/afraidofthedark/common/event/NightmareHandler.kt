@@ -361,7 +361,8 @@ class NightmareHandler {
         entityPlayer.motionZ = 0.0
         entityPlayer.health = 20f
         entityPlayer.foodStats.foodLevel = 20
-        entityPlayer.activePotionMap.clear()
+        // Clear active potion effects
+        entityPlayer.func_195061_cb()
     }
 
     /**

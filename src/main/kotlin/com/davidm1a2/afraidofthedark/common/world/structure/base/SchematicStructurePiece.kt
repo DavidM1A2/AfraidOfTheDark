@@ -246,11 +246,12 @@ class SchematicStructurePiece() : StructurePiece() {
             if (entity != null) {
                 // Update the UUID to be random so that it does not conflict with other entities from the same schematic
                 entity.setUniqueId(UUID.randomUUID())
+                val length = schematic.getLength()
 
                 // Get the X, Y, and Z coordinates of this entity if instantiated inside the world
-                val newX = entity.posX + structureBoundingBox.minX
-                val newY = entity.posY + structureBoundingBox.minY
-                val newZ = entity.posZ + structureBoundingBox.minZ
+                val newX = getXWithOffset(entity.posX, length - entity.posZ - 1)
+                val newY = getYWithOffset(entity.posY)
+                val newZ = getZWithOffset(entity.posX, length - entity.posZ - 1)
 
                 // If the chunk pos was not given or we are in the correct chunk spawn the entity in
                 if (structureBoundingBox.isVecInside(BlockPos(newX, newY, newZ))) {
@@ -273,6 +274,36 @@ class SchematicStructurePiece() : StructurePiece() {
             }
         }
         return state
+    }
+
+    private fun getXWithOffset(x: Double, z: Double): Double {
+        return if (coordBaseMode == null) {
+            x
+        } else {
+            when (coordBaseMode) {
+                EnumFacing.NORTH, EnumFacing.SOUTH -> boundingBox.minX + x
+                EnumFacing.WEST -> boundingBox.maxX - z
+                EnumFacing.EAST -> boundingBox.minX + z
+                else -> x
+            }
+        }
+    }
+
+    private fun getYWithOffset(y: Double): Double {
+        return if (coordBaseMode == null) y else y + boundingBox.minY
+    }
+
+    private fun getZWithOffset(x: Double, z: Double): Double {
+        return if (coordBaseMode == null) {
+            z
+        } else {
+            when (coordBaseMode) {
+                EnumFacing.NORTH -> boundingBox.maxZ - z
+                EnumFacing.SOUTH -> boundingBox.minZ + z
+                EnumFacing.WEST, EnumFacing.EAST -> boundingBox.minZ + x
+                else -> z
+            }
+        }
     }
 
     companion object {

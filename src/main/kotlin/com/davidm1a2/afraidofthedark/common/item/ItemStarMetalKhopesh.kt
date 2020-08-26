@@ -188,7 +188,7 @@ class ItemStarMetalKhopesh : AOTDItemChargeableSword(
         private const val NBT_SPIN_TICKS_LEFT = "spin_ticks_left"
 
         // Number of ticks to spin
-        private const val TICKS_TO_SPIN = 8
+        private const val TICKS_TO_SPIN = 6
 
         // Number of degrees to spin per tick
         private const val DEGREES_PER_TICK = 360.0f / TICKS_TO_SPIN

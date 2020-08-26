@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui.guiScreens
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiScreen
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
@@ -208,12 +209,14 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
         backwardButton.isVisible = this.hasPageBackward()
 
         contentPane.addKeyListener {
-            if (isInventoryKeybind(it.key, it.scanCode)) {
-                Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchGUI(false))
-            } else if (it.key == GLFW.GLFW_KEY_A || it.key == GLFW.GLFW_KEY_LEFT) {
-                rewindPage()
-            } else if (it.key == GLFW.GLFW_KEY_D || it.key == GLFW.GLFW_KEY_RIGHT) {
-                advancePage()
+            if (it.eventType == AOTDKeyEvent.KeyEventType.Press) {
+                if (isInventoryKeybind(it.key, it.scanCode)) {
+                    Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchGUI(false))
+                } else if (it.key == GLFW.GLFW_KEY_A || it.key == GLFW.GLFW_KEY_LEFT) {
+                    rewindPage()
+                } else if (it.key == GLFW.GLFW_KEY_D || it.key == GLFW.GLFW_KEY_RIGHT) {
+                    advancePage()
+                }
             }
         }
 
