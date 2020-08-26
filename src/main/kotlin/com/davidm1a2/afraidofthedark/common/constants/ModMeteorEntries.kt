@@ -10,8 +10,8 @@ object ModMeteorEntries {
     val ASTRAL_SILVER = AOTDMeteorEntry(
         "astral_silver",
         ResourceLocation(Constants.MOD_ID, "textures/gui/telescope/astral_silver_meteor.png"),
-        2,
-        4,
+        3,
+        5,
         0.75,
         ModBlocks.ASTRAL_SILVER_ORE,
         ModResearches.ASTRONOMY_1
@@ -19,8 +19,8 @@ object ModMeteorEntries {
     val STAR_METAL = AOTDMeteorEntry(
         "star_metal",
         ResourceLocation(Constants.MOD_ID, "textures/gui/telescope/star_metal_meteor.png"),
-        2,
-        5,
+        3,
+        6,
         0.4,
         ModBlocks.STAR_METAL_ORE,
         ModResearches.ASTRONOMY_2
@@ -28,8 +28,8 @@ object ModMeteorEntries {
     val IGNEOUS = AOTDMeteorEntry(
         "igneous",
         ResourceLocation(Constants.MOD_ID, "textures/gui/telescope/sunstone_meteor.png"),
-        2,
-        5,
+        3,
+        6,
         0.4,
         ModBlocks.SUNSTONE_ORE,
         ModResearches.ASTRONOMY_2
