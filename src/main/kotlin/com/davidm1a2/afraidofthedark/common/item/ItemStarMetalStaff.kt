@@ -179,6 +179,7 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff", Proper
      * @param timeLeft The ticks left before the use would've been complete
      */
     override fun onPlayerStoppedUsing(stack: ItemStack, world: World, entityLiving: EntityLivingBase, timeLeft: Int) {
+        println("Stopped using: ${world.isRemote}")
         // Server side processing only
         if (!world.isRemote) {
             // Update the item NBT so it's not in use

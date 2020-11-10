@@ -48,6 +48,7 @@ class AfraidOfTheDark {
         forgeBus.register(SpellCharmHandler())
         forgeBus.register(ArmorHandler())
         forgeBus.register(ModColorRegister())
+        forgeBus.register(FurnaceFuelRegister())
         forgeBus.register(this)
 
         modBus.register(RegistryRegister())
@@ -66,7 +67,6 @@ class AfraidOfTheDark {
         modBus.register(BoltEntryRegister())
         modBus.register(MeteorEntryRegister())
         modBus.register(dimensionRegister)
-        modBus.register(FurnaceFuelRegister())
         modBus.register(ConfigurationHandler())
         modBus.register(this)
 

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "afraidofthedark:sacred_mangrove"
+  },
+  "result": "minecraft:charcoal",
+  "experience": 1.0,
+  "cookingtime": 200
+}

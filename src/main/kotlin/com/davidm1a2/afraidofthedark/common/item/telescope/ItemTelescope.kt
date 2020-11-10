@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.item.telescope
 
 import com.davidm1a2.afraidofthedark.client.gui.guiScreens.TelescopeGUI
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import net.minecraft.client.Minecraft
@@ -9,6 +10,7 @@ import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
+import net.minecraft.util.EnumActionResult
 import net.minecraft.util.EnumHand
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TextComponentTranslation
@@ -29,11 +31,17 @@ class ItemTelescope : ItemTelescopeBase(130, "telescope") {
      * @return The result of the right click
      */
     override fun onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack> {
+        // Grab the itemstack the player is holding
+        val itemStack = player.getHeldItem(hand)
+
         // Test if the player is high enough to use the telescope
         val highEnough = player.position.y > 128
 
         // Grab the player's research
         val playerResearch = player.getResearch()
+
+        // The research required
+        val research = getRequiredResearch()
 
         if (!world.isRemote) {
             // If the player can research the research research it
@@ -41,16 +49,26 @@ class ItemTelescope : ItemTelescopeBase(130, "telescope") {
                 playerResearch.setResearch(ModResearches.ASTRONOMY_1, true)
                 playerResearch.sync(player, true)
             }
+
+            // If the research is researched then test if the player is high enough
+            if (playerResearch.isResearched(research) || playerResearch.canResearch(research)) {
+                // Tell the player that they need to be higher to see through the clouds
+                if (!highEnough) {
+                    player.sendMessage(TextComponentTranslation("message.afraidofthedark.telescope.not_high_enough"))
+                }
+            } else {
+                player.sendMessage(TextComponentTranslation(LocalizationConstants.DONT_UNDERSTAND))
+            }
         }
 
         // Also allow showing the gui if the player can research the telescope research
         if (world.isRemote && highEnough) {
-            if (playerResearch.canResearch(getRequiredResearch())) {
+            if (playerResearch.isResearched(research) || playerResearch.canResearch(research)) {
                 Minecraft.getInstance().displayGuiScreen(TelescopeGUI())
             }
         }
 
-        return super.onItemRightClick(world, player, hand)
+        return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack)
     }
 
     /**

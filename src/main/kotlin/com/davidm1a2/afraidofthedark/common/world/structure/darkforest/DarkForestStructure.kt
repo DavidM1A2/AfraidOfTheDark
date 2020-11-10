@@ -64,7 +64,7 @@ class DarkForestStructure : AOTDStructure<DarkForestConfig>() {
         val xPos = centerChunkX * 16
         val zPos = centerChunkZ * 16
 
-        val frequency = getInteriorConfigs(xPos, zPos, chunkGen, bedHouseWidth, bedHouseLength)
+        val frequency = getInteriorConfigs(xPos, zPos, chunkGen, bedHouseWidth, bedHouseLength, stepNum = 2)
             .map { it?.frequency ?: 0.0 }
             .min() ?: 0.0
         if (rand.nextDouble() >= frequency) {

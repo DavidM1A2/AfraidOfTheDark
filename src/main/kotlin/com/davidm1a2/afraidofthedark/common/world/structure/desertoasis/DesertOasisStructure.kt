@@ -46,7 +46,7 @@ class DesertOasisStructure : AOTDStructure<DesertOasisConfig>() {
         val xPos = centerChunkX * 16
         val zPos = centerChunkZ * 16
 
-        val frequency = getInteriorConfigs(xPos, zPos, chunkGen, stepNum = 7).groupingBy { it!!.supported }.eachCount()
+        val frequency = getInteriorConfigs(xPos, zPos, chunkGen, stepNum = 16).groupingBy { it!!.supported }.eachCount()
         val numValid = frequency[true] ?: 0
         val numInvalid = max(frequency[false] ?: 1, 1)
         val percentDesertTiles = numValid / (numValid + numInvalid).toDouble()

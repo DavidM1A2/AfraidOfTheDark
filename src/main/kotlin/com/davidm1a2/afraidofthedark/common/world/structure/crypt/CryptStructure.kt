@@ -51,7 +51,7 @@ class CryptStructure : AOTDStructure<CryptConfig>() {
         val xPos = centerChunkX * 16
         val zPos = centerChunkZ * 16
 
-        val frequency = getInteriorConfigs(xPos, zPos, chunkGen).map { it?.frequency ?: 0.0 }.max() ?: 0.0
+        val frequency = getInteriorConfigs(xPos, zPos, chunkGen, stepNum = 4).map { it?.frequency ?: 0.0 }.max() ?: 0.0
         if (rand.nextDouble() >= frequency) {
             return false
         }
