@@ -16,9 +16,6 @@ object ModCommonConfiguration {
     // The eerie biome frequency
     var eerieBiomeFrequency = 10
 
-    // The priority to register the world generator at for AOTD
-    var worldGenPriority = 0
-
     // True if structures should be cached in memory, false otherwise
     var cacheStructures = false
 

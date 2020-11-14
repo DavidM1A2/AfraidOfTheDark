@@ -21,9 +21,6 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
     // The eerie biome frequency
     private val eerieBiomeFrequency: ForgeConfigSpec.IntValue
 
-    // The priority to register the world generator at for AOTD
-    private val worldGenPriority: ForgeConfigSpec.IntValue
-
     // True if structures should be cached in memory, false otherwise
     private val cacheStructures: ForgeConfigSpec.BooleanValue
 
@@ -71,11 +68,6 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
             .translation("config.afraidofthedark:eerie_biome_frequency")
             .defineInRange("eerie_biome_frequency", 10, 0, 1000)
 
-        worldGenPriority = builder
-            .comment("Sets the priority for afraid of the dark world generation. Higher numbers result in world generation running after other mods.")
-            .translation("config.afraidofthedark:world_gen_priority")
-            .defineInRange("world_gen_priority", 0, -1000, 1000)
-
         cacheStructures = builder
             .comment("True means structures will be loaded into computer memory when Minecraft is started up. This will accelerate world generation at the cost of RAM usage. False means structures will be loaded when needed, which will require less RAM but can incur lag spikes when finding structures.")
             .translation("config.afraidofthedark:cache_structures")
@@ -97,7 +89,6 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
         ModCommonConfiguration.desertOasisMultiplier = desertOasisMultiplier.get()
         ModCommonConfiguration.observatoryMultiplier = observatoryMultiplier.get()
         ModCommonConfiguration.eerieBiomeFrequency = eerieBiomeFrequency.get()
-        ModCommonConfiguration.worldGenPriority = worldGenPriority.get()
         ModCommonConfiguration.cacheStructures = cacheStructures.get()
         ModCommonConfiguration.cacheTimeout = cacheTimeout.get()
     }

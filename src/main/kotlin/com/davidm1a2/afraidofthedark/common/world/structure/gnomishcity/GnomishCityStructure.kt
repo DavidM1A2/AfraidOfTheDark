@@ -57,7 +57,7 @@ class GnomishCityStructure : AOTDStructure<GnomishCityConfig>() {
     override fun hasStartAt(worldIn: IWorld, chunkGen: IChunkGenerator<*>, rand: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): Boolean {
         rand.setLargeFeatureSeed(chunkGen.seed, centerChunkX, centerChunkZ)
 
-        val frequency = 0.0003 * ModCommonConfiguration.gnomishCityFrequency
+        val frequency = 0.0005 * ModCommonConfiguration.gnomishCityFrequency
         if (rand.nextDouble() >= frequency) {
             return false
         }
