@@ -48,8 +48,6 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
         val xPosScroll = (Constants.GUI_WIDTH - BACKGROUND_WIDTH) / 2
         val yPosScroll = (Constants.GUI_HEIGHT - BACKGROUND_HEIGHT) / 2
 
-        println("Last: $lastGuiOffsetX, $lastGuiOffsetY")
-
         // Recall our previous GUI offsets from the last time we had the GUI open, this helps remember where we left off in the UI
         guiOffsetX = lastGuiOffsetX
         guiOffsetY = lastGuiOffsetY

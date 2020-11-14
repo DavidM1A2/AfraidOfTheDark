@@ -27,9 +27,11 @@ abstract class AOTDGuiClickAndDragable : AOTDGuiScreen() {
     override fun mouseClicked(mouseX: Double, mouseY: Double, mouseButton: Int): Boolean {
         val toReturn = super.mouseClicked(mouseX, mouseY, mouseButton)
 
-        // Store the original position before dragging when the mouse goes down
-        this.originalXPosition = mouseX.roundToInt() + this.guiOffsetX
-        this.originalYPosition = mouseY.roundToInt() + this.guiOffsetY
+        if (mouseButton == 0) {
+            // Store the original position before dragging when the mouse goes down
+            this.originalXPosition = mouseX.roundToInt() + this.guiOffsetX
+            this.originalYPosition = mouseY.roundToInt() + this.guiOffsetY
+        }
 
         return toReturn
     }
@@ -46,10 +48,12 @@ abstract class AOTDGuiClickAndDragable : AOTDGuiScreen() {
     override fun mouseDragged(mouseX: Double, mouseY: Double, lastButtonClicked: Int, mouseXTo: Double, mouseYTo: Double): Boolean {
         val toReturn = super.mouseDragged(mouseX, mouseY, lastButtonClicked, mouseXTo, mouseYTo)
 
-        this.guiOffsetX = this.originalXPosition - mouseX.roundToInt()
-        this.guiOffsetY = this.originalYPosition - mouseY.roundToInt()
+        if (lastButtonClicked == 0) {
+            this.guiOffsetX = this.originalXPosition - mouseX.roundToInt()
+            this.guiOffsetY = this.originalYPosition - mouseY.roundToInt()
 
-        this.checkOutOfBounds()
+            this.checkOutOfBounds()
+        }
 
         return toReturn
     }
