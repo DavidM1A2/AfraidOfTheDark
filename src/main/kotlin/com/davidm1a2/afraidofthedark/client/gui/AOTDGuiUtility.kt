@@ -66,13 +66,6 @@ object AOTDGuiUtility {
     }
 
     /**
-     * @return True if LMB is down, false otherwise
-     */
-    fun isLeftMouseDown(): Boolean {
-        return minecraft.mouseHelper.isLeftDown
-    }
-
-    /**
      * Sets the current system clipboard to hold the given text
      *
      * @param text The text that was cut/copied

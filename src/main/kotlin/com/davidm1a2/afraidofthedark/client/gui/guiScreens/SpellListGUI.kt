@@ -11,6 +11,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.Spell
+import kotlin.math.round
 
 /**
  * Spell selection/list gui allows players to create spells and keybind them
@@ -122,6 +123,21 @@ class SpellListGUI : AOTDGuiScreen() {
         // Go over each spell the player has and add a gui spell for it
         spellManager.getSpells().forEach { addSpell(it) }
 
+        // When we scroll we want to move the content pane up or down
+        scrollPanel.addMouseScrollListener {
+            // Only scroll the pane if it's hovered
+            if (scrollPanel.isHovered) {
+                // Only move the handle if scrollDistance is non-zero
+                if (it.scrollDistance != 0) {
+                    // Move the scroll bar by the distance amount
+                    scrollBar.moveHandle(
+                        round(-it.scrollDistance / scrollPanel.maximumOffset.toFloat() * SCROLL_SPEED).toInt(),
+                        true
+                    )
+                }
+            }
+        }
+
         contentPane.add(backgroundPanel)
     }
 
@@ -224,5 +240,8 @@ class SpellListGUI : AOTDGuiScreen() {
         // The gui will be 256x256
         private const val GUI_WIDTH = 256
         private const val GUI_HEIGHT = 256
+
+        // Scroll speed
+        private const val SCROLL_SPEED = 1000
     }
 }

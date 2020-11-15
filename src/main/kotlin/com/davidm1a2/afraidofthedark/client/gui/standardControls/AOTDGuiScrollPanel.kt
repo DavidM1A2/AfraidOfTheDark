@@ -47,7 +47,7 @@ class AOTDGuiScrollPanel(
                 if (it.scrollDistance != 0) {
                     // Move the scroll bar by the distance amount
                     scrollBar.moveHandle(
-                        round(-it.scrollDistance / this.maximumOffset.toFloat() * PIXELS_SCROLLED_PER_CLICK).toInt(),
+                        round(-it.scrollDistance / this.maximumOffset.toFloat() * SCROLL_SPEED).toInt(),
                         true
                     )
                 }
@@ -162,7 +162,7 @@ class AOTDGuiScrollPanel(
     }
 
     companion object {
-        // Number of pixels we scroll per mouse wheel click
-        private const val PIXELS_SCROLLED_PER_CLICK = 25
+        // Scroll speed
+        private const val SCROLL_SPEED = 1000
     }
 }

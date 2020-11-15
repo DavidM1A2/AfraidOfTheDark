@@ -23,7 +23,6 @@ class AOTDMouseMoveEvent(
     enum class EventType {
         Enter,
         Exit,
-        Move,
-        Drag
+        Move
     }
 }

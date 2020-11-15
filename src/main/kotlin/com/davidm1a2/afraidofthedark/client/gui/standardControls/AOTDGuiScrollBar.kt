@@ -68,7 +68,7 @@ class AOTDGuiScrollBar @JvmOverloads constructor(
 
         // Add a listener to the handle that moves it when lmb is down
         this.handle.addMouseMoveListener {
-            if (it.eventType == AOTDMouseMoveEvent.EventType.Drag) {
+            if (it.eventType == AOTDMouseMoveEvent.EventType.Move) {
                 // If we're holding the handle move it
                 if (handleHeld) {
                     // Compute the offset between mouse and original hold location

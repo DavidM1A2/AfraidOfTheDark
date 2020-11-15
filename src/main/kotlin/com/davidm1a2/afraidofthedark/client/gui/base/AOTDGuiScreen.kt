@@ -251,17 +251,6 @@ abstract class AOTDGuiScreen : GuiScreen() {
                     AOTDMouseMoveEvent.EventType.Move
                 )
             )
-            // If the left mouse button is down, process the drag
-            if (AOTDGuiUtility.isLeftMouseDown()) {
-                contentPane.processMouseMoveInput(
-                    AOTDMouseMoveEvent(
-                        contentPane,
-                        prevMouseX,
-                        prevMouseY,
-                        AOTDMouseMoveEvent.EventType.Drag
-                    )
-                )
-            }
         }
 
         super.tick()

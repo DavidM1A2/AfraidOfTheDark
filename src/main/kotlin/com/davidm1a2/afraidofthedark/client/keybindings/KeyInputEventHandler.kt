@@ -20,6 +20,7 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraftforge.client.event.InputEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
+import org.lwjgl.glfw.GLFW
 
 /**
  * Class that receives all keyboard events and processes them accordingly
@@ -50,7 +51,7 @@ class KeyInputEventHandler {
         }
 
         // If a key was pressed and it is bound to a spell fire the spell
-        if (KeybindingUtils.isKeyBindable(event.key)) {
+        if (event.action == GLFW.GLFW_PRESS && KeybindingUtils.isKeyBindable(event.key)) {
             // Grab the currently held bind
             val keybindingPressed = KeybindingUtils.getCurrentlyHeldKeybind(event.key, event.scanCode)
             // If that keybind exists then tell the server to fire the spell
