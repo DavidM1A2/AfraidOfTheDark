@@ -57,7 +57,7 @@ class GnomishCityStructure : AOTDStructure<GnomishCityConfig>() {
     override fun hasStartAt(worldIn: IWorld, chunkGen: IChunkGenerator<*>, rand: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): Boolean {
         rand.setLargeFeatureSeed(chunkGen.seed, centerChunkX, centerChunkZ)
 
-        val frequency = 0.0005 * ModCommonConfiguration.gnomishCityFrequency
+        val frequency = 0.0008 * ModCommonConfiguration.gnomishCityFrequency
         if (rand.nextDouble() >= frequency) {
             return false
         }
@@ -77,8 +77,8 @@ class GnomishCityStructure : AOTDStructure<GnomishCityConfig>() {
             }
         }
 
-        // If there's less than a 20 block difference, continue, otherwise exit out
-        if (maxHeight - minHeight > 20) {
+        // If there's less than a 25 block difference, continue, otherwise exit out
+        if (maxHeight - minHeight > 25) {
             return false
         }
 
