@@ -16,10 +16,6 @@ class AOTDKeyEvent(
     val eventType: KeyEventType
 ) :
     AOTDEvent(source) {
-    fun getKeyName(): String? {
-        return GLFW.glfwGetKeyName(key, scanCode)
-    }
-
     fun hasModifier(modifier: Modifier): Boolean {
         return modifiers and modifier.mask > 0
     }

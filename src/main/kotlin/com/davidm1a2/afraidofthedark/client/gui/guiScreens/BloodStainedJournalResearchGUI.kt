@@ -140,7 +140,7 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
                                 playerResearch.sync(entityPlayer, false)
                             }
                             // Add a connector to any new researches that are available
-                            for (possibleResearch in ModRegistries.RESEARCH.getValues()) {
+                            for (possibleResearch in ModRegistries.RESEARCH.values) {
                                 if (possibleResearch.preRequisite == research) {
                                     addConnector(possibleResearch)
                                     addResearchButton(possibleResearch)
@@ -153,14 +153,14 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
         }
 
         // Go over all known researches and add a connector for each that has a known pre-requisite
-        ModRegistries.RESEARCH.getValues()
+        ModRegistries.RESEARCH.values
             // We can only draw connectors if we have a pre-requisite
             .filter { it.preRequisite != null }
             // Only add the connectors if we know if the previous research or the current research
             .filter { playerResearch.isResearched(it) || playerResearch.canResearch(it) }
             .forEach { addConnector(it) }
         // Now that we have all connectors added add each research node on top to ensure correct z-layer order
-        ModRegistries.RESEARCH.getValues()
+        ModRegistries.RESEARCH.values
             // Only add the node if we know if the previous research or the current research
             .filter { playerResearch.isResearched(it) || playerResearch.canResearch(it) }
             .forEach { addResearchButton(it) }

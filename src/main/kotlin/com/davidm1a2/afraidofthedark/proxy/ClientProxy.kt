@@ -10,7 +10,7 @@ import com.davidm1a2.afraidofthedark.client.entity.splinterDrone.RenderSplinterD
 import com.davidm1a2.afraidofthedark.client.entity.splinterDrone.RenderSplinterDroneProjectile
 import com.davidm1a2.afraidofthedark.client.entity.werewolf.RenderWerewolf
 import com.davidm1a2.afraidofthedark.client.keybindings.KeyInputEventHandler
-import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings.KEY_BINDING_LIST
+import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings
 import com.davidm1a2.afraidofthedark.client.particle.*
 import com.davidm1a2.afraidofthedark.client.tileEntity.TileEntityVoidChestRenderer
 import com.davidm1a2.afraidofthedark.client.tileEntity.enariasAltar.TileEntityEnariasAltarRenderer
@@ -111,7 +111,7 @@ class ClientProxy : IProxy {
 
     override fun registerKeyBindings() {
         MinecraftForge.EVENT_BUS.register(KeyInputEventHandler())
-        KEY_BINDING_LIST.forEach { ClientRegistry.registerKeyBinding(it) }
+        ModKeybindings.KEY_BINDING_LIST.forEach { ClientRegistry.registerKeyBinding(it) }
     }
 
     override fun showInsanitysHeightsBook(entityPlayer: EntityPlayer) {

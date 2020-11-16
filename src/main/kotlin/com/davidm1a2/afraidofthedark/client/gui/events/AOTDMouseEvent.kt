@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.events
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiComponentWithEvents
+import org.lwjgl.glfw.GLFW
 
 /**
  * Class representing any AOTD gui events that have to do with the mouse
@@ -29,8 +30,8 @@ class AOTDMouseEvent(
 
     companion object {
         // The mouse buttons that are standard
-        const val LEFT_MOUSE_BUTTON = 0
-        const val RIGHT_MOUSE_BUTTON = 1
-        const val MIDDLE_MOUSE_BUTTON = 2
+        const val LEFT_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_LEFT
+        const val RIGHT_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_RIGHT
+        const val MIDDLE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_MIDDLE
     }
 }

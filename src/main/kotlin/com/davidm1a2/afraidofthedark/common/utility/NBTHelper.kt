@@ -58,9 +58,11 @@ object NBTHelper {
                 // If something goes wrong log an error
                 catch (e: IOException) {
                     logger.error(
-                        "Could not read player data for file ${playerData.absolutePath}, exception was:\n${ExceptionUtils.getStackTrace(
-                            e
-                        )}"
+                        "Could not read player data for file ${playerData.absolutePath}, exception was:\n${
+                            ExceptionUtils.getStackTrace(
+                                e
+                            )
+                        }"
                     )
                 }
             }

@@ -33,7 +33,6 @@ class TileEntityVoidChestRenderer : TileEntityRenderer<TileEntityVoidChest>() {
      * @param z            The z position of the tile entity
      * @param partialTicks How much time has passed since the last tick
      * @param destroyStage How far the chest is destroyed
-     * @param alpha        The alpha value to render with
      */
     override fun render(
         te: TileEntityVoidChest,

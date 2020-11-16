@@ -13,8 +13,7 @@ import org.lwjgl.opengl.GL11
  * @constructor just initializes the render living renderer
  * @param renderManager The render manager to pass down
  */
-class RenderGhastlyEnaria(renderManager: RenderManager) :
-    RenderLiving<EntityGhastlyEnaria>(renderManager, ENARIA_MODEL, 0f) {
+class RenderGhastlyEnaria(renderManager: RenderManager) : RenderLiving<EntityGhastlyEnaria>(renderManager, ENARIA_MODEL, 0f) {
     /**
      * Renders the entity at a given position, yaw, and partial ticks parameter
      *

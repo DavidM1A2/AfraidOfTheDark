@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.base
 
+import org.lwjgl.glfw.GLFW
 import java.io.IOException
 import kotlin.math.roundToInt
 
@@ -27,7 +28,7 @@ abstract class AOTDGuiClickAndDragable : AOTDGuiScreen() {
     override fun mouseClicked(mouseX: Double, mouseY: Double, mouseButton: Int): Boolean {
         val toReturn = super.mouseClicked(mouseX, mouseY, mouseButton)
 
-        if (mouseButton == 0) {
+        if (mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
             // Store the original position before dragging when the mouse goes down
             this.originalXPosition = mouseX.roundToInt() + this.guiOffsetX
             this.originalYPosition = mouseY.roundToInt() + this.guiOffsetY
@@ -48,7 +49,7 @@ abstract class AOTDGuiClickAndDragable : AOTDGuiScreen() {
     override fun mouseDragged(mouseX: Double, mouseY: Double, lastButtonClicked: Int, mouseXTo: Double, mouseYTo: Double): Boolean {
         val toReturn = super.mouseDragged(mouseX, mouseY, lastButtonClicked, mouseXTo, mouseYTo)
 
-        if (lastButtonClicked == 0) {
+        if (lastButtonClicked == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
             this.guiOffsetX = this.originalXPosition - mouseX.roundToInt()
             this.guiOffsetY = this.originalYPosition - mouseY.roundToInt()
 

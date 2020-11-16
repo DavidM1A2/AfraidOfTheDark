@@ -14,7 +14,6 @@ import com.davidm1a2.afraidofthedark.common.packets.otherPackets.FireWristCrossb
 import com.davidm1a2.afraidofthedark.common.packets.otherPackets.SpellKeyPressPacket
 import com.davidm1a2.afraidofthedark.common.utility.BoltOrderHelper
 import net.minecraft.client.Minecraft
-import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.text.TextComponentTranslation
@@ -66,7 +65,7 @@ class KeyInputEventHandler {
      */
     private fun fireWristCrossbow() {
         // Grab a player reference
-        val entityPlayer: EntityPlayer = Minecraft.getInstance().player
+        val entityPlayer = Minecraft.getInstance().player
 
         // Grab the player's bolt of choice
         val playerBasics = entityPlayer.getBasics()

@@ -108,8 +108,10 @@ class SpellStage : INBTSerializable<NBTTagCompound> {
      * @return a pretty printed spell stage
      */
     override fun toString(): String {
-        return "${deliveryInstance?.component?.registryName?.path}: ${effects.filterNotNull()
-            .joinToString(separator = ", ", prefix = "[", postfix = "]") { it.component.registryName?.path!! }}"
+        return "${deliveryInstance?.component?.registryName?.path}: ${
+            effects.filterNotNull()
+                .joinToString(separator = ", ", prefix = "[", postfix = "]") { it.component.registryName?.path!! }
+        }"
     }
 
     companion object {
