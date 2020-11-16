@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.common.recipe.ResearchRequiredShapedRecipeFactory
-import com.davidm1a2.afraidofthedark.common.recipe.ResearchRequiredShapelessRecipeFactory
-import com.davidm1a2.afraidofthedark.common.recipe.ScrollCombineRecipe
+import com.davidm1a2.afraidofthedark.common.crafting.recipe.ResearchRequiredShapedRecipeFactory
+import com.davidm1a2.afraidofthedark.common.crafting.recipe.ResearchRequiredShapelessRecipeFactory
+import com.davidm1a2.afraidofthedark.common.crafting.recipe.ScrollCombineRecipe
 import net.minecraft.item.crafting.IRecipe
 import net.minecraft.item.crafting.IRecipeSerializer
 import net.minecraft.item.crafting.RecipeSerializers

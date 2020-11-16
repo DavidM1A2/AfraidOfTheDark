@@ -88,6 +88,7 @@ class AfraidOfTheDark {
         EntityRegister.registerSpawnPlacements()
         StructureRegister.register()
         ParticleRegister.register()
+        IngredientRegister.register()
     }
 
     @SubscribeEvent

@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.recipe
+package com.davidm1a2.afraidofthedark.common.crafting.recipe
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
