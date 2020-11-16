@@ -9,8 +9,9 @@
       "item": "minecraft:iron_ingot"
     },
     {
+      "type": "forge:nbt",
       "item": "minecraft:potion",
-      "data": 0
+      "nbt": "{Potion:\"minecraft:water\"}"
     }
   ],
   "required_research": "afraidofthedark:gnomish_city"

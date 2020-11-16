@@ -6,8 +6,7 @@
   },
   "ingredients": [
     {
-      "item": "afraidofthedark:blade_of_exhumation",
-      "data": 32767
+      "item": "afraidofthedark:blade_of_exhumation"
     },
     {
       "item": "minecraft:diamond"

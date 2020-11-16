@@ -10,8 +10,7 @@
       "item": "afraidofthedark:gnomish_metal_ingot"
     },
     "s": {
-      "item": "minecraft:stone",
-      "data": 0
+      "item": "minecraft:stone"
     }
   },
   "result": {

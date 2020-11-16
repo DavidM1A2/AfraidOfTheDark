@@ -7,8 +7,7 @@
   ],
   "key": {
     "s": {
-      "item": "minecraft:stone",
-      "data": 0
+      "item": "minecraft:stone"
     },
     "e": {
       "item": "afraidofthedark:eldritch_metal_ingot"

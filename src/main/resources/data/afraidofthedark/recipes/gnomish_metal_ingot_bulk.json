@@ -10,8 +10,9 @@
       "item": "minecraft:iron_ingot"
     },
     "b": {
+      "type": "forge:nbt",
       "item": "minecraft:potion",
-      "data": 0
+      "nbt": "{Potion:\"minecraft:water\"}"
     }
   },
   "result": {

@@ -6,8 +6,7 @@
   },
   "ingredients": [
     {
-      "item": "afraidofthedark:flask_of_souls",
-      "data": 0
+      "item": "afraidofthedark:flask_of_souls"
     },
     {
       "item": "afraidofthedark:werewolf_blood"
