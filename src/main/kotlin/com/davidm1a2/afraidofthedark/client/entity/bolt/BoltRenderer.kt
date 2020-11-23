@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererManager
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.math.MathHelper
 
 /**
  * Base class for all bolt renderers
@@ -33,23 +34,13 @@ abstract class BoltRenderer<T : BoltEntity>(renderManager: EntityRendererManager
         /// Code copied from ArrowRender
         ///
 
-        this.bindEntityTexture(entity)
+        bindEntityTexture(entity)
         GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f)
         GlStateManager.pushMatrix()
         GlStateManager.disableLighting()
         GlStateManager.translatef(x.toFloat(), y.toFloat(), z.toFloat())
-        GlStateManager.rotatef(
-            entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0f,
-            0.0f,
-            1.0f,
-            0.0f
-        )
-        GlStateManager.rotatef(
-            entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks,
-            0.0f,
-            0.0f,
-            1.0f
-        )
+        GlStateManager.rotatef(MathHelper.lerp(partialTicks, entity.prevRotationYaw, entity.rotationYaw) - 90.0f, 0.0f, 1.0f, 0.0f)
+        GlStateManager.rotatef(MathHelper.lerp(partialTicks, entity.prevRotationPitch, entity.rotationPitch), 0.0f, 0.0f, 1.0f)
         val tessellator = Tessellator.getInstance()
         val bufferbuilder = tessellator.buffer
         GlStateManager.enableRescaleNormal()
@@ -57,8 +48,7 @@ abstract class BoltRenderer<T : BoltEntity>(renderManager: EntityRendererManager
         GlStateManager.rotatef(45.0f, 1.0f, 0.0f, 0.0f)
         GlStateManager.scalef(0.05625f, 0.05625f, 0.05625f)
         GlStateManager.translatef(-4.0f, 0.0f, 0.0f)
-
-        if (this.renderOutlines) {
+        if (renderOutlines) {
             GlStateManager.enableColorMaterial()
             GlStateManager.setupSolidRenderingTextureCombine(getTeamColor(entity))
         }
@@ -89,7 +79,7 @@ abstract class BoltRenderer<T : BoltEntity>(renderManager: EntityRendererManager
             tessellator.draw()
         }
 
-        if (this.renderOutlines) {
+        if (renderOutlines) {
             GlStateManager.tearDownSolidRenderingTextureCombine()
             GlStateManager.disableColorMaterial()
         }

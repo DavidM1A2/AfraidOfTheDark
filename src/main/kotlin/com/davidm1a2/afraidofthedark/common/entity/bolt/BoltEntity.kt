@@ -5,10 +5,12 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.ThrowableEntity
 import net.minecraft.item.Item
+import net.minecraft.network.IPacket
 import net.minecraft.util.DamageSource
 import net.minecraft.util.math.EntityRayTraceResult
 import net.minecraft.util.math.RayTraceResult
 import net.minecraft.world.World
+import net.minecraftforge.fml.network.NetworkHooks
 
 /**
  * Class representing a bolt entity shot by crossbows
@@ -92,4 +94,7 @@ abstract class BoltEntity : ThrowableEntity {
         remove()
     }
 
+    override fun createSpawnPacket(): IPacket<*> {
+        return NetworkHooks.getEntitySpawningPacket(this)
+    }
 }
