@@ -30,7 +30,12 @@ class CloakOfAgilityItem : AOTDSharedCooldownItem("cloak_of_agility", Properties
         val player = Minecraft.getInstance().player
         // If the player has the research show them what key is used to roll, otherwise tell them they don't know how to use the cloak
         if (player != null && player.getResearch().isResearched(ModResearches.CLOAK_OF_AGILITY)) {
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.cloak_of_agility.line1", ROLL_WITH_CLOAK_OF_AGILITY.key.translationKey))
+            tooltip.add(
+                TranslationTextComponent(
+                    "tooltip.afraidofthedark.cloak_of_agility.line1",
+                    TranslationTextComponent(ROLL_WITH_CLOAK_OF_AGILITY.key.translationKey)
+                )
+            )
             tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.cloak_of_agility.line2"))
         } else {
             tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
