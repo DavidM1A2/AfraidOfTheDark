@@ -9,4 +9,4 @@ import java.awt.Color
  *
  * @constructor just sets item properties
  */
-class SleepingEffect : AOTDEffect("sleeping_potion", EffectType.NEUTRAL, Color(255, 255, 255))
+class SleepingEffect : AOTDEffect("sleeping_effect", EffectType.NEUTRAL, Color(255, 255, 255))
