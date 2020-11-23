@@ -78,7 +78,7 @@ class SleepingPotionItem : AOTDItem("sleeping_potion", Properties()) {
         if (!worldIn.isRemote) {
             // This potion only effects players
             if (entityLiving is PlayerEntity) {
-                entityLiving.addPotionEffect(EffectInstance(ModEffects.SLEEPING_EFFECT, 4800, 0, false, true))
+                entityLiving.addPotionEffect(EffectInstance(ModEffects.SLEEPING, 4800, 0, false, true))
                 // If the player is not in creative mode reduce the bottle stack size by 1 and return the bottle
                 if (!entityLiving.isCreative) {
                     stack.shrink(1)

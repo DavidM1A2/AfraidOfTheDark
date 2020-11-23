@@ -49,7 +49,7 @@ class NightmareHandler {
         // Only process server side
         if (!entityPlayer.world.isRemote) {
             // If the player has a sleeping potion effect on and has the right researches send them to the nightmare
-            if (entityPlayer.getActivePotionEffect(ModEffects.SLEEPING_EFFECT) != null) {
+            if (entityPlayer.getActivePotionEffect(ModEffects.SLEEPING) != null) {
                 val playerResearch = entityPlayer.getResearch()
 
                 // If the player can research the nightmare research do so

@@ -61,7 +61,7 @@ class DarkForestTileEntity : AOTDTickingTileEntity(ModTileEntities.DARK_FOREST) 
                 // bottles with sleeping potion bottles.
                 if (playerResearch.isResearched(ModResearches.DARK_FOREST)) {
                     // 6 seconds of sleeping potion effect
-                    entityPlayer.addPotionEffect(EffectInstance(ModEffects.SLEEPING_EFFECT, 120, 0, true, false))
+                    entityPlayer.addPotionEffect(EffectInstance(ModEffects.SLEEPING, 120, 0, true, false))
                     // Replace all water bottles with sleeping potions
                     for (i in entityPlayer.inventory.mainInventory.indices) {
                         // Grab the stack in the current slot
