@@ -11,10 +11,8 @@ import com.davidm1a2.afraidofthedark.client.entity.splinterDrone.SplinterDroneRe
 import com.davidm1a2.afraidofthedark.client.entity.werewolf.WerewolfRenderer
 import com.davidm1a2.afraidofthedark.client.keybindings.KeyInputEventHandler
 import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings
-import com.davidm1a2.afraidofthedark.client.particle.*
 import com.davidm1a2.afraidofthedark.client.tileEntity.TileEntityVoidChestRenderer
 import com.davidm1a2.afraidofthedark.client.tileEntity.enariasAltar.TileEntityEnariasAltarRenderer
-import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.entity.bolt.*
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EnariaEntity
 import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
@@ -73,39 +71,6 @@ class ClientProxy : IProxy {
         // Tell MC to render our special tile entities with the special renderer
         ClientRegistry.bindTileEntitySpecialRenderer(VoidChestTileEntity::class.java, TileEntityVoidChestRenderer())
         ClientRegistry.bindTileEntitySpecialRenderer(EnariasAltarTileEntity::class.java, TileEntityEnariasAltarRenderer())
-    }
-
-    override fun initializeParticleFactories() {
-        val particleManager = Minecraft.getInstance().particles
-
-        particleManager.registerFactory(ModParticles.ENARIA_BASIC_ATTACK) { _, worldIn, x, y, z, _, _, _ -> EnariaBasicAttackParticle(worldIn, x, y, z) }
-        particleManager.registerFactory(ModParticles.ENARIAS_ALTAR) { _, worldIn, x, y, z, _, _, _ -> EnariasAltarParticle(worldIn, x, y, z) }
-        particleManager.registerFactory(ModParticles.ENARIA_SPELL_CAST) { _, worldIn, x, y, z, _, _, _ -> EnariaSpellCastParticle(worldIn, x, y, z) }
-        particleManager.registerFactory(ModParticles.ENARIA_SPELL_CAST_2) { _, worldIn, x, y, z, xSpeed, _, zSpeed ->
-            EnariaSpellCast2Particle(
-                worldIn,
-                x,
-                y,
-                z,
-                xSpeed,
-                zSpeed
-            )
-        }
-        particleManager.registerFactory(ModParticles.ENARIA_TELEPORT) { _, worldIn, x, y, z, _, _, _ -> EnariaTeleportParticle(worldIn, x, y, z) }
-        particleManager.registerFactory(ModParticles.ENCHANTED_FROG_SPAWN) { _, worldIn, x, y, z, xSpeed, _, zSpeed ->
-            EnchantedFrogSpawnParticle(
-                worldIn,
-                x,
-                y,
-                z,
-                xSpeed,
-                zSpeed
-            )
-        }
-        particleManager.registerFactory(ModParticles.SMOKE_SCREEN) { _, worldIn, x, y, z, _, _, _ -> SmokeScreenParticle(worldIn, x, y, z) }
-        particleManager.registerFactory(ModParticles.SPELL_CAST) { _, worldIn, x, y, z, _, _, _ -> SpellCastParticle(worldIn, x, y, z) }
-        particleManager.registerFactory(ModParticles.SPELL_HIT) { _, worldIn, x, y, z, _, _, _ -> SpellHitParticle(worldIn, x, y, z) }
-        particleManager.registerFactory(ModParticles.SPELL_LASER) { _, worldIn, x, y, z, _, _, _ -> SpellLaserParticle(worldIn, x, y, z) }
     }
 
     override fun registerKeyBindings() {
