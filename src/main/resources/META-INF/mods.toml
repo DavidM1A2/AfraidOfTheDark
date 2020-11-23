@@ -43,10 +43,10 @@ ordering = "NONE"
 # Side this dependency is applied on - BOTH, CLIENT or SERVER
 side = "BOTH"
 
-# The second mod dependency is minecraft 1.13.2
+# The second mod dependency is minecraft 1.14.4
 [[dependencies.afraidofthedark]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.13.2]"
+versionRange = "[1.14.4]"
 ordering = "NONE"
 side = "BOTH"
