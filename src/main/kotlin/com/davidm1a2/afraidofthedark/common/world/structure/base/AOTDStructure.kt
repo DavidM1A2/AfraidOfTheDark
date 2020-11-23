@@ -19,6 +19,10 @@ import java.util.*
 import kotlin.math.max
 
 abstract class AOTDStructure<T : IFeatureConfig>(configFactory: (Dynamic<*>) -> T, private val checksCollision: Boolean = true) : Structure<T>(configFactory) {
+    init {
+        setRegistryName(structureName)
+    }
+
     abstract fun getWidth(): Int
 
     abstract fun getLength(): Int
