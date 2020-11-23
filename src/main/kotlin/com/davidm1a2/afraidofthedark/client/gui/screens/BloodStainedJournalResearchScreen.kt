@@ -119,6 +119,7 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
                         if (!isCheatSheet) {
                             // If the research is researched show the page UI, otherwise show the pre-page UI
                             if (playerResearch.isResearched(research)) {
+                                saveGuiOffsets()
                                 Minecraft.getInstance().displayGuiScreen(
                                     BloodStainedJournalPageScreen(
                                         I18n.format(research.getUnlocalizedText()),
@@ -127,6 +128,7 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
                                     )
                                 )
                             } else if (research.preRequisite != null && playerResearch.isResearched(research.preRequisite)) {
+                                saveGuiOffsets()
                                 Minecraft.getInstance().displayGuiScreen(
                                     BloodStainedJournalPageScreen(
                                         I18n.format(research.getUnlocalizedPreText()),
@@ -293,9 +295,13 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
      * Called when the screen is unloaded. Used set the last known gui offsets
      */
     override fun onClose() {
+        saveGuiOffsets()
+        super.onClose()
+    }
+
+    private fun saveGuiOffsets() {
         lastGuiOffsetX = guiOffsetX
         lastGuiOffsetY = guiOffsetY
-        super.onClose()
     }
 
     /**
