@@ -10,7 +10,7 @@
       "item": "minecraft:iron_ingot"
     },
     "b": {
-      "type": "afraidofthedark:fixed_forge_nbt",
+      "type": "forge:nbt",
       "item": "minecraft:potion",
       "nbt": "{Potion:\"minecraft:water\"}"
     }
