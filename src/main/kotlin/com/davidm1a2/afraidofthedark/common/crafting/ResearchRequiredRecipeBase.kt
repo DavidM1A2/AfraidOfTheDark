@@ -8,7 +8,9 @@ import net.minecraft.inventory.container.Container
 import net.minecraft.inventory.container.PlayerContainer
 import net.minecraft.inventory.container.WorkbenchContainer
 import net.minecraft.item.ItemStack
+import net.minecraft.item.crafting.ICraftingRecipe
 import net.minecraft.item.crafting.IRecipe
+import net.minecraft.item.crafting.IRecipeType
 import net.minecraft.item.crafting.Ingredient
 import net.minecraft.util.NonNullList
 import net.minecraft.util.text.TranslationTextComponent
@@ -25,7 +27,7 @@ import org.apache.logging.log4j.LogManager
  * @param preRequisite The pre-requisite research to be required to craft this recipe
  */
 abstract class ResearchRequiredRecipeBase<T : IRecipe<CraftingInventory>>(val baseRecipe: T, internal val preRequisite: Research) :
-    IRecipe<CraftingInventory> by baseRecipe {
+    IRecipe<CraftingInventory> by baseRecipe, ICraftingRecipe {
     /**
      * Used to check if a recipe matches current crafting inventory. Also checks if the player has the correct research
      *
@@ -102,5 +104,9 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe<CraftingInventory>>(val ba
             }
             return null
         }
+    }
+
+    override fun getType(): IRecipeType<*> {
+        return super.getType()
     }
 }

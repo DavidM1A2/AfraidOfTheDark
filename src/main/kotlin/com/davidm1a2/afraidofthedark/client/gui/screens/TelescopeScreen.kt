@@ -66,7 +66,7 @@ class TelescopeScreen : AOTDScreenClickAndDragable(TranslationTextComponent("scr
                         val accuracy = telescopeItem?.accuracy ?: WORST_ACCURACY
                         // Tell the server we're watching a new meteor. It will update our capability NBT data for us
                         AfraidOfTheDark.packetHandler.sendToServer(UpdateWatchedMeteorPacket((event.source as AOTDGuiMeteorButton).meteorType, accuracy))
-                        entityPlayer.closeScreen()
+                        onClose()
                     }
                 }
             }

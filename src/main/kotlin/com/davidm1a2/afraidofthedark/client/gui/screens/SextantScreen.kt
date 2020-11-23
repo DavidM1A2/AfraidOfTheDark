@@ -98,7 +98,7 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
                     } catch (e: NumberFormatException) {
                         entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.sextant.process.invalid_vals"))
                     }
-                    entityPlayer.closeScreen()
+                    onClose()
                 }
             }
         }

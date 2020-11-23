@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.client.entity.enaria
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EnariaEntity
 import net.minecraft.client.renderer.entity.EntityRendererManager
-import net.minecraft.client.renderer.entity.LivingRenderer
+import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.util.ResourceLocation
 import org.lwjgl.opengl.GL11
 
@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11
  * @constructor just initializes the render living renderer
  * @param renderManager The render manager to pass down
  */
-class EnariaRenderer(renderManager: EntityRendererManager) : LivingRenderer<EnariaEntity, EnariaModel<EnariaEntity>>(renderManager, ENARIA_MODEL, 0f) {
+class EnariaRenderer(renderManager: EntityRendererManager) : MobRenderer<EnariaEntity, EnariaModel<EnariaEntity>>(renderManager, ENARIA_MODEL, 0f) {
     /**
      * Renders the entity at a given position, yaw, and partial ticks parameter
      *

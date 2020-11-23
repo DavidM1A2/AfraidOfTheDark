@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.client.entity.enaria
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
 import net.minecraft.client.renderer.entity.EntityRendererManager
-import net.minecraft.client.renderer.entity.LivingRenderer
+import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.util.ResourceLocation
 import org.lwjgl.opengl.GL11
 
@@ -14,7 +14,7 @@ import org.lwjgl.opengl.GL11
  * @param renderManager The render manager to pass down
  */
 class GhastlyEnariaRenderer(renderManager: EntityRendererManager) :
-    LivingRenderer<GhastlyEnariaEntity, EnariaModel<GhastlyEnariaEntity>>(renderManager, ENARIA_MODEL, 0f) {
+    MobRenderer<GhastlyEnariaEntity, EnariaModel<GhastlyEnariaEntity>>(renderManager, ENARIA_MODEL, 0f) {
     /**
      * Renders the entity at a given position, yaw, and partial ticks parameter
      *

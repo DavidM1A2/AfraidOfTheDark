@@ -51,14 +51,12 @@ class AOTDGuiResearchNodeButton(x: Int, y: Int, val research: Research) : AOTDGu
             AbstractGui.blit(
                 this.getXScaled(),
                 this.getYScaled(),
-                0,
-                0,
-                64f,
-                64f,
+                0f,
+                0f,
                 this.getWidthScaled(),
                 this.getHeightScaled(),
-                64,
-                64
+                this.getWidthScaled(),
+                this.getHeightScaled()
             )
 
             // If the player has not researched the research then show the question mark over top
@@ -67,14 +65,12 @@ class AOTDGuiResearchNodeButton(x: Int, y: Int, val research: Research) : AOTDGu
                 AbstractGui.blit(
                     this.getXScaled(),
                     this.getYScaled(),
-                    0,
-                    0,
-                    32f,
-                    32f,
+                    0f,
+                    0f,
                     this.getWidthScaled(),
                     this.getHeightScaled(),
-                    32,
-                    32
+                    this.getWidthScaled(),
+                    this.getHeightScaled()
                 )
             }
 

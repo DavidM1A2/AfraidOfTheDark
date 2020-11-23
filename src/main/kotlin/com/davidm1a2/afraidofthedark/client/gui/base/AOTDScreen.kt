@@ -142,7 +142,7 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
                 // if the keycode is the inventory key bind close the GUI screen
                 if (isInventoryKeybind(key, scanCode)) {
                     // Close the screen
-                    entityPlayer.closeScreen()
+                    onClose()
                     return true
                 }
             }

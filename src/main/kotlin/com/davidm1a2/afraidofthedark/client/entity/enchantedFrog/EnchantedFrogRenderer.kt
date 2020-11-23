@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.client.entity.enchantedFrog
 
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import net.minecraft.client.renderer.entity.EntityRendererManager
-import net.minecraft.client.renderer.entity.LivingRenderer
+import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.util.ResourceLocation
 import org.lwjgl.opengl.GL11
 
@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11
  * @param renderManager The render manager to pass down
  */
 class EnchantedFrogRenderer(renderManager: EntityRendererManager) :
-    LivingRenderer<EnchantedFrogEntity, EnchantedFrogModel>(renderManager, ENCHANTED_FROG_MODEL, MODEL_SHADOW_SIZE) {
+    MobRenderer<EnchantedFrogEntity, EnchantedFrogModel>(renderManager, ENCHANTED_FROG_MODEL, MODEL_SHADOW_SIZE) {
     /**
      * Renders the entity at a given position, yaw, and partial ticks parameter
      *

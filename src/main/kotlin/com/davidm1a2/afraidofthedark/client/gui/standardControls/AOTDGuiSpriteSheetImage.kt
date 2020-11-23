@@ -44,27 +44,29 @@ class AOTDGuiSpriteSheetImage(
             val frameHeight = sheetController.frameHeight
             val totalFrames = sheetController.totalFrames
 
-            // Setup the color tint
-            GlStateManager.color4f(
-                color.red / 255f,
-                color.green / 255f,
-                color.blue / 255f,
-                sheetController.percentageTowardsNextFrame
-            )
             if (sheetController.frameInterpolate) {
+                // Setup the color tint
+                GlStateManager.color4f(
+                    color.red / 255f,
+                    color.green / 255f,
+                    color.blue / 255f,
+                    sheetController.percentageTowardsNextFrame
+                )
+
                 // The next frame to interpolate with is either current frame + 1 or 0 if we looped around
                 val nextFrame = if (currentFrame == totalFrames) 0 else currentFrame + 1
+
                 // Draw vertically
                 if (sheetController.isVertical) {
                     AbstractGui.blit(
                         getXScaled(),
                         getYScaled(),
-                        0,
-                        currentFrame * frameHeight,
-                        frameWidth.toFloat(),
-                        frameHeight.toFloat(),
                         getWidthScaled(),
                         getHeightScaled(),
+                        0f,
+                        (currentFrame * frameHeight).toFloat(),
+                        frameWidth,
+                        frameHeight,
                         frameWidth,
                         frameHeight * totalFrames
                     )
@@ -77,12 +79,12 @@ class AOTDGuiSpriteSheetImage(
                     AbstractGui.blit(
                         getXScaled(),
                         getYScaled(),
-                        0,
-                        nextFrame * frameHeight,
-                        frameWidth.toFloat(),
-                        frameHeight.toFloat(),
                         getWidthScaled(),
                         getHeightScaled(),
+                        0f,
+                        (nextFrame * frameHeight).toFloat(),
+                        frameWidth,
+                        frameHeight,
                         frameWidth,
                         frameHeight * totalFrames
                     )
@@ -90,12 +92,12 @@ class AOTDGuiSpriteSheetImage(
                     AbstractGui.blit(
                         getXScaled(),
                         getYScaled(),
-                        currentFrame * frameWidth,
-                        0,
-                        frameWidth.toFloat(),
-                        frameHeight.toFloat(),
                         getWidthScaled(),
                         getHeightScaled(),
+                        (currentFrame * frameWidth).toFloat(),
+                        0f,
+                        frameWidth,
+                        frameHeight,
                         frameWidth * totalFrames,
                         frameHeight
                     )
@@ -108,28 +110,35 @@ class AOTDGuiSpriteSheetImage(
                     AbstractGui.blit(
                         getXScaled(),
                         getYScaled(),
-                        nextFrame * frameWidth,
-                        0,
-                        frameWidth.toFloat(),
-                        frameHeight.toFloat(),
                         getWidthScaled(),
                         getHeightScaled(),
+                        (nextFrame * frameWidth).toFloat(),
+                        0f,
+                        frameWidth,
+                        frameHeight,
                         frameWidth * totalFrames,
                         frameHeight
                     )
                 }
             } else {
+                // Setup the color tint
+                GlStateManager.color3f(
+                    color.red / 255f,
+                    color.green / 255f,
+                    color.blue / 255f
+                )
+
                 // Draw vertically
                 if (sheetController.isVertical) {
                     AbstractGui.blit(
                         getXScaled(),
                         getYScaled(),
-                        0,
-                        currentFrame * frameHeight,
-                        frameWidth.toFloat(),
-                        frameHeight.toFloat(),
                         getWidthScaled(),
                         getHeightScaled(),
+                        0f,
+                        (currentFrame * frameHeight).toFloat(),
+                        frameWidth,
+                        frameHeight,
                         frameWidth,
                         frameHeight * totalFrames
                     )
@@ -137,12 +146,12 @@ class AOTDGuiSpriteSheetImage(
                     AbstractGui.blit(
                         getXScaled(),
                         getYScaled(),
-                        currentFrame * frameWidth,
-                        0,
-                        frameWidth.toFloat(),
-                        frameHeight.toFloat(),
                         getWidthScaled(),
                         getHeightScaled(),
+                        (currentFrame * frameWidth).toFloat(),
+                        0f,
+                        frameWidth,
+                        frameHeight,
                         frameWidth * totalFrames,
                         frameHeight
                     )

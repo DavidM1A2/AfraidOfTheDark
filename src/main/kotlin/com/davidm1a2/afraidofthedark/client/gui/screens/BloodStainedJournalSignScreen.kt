@@ -120,10 +120,10 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
                         if (!playerBasics.startedAOTD) {
                             // If he has not started then print out a message that the name was wrong
                             entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.journal.sign.unsuccessful"))
-                            entityPlayer.closeScreen()
+                            onClose()
                         }
                     }
-                    entityPlayer.closeScreen()
+                    onClose()
                 }
                 it.consume()
             }

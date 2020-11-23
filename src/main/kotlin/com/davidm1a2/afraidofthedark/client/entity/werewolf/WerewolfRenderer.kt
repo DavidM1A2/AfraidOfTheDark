@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.client.entity.werewolf
 
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.WerewolfEntity
 import net.minecraft.client.renderer.entity.EntityRendererManager
-import net.minecraft.client.renderer.entity.LivingRenderer
+import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.util.ResourceLocation
 import org.lwjgl.opengl.GL11
 
@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11
  * @constructor just passes down fields and the render manager
  * @param renderManager The render manager to pass down
  */
-class WerewolfRenderer(renderManager: EntityRendererManager) : LivingRenderer<WerewolfEntity, WerewolfModel>(renderManager, WEREWOLF_MODEL, MODEL_SHADOW_SIZE) {
+class WerewolfRenderer(renderManager: EntityRendererManager) : MobRenderer<WerewolfEntity, WerewolfModel>(renderManager, WEREWOLF_MODEL, MODEL_SHADOW_SIZE) {
     /**
      * Renders the entity at a given position, yaw, and partial ticks parameter
      *

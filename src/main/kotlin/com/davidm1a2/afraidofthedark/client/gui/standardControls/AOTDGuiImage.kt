@@ -94,12 +94,12 @@ class AOTDGuiImage(
                 AbstractGui.blit(
                     this.getXScaled(),
                     this.getYScaled(),
-                    this.u,
-                    this.v,
-                    this.getWidth().toFloat(),
-                    this.getHeight().toFloat(),
                     this.getWidthScaled(),
                     this.getHeightScaled(),
+                    this.u.toFloat(),
+                    this.v.toFloat(),
+                    this.getWidth(),
+                    this.getHeight(),
                     this.textureWidth,
                     this.textureHeight
                 )
