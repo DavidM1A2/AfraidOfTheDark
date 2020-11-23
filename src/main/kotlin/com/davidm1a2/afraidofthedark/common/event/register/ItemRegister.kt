@@ -4,8 +4,8 @@ import com.davidm1a2.afraidofthedark.common.block.core.AOTDShowBlockCreative
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
+import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
-import net.minecraft.item.ItemBlock
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
@@ -31,7 +31,7 @@ class ItemRegister {
             if (block !is AOTDShowBlockCreative || block.displayInCreative()) {
                 properties.group(Constants.AOTD_CREATIVE_TAB)
             }
-            registry.register(ItemBlock(block, properties).setRegistryName(block.registryName))
+            registry.register(BlockItem(block, properties).setRegistryName(block.registryName))
         }
     }
 }

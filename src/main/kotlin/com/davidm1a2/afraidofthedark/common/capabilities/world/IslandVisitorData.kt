@@ -2,8 +2,9 @@ package com.davidm1a2.afraidofthedark.common.capabilities.world
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
-import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.world.World
+import net.minecraft.world.server.ServerWorld
 import net.minecraft.world.storage.WorldSavedData
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -21,7 +22,7 @@ class IslandVisitorData @JvmOverloads constructor(identifier: String = IDENTIFIE
      *
      * @param nbt The NBT data to read from
      */
-    override fun read(nbt: NBTTagCompound) {
+    override fun read(nbt: CompoundNBT) {
         uniqueVisitors.set(nbt.getInt(NBT_UNIQUE_VISITORS))
     }
 
@@ -31,8 +32,8 @@ class IslandVisitorData @JvmOverloads constructor(identifier: String = IDENTIFIE
      * @param compound The NBT tag to write to
      * @return The same NBT tag as passed in
      */
-    override fun write(compound: NBTTagCompound): NBTTagCompound {
-        compound.setInt(NBT_UNIQUE_VISITORS, uniqueVisitors.get())
+    override fun write(compound: CompoundNBT): CompoundNBT {
+        compound.putInt(NBT_UNIQUE_VISITORS, uniqueVisitors.get())
         return compound
     }
 
@@ -67,14 +68,12 @@ class IslandVisitorData @JvmOverloads constructor(identifier: String = IDENTIFIE
                 return null
             }
             // Grab the storage object for this world
-            val storage = world.mapStorage!!
-            // func_212426_a roughly equal to getOrLoadData?
-            var visitorData = storage.func_212426_a(world.dimension.type, { IslandVisitorData() }, IDENTIFIER)
+            val storage = (world as ServerWorld).savedData
+            var visitorData = storage.get({ IslandVisitorData() }, IDENTIFIER)
             // If it does not exist, instantiate new data and store it into the storage object
             if (visitorData == null) {
                 visitorData = IslandVisitorData()
-                // func_212424_a roughly equal to setData?
-                storage.func_212424_a(world.dimension.type, IDENTIFIER, visitorData)
+                storage.set(visitorData)
                 visitorData.markDirty()
             }
             // Return the data

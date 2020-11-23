@@ -6,20 +6,20 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.*
  * A static class containing all of our spell effect references for us
  */
 object ModSpellEffects {
-    val DIG = SpellEffectDig()
-    val EXPLOSION = SpellEffectExplosion()
-    val TELEPORT = SpellEffectTeleport()
-    val GROW = SpellEffectGrow()
-    val HEAL = SpellEffectHeal()
-    val FEED = SpellEffectFeed()
-    val BURN = SpellEffectBurn()
-    val POTION_EFFECT = SpellEffectPotionEffect()
-    val SMOKE_SCREEN = SpellEffectSmokeScreen()
-    val CLEANSE = SpellEffectCleanse()
-    val EXTINGUISH = SpellEffectExtinguish()
-    val ENDER_POCKET = SpellEffectEnderPocket()
-    val FREEZE = SpellEffectFreeze()
-    val CHARM = SpellEffectCharm()
+    val DIG = DigSpellEffect()
+    val EXPLOSION = ExplosionSpellEffect()
+    val TELEPORT = TeleportSpellEffect()
+    val GROW = GrowSpellEffect()
+    val HEAL = HealSpellEffect()
+    val FEED = FeedSpellEffect()
+    val BURN = BurnSpellEffect()
+    val POTION_EFFECT = PotionEffectSpellEffect()
+    val SMOKE_SCREEN = SmokeScreenSpellEffect()
+    val CLEANSE = CleanseSpellEffect()
+    val EXTINGUISH = ExtinguishSpellEffect()
+    val ENDER_POCKET = EnderPocketSpellEffect()
+    val FREEZE = FreezeSpellEffect()
+    val CHARM = CharmSpellEffect()
 
     // An array containing a list of spell effects that AOTD adds
     val SPELL_EFFECTS = arrayOf(

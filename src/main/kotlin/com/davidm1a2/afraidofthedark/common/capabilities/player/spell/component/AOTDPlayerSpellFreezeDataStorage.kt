@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component
 
-import net.minecraft.nbt.INBTBase
-import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.util.EnumFacing
+import net.minecraft.nbt.CompoundNBT
+import net.minecraft.nbt.INBT
+import net.minecraft.util.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.Capability.IStorage
@@ -23,18 +23,18 @@ class AOTDPlayerSpellFreezeDataStorage : IStorage<IAOTDPlayerSpellFreezeData> {
     override fun writeNBT(
         capability: Capability<IAOTDPlayerSpellFreezeData>,
         instance: IAOTDPlayerSpellFreezeData,
-        side: EnumFacing?
-    ): INBTBase {
+        side: Direction?
+    ): INBT {
         // Create a compound to write
-        val nbt = NBTTagCompound()
-        nbt.setInt(NBT_FREEZE_TICKS, instance.freezeTicks)
+        val nbt = CompoundNBT()
+        nbt.putInt(NBT_FREEZE_TICKS, instance.freezeTicks)
         instance.freezePosition?.let {
-            nbt.setDouble(NBT_POSITION + "_x", it.x)
-            nbt.setDouble(NBT_POSITION + "_y", it.y)
-            nbt.setDouble(NBT_POSITION + "_z", it.z)
+            nbt.putDouble(NBT_POSITION + "_x", it.x)
+            nbt.putDouble(NBT_POSITION + "_y", it.y)
+            nbt.putDouble(NBT_POSITION + "_z", it.z)
         }
-        nbt.setFloat(NBT_DIRECTION_YAW, instance.getFreezeYaw())
-        nbt.setFloat(NBT_DIRECTION_PITCH, instance.getFreezePitch())
+        nbt.putFloat(NBT_DIRECTION_YAW, instance.getFreezeYaw())
+        nbt.putFloat(NBT_DIRECTION_PITCH, instance.getFreezePitch())
         return nbt
     }
 
@@ -49,16 +49,16 @@ class AOTDPlayerSpellFreezeDataStorage : IStorage<IAOTDPlayerSpellFreezeData> {
     override fun readNBT(
         capability: Capability<IAOTDPlayerSpellFreezeData>,
         instance: IAOTDPlayerSpellFreezeData,
-        side: EnumFacing?,
-        nbt: INBTBase
+        side: Direction?,
+        nbt: INBT
     ) {
         // Test if the nbt tag base is an NBT tag compound
-        if (nbt is NBTTagCompound) {
+        if (nbt is CompoundNBT) {
             instance.freezeTicks = nbt.getInt(NBT_FREEZE_TICKS)
 
-            if (nbt.hasKey(NBT_POSITION + "_x") &&
-                nbt.hasKey(NBT_POSITION + "_y") &&
-                nbt.hasKey(NBT_POSITION + "_z")
+            if (nbt.contains(NBT_POSITION + "_x") &&
+                nbt.contains(NBT_POSITION + "_y") &&
+                nbt.contains(NBT_POSITION + "_z")
             ) {
                 instance.freezePosition = Vec3d(
                     nbt.getDouble(NBT_POSITION + "_x"),

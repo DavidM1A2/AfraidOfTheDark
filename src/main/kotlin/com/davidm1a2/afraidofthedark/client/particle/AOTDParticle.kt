@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.particle
 
-import net.minecraft.client.particle.Particle
-import net.minecraft.client.renderer.texture.TextureAtlasSprite
+import net.minecraft.client.particle.IParticleRenderType
+import net.minecraft.client.particle.SpriteTexturedParticle
 import net.minecraft.world.World
 
 /**
@@ -9,7 +9,6 @@ import net.minecraft.world.World
  *
  * @constructor Constructor sets all of the particle's properties
  * @param world The world the sprite is in
- * @param sprite  The sprite containing the particle texture
  * @param x       The x position of the particle
  * @param y       The y position of the particle
  * @param z       The z position of the particle
@@ -19,23 +18,15 @@ import net.minecraft.world.World
  */
 abstract class AOTDParticle(
     world: World,
-    sprite: TextureAtlasSprite,
     x: Double,
     y: Double,
     z: Double,
     xSpeed: Double = 0.0,
     ySpeed: Double = 0.0,
     zSpeed: Double = 0.0
-) : Particle(world, x, y, z, xSpeed, ySpeed, zSpeed) {
-    init {
-        setParticleTexture(sprite)
-    }
-
-    /**
-     * @return Must be 1 for custom textures
-     */
-    override fun getFXLayer(): Int {
-        return 1
+) : SpriteTexturedParticle(world, x, y, z, xSpeed, ySpeed, zSpeed) {
+    override fun getRenderType(): IParticleRenderType {
+        return IParticleRenderType.PARTICLE_SHEET_OPAQUE
     }
 
     /**

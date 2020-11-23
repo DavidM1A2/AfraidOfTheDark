@@ -2,13 +2,13 @@ package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.item.ItemFlaskOfSouls
-import net.minecraft.entity.EntityLiving
+import com.davidm1a2.afraidofthedark.common.item.FlaskOfSoulsItem
 import net.minecraft.entity.EntityType
-import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraftforge.event.entity.living.LivingDeathEvent
+import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent
 
 /**
  * Class used to detect mob death events and forward them to the flask of souls
@@ -20,11 +20,11 @@ class FlaskOfSoulsHandler {
      * @param event The crafting event
      */
     @SubscribeEvent
-    fun onItemCraftedEvent(event: ItemCraftedEvent) {
+    fun onItemCraftedEvent(event: PlayerEvent.ItemCraftedEvent) {
         // Server side processing only
         if (!event.player.world.isRemote) {
             // Test if the item crafted was a flask of souls
-            if (event.crafting.item is ItemFlaskOfSouls) {
+            if (event.crafting.item is FlaskOfSoulsItem) {
                 // Grab the player's research
                 val playerResearch = event.player.getResearch()
 
@@ -45,23 +45,23 @@ class FlaskOfSoulsHandler {
     @SubscribeEvent
     fun onLivingDeathEvent(event: LivingDeathEvent) {
         // Ensure a player killed the entity. Make sure the entity is an entity living
-        if (event.source.trueSource is EntityPlayer && event.entity is EntityLiving) {
+        if (event.source.trueSource is PlayerEntity && event.entity is LivingEntity) {
             // Grab the killer player
-            val entityPlayer = event.source.trueSource as EntityPlayer
+            val entityPlayer = event.source.trueSource as PlayerEntity
 
             // Ensure the player has the right research
             if (entityPlayer.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS)) {
                 // Grab the player's inventory
                 val inventory = entityPlayer.inventory.mainInventory
-                val entityID = EntityType.getId(event.entity.type)
+                val entityID = EntityType.getKey(event.entity.type)
 
                 // Iterate over the player's inventory and look for flasks. If we find one test if we have a flask for the killed entity
                 for (i in inventory.indices) {
                     // Grab the current itemstack
                     val itemStack = inventory[i]
                     // If the item is a flask process it
-                    if (itemStack.item is ItemFlaskOfSouls) {
-                        val flaskOfSouls = itemStack.item as ItemFlaskOfSouls
+                    if (itemStack.item is FlaskOfSoulsItem) {
+                        val flaskOfSouls = itemStack.item as FlaskOfSoulsItem
                         // If the flask is not complete and the killed entity was of the right type update this flask and return
                         if (!flaskOfSouls.isComplete(itemStack) && entityID == flaskOfSouls.getSpawnedEntity(itemStack)) {
                             // Add a kill and finish processing
@@ -77,8 +77,8 @@ class FlaskOfSoulsHandler {
                     // Grab the current itemstack
                     val itemStack = inventory[i]
                     // If the item is a flask process it
-                    if (itemStack.item is ItemFlaskOfSouls) {
-                        val flaskOfSouls = itemStack.item as ItemFlaskOfSouls
+                    if (itemStack.item is FlaskOfSoulsItem) {
+                        val flaskOfSouls = itemStack.item as FlaskOfSoulsItem
                         // If the flask is not complete and does not yet have a spawned entity set the spawned entity
                         if (!flaskOfSouls.isComplete(itemStack) && flaskOfSouls.getSpawnedEntity(itemStack) == null) {
                             // Set the spawned entity and add the kill to the flask

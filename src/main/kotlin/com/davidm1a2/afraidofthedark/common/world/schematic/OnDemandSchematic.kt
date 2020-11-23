@@ -2,10 +2,10 @@ package com.davidm1a2.afraidofthedark.common.world.schematic
 
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.utility.ResourceUtil
-import net.minecraft.block.state.IBlockState
+import net.minecraft.block.BlockState
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.CompressedStreamTools
-import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.nbt.NBTTagList
+import net.minecraft.nbt.ListNBT
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.util.Constants
@@ -37,9 +37,9 @@ class OnDemandSchematic internal constructor(
     private val length: Short
 ) : Schematic {
     private var lastTimeAccessed: Long? = null
-    private var tileEntities: NBTTagList? = null
-    private var blocks: Array<IBlockState>? = null
-    private var entities: NBTTagList? = null
+    private var tileEntities: ListNBT? = null
+    private var blocks: Array<BlockState>? = null
+    private var entities: ListNBT? = null
 
     init {
         synchronized(ON_DEMAND_SCHEMATICS) { ON_DEMAND_SCHEMATICS.add(this) }
@@ -66,7 +66,7 @@ class OnDemandSchematic internal constructor(
                 // Read the block ids
                 val blockIds = nbtData.getIntArray("BlockIds")
                 // Read the map of block name to id
-                val blockMapData = nbtData.getList("BlockIdData", Constants.NBT.TAG_COMPOUND).map { (it as NBTTagCompound) }
+                val blockMapData = nbtData.getList("BlockIdData", Constants.NBT.TAG_COMPOUND).map { (it as CompoundNBT) }
 
                 // Convert block names to block pointer references
                 val blockMapBlocks = blockMapData.map { NBTUtil.readBlockState(it) }
@@ -116,7 +116,7 @@ class OnDemandSchematic internal constructor(
      * @return A list of tile entities in the schematic region
      */
     @Synchronized
-    override fun getTileEntities(): NBTTagList {
+    override fun getTileEntities(): ListNBT {
         demandCache()
         return tileEntities!!
     }
@@ -146,7 +146,7 @@ class OnDemandSchematic internal constructor(
      * @return An array of blocks in the structure
      */
     @Synchronized
-    override fun getBlocks(): Array<IBlockState> {
+    override fun getBlocks(): Array<BlockState> {
         demandCache()
         return blocks!!
     }
@@ -155,7 +155,7 @@ class OnDemandSchematic internal constructor(
      * @return A list of entities in the schematic region
      */
     @Synchronized
-    override fun getEntities(): NBTTagList {
+    override fun getEntities(): ListNBT {
         demandCache()
         return entities!!
     }

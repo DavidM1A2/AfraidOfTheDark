@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.basics
 
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import net.minecraft.nbt.INBTBase
-import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.util.EnumFacing
+import net.minecraft.nbt.CompoundNBT
+import net.minecraft.nbt.INBT
+import net.minecraft.util.Direction
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.Capability.IStorage
@@ -24,17 +24,17 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
     override fun writeNBT(
         capability: Capability<IAOTDPlayerBasics>,
         instance: IAOTDPlayerBasics,
-        side: EnumFacing?
-    ): INBTBase {
+        side: Direction?
+    ): INBT {
         // Create a compound to write
-        val compound = NBTTagCompound()
-        compound.setBoolean(STARTED_AOTD, instance.startedAOTD)
-        compound.setInt(WRIST_CROSSBOW_BOLT_INDEX, instance.selectedWristCrossbowBoltIndex)
-        compound.setString(WATCHED_METEOR, instance.getWatchedMeteor()?.registryName?.toString() ?: "none")
-        compound.setInt(WATCHED_METEOR_ACCURACY, instance.getWatchedMeteorAccuracy())
-        compound.setInt(WATCHED_METEOR_DROP_ANGLE, instance.getWatchedMeteorDropAngle())
-        compound.setInt(WATCHED_METEOR_LATITUDE, instance.getWatchedMeteorLatitude())
-        compound.setInt(WATCHED_METEOR_LONGITUDE, instance.getWatchedMeteorLongitude())
+        val compound = CompoundNBT()
+        compound.putBoolean(STARTED_AOTD, instance.startedAOTD)
+        compound.putInt(WRIST_CROSSBOW_BOLT_INDEX, instance.selectedWristCrossbowBoltIndex)
+        compound.putString(WATCHED_METEOR, instance.getWatchedMeteor()?.registryName?.toString() ?: "none")
+        compound.putInt(WATCHED_METEOR_ACCURACY, instance.getWatchedMeteorAccuracy())
+        compound.putInt(WATCHED_METEOR_DROP_ANGLE, instance.getWatchedMeteorDropAngle())
+        compound.putInt(WATCHED_METEOR_LATITUDE, instance.getWatchedMeteorLatitude())
+        compound.putInt(WATCHED_METEOR_LONGITUDE, instance.getWatchedMeteorLongitude())
         return compound
     }
 
@@ -49,11 +49,11 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
     override fun readNBT(
         capability: Capability<IAOTDPlayerBasics>,
         instance: IAOTDPlayerBasics,
-        side: EnumFacing?,
-        nbt: INBTBase
+        side: Direction?,
+        nbt: INBT
     ) {
         // Test if the nbt tag base is an NBT tag compound
-        if (nbt is NBTTagCompound) {
+        if (nbt is CompoundNBT) {
             // The compound to read from
             instance.startedAOTD = nbt.getBoolean(STARTED_AOTD)
             instance.selectedWristCrossbowBoltIndex = nbt.getInt(WRIST_CROSSBOW_BOLT_INDEX)

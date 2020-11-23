@@ -1,14 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
-import net.minecraft.entity.player.EntityPlayerMP
+import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.InputUpdateEvent
+import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.LogicalSide
-import net.minecraftforge.fml.common.gameevent.TickEvent
-import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent
 
 /**
  * Handles the on server tick to update any existing spell freeze effects
@@ -20,7 +19,7 @@ class SpellFreezeHandler {
      * @param event The event containing server tick info
      */
     @SubscribeEvent
-    fun onPlayerTick(event: PlayerTickEvent) {
+    fun onPlayerTick(event: TickEvent.PlayerTickEvent) {
         // Server side processing
         if (event.type == TickEvent.Type.PLAYER && event.phase == TickEvent.Phase.START && event.side == LogicalSide.SERVER) {
             val entityPlayer = event.player
@@ -42,7 +41,7 @@ class SpellFreezeHandler {
                     val freezePosition = playerFreezeData.freezePosition!!
 
                     // Freeze the player's location
-                    (entityPlayer as EntityPlayerMP).connection.setPlayerLocation(
+                    (entityPlayer as ServerPlayerEntity).connection.setPlayerLocation(
                         freezePosition.x,
                         freezePosition.y,
                         freezePosition.z,
@@ -63,7 +62,7 @@ class SpellFreezeHandler {
     @OnlyIn(Dist.CLIENT)
     fun onInputUpdateEvent(event: InputUpdateEvent) {
         // Dead players don't have capabilities
-        if (event.entityPlayer.isAlive) {
+        if (event.player.isAlive) {
             // Only freeze alive players
             val playerFreezeData = event.entityPlayer.getSpellFreezeData()
 

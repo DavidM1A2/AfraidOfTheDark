@@ -1,7 +1,3 @@
 package com.davidm1a2.afraidofthedark.common.particle
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.particles.BasicParticleType
-import net.minecraft.util.ResourceLocation
-
-class EnariaBasicAttackParticleType : BasicParticleType(ResourceLocation(Constants.MOD_ID, "enaria_basic_attack"), false)
+class EnariaBasicAttackParticleType : AOTDParticleType("enaria_basic_attack", false)

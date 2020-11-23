@@ -8,14 +8,14 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IAOTDPlaye
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
-import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.entity.player.PlayerEntity
 
 // Extension functions to access these player capabilities more easily
 
 /**
  * @return The player's 'PLAYER_BASICS' capability
  */
-fun EntityPlayer.getBasics(): IAOTDPlayerBasics {
+fun PlayerEntity.getBasics(): IAOTDPlayerBasics {
     return this.getCapability(ModCapabilities.PLAYER_BASICS).orElseThrow {
         IllegalStateException("Could not get player's basics")
     }
@@ -24,7 +24,7 @@ fun EntityPlayer.getBasics(): IAOTDPlayerBasics {
 /**
  * @return The player's 'PLAYER_RESEARCH' capability
  */
-fun EntityPlayer.getResearch(): IAOTDPlayerResearch {
+fun PlayerEntity.getResearch(): IAOTDPlayerResearch {
     return this.getCapability(ModCapabilities.PLAYER_RESEARCH).orElseThrow {
         IllegalStateException("Could not get player's research")
     }
@@ -33,7 +33,7 @@ fun EntityPlayer.getResearch(): IAOTDPlayerResearch {
 /**
  * @return The player's 'PLAYER_VOID_CHEST_DATA' capability
  */
-fun EntityPlayer.getVoidChestData(): IAOTDPlayerVoidChestData {
+fun PlayerEntity.getVoidChestData(): IAOTDPlayerVoidChestData {
     return this.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA).orElseThrow {
         IllegalStateException("Could not get player's void chest data")
     }
@@ -42,7 +42,7 @@ fun EntityPlayer.getVoidChestData(): IAOTDPlayerVoidChestData {
 /**
  * @return The player's 'PLAYER_NIGHTMARE_DATA' capability
  */
-fun EntityPlayer.getNightmareData(): IAOTDPlayerNightmareData {
+fun PlayerEntity.getNightmareData(): IAOTDPlayerNightmareData {
     return this.getCapability(ModCapabilities.PLAYER_NIGHTMARE_DATA).orElseThrow {
         IllegalStateException("Could not get player's nightmare data")
     }
@@ -51,7 +51,7 @@ fun EntityPlayer.getNightmareData(): IAOTDPlayerNightmareData {
 /**
  * @return The player's 'PLAYER_SPELL_MANAGER' capability
  */
-fun EntityPlayer.getSpellManager(): IAOTDPlayerSpellManager {
+fun PlayerEntity.getSpellManager(): IAOTDPlayerSpellManager {
     return this.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER).orElseThrow {
         IllegalStateException("Could not get player's spell manager")
     }
@@ -60,7 +60,7 @@ fun EntityPlayer.getSpellManager(): IAOTDPlayerSpellManager {
 /**
  * @return The player's 'PLAYER_SPELL_FREEZE_DATA' capability
  */
-fun EntityPlayer.getSpellFreezeData(): IAOTDPlayerSpellFreezeData {
+fun PlayerEntity.getSpellFreezeData(): IAOTDPlayerSpellFreezeData {
     return this.getCapability(ModCapabilities.PLAYER_SPELL_FREEZE_DATA).orElseThrow {
         IllegalStateException("Could not get player's freeze data")
     }
@@ -69,7 +69,7 @@ fun EntityPlayer.getSpellFreezeData(): IAOTDPlayerSpellFreezeData {
 /**
  * @return The player's 'PLAYER_SPELL_CHARM_DATA' capability
  */
-fun EntityPlayer.getSpellCharmData(): IAOTDPlayerSpellCharmData {
+fun PlayerEntity.getSpellCharmData(): IAOTDPlayerSpellCharmData {
     return this.getCapability(ModCapabilities.PLAYER_SPELL_CHARM_DATA).orElseThrow {
         IllegalStateException("Could not get player's charm data")
     }

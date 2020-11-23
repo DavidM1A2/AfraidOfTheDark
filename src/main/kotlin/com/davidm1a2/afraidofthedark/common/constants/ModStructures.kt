@@ -2,28 +2,19 @@ package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.world.structure.base.SchematicStructurePiece
 import com.davidm1a2.afraidofthedark.common.world.structure.crypt.CryptStructure
-import com.davidm1a2.afraidofthedark.common.world.structure.crypt.CryptStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.darkforest.DarkForestStructure
-import com.davidm1a2.afraidofthedark.common.world.structure.darkforest.DarkForestStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.desertoasis.DesertOasisStructure
-import com.davidm1a2.afraidofthedark.common.world.structure.desertoasis.DesertOasisStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.gnomishcity.GnomishCityStairwellClipperStructurePiece
 import com.davidm1a2.afraidofthedark.common.world.structure.gnomishcity.GnomishCityStructure
-import com.davidm1a2.afraidofthedark.common.world.structure.gnomishcity.GnomishCityStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.nightmareisland.NightmareIslandStructure
-import com.davidm1a2.afraidofthedark.common.world.structure.nightmareisland.NightmareIslandStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.observatory.ObservatoryStructure
-import com.davidm1a2.afraidofthedark.common.world.structure.observatory.ObservatoryStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.voidchest.VoidChestStructure
-import com.davidm1a2.afraidofthedark.common.world.structure.voidchest.VoidChestStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.voidchestbox.VoidChestBoxStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.voidchestbox.VoidChestBoxStructurePiece
-import com.davidm1a2.afraidofthedark.common.world.structure.voidchestbox.VoidChestBoxStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.voidchestportal.VoidChestPortalStructure
-import com.davidm1a2.afraidofthedark.common.world.structure.voidchestportal.VoidChestPortalStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.witchhut.WitchHutStructure
-import com.davidm1a2.afraidofthedark.common.world.structure.witchhut.WitchHutStructureStart
 import net.minecraft.util.ResourceLocation
+import net.minecraft.world.gen.feature.structure.IStructurePieceType
 
 /**
  * A list of structures to be registered
@@ -40,7 +31,7 @@ object ModStructures {
     val GNOMISH_CITY = GnomishCityStructure()
     val DESERT_OASIS = DesertOasisStructure()
 
-    val STRUCTURES = listOf(
+    val STRUCTURES = arrayOf(
         CRYPT,
         WITCH_HUT,
         VOID_CHEST,
@@ -53,22 +44,13 @@ object ModStructures {
         DESERT_OASIS
     )
 
-    val STRUCTURE_STARTS = listOf(
-        CRYPT to CryptStructureStart::class.java,
-        WITCH_HUT to WitchHutStructureStart::class.java,
-        VOID_CHEST to VoidChestStructureStart::class.java,
-        OBSERVATORY to ObservatoryStructureStart::class.java,
-        DARK_FOREST to DarkForestStructureStart::class.java,
-        VOID_CHEST_BOX to VoidChestBoxStructureStart::class.java,
-        VOID_CHEST_PORTAL to VoidChestPortalStructureStart::class.java,
-        NIGHTMARE_ISLAND to NightmareIslandStructureStart::class.java,
-        GNOMISH_CITY to GnomishCityStructureStart::class.java,
-        DESERT_OASIS to DesertOasisStructureStart::class.java
-    )
+    val SCHEMATIC_STRUCTURE_PIECE = IStructurePieceType { _, nbt -> SchematicStructurePiece(nbt) }
+    val VOID_BOX_STRUCTURE_PIECE = IStructurePieceType { _, nbt -> VoidChestBoxStructurePiece(nbt) }
+    val GNOMISH_CITY_STAIRWELL_CLIPPER_STRUCTURE_PIECE = IStructurePieceType { _, nbt -> GnomishCityStairwellClipperStructurePiece(nbt) }
 
     val STRUCTURE_PIECES = listOf(
-        ResourceLocation(Constants.MOD_ID, "schematic_structure_piece") to SchematicStructurePiece::class.java,
-        ResourceLocation(Constants.MOD_ID, "void_chest_box_structure_piece") to VoidChestBoxStructurePiece::class.java,
-        ResourceLocation(Constants.MOD_ID, "gnomish_city_stairwell_clipper_structure_piece") to GnomishCityStairwellClipperStructurePiece::class.java
+        ResourceLocation(Constants.MOD_ID, "schematic_structure_piece") to SCHEMATIC_STRUCTURE_PIECE,
+        ResourceLocation(Constants.MOD_ID, "void_chest_box_structure_piece") to VOID_BOX_STRUCTURE_PIECE,
+        ResourceLocation(Constants.MOD_ID, "gnomish_city_stairwell_clipper_structure_piece") to GNOMISH_CITY_STAIRWELL_CLIPPER_STRUCTURE_PIECE
     )
 }

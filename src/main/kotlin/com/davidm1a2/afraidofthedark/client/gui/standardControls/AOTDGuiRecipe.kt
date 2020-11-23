@@ -18,7 +18,7 @@ import net.minecraftforge.common.crafting.IShapedRecipe
  * @property guiItemStacks The item stacks to draw
  * @property output The itemstack that gets created
  */
-class AOTDGuiRecipe(x: Int, y: Int, width: Int, height: Int, recipe: IRecipe? = null) :
+class AOTDGuiRecipe(x: Int, y: Int, width: Int, height: Int, recipe: IRecipe<*>? = null) :
     AOTDGuiContainer(x, y, width, height) {
     private val craftingGrid: AOTDGuiImage
     private val guiItemStacks: Array<AOTDGuiItemStack>
@@ -70,7 +70,7 @@ class AOTDGuiRecipe(x: Int, y: Int, width: Int, height: Int, recipe: IRecipe? = 
      *
      * @param recipe The recipe to draw
      */
-    fun setRecipe(recipe: IRecipe?) {
+    fun setRecipe(recipe: IRecipe<*>?) {
         // If the recipe is invalid just return
         if (recipe == null) {
             this.isVisible = false

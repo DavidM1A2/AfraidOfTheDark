@@ -4,9 +4,9 @@ import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiComponent.Companion.entityPlayer
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiComponent.Companion.fontRenderer
 import net.minecraft.client.Minecraft
-import net.minecraft.client.entity.EntityPlayerSP
+import net.minecraft.client.entity.player.ClientPlayerEntity
+import net.minecraft.client.gui.AbstractGui
 import net.minecraft.client.gui.FontRenderer
-import net.minecraft.client.gui.Gui
 import java.awt.Color
 import java.awt.Point
 import java.awt.Rectangle
@@ -67,7 +67,7 @@ abstract class AOTDGuiComponent(x: Int, y: Int, width: Int, height: Int) {
                 val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
 
                 // Draw a background rectangle
-                Gui.drawRect(
+                AbstractGui.fill(
                     mouseX + 2,
                     mouseY - 2,
                     mouseX + maxHoverTextLength + 7,
@@ -96,28 +96,28 @@ abstract class AOTDGuiComponent(x: Int, y: Int, width: Int, height: Int) {
      */
     fun drawBoundingBox() {
         val whiteColor = Color(255, 255, 255, 255).hashCode()
-        Gui.drawRect(
+        AbstractGui.fill(
             this.getXScaled(),
             this.getYScaled(),
             this.getXScaled() + this.getWidthScaled(),
             this.getYScaled() + 1,
             whiteColor
         )
-        Gui.drawRect(
+        AbstractGui.fill(
             this.getXScaled(),
             this.getYScaled(),
             this.getXScaled() + 1,
             this.getYScaled() + this.getHeightScaled(),
             whiteColor
         )
-        Gui.drawRect(
+        AbstractGui.fill(
             this.getXScaled() + this.getWidthScaled() - 1,
             this.getYScaled(),
             this.getXScaled() + this.getWidthScaled(),
             this.getYScaled() + this.getHeightScaled(),
             whiteColor
         )
-        Gui.drawRect(
+        AbstractGui.fill(
             this.getXScaled(),
             this.getYScaled() + this.getHeightScaled() - 1,
             this.getXScaled() + this.getWidthScaled(),
@@ -315,7 +315,7 @@ abstract class AOTDGuiComponent(x: Int, y: Int, width: Int, height: Int) {
 
     companion object {
         val fontRenderer: FontRenderer = Minecraft.getInstance().fontRenderer
-        val entityPlayer: EntityPlayerSP
+        val entityPlayer: ClientPlayerEntity
             get() = Minecraft.getInstance().player
     }
 }

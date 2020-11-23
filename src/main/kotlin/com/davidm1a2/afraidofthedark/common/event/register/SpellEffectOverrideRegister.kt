@@ -5,16 +5,14 @@ import com.davidm1a2.afraidofthedark.common.constants.ModSpellEffects
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
-import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.SpellDeliveryMethodAOE
+import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.AOESpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.ISpellDeliveryEffectApplicator
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.helper.TargetType
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import com.davidm1a2.afraidofthedark.common.world.setBlockStateFast
-import net.minecraft.block.BlockAir
-import net.minecraft.init.Blocks
-import net.minecraft.init.SoundEvents
+import net.minecraft.block.Blocks
 import net.minecraft.util.SoundCategory
+import net.minecraft.util.SoundEvents
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import kotlin.math.ceil
@@ -47,7 +45,7 @@ object SpellEffectOverrideRegister {
                 val deliveryMethod = deliveryInstance.component
 
                 // Should always be true, we're overriding AOE's custom applicator
-                if (deliveryMethod is SpellDeliveryMethodAOE) {
+                if (deliveryMethod is AOESpellDeliveryMethod) {
                     val radius = deliveryMethod.getRadius(deliveryInstance)
                     if (deliveryMethod.getTargetType(deliveryInstance) == TargetType.ENTITY) {
                         // Fire default logic for entities, that's not a problem
@@ -126,7 +124,7 @@ object SpellEffectOverrideRegister {
                         val deliveryInstance = state.getCurrentStage().deliveryInstance!!
 
                         // Get the radius
-                        val radius = (deliveryInstance.component as SpellDeliveryMethodAOE).getRadius(deliveryInstance)
+                        val radius = (deliveryInstance.component as AOESpellDeliveryMethod).getRadius(deliveryInstance)
                         // The center point
                         val center = state.position
 
@@ -138,8 +136,9 @@ object SpellEffectOverrideRegister {
                                 Random.nextDouble(radius * 2) - radius
                             )
                             val blockPos = BlockPos(teleportPos)
+                            val blockState = world.getBlockState(blockPos)
 
-                            if (world.getBlockState(blockPos).block == Blocks.AIR) {
+                            if (blockState.isAir(world, blockPos)) {
                                 // Create particles at the pre and post teleport position
                                 // Play sound at the pre and post teleport position
                                 AOTDSpellEffect.createParticlesAt(1, 3, teleportPos, spellCaster.dimension)
@@ -191,7 +190,7 @@ object SpellEffectOverrideRegister {
                     val centerPosition = state.position
                     val centerBlockPosition = state.blockPosition
                     val deliveryInstance = state.getCurrentStage().deliveryInstance!!
-                    val deliveryMethodAOE = deliveryInstance.component as SpellDeliveryMethodAOE
+                    val deliveryMethodAOE = deliveryInstance.component as AOESpellDeliveryMethod
 
                     // If we should target entities use default logic
                     if (deliveryMethodAOE.getTargetType(deliveryInstance) == TargetType.ENTITY) {
@@ -218,8 +217,9 @@ object SpellEffectOverrideRegister {
                                 // Test if the block is within the threshold
                                 if (distance < radius + threshhold && distance > radius - threshhold) {
                                     // If the block is air replace it with ice
-                                    if (world.getBlockState(blockLocation).block is BlockAir) {
-                                        world.setBlockStateFast(
+                                    val blockState = world.getBlockState(blockLocation)
+                                    if (blockState.isAir(world, blockLocation)) {
+                                        world.setBlockState(
                                             blockLocation,
                                             Blocks.ICE.defaultState,
                                             2 or 16

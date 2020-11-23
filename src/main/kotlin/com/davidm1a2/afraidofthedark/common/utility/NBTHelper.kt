@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.utility
 
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.CompressedStreamTools
-import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.server.MinecraftServer
 import net.minecraft.world.dimension.DimensionType
 import org.apache.commons.lang3.exception.ExceptionUtils
@@ -24,14 +24,14 @@ object NBTHelper {
      * @param saveFirst       True if the existing online player data should be written to disk first, false otherwise
      * @return A list of player NBTTagCompounds containing all players both offline and online
      */
-    fun getAllSavedPlayerNBTs(minecraftServer: MinecraftServer, saveFirst: Boolean): List<NBTTagCompound> {
+    fun getAllSavedPlayerNBTs(minecraftServer: MinecraftServer, saveFirst: Boolean): List<CompoundNBT> {
         // Write all player data to disk if the flag is set
         if (saveFirst) {
             minecraftServer.playerList.saveAllPlayerData()
         }
 
         // A list of player NBTs to return
-        val toReturn = mutableListOf<NBTTagCompound>()
+        val toReturn = mutableListOf<CompoundNBT>()
 
         // All worlds share a single save handler so we can just use the overworld's save handler to grab all player data even players in other dimensions
         val saveHandler = minecraftServer.getWorld(DimensionType.OVERWORLD).saveHandler
@@ -40,7 +40,7 @@ object NBTHelper {
         val playerDataDirectory = File(saveHandler.worldDirectory, "playerdata")
 
         // Iterate over each player's UUID file
-        for (playerUUID in saveHandler.playerNBTManager.availablePlayerDat) {
+        for (playerUUID in saveHandler.func_215771_d()) {
             // Create a file pointed at that player's data
             val playerData = File(playerDataDirectory, "$playerUUID.dat")
 
@@ -78,7 +78,7 @@ object NBTHelper {
      * @return True if the itemstack has the key, false otherwise
      */
     fun hasTag(itemStack: ItemStack, keyName: String): Boolean {
-        return itemStack.tag != null && itemStack.tag!!.hasKey(keyName)
+        return itemStack.tag != null && itemStack.tag!!.contains(keyName)
     }
 
     /**
@@ -90,7 +90,7 @@ object NBTHelper {
      */
     fun removeTag(itemStack: ItemStack, keyName: String) {
         if (hasTag(itemStack, keyName)) {
-            itemStack.tag!!.removeTag(keyName)
+            itemStack.tag!!.remove(keyName)
         }
     }
 
@@ -102,7 +102,7 @@ object NBTHelper {
     private fun initNBTTagCompound(itemStack: ItemStack) {
         // Make sure the item stack has an NBT tag compound, if not add it
         if (itemStack.tag == null) {
-            itemStack.tag = NBTTagCompound()
+            itemStack.tag = CompoundNBT()
         }
     }
 
@@ -117,7 +117,7 @@ object NBTHelper {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the long value onto the tag compound
-        itemStack.tag!!.setLong(keyName, keyValue)
+        itemStack.tag!!.putLong(keyName, keyValue)
     }
 
     /**
@@ -144,7 +144,7 @@ object NBTHelper {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the string value onto the tag compound
-        itemStack.tag!!.setString(keyName, keyValue)
+        itemStack.tag!!.putString(keyName, keyValue)
     }
 
     /**
@@ -171,7 +171,7 @@ object NBTHelper {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the boolean value onto the tag compound
-        itemStack.tag!!.setBoolean(keyName, keyValue)
+        itemStack.tag!!.putBoolean(keyName, keyValue)
     }
 
     /**
@@ -198,7 +198,7 @@ object NBTHelper {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the byte value onto the tag compound
-        itemStack.tag!!.setByte(keyName, keyValue)
+        itemStack.tag!!.putByte(keyName, keyValue)
     }
 
     /**
@@ -225,7 +225,7 @@ object NBTHelper {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the short value onto the tag compound
-        itemStack.tag!!.setShort(keyName, keyValue)
+        itemStack.tag!!.putShort(keyName, keyValue)
     }
 
     /**
@@ -252,7 +252,7 @@ object NBTHelper {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the integer value onto the tag compound
-        itemStack.tag!!.setInt(keyName, keyValue)
+        itemStack.tag!!.putInt(keyName, keyValue)
     }
 
     /**
@@ -279,7 +279,7 @@ object NBTHelper {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the float value onto the tag compound
-        itemStack.tag!!.setFloat(keyName, keyValue)
+        itemStack.tag!!.putFloat(keyName, keyValue)
     }
 
     /**
@@ -306,7 +306,7 @@ object NBTHelper {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the double value onto the tag compound
-        itemStack.tag!!.setDouble(keyName, keyValue)
+        itemStack.tag!!.putDouble(keyName, keyValue)
     }
 
     /**
@@ -329,11 +329,11 @@ object NBTHelper {
      * @param keyName   The name of the key to store the double with
      * @param keyValue  The nbt compound to store with that key value
      */
-    fun setCompound(itemStack: ItemStack, keyName: String, keyValue: NBTTagCompound) {
+    fun setCompound(itemStack: ItemStack, keyName: String, keyValue: CompoundNBT) {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the nbt compound value onto the tag compound
-        itemStack.tag!!.setTag(keyName, keyValue)
+        itemStack.tag!!.put(keyName, keyValue)
     }
 
     /**
@@ -343,7 +343,7 @@ object NBTHelper {
      * @param keyName   The key that contains the data we want to retrieve
      * @return The nbt compound value represented by the key or null if it was not present
      */
-    fun getCompound(itemStack: ItemStack, keyName: String): NBTTagCompound? {
+    fun getCompound(itemStack: ItemStack, keyName: String): CompoundNBT? {
         return if (hasTag(itemStack, keyName)) {
             itemStack.tag!!.getCompound(keyName)
         } else null

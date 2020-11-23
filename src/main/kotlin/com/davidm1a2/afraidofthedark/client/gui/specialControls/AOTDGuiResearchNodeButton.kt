@@ -4,10 +4,10 @@ import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.realmsclient.gui.ChatFormatting
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.Gui
-import net.minecraft.client.renderer.GlStateManager
+import net.minecraft.client.gui.AbstractGui
 import net.minecraft.client.resources.I18n
 import net.minecraft.util.ResourceLocation
 
@@ -48,33 +48,33 @@ class AOTDGuiResearchNodeButton(x: Int, y: Int, val research: Research) : AOTDGu
 
             // Draw the researches icon on the button
             Minecraft.getInstance().textureManager.bindTexture(this.research.icon)
-            Gui.drawScaledCustomSizeModalRect(
+            AbstractGui.blit(
                 this.getXScaled(),
                 this.getYScaled(),
-                0f,
-                0f,
-                64,
-                64,
+                0,
+                0,
+                64f,
+                64f,
                 this.getWidthScaled(),
                 this.getHeightScaled(),
-                64f,
-                64f
+                64,
+                64
             )
 
             // If the player has not researched the research then show the question mark over top
             if (!playerResearch.isResearched(this.research)) {
                 Minecraft.getInstance().textureManager.bindTexture(UNKNOWN_RESEARCH)
-                Gui.drawScaledCustomSizeModalRect(
+                AbstractGui.blit(
                     this.getXScaled(),
                     this.getYScaled(),
-                    0f,
-                    0f,
-                    32,
-                    32,
+                    0,
+                    0,
+                    32f,
+                    32f,
                     this.getWidthScaled(),
                     this.getHeightScaled(),
-                    32f,
-                    32f
+                    32,
+                    32
                 )
             }
 

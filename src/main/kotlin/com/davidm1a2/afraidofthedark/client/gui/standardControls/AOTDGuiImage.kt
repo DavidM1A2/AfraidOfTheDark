@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
+import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.Gui
-import net.minecraft.client.renderer.GlStateManager
+import net.minecraft.client.gui.AbstractGui
 import net.minecraft.util.ResourceLocation
 
 /**
@@ -80,28 +80,28 @@ class AOTDGuiImage(
             Minecraft.getInstance().textureManager.bindTexture(this.imageTexture)
             // If the texture width and height are both -1, then we assume the image's size is this control's size
             if (textureHeight == -1 || textureWidth == -1) {
-                Gui.drawModalRectWithCustomSizedTexture(
+                AbstractGui.blit(
                     this.getXScaled(),
                     this.getYScaled(),
                     this.u.toFloat(),
                     this.v.toFloat(),
                     this.getWidthScaled(),
                     this.getHeightScaled(),
-                    this.getWidthScaled().toFloat(),
-                    this.getHeightScaled().toFloat()
+                    this.getWidthScaled(),
+                    this.getHeightScaled()
                 )
             } else {
-                Gui.drawScaledCustomSizeModalRect(
+                AbstractGui.blit(
                     this.getXScaled(),
                     this.getYScaled(),
-                    this.u.toFloat(),
-                    this.v.toFloat(),
-                    this.getWidth(),
-                    this.getHeight(),
+                    this.u,
+                    this.v,
+                    this.getWidth().toFloat(),
+                    this.getHeight().toFloat(),
                     this.getWidthScaled(),
                     this.getHeightScaled(),
-                    this.textureWidth.toFloat(),
-                    this.textureHeight.toFloat()
+                    this.textureWidth,
+                    this.textureHeight
                 )
             }
             GlStateManager.popMatrix()

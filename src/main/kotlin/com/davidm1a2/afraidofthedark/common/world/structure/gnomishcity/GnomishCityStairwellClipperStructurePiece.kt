@@ -1,21 +1,23 @@
 package com.davidm1a2.afraidofthedark.common.world.structure.gnomishcity
 
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import net.minecraft.init.Blocks
-import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.util.EnumFacing
+import com.davidm1a2.afraidofthedark.common.constants.ModStructures
+import net.minecraft.block.Blocks
+import net.minecraft.nbt.CompoundNBT
+import net.minecraft.util.Direction
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.world.IWorld
 import net.minecraft.world.gen.feature.structure.StructurePiece
-import net.minecraft.world.gen.feature.template.TemplateManager
 import java.util.*
 
-class GnomishCityStairwellClipperStructurePiece() : StructurePiece() {
-    constructor(xPos: Int, groundY: Int, maxStairwellY: Int, zPos: Int) : this() {
+class GnomishCityStairwellClipperStructurePiece : StructurePiece {
+    constructor(nbt: CompoundNBT) : super(ModStructures.SCHEMATIC_STRUCTURE_PIECE, nbt)
+
+    constructor(xPos: Int, groundY: Int, maxStairwellY: Int, zPos: Int) : super(ModStructures.GNOMISH_CITY_STAIRWELL_CLIPPER_STRUCTURE_PIECE, 0) {
         val stairwell = ModSchematics.STAIRWELL
         this.boundingBox = MutableBoundingBox(xPos, groundY, zPos, xPos + stairwell.getWidth() - 1, maxStairwellY, zPos + stairwell.getLength() - 1)
-        this.coordBaseMode = EnumFacing.NORTH
+        this.coordBaseMode = Direction.NORTH
     }
 
     override fun addComponentParts(worldIn: IWorld, randomIn: Random, structureBoundingBoxIn: MutableBoundingBox, chunkPos: ChunkPos): Boolean {
@@ -30,9 +32,6 @@ class GnomishCityStairwellClipperStructurePiece() : StructurePiece() {
         return true
     }
 
-    override fun writeStructureToNBT(tagCompound: NBTTagCompound) {
-    }
-
-    override fun readStructureFromNBT(tagCompound: NBTTagCompound, p_143011_2_: TemplateManager) {
+    override fun readAdditional(tagCompound: CompoundNBT) {
     }
 }

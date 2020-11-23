@@ -4,19 +4,19 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.ParticlePacket
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.nbt.NBTTagList
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.nbt.CompoundNBT
+import net.minecraft.nbt.ListNBT
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.math.Vec3d
-import net.minecraft.util.text.TextComponentTranslation
+import net.minecraft.util.text.TranslationTextComponent
 import net.minecraftforge.common.util.Constants
 import net.minecraftforge.common.util.INBTSerializable
 import net.minecraftforge.fml.network.PacketDistributor
@@ -32,7 +32,7 @@ import kotlin.random.Random
  * @property powerSource The source that is powering the spell, can be null
  * @property spellStages The list of spell stages this spell can go through, can have 0 - inf elements
  */
-class Spell : INBTSerializable<NBTTagCompound> {
+class Spell : INBTSerializable<CompoundNBT> {
     lateinit var name: String
     lateinit var id: UUID
         private set
@@ -54,7 +54,7 @@ class Spell : INBTSerializable<NBTTagCompound> {
      *
      * @param nbt The NBT containing the spell's information
      */
-    constructor(nbt: NBTTagCompound) {
+    constructor(nbt: CompoundNBT) {
         deserializeNBT(nbt)
     }
 
@@ -120,20 +120,20 @@ class Spell : INBTSerializable<NBTTagCompound> {
                                     .build()
                             )
                     } else {
-                        entity.sendMessage(TextComponentTranslation(powerSource!!.component.getUnlocalizedOutOfPowerMsg()))
-                        if (entity !is EntityPlayer) {
+                        entity.sendMessage(TranslationTextComponent(powerSource!!.component.getUnlocalizedOutOfPowerMsg()))
+                        if (entity !is PlayerEntity) {
                             logger.info("Entity '${entity.name}' attempted to cast a spell without enough power?")
                         }
                     }
                 } else {
-                    entity.sendMessage(TextComponentTranslation("message.afraidofthedark.spell.invalid"))
-                    if (entity !is EntityPlayer) {
+                    entity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.invalid"))
+                    if (entity !is PlayerEntity) {
                         logger.info("Entity '${entity.name}' attempted to cast an invalid spell?")
                     }
                 }
             } else {
-                entity.sendMessage(TextComponentTranslation("message.afraidofthedark.spell.wrong_dimension"))
-                if (entity !is EntityPlayer) {
+                entity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.wrong_dimension"))
+                if (entity !is PlayerEntity) {
                     logger.info("Entity '${entity.name}' attempted to cast a spell in the nightmare?")
                 }
             }
@@ -205,20 +205,20 @@ class Spell : INBTSerializable<NBTTagCompound> {
      *
      * @return An NBT compound with all this spell's data
      */
-    override fun serializeNBT(): NBTTagCompound {
-        val nbt = NBTTagCompound()
+    override fun serializeNBT(): CompoundNBT {
+        val nbt = CompoundNBT()
 
         // Write each field to NBT
-        nbt.setString(NBT_NAME, name)
-        nbt.setTag(NBT_ID, NBTUtil.writeUniqueId(id))
+        nbt.putString(NBT_NAME, name)
+        nbt.put(NBT_ID, NBTUtil.writeUniqueId(id))
 
         // The spell power source can be null, double check that it isn't before writing it and its state
-        powerSource?.let { nbt.setTag(NBT_POWER_SOURCE, it.serializeNBT()) }
+        powerSource?.let { nbt.put(NBT_POWER_SOURCE, it.serializeNBT()) }
 
         // Write each spell stage to NBT
-        val spellStagesNBT = NBTTagList()
+        val spellStagesNBT = ListNBT()
         spellStages.forEach { spellStagesNBT.add(it.serializeNBT()) }
-        nbt.setTag(NBT_SPELL_STAGES, spellStagesNBT)
+        nbt.put(NBT_SPELL_STAGES, spellStagesNBT)
         return nbt
     }
 
@@ -227,13 +227,13 @@ class Spell : INBTSerializable<NBTTagCompound> {
      *
      * @param nbt The NBT compound to read from
      */
-    override fun deserializeNBT(nbt: NBTTagCompound) {
+    override fun deserializeNBT(nbt: CompoundNBT) {
         // Read each field from NBT
         name = nbt.getString(NBT_NAME)
         id = NBTUtil.readUniqueId(nbt.getCompound(NBT_ID))
 
         // The spell power source can be null, double check that it exists before reading it and its state
-        if (nbt.hasKey(NBT_POWER_SOURCE)) {
+        if (nbt.contains(NBT_POWER_SOURCE)) {
             // Grab the power source NBT and create a power source out of it
             powerSource = SpellPowerSourceInstance.createFromNBT(nbt.getCompound(NBT_POWER_SOURCE))
         }

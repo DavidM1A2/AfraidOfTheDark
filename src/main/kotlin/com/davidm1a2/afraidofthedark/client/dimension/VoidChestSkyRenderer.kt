@@ -1,16 +1,17 @@
 package com.davidm1a2.afraidofthedark.client.dimension
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.Minecraft
-import net.minecraft.client.multiplayer.WorldClient
-import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
+import net.minecraft.client.world.ClientWorld
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.IRenderHandler
+import org.lwjgl.opengl.GL11
 
 /**
  * Class that renders the void chest 'sky' texture
@@ -19,12 +20,13 @@ class VoidChestSkyRenderer : IRenderHandler {
     /**
      * Called to render the sky
      *
+     * @param ticks        The number of ticks that have happened
      * @param partialTicks The number of partial ticks since the last tick
      * @param world        The world to render in
      * @param mc           The minecraft instance
      */
     @OnlyIn(Dist.CLIENT)
-    override fun render(partialTicks: Float, world: WorldClient, mc: Minecraft) {
+    override fun render(ticks: Int, partialTicks: Float, world: ClientWorld, mc: Minecraft) {
         ///
         /// Code below found online and modified slightly
         ///
@@ -75,7 +77,7 @@ class VoidChestSkyRenderer : IRenderHandler {
         }
 
         GlStateManager.depthMask(true)
-        GlStateManager.enableTexture2D()
+        GL11.glEnable(GL11.GL_TEXTURE_2D)
         GlStateManager.enableAlphaTest()
     }
 

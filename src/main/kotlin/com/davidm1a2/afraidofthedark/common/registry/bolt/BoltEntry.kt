@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.registry.bolt
 
-import com.davidm1a2.afraidofthedark.common.entity.bolt.EntityBolt
+import com.davidm1a2.afraidofthedark.common.entity.bolt.BoltEntity
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
-import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.world.World
 import net.minecraftforge.registries.ForgeRegistryEntry
@@ -17,7 +17,7 @@ import net.minecraftforge.registries.ForgeRegistryEntry
  */
 abstract class BoltEntry constructor(
     val boltItem: Item,
-    val boltEntityFactory: (World, EntityPlayer) -> EntityBolt,
+    val boltEntityFactory: (World, PlayerEntity) -> BoltEntity,
     val preRequisite: Research?
 ) : ForgeRegistryEntry<BoltEntry>() {
     /**

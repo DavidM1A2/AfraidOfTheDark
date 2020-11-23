@@ -1,0 +1,28 @@
+package com.davidm1a2.afraidofthedark.client.particle
+
+import net.minecraft.world.World
+
+/**
+ * Particle representing enaria's basic attack
+ *
+ * @constructor takes the x,y,z position of the particle and the world
+ * @param world  The world the particle is at
+ * @param x The x position of the basic attack
+ * @param y The y position of the basic attack
+ * @param z The z position of the basic attack
+ */
+class EnariaBasicAttackParticle(
+    world: World,
+    x: Double,
+    y: Double,
+    z: Double
+) : AOTDParticle(world, x, y, z) {
+    init {
+        // 1-2 second lifespan
+        maxAge = rand.nextInt(20) + 20
+        // No motion
+        motionX = 0.0
+        motionY = 0.0
+        motionZ = 0.0
+    }
+}

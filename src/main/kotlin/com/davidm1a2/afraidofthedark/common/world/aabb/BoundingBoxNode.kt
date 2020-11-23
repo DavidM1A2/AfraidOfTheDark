@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.world.aabb
 
-import net.minecraft.nbt.NBTTagInt
-import net.minecraft.nbt.NBTTagList
+import net.minecraft.nbt.IntNBT
+import net.minecraft.nbt.ListNBT
 import net.minecraft.util.math.MutableBoundingBox
 import kotlin.math.max
 import kotlin.math.min
@@ -32,13 +32,13 @@ internal class BoundingBoxNode(
         return newArea - oldArea
     }
 
-    fun writeToList(nbtTagList: NBTTagList) {
-        nbtTagList.add(NBTTagInt(aabb.minX))
-        nbtTagList.add(NBTTagInt(aabb.minY))
-        nbtTagList.add(NBTTagInt(aabb.minY))
-        nbtTagList.add(NBTTagInt(aabb.maxX))
-        nbtTagList.add(NBTTagInt(aabb.maxY))
-        nbtTagList.add(NBTTagInt(aabb.maxZ))
+    fun writeToList(nbtTagList: ListNBT) {
+        nbtTagList.add(IntNBT(aabb.minX))
+        nbtTagList.add(IntNBT(aabb.minY))
+        nbtTagList.add(IntNBT(aabb.minY))
+        nbtTagList.add(IntNBT(aabb.maxX))
+        nbtTagList.add(IntNBT(aabb.maxY))
+        nbtTagList.add(IntNBT(aabb.maxZ))
     }
 
     companion object {

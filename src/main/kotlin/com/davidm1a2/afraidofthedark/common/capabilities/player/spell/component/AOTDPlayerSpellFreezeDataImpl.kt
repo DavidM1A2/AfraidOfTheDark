@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.FreezeDataPacket
-import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.entity.player.EntityPlayerMP
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.FreezeDataPacket
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.util.math.Vec3d
 
 /**
@@ -26,7 +26,7 @@ class AOTDPlayerSpellFreezeDataImpl : IAOTDPlayerSpellFreezeData {
      * @param entityPlayer The player to test
      * @return true if the player is on server side or false if not
      */
-    private fun isServerSide(entityPlayer: EntityPlayer): Boolean {
+    private fun isServerSide(entityPlayer: PlayerEntity): Boolean {
         return !entityPlayer.world.isRemote
     }
 
@@ -64,12 +64,12 @@ class AOTDPlayerSpellFreezeDataImpl : IAOTDPlayerSpellFreezeData {
      *
      * @param entityPlayer The player to sync freeze data to
      */
-    override fun sync(entityPlayer: EntityPlayer) {
+    override fun sync(entityPlayer: PlayerEntity) {
         // If we are on the server side sync this data to the client side
         if (isServerSide(entityPlayer)) {
             AfraidOfTheDark.packetHandler.sendTo(
                 FreezeDataPacket(freezeTicks, freezePosition, yaw, pitch),
-                entityPlayer as EntityPlayerMP
+                entityPlayer as ServerPlayerEntity
             )
         }
     }

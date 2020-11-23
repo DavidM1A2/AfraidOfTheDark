@@ -3,11 +3,11 @@ package com.davidm1a2.afraidofthedark.common.capabilities.player.research
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.sound.ResearchUnlockedSound
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.ResearchPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.ResearchPacket
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import net.minecraft.client.Minecraft
-import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.entity.player.EntityPlayerMP
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.player.ServerPlayerEntity
 
 /**
  * Default implementation of the AOTD player research capability
@@ -19,7 +19,7 @@ class AOTDPlayerResearchImpl : IAOTDPlayerResearch {
     private val researchToUnlocked: MutableMap<Research, Boolean> = mutableMapOf()
 
     init {
-        ModRegistries.RESEARCH.getValues().forEach { researchToUnlocked[it] = false }
+        ModRegistries.RESEARCH.values.forEach { researchToUnlocked[it] = false }
     }
 
     /**
@@ -28,7 +28,7 @@ class AOTDPlayerResearchImpl : IAOTDPlayerResearch {
      * @param entityPlayer The player to test
      * @return true if the player is on server side or false if not
      */
-    private fun isServerSide(entityPlayer: EntityPlayer): Boolean {
+    private fun isServerSide(entityPlayer: PlayerEntity): Boolean {
         return !entityPlayer.world.isRemote
     }
 
@@ -69,7 +69,7 @@ class AOTDPlayerResearchImpl : IAOTDPlayerResearch {
      * @param researched   If the research is researched or not
      * @param entityPlayer The player to alert of the research
      */
-    override fun setResearchAndAlert(research: Research, researched: Boolean, entityPlayer: EntityPlayer) {
+    override fun setResearchAndAlert(research: Research, researched: Boolean, entityPlayer: PlayerEntity) {
         setResearch(research, researched)
         if (!isServerSide(entityPlayer)) {
             // Play the achievement sound and display the research
@@ -84,12 +84,12 @@ class AOTDPlayerResearchImpl : IAOTDPlayerResearch {
      * @param entityPlayer The player to sync research to
      * @param notify       True if the player should be notified of any new researches, false otherwise
      */
-    override fun sync(entityPlayer: EntityPlayer, notify: Boolean) {
+    override fun sync(entityPlayer: PlayerEntity, notify: Boolean) {
         // Send packets based on server side or client side
         if (isServerSide(entityPlayer)) {
             AfraidOfTheDark.packetHandler.sendTo(
                 ResearchPacket(researchToUnlocked, notify),
-                entityPlayer as EntityPlayerMP
+                entityPlayer as ServerPlayerEntity
             )
         } else {
             AfraidOfTheDark.packetHandler.sendToServer(ResearchPacket(researchToUnlocked, notify))

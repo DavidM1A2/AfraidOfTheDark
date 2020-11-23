@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.world.schematic
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.block.state.IBlockState
+import net.minecraft.block.BlockState
 import net.minecraft.nbt.*
 import net.minecraft.util.ResourceLocation
 import org.apache.commons.lang3.StringUtils
@@ -17,14 +17,14 @@ import java.io.IOException
 object SchematicDebugUtils {
     private val logger = LogManager.getLogger()
 
-    fun setBlock(schematic: Schematic, x: Int, y: Int, z: Int, block: IBlockState) {
+    fun setBlock(schematic: Schematic, x: Int, y: Int, z: Int, block: BlockState) {
         val width = schematic.getWidth().toInt()
         val length = schematic.getLength().toInt()
 
         schematic.getBlocks()[x + y * length * width + z * width] = block
     }
 
-    fun getBlock(schematic: Schematic, x: Int, y: Int, z: Int): IBlockState {
+    fun getBlock(schematic: Schematic, x: Int, y: Int, z: Int): BlockState {
         val width = schematic.getWidth().toInt()
         val length = schematic.getLength().toInt()
 
@@ -51,16 +51,16 @@ object SchematicDebugUtils {
             file.createNewFile()
 
             // Create a schematic NBT
-            val schematicNBT = NBTTagCompound()
+            val schematicNBT = CompoundNBT()
 
             // Write each of the w/l/h values to nbt
-            schematicNBT.setShort("Width", schematic.getWidth())
-            schematicNBT.setShort("Height", schematic.getHeight())
-            schematicNBT.setShort("Length", schematic.getLength())
+            schematicNBT.putShort("Width", schematic.getWidth())
+            schematicNBT.putShort("Height", schematic.getHeight())
+            schematicNBT.putShort("Length", schematic.getLength())
 
             // Write each entity and tile entity to the nbt
-            schematicNBT.setTag("TileEntities", schematic.getTileEntities())
-            schematicNBT.setTag("Entities", schematic.getEntities())
+            schematicNBT.put("TileEntities", schematic.getTileEntities())
+            schematicNBT.put("Entities", schematic.getEntities())
 
             // For each block:
             // 1. Create a map of block name to arbitrary block id
@@ -68,11 +68,11 @@ object SchematicDebugUtils {
             // 3. Store each arbitrary block id
             // 4. Store the names of the corresponding block ids into an array
             var lastBlockId = 0
-            val stateToBlock = mutableMapOf<IBlockState, Int>()
+            val stateToBlock = mutableMapOf<BlockState, Int>()
             val blocks = schematic.getBlocks()
             val blockIds = blocks.map { stateToBlock.computeIfAbsent(it) { lastBlockId++ } }.toIntArray()
-            schematicNBT.setTag("BlockIds", NBTTagIntArray(blockIds))
-            schematicNBT.setTag("BlockIdData", NBTTagList().apply { stateToBlock.keys.forEach { add(NBTUtil.writeBlockState(it)) } })
+            schematicNBT.put("BlockIds", IntArrayNBT(blockIds))
+            schematicNBT.put("BlockIdData", ListNBT().apply { stateToBlock.keys.forEach { add(NBTUtil.writeBlockState(it)) } })
 
             // Write the nbt to the file
             FileOutputStream(file).use {
@@ -141,10 +141,10 @@ object SchematicDebugUtils {
             .build()
 
         // Create an NBT compound to write to
-        val nbt = NBTTagCompound()
-        nbt.setShort("width", schematic.getWidth())
-        nbt.setShort("height", schematic.getHeight())
-        nbt.setShort("length", schematic.getLength())
+        val nbt = CompoundNBT()
+        nbt.putShort("width", schematic.getWidth())
+        nbt.putShort("height", schematic.getHeight())
+        nbt.putShort("length", schematic.getLength())
 
         // Write the NBT to the .meta file
         try {

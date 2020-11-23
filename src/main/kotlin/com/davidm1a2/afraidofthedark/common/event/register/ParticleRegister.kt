@@ -1,12 +1,21 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
-import net.minecraft.util.registry.IRegistry
+import net.minecraft.particles.ParticleType
+import net.minecraftforge.event.RegistryEvent
+import net.minecraftforge.eventbus.api.SubscribeEvent
 
-object ParticleRegister {
-    fun register() {
-        for (particle in ModParticles.PARTICLE_LIST) {
-            IRegistry.field_212632_u.put(particle.id, particle)
-        }
+class ParticleRegister {
+    /**
+     * Called by forge to register any of our particles
+     *
+     * @param event The event to register to
+     */
+    @SubscribeEvent
+    fun registerItems(event: RegistryEvent.Register<ParticleType<*>>) {
+        val registry = event.registry
+
+        // Register each item in our item list
+        registry.registerAll(*ModParticles.PARTICLE_LIST)
     }
 }

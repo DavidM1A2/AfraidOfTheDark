@@ -1,15 +1,16 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.entity.bolt.*
-import com.davidm1a2.afraidofthedark.common.entity.enaria.EntityEnaria
-import com.davidm1a2.afraidofthedark.common.entity.enaria.EntityGhastlyEnaria
-import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EntityEnchantedFrog
-import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton
-import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.EntitySpellProjectile
-import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDrone
-import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDroneProjectile
-import com.davidm1a2.afraidofthedark.common.entity.werewolf.EntityWerewolf
+import com.davidm1a2.afraidofthedark.common.entity.enaria.EnariaEntity
+import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
+import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
+import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSkeletonEntity
+import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.SpellProjectileEntity
+import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneEntity
+import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneProjectileEntity
+import com.davidm1a2.afraidofthedark.common.entity.werewolf.WerewolfEntity
 import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityClassification
 import net.minecraft.entity.EntityType
 
 /**
@@ -17,66 +18,111 @@ import net.minecraft.entity.EntityType
  */
 object ModEntities {
     // All mod entity static fields
-    val ENCHANTED_SKELETON = EntityType.Builder.create(EntityEnchantedSkeleton::class.java) { EntityEnchantedSkeleton(it) }
-        .tracker(50, 1, true)
+    val ENCHANTED_SKELETON = EntityType.Builder.create(::EnchantedSkeletonEntity, EntityClassification.MONSTER)
+        .setTrackingRange(50)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .size(0.8f, 2.0f)
         .build("${Constants.MOD_ID}:enchanted_skeleton")
         .setRegistryNameGeneric("enchanted_skeleton")
 
-    val WEREWOLF = EntityType.Builder.create(EntityWerewolf::class.java) { EntityWerewolf(it) }
-        .tracker(50, 1, true)
+    val WEREWOLF = EntityType.Builder.create(::WerewolfEntity, EntityClassification.MONSTER)
+        .setTrackingRange(50)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .size(1.1f, 1.4f)
         .build("${Constants.MOD_ID}:werewolf")
         .setRegistryNameGeneric("werewolf")
 
-    val GHASTLY_ENARIA = EntityType.Builder.create(EntityGhastlyEnaria::class.java) { EntityGhastlyEnaria(it) }
-        .tracker(Constants.DISTANCE_BETWEEN_ISLANDS, 1, true)
+    val GHASTLY_ENARIA = EntityType.Builder.create(::GhastlyEnariaEntity, EntityClassification.MONSTER)
+        .setTrackingRange(Constants.DISTANCE_BETWEEN_ISLANDS)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .size(0.8f, 1.8f)
+        .immuneToFire()
+        .disableSummoning()
         .build("${Constants.MOD_ID}:ghastly_enaria")
         .setRegistryNameGeneric("ghastly_enaria")
 
-    val SPLINTER_DRONE = EntityType.Builder.create(EntitySplinterDrone::class.java) { EntitySplinterDrone(it) }
-        .tracker(50, 1, true)
+    val SPLINTER_DRONE = EntityType.Builder.create(::SplinterDroneEntity, EntityClassification.MONSTER)
+        .setTrackingRange(50)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .size(0.8f, 3.0f)
+        .immuneToFire()
         .build("${Constants.MOD_ID}:splinter_drone")
         .setRegistryNameGeneric("splinter_drone")
 
-    val SPLINTER_DRONE_PROJECTILE = EntityType.Builder.create(EntitySplinterDroneProjectile::class.java) { EntitySplinterDroneProjectile(it) }
-        .tracker(50, 1, true)
+    val SPLINTER_DRONE_PROJECTILE = EntityType.Builder.create(::SplinterDroneProjectileEntity, EntityClassification.MISC)
+        .setTrackingRange(50)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .size(0.4f, 0.4f)
+        .immuneToFire()
         .build("${Constants.MOD_ID}:splinter_drone_projectile")
         .setRegistryNameGeneric("splinter_drone_projectile")
 
-    val ENARIA = EntityType.Builder.create(EntityEnaria::class.java) { EntityEnaria(it) }
-        .tracker(50, 1, true)
+    val ENARIA = EntityType.Builder.create(::EnariaEntity, EntityClassification.MONSTER)
+        .setTrackingRange(50)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .size(0.8f, 1.8f)
+        .immuneToFire()
+        .disableSummoning()
         .build("${Constants.MOD_ID}:enaria")
         .setRegistryNameGeneric("enaria")
 
-    val ENCHANTED_FROG = EntityType.Builder.create(EntityEnchantedFrog::class.java) { EntityEnchantedFrog(it) }
-        .tracker(50, 1, true)
+    val ENCHANTED_FROG = EntityType.Builder.create(::EnchantedFrogEntity, EntityClassification.CREATURE)
+        .setTrackingRange(50)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .size(0.7f, 0.4f)
         .build("${Constants.MOD_ID}:enchanted_frog")
         .setRegistryNameGeneric("enchanted_frog")
 
     // Spell entities
-    val SPELL_PROJECTILE = EntityType.Builder.create(EntitySpellProjectile::class.java) { EntitySpellProjectile(it) }
-        .tracker(50, 1, true)
+    val SPELL_PROJECTILE = EntityType.Builder.create(::SpellProjectileEntity, EntityClassification.MISC)
+        .setTrackingRange(50)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .size(0.4f, 0.4f)
         .build("${Constants.MOD_ID}:spell_projectile")
         .setRegistryNameGeneric("spell_projectile")
 
     // 5 bolt entities
-    val WOODEN_BOLT = EntityType.Builder.create(EntityWoodenBolt::class.java) { EntityWoodenBolt(it) }
-        .tracker(50, 1, true)
+    val WOODEN_BOLT = EntityType.Builder.create(::WoodenBoltEntity, EntityClassification.MISC)
+        .setTrackingRange(50)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .size(0.5f, 0.5f)
         .build("${Constants.MOD_ID}:wooden_bolt")
         .setRegistryNameGeneric("wooden_bolt")
-    val IRON_BOLT = EntityType.Builder.create(EntityIronBolt::class.java) { EntityIronBolt(it) }
-        .tracker(50, 1, true)
+    val IRON_BOLT = EntityType.Builder.create(::IronBoltEntity, EntityClassification.MISC)
+        .setTrackingRange(50)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .size(0.5f, 0.5f)
         .build("${Constants.MOD_ID}:iron_bolt")
         .setRegistryNameGeneric("iron_bolt")
-    val SILVER_BOLT = EntityType.Builder.create(EntitySilverBolt::class.java) { EntitySilverBolt(it) }
-        .tracker(50, 1, true)
+    val SILVER_BOLT = EntityType.Builder.create(::SilverBoltEntity, EntityClassification.MISC)
+        .setTrackingRange(50)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .size(0.5f, 0.5f)
         .build("${Constants.MOD_ID}:silver_bolt")
         .setRegistryNameGeneric("silver_bolt")
-    val IGNEOUS_BOLT = EntityType.Builder.create(EntityIgneousBolt::class.java) { EntityIgneousBolt(it) }
-        .tracker(50, 1, true)
+    val IGNEOUS_BOLT = EntityType.Builder.create(::IgneousBoltEntity, EntityClassification.MISC)
+        .setTrackingRange(50)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .size(0.5f, 0.5f)
         .build("${Constants.MOD_ID}:igneous_bolt")
         .setRegistryNameGeneric("igneous_bolt")
-    val STAR_METAL_BOLT = EntityType.Builder.create(EntityStarMetalBolt::class.java) { EntityStarMetalBolt(it) }
-        .tracker(50, 1, true)
+    val STAR_METAL_BOLT = EntityType.Builder.create(::StarMetalBoltEntity, EntityClassification.MISC)
+        .setTrackingRange(50)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .size(0.5f, 0.5f)
         .build("${Constants.MOD_ID}:star_metal_bolt")
         .setRegistryNameGeneric("star_metal_bolt")
 

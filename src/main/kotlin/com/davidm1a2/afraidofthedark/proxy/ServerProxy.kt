@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.proxy
 
 import com.davidm1a2.afraidofthedark.common.event.ResearchOverlayHandler
-import net.minecraft.entity.player.EntityPlayer
 
 /**
  * Proxy that is only instantiated on the SERVER
@@ -29,7 +28,7 @@ class ServerProxy : IProxy {
         // Not used
     }
 
-    override fun showInsanitysHeightsBook(entityPlayer: EntityPlayer) {
+    override fun showInsanitysHeightsBook() {
         // Not used
     }
 }

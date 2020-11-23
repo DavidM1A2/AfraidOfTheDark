@@ -6,8 +6,8 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.intoArray
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.isEmptyRotationMatrix
 import net.minecraft.client.renderer.GLAllocation
 import net.minecraft.client.renderer.Tessellator
-import net.minecraft.client.renderer.entity.model.ModelBase
-import net.minecraft.client.renderer.entity.model.ModelRenderer
+import net.minecraft.client.renderer.entity.model.RendererModel
+import net.minecraft.client.renderer.model.Model
 import org.lwjgl.opengl.GL11
 import java.nio.FloatBuffer
 import javax.vecmath.Matrix4f
@@ -34,11 +34,11 @@ import javax.vecmath.Vector3f
  * @property defaultRotationAsQuat4f The default rotation matrix as a quaternion
  */
 class MCAModelRenderer(
-    model: ModelBase,
+    model: Model,
     boxName: String,
     xTextureOffset: Int,
     yTextureOffset: Int
-) : ModelRenderer(model, boxName) {
+) : RendererModel(model, boxName) {
     private var textureOffsetX = 0
     private var textureOffsetY = 0
     private var compiled = false
@@ -67,7 +67,7 @@ class MCAModelRenderer(
      * @param y The texture offset y
      * @return The model renderer instance
      */
-    override fun setTextureOffset(x: Int, y: Int): ModelRenderer {
+    override fun setTextureOffset(x: Int, y: Int): RendererModel {
         textureOffsetX = x
         textureOffsetY = y
         return this
@@ -83,16 +83,22 @@ class MCAModelRenderer(
      * @param width The width of the box
      * @param height The height of the box
      * @param depth The depth of the box
+     * @param scale The scale of the box
+     * @param textureOffsetX The texture offset x for the box
+     * @param textureOffsetY The texture offset y for the box
      */
-    override fun addBox(
+    override fun func_217178_a(
         partName: String,
         offsetX: Float,
         offsetY: Float,
         offsetZ: Float,
         width: Int,
         height: Int,
-        depth: Int
-    ): ModelRenderer {
+        depth: Int,
+        scale: Float,
+        textureOffsetX: Int,
+        textureOffsetY: Int
+    ): RendererModel {
         cubeList.add(
             MCAModelBox(
                 this, textureOffsetX, textureOffsetY, offsetX, offsetY, offsetZ, width,
@@ -119,7 +125,7 @@ class MCAModelRenderer(
         width: Int,
         height: Int,
         depth: Int
-    ): ModelRenderer {
+    ): RendererModel {
         cubeList.add(
             MCAModelBox(
                 this, textureOffsetX, textureOffsetY, offsetX, offsetY, offsetZ, width,

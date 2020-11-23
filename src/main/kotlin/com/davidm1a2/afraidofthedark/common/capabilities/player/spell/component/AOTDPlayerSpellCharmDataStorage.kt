@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component
 
-import net.minecraft.nbt.INBTBase
-import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.nbt.CompoundNBT
+import net.minecraft.nbt.INBT
 import net.minecraft.nbt.NBTUtil
-import net.minecraft.util.EnumFacing
+import net.minecraft.util.Direction
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.Capability.IStorage
 import org.apache.logging.log4j.LogManager
@@ -23,12 +23,12 @@ class AOTDPlayerSpellCharmDataStorage : IStorage<IAOTDPlayerSpellCharmData> {
     override fun writeNBT(
         capability: Capability<IAOTDPlayerSpellCharmData>,
         instance: IAOTDPlayerSpellCharmData,
-        side: EnumFacing?
-    ): INBTBase {
+        side: Direction?
+    ): INBT {
         // Create a compound to write
-        val nbt = NBTTagCompound()
-        nbt.setInt(NBT_CHARM_TICKS, instance.charmTicks)
-        instance.charmingEntityId?.let { nbt.setTag(NBT_CHARMING_ENTITY, NBTUtil.writeUniqueId(it)) }
+        val nbt = CompoundNBT()
+        nbt.putInt(NBT_CHARM_TICKS, instance.charmTicks)
+        instance.charmingEntityId?.let { nbt.put(NBT_CHARMING_ENTITY, NBTUtil.writeUniqueId(it)) }
         return nbt
     }
 
@@ -43,14 +43,14 @@ class AOTDPlayerSpellCharmDataStorage : IStorage<IAOTDPlayerSpellCharmData> {
     override fun readNBT(
         capability: Capability<IAOTDPlayerSpellCharmData>,
         instance: IAOTDPlayerSpellCharmData,
-        side: EnumFacing?,
-        nbt: INBTBase
+        side: Direction?,
+        nbt: INBT
     ) {
         // Test if the nbt tag base is an NBT tag compound
-        if (nbt is NBTTagCompound) {
+        if (nbt is CompoundNBT) {
             instance.charmTicks = nbt.getInt(NBT_CHARM_TICKS)
 
-            if (nbt.hasKey(NBT_CHARMING_ENTITY)) {
+            if (nbt.contains(NBT_CHARMING_ENTITY)) {
                 instance.charmingEntityId = NBTUtil.readUniqueId(nbt.getCompound(NBT_CHARMING_ENTITY))
             } else {
                 instance.charmingEntityId = null

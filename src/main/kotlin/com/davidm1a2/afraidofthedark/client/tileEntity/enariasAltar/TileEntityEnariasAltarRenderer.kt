@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.tileEntity.enariasAltar
 
-import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.TileEntityEnariasAltar
-import net.minecraft.client.renderer.GlStateManager
+import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.EnariasAltarTileEntity
+import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.api.distmarker.Dist
@@ -14,7 +14,7 @@ import net.minecraftforge.api.distmarker.OnlyIn
  * @property texture The altar's texture
  */
 @OnlyIn(Dist.CLIENT)
-class TileEntityEnariasAltarRenderer : TileEntityRenderer<TileEntityEnariasAltar>() {
+class TileEntityEnariasAltarRenderer : TileEntityRenderer<EnariasAltarTileEntity>() {
     private val model = TileEntityEnariasAltarModel()
     private val texture = ResourceLocation("afraidofthedark:textures/block/enarias_altar_te.png")
 
@@ -29,7 +29,7 @@ class TileEntityEnariasAltarRenderer : TileEntityRenderer<TileEntityEnariasAltar
      * @param destroyStage How far the block is destroyed
      */
     override fun render(
-        te: TileEntityEnariasAltar,
+        te: EnariasAltarTileEntity,
         x: Double,
         y: Double,
         z: Double,

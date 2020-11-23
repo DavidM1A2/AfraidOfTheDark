@@ -4,8 +4,8 @@ import com.davidm1a2.afraidofthedark.common.capabilities.*
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.event.AttachCapabilitiesEvent
 import net.minecraftforge.event.entity.EntityJoinWorldEvent
@@ -24,7 +24,7 @@ class CapabilityHandler {
     @SubscribeEvent
     fun onAttachCapabilitiesEntity(event: AttachCapabilitiesEvent<Entity>) {
         // If the entity is a player then add any player specific capabilities
-        if (event.getObject() is EntityPlayer) {
+        if (event.getObject() is PlayerEntity) {
             event.addCapability(
                 ResourceLocation(Constants.MOD_ID, "player_basics"),
                 CapabilityProvider(ModCapabilities.PLAYER_BASICS)
@@ -64,8 +64,8 @@ class CapabilityHandler {
     @SubscribeEvent
     fun onEntityJoinWorld(event: EntityJoinWorldEvent) {
         // When the player joins the world
-        if (event.entity is EntityPlayer) {
-            val entityPlayer = event.entity as EntityPlayer
+        if (event.entity is PlayerEntity) {
+            val entityPlayer = event.entity as PlayerEntity
             // The server will have correct data, the client needs new data
             if (!event.world.isRemote) {
                 entityPlayer.getBasics().syncAll(entityPlayer)
@@ -119,27 +119,27 @@ class CapabilityHandler {
                 ModCapabilities.PLAYER_BASICS,
                 originalPlayerBasics,
                 null
-            ) as NBTTagCompound
+            ) as CompoundNBT
             val originalPlayerResearchNBT = ModCapabilities.PLAYER_RESEARCH.storage.writeNBT(
                 ModCapabilities.PLAYER_RESEARCH,
                 originalPlayerResearch,
                 null
-            ) as NBTTagCompound
+            ) as CompoundNBT
             val originalPlayerVoidChestDataNBT = ModCapabilities.PLAYER_VOID_CHEST_DATA.storage.writeNBT(
                 ModCapabilities.PLAYER_VOID_CHEST_DATA,
                 originalPlayerVoidChestData,
                 null
-            ) as NBTTagCompound
+            ) as CompoundNBT
             val originalPlayerNightmareDataNBT = ModCapabilities.PLAYER_NIGHTMARE_DATA.storage.writeNBT(
                 ModCapabilities.PLAYER_NIGHTMARE_DATA,
                 originalPlayerNightmareData,
                 null
-            ) as NBTTagCompound
+            ) as CompoundNBT
             val originalPlayerSpellManagerNBT = ModCapabilities.PLAYER_SPELL_MANAGER.storage.writeNBT(
                 ModCapabilities.PLAYER_SPELL_MANAGER,
                 originalPlayerSpellManager,
                 null
-            ) as NBTTagCompound
+            ) as CompoundNBT
 
             // Copy the NBT compound onto the new capabilities
             ModCapabilities.PLAYER_BASICS.storage.readNBT(

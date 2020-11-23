@@ -9,9 +9,9 @@ import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import net.minecraft.command.CommandSource
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.util.text.TextComponentUtils
 import net.minecraft.util.text.TextFormatting
+import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.util.text.event.ClickEvent
 import net.minecraft.util.text.event.HoverEvent
 import kotlin.math.roundToInt
@@ -21,7 +21,7 @@ import kotlin.math.sqrt
  * Class containing all AOTD related commands
  */
 object AOTDCommands {
-    private val FAILED_EXCEPTION = SimpleCommandExceptionType(TextComponentTranslation("commands.locate.failed"))
+    private val FAILED_EXCEPTION = SimpleCommandExceptionType(TranslationTextComponent("commands.locate.failed"))
 
     /**
      * Registers Afraid of the Dark commands into the dispatcher
@@ -39,7 +39,7 @@ object AOTDCommands {
                             literal<CommandSource>(it.structureName.removePrefix("afraidofthedark:").capitalize())
                         }
                     ) {
-                        printStructureLocate(it.source, it.nodes.keys.map { node -> node.name }.last())
+                        printStructureLocate(it.source, it.nodes.map { node -> node.node.name }.last())
                     }
                 )
                 .executesDefault { printHelp(it.source) }
@@ -67,13 +67,13 @@ object AOTDCommands {
     }
 
     private fun printHelp(sender: CommandSource) {
-        sender.sendFeedback(TextComponentTranslation("message.afraidofthedark.command.help.header"), false)
-        sender.sendFeedback(TextComponentTranslation("message.afraidofthedark.command.help.help"), false)
-        sender.sendFeedback(TextComponentTranslation("message.afraidofthedark.command.help.locate"), false)
+        sender.sendFeedback(TranslationTextComponent("message.afraidofthedark.command.help.header"), false)
+        sender.sendFeedback(TranslationTextComponent("message.afraidofthedark.command.help.help"), false)
+        sender.sendFeedback(TranslationTextComponent("message.afraidofthedark.command.help.locate"), false)
     }
 
     private fun printLocateHelp(sender: CommandSource) {
-        sender.sendFeedback(TextComponentTranslation("message.afraidofthedark.command.help.locate.help"), false)
+        sender.sendFeedback(TranslationTextComponent("message.afraidofthedark.command.help.locate.help"), false)
     }
 
     private fun printStructureLocate(sender: CommandSource, structureName: String) {
@@ -86,13 +86,13 @@ object AOTDCommands {
             val zDiff = position.z.toDouble() - sender.pos.z
             val distance = sqrt(xDiff * xDiff + zDiff * zDiff).roundToInt()
             val textComponent = TextComponentUtils.wrapInSquareBrackets(
-                TextComponentTranslation("chat.coordinates", position.x, "~", position.z)
+                TranslationTextComponent("chat.coordinates", position.x, "~", position.z)
             ).applyTextStyle {
                 it.color = TextFormatting.GREEN
                 it.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s ${position.x} ~ ${position.z}")
-                it.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponentTranslation("chat.coordinates.tooltip"))
+                it.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, TranslationTextComponent("chat.coordinates.tooltip"))
             }
-            sender.sendFeedback(TextComponentTranslation("commands.locate.success", structureName, textComponent, distance), false)
+            sender.sendFeedback(TranslationTextComponent("commands.locate.success", structureName, textComponent, distance), false)
         }
     }
 }

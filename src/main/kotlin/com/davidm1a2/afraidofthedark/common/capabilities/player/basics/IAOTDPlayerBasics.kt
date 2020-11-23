@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.basics
 
 import com.davidm1a2.afraidofthedark.common.registry.meteor.MeteorEntry
-import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.entity.player.PlayerEntity
 
 /**
  * An interface that is a base for AOTD player basic capabilities
@@ -18,14 +18,14 @@ interface IAOTDPlayerBasics {
      *
      * @param entityPlayer The player to sync
      */
-    fun syncStartedAOTD(entityPlayer: EntityPlayer)
+    fun syncStartedAOTD(entityPlayer: PlayerEntity)
 
     /**
      * Syncs the newly selected crossbow bolt to the server
      *
      * @param entityPlayer The player to sync for
      */
-    fun syncSelectedWristCrossbowBoltIndex(entityPlayer: EntityPlayer)
+    fun syncSelectedWristCrossbowBoltIndex(entityPlayer: PlayerEntity)
 
     /**
      * Sets the meteor that the player is currently watching. All 3 int values
@@ -70,12 +70,12 @@ interface IAOTDPlayerBasics {
      *
      * @param entityPlayer The player that the data is being synced for
      */
-    fun syncWatchedMeteor(entityPlayer: EntityPlayer)
+    fun syncWatchedMeteor(entityPlayer: PlayerEntity)
 
     /**
      * Syncs all player basic data from server -> client
      *
      * @param entityPlayer The player to sync to
      */
-    fun syncAll(entityPlayer: EntityPlayer)
+    fun syncAll(entityPlayer: PlayerEntity)
 }

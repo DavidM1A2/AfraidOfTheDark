@@ -1,11 +1,11 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell
 
 import com.davidm1a2.afraidofthedark.common.spell.Spell
-import net.minecraft.nbt.INBTBase
-import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.nbt.NBTTagList
+import net.minecraft.nbt.CompoundNBT
+import net.minecraft.nbt.INBT
+import net.minecraft.nbt.ListNBT
 import net.minecraft.nbt.NBTUtil
-import net.minecraft.util.EnumFacing
+import net.minecraft.util.Direction
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.Capability.IStorage
 import net.minecraftforge.common.util.Constants
@@ -27,12 +27,12 @@ class AOTDPlayerSpellManagerStorage : IStorage<IAOTDPlayerSpellManager> {
     override fun writeNBT(
         capability: Capability<IAOTDPlayerSpellManager>,
         instance: IAOTDPlayerSpellManager,
-        side: EnumFacing?
-    ): INBTBase {
+        side: Direction?
+    ): INBT {
         // Create a compound to write
-        val compound = NBTTagCompound()
+        val compound = CompoundNBT()
         // Create a list of nbt spells
-        val spellsNBT = NBTTagList()
+        val spellsNBT = ListNBT()
 
         // Write each spell to NBT
         for (spell in instance.getSpells()) {
@@ -41,24 +41,24 @@ class AOTDPlayerSpellManagerStorage : IStorage<IAOTDPlayerSpellManager> {
         }
 
         // Set the spell list into the compound
-        compound.setTag(NBT_SPELLS_LIST, spellsNBT)
+        compound.put(NBT_SPELLS_LIST, spellsNBT)
 
         // Go over each keybind and store it off
-        val keybindingsNBT = NBTTagList()
+        val keybindingsNBT = ListNBT()
         // Go over every spell that has a keybinding
         for (spell in instance.getSpells()) {
             // Grab the keybinding for the spell, test if it's valid
             val keybinding = instance.getKeybindingForSpell(spell)
             if (keybinding != null) {
                 // Store the spell UUID, keybind pair
-                val keybindCompound = NBTTagCompound()
-                keybindCompound.setTag(NBT_KEYBIND_SPELL_UUID, NBTUtil.writeUniqueId(spell.id))
-                keybindCompound.setString(NBT_KEYBIND, keybinding)
+                val keybindCompound = CompoundNBT()
+                keybindCompound.put(NBT_KEYBIND_SPELL_UUID, NBTUtil.writeUniqueId(spell.id))
+                keybindCompound.putString(NBT_KEYBIND, keybinding)
                 keybindingsNBT.add(keybindCompound)
             }
         }
         // Set the spell keybinds into the compound
-        compound.setTag(NBT_KEYBINDS_LIST, keybindingsNBT)
+        compound.put(NBT_KEYBINDS_LIST, keybindingsNBT)
         return compound
     }
 
@@ -73,11 +73,11 @@ class AOTDPlayerSpellManagerStorage : IStorage<IAOTDPlayerSpellManager> {
     override fun readNBT(
         capability: Capability<IAOTDPlayerSpellManager>,
         instance: IAOTDPlayerSpellManager,
-        side: EnumFacing?,
-        nbt: INBTBase
+        side: Direction?,
+        nbt: INBT
     ) {
         // Test if the nbt tag base is an NBT tag compound
-        if (nbt is NBTTagCompound) {
+        if (nbt is CompoundNBT) {
             // Grab the list of spells
             val spellsNBT = nbt.getList(NBT_SPELLS_LIST, Constants.NBT.TAG_COMPOUND)
             // Go over each spell in the list

@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.research
 
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
-import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.entity.player.PlayerEntity
 
 /**
  * An interface that stores all known research for a given player
@@ -38,7 +38,7 @@ interface IAOTDPlayerResearch {
      * @param researched   If the research is researched or not
      * @param entityPlayer The player to alert of the research
      */
-    fun setResearchAndAlert(research: Research, researched: Boolean, entityPlayer: EntityPlayer)
+    fun setResearchAndAlert(research: Research, researched: Boolean, entityPlayer: PlayerEntity)
 
     /**
      * Synchronizes research between server and client
@@ -46,5 +46,5 @@ interface IAOTDPlayerResearch {
      * @param entityPlayer The player to sync research to
      * @param notify       True if the player should be notified of any new researches, false otherwise
      */
-    fun sync(entityPlayer: EntityPlayer, notify: Boolean)
+    fun sync(entityPlayer: PlayerEntity, notify: Boolean)
 }

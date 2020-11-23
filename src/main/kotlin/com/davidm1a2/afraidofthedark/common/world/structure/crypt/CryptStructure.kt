@@ -4,19 +4,14 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import com.davidm1a2.afraidofthedark.common.world.WorldHeightmap
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
-import net.minecraft.init.Biomes
-import net.minecraft.util.SharedSeedRandom
-import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IWorld
 import net.minecraft.world.biome.Biome
-import net.minecraft.world.dimension.DimensionType
-import net.minecraft.world.gen.IChunkGenerator
-import net.minecraft.world.gen.feature.structure.StructureStart
-import kotlin.math.roundToInt
+import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
+import java.util.*
 
-class CryptStructure : AOTDStructure<CryptConfig>() {
+class CryptStructure : AOTDStructure<CryptConfig>({ CryptConfig.deserialize(it) }) {
     override fun getStructureName(): String {
         return "${Constants.MOD_ID}:crypt"
     }
@@ -41,48 +36,25 @@ class CryptStructure : AOTDStructure<CryptConfig>() {
         }
     }
 
-    override fun isEnabledIn(worldIn: IWorld): Boolean {
-        return worldIn.dimension.type == DimensionType.OVERWORLD
+    override fun getStartFactory(): IStartFactory {
+        return IStartFactory { structure, chunkX, chunkZ, biome, mutableBoundingBox, reference, seed ->
+            CryptStructureStart(structure, chunkX, chunkZ, biome, mutableBoundingBox, reference, seed)
+        }
     }
 
-    override fun hasStartAt(worldIn: IWorld, chunkGen: IChunkGenerator<*>, rand: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): Boolean {
-        rand.setLargeFeatureSeed(chunkGen.seed, centerChunkX, centerChunkZ)
-
-        val xPos = centerChunkX * 16
-        val zPos = centerChunkZ * 16
-
+    override fun hasStartAt(worldIn: IWorld, chunkGen: ChunkGenerator<*>, random: Random, xPos: Int, zPos: Int): Boolean {
         val frequency = getInteriorConfigs(xPos, zPos, chunkGen, stepNum = 4).map { it?.frequency ?: 0.0 }.max() ?: 0.0
-        if (rand.nextDouble() >= frequency) {
+        if (random.nextDouble() >= frequency) {
             return false
         }
 
-        val heights = getEdgeHeights(xPos, zPos, worldIn, chunkGen)
+        val heights = getEdgeHeights(xPos, zPos, chunkGen, worldIn)
         val maxHeight = heights.max()!!
         val minHeight = heights.min()!!
         if (maxHeight - minHeight > 5) {
             return false
         }
-
-        return doesNotCollide(worldIn, chunkGen, rand, centerChunkX, centerChunkZ)
-    }
-
-    override fun makeStart(worldIn: IWorld, generator: IChunkGenerator<*>, random: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): StructureStart {
-        random.setLargeFeatureSeed(generator.seed, centerChunkX, centerChunkZ)
-
-        val xPos = centerChunkX * 16
-        val zPos = centerChunkZ * 16
-        val centerBiome = generator.biomeProvider.getBiome(BlockPos(xPos + 8, 0, zPos + 8), Biomes.PLAINS)!!
-
-        // The height of the structure = average of the 4 center corner's height
-        val centerCorner1Height = WorldHeightmap.getHeight(xPos - 3, zPos - 3, worldIn, generator)
-        val centerCorner2Height = WorldHeightmap.getHeight(xPos + 3, zPos - 3, worldIn, generator)
-        val centerCorner3Height = WorldHeightmap.getHeight(xPos - 3, zPos + 3, worldIn, generator)
-        val centerCorner4Height = WorldHeightmap.getHeight(xPos + 3, zPos + 3, worldIn, generator)
-        val yPos = ((centerCorner1Height + centerCorner2Height + centerCorner3Height + centerCorner4Height) / 4.0).roundToInt()
-
-        // Set the schematic height to be underground + 3 blocks+, ensure it isn't below bedrock
-        val adjustedY = (yPos - ModSchematics.CRYPT.getHeight() + 3).coerceAtLeast(1)
-        return CryptStructureStart(worldIn, centerChunkX, adjustedY, centerChunkZ, centerBiome, random, generator.seed)
+        return true
     }
 
     companion object {

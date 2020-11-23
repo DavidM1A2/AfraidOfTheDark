@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.utility
 
-import net.minecraft.inventory.EntityEquipmentSlot
+import net.minecraft.inventory.EquipmentSlotType
 import net.minecraft.item.IArmorMaterial
 import net.minecraft.item.crafting.Ingredient
 import net.minecraft.util.SoundEvent
@@ -18,8 +18,8 @@ class AOTDArmorMaterial(
     private val repairMaterial: Ingredient
 ) : IArmorMaterial {
     override fun getName() = name
-    override fun getDurability(slot: EntityEquipmentSlot) = MAX_DAMAGE_ARRAY[slot.index] * maxDamageFactor
-    override fun getDamageReductionAmount(slot: EntityEquipmentSlot) = damageReductionAmountArray[slot.index]
+    override fun getDurability(slot: EquipmentSlotType) = MAX_DAMAGE_ARRAY[slot.index] * maxDamageFactor
+    override fun getDamageReductionAmount(slot: EquipmentSlotType) = damageReductionAmountArray[slot.index]
     override fun getEnchantability() = enchantability
     override fun getSoundEvent() = soundEvent
     override fun getToughness() = toughness

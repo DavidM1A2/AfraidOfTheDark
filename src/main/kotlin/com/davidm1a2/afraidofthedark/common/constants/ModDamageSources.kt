@@ -1,11 +1,11 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDrone
-import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDroneProjectile
+import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneEntity
+import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneProjectileEntity
 import net.minecraft.entity.Entity
 import net.minecraft.util.DamageSource
 import net.minecraft.util.EntityDamageSource
-import net.minecraft.util.EntityDamageSourceIndirect
+import net.minecraft.util.IndirectEntityDamageSource
 
 /**
  * Class containing definitions for AOTD damage sources
@@ -33,9 +33,9 @@ object ModDamageSources {
      * @return The damage source to apply
      */
     fun causePlasmaBallDamage(
-        source: EntitySplinterDroneProjectile,
-        indirectSource: EntitySplinterDrone?
+        source: SplinterDroneProjectileEntity,
+        indirectSource: SplinterDroneEntity?
     ): DamageSource {
-        return EntityDamageSourceIndirect(PLASMA_BALL, source, indirectSource).setProjectile()
+        return IndirectEntityDamageSource(PLASMA_BALL, source, indirectSource).setProjectile()
     }
 }

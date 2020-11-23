@@ -1,15 +1,15 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import net.minecraft.block.BlockLeaves
-import net.minecraft.block.state.IBlockState
+import net.minecraft.block.BlockState
+import net.minecraft.block.LeavesBlock
 import net.minecraft.client.renderer.color.IBlockColor
 import net.minecraft.client.renderer.color.IItemColor
-import net.minecraft.item.ItemBlock
+import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.FoliageColors
-import net.minecraft.world.IWorldReaderBase
+import net.minecraft.world.IEnviromentBlockReader
 import net.minecraft.world.biome.BiomeColors
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
@@ -29,14 +29,14 @@ class ModColorRegister {
     @OnlyIn(Dist.CLIENT)
     fun registerBlockColors(event: ColorHandlerEvent.Block) {
         // Filter our block list by leaf blocks only
-        val leafBlocks = ModBlocks.BLOCK_LIST.filterIsInstance<BlockLeaves>().toTypedArray()
+        val leafBlocks = ModBlocks.BLOCK_LIST.filterIsInstance<LeavesBlock>().toTypedArray()
 
         // The block colors to register to
         val blockColors = event.blockColors
 
         // Register a block color handler so that leaf blocks are colored properly when placed
         blockColors.register(
-            IBlockColor { _: IBlockState, blockAccess: IWorldReaderBase?, pos: BlockPos?, _: Int ->
+            IBlockColor { _: BlockState, blockAccess: IEnviromentBlockReader?, pos: BlockPos?, _: Int ->
                 // Make sure we were passed valid parameters
                 if (blockAccess != null && pos != null) {
                     return@IBlockColor BiomeColors.getFoliageColor(blockAccess, pos)
@@ -55,7 +55,7 @@ class ModColorRegister {
     @OnlyIn(Dist.CLIENT)
     fun registerItemColors(event: ColorHandlerEvent.Item) {
         // Filter our block list by leaf blocks only
-        val leafBlocks = ModBlocks.BLOCK_LIST.filterIsInstance<BlockLeaves>().toTypedArray()
+        val leafBlocks = ModBlocks.BLOCK_LIST.filterIsInstance<LeavesBlock>().toTypedArray()
 
         // The item and block colors to register to
         val itemColors = event.itemColors
@@ -65,7 +65,7 @@ class ModColorRegister {
         itemColors.register(
             IItemColor { stack: ItemStack, tintIndex: Int ->
                 // Grab the state of the block if it was placed in the world
-                val iBlockState = (stack.item as ItemBlock).block.defaultState
+                val iBlockState = (stack.item as BlockItem).block.defaultState
                 blockColors.getColor(iBlockState, null, null, tintIndex)
             }, *leafBlocks
         )

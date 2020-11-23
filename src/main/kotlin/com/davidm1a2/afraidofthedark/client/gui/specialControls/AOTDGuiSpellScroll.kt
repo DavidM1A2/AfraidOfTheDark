@@ -17,7 +17,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.Spe
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
 import net.minecraft.client.resources.I18n
 import net.minecraft.util.math.MathHelper
-import net.minecraft.util.text.TextComponentTranslation
+import net.minecraft.util.text.TranslationTextComponent
 import org.apache.commons.lang3.tuple.Pair
 import java.awt.Color
 import kotlin.math.max
@@ -288,14 +288,14 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                                 catch (e: InvalidValueException) {
                                     onePropertyInvalid = true
                                     entityPlayer.sendMessage(
-                                        TextComponentTranslation("message.afraidofthedark.spell.property_edit_fail", propEditorPair.key.name, e.message)
+                                        TranslationTextComponent("message.afraidofthedark.spell.property_edit_fail", propEditorPair.key.name, e.message)
                                     )
                                 }
                             }
 
                             // If no properties were invalid save successfully
                             if (!onePropertyInvalid) {
-                                entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark.spell.property_edit_success"))
+                                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.property_edit_success"))
                             }
 
                             // Clear the editor

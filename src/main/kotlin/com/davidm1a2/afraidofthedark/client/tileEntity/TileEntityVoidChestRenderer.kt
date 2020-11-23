@@ -1,13 +1,13 @@
 package com.davidm1a2.afraidofthedark.client.tileEntity
 
-import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityVoidChest
-import net.minecraft.block.BlockChest
-import net.minecraft.block.state.IBlockState
-import net.minecraft.client.renderer.GlStateManager
-import net.minecraft.client.renderer.entity.model.ModelChest
+import com.davidm1a2.afraidofthedark.common.tileEntity.VoidChestTileEntity
+import com.mojang.blaze3d.platform.GlStateManager
+import net.minecraft.block.BlockState
+import net.minecraft.block.Blocks
+import net.minecraft.block.ChestBlock
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer
-import net.minecraft.init.Blocks
-import net.minecraft.util.EnumFacing
+import net.minecraft.client.renderer.tileentity.model.ChestModel
+import net.minecraft.util.Direction
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
@@ -20,9 +20,9 @@ import kotlin.math.abs
  * @property modelChest Create a chest model that we render our void chest with
  */
 @OnlyIn(Dist.CLIENT)
-class TileEntityVoidChestRenderer : TileEntityRenderer<TileEntityVoidChest>() {
+class TileEntityVoidChestRenderer : TileEntityRenderer<VoidChestTileEntity>() {
     private val voidChestTexture = ResourceLocation("afraidofthedark:textures/block/void_chest/void_chest.png")
-    private val modelChest = ModelChest()
+    private val modelChest = ChestModel()
 
     /**
      * Called to render the tile entity
@@ -35,7 +35,7 @@ class TileEntityVoidChestRenderer : TileEntityRenderer<TileEntityVoidChest>() {
      * @param destroyStage How far the chest is destroyed
      */
     override fun render(
-        te: TileEntityVoidChest,
+        te: VoidChestTileEntity,
         x: Double,
         y: Double,
         z: Double,
@@ -49,7 +49,7 @@ class TileEntityVoidChestRenderer : TileEntityRenderer<TileEntityVoidChest>() {
         GlStateManager.enableDepthTest()
         GlStateManager.depthFunc(515)
         GlStateManager.depthMask(true)
-        val blockState = (if (te.hasWorld()) te.blockState else Blocks.CHEST.defaultState.with(BlockChest.FACING, EnumFacing.SOUTH) as IBlockState)!!
+        val blockState = (if (te.hasWorld()) te.blockState else Blocks.CHEST.defaultState.with(ChestBlock.FACING, Direction.SOUTH) as BlockState)!!
         bindTexture(voidChestTexture)
         if (destroyStage >= 0) {
             GlStateManager.matrixMode(5890)
@@ -64,7 +64,7 @@ class TileEntityVoidChestRenderer : TileEntityRenderer<TileEntityVoidChest>() {
         GlStateManager.enableRescaleNormal()
         GlStateManager.translatef(x.toFloat(), y.toFloat() + 1.0f, z.toFloat() + 1.0f)
         GlStateManager.scalef(1.0f, -1.0f, -1.0f)
-        val angle = (blockState.get(BlockChest.FACING) as EnumFacing).horizontalAngle
+        val angle = (blockState.get(ChestBlock.FACING) as Direction).horizontalAngle
         if (abs(angle).toDouble() > 1.0E-5) {
             GlStateManager.translatef(0.5f, 0.5f, 0.5f)
             GlStateManager.rotatef(angle, 0.0f, 1.0f, 0.0f)

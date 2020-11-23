@@ -20,6 +20,6 @@ abstract class AOTDItem(
     }
 }) {
     init {
-        this.setRegistryName("${Constants.MOD_ID}:$baseName")
+        this.setRegistryName(Constants.MOD_ID, baseName)
     }
 }

@@ -7,10 +7,9 @@ import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.chunk.ChunkPrimer
 import net.minecraft.world.chunk.IChunk
 import net.minecraft.world.chunk.UpgradeData
+import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.GenerationStage
 import net.minecraft.world.gen.Heightmap
-import net.minecraft.world.gen.IChunkGenerator
-import net.minecraft.world.gen.WorldGenRegion
 import java.util.concurrent.TimeUnit
 
 object WorldHeightmap {
@@ -18,26 +17,22 @@ object WorldHeightmap {
         .expireAfterAccess(10, TimeUnit.MINUTES)
         .build<ChunkPos, Heightmap>()
 
-    fun getHeight(x: Int, z: Int, world: IWorld, chunkGen: IChunkGenerator<*>): Int {
+    fun getHeight(x: Int, z: Int, world: IWorld, chunkGen: ChunkGenerator<*>): Int {
         return getOrLoad(ChunkPos(x shr 4, z shr 4), world, chunkGen).getHeight(x and 15, z and 15)
     }
 
-    private fun getOrLoad(chunkPos: ChunkPos, world: IWorld, chunkGen: IChunkGenerator<*>): Heightmap {
+    private fun getOrLoad(chunkPos: ChunkPos, world: IWorld, chunkGen: ChunkGenerator<*>): Heightmap {
         return cache.get(chunkPos) {
-            var chunk: IChunk? = world.chunkProvider.provideChunk(chunkPos.x, chunkPos.z, true, false)
+            var chunk: IChunk? = world.chunkProvider.getChunk(chunkPos.x, chunkPos.z, false)
             if (chunk == null) {
                 chunk = ChunkPrimer(chunkPos, UpgradeData.EMPTY)
-                chunkGen.makeBase(chunk)
-                chunkGen.carve(WorldGenRegion(arrayOf(chunk), 1, 1, chunkPos.x, chunkPos.z, world.world), GenerationStage.Carving.AIR)
-                val heightmap = chunk.getHeightmap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES)
-                if (heightmap == null) {
-                    chunk.createHeightMap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES)
-                    chunk.getHeightmap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES)!!
-                } else {
-                    heightmap
-                }
+                chunkGen.makeBase(world, chunk)
+                chunkGen.carve(chunk, GenerationStage.Carving.AIR)
+                // getHeightmap() = func_217303_b()
+                chunk.func_217303_b(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES)
             } else {
-                (chunk as Chunk).getHeightmap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES)
+                // getHeightmap() = func_217303_b()
+                (chunk as Chunk).func_217303_b(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES)
             }
         }
     }

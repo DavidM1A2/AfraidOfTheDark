@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.world.schematic
 
-import net.minecraft.block.state.IBlockState
-import net.minecraft.nbt.NBTTagList
+import net.minecraft.block.BlockState
+import net.minecraft.nbt.ListNBT
 
 /**
  * Object representation of a schematic file (.schematic)
@@ -15,7 +15,7 @@ interface Schematic {
     /**
      * @return A list of tile entities in the schematic region
      */
-    fun getTileEntities(): NBTTagList
+    fun getTileEntities(): ListNBT
 
     /**
      * @return The width of the schematic region
@@ -35,10 +35,10 @@ interface Schematic {
     /**
      * @return An array of blocks in the structure
      */
-    fun getBlocks(): Array<IBlockState>
+    fun getBlocks(): Array<BlockState>
 
     /**
      * @return A list of entities in the schematic region
      */
-    fun getEntities(): NBTTagList
+    fun getEntities(): ListNBT
 }

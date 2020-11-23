@@ -3,29 +3,28 @@ package com.davidm1a2.afraidofthedark.common.dimension.nightmare
 import com.davidm1a2.afraidofthedark.client.dimension.NightmareSkyRenderer
 import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
-import net.minecraft.entity.player.EntityPlayerMP
+import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.Vec3d
+import net.minecraft.world.World
 import net.minecraft.world.biome.provider.SingleBiomeProvider
 import net.minecraft.world.biome.provider.SingleBiomeProviderSettings
 import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.dimension.Dimension
 import net.minecraft.world.dimension.DimensionType
-import net.minecraft.world.gen.IChunkGenerator
+import net.minecraft.world.gen.ChunkGenerator
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Class that provides the nightmare world
+ *
+ * @param world The world for this dimension
+ * @param dimensionType The dimension type of this dimension
  */
-class NightmareDimension : Dimension() {
-    /**
-     * Initializes the provider
-     */
-    override fun init() {
-        // We need a sky light for torches to light up properly
-        hasSkyLight = true
+class NightmareDimension(world: World, dimensionType: DimensionType) : Dimension(world, dimensionType) {
+    init {
         // Register the sky renderer client side
         if (world.isRemote) {
             skyRenderer = NightmareSkyRenderer()
@@ -90,8 +89,9 @@ class NightmareDimension : Dimension() {
      *
      * @return A new nightmare chunk generator
      */
-    override fun createChunkGenerator(): IChunkGenerator<*> {
-        return NightmareChunkGenerator(world, SingleBiomeProvider(SingleBiomeProviderSettings().setBiome(ModBiomes.NIGHTMARE)))
+    override fun createChunkGenerator(): ChunkGenerator<*> {
+        val biomeProvider = SingleBiomeProvider(SingleBiomeProviderSettings().setBiome(ModBiomes.NIGHTMARE))
+        return NightmareChunkGenerator(world, biomeProvider, NightmareGenerationSettings())
     }
 
     /**
@@ -162,7 +162,7 @@ class NightmareDimension : Dimension() {
      * @param player The player who is respawning
      * @return The dimension id
      */
-    override fun getRespawnDimension(player: EntityPlayerMP): DimensionType {
+    override fun getRespawnDimension(player: ServerPlayerEntity): DimensionType {
         return player.dimension
     }
 
@@ -192,14 +192,6 @@ class NightmareDimension : Dimension() {
      * @return We don't have a sun, so return 0
      */
     override fun getSunBrightness(partialTicks: Float): Float {
-        return 0f
-    }
-
-    /**
-     * @param partialTicks ignored
-     * @return We don't have a sun, so return 0
-     */
-    override fun getSunBrightnessFactor(partialTicks: Float): Float {
         return 0f
     }
 

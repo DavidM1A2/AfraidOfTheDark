@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.utility.AOTDArmorMaterial
-import net.minecraft.init.SoundEvents
 import net.minecraft.item.crafting.Ingredient
+import net.minecraft.util.SoundEvents
 
 /**
  * Class storing armor material constants. These are registered through the enum helper class and not through the standard forge system

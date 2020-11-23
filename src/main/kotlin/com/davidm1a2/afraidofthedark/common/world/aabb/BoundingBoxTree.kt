@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.world.aabb
 
-import net.minecraft.nbt.NBTTagList
+import net.minecraft.nbt.ListNBT
 import net.minecraft.util.math.MutableBoundingBox
 import net.minecraftforge.common.util.INBTSerializable
 import java.util.*
@@ -8,7 +8,7 @@ import java.util.*
 /**
  * Tree based on this algorithm: https://www.azurefromthetrenches.com/introductory-guide-to-aabb-tree-collision-detection/
  */
-class BoundingBoxTree : INBTSerializable<NBTTagList> {
+class BoundingBoxTree : INBTSerializable<ListNBT> {
     private var root: BoundingBoxNode? = null
 
     fun insert(aabb: MutableBoundingBox) {
@@ -78,7 +78,7 @@ class BoundingBoxTree : INBTSerializable<NBTTagList> {
         return false
     }
 
-    override fun deserializeNBT(nbt: NBTTagList) {
+    override fun deserializeNBT(nbt: ListNBT) {
         for (i in 0..nbt.size step 6) {
             insert(
                 MutableBoundingBox(
@@ -93,8 +93,8 @@ class BoundingBoxTree : INBTSerializable<NBTTagList> {
         }
     }
 
-    override fun serializeNBT(): NBTTagList {
-        val toReturn = NBTTagList()
+    override fun serializeNBT(): ListNBT {
+        val toReturn = ListNBT()
         if (root == null) {
             return toReturn
         }

@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
-import com.davidm1a2.afraidofthedark.client.gui.guiScreens.SpellCraftingGUI
+import com.davidm1a2.afraidofthedark.client.gui.screens.SpellCraftingScreen
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiImage
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiLabel
@@ -14,7 +14,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import net.minecraft.client.Minecraft
-import net.minecraft.init.SoundEvents
+import net.minecraft.util.SoundEvents
 import java.awt.Color
 
 /**
@@ -100,7 +100,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
             if (it.eventType == AOTDMouseEvent.EventType.Click) {
                 if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     // Open the spell edit GUI
-                    Minecraft.getInstance().displayGuiScreen(SpellCraftingGUI(spell))
+                    Minecraft.getInstance().displayGuiScreen(SpellCraftingScreen(spell))
                 }
             }
         }

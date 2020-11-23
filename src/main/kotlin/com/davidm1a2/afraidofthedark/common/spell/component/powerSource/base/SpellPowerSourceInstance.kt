@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base
 
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
-import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.ResourceLocation
 
 class SpellPowerSourceInstance(component: SpellPowerSource) : SpellComponentInstance<SpellPowerSource>(component) {
@@ -13,7 +13,7 @@ class SpellPowerSourceInstance(component: SpellPowerSource) : SpellComponentInst
          * @param nbt The NBT to get the power source information from
          * @return The spell power source instance from NBT
          */
-        fun createFromNBT(nbt: NBTTagCompound): SpellComponentInstance<SpellPowerSource> {
+        fun createFromNBT(nbt: CompoundNBT): SpellComponentInstance<SpellPowerSource> {
             // Figure out the type of power source that this NBT represents
             val powerSourceTypeId = nbt.getString(NBT_TYPE_ID)
             // Use our registry to create a new instance of this type

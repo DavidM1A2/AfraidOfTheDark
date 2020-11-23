@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.registry.bolt.BoltEntry
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
-import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.entity.player.PlayerEntity
 
 /**
  * Class used to assist in ordering the bolts and picking the next bolt in the list
@@ -18,7 +18,7 @@ object BoltOrderHelper {
      * @param currentBoltIndex The current bolt index
      * @return The new bolt index
      */
-    fun getNextBoltIndex(entityPlayer: EntityPlayer, currentBoltIndex: Int): Int {
+    fun getNextBoltIndex(entityPlayer: PlayerEntity, currentBoltIndex: Int): Int {
         @Suppress("NAME_SHADOWING")
         var currentBoltIndex = currentBoltIndex
         var preRequisite: Research?

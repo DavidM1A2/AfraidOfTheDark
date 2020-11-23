@@ -2,8 +2,8 @@ package com.davidm1a2.afraidofthedark.common.capabilities.world.storage
 
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
-import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.SpellDeliveryMethodDelay
-import net.minecraft.nbt.NBTTagCompound
+import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.DelaySpellDeliveryMethod
+import net.minecraft.nbt.CompoundNBT
 
 /**
  * Class representing the delay delivery method that is waiting to go off
@@ -25,7 +25,7 @@ class DelayedDeliveryEntry {
         // Grab the delivery method and get the number of ticks to delay
         val deliveryMethod = state.getCurrentStage().deliveryInstance!!.component
         ticksLeft =
-            deliveryMethod.let { it as SpellDeliveryMethodDelay }.getDelay(state.getCurrentStage().deliveryInstance!!)
+            deliveryMethod.let { it as DelaySpellDeliveryMethod }.getDelay(state.getCurrentStage().deliveryInstance!!)
     }
 
     /**
@@ -33,7 +33,7 @@ class DelayedDeliveryEntry {
      *
      * @param nbt The NBT to read the state in from
      */
-    constructor(nbt: NBTTagCompound) {
+    constructor(nbt: CompoundNBT) {
         state = DeliveryTransitionState(nbt.getCompound(NBT_STATE))
         ticksLeft = nbt.getLong(NBT_TICKS_LEFT)
     }
@@ -43,10 +43,10 @@ class DelayedDeliveryEntry {
      *
      * @return The NBT that was saved to
      */
-    fun serializeNBT(): NBTTagCompound {
-        val nbt = NBTTagCompound()
-        nbt.setTag(NBT_STATE, state.writeToNbt())
-        nbt.setLong(NBT_TICKS_LEFT, ticksLeft)
+    fun serializeNBT(): CompoundNBT {
+        val nbt = CompoundNBT()
+        nbt.put(NBT_STATE, state.writeToNbt())
+        nbt.putLong(NBT_TICKS_LEFT, ticksLeft)
         return nbt
     }
 

@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.common.utility.ResourceUtil
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import net.minecraft.item.Item
-import net.minecraft.util.JsonUtils
+import net.minecraft.util.JSONUtils
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.registries.ForgeRegistryEntry
 import org.apache.logging.log4j.LogManager
@@ -46,18 +46,18 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
                     BufferedReader(inputStreamReader).use { reader ->
                         val json = reader.readLines().joinToString(separator = "")
                         // Read the file as JSON
-                        val jsonObject = JsonUtils.fromJson(DESERIALIZER, json, JsonObject::class.java)
+                        val jsonObject = JSONUtils.fromJson(DESERIALIZER, json, JsonObject::class.java)
                         if (jsonObject != null) {
                             // Parse all the fields of the JSON object using the JSONUtils class
-                            xPosition = JsonUtils.getInt(jsonObject, "x")
-                            zPosition = JsonUtils.getInt(jsonObject, "y")
-                            researchedRecipes = JsonUtils.getJsonArray(jsonObject, "recipes").map {
-                                JsonUtils.getItem(it, "")
+                            xPosition = JSONUtils.getInt(jsonObject, "x")
+                            zPosition = JSONUtils.getInt(jsonObject, "y")
+                            researchedRecipes = JSONUtils.getJsonArray(jsonObject, "recipes").map {
+                                JSONUtils.getItem(it, "")
                             }
-                            preResearchedRecipes = JsonUtils.getJsonArray(jsonObject, "preRecipes").map {
-                                JsonUtils.getItem(it, "")
+                            preResearchedRecipes = JSONUtils.getJsonArray(jsonObject, "preRecipes").map {
+                                JSONUtils.getItem(it, "")
                             }
-                            icon = ResourceLocation(JsonUtils.getString(jsonObject, "icon"))
+                            icon = ResourceLocation(JSONUtils.getString(jsonObject, "icon"))
                         }
                     }
                 }

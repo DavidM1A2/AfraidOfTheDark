@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRendere
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.setAndReturn
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.transposeAndReturn
-import net.minecraft.client.renderer.entity.model.ModelBase
+import net.minecraft.client.renderer.model.Model
 import javax.vecmath.Matrix4f
 import javax.vecmath.Quat4f
 
@@ -16,7 +16,7 @@ import javax.vecmath.Quat4f
  * @property parts A map of part name to part
  * @property altar The different parts of the model
  */
-class TileEntityEnariasAltarModel internal constructor() : ModelBase() {
+class TileEntityEnariasAltarModel internal constructor() : Model() {
     private val parts = mutableMapOf<String, MCAModelRenderer>()
     private val altar: MCAModelRenderer
 

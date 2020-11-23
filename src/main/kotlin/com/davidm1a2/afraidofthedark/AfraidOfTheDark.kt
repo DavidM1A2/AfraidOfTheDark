@@ -6,7 +6,7 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModConfigHolder
 import com.davidm1a2.afraidofthedark.common.event.*
 import com.davidm1a2.afraidofthedark.common.event.register.*
-import com.davidm1a2.afraidofthedark.common.packets.packetHandler.PacketHandler
+import com.davidm1a2.afraidofthedark.common.network.packets.packetHandler.PacketHandler
 import com.davidm1a2.afraidofthedark.proxy.ClientProxy
 import com.davidm1a2.afraidofthedark.proxy.IProxy
 import com.davidm1a2.afraidofthedark.proxy.ServerProxy
@@ -37,7 +37,6 @@ class AfraidOfTheDark {
 
         val dimensionRegister = DimensionRegister()
 
-        forgeBus.register(SpriteRegister())
         forgeBus.register(dimensionRegister)
         forgeBus.register(CapabilityHandler())
         forgeBus.register(FlaskOfSoulsHandler())
@@ -55,17 +54,19 @@ class AfraidOfTheDark {
         modBus.register(BlockRegister())
         modBus.register(TileEntityRegister())
         modBus.register(ItemRegister())
-        modBus.register(PotionRegister())
+        modBus.register(EffectRegister())
         modBus.register(EntityRegister())
         modBus.register(BiomeRegister())
         modBus.register(SoundRegister())
-        modBus.register(RecipeRegister())
+        modBus.register(RecipeSerializerRegister())
         modBus.register(SpellPowerSourceRegister())
         modBus.register(SpellDeliveryMethodRegister())
         modBus.register(SpellEffectRegister())
         modBus.register(ResearchRegister())
         modBus.register(BoltEntryRegister())
         modBus.register(MeteorEntryRegister())
+        modBus.register(ParticleRegister())
+        modBus.register(StructureRegister())
         modBus.register(dimensionRegister)
         modBus.register(ConfigurationHandler())
         modBus.register(this)
@@ -83,12 +84,9 @@ class AfraidOfTheDark {
     @Suppress("UNUSED_PARAMETER")
     fun commonSetupEvent(event: FMLCommonSetupEvent) {
         CapabilityRegister.register()
-        RecipeFactoryRegister.register()
         PacketRegister.initialize()
         EntityRegister.registerSpawnPlacements()
-        StructureRegister.register()
-        ParticleRegister.register()
-        IngredientRegister.register()
+        DataSerializerRegister.register()
     }
 
     @SubscribeEvent

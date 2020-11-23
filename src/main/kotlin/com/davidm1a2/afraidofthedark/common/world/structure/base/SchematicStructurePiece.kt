@@ -3,18 +3,15 @@ package com.davidm1a2.afraidofthedark.common.world.structure.base
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.common.constants.ModStructures
 import com.davidm1a2.afraidofthedark.common.world.schematic.Schematic
-import net.minecraft.block.Block
-import net.minecraft.block.BlockChest
-import net.minecraft.block.BlockStairs
-import net.minecraft.block.state.IBlockState
+import net.minecraft.block.*
 import net.minecraft.entity.EntityType
-import net.minecraft.init.Blocks
-import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.state.properties.ChestType
 import net.minecraft.state.properties.StairsShape
-import net.minecraft.tileentity.TileEntityChest
-import net.minecraft.util.EnumFacing
+import net.minecraft.tileentity.ChestTileEntity
+import net.minecraft.util.Direction
 import net.minecraft.util.Mirror
 import net.minecraft.util.Rotation
 import net.minecraft.util.math.BlockPos
@@ -22,21 +19,19 @@ import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.world.IWorld
 import net.minecraft.world.gen.feature.structure.StructurePiece
-import net.minecraft.world.gen.feature.template.TemplateManager
 import java.util.*
 
-class SchematicStructurePiece() : StructurePiece() {
-    private lateinit var schematic: Schematic
-    private var lootTable: LootTable? = null
+class SchematicStructurePiece : StructurePiece {
+    private val schematic: Schematic
+    private val lootTable: LootTable?
     private var mirror = Mirror.NONE
-    private var rotation: Rotation = Rotation.NONE
 
     // Some blocks aren't mirrored correctly by MC. Fix them here
-    private val mirrorBlockFixer = mapOf<Block, (IBlockState) -> IBlockState>(
+    private val mirrorBlockFixer = mapOf<Block, (BlockState) -> BlockState>(
         Blocks.CHEST to { state ->
-            when (state[BlockChest.TYPE]) {
-                ChestType.RIGHT -> state.with(BlockChest.TYPE, ChestType.LEFT)
-                ChestType.LEFT -> state.with(BlockChest.TYPE, ChestType.RIGHT)
+            when (state[ChestBlock.TYPE]) {
+                ChestType.RIGHT -> state.with(ChestBlock.TYPE, ChestType.LEFT)
+                ChestType.LEFT -> state.with(ChestBlock.TYPE, ChestType.RIGHT)
                 else -> state
             }
         },
@@ -64,16 +59,35 @@ class SchematicStructurePiece() : StructurePiece() {
         ).map { it to this::fixStairState }.toTypedArray()
     )
 
-    constructor(x: Int, y: Int, z: Int, random: Random, schematic: Schematic, lootTable: LootTable? = null, facing: EnumFacing? = null) : this() {
+    constructor(nbt: CompoundNBT) : super(ModStructures.SCHEMATIC_STRUCTURE_PIECE, nbt) {
+        val schematicName = nbt.getString(NBT_SCHEMATIC_NAME)
+        this.schematic = ModSchematics.NAME_TO_SCHEMATIC[schematicName] ?: throw IllegalStateException("Schematic $schematicName was not found")
+        if (nbt.contains(NBT_LOOT_TABLE_NAME)) {
+            val lootTableName = nbt.getString(NBT_LOOT_TABLE_NAME)
+            this.lootTable = ModLootTables.NAME_TO_LOOT_TABLE[lootTableName] ?: throw IllegalStateException("LootTable $lootTableName was not found")
+        } else {
+            this.lootTable = null
+        }
+    }
+
+    constructor(
+        x: Int,
+        y: Int,
+        z: Int,
+        random: Random,
+        schematic: Schematic,
+        lootTable: LootTable? = null,
+        facing: Direction? = null
+    ) : super(ModStructures.SCHEMATIC_STRUCTURE_PIECE, 0) {
         this.schematic = schematic
         this.lootTable = lootTable
 
-        require(facing == null || facing in EnumFacing.Plane.HORIZONTAL)
+        require(facing == null || facing in Direction.Plane.HORIZONTAL)
 
         // The first random number is always 0. No idea why
         random.nextInt(4)
-        coordBaseMode = facing ?: EnumFacing.Plane.HORIZONTAL.random(random)
-        boundingBox = if (coordBaseMode?.axis == EnumFacing.Axis.Z) {
+        coordBaseMode = facing ?: Direction.Plane.HORIZONTAL.random(random)
+        boundingBox = if (coordBaseMode?.axis == Direction.Axis.Z) {
             MutableBoundingBox(x, y, z, x + schematic.getWidth() - 1, y + schematic.getHeight() - 1, z + schematic.getLength() - 1)
         } else {
             MutableBoundingBox(x, y, z, x + schematic.getLength() - 1, y + schematic.getHeight() - 1, z + schematic.getWidth() - 1)
@@ -86,47 +100,36 @@ class SchematicStructurePiece() : StructurePiece() {
     }
 
     // Copy & Pasted from StructurePiece, used to expose the rotation and mirror fields
-    override fun setCoordBaseMode(facing: EnumFacing?) {
+    override fun setCoordBaseMode(facing: Direction?) {
         super.setCoordBaseMode(facing)
         if (facing == null) {
-            this.rotation = Rotation.NONE
             this.mirror = Mirror.NONE
         } else {
             when (facing) {
-                EnumFacing.SOUTH -> {
+                Direction.SOUTH -> {
                     this.mirror = Mirror.LEFT_RIGHT
-                    this.rotation = Rotation.NONE
                 }
-                EnumFacing.WEST -> {
+                Direction.WEST -> {
                     this.mirror = Mirror.LEFT_RIGHT
-                    this.rotation = Rotation.CLOCKWISE_90
                 }
-                EnumFacing.EAST -> {
+                Direction.EAST -> {
                     this.mirror = Mirror.NONE
-                    this.rotation = Rotation.CLOCKWISE_90
                 }
                 else -> {
                     this.mirror = Mirror.NONE
-                    this.rotation = Rotation.NONE
                 }
             }
         }
     }
 
-    override fun writeStructureToNBT(nbt: NBTTagCompound) {
-        nbt.setString(NBT_SCHEMATIC_NAME, this.schematic.getName())
-        this.lootTable?.let { nbt.setString(NBT_LOOT_TABLE_NAME, it.name) }
-    }
-
-    override fun readStructureFromNBT(nbt: NBTTagCompound, ignored: TemplateManager) {
-        val schematicName = nbt.getString(NBT_SCHEMATIC_NAME)
-        this.schematic = ModSchematics.NAME_TO_SCHEMATIC[schematicName] ?: throw IllegalStateException("Schematic $schematicName was not found")
-        if (nbt.hasKey(NBT_LOOT_TABLE_NAME)) {
-            val lootTableName = nbt.getString(NBT_LOOT_TABLE_NAME)
-            this.lootTable = ModLootTables.NAME_TO_LOOT_TABLE[lootTableName] ?: throw IllegalStateException("LootTable $lootTableName was not found")
-        } else {
-            this.lootTable = null
-        }
+    /**
+     * Actually writeAdditional LOL
+     *
+     * @param tagCompound The tag to write to
+     */
+    override fun readAdditional(tagCompound: CompoundNBT) {
+        tagCompound.putString(NBT_SCHEMATIC_NAME, this.schematic.getName())
+        this.lootTable?.let { tagCompound.putString(NBT_LOOT_TABLE_NAME, it.name) }
     }
 
     override fun addComponentParts(world: IWorld, random: Random, structureBoundingBox: MutableBoundingBox, chunkPos: ChunkPos): Boolean {
@@ -222,7 +225,7 @@ class SchematicStructurePiece() : StructurePiece() {
                     }
 
                     // If the tile entity is a chest and we have a loot table then generate the chest
-                    if (tileEntity is TileEntityChest) {
+                    if (tileEntity is ChestTileEntity) {
                         lootTable?.generate(tileEntity, tileEntityCompound, random)
                     }
                 }
@@ -238,12 +241,12 @@ class SchematicStructurePiece() : StructurePiece() {
         for (i in 0 until entities.size) {
             // Grab the compound that represents this entity
             val entityCompound = entities.getCompound(i)
-
             // Instantiate the entity object from the compound
-            val entity = EntityType.create(entityCompound, world.world)
+            val entityOpt = EntityType.loadEntityUnchecked(entityCompound, world.world)
 
             // If the entity is valid, continue...
-            if (entity != null) {
+            if (entityOpt.isPresent) {
+                val entity = entityOpt.get()
                 // Update the UUID to be random so that it does not conflict with other entities from the same schematic
                 entity.setUniqueId(UUID.randomUUID())
                 val length = schematic.getLength()
@@ -256,20 +259,20 @@ class SchematicStructurePiece() : StructurePiece() {
                 // If the chunk pos was not given or we are in the correct chunk spawn the entity in
                 if (structureBoundingBox.isVecInside(BlockPos(newX, newY, newZ))) {
                     entity.setPosition(newX, newY, newZ)
-                    world.spawnEntity(entity)
+                    world.addEntity(entity)
                 }
             }
         }
     }
 
-    private fun fixStairState(state: IBlockState): IBlockState {
-        val facing = state[BlockStairs.FACING]
-        if (facing.axis == EnumFacing.Axis.X) {
-            return when (state[BlockStairs.SHAPE]) {
-                StairsShape.INNER_LEFT -> state.with(BlockStairs.SHAPE, StairsShape.INNER_RIGHT)
-                StairsShape.INNER_RIGHT -> state.with(BlockStairs.SHAPE, StairsShape.INNER_LEFT)
-                StairsShape.OUTER_LEFT -> state.with(BlockStairs.SHAPE, StairsShape.OUTER_RIGHT)
-                StairsShape.OUTER_RIGHT -> state.with(BlockStairs.SHAPE, StairsShape.OUTER_LEFT)
+    private fun fixStairState(state: BlockState): BlockState {
+        val facing = state[StairsBlock.FACING]
+        if (facing.axis == Direction.Axis.X) {
+            return when (state[StairsBlock.SHAPE]) {
+                StairsShape.INNER_LEFT -> state.with(StairsBlock.SHAPE, StairsShape.INNER_RIGHT)
+                StairsShape.INNER_RIGHT -> state.with(StairsBlock.SHAPE, StairsShape.INNER_LEFT)
+                StairsShape.OUTER_LEFT -> state.with(StairsBlock.SHAPE, StairsShape.OUTER_RIGHT)
+                StairsShape.OUTER_RIGHT -> state.with(StairsBlock.SHAPE, StairsShape.OUTER_LEFT)
                 else -> state
             }
         }
@@ -281,9 +284,9 @@ class SchematicStructurePiece() : StructurePiece() {
             x
         } else {
             when (coordBaseMode) {
-                EnumFacing.NORTH, EnumFacing.SOUTH -> boundingBox.minX + x
-                EnumFacing.WEST -> boundingBox.maxX - z
-                EnumFacing.EAST -> boundingBox.minX + z
+                Direction.NORTH, Direction.SOUTH -> boundingBox.minX + x
+                Direction.WEST -> boundingBox.maxX - z
+                Direction.EAST -> boundingBox.minX + z
                 else -> x
             }
         }
@@ -298,9 +301,9 @@ class SchematicStructurePiece() : StructurePiece() {
             z
         } else {
             when (coordBaseMode) {
-                EnumFacing.NORTH -> boundingBox.maxZ - z
-                EnumFacing.SOUTH -> boundingBox.minZ + z
-                EnumFacing.WEST, EnumFacing.EAST -> boundingBox.minZ + x
+                Direction.NORTH -> boundingBox.maxZ - z
+                Direction.SOUTH -> boundingBox.minZ + z
+                Direction.WEST, Direction.EAST -> boundingBox.minZ + x
                 else -> z
             }
         }

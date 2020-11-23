@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.dimension
 
-import net.minecraft.nbt.NBTTagList
+import net.minecraft.nbt.ListNBT
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.dimension.DimensionType
 
@@ -17,5 +17,5 @@ interface IAOTDPlayerNightmareData : IAOTDIslandData {
     override var positionalIndex: Int
     var preTeleportPosition: BlockPos?
     var preTeleportDimension: DimensionType?
-    var preTeleportPlayerInventory: NBTTagList?
+    var preTeleportPlayerInventory: ListNBT?
 }

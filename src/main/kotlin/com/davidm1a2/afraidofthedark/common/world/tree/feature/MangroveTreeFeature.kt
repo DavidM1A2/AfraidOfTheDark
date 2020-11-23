@@ -1,14 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.world.tree.feature
 
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import net.minecraft.block.BlockLog
-import net.minecraft.block.state.IBlockState
-import net.minecraft.init.Blocks
-import net.minecraft.util.EnumFacing
+import net.minecraft.block.LogBlock
+import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.IWorld
-import net.minecraft.world.gen.feature.AbstractTreeFeature
+import net.minecraft.util.math.MutableBoundingBox
+import net.minecraft.world.gen.IWorldGenerationReader
 import net.minecraft.world.gen.feature.NoFeatureConfig
+import net.minecraft.world.gen.feature.TreeFeature
 import java.util.*
 import kotlin.math.sqrt
 
@@ -17,7 +16,7 @@ import kotlin.math.sqrt
  *
  * @param notify True if placing blocks should notify, false otherwise
  */
-class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig>(notify) {
+class MangroveTreeFeature(notify: Boolean) : TreeFeature({ NoFeatureConfig.NO_FEATURE_CONFIG }, notify) {
     /**
      * Causes the tree to grow. Uses a custom tree generation algorithm
      *
@@ -26,11 +25,17 @@ class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig
      * @param random The random object to grow the tree with
      * @param pos The position of the tree
      */
-    override fun place(changedBlocks: MutableSet<BlockPos>, world: IWorld, random: Random, pos: BlockPos): Boolean {
+    override fun place(
+        changedBlocks: MutableSet<BlockPos>,
+        world: IWorldGenerationReader,
+        random: Random,
+        pos: BlockPos,
+        boundingBox: MutableBoundingBox
+    ): Boolean {
         // Generate the trunk and root blocks
-        val topOfTrunk = generateBase(changedBlocks, world, pos, random)
+        val topOfTrunk = generateBase(changedBlocks, world, pos, random, boundingBox)
         // Generate branches and leaves
-        generateBranches(changedBlocks, world, topOfTrunk, random)
+        generateBranches(changedBlocks, world, topOfTrunk, random, boundingBox)
         // True since the tree grew
         return true
     }
@@ -42,9 +47,16 @@ class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig
      * @param world The world to generate the tree in
      * @param pos The position to generate at
      * @param random The RNG object used to generate the tree
+     * @param boundingBox The Bounding box to generate in
      * @return The position of the top of the trunk where leaves should gen at
      */
-    private fun generateBase(changedBlocks: MutableSet<BlockPos>, world: IWorld, pos: BlockPos, random: Random): BlockPos {
+    private fun generateBase(
+        changedBlocks: MutableSet<BlockPos>,
+        world: IWorldGenerationReader,
+        pos: BlockPos,
+        random: Random,
+        boundingBox: MutableBoundingBox
+    ): BlockPos {
         // The height to reach before the trunk starts is between 4 and 7 blocks
         val heightBeforeTrunk = random.nextInt(4) + 4
 
@@ -54,8 +66,8 @@ class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig
         // Iterate num roots times to generate that many roots
         for (i in 0 until numRoots) {
             // Pick a random direction to generate a root in
-            val xOffsetDirection = if (random.nextBoolean()) EnumFacing.NORTH else EnumFacing.SOUTH
-            val zOffsetDirection = if (random.nextBoolean()) EnumFacing.EAST else EnumFacing.WEST
+            val xOffsetDirection = if (random.nextBoolean()) Direction.NORTH else Direction.SOUTH
+            val zOffsetDirection = if (random.nextBoolean()) Direction.EAST else Direction.WEST
 
             // Let the root start at the sapling height 3-5 blocks away
             var xDistanceFromTrunk = random.nextInt(3) + 3
@@ -79,18 +91,16 @@ class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig
                 }
 
                 // Add a log at the current position
-                setBlockIfPossible(
-                    changedBlocks, world, currentPos,
-                    MANGROVE_LOG_UP
-                )
+                setLogState(changedBlocks, world, currentPos, MANGROVE_LOG_UP, boundingBox)
 
                 // Have a 1/10 chance to generate an extra log one block up or down
                 if (random.nextDouble() < 0.1) {
-                    setBlockIfPossible(
+                    setLogState(
                         changedBlocks,
                         world,
                         if (random.nextBoolean()) currentPos.up() else currentPos.down(),
-                        MANGROVE_LOG_UP
+                        MANGROVE_LOG_UP,
+                        boundingBox
                     )
                 }
 
@@ -113,10 +123,7 @@ class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig
                 }
 
                 // Set the block to log
-                setBlockIfPossible(
-                    changedBlocks, world, currentPos,
-                    MANGROVE_LOG_UP
-                )
+                setLogState(changedBlocks, world, currentPos, MANGROVE_LOG_UP, boundingBox)
             }
         }
 
@@ -130,14 +137,11 @@ class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig
         for (i in 0 until trunkHeight) {
             // 10% chance to lean in a horizontal direction
             if (random.nextDouble() < 0.1) {
-                currentPos = currentPos.offset(EnumFacing.byHorizontalIndex(random.nextInt(4)))
+                currentPos = currentPos.offset(Direction.byHorizontalIndex(random.nextInt(4)))
             }
 
             // Set the block to log
-            setBlockIfPossible(
-                changedBlocks, world, currentPos,
-                MANGROVE_LOG_UP
-            )
+            setLogState(changedBlocks, world, currentPos, MANGROVE_LOG_UP, boundingBox)
 
             // Advance up the trunk
             currentPos = currentPos.up()
@@ -152,15 +156,22 @@ class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig
      * @param world The world to generate branches in
      * @param topOfTrunk The top of the trunk
      * @param random The random object to generate with
+     * @param boundingBox The bounding box of the tree
      */
-    private fun generateBranches(changedBlocks: MutableSet<BlockPos>, world: IWorld, topOfTrunk: BlockPos, random: Random) {
+    private fun generateBranches(
+        changedBlocks: MutableSet<BlockPos>,
+        world: IWorldGenerationReader,
+        topOfTrunk: BlockPos,
+        random: Random,
+        boundingBox: MutableBoundingBox
+    ) {
         // Create a leaf cluster at the top of the trunk
-        generateLeafCluster(changedBlocks, world, topOfTrunk, random)
+        generateLeafCluster(changedBlocks, world, topOfTrunk, random, boundingBox)
         // 3 to 5 branches
         val numBranches = random.nextInt(3) + 3
         for (i in 0 until numBranches) {
             // Compute a random branch direction (one in x and one in z)
-            val branchDir1 = EnumFacing.byHorizontalIndex(random.nextInt(4))
+            val branchDir1 = Direction.byHorizontalIndex(random.nextInt(4))
             val branchDir2 = if (random.nextBoolean()) branchDir1.rotateY() else branchDir1.rotateYCCW()
             // Compute a random branch length 3-7 blocks long
             val branchLength = random.nextInt(5) + 3
@@ -169,13 +180,10 @@ class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig
             // Iterate branch length number of times to create the logs required
             for (j in 0 until branchLength) {
                 // Create a log block
-                setBlockIfPossible(
-                    changedBlocks, world, currentBranchPos,
-                    MANGROVE_LOG_UP
-                )
+                setLogState(changedBlocks, world, currentBranchPos, MANGROVE_LOG_UP, boundingBox)
                 // 10% chance to create a leaf cluster along the way
                 if (random.nextDouble() < 0.1) {
-                    generateLeafCluster(changedBlocks, world, currentBranchPos, random)
+                    generateLeafCluster(changedBlocks, world, currentBranchPos, random, boundingBox)
                 }
                 // Move our position outwards by either moving in the dir1 or dir2 direction
                 currentBranchPos = currentBranchPos.offset(if (random.nextBoolean()) branchDir1 else branchDir2)
@@ -185,7 +193,7 @@ class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig
                 }
             }
             // End the branch with a leaf cluster
-            generateLeafCluster(changedBlocks, world, currentBranchPos, random)
+            generateLeafCluster(changedBlocks, world, currentBranchPos, random, boundingBox)
         }
     }
 
@@ -196,13 +204,17 @@ class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig
      * @param world The world to create the leaf cluster in
      * @param location The location to create the cluster at
      * @param random The random object to use
+     * @param boundingBox The bounding box of the tree
      */
-    private fun generateLeafCluster(changedBlocks: MutableSet<BlockPos>, world: IWorld, location: BlockPos, random: Random) {
+    private fun generateLeafCluster(
+        changedBlocks: MutableSet<BlockPos>,
+        world: IWorldGenerationReader,
+        location: BlockPos,
+        random: Random,
+        boundingBox: MutableBoundingBox
+    ) {
         // Set the center to a mangrove log
-        setBlockIfPossible(
-            changedBlocks, world, location,
-            MANGROVE_LOG_UP
-        )
+        setLogState(changedBlocks, world, location, MANGROVE_LOG_UP, boundingBox)
         // Leaf clusters will be 3 blocks tall and 5 wide
         for (x in -2..2) {
             for (y in -1..1) {
@@ -215,24 +227,15 @@ class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig
                             // 3% chance to create a 'vine' of hanging leaf blocks
                             if (random.nextDouble() < 0.03) {
                                 // Create a log at the base of the leaf block
-                                setBlockIfPossible(
-                                    changedBlocks, world, leafPos,
-                                    MANGROVE_LOG_UP
-                                )
+                                setLogState(changedBlocks, world, leafPos, MANGROVE_LOG_UP, boundingBox)
                                 // Create a random length 'vine' 2-4 blocks long
                                 val vineLength = random.nextInt(3) + 2
                                 // Start at 1 so we don't try and replace our log block
                                 for (i in 1..vineLength) {
-                                    setBlockIfPossible(
-                                        changedBlocks, world, leafPos.down(i),
-                                        MANGROVE_LEAVES
-                                    )
+                                    setLogState(changedBlocks, world, leafPos.down(i), MANGROVE_LEAVES, boundingBox)
                                 }
                             } else {
-                                setBlockIfPossible(
-                                    changedBlocks, world, leafPos,
-                                    MANGROVE_LEAVES
-                                )
+                                setLogState(changedBlocks, world, leafPos, MANGROVE_LEAVES, boundingBox)
                             }
                         }
                     }
@@ -241,44 +244,11 @@ class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig
         }
     }
 
-    /**
-     * Sets a block to a given block state if nothing is in the way
-     *
-     * @param changedBlocks The set of log blocks
-     * @param world      The world to set the block in
-     * @param location   The location to place the block
-     * @param blockState THe state to place at the position
-     */
-    private fun setBlockIfPossible(changedBlocks: MutableSet<BlockPos>, world: IWorld, location: BlockPos, blockState: IBlockState) {
-        // Grab the current block at the position
-        val current = world.getBlockState(location)
-        // Test if we can overwrite the block
-        if (REPLACEABLE_BLOCKS.contains(current.block)) {
-            func_208520_a(changedBlocks, world, location, blockState)
-        }
-    }
-
     companion object {
         // Reference to the mangrove log pointing upwards
-        private val MANGROVE_LOG_UP = ModBlocks.MANGROVE.defaultState.with(BlockLog.AXIS, EnumFacing.Axis.Y)
+        private val MANGROVE_LOG_UP = ModBlocks.MANGROVE.defaultState.with(LogBlock.AXIS, Direction.Axis.Y)
 
         // Reference to the mangrove leaf block to place
         private val MANGROVE_LEAVES = ModBlocks.MANGROVE_LEAVES.defaultState
-
-        // A set of blocks that can be replaced by wood upon growing
-        private val REPLACEABLE_BLOCKS = setOf(
-            Blocks.TALL_GRASS,
-            Blocks.AIR,
-            Blocks.ACACIA_LEAVES,
-            Blocks.BIRCH_LEAVES,
-            Blocks.DARK_OAK_LEAVES,
-            Blocks.JUNGLE_LEAVES,
-            Blocks.OAK_LEAVES,
-            Blocks.SPRUCE_LEAVES,
-            ModBlocks.MANGROVE_LEAVES,
-            ModBlocks.GRAVEWOOD_LEAVES,
-            Blocks.WATER,
-            Blocks.GRASS
-        )
     }
 }

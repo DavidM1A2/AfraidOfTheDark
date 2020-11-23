@@ -6,24 +6,23 @@ import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.Vec3d
+import net.minecraft.world.World
 import net.minecraft.world.biome.provider.SingleBiomeProvider
 import net.minecraft.world.biome.provider.SingleBiomeProviderSettings
 import net.minecraft.world.dimension.Dimension
 import net.minecraft.world.dimension.DimensionType
-import net.minecraft.world.gen.IChunkGenerator
+import net.minecraft.world.gen.ChunkGenerator
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Class that provides the void chest world
+ *
+ * @param world The world for this dimension
+ * @param dimensionType The dimension type of this dimension
  */
-class VoidChestDimension : Dimension() {
-    /**
-     * Initializes the void chest world provider
-     */
-    override fun init() {
-        // We have no sky light
-        hasSkyLight = false
+class VoidChestDimension(world: World, dimensionType: DimensionType) : Dimension(world, dimensionType) {
+    init {
         // If we're on client side set the sky renderer
         if (world.isRemote) {
             skyRenderer = VoidChestSkyRenderer()
@@ -42,8 +41,9 @@ class VoidChestDimension : Dimension() {
      *
      * @return A new nightmare chunk generator
      */
-    override fun createChunkGenerator(): IChunkGenerator<*> {
-        return VoidChestChunkGenerator(world, SingleBiomeProvider(SingleBiomeProviderSettings().setBiome(ModBiomes.VOID_CHEST)))
+    override fun createChunkGenerator(): ChunkGenerator<*> {
+        val biomeProvider = SingleBiomeProvider(SingleBiomeProviderSettings().setBiome(ModBiomes.VOID_CHEST))
+        return VoidChestChunkGenerator(world, biomeProvider, VoidChestGenerationSettings())
     }
 
     /**

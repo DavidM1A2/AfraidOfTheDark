@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.research
 
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import net.minecraft.nbt.INBTBase
-import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.util.EnumFacing
+import net.minecraft.nbt.CompoundNBT
+import net.minecraft.nbt.INBT
+import net.minecraft.util.Direction
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.Capability.IStorage
 import org.apache.logging.log4j.LogManager
@@ -23,14 +23,14 @@ class AOTDPlayerResearchStorage : IStorage<IAOTDPlayerResearch> {
     override fun writeNBT(
         capability: Capability<IAOTDPlayerResearch>,
         instance: IAOTDPlayerResearch,
-        side: EnumFacing?
-    ): INBTBase {
+        side: Direction?
+    ): INBT {
         // Create a compound to write
-        val compound = NBTTagCompound()
+        val compound = CompoundNBT()
 
         // Write each researches name as a key with true/false as the value
         for (research in ModRegistries.RESEARCH) {
-            compound.setBoolean(research.registryName.toString(), instance.isResearched(research))
+            compound.putBoolean(research.registryName.toString(), instance.isResearched(research))
         }
 
         return compound
@@ -47,11 +47,11 @@ class AOTDPlayerResearchStorage : IStorage<IAOTDPlayerResearch> {
     override fun readNBT(
         capability: Capability<IAOTDPlayerResearch>,
         instance: IAOTDPlayerResearch,
-        side: EnumFacing?,
-        nbt: INBTBase
+        side: Direction?,
+        nbt: INBT
     ) {
         // Test if the nbt tag base is an NBT tag compound
-        if (nbt is NBTTagCompound) {
+        if (nbt is CompoundNBT) {
             // For each research if we have researched it unlock that research in our instance
             for (research in ModRegistries.RESEARCH) {
                 instance.setResearch(research, nbt.getBoolean(research.registryName.toString()))

@@ -4,18 +4,14 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
-import net.minecraft.init.Biomes
-import net.minecraft.util.SharedSeedRandom
-import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IWorld
 import net.minecraft.world.biome.Biome
-import net.minecraft.world.dimension.DimensionType
-import net.minecraft.world.gen.IChunkGenerator
-import net.minecraft.world.gen.feature.structure.StructureStart
+import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
+import java.util.*
 import kotlin.math.max
-import kotlin.math.roundToInt
 
-class DesertOasisStructure : AOTDStructure<DesertOasisConfig>() {
+class DesertOasisStructure : AOTDStructure<DesertOasisConfig>({ DesertOasisConfig.deserialize(it) }) {
     override fun getStructureName(): String {
         return "${Constants.MOD_ID}:desert_oasis"
     }
@@ -36,16 +32,13 @@ class DesertOasisStructure : AOTDStructure<DesertOasisConfig>() {
         }
     }
 
-    override fun isEnabledIn(worldIn: IWorld): Boolean {
-        return worldIn.dimension.type == DimensionType.OVERWORLD
+    override fun getStartFactory(): IStartFactory {
+        return IStartFactory { structure, chunkX, chunkZ, biome, mutableBoundingBox, reference, seed ->
+            DesertOasisStructureStart(structure, chunkX, chunkZ, biome, mutableBoundingBox, reference, seed)
+        }
     }
 
-    override fun hasStartAt(worldIn: IWorld, chunkGen: IChunkGenerator<*>, rand: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): Boolean {
-        rand.setLargeFeatureSeed(chunkGen.seed, centerChunkX, centerChunkZ)
-
-        val xPos = centerChunkX * 16
-        val zPos = centerChunkZ * 16
-
+    override fun hasStartAt(worldIn: IWorld, chunkGen: ChunkGenerator<*>, random: Random, xPos: Int, zPos: Int): Boolean {
         val frequency = getInteriorConfigs(xPos, zPos, chunkGen, stepNum = 16).groupingBy { it!!.supported }.eachCount()
         val numValid = frequency[true] ?: 0
         val numInvalid = max(frequency[false] ?: 1, 1)
@@ -55,22 +48,10 @@ class DesertOasisStructure : AOTDStructure<DesertOasisConfig>() {
         if (percentDesertTiles < 0.7) {
             return false
         }
-        if (rand.nextDouble() >= 0.005 * ModCommonConfiguration.desertOasisMultiplier) {
+        if (random.nextDouble() >= 0.005 * ModCommonConfiguration.desertOasisMultiplier) {
             return false
         }
-
-        return doesNotCollide(worldIn, chunkGen, rand, centerChunkX, centerChunkZ)
-    }
-
-    override fun makeStart(worldIn: IWorld, generator: IChunkGenerator<*>, random: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): StructureStart {
-        random.setLargeFeatureSeed(generator.seed, centerChunkX, centerChunkZ)
-
-        val xPos = centerChunkX * 16
-        val zPos = centerChunkZ * 16
-        val centerBiome = generator.biomeProvider.getBiome(BlockPos(xPos, 0, zPos), Biomes.PLAINS)!!
-
-        val yPos = getEdgeHeights(xPos, zPos, worldIn, generator).average().roundToInt()
-        return DesertOasisStructureStart(worldIn, centerChunkX, (yPos - 18).coerceIn(0..255), centerChunkZ, centerBiome, random, generator.seed)
+        return true
     }
 
     companion object {

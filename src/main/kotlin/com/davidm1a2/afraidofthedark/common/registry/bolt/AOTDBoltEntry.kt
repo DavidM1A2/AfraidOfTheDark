@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.registry.bolt
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.entity.bolt.EntityBolt
+import com.davidm1a2.afraidofthedark.common.entity.bolt.BoltEntity
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
-import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
@@ -20,7 +20,7 @@ import net.minecraft.world.World
 class AOTDBoltEntry(
     name: String,
     boltItem: Item,
-    boltEntityFactory: (World, EntityPlayer) -> EntityBolt,
+    boltEntityFactory: (World, PlayerEntity) -> BoltEntity,
     preRequisite: Research?
 ) :
     BoltEntry(boltItem, boltEntityFactory, preRequisite) {

@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component
 
-import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.Vec3d
 
 /**
@@ -40,5 +40,5 @@ interface IAOTDPlayerSpellFreezeData {
      *
      * @param entityPlayer The player to sync freeze data to
      */
-    fun sync(entityPlayer: EntityPlayer)
+    fun sync(entityPlayer: PlayerEntity)
 }

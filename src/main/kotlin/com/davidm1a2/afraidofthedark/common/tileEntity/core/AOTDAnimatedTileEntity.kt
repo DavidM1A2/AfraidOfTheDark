@@ -14,7 +14,7 @@ abstract class AOTDAnimatedTileEntity(tileEntityType: TileEntityType<*>, private
      */
     override fun tick() {
         super.tick()
-        if (world.isRemote) {
+        if (world?.isRemote == true) {
             animationHandler.update()
         }
     }

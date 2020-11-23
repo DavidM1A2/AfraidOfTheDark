@@ -2,10 +2,10 @@ package com.davidm1a2.afraidofthedark.common.capabilities.world
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.storage.DelayedDeliveryEntry
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
-import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.nbt.NBTTagList
-import net.minecraft.world.WorldServer
+import net.minecraft.nbt.CompoundNBT
+import net.minecraft.nbt.ListNBT
 import net.minecraft.world.dimension.DimensionType
+import net.minecraft.world.server.ServerWorld
 import net.minecraft.world.storage.WorldSavedData
 import net.minecraftforge.common.util.Constants
 import net.minecraftforge.fml.server.ServerLifecycleHooks
@@ -25,13 +25,13 @@ class SpellStateData @JvmOverloads constructor(identifier: String = IDENTIFIER) 
      * @param nbt The NBT to write to
      * @return The compound that represents the spell state data
      */
-    override fun write(nbt: NBTTagCompound): NBTTagCompound {
-        val delayedEntries = NBTTagList()
+    override fun write(nbt: CompoundNBT): CompoundNBT {
+        val delayedEntries = ListNBT()
         // Write each entry to the list
         delayedDeliveryEntries.forEach {
             delayedEntries.add(it.serializeNBT())
         }
-        nbt.setTag(NBT_DELAYED_DELIVERY_ENTRIES, delayedEntries)
+        nbt.put(NBT_DELAYED_DELIVERY_ENTRIES, delayedEntries)
         return nbt
     }
 
@@ -40,7 +40,7 @@ class SpellStateData @JvmOverloads constructor(identifier: String = IDENTIFIER) 
      *
      * @param nbt The NBT to read spell data in
      */
-    override fun read(nbt: NBTTagCompound) {
+    override fun read(nbt: CompoundNBT) {
         // Go over each delayed delivery entry and read it in
         val delayedEntries = nbt.getList(NBT_DELAYED_DELIVERY_ENTRIES, Constants.NBT.TAG_COMPOUND)
         for (i in 0 until delayedEntries.size) {
@@ -91,20 +91,20 @@ class SpellStateData @JvmOverloads constructor(identifier: String = IDENTIFIER) 
          */
         fun get(): SpellStateData? {
             // Hardcoded to use overworld to simulate "global" data
-            val world: WorldServer? = ServerLifecycleHooks.getCurrentServer()?.getWorld(DimensionType.OVERWORLD)
+            val world: ServerWorld? = ServerLifecycleHooks.getCurrentServer()?.getWorld(DimensionType.OVERWORLD)
             // If we are on client side throw an exception
             if (world == null || world.isRemote) {
                 return null
             }
             // Grab the storage object for all worlds (per server, not per world!)
-            val storage = world.mapStorage!!
+            val storage = world.savedData
             // func_212426_a roughly equal to getOrLoadData?
-            var spellStateData = storage.func_212426_a(world.dimension.type, { SpellStateData() }, IDENTIFIER)
+            var spellStateData = storage.get({ SpellStateData() }, IDENTIFIER)
             // If it does not exist, instantiate new spell state data and store it into the storage object
             if (spellStateData == null) {
                 spellStateData = SpellStateData()
                 // func_212424_a roughly equal to setData?
-                storage.func_212424_a(world.dimension.type, IDENTIFIER, spellStateData)
+                storage.set(spellStateData)
                 spellStateData.markDirty()
             }
             // Return the data

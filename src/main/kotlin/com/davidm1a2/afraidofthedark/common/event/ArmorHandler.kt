@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.event
 
-import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemArmor
+import com.davidm1a2.afraidofthedark.common.item.core.AOTDArmorItem
 import net.minecraftforge.event.entity.living.LivingHurtEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
@@ -22,8 +22,8 @@ class ArmorHandler {
             if (armor.size == 4) {
                 val percentDamageBlocked = armor.sumByDouble {
                     val armorItem = it.item
-                    if (armorItem is AOTDItemArmor) {
-                        armorItem.processDamage(event.entityLiving, it, event.source, event.amount, armorItem.equipmentSlot)
+                    if (armorItem is AOTDArmorItem) {
+                        armorItem.processDamage(event.entityLiving, it, event.source, event.amount, armorItem.getEquipmentSlot(it)!!)
                     } else {
                         0.0
                     }

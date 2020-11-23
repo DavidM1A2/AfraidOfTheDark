@@ -28,7 +28,7 @@ object AOTDGuiUtility {
      * @return The coordinate of the UI element on the real screen
      */
     fun mcToRealScreenCoord(mcCoord: Int): Int {
-        return mcCoord * this.window.getScaleFactor(minecraft.gameSettings.guiScale)
+        return mcCoord * this.window.calcGuiScale(minecraft.gameSettings.guiScale, minecraft.forceUnicodeFont)
     }
 
     /**
@@ -38,7 +38,7 @@ object AOTDGuiUtility {
      * @return The coordinate of the UI element on the MC coordinate system
      */
     fun realScreenCoordToMC(realScreenCoord: Int): Int {
-        return realScreenCoord / this.window.getScaleFactor(minecraft.gameSettings.guiScale)
+        return realScreenCoord / this.window.calcGuiScale(minecraft.gameSettings.guiScale, minecraft.forceUnicodeFont)
     }
 
     /**

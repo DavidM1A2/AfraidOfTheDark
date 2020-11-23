@@ -1,13 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.basics
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.AOTDPlayerBasicsPacket
-import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.SelectedWristCrossbowBoltPacket
-import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.StartedAOTDPacket
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.UpdateWatchedMeteorPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.AOTDPlayerBasicsPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.SelectedWristCrossbowBoltPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.StartedAOTDPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.UpdateWatchedMeteorPacket
 import com.davidm1a2.afraidofthedark.common.registry.meteor.MeteorEntry
-import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.entity.player.EntityPlayerMP
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.player.ServerPlayerEntity
 
 /**
  * Default implementation of the AOTD player basics capability
@@ -35,7 +35,7 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics {
      * @param entityPlayer The player to test
      * @return true if the player is on server side or false if not
      */
-    private fun isServerSide(entityPlayer: EntityPlayer): Boolean {
+    private fun isServerSide(entityPlayer: PlayerEntity): Boolean {
         return !entityPlayer.world.isRemote
     }
 
@@ -44,9 +44,9 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics {
      *
      * @param entityPlayer The player to sync
      */
-    override fun syncStartedAOTD(entityPlayer: EntityPlayer) {
+    override fun syncStartedAOTD(entityPlayer: PlayerEntity) {
         if (isServerSide(entityPlayer)) {
-            AfraidOfTheDark.packetHandler.sendTo(StartedAOTDPacket(startedAOTD), entityPlayer as EntityPlayerMP)
+            AfraidOfTheDark.packetHandler.sendTo(StartedAOTDPacket(startedAOTD), entityPlayer as ServerPlayerEntity)
         } else {
             AfraidOfTheDark.packetHandler.sendToServer(StartedAOTDPacket(startedAOTD))
         }
@@ -57,7 +57,7 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics {
      *
      * @param entityPlayer The player to sync for
      */
-    override fun syncSelectedWristCrossbowBoltIndex(entityPlayer: EntityPlayer) {
+    override fun syncSelectedWristCrossbowBoltIndex(entityPlayer: PlayerEntity) {
         // Can only send this client -> server side
         if (!isServerSide(entityPlayer)) {
             AfraidOfTheDark.packetHandler.sendToServer(
@@ -127,7 +127,7 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics {
      *
      * @param entityPlayer The player that the data is being synced for
      */
-    override fun syncWatchedMeteor(entityPlayer: EntityPlayer) {
+    override fun syncWatchedMeteor(entityPlayer: PlayerEntity) {
         // If we're on server side send the client the meteor data
         if (isServerSide(entityPlayer)) {
             AfraidOfTheDark.packetHandler.sendTo(
@@ -137,7 +137,7 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics {
                     watchedMeteorDropAngle,
                     watchedMeteorLatitude,
                     watchedMeteorLongitude
-                ), entityPlayer as EntityPlayerMP
+                ), entityPlayer as ServerPlayerEntity
             )
         }
     }
@@ -147,10 +147,10 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics {
      *
      * @param entityPlayer The player to sync to
      */
-    override fun syncAll(entityPlayer: EntityPlayer) {
+    override fun syncAll(entityPlayer: PlayerEntity) {
         // If we're on server side send the player's data
         if (isServerSide(entityPlayer)) {
-            AfraidOfTheDark.packetHandler.sendTo(AOTDPlayerBasicsPacket(this), entityPlayer as EntityPlayerMP)
+            AfraidOfTheDark.packetHandler.sendTo(AOTDPlayerBasicsPacket(this), entityPlayer as ServerPlayerEntity)
         } else {
             AfraidOfTheDark.packetHandler.sendToServer(AOTDPlayerBasicsPacket(this))
         }

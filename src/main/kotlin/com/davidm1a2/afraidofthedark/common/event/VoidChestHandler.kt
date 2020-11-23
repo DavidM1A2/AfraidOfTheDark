@@ -4,13 +4,12 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getVoidChestData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility
-import net.minecraft.entity.player.EntityPlayerMP
-import net.minecraft.util.text.TextComponentTranslation
+import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.dimension.DimensionType
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent
+import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent
 
 /**
  * Handles that pertain to the void chest dimension
@@ -22,7 +21,7 @@ class VoidChestHandler {
      * @param event The data of the respawned player
      */
     @SubscribeEvent
-    fun onPlayerRespawnEvent(event: PlayerRespawnEvent) {
+    fun onPlayerRespawnEvent(event: PlayerEvent.PlayerRespawnEvent) {
         // Server side processing only
         if (!event.player.world.isRemote) {
             if (event.player.dimension == ModDimensions.VOID_CHEST_TYPE) {
@@ -42,7 +41,7 @@ class VoidChestHandler {
 
                 // Compute the player's X position based on the index
                 val playerXBase = indexToGoTo * Constants.DISTANCE_BETWEEN_ISLANDS
-                (event.player as EntityPlayerMP).connection.setPlayerLocation(playerXBase + 24.5, 104.0, 3.0, 0f, 0f)
+                (event.player as ServerPlayerEntity).connection.setPlayerLocation(playerXBase + 24.5, 104.0, 3.0, 0f, 0f)
             }
         }
     }
@@ -61,8 +60,8 @@ class VoidChestHandler {
             val toDimension = event.dimension
 
             // Test if the entity is a player, if so process it
-            if (event.entity is EntityPlayerMP) {
-                val entityPlayer = event.entity as EntityPlayerMP
+            if (event.entity is ServerPlayerEntity) {
+                val entityPlayer = event.entity as ServerPlayerEntity
                 // Process the pre-teleport server side, if it returns true then we cancel the TP
                 if (processPreTeleport(entityPlayer, fromDimension, toDimension)) {
                     event.isCanceled = true
@@ -79,7 +78,7 @@ class VoidChestHandler {
      * @param dimensionTo   The dimension the player is going to
      * @return True to cancel the teleport, false otherwise
      */
-    private fun processPreTeleport(entityPlayer: EntityPlayerMP, dimensionFrom: DimensionType, dimensionTo: DimensionType): Boolean {
+    private fun processPreTeleport(entityPlayer: ServerPlayerEntity, dimensionFrom: DimensionType, dimensionTo: DimensionType): Boolean {
         // If we're going to dimension VOID_CHEST then we need to do some preprocesing and tests to ensure the player can continue
         if (dimensionTo == ModDimensions.VOID_CHEST_TYPE) {
             // We can't go from void chest to void chest
@@ -104,7 +103,7 @@ class VoidChestHandler {
                 )
                 // If we didn't find a valid spot around the player's position then throw an error and reject the teleport
                 if (preTeleportPosition == null) {
-                    entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark.dimension.void_chest.no_spawn"))
+                    entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.dimension.void_chest.no_spawn"))
                     return true
                 } else {
                     playerVoidChestData.preTeleportPosition = preTeleportPosition
@@ -122,7 +121,7 @@ class VoidChestHandler {
      * @param event The event parameters
      */
     @SubscribeEvent
-    fun onPostEntityTravelToDimension(event: PlayerChangedDimensionEvent) {
+    fun onPostEntityTravelToDimension(event: PlayerEvent.PlayerChangedDimensionEvent) {
         // Server side processing only
         if (!event.player.world.isRemote) {
             // Get to and from dimension
@@ -130,7 +129,7 @@ class VoidChestHandler {
             val toDimension = event.to
 
             // Get the player teleporting
-            val entityPlayer = event.player as EntityPlayerMP
+            val entityPlayer = event.player as ServerPlayerEntity
             // Process the post-teleport server side
             processPostTeleport(entityPlayer, fromDimension, toDimension)
         }
@@ -143,7 +142,7 @@ class VoidChestHandler {
      * @param dimensionFrom The dimension the player was in
      * @param dimensionTo   The dimension the player is now in
      */
-    private fun processPostTeleport(entityPlayer: EntityPlayerMP, dimensionFrom: DimensionType, dimensionTo: DimensionType) {
+    private fun processPostTeleport(entityPlayer: ServerPlayerEntity, dimensionFrom: DimensionType, dimensionTo: DimensionType) {
         // If the player entered the void chest dimension then set their position
         if (dimensionTo == ModDimensions.VOID_CHEST_TYPE) {
             // Grab the player's void chest data

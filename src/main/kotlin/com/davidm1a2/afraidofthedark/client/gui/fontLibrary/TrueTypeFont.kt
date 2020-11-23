@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.client.gui.fontLibrary
 
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
+import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.renderer.GLAllocation
-import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.apache.logging.log4j.LogManager
@@ -547,18 +547,18 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 GL11.glEnable(GL11.GL_TEXTURE_2D)
                 GlStateManager.bindTexture(textureId)
 
-                GlStateManager.texParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP)
-                GlStateManager.texParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP)
+                GlStateManager.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP)
+                GlStateManager.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP)
 
-                GlStateManager.texParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST)
-                GlStateManager.texParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST)
+                GlStateManager.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST)
+                GlStateManager.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST)
 
-                GlStateManager.texEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE.toFloat())
+                GlStateManager.texEnv(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE.toFloat())
 
-                GlStateManager.pixelStorei(GL11.GL_UNPACK_ROW_LENGTH, 0)
-                GlStateManager.pixelStorei(GL11.GL_UNPACK_SKIP_ROWS, 0)
-                GlStateManager.pixelStorei(GL11.GL_UNPACK_SKIP_PIXELS, 0)
-                GlStateManager.pixelStorei(GL11.GL_UNPACK_ALIGNMENT, bitsPerPixel / 8)
+                GlStateManager.pixelStore(GL11.GL_UNPACK_ROW_LENGTH, 0)
+                GlStateManager.pixelStore(GL11.GL_UNPACK_SKIP_ROWS, 0)
+                GlStateManager.pixelStore(GL11.GL_UNPACK_SKIP_PIXELS, 0)
+                GlStateManager.pixelStore(GL11.GL_UNPACK_ALIGNMENT, bitsPerPixel / 8)
 
                 GL11.glTexImage2D(
                     GL11.GL_TEXTURE_2D,

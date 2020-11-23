@@ -2,9 +2,9 @@ package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
 import com.davidm1a2.afraidofthedark.client.gui.base.SpriteSheetController
+import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.Gui
-import net.minecraft.client.renderer.GlStateManager
+import net.minecraft.client.gui.AbstractGui
 import net.minecraft.util.ResourceLocation
 
 /**
@@ -56,17 +56,17 @@ class AOTDGuiSpriteSheetImage(
                 val nextFrame = if (currentFrame == totalFrames) 0 else currentFrame + 1
                 // Draw vertically
                 if (sheetController.isVertical) {
-                    Gui.drawScaledCustomSizeModalRect(
+                    AbstractGui.blit(
                         getXScaled(),
                         getYScaled(),
-                        0f,
-                        currentFrame * frameHeight.toFloat(),
-                        frameWidth,
-                        frameHeight,
+                        0,
+                        currentFrame * frameHeight,
+                        frameWidth.toFloat(),
+                        frameHeight.toFloat(),
                         getWidthScaled(),
                         getHeightScaled(),
-                        frameWidth.toFloat(),
-                        frameHeight * totalFrames.toFloat()
+                        frameWidth,
+                        frameHeight * totalFrames
                     )
                     GlStateManager.color4f(
                         color.red / 255f,
@@ -74,30 +74,30 @@ class AOTDGuiSpriteSheetImage(
                         color.blue / 255f,
                         1 - percentageToNextFrame
                     )
-                    Gui.drawScaledCustomSizeModalRect(
+                    AbstractGui.blit(
                         getXScaled(),
                         getYScaled(),
-                        0f,
-                        nextFrame * frameHeight.toFloat(),
-                        frameWidth,
-                        frameHeight,
+                        0,
+                        nextFrame * frameHeight,
+                        frameWidth.toFloat(),
+                        frameHeight.toFloat(),
                         getWidthScaled(),
                         getHeightScaled(),
-                        frameWidth.toFloat(),
-                        frameHeight * totalFrames.toFloat()
+                        frameWidth,
+                        frameHeight * totalFrames
                     )
                 } else {
-                    Gui.drawScaledCustomSizeModalRect(
+                    AbstractGui.blit(
                         getXScaled(),
                         getYScaled(),
-                        currentFrame * frameWidth.toFloat(),
-                        0f,
-                        frameWidth,
-                        frameHeight,
+                        currentFrame * frameWidth,
+                        0,
+                        frameWidth.toFloat(),
+                        frameHeight.toFloat(),
                         getWidthScaled(),
                         getHeightScaled(),
-                        frameWidth * totalFrames.toFloat(),
-                        frameHeight.toFloat()
+                        frameWidth * totalFrames,
+                        frameHeight
                     )
                     GlStateManager.color4f(
                         color.red / 255f,
@@ -105,46 +105,46 @@ class AOTDGuiSpriteSheetImage(
                         color.blue / 255f,
                         1 - percentageToNextFrame
                     )
-                    Gui.drawScaledCustomSizeModalRect(
+                    AbstractGui.blit(
                         getXScaled(),
                         getYScaled(),
-                        nextFrame * frameWidth.toFloat(),
-                        0f,
-                        frameWidth,
-                        frameHeight,
+                        nextFrame * frameWidth,
+                        0,
+                        frameWidth.toFloat(),
+                        frameHeight.toFloat(),
                         getWidthScaled(),
                         getHeightScaled(),
-                        frameWidth * totalFrames.toFloat(),
-                        frameHeight.toFloat()
+                        frameWidth * totalFrames,
+                        frameHeight
                     )
                 }
             } else {
                 // Draw vertically
                 if (sheetController.isVertical) {
-                    Gui.drawScaledCustomSizeModalRect(
+                    AbstractGui.blit(
                         getXScaled(),
                         getYScaled(),
-                        0f,
-                        currentFrame * frameHeight.toFloat(),
-                        frameWidth,
-                        frameHeight,
+                        0,
+                        currentFrame * frameHeight,
+                        frameWidth.toFloat(),
+                        frameHeight.toFloat(),
                         getWidthScaled(),
                         getHeightScaled(),
-                        frameWidth.toFloat(),
-                        frameHeight * totalFrames.toFloat()
+                        frameWidth,
+                        frameHeight * totalFrames
                     )
                 } else {
-                    Gui.drawScaledCustomSizeModalRect(
+                    AbstractGui.blit(
                         getXScaled(),
                         getYScaled(),
-                        currentFrame * frameWidth.toFloat(),
-                        0f,
-                        frameWidth,
-                        frameHeight,
+                        currentFrame * frameWidth,
+                        0,
+                        frameWidth.toFloat(),
+                        frameHeight.toFloat(),
                         getWidthScaled(),
                         getHeightScaled(),
-                        frameWidth * totalFrames.toFloat(),
-                        frameHeight.toFloat()
+                        frameWidth * totalFrames,
+                        frameHeight
                     )
                 }
             }

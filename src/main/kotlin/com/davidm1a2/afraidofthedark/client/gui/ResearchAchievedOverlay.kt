@@ -2,12 +2,13 @@ package com.davidm1a2.afraidofthedark.client.gui
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.Gui
-import net.minecraft.client.renderer.GlStateManager
+import net.minecraft.client.gui.AbstractGui
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.client.resources.I18n
 import net.minecraft.util.ResourceLocation
+import org.lwjgl.opengl.GL11
 import java.util.*
 
 /**
@@ -20,7 +21,7 @@ import java.util.*
  * @property notificationTime The time of the last research notification
  * @property toDisplay A queue of researches to display
  */
-class ResearchAchievedOverlay : Gui() {
+class ResearchAchievedOverlay : AbstractGui() {
     private val mc = Minecraft.getInstance()
     private var width = 0
     private var height = 0
@@ -48,7 +49,7 @@ class ResearchAchievedOverlay : Gui() {
         GlStateManager.loadIdentity()
         width = mc.mainWindow.scaledWidth
         height = mc.mainWindow.scaledHeight
-        GlStateManager.clear(256)
+        GlStateManager.clear(256, Minecraft.IS_RUNNING_ON_MAC)
         GlStateManager.matrixMode(5889)
         GlStateManager.loadIdentity()
         GlStateManager.ortho(0.0, width.toDouble(), height.toDouble(), 0.0, 1000.0, 3000.0)
@@ -98,10 +99,10 @@ class ResearchAchievedOverlay : Gui() {
             val j = 0 - (d1 * 36.0).toInt()
 
             GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f)
-            GlStateManager.enableTexture2D()
+            GL11.glEnable(GL11.GL_TEXTURE_2D)
             mc.textureManager.bindTexture(ACHIEVEMENT_BACKGROUND)
             GlStateManager.disableLighting()
-            this.drawTexturedModalRect(i, j, 96, 202, 160, 32)
+            blit(i, j, 96, 202, 160, 32)
             mc.fontRenderer.drawString(I18n.format("researchbanner.title"), i + 10f, j + 5f, -256)
             mc.fontRenderer.drawString(researchDescription!!, i + 10f, j + 18f, -1)
             RenderHelper.enableGUIStandardItemLighting()

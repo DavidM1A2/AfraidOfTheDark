@@ -1,16 +1,18 @@
 package com.davidm1a2.afraidofthedark.common.world.structure.voidchestbox
 
-import net.minecraft.init.Blocks
-import net.minecraft.nbt.NBTTagCompound
+import com.davidm1a2.afraidofthedark.common.constants.ModStructures
+import net.minecraft.block.Blocks
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.world.IWorld
 import net.minecraft.world.gen.feature.structure.StructurePiece
-import net.minecraft.world.gen.feature.template.TemplateManager
 import java.util.*
 
-class VoidChestBoxStructurePiece() : StructurePiece() {
-    constructor(xPos: Int) : this() {
+class VoidChestBoxStructurePiece : StructurePiece {
+    constructor(nbt: CompoundNBT) : super(ModStructures.VOID_BOX_STRUCTURE_PIECE, nbt)
+
+    constructor(xPos: Int) : super(ModStructures.VOID_BOX_STRUCTURE_PIECE, 0) {
         this.boundingBox = MutableBoundingBox(xPos, 100, 0, xPos + 48, 100 + 48, 0 + 48)
     }
 
@@ -38,9 +40,6 @@ class VoidChestBoxStructurePiece() : StructurePiece() {
         return true
     }
 
-    override fun writeStructureToNBT(tagCompound: NBTTagCompound) {
-    }
-
-    override fun readStructureFromNBT(tagCompound: NBTTagCompound, p_143011_2_: TemplateManager) {
+    override fun readAdditional(tagCompound: CompoundNBT) {
     }
 }

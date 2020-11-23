@@ -1,8 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.tileEntity.*
-import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.TileEntityEnariasAltar
+import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.EnariasAltarTileEntity
 import net.minecraft.tileentity.TileEntityType
+import java.util.function.Supplier
 
 /**
  * A static class containing all of our tile entity references for us
@@ -10,32 +11,32 @@ import net.minecraft.tileentity.TileEntityType
 object ModTileEntities {
     val VOID_CHEST = TileEntityType
         .Builder
-        .create { TileEntityVoidChest() }
+        .create(Supplier { VoidChestTileEntity() }, ModBlocks.VOID_CHEST)
         .build(null)
         .setRegistryName(Constants.MOD_ID, "void_chest")
     val DARK_FOREST = TileEntityType
         .Builder
-        .create { TileEntityDarkForest() }
+        .create(Supplier { DarkForestTileEntity() }, ModBlocks.DARK_FOREST)
         .build(null)
         .setRegistryName(Constants.MOD_ID, "dark_forest")
     val GHASTLY_ENARIA_SPAWNER = TileEntityType
         .Builder
-        .create { TileEntityGhastlyEnariaSpawner() }
+        .create(Supplier { GhastlyEnariaSpawnerTileEntity() }, ModBlocks.ENARIA_SPAWNER)
         .build(null)
         .setRegistryName(Constants.MOD_ID, "ghastly_enaria_spawner")
     val ENARIA_SPAWNER = TileEntityType
         .Builder
-        .create { TileEntityEnariaSpawner() }
+        .create(Supplier { EnariaSpawnerTileEntity() }, ModBlocks.ENARIA_SPAWNER)
         .build(null)
         .setRegistryName(Constants.MOD_ID, "enaria_spawner")
     val DESERT_OASIS = TileEntityType
         .Builder
-        .create { TileEntityDesertOasis() }
+        .create(Supplier { DesertOasisTileEntity() }, ModBlocks.DESERT_OASIS)
         .build(null)
         .setRegistryName(Constants.MOD_ID, "desert_oasis")
     val ENARIAS_ALTAR = TileEntityType
         .Builder
-        .create { TileEntityEnariasAltar() }
+        .create(Supplier { EnariasAltarTileEntity() }, ModBlocks.ENARIAS_ALTAR)
         .build(null)
         .setRegistryName(Constants.MOD_ID, "enarias_altar")
 

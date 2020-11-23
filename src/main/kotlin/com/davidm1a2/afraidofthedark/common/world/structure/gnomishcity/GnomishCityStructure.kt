@@ -5,16 +5,13 @@ import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.WorldHeightmap
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
-import net.minecraft.init.Biomes
-import net.minecraft.util.SharedSeedRandom
-import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IWorld
 import net.minecraft.world.biome.Biome
-import net.minecraft.world.dimension.DimensionType
-import net.minecraft.world.gen.IChunkGenerator
-import net.minecraft.world.gen.feature.structure.StructureStart
+import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
+import java.util.*
 
-class GnomishCityStructure : AOTDStructure<GnomishCityConfig>() {
+class GnomishCityStructure : AOTDStructure<GnomishCityConfig>({ GnomishCityConfig.deserialize() }) {
     private val width: Int
     private val length: Int
 
@@ -50,15 +47,15 @@ class GnomishCityStructure : AOTDStructure<GnomishCityConfig>() {
         }
     }
 
-    override fun isEnabledIn(worldIn: IWorld): Boolean {
-        return worldIn.dimension.type == DimensionType.OVERWORLD
+    override fun getStartFactory(): IStartFactory {
+        return IStartFactory { structure, chunkX, chunkZ, biome, mutableBoundingBox, reference, seed ->
+            GnomishCityStructureStart(structure, chunkX, chunkZ, biome, mutableBoundingBox, reference, seed)
+        }
     }
 
-    override fun hasStartAt(worldIn: IWorld, chunkGen: IChunkGenerator<*>, rand: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): Boolean {
-        rand.setLargeFeatureSeed(chunkGen.seed, centerChunkX, centerChunkZ)
-
+    override fun hasStartAt(worldIn: IWorld, chunkGen: ChunkGenerator<*>, random: Random, xPos: Int, zPos: Int): Boolean {
         val frequency = 0.0008 * ModCommonConfiguration.gnomishCityFrequency
-        if (rand.nextDouble() >= frequency) {
+        if (random.nextDouble() >= frequency) {
             return false
         }
 
@@ -81,18 +78,7 @@ class GnomishCityStructure : AOTDStructure<GnomishCityConfig>() {
         if (maxHeight - minHeight > 25) {
             return false
         }
-
-        return doesNotCollide(worldIn, chunkGen, rand, centerChunkX, centerChunkZ)
-    }
-
-    override fun makeStart(worldIn: IWorld, generator: IChunkGenerator<*>, random: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): StructureStart {
-        random.setLargeFeatureSeed(generator.seed, centerChunkX, centerChunkZ)
-
-        val xPos = centerChunkX * 16
-        val zPos = centerChunkZ * 16
-        val centerBiome = generator.biomeProvider.getBiome(BlockPos(xPos, 0, zPos), Biomes.PLAINS)!!
-
-        return GnomishCityStructureStart(worldIn, centerChunkX, centerChunkZ, width, length, centerBiome, random, generator.seed, generator)
+        return true
     }
 
     companion object {

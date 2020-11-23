@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.client.sound
 
 import net.minecraft.client.Minecraft
 import net.minecraft.client.audio.ISound.AttenuationType
-import net.minecraft.client.audio.MovingSound
+import net.minecraft.client.audio.TickableSound
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.SoundEvent
 import net.minecraftforge.api.distmarker.Dist
@@ -16,8 +16,7 @@ import net.minecraftforge.api.distmarker.OnlyIn
  * @param soundCategory The sound category (effects which sound slider modifies this sound volume)
  */
 @OnlyIn(Dist.CLIENT)
-abstract class PlayerFollowingSound internal constructor(soundEvent: SoundEvent, soundCategory: SoundCategory) :
-    MovingSound(soundEvent, soundCategory) {
+abstract class PlayerFollowingSound internal constructor(soundEvent: SoundEvent, soundCategory: SoundCategory) : TickableSound(soundEvent, soundCategory) {
     init {
         // The sound is ambient
         attenuationType = AttenuationType.NONE

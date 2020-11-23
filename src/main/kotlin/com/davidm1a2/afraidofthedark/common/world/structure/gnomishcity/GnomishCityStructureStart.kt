@@ -3,55 +3,47 @@ package com.davidm1a2.afraidofthedark.common.world.structure.gnomishcity
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.WorldHeightmap
+import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.base.SchematicStructurePiece
-import net.minecraft.util.EnumFacing
-import net.minecraft.util.SharedSeedRandom
-import net.minecraft.world.IWorld
+import com.davidm1a2.afraidofthedark.common.world.structure.base.getWorld
+import net.minecraft.util.Direction
+import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.world.biome.Biome
-import net.minecraft.world.gen.IChunkGenerator
+import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraft.world.gen.feature.structure.StructureStart
+import net.minecraft.world.gen.feature.template.TemplateManager
 import kotlin.math.min
 
-class GnomishCityStructureStart : StructureStart {
-    // Required for reflection
-    constructor() : super()
+class GnomishCityStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: Int, biomeIn: Biome, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
+    StructureStart(structure, chunkX, chunkZ, biomeIn, boundsIn, referenceIn, seed) {
 
-    constructor(
-        world: IWorld,
-        chunkPosX: Int,
-        chunkPosZ: Int,
-        width: Int,
-        length: Int,
-        biome: Biome,
-        random: SharedSeedRandom,
-        seed: Long,
-        chunkGenerator: IChunkGenerator<*>
-    ) : super(
-        chunkPosX,
-        chunkPosZ,
-        biome,
-        random,
-        seed
-    ) {
+    override fun init(generator: ChunkGenerator<*>, templateManagerIn: TemplateManager, centerChunkX: Int, centerChunkZ: Int, biomeIn: Biome) {
+        val gnomishCity = structure as AOTDStructure<*>
+        val width = gnomishCity.getWidth()
+        val length = gnomishCity.getLength()
+
         val cornerPosX = chunkPosX * 16 - width / 2
         val cornerPosY = 5
         val cornerPosZ = chunkPosZ * 16 - length / 2
 
-        // Compute the stairs from surface to level 1, can be a random room
-        val stairSurfaceTo1 = random.nextInt(9)
+        val world = generator.getWorld()
 
-        val stairs2ToEnaria = listOf(1, 3, 5, 7)[random.nextInt(4)]
+        // Compute the stairs from surface to level 1, can be a random room
+        val stairSurfaceTo1 = rand.nextInt(9)
+
+        val stairs2ToEnaria = listOf(1, 3, 5, 7)[rand.nextInt(4)]
 
         // Compute the stairs from level 1 to level 2, can't be in the same spot as stairs from 'surface -> 1' or '2 -> enaria'
         var stairs1To2: Int
         do {
-            stairs1To2 = random.nextInt(9)
+            stairs1To2 = rand.nextInt(9)
         } while (stairSurfaceTo1 == stairs1To2 || stairs2ToEnaria == stairs1To2)
-        val stairs1To2Facing = EnumFacing.Plane.HORIZONTAL.random(random)
+        val stairs1To2Facing = Direction.Plane.HORIZONTAL.random(rand)
 
         val rooms = ModSchematics.GNOMISH_CITY_ROOMS
             .flatMap { listOf(it, it) }
-            .shuffled(random)
+            .shuffled(rand)
             .iterator()
 
         var amountOfStairRemoved = 0
@@ -73,13 +65,13 @@ class GnomishCityStructureStart : StructureStart {
                     when {
                         // If the room is the stair from surface to level 1 and the floor is upper (1) generate the stair room and stairwell
                         currentRoom == stairSurfaceTo1 && floor == Floor.UPPER -> {
-                            var facing = EnumFacing.Plane.HORIZONTAL.random(random)
+                            var facing = Direction.Plane.HORIZONTAL.random(rand)
                             this.components.add(
                                 SchematicStructurePiece(
                                     roomPosX,
                                     roomPosY,
                                     roomPosZ,
-                                    random,
+                                    rand,
                                     ModSchematics.ROOM_STAIR_UP,
                                     ModLootTables.GNOMISH_CITY,
                                     facing
@@ -92,11 +84,11 @@ class GnomishCityStructureStart : StructureStart {
                             val stairwell = ModSchematics.STAIRWELL
 
                             val groundHeight = listOf(
-                                WorldHeightmap.getHeight(stairwellX, stairwellZ, world, chunkGenerator),
-                                WorldHeightmap.getHeight(stairwellX + stairwell.getWidth() - 1, stairwellZ, world, chunkGenerator),
-                                WorldHeightmap.getHeight(stairwellX, stairwellZ + stairwell.getLength() - 1, world, chunkGenerator),
-                                WorldHeightmap.getHeight(stairwellX + stairwell.getWidth() - 1, stairwellZ + stairwell.getLength() - 1, world, chunkGenerator),
-                                WorldHeightmap.getHeight(stairwellX + stairwell.getWidth() / 2, stairwellZ + stairwell.getLength() / 2, world, chunkGenerator)
+                                WorldHeightmap.getHeight(stairwellX, stairwellZ, world, generator),
+                                WorldHeightmap.getHeight(stairwellX + stairwell.getWidth() - 1, stairwellZ, world, generator),
+                                WorldHeightmap.getHeight(stairwellX, stairwellZ + stairwell.getLength() - 1, world, generator),
+                                WorldHeightmap.getHeight(stairwellX + stairwell.getWidth() - 1, stairwellZ + stairwell.getLength() - 1, world, generator),
+                                WorldHeightmap.getHeight(stairwellX + stairwell.getWidth() / 2, stairwellZ + stairwell.getLength() / 2, world, generator)
                             ).min()!!
 
                             var stairwellTop = stairwellY
@@ -106,7 +98,7 @@ class GnomishCityStructureStart : StructureStart {
                                         stairwellX,
                                         stairwellTop,
                                         stairwellZ,
-                                        random,
+                                        rand,
                                         stairwell,
                                         facing = facing
                                     )
@@ -132,7 +124,7 @@ class GnomishCityStructureStart : StructureStart {
                                     roomPosX,
                                     roomPosY,
                                     roomPosZ,
-                                    random,
+                                    rand,
                                     ModSchematics.ROOM_STAIR_DOWN,
                                     ModLootTables.GNOMISH_CITY,
                                     stairs1To2Facing
@@ -146,7 +138,7 @@ class GnomishCityStructureStart : StructureStart {
                                     roomPosX,
                                     roomPosY,
                                     roomPosZ,
-                                    random,
+                                    rand,
                                     ModSchematics.ROOM_STAIR_UP,
                                     ModLootTables.GNOMISH_CITY,
                                     stairs1To2Facing
@@ -163,7 +155,7 @@ class GnomishCityStructureStart : StructureStart {
                                     roomPosX,
                                     roomPosY,
                                     roomPosZ,
-                                    random,
+                                    rand,
                                     ModSchematics.ROOM_STAIR_DOWN,
                                     ModLootTables.GNOMISH_CITY,
                                     enariaFloorSettings.facing
@@ -176,7 +168,7 @@ class GnomishCityStructureStart : StructureStart {
                                     cornerPosX + xIndex * 50 + enariaFloorSettings.xOffset,
                                     cornerPosY + floor.ordinal * 15,
                                     cornerPosZ + zIndex * 50 + enariaFloorSettings.zOffset,
-                                    random,
+                                    rand,
                                     ModSchematics.ENARIA_LAIR,
                                     facing = enariaFloorSettings.facing
                                 )
@@ -189,7 +181,7 @@ class GnomishCityStructureStart : StructureStart {
                                     roomPosX,
                                     roomPosY,
                                     roomPosZ,
-                                    random,
+                                    rand,
                                     rooms.next(),
                                     ModLootTables.GNOMISH_CITY
                                 )
@@ -212,9 +204,9 @@ class GnomishCityStructureStart : StructureStart {
                             cornerPosX + i * 50 + 13,
                             cornerPosY + floor.ordinal * 15 + 15 + 7,
                             cornerPosZ + j * 50 + 32,
-                            random,
+                            rand,
                             ModSchematics.CONNECTOR,
-                            facing = EnumFacing.EAST
+                            facing = Direction.EAST
                         )
                     )
 
@@ -224,16 +216,16 @@ class GnomishCityStructureStart : StructureStart {
                             cornerPosX + j * 50 + 32,
                             cornerPosY + floor.ordinal * 15 + 15 + 7,
                             cornerPosZ + i * 50 + 13,
-                            random,
+                            rand,
                             ModSchematics.CONNECTOR,
-                            facing = EnumFacing.NORTH
+                            facing = Direction.NORTH
                         )
                     )
                 }
             }
         }
 
-        this.recalculateStructureSize(world)
+        this.recalculateStructureSize()
         // Don't expand the bounding box past the upward stairs
         this.boundingBox.maxY = this.boundingBox.maxY - amountOfStairRemoved
     }
@@ -243,11 +235,11 @@ class GnomishCityStructureStart : StructureStart {
         UPPER
     }
 
-    private enum class EnariaFloorSettings(internal val roomId: Int, internal val facing: EnumFacing, internal val xOffset: Int, internal val zOffset: Int) {
-        NORTH(7, EnumFacing.NORTH, -14, -73),
-        SOUTH(1, EnumFacing.SOUTH, -14, 12),
-        EAST(3, EnumFacing.EAST, 12, -14),
-        WEST(5, EnumFacing.WEST, -73, -14)
+    private enum class EnariaFloorSettings(val roomId: Int, val facing: Direction, val xOffset: Int, val zOffset: Int) {
+        NORTH(7, Direction.NORTH, -14, -73),
+        SOUTH(1, Direction.SOUTH, -14, 12),
+        EAST(3, Direction.EAST, 12, -14),
+        WEST(5, Direction.WEST, -73, -14)
     }
 
     companion object {

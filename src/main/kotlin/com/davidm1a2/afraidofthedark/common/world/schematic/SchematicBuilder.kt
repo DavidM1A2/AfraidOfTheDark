@@ -2,8 +2,8 @@ package com.davidm1a2.afraidofthedark.common.world.schematic
 
 import com.davidm1a2.afraidofthedark.common.utility.ResourceUtil
 import com.electronwill.nightconfig.toml.TomlFormat
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.CompressedStreamTools
-import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.util.Constants
@@ -92,7 +92,7 @@ class SchematicBuilder {
         // Read the block ids
         val blockIds = nbtData.getIntArray("BlockIds")
         // Read the map of block name to id
-        val blockMapData = nbtData.getList("BlockIdData", Constants.NBT.TAG_COMPOUND).map { (it as NBTTagCompound) }
+        val blockMapData = nbtData.getList("BlockIdData", Constants.NBT.TAG_COMPOUND).map { (it as CompoundNBT) }
 
         // Convert block names to block pointer references
         val blockMapBlocks = blockMapData.map { NBTUtil.readBlockState(it) }

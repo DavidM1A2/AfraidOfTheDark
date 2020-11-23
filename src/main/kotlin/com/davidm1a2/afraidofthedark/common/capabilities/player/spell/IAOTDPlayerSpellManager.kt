@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell
 
 import com.davidm1a2.afraidofthedark.common.spell.Spell
-import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.entity.player.PlayerEntity
 import java.util.*
 
 /**
@@ -85,11 +85,11 @@ interface IAOTDPlayerSpellManager {
      *
      * @param entityPlayer The player to sync the spell manager to
      */
-    fun syncAll(entityPlayer: EntityPlayer)
+    fun syncAll(entityPlayer: PlayerEntity)
 
     /**
      * Synchronizes a specific spell between server and client, can be sent from
      * any side. This will only send the spell and keybinding information for a single spell
      */
-    fun sync(entityPlayer: EntityPlayer, spell: Spell)
+    fun sync(entityPlayer: PlayerEntity, spell: Spell)
 }

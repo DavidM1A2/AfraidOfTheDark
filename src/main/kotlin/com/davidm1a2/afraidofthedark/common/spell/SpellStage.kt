@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
-import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.nbt.CompoundNBT
 import net.minecraftforge.common.util.INBTSerializable
 
 /**
@@ -14,7 +14,7 @@ import net.minecraftforge.common.util.INBTSerializable
  * @property deliveryInstance The delivery method for this spell stage, can be null
  * @property effects A list of 4 effects for this spell stage, each can be null but the array can't be
  */
-class SpellStage : INBTSerializable<NBTTagCompound> {
+class SpellStage : INBTSerializable<CompoundNBT> {
     var deliveryInstance: SpellComponentInstance<SpellDeliveryMethod>? = null
     val effects: Array<SpellComponentInstance<SpellEffect>?> = arrayOfNulls(MAX_EFFECTS_PER_STAGE)
 
@@ -31,7 +31,7 @@ class SpellStage : INBTSerializable<NBTTagCompound> {
      *
      * @param spellStageNBT The NBT containing the spell stage's information
      */
-    internal constructor(spellStageNBT: NBTTagCompound) {
+    internal constructor(spellStageNBT: CompoundNBT) {
         deserializeNBT(spellStageNBT)
     }
 
@@ -72,14 +72,14 @@ class SpellStage : INBTSerializable<NBTTagCompound> {
      *
      * @return An NBT compound with all this spell stage's data
      */
-    override fun serializeNBT(): NBTTagCompound {
-        val nbt = NBTTagCompound()
+    override fun serializeNBT(): CompoundNBT {
+        val nbt = CompoundNBT()
 
         // The spell stage delivery method can be null, double check that it isn't before writing it and its state
-        deliveryInstance?.let { nbt.setTag(NBT_DELIVERY_METHOD, it.serializeNBT()) }
+        deliveryInstance?.let { nbt.put(NBT_DELIVERY_METHOD, it.serializeNBT()) }
 
         // The spell stage effects can be null, so we need to skip null effects
-        effects.forEachIndexed { i, effect -> effect?.let { nbt.setTag(NBT_EFFECT_BASE + i, it.serializeNBT()) } }
+        effects.forEachIndexed { i, effect -> effect?.let { nbt.put(NBT_EFFECT_BASE + i, it.serializeNBT()) } }
 
         return nbt
     }
@@ -89,16 +89,16 @@ class SpellStage : INBTSerializable<NBTTagCompound> {
      *
      * @param nbt The NBT compound to read from
      */
-    override fun deserializeNBT(nbt: NBTTagCompound) {
+    override fun deserializeNBT(nbt: CompoundNBT) {
         // The spell stage delivery method can be null, double check that it exists before reading it and its state
-        if (nbt.hasKey(NBT_DELIVERY_METHOD)) {
+        if (nbt.contains(NBT_DELIVERY_METHOD)) {
             deliveryInstance = SpellDeliveryMethodInstance.createFromNBT(nbt.getCompound(NBT_DELIVERY_METHOD))
         }
 
         // Go over each spell effect
         for (i in effects.indices) {
             // The spell stage effects can be null, so we need to skip null effects
-            if (nbt.hasKey(NBT_EFFECT_BASE + i)) {
+            if (nbt.contains(NBT_EFFECT_BASE + i)) {
                 effects[i] = SpellEffectInstance.createFromNBT(nbt.getCompound(NBT_EFFECT_BASE + i))
             }
         }

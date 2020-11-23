@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect.base
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.ParticlePacket
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.ParticlePacket
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.dimension.DimensionType

@@ -2,23 +2,26 @@ package com.davidm1a2.afraidofthedark.common.world.structure.voidchestportal
 
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.SchematicStructurePiece
-import net.minecraft.util.EnumFacing
-import net.minecraft.util.SharedSeedRandom
-import net.minecraft.world.IWorldReaderBase
+import net.minecraft.util.Direction
+import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.world.biome.Biome
+import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraft.world.gen.feature.structure.StructureStart
+import net.minecraft.world.gen.feature.template.TemplateManager
 
-class VoidChestPortalStructureStart : StructureStart {
-    // Required for reflection
-    constructor() : super()
+class VoidChestPortalStructureStart(
+    structure: Structure<*>,
+    chunkX: Int,
+    chunkZ: Int,
+    biomeIn: Biome,
+    boundsIn: MutableBoundingBox,
+    referenceIn: Int,
+    seed: Long
+) :
+    StructureStart(structure, chunkX, chunkZ, biomeIn, boundsIn, referenceIn, seed) {
 
-    constructor(world: IWorldReaderBase, chunkPosX: Int, biome: Biome, random: SharedSeedRandom, seed: Long) : super(
-        chunkPosX,
-        0,
-        biome,
-        random,
-        seed
-    ) {
+    override fun init(generator: ChunkGenerator<*>, templateManagerIn: TemplateManager, centerChunkX: Int, centerChunkZ: Int, biomeIn: Biome) {
         val startX = chunkPosX * 16
         val endX = startX + 15
         val multipleOf1000 = endX / 1000
@@ -29,11 +32,11 @@ class VoidChestPortalStructureStart : StructureStart {
                 posX + 4,
                 100,
                 -2,
-                random,
+                rand,
                 ModSchematics.VOID_CHEST_PORTAL,
-                facing = EnumFacing.NORTH
+                facing = Direction.NORTH
             )
         )
-        this.recalculateStructureSize(world)
+        this.recalculateStructureSize()
     }
 }

@@ -5,16 +5,14 @@ import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
-import net.minecraft.init.Biomes
-import net.minecraft.util.SharedSeedRandom
-import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IWorld
 import net.minecraft.world.biome.Biome
-import net.minecraft.world.dimension.DimensionType
-import net.minecraft.world.gen.IChunkGenerator
-import net.minecraft.world.gen.feature.structure.StructureStart
+import net.minecraft.world.biome.Biomes
+import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
+import java.util.*
 
-class DarkForestStructure : AOTDStructure<DarkForestConfig>() {
+class DarkForestStructure : AOTDStructure<DarkForestConfig>({ DarkForestConfig.deserialize(it) }) {
     private val width: Int
     private val bedHouseWidth: Int
     private val length: Int
@@ -54,42 +52,27 @@ class DarkForestStructure : AOTDStructure<DarkForestConfig>() {
         }
     }
 
-    override fun isEnabledIn(worldIn: IWorld): Boolean {
-        return worldIn.dimension.type == DimensionType.OVERWORLD
+    override fun getStartFactory(): IStartFactory {
+        return IStartFactory { structure, chunkX, chunkZ, biome, mutableBoundingBox, reference, seed ->
+            DarkForestStructureStart(structure, chunkX, chunkZ, biome, mutableBoundingBox, reference, seed)
+        }
     }
 
-    override fun hasStartAt(worldIn: IWorld, chunkGen: IChunkGenerator<*>, rand: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): Boolean {
-        rand.setLargeFeatureSeed(chunkGen.seed, centerChunkX, centerChunkZ)
-
-        val xPos = centerChunkX * 16
-        val zPos = centerChunkZ * 16
-
+    override fun hasStartAt(worldIn: IWorld, chunkGen: ChunkGenerator<*>, random: Random, xPos: Int, zPos: Int): Boolean {
         val frequency = getInteriorConfigs(xPos, zPos, chunkGen, bedHouseWidth, bedHouseLength, stepNum = 2)
             .map { it?.frequency ?: 0.0 }
             .min() ?: 0.0
-        if (rand.nextDouble() >= frequency) {
+        if (random.nextDouble() >= frequency) {
             return false
         }
 
-        val heights = getEdgeHeights(xPos, zPos, worldIn, chunkGen, bedHouseWidth, bedHouseLength)
+        val heights = getEdgeHeights(xPos, zPos, chunkGen, worldIn, bedHouseWidth, bedHouseLength)
         val maxHeight = heights.max()!!
         val minHeight = heights.min()!!
         if (maxHeight - minHeight > 8) {
             return false
         }
-
-        return doesNotCollide(worldIn, chunkGen, rand, centerChunkX, centerChunkZ)
-    }
-
-    override fun makeStart(worldIn: IWorld, generator: IChunkGenerator<*>, random: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): StructureStart {
-        random.setLargeFeatureSeed(generator.seed, centerChunkX, centerChunkZ)
-
-        val xPos = centerChunkX * 16
-        val zPos = centerChunkZ * 16
-        val centerBiome = generator.biomeProvider.getBiome(BlockPos(xPos, 0, zPos), Biomes.PLAINS)!!
-
-        val yPos = getEdgeHeights(xPos, zPos, worldIn, generator, bedHouseWidth, bedHouseLength).min()!!
-        return DarkForestStructureStart(worldIn, generator, centerChunkX, yPos - 1, centerChunkZ, centerBiome, random, generator.seed, width, length)
+        return true
     }
 
     companion object {

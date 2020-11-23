@@ -8,15 +8,15 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.item.ItemCloakOfAgility
-import com.davidm1a2.afraidofthedark.common.item.crossbow.ItemWristCrossbow
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.FireWristCrossbowPacket
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.SpellKeyPressPacket
+import com.davidm1a2.afraidofthedark.common.item.CloakOfAgilityItem
+import com.davidm1a2.afraidofthedark.common.item.crossbow.WristCrossbowItem
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.FireWristCrossbowPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.SpellKeyPressPacket
 import com.davidm1a2.afraidofthedark.common.utility.BoltOrderHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.Vec3d
-import net.minecraft.util.text.TextComponentTranslation
+import net.minecraft.util.text.TranslationTextComponent
 import net.minecraftforge.client.event.InputEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import org.lwjgl.glfw.GLFW
@@ -82,9 +82,9 @@ class KeyInputEventHandler {
 
             // Tell the player what type of bolt will be fired now
             entityPlayer.sendMessage(
-                TextComponentTranslation(
+                TranslationTextComponent(
                     "message.afraidofthedark.wrist_crossbow.bolt_change",
-                    TextComponentTranslation(BoltOrderHelper.getBoltAt(currentBoltIndex).getUnlocalizedName())
+                    TranslationTextComponent(BoltOrderHelper.getBoltAt(currentBoltIndex).getUnlocalizedName())
                 )
             )
         } else {
@@ -99,9 +99,9 @@ class KeyInputEventHandler {
                     if (entityPlayer.inventory.hasItemStack(ItemStack(boltType.boltItem)) || entityPlayer.isCreative) {
                         // Find the wrist crossbow item in the player's inventory
                         for (itemStack in entityPlayer.inventory.mainInventory) {
-                            if (itemStack.item is ItemWristCrossbow) {
+                            if (itemStack.item is WristCrossbowItem) {
                                 // Grab the crossbow item reference
-                                val wristCrossbow = itemStack.item as ItemWristCrossbow
+                                val wristCrossbow = itemStack.item as WristCrossbowItem
 
                                 // Test if the crossbow is on CD or not. If it is fire, if it is not continue searching
                                 if (!wristCrossbow.isOnCooldown(itemStack)) {
@@ -115,20 +115,20 @@ class KeyInputEventHandler {
                             }
                         }
                         // No valid wrist crossbow found
-                        entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark.wrist_crossbow.reloading"))
+                        entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wrist_crossbow.reloading"))
                     } else {
                         entityPlayer.sendMessage(
-                            TextComponentTranslation(
+                            TranslationTextComponent(
                                 "message.afraidofthedark.wrist_crossbow.no_bolt",
-                                TextComponentTranslation(boltType.getUnlocalizedName())
+                                TranslationTextComponent(boltType.getUnlocalizedName())
                             )
                         )
                     }
                 } else {
-                    entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark.wrist_crossbow.no_crossbow"))
+                    entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wrist_crossbow.no_crossbow"))
                 }
             } else {
-                entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.DONT_UNDERSTAND))
+                entityPlayer.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
     }
@@ -147,8 +147,8 @@ class KeyInputEventHandler {
                 // Test if the player has a cloak of agility in their inventory
                 for (itemStack in entityPlayer.inventory.mainInventory) {
                     // If the itemstack is a cloak set it on cooldown and dash
-                    if (itemStack.item is ItemCloakOfAgility) {
-                        val cloakOfAgility = itemStack.item as ItemCloakOfAgility
+                    if (itemStack.item is CloakOfAgilityItem) {
+                        val cloakOfAgility = itemStack.item as CloakOfAgilityItem
                         // Ensure the cloak is not on cooldown
                         if (!cloakOfAgility.isOnCooldown(itemStack)) {
                             // Set the cloak on CD
@@ -156,26 +156,28 @@ class KeyInputEventHandler {
 
                             // If the player is not moving roll in the direction the player is looking, otherwise roll in the direction the player is moving
                             var motionDirection =
-                                if (entityPlayer.motionX <= 0.01 && entityPlayer.motionX >= -0.01 && entityPlayer.motionZ <= 0.01 && entityPlayer.motionZ >= -0.01) {
+                                if (entityPlayer.motion.x <= 0.01 && entityPlayer.motion.x >= -0.01 && entityPlayer.motion.z <= 0.01 && entityPlayer.motion.z >= -0.01) {
                                     val lookDirection = entityPlayer.lookVec
                                     Vec3d(lookDirection.x, 0.0, lookDirection.z)
                                 } else {
-                                    Vec3d(entityPlayer.motionX, 0.0, entityPlayer.motionZ)
+                                    Vec3d(entityPlayer.motion.x, 0.0, entityPlayer.motion.z)
                                 }
 
                             // Normalize the motion vector
                             motionDirection = motionDirection.normalize()
 
                             // Update the player's motion in the new direction
-                            entityPlayer.motionX = motionDirection.x * ROLL_VELOCITY
-                            entityPlayer.motionY = 0.2
-                            entityPlayer.motionZ = motionDirection.z * ROLL_VELOCITY
+                            entityPlayer.setMotion(
+                                motionDirection.x * ROLL_VELOCITY,
+                                0.2,
+                                motionDirection.z * ROLL_VELOCITY
+                            )
 
                             // Return
                             return
                         } else {
                             entityPlayer.sendMessage(
-                                TextComponentTranslation(
+                                TranslationTextComponent(
                                     "message.afraidofthedark.cloak_of_agility.too_tired",
                                     cloakOfAgility.cooldownRemainingInSeconds(itemStack)
                                 )
@@ -186,10 +188,10 @@ class KeyInputEventHandler {
                     }
                 }
             } else {
-                entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark.cloak_of_agility.not_grounded"))
+                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.cloak_of_agility.not_grounded"))
             }
         } else {
-            entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.DONT_UNDERSTAND))
+            entityPlayer.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
         }
     }
 

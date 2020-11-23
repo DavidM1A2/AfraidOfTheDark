@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
-import com.davidm1a2.afraidofthedark.client.gui.guiScreens.SpellListGUI
+import com.davidm1a2.afraidofthedark.client.gui.screens.SpellListScreen
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
@@ -15,7 +15,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
 import net.minecraft.client.Minecraft
-import net.minecraft.util.text.TextComponentTranslation
+import net.minecraft.util.text.TranslationTextComponent
 import kotlin.math.roundToInt
 
 /**
@@ -110,7 +110,7 @@ class AOTDGuiSpellTablet(
                     // Sync the spell server side
                     spellManager.sync(entityPlayer, spellClone)
                     // Tell the player the save was successful
-                    entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark.spell.save_successful", spellClone.name))
+                    entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.save_successful", spellClone.name))
                 }
             }
         }
@@ -141,7 +141,7 @@ class AOTDGuiSpellTablet(
                 // Ensure the button is visible and hovered
                 if (closeButton.isVisible && closeButton.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     // Open the list gui without saving
-                    Minecraft.getInstance().displayGuiScreen(SpellListGUI())
+                    Minecraft.getInstance().displayGuiScreen(SpellListScreen())
                 }
             }
         }

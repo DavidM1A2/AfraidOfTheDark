@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.packets.animationPackets.AnimationPacket
-import com.davidm1a2.afraidofthedark.common.packets.animationPackets.AnimationPacketProcessor
-import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.*
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.*
+import com.davidm1a2.afraidofthedark.common.network.packets.animationPackets.AnimationPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.animationPackets.AnimationPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.*
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.*
 
 /**
  * Class that registers all of our mod's packets

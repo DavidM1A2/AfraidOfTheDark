@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.dimension
 
-import net.minecraft.nbt.INBTBase
-import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.nbt.CompoundNBT
+import net.minecraft.nbt.INBT
 import net.minecraft.nbt.NBTUtil
-import net.minecraft.util.EnumFacing
+import net.minecraft.util.Direction
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.dimension.DimensionType
 import net.minecraftforge.common.capabilities.Capability
@@ -26,14 +26,14 @@ class AOTDPlayerNightmareDataStorage : IStorage<IAOTDPlayerNightmareData> {
     override fun writeNBT(
         capability: Capability<IAOTDPlayerNightmareData>,
         instance: IAOTDPlayerNightmareData,
-        side: EnumFacing?
-    ): INBTBase {
+        side: Direction?
+    ): INBT {
         // Create a compound to write
-        val compound = NBTTagCompound()
-        compound.setInt(NBT_POSITIONAL_INDEX, instance.positionalIndex)
-        instance.preTeleportPlayerInventory?.let { compound.setTag(NBT_PRE_TELEPORT_INVENTORY, it) }
-        instance.preTeleportPosition?.let { compound.setTag(NBT_PRE_TELEPORT_POSITION, NBTUtil.writeBlockPos(it)) }
-        instance.preTeleportDimension?.let { compound.setString(NBT_PRE_TELEPORT_DIMENSION, DimensionType.func_212678_a(it).toString()) }
+        val compound = CompoundNBT()
+        compound.putInt(NBT_POSITIONAL_INDEX, instance.positionalIndex)
+        instance.preTeleportPlayerInventory?.let { compound.put(NBT_PRE_TELEPORT_INVENTORY, it) }
+        instance.preTeleportPosition?.let { compound.put(NBT_PRE_TELEPORT_POSITION, NBTUtil.writeBlockPos(it)) }
+        instance.preTeleportDimension?.let { compound.putString(NBT_PRE_TELEPORT_DIMENSION, DimensionType.getKey(it).toString()) }
         return compound
     }
 
@@ -48,14 +48,14 @@ class AOTDPlayerNightmareDataStorage : IStorage<IAOTDPlayerNightmareData> {
     override fun readNBT(
         capability: Capability<IAOTDPlayerNightmareData>,
         instance: IAOTDPlayerNightmareData,
-        side: EnumFacing?,
-        nbt: INBTBase
+        side: Direction?,
+        nbt: INBT
     ) {
         // Test if the nbt tag base is an NBT tag compound
-        if (nbt is NBTTagCompound) {
+        if (nbt is CompoundNBT) {
             // The compound to read from
             instance.positionalIndex = nbt.getInt(NBT_POSITIONAL_INDEX)
-            if (nbt.hasKey(NBT_PRE_TELEPORT_INVENTORY)) {
+            if (nbt.contains(NBT_PRE_TELEPORT_INVENTORY)) {
                 instance.preTeleportPlayerInventory = nbt.getList(
                     NBT_PRE_TELEPORT_INVENTORY,
                     Constants.NBT.TAG_COMPOUND
@@ -64,14 +64,14 @@ class AOTDPlayerNightmareDataStorage : IStorage<IAOTDPlayerNightmareData> {
                 instance.preTeleportPlayerInventory = null
             }
 
-            if (nbt.hasKey(NBT_PRE_TELEPORT_POSITION)) {
+            if (nbt.contains(NBT_PRE_TELEPORT_POSITION)) {
                 instance.preTeleportPosition =
-                    NBTUtil.readBlockPos(nbt.getTag(NBT_PRE_TELEPORT_POSITION) as NBTTagCompound)
+                    NBTUtil.readBlockPos(nbt.getCompound(NBT_PRE_TELEPORT_POSITION))
             } else {
                 instance.preTeleportPosition = null
             }
 
-            if (nbt.hasKey(NBT_PRE_TELEPORT_DIMENSION)) {
+            if (nbt.contains(NBT_PRE_TELEPORT_DIMENSION)) {
                 instance.preTeleportDimension = DimensionType.byName(ResourceLocation(nbt.getString(NBT_PRE_TELEPORT_DIMENSION)))
             } else {
                 instance.preTeleportDimension = null

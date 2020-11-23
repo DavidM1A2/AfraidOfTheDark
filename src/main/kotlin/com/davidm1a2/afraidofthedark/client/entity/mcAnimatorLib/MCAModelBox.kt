@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib
 
 import net.minecraft.client.renderer.BufferBuilder
-import net.minecraft.client.renderer.entity.model.ModelBox
-import net.minecraft.client.renderer.entity.model.ModelRenderer
-import net.minecraft.client.renderer.entity.model.PositionTextureVertex
-import net.minecraft.client.renderer.entity.model.TexturedQuad
+import net.minecraft.client.renderer.entity.model.RendererModel
+import net.minecraft.client.renderer.model.ModelBox
+import net.minecraft.client.renderer.model.PositionTextureVertex
+import net.minecraft.client.renderer.model.TexturedQuad
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
@@ -25,7 +25,7 @@ import net.minecraftforge.api.distmarker.OnlyIn
  * @property quadList Same as superclass, but it was PRIVATE.
  */
 class MCAModelBox(
-    renderer: ModelRenderer,
+    renderer: RendererModel,
     textureX: Int,
     textureY: Int,
     x: Float,

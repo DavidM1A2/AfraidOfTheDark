@@ -2,8 +2,8 @@ package com.davidm1a2.afraidofthedark.common.world.structure.base
 
 import net.minecraft.inventory.ItemStackHelper
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.tileentity.TileEntityChest
+import net.minecraft.nbt.CompoundNBT
+import net.minecraft.tileentity.ChestTileEntity
 import net.minecraft.util.IItemProvider
 import net.minecraft.util.NonNullList
 import net.minecraft.util.ResourceLocation
@@ -23,7 +23,7 @@ class LootTable(val name: String, itemProviderToLootTable: Map<IItemProvider?, R
      *
      * @param chest The chest to generate loot in
      */
-    fun generate(chest: TileEntityChest, chestNBT: NBTTagCompound, random: Random) {
+    fun generate(chest: ChestTileEntity, chestNBT: CompoundNBT, random: Random) {
         // Can't use chest.getStackInSlot() since it requires a valid world object
         val items = NonNullList.withSize(chest.sizeInventory, ItemStack.EMPTY)
         ItemStackHelper.loadAllItems(chestNBT, items)
