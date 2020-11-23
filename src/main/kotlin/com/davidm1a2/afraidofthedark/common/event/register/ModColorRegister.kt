@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
+import com.davidm1a2.afraidofthedark.common.block.core.AOTDLeavesBlock
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import net.minecraft.block.BlockState
-import net.minecraft.block.LeavesBlock
 import net.minecraft.client.renderer.color.IBlockColor
 import net.minecraft.client.renderer.color.IItemColor
 import net.minecraft.item.BlockItem
@@ -29,7 +29,7 @@ class ModColorRegister {
     @OnlyIn(Dist.CLIENT)
     fun registerBlockColors(event: ColorHandlerEvent.Block) {
         // Filter our block list by leaf blocks only
-        val leafBlocks = ModBlocks.BLOCK_LIST.filterIsInstance<LeavesBlock>().toTypedArray()
+        val leafBlocks = ModBlocks.BLOCK_LIST.filterIsInstance<AOTDLeavesBlock>().toTypedArray()
 
         // The block colors to register to
         val blockColors = event.blockColors
@@ -38,10 +38,11 @@ class ModColorRegister {
         blockColors.register(
             IBlockColor { _: BlockState, blockAccess: IEnviromentBlockReader?, pos: BlockPos?, _: Int ->
                 // Make sure we were passed valid parameters
-                if (blockAccess != null && pos != null) {
-                    return@IBlockColor BiomeColors.getFoliageColor(blockAccess, pos)
+                return@IBlockColor if (blockAccess != null && pos != null) {
+                    BiomeColors.getFoliageColor(blockAccess, pos)
+                } else {
+                    FoliageColors.getDefault()
                 }
-                FoliageColors.get(0.5, 1.0)
             }, *leafBlocks
         )
     }
@@ -55,7 +56,7 @@ class ModColorRegister {
     @OnlyIn(Dist.CLIENT)
     fun registerItemColors(event: ColorHandlerEvent.Item) {
         // Filter our block list by leaf blocks only
-        val leafBlocks = ModBlocks.BLOCK_LIST.filterIsInstance<LeavesBlock>().toTypedArray()
+        val leafBlocks = ModBlocks.BLOCK_LIST.filterIsInstance<AOTDLeavesBlock>().toTypedArray()
 
         // The item and block colors to register to
         val itemColors = event.itemColors

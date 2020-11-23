@@ -45,7 +45,6 @@ class AfraidOfTheDark {
         forgeBus.register(SpellFreezeHandler())
         forgeBus.register(SpellCharmHandler())
         forgeBus.register(ArmorHandler())
-        forgeBus.register(ModColorRegister())
         forgeBus.register(FurnaceFuelRegister())
         forgeBus.register(this)
 
@@ -68,6 +67,7 @@ class AfraidOfTheDark {
         modBus.register(StructureRegister())
         modBus.register(dimensionRegister)
         modBus.register(ConfigurationHandler())
+        modBus.register(ModColorRegister())
         modBus.register(this)
 
         context.registerConfig(ModConfig.Type.CLIENT, ModConfigHolder.CLIENT_SPEC)
