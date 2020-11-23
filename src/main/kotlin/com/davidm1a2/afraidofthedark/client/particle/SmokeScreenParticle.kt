@@ -1,6 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.particle
 
+import net.minecraft.client.particle.IAnimatedSprite
+import net.minecraft.client.particle.IParticleFactory
+import net.minecraft.client.particle.Particle
+import net.minecraft.particles.BasicParticleType
 import net.minecraft.world.World
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Particle used to create a smoke screen
@@ -11,6 +17,7 @@ import net.minecraft.world.World
  * @param y The y position of the smoke screen particle
  * @param z The z position of the smoke screen particle
  */
+@OnlyIn(Dist.CLIENT)
 class SmokeScreenParticle(
     world: World,
     x: Double,
@@ -41,5 +48,23 @@ class SmokeScreenParticle(
         motionX = motionX * 0.95
         motionY = motionY * 0.95
         motionZ = motionZ * 0.95
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
+        override fun makeParticle(
+            particle: BasicParticleType,
+            world: World,
+            x: Double,
+            y: Double,
+            z: Double,
+            xSpeed: Double,
+            ySpeed: Double,
+            zSpeed: Double
+        ): Particle {
+            return SmokeScreenParticle(world, x, y, z).apply {
+                selectSpriteRandomly(spriteSet)
+            }
+        }
     }
 }

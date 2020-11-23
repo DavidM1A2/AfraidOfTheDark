@@ -1,6 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.particle
 
+import net.minecraft.client.particle.IAnimatedSprite
+import net.minecraft.client.particle.IParticleFactory
+import net.minecraft.client.particle.Particle
+import net.minecraft.particles.BasicParticleType
 import net.minecraft.world.World
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Particle representing an enchanted frog's spawn animation
@@ -11,6 +17,7 @@ import net.minecraft.world.World
  * @param y The y position of the basic attack
  * @param z The z position of the basic attack
  */
+@OnlyIn(Dist.CLIENT)
 class EnchantedFrogSpawnParticle(
     world: World,
     x: Double,
@@ -38,5 +45,23 @@ class EnchantedFrogSpawnParticle(
         setAlphaF((maxAge - age).toFloat() / maxAge.toFloat())
         motionX = motionX * 0.7
         motionZ = motionZ * 0.7
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
+        override fun makeParticle(
+            particle: BasicParticleType,
+            world: World,
+            x: Double,
+            y: Double,
+            z: Double,
+            xSpeed: Double,
+            ySpeed: Double,
+            zSpeed: Double
+        ): Particle {
+            return EnchantedFrogSpawnParticle(world, x, y, z, xSpeed, zSpeed).apply {
+                selectSpriteRandomly(spriteSet)
+            }
+        }
     }
 }

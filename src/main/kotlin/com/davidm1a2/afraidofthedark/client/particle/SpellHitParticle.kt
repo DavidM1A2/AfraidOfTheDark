@@ -1,6 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.particle
 
+import net.minecraft.client.particle.IAnimatedSprite
+import net.minecraft.client.particle.IParticleFactory
+import net.minecraft.client.particle.Particle
+import net.minecraft.particles.BasicParticleType
 import net.minecraft.world.World
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * A special particle spell hit effect
@@ -11,6 +17,7 @@ import net.minecraft.world.World
  * @param y The y position of the spell hit effect
  * @param z The z position of the spell hit effect
  */
+@OnlyIn(Dist.CLIENT)
 class SpellHitParticle(
     world: World,
     x: Double,
@@ -28,5 +35,23 @@ class SpellHitParticle(
         motionX = (rand.nextFloat() - 0.5) * 0.05
         motionY = rand.nextFloat() * 0.02
         motionZ = (rand.nextFloat() - 0.5) * 0.05
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
+        override fun makeParticle(
+            particle: BasicParticleType,
+            world: World,
+            x: Double,
+            y: Double,
+            z: Double,
+            xSpeed: Double,
+            ySpeed: Double,
+            zSpeed: Double
+        ): Particle {
+            return SpellHitParticle(world, x, y, z).apply {
+                selectSpriteRandomly(spriteSet)
+            }
+        }
     }
 }

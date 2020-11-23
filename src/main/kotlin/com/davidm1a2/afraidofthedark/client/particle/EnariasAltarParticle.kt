@@ -1,6 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.particle
 
+import net.minecraft.client.particle.IAnimatedSprite
+import net.minecraft.client.particle.IParticleFactory
+import net.minecraft.client.particle.Particle
+import net.minecraft.particles.BasicParticleType
 import net.minecraft.world.World
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Particle spawned when enaria's altar spins
@@ -11,6 +17,7 @@ import net.minecraft.world.World
  * @param y The y position of the particle
  * @param z The z position of the particle
  */
+@OnlyIn(Dist.CLIENT)
 class EnariasAltarParticle(
     world: World,
     x: Double,
@@ -35,5 +42,23 @@ class EnariasAltarParticle(
         motionY = motionY * 1.02
         // Slowly make the particle fade
         particleAlpha = (maxAge - age) / maxAge.toFloat()
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
+        override fun makeParticle(
+            particle: BasicParticleType,
+            world: World,
+            x: Double,
+            y: Double,
+            z: Double,
+            xSpeed: Double,
+            ySpeed: Double,
+            zSpeed: Double
+        ): Particle {
+            return EnariasAltarParticle(world, x, y, z).apply {
+                selectSpriteRandomly(spriteSet)
+            }
+        }
     }
 }

@@ -29,33 +29,15 @@ class ParticleRegister {
     fun registerParticleFactories(event: ParticleFactoryRegisterEvent) {
         val particleManager = Minecraft.getInstance().particles
 
-        particleManager.registerFactory(ModParticles.ENARIA_BASIC_ATTACK) { _, worldIn, x, y, z, _, _, _ -> EnariaBasicAttackParticle(worldIn, x, y, z) }
-        particleManager.registerFactory(ModParticles.ENARIAS_ALTAR) { _, worldIn, x, y, z, _, _, _ -> EnariasAltarParticle(worldIn, x, y, z) }
-        particleManager.registerFactory(ModParticles.ENARIA_SPELL_CAST) { _, worldIn, x, y, z, _, _, _ -> EnariaSpellCastParticle(worldIn, x, y, z) }
-        particleManager.registerFactory(ModParticles.ENARIA_SPELL_CAST_2) { _, worldIn, x, y, z, xSpeed, _, zSpeed ->
-            EnariaSpellCast2Particle(
-                worldIn,
-                x,
-                y,
-                z,
-                xSpeed,
-                zSpeed
-            )
-        }
-        particleManager.registerFactory(ModParticles.ENARIA_TELEPORT) { _, worldIn, x, y, z, _, _, _ -> EnariaTeleportParticle(worldIn, x, y, z) }
-        particleManager.registerFactory(ModParticles.ENCHANTED_FROG_SPAWN) { _, worldIn, x, y, z, xSpeed, _, zSpeed ->
-            EnchantedFrogSpawnParticle(
-                worldIn,
-                x,
-                y,
-                z,
-                xSpeed,
-                zSpeed
-            )
-        }
-        particleManager.registerFactory(ModParticles.SMOKE_SCREEN) { _, worldIn, x, y, z, _, _, _ -> SmokeScreenParticle(worldIn, x, y, z) }
-        particleManager.registerFactory(ModParticles.SPELL_CAST) { _, worldIn, x, y, z, _, _, _ -> SpellCastParticle(worldIn, x, y, z) }
-        particleManager.registerFactory(ModParticles.SPELL_HIT) { _, worldIn, x, y, z, _, _, _ -> SpellHitParticle(worldIn, x, y, z) }
-        particleManager.registerFactory(ModParticles.SPELL_LASER) { _, worldIn, x, y, z, _, _, _ -> SpellLaserParticle(worldIn, x, y, z) }
+        particleManager.registerFactory(ModParticles.ENARIA_BASIC_ATTACK, EnariaBasicAttackParticle::Factory)
+        particleManager.registerFactory(ModParticles.ENARIAS_ALTAR, EnariasAltarParticle::Factory)
+        particleManager.registerFactory(ModParticles.ENARIA_SPELL_CAST, EnariaSpellCastParticle::Factory)
+        particleManager.registerFactory(ModParticles.ENARIA_SPELL_CAST_2, EnariaSpellCast2Particle::Factory)
+        particleManager.registerFactory(ModParticles.ENARIA_TELEPORT, EnariaTeleportParticle::Factory)
+        particleManager.registerFactory(ModParticles.ENCHANTED_FROG_SPAWN, EnchantedFrogSpawnParticle::Factory)
+        particleManager.registerFactory(ModParticles.SMOKE_SCREEN, SmokeScreenParticle::Factory)
+        particleManager.registerFactory(ModParticles.SPELL_CAST, SpellCastParticle::Factory)
+        particleManager.registerFactory(ModParticles.SPELL_HIT, SpellHitParticle::Factory)
+        particleManager.registerFactory(ModParticles.SPELL_LASER, SpellLaserParticle::Factory)
     }
 }

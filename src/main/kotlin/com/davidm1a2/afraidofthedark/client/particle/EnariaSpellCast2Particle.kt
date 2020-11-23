@@ -1,6 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.particle
 
+import net.minecraft.client.particle.IAnimatedSprite
+import net.minecraft.client.particle.IParticleFactory
+import net.minecraft.client.particle.Particle
+import net.minecraft.particles.BasicParticleType
 import net.minecraft.world.World
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Particle representing the second part of enaria's spell cast
@@ -13,6 +19,7 @@ import net.minecraft.world.World
  * @param xSpeed The x speed of the spell cast attack
  * @param zSpeed The z speed of the spell cast attack
  */
+@OnlyIn(Dist.CLIENT)
 class EnariaSpellCast2Particle(
     world: World,
     x: Double,
@@ -40,5 +47,23 @@ class EnariaSpellCast2Particle(
     override fun updateMotionXYZ() {
         // Slowly increase y motion
         motionY = motionY - 0.02
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
+        override fun makeParticle(
+            particle: BasicParticleType,
+            world: World,
+            x: Double,
+            y: Double,
+            z: Double,
+            xSpeed: Double,
+            ySpeed: Double,
+            zSpeed: Double
+        ): Particle {
+            return EnariaSpellCast2Particle(world, x, y, z, xSpeed, zSpeed).apply {
+                selectSpriteRandomly(spriteSet)
+            }
+        }
     }
 }

@@ -3,6 +3,8 @@ package com.davidm1a2.afraidofthedark.client.particle
 import net.minecraft.client.particle.IParticleRenderType
 import net.minecraft.client.particle.SpriteTexturedParticle
 import net.minecraft.world.World
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Base class for all AOTD particles
@@ -16,6 +18,7 @@ import net.minecraft.world.World
  * @param ySpeed  The y speed of the particle
  * @param zSpeed  The z speed of the particle
  */
+@OnlyIn(Dist.CLIENT)
 abstract class AOTDParticle(
     world: World,
     x: Double,
