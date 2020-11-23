@@ -135,13 +135,13 @@ class SchematicBuilder {
 
         init {
             val clientConfig = File(FMLPaths.CONFIGDIR.get().toString(), "afraidofthedark-common.toml")
-            USE_CACHE = FileInputStream(clientConfig).use {
-                try {
+            USE_CACHE = try {
+                FileInputStream(clientConfig).use {
                     TomlFormat.instance().createParser().parse(it).get<Boolean>("world_generation.cache_structures")
-                } catch (e: Throwable) {
-                    LOG.warn("Could not parse 'afraidofthedark-common-toml', defaulting to 'cache_structures = true'")
-                    true
                 }
+            } catch (e: Throwable) {
+                LOG.warn("Could not parse 'afraidofthedark-common-toml', defaulting to 'cache_structures = true'")
+                true
             }
         }
     }
