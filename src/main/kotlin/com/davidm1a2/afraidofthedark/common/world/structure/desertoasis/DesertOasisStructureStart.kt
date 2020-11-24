@@ -21,7 +21,11 @@ class DesertOasisStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: In
 
     override fun init(generator: ChunkGenerator<*>, templateManagerIn: TemplateManager, centerChunkX: Int, centerChunkZ: Int, biomeIn: Biome) {
         val cornerPosX = chunkPosX * 16 - ModSchematics.DESERT_OASIS.getWidth() / 2
-        val cornerPosY = (structure as AOTDStructure<*>).getEdgeHeights(chunkPosX * 16, chunkPosZ * 16, generator, generator.getWorld()).average().roundToInt()
+        val cornerPosY = (structure as AOTDStructure<*>).getEdgeHeights(chunkPosX * 16, chunkPosZ * 16, generator, generator.getWorld())
+            .average()
+            .roundToInt()
+            .minus(18)
+            .coerceIn(0, 255)
         val cornerPosZ = chunkPosZ * 16 - ModSchematics.DESERT_OASIS.getLength() / 2
 
         this.components.add(

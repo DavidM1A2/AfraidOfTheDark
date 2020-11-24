@@ -35,7 +35,13 @@ object ModStructures {
         CRYPT,
         WITCH_HUT,
         VOID_CHEST,
-        OBSERVATORY
+        OBSERVATORY,
+        DARK_FOREST,
+        VOID_CHEST_BOX,
+        VOID_CHEST_PORTAL,
+        NIGHTMARE_ISLAND,
+        GNOMISH_CITY,
+        DESERT_OASIS
     )
 
     val SCHEMATIC_STRUCTURE_PIECE = IStructurePieceType { _, nbt -> SchematicStructurePiece(nbt) }
