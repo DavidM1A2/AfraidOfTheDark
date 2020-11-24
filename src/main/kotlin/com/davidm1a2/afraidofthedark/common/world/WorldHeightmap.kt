@@ -8,8 +8,8 @@ import net.minecraft.world.chunk.ChunkPrimer
 import net.minecraft.world.chunk.IChunk
 import net.minecraft.world.chunk.UpgradeData
 import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.GenerationStage
 import net.minecraft.world.gen.Heightmap
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 object WorldHeightmap {
@@ -26,8 +26,10 @@ object WorldHeightmap {
             var chunk: IChunk? = world.chunkProvider.getChunk(chunkPos.x, chunkPos.z, false)
             if (chunk == null) {
                 chunk = ChunkPrimer(chunkPos, UpgradeData.EMPTY)
+                chunkGen.generateBiomes(chunk)
                 chunkGen.makeBase(world, chunk)
-                chunkGen.carve(chunk, GenerationStage.Carving.AIR)
+                chunkGen.generateSurface(chunk)
+                Heightmap.func_222690_a(chunk, EnumSet.of(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES))
                 // getHeightmap() = func_217303_b()
                 chunk.func_217303_b(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES)
             } else {

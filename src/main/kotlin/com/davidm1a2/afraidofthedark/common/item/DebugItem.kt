@@ -1,16 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
-import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.ParticlePacket
+import com.davidm1a2.afraidofthedark.common.world.WorldHeightmap
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.math.Vec3d
 import net.minecraft.util.text.StringTextComponent
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
@@ -29,7 +26,16 @@ class DebugItem : AOTDItem("debug", Properties().maxStackSize(1), displayInCreat
         if (worldIn.isRemote) {
             //worldIn.spawnParticle(ModParticles.ENARIA_BASIC_ATTACK, playerIn.posX, playerIn.posY + 4, playerIn.posZ, 0.0, 0.0, 0.0)
         } else {
-            AfraidOfTheDark.packetHandler.sendToAll(ParticlePacket(ModParticles.ENARIAS_ALTAR, listOf(playerIn.positionVector), listOf(Vec3d.ZERO)))
+            playerIn.sendMessage(
+                StringTextComponent(
+                    WorldHeightmap.getHeight(
+                        playerIn.position.x,
+                        playerIn.position.z,
+                        worldIn,
+                        worldIn.chunkProvider.chunkGenerator
+                    ).toString()
+                )
+            )
         }
         return super.onItemRightClick(worldIn, playerIn, handIn)
     }

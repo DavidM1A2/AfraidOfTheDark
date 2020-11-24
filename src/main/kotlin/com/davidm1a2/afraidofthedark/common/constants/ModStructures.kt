@@ -32,16 +32,7 @@ object ModStructures {
     val DESERT_OASIS = DesertOasisStructure()
 
     val STRUCTURES = arrayOf(
-        CRYPT,
-        WITCH_HUT,
-        VOID_CHEST,
-        OBSERVATORY,
-        DARK_FOREST,
-        VOID_CHEST_BOX,
-        VOID_CHEST_PORTAL,
-        NIGHTMARE_ISLAND,
-        GNOMISH_CITY,
-        DESERT_OASIS
+        CRYPT
     )
 
     val SCHEMATIC_STRUCTURE_PIECE = IStructurePieceType { _, nbt -> SchematicStructurePiece(nbt) }

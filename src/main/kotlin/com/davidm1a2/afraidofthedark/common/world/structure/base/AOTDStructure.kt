@@ -15,6 +15,7 @@ import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraft.world.gen.feature.structure.StructureStart
 import net.minecraft.world.gen.placement.IPlacementConfig
 import net.minecraft.world.gen.placement.Placement
+import net.minecraft.world.server.ServerWorld
 import java.util.*
 import kotlin.math.max
 
@@ -46,7 +47,7 @@ abstract class AOTDStructure<T : IFeatureConfig>(configFactory: (Dynamic<*>) -> 
             val centerBiome = chunkGenerator.biomeProvider.getBiome(BlockPos(xPos + 9, 0, zPos + 9))
             val structureStart =
                 startFactory.create(this, centerChunkX, centerChunkZ, centerBiome, MutableBoundingBox.getNewBoundingBox(), 0, chunkGenerator.seed)
-            structureStart.init(chunkGenerator, null, centerChunkX, centerChunkZ, centerBiome)
+            structureStart.init(chunkGenerator, (world as ServerWorld).saveHandler.structureTemplateManager, centerChunkX, centerChunkZ, centerBiome)
             return if (checksCollision) {
                 doesNotCollide(world, structureStart)
             } else {
