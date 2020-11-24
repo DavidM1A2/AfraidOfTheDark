@@ -26,7 +26,7 @@ class VoidChestStructure : AOTDStructure<VoidChestConfig>({ VoidChestConfig.dese
 
     override fun setupStructureIn(biome: Biome) {
         if (biome in COMPATIBLE_BIOMES) {
-            addToBiome(biome, VoidChestConfig(0.006 * ModCommonConfiguration.voidChestMultiplier))
+            addToBiome(biome, VoidChestConfig(0.005 * ModCommonConfiguration.voidChestMultiplier))
         } else {
             addToBiome(biome, VoidChestConfig(0.0))
         }

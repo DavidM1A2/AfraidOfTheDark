@@ -22,7 +22,7 @@ class VoidChestStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: Int,
         this.components.add(
             SchematicStructurePiece(
                 xPos - ModSchematics.VOID_CHEST.getWidth() / 2,
-                yPos,
+                yPos - 7,
                 zPos - ModSchematics.VOID_CHEST.getLength() / 2,
                 rand,
                 ModSchematics.VOID_CHEST,
