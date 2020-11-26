@@ -5,9 +5,11 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getVoidChestData
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility.getOrAssignPlayerPositionalIndex
+import com.davidm1a2.afraidofthedark.common.dimension.teleport
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.VoidChestPacket
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.item.NameTagItem
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.ListNBT
@@ -133,7 +135,7 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST) {
                                 } else {
                                     playerVoidChestData.friendsIndex = indexToGoTo
                                 }
-                                playerToSend!!.changeDimension(ModDimensions.VOID_CHEST_TYPE)
+                                (playerToSend as ServerPlayerEntity).teleport(ModDimensions.VOID_CHEST_TYPE)
                             }
                         }
                     } else {

@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
-import com.davidm1a2.afraidofthedark.common.world.WorldHeightmap
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -10,6 +9,7 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.text.StringTextComponent
 import net.minecraft.world.World
+import net.minecraft.world.gen.feature.structure.StructureStart
 import org.apache.logging.log4j.LogManager
 
 /**
@@ -28,12 +28,12 @@ class DebugItem : AOTDItem("debug", Properties().maxStackSize(1), displayInCreat
         } else {
             playerIn.sendMessage(
                 StringTextComponent(
-                    WorldHeightmap.getHeight(
-                        playerIn.position.x,
-                        playerIn.position.z,
-                        worldIn,
-                        worldIn.chunkProvider.chunkGenerator
-                    ).toString()
+                    worldIn.getChunkAt(playerIn.position).structureStarts.filter { it.value != StructureStart.DUMMY }.map { it.key }.joinToString()
+                )
+            )
+            playerIn.sendMessage(
+                StringTextComponent(
+                    worldIn.getChunkAt(playerIn.position).structureReferences.filter { it.value.isNotEmpty() }.map { it.key }.joinToString()
                 )
             )
         }

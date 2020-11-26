@@ -7,6 +7,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getNightmareData
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.*
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility
+import com.davidm1a2.afraidofthedark.common.dimension.teleport
 import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
 import com.davidm1a2.afraidofthedark.common.world.structure.base.SchematicStructurePiece
 import net.minecraft.block.Blocks
@@ -60,7 +61,8 @@ class NightmareHandler {
 
                 // If the player has the nightmare research send them to the nightmare realm
                 if (playerResearch.isResearched(ModResearches.NIGHTMARE)) {
-                    entityPlayer.changeDimension(ModDimensions.NIGHTMARE_TYPE)
+                    event.setResult(PlayerEntity.SleepResult.OTHER_PROBLEM)
+                    (entityPlayer as ServerPlayerEntity).teleport(ModDimensions.NIGHTMARE_TYPE)
                 }
             }
         }
@@ -139,7 +141,7 @@ class NightmareHandler {
             if (event.player.dimension == ModDimensions.NIGHTMARE_TYPE) {
                 val nightmareData = event.player.getNightmareData()
                 // Send the player back to their original dimension
-                event.player.changeDimension(nightmareData.preTeleportDimension!!)
+                (event.player as ServerPlayerEntity).teleport(nightmareData.preTeleportDimension!!)
             }
         }
     }

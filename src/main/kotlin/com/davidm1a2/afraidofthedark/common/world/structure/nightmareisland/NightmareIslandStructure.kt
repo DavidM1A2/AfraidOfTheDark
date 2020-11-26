@@ -9,6 +9,7 @@ import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
+import kotlin.math.round
 
 class NightmareIslandStructure : AOTDStructure<NightmareIslandConfig>({ NightmareIslandConfig.deserialize() }, false) {
     override fun getStructureName(): String {
@@ -40,6 +41,9 @@ class NightmareIslandStructure : AOTDStructure<NightmareIslandConfig>({ Nightmar
         val xEnd = xStart + 15
         val amountOverMultipleOf1000 = xEnd % 1000
 
-        return zPos == 0 && xStart >= 0 && amountOverMultipleOf1000 < 16
+        val halfWidth = getWidth() / 2
+        val halfLengthToClosest16 = (16 * round((getLength().toDouble() / 2) / 16)).toInt()
+
+        return zPos == halfLengthToClosest16 && amountOverMultipleOf1000 >= halfWidth && amountOverMultipleOf1000 < halfWidth + 16
     }
 }

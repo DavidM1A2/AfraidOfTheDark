@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.dimension.teleport
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.DanceChannel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
@@ -13,6 +14,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.FlyingEntity
 import net.minecraft.entity.SharedMonsterAttributes
+import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.network.datasync.DataSerializers
 import net.minecraft.network.datasync.EntityDataManager
@@ -126,7 +128,7 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
                     entityPlayer.inventory.addItemStackToInventory(ItemStack(ModItems.NIGHTMARE_STONE))
 
                     // Send them back to their original dimension
-                    entityPlayer.changeDimension(entityPlayer.getNightmareData().preTeleportDimension!!)
+                    (entityPlayer as ServerPlayerEntity).teleport(entityPlayer.getNightmareData().preTeleportDimension!!)
                 }
             }
         }
