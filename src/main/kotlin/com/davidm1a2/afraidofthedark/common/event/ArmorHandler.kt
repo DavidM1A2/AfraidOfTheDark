@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDArmorItem
+import net.minecraft.entity.MobEntity
 import net.minecraftforge.event.entity.living.LivingHurtEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
@@ -17,13 +18,14 @@ class ArmorHandler {
     fun onLivingHurtEvent(event: LivingHurtEvent) {
         // Server side processing only
         if (!event.entity.world.isRemote) {
-            val armor = event.entityLiving.armorInventoryList.toList()
+            val entity = event.entityLiving
+            val armor = entity.armorInventoryList.toList()
             // Only process armor with 4 pieces (helm, chest, legging, boot)
             if (armor.size == 4) {
                 val percentDamageBlocked = armor.sumByDouble {
                     val armorItem = it.item
                     if (armorItem is AOTDArmorItem) {
-                        armorItem.processDamage(event.entityLiving, it, event.source, event.amount, armorItem.getEquipmentSlot(it)!!)
+                        armorItem.processDamage(event.entityLiving, it, event.source, event.amount, MobEntity.getSlotForItemStack(it))
                     } else {
                         0.0
                     }

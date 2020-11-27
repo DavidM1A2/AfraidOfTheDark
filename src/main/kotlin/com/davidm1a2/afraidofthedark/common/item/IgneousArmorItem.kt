@@ -29,7 +29,7 @@ import kotlin.math.sqrt
  */
 class IgneousArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
     AOTDArmorItem(baseName, ModArmorMaterials.IGNEOUS, equipmentSlot, Properties().defaultMaxDamage(0)) {
-    private val percentOfDamageBlocked = 0.9f
+    private val percentOfDamageBlocked = 0.93f
 
     /**
      * Gets the resource location path of the texture for the armor when worn by the player

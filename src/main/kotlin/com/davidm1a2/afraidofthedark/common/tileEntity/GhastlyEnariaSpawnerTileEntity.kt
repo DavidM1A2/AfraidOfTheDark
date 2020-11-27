@@ -40,7 +40,6 @@ class GhastlyEnariaSpawnerTileEntity : AOTDTickingTileEntity(ModTileEntities.GHA
                 if (!enariaAlive) {
                     // Spawn her at ground level to start
                     val enariaSpawn = GhastlyEnariaEntity(ModEntities.GHASTLY_ENARIA, world!!)
-                    enariaSpawn.forceSpawn = true
                     enariaSpawn.setPositionAndRotation(
                         getPos().x + 0.5,
                         getPos().y + 10.2,

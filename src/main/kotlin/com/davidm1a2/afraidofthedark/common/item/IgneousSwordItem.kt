@@ -11,6 +11,7 @@ import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.Entity
+import net.minecraft.entity.MobEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.AxisAlignedBB
@@ -110,7 +111,9 @@ class IgneousSwordItem : AOTDChargeableSwordItem(
             )
 
             // Set each entity living on fire
-            surroundingEntities.forEach { it.setFire(20) }
+            surroundingEntities
+                .filterIsInstance<MobEntity>()
+                .forEach { it.setFire(20) }
 
             // True, the effect was procd
             return true

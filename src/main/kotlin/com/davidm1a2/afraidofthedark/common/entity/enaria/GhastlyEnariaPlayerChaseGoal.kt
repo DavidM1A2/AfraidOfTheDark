@@ -54,13 +54,12 @@ class GhastlyEnariaPlayerChaseGoal(private val enaria: GhastlyEnariaEntity) : Go
             // Otherwise follow the player if not benign
             if (!enaria.isBenign()) {
                 // Move to the player
-                enaria.moveHelper
-                    .setMoveTo(
-                        targetPlayer!!.posX,
-                        targetPlayer!!.posY,
-                        targetPlayer!!.posZ,
-                        enaria.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).value
-                    )
+                enaria.moveHelper.setMoveTo(
+                    targetPlayer!!.posX,
+                    targetPlayer!!.posY,
+                    targetPlayer!!.posZ,
+                    enaria.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).value
+                )
             }
 
             // Face the player entity always

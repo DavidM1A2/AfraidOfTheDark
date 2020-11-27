@@ -27,18 +27,55 @@ import net.minecraft.world.dimension.DimensionType
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
+import net.minecraftforge.event.TickEvent
 import net.minecraftforge.event.entity.EntityJoinWorldEvent
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent
 import net.minecraftforge.event.world.ChunkEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.LogicalSide
 import java.util.*
 
 /**
  * Class handling events to send players to and from their nightmare realm
  */
 class NightmareHandler {
+    /**
+     * Called when the nightmare world ticks, go over Enaria entities that have hit a player and send that player back to the overworld
+     */
+    @SubscribeEvent
+    fun onNightmareWorldTick(event: TickEvent.WorldTickEvent) {
+        if (event.phase == TickEvent.Phase.START && event.side == LogicalSide.SERVER) {
+            val world = event.world
+            if (world.dimension.type == ModDimensions.NIGHTMARE_TYPE) {
+                if (world.gameTime % 20 == 0L) {
+                    (world as ServerWorld).entities
+                        .filter { it.type == ModEntities.GHASTLY_ENARIA }
+                        .map { it as GhastlyEnariaEntity }
+                        .filter { it.getTouchedPlayer().isPresent }
+                        .forEach {
+                            val player = world.getEntityByUuid(it.getTouchedPlayer().get())
+                            if (player != null && player is ServerPlayerEntity) {
+                                // Kill enaria, she's now unloaded (can't use .setDead()) or we get an index out of bounds exception?
+                                it.onKillCommand()
+
+                                // Dismount whatever we're in
+                                player.stopRiding()
+
+                                // Give the player a nightmare stone
+                                player.inventory.addItemStackToInventory(ItemStack(ModItems.NIGHTMARE_STONE))
+
+                                // Send them back to their original dimension
+                                player.teleport(player.getNightmareData().preTeleportDimension!!)
+                            }
+                            it.clearTouchedPlayer()
+                        }
+                }
+            }
+        }
+    }
+
     /**
      * Called when the player sleeps in a bed, tests if they're drowsy and if so sends them to the nightmare realm
      *

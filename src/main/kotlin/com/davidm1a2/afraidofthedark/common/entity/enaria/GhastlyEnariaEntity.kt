@@ -1,11 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria
 
-import com.davidm1a2.afraidofthedark.common.capabilities.getNightmareData
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.dimension.teleport
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.DanceChannel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
@@ -14,14 +11,15 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.FlyingEntity
 import net.minecraft.entity.SharedMonsterAttributes
-import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraft.item.ItemStack
+import net.minecraft.network.IPacket
 import net.minecraft.network.datasync.DataSerializers
 import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.util.DamageSource
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.StringTextComponent
 import net.minecraft.world.World
+import net.minecraftforge.fml.network.NetworkHooks
+import java.util.*
 
 /**
  * Class representing the ghastly enaria entity
@@ -46,7 +44,8 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
      */
     override fun registerData() {
         super.registerData()
-        this.dataManager.register(IS_BENIGN, false)
+        this.dataManager.register(IS_BENIGN, true)
+        this.dataManager.register(TOUCHED_PLAYER, Optional.empty())
     }
 
     /**
@@ -118,17 +117,8 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
                 val entityPlayer = world.getClosestPlayer(this, 3.0)
                 // Make sure the player is valid and not dead
                 if (entityPlayer != null && entityPlayer.isAlive) {
-                    // Kill enaria, she's now unloaded (can't use .setDead()) or we get an index out of bounds exception?
-                    onKillCommand()
-
-                    // Dismount whatever we're in
-                    entityPlayer.stopRiding()
-
-                    // Give the player a nightmare stone
-                    entityPlayer.inventory.addItemStackToInventory(ItemStack(ModItems.NIGHTMARE_STONE))
-
-                    // Send them back to their original dimension
-                    (entityPlayer as ServerPlayerEntity).teleport(entityPlayer.getNightmareData().preTeleportDimension!!)
+                    // Don't TP The player from here or we get an exception. Let the GhastlyEnariaTileEntity do that for us
+                    this.dataManager[TOUCHED_PLAYER] = Optional.of(entityPlayer.uniqueID)
                 }
             }
         }
@@ -192,6 +182,14 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
         }
     }
 
+    fun getTouchedPlayer(): Optional<UUID> {
+        return this.dataManager[TOUCHED_PLAYER]
+    }
+
+    fun clearTouchedPlayer() {
+        this.dataManager[TOUCHED_PLAYER] = Optional.empty()
+    }
+
     /**
      * The animation handler for the entity
      *
@@ -201,8 +199,13 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
         return animHandler
     }
 
+    override fun createSpawnPacket(): IPacket<*> {
+        return NetworkHooks.getEntitySpawningPacket(this)
+    }
+
     companion object {
         private val IS_BENIGN = EntityDataManager.createKey(GhastlyEnariaEntity::class.java, DataSerializers.BOOLEAN)
+        private val TOUCHED_PLAYER = EntityDataManager.createKey(GhastlyEnariaEntity::class.java, DataSerializers.OPTIONAL_UNIQUE_ID)
 
         // Constants defining enaria parameters
         private const val MOVE_SPEED = 0.02
