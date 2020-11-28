@@ -32,6 +32,12 @@ archivesBaseName = "afraidofthedark"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
+eclipse {
+    classpath {
+        downloadSources = true
+    }
+}
+
 compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
 }

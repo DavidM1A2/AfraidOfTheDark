@@ -35,17 +35,14 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
      * @param isSelected True if the item is selected, false otherwise
      */
     override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean) {
-        // Server side processing only
-        if (!world.isRemote) {
-            // Check if the entity is a player
-            if (entity is PlayerEntity) {
-                // If the item isn't selected ensure the player isn't invincible
-                if (!isSelected) {
-                    // If a star metal staff is not selected make sure the player can take damage
-                    if (!entity.isCreative && entity.abilities.disableDamage && isInUse(stack)) {
-                        entity.abilities.disableDamage = false
-                        setInUse(stack, false)
-                    }
+        // Check if the entity is a player
+        if (entity is PlayerEntity) {
+            // If the item isn't selected ensure the player isn't invincible
+            if (!isSelected) {
+                // If a star metal staff is not selected make sure the player can take damage
+                if (!entity.isCreative && entity.abilities.disableDamage && isInUse(stack)) {
+                    entity.abilities.disableDamage = false
+                    setInUse(stack, false)
                 }
             }
         }
@@ -60,45 +57,46 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
      * @return Success if the staff went off, pass if not
      */
     override fun onItemRightClick(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
-        // Server side processing only
-        if (!world.isRemote) {
-            // Verify the player has the star metal research
-            if (player.getResearch().isResearched(ModResearches.STAR_METAL)) {
-                // Get the item that the player was holding
-                val heldItem = player.getHeldItem(hand)
+        // Get the item that the player was holding
+        val heldItem = player.getHeldItem(hand)
 
-                // If the item is not on cooldown fire it off
-                if (!isOnCooldown(heldItem)) {
-                    // Make the player invincible
-                    if (!player.isCreative) {
-                        player.abilities.disableDamage = true
-                    }
-                    // Set the player's velocity to 0 with a 0.5 vertical velocity
+        // Verify the player has the star metal research
+        if (player.getResearch().isResearched(ModResearches.STAR_METAL)) {
+            // If the item is not on cooldown fire it off
+            if (!isOnCooldown(heldItem)) {
+                // Make the player invincible
+                if (!player.isCreative) {
+                    player.abilities.disableDamage = true
+                }
+
+                // Set the player's velocity to 0 with a 0.5 vertical velocity
+                if (!world.isRemote) {
                     (player as ServerPlayerEntity).connection.sendPacket(
                         SEntityVelocityPacket(player.getEntityId(), Vec3d(0.0, 0.5, 0.0))
                     )
-
-                    // Set the item on cooldown
-                    setOnCooldown(heldItem, player)
-
-                    // Set the player's active hand to the one that was right clicked with
-                    player.setActiveHand(hand)
-
-                    // Update the item NBT so that we know it's in use
-                    setInUse(heldItem, true)
-
-                    // We're good to go, return success
-                    return ActionResult.newResult(ActionResultType.SUCCESS, heldItem)
-                } else {
-                    // If the staff is on cooldown say that
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.star_metal_staff.on_cooldown", cooldownRemainingInSeconds(heldItem)))
                 }
+
+                // Set the item on cooldown
+                setOnCooldown(heldItem, player)
+
+                // Update the item NBT so that we know it's in use
+                setInUse(heldItem, true)
+
+                // Set the player's active hand to the one that was right clicked with
+                player.activeHand = hand
+
+                // We're good to go, return success
+                return ActionResult.newResult(ActionResultType.SUCCESS, heldItem)
             } else {
-                // If the player has the wrong research print an error
-                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+                // If the staff is on cooldown say that
+                player.sendMessage(TranslationTextComponent("message.afraidofthedark.star_metal_staff.on_cooldown", cooldownRemainingInSeconds(heldItem)))
+                return ActionResult.newResult(ActionResultType.FAIL, heldItem)
             }
+        } else {
+            // If the player has the wrong research print an error
+            player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
         }
-        return super.onItemRightClick(world, player, hand)
+        return ActionResult.newResult(ActionResultType.PASS, heldItem)
     }
 
     /**
@@ -109,6 +107,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
      * @param count The ticks left before the use is done
      */
     override fun onUsingTick(stack: ItemStack, entityLivingBase: LivingEntity, count: Int) {
+        println("onUsingTick")
         // Server side processing only
         // Make 'count' mutable...
         @Suppress("NAME_SHADOWING")
@@ -143,18 +142,17 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
      * @return The itemstack to return after the current stack was used
      */
     override fun onItemUseFinish(stack: ItemStack, world: World, entityLiving: LivingEntity): ItemStack {
-        // Server side processing only
-        if (!entityLiving.world.isRemote) {
-            // Update the item NBT so it's not in use
-            setInUse(stack, false)
+        // Update the item NBT so it's not in use
+        setInUse(stack, false)
 
-            // Only test players
-            if (entityLiving is PlayerEntity) {
-                // If the player is not creative let them take damage again
-                if (!entityLiving.isCreative) {
-                    entityLiving.abilities.disableDamage = false
-                }
-                // Perform the knockback
+        // Only test players
+        if (entityLiving is PlayerEntity) {
+            // If the player is not creative let them take damage again
+            if (!entityLiving.isCreative) {
+                entityLiving.abilities.disableDamage = false
+            }
+            // Perform the knockback
+            if (!entityLiving.world.isRemote) {
                 performKnockback(world, entityLiving)
             }
         }
@@ -170,20 +168,20 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
      * @param timeLeft The ticks left before the use would've been complete
      */
     override fun onPlayerStoppedUsing(stack: ItemStack, world: World, entityLiving: LivingEntity, timeLeft: Int) {
-        // Server side processing only
-        if (!world.isRemote) {
-            // Update the item NBT so it's not in use
-            setInUse(stack, false)
+        // Update the item NBT so it's not in use
+        setInUse(stack, false)
 
-            // Ensure the entity is a player
-            if (entityLiving is PlayerEntity) {
-                // If the player is not in creative let them take damage again
-                if (!entityLiving.isCreative) {
-                    entityLiving.abilities.disableDamage = false
-                }
+        // Ensure the entity is a player
+        if (entityLiving is PlayerEntity) {
+            // If the player is not in creative let them take damage again
+            if (!entityLiving.isCreative) {
+                entityLiving.abilities.disableDamage = false
+            }
 
-                // If less than 5 ticks were left on the use still perform the knockback
-                if (timeLeft < 5) {
+            // If less than 5 ticks were left on the use still perform the knockback
+            if (timeLeft < 5) {
+                // Server side processing only
+                if (!world.isRemote) {
                     performKnockback(world, entityLiving)
                 }
             }
@@ -240,6 +238,10 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
      */
     override fun getUseDuration(stack: ItemStack): Int {
         return MAX_TROLL_POLE_TIME_IN_TICKS
+    }
+
+    override fun canContinueUsing(oldStack: ItemStack, newStack: ItemStack): Boolean {
+        return ItemStack.areItemStacksEqual(oldStack, newStack)
     }
 
     /**
