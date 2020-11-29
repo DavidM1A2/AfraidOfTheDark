@@ -29,7 +29,7 @@ abstract class AOTDParticle(
     zSpeed: Double = 0.0
 ) : SpriteTexturedParticle(world, x, y, z, xSpeed, ySpeed, zSpeed) {
     override fun getRenderType(): IParticleRenderType {
-        return IParticleRenderType.PARTICLE_SHEET_OPAQUE
+        return IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT
     }
 
     /**

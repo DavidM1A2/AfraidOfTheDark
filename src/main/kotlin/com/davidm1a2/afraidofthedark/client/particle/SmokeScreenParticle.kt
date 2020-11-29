@@ -29,7 +29,7 @@ class SmokeScreenParticle(
         maxAge = rand.nextInt(200) + 200
 
         // Blinding size teleport particles
-        particleScale = 3f + rand.nextFloat() * 13f
+        particleScale = 1f + rand.nextFloat() * 2f
 
         // Particle moves outwards
         motionX = rand.nextFloat() * 0.07

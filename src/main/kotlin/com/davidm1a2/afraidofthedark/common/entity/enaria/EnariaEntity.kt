@@ -24,6 +24,7 @@ import net.minecraft.entity.ai.goal.SwimGoal
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.nbt.CompoundNBT
+import net.minecraft.network.IPacket
 import net.minecraft.network.datasync.DataSerializers
 import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.util.DamageSource
@@ -36,6 +37,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.BossInfo
 import net.minecraft.world.ServerBossInfo
 import net.minecraft.world.World
+import net.minecraftforge.fml.network.NetworkHooks
 import kotlin.math.min
 
 /**
@@ -55,7 +57,7 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
         SpellChannel("spell", 90.0f, 121, ChannelMode.LINEAR)
     )
     private val bossInfo = ServerBossInfo(
-        this.displayName,
+        StringTextComponent("placeholder"),
         BossInfo.Color.PURPLE,
         BossInfo.Overlay.PROGRESS
     ).setDarkenSky(true) as ServerBossInfo
@@ -116,7 +118,7 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
         attributes.getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE)?.baseValue = FOLLOW_RANGE
         attributes.getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE)?.baseValue = KNOCKBACK_RESISTANCE
         attributes.getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED)?.baseValue = MOVE_SPEED
-        attributes.getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE)?.baseValue = ATTACK_DAMAGE
+        attributes.registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).baseValue = ATTACK_DAMAGE
     }
 
     /**
@@ -338,6 +340,10 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
 
     fun getAllowedRegion(): AxisAlignedBB {
         return dataManager[ALLOWED_REGION]
+    }
+
+    override fun createSpawnPacket(): IPacket<*> {
+        return NetworkHooks.getEntitySpawningPacket(this)
     }
 
     override fun readAdditional(compound: CompoundNBT) {

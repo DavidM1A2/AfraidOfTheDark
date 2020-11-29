@@ -29,7 +29,7 @@ class EnariaSpellCastParticle(
         maxAge = rand.nextInt(20) + 40
 
         // Make the particles huge when she casts a spell
-        particleScale = 5.0f + rand.nextFloat() * 2
+        particleScale = 0.5f + rand.nextFloat()
 
         // Random motion
         motionX = (rand.nextFloat() - 0.5) * 0.5
