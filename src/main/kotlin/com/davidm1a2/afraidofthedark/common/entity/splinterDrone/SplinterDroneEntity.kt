@@ -51,7 +51,7 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
 
     override fun registerData() {
         super.registerData()
-        this.dataManager[PLAYED_SPAWN_ANIMATION] = false
+        this.dataManager.register(PLAYED_SPAWN_ANIMATION, false)
     }
 
     /**

@@ -108,11 +108,10 @@ class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, w
 
                 // Perform a ray case to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
                 // Intellij says 'shooter' should always be non-null, that is not the case....
-                val rayTraceResult: RayTraceResult? =
-                    ProjectileHelper.func_221266_a(this, true, ticksInAir >= 25, shooter, RayTraceContext.BlockMode.COLLIDER)
+                val rayTraceResult = ProjectileHelper.func_221266_a(this, true, ticksInAir >= 25, shooter, RayTraceContext.BlockMode.COLLIDER)
 
                 // If the ray trace hit something, perform the hit effect
-                if (rayTraceResult != null) {
+                if (rayTraceResult.type != RayTraceResult.Type.MISS) {
                     onImpact(rayTraceResult)
                 }
 

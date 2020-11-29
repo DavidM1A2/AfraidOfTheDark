@@ -29,7 +29,7 @@ import net.minecraftforge.api.distmarker.OnlyIn
  */
 class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
     AOTDArmorItem(baseName, ModArmorMaterials.STAR_METAL, equipmentSlot, Properties().defaultMaxDamage(0)) {
-    private val percentOfDamageBlocked = 0.85f
+    private val percentOfDamageBlocked = 0.87f
 
     /**
      * Gets the resource location path of the texture for the armor when worn by the player

@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.common.entity.splinterDrone
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.network.packets.animationPackets.AnimationPacket
-import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.util.math.BlockPos
@@ -94,13 +93,12 @@ class SplinterDroneAttackGoal(private val splinterDrone: SplinterDroneEntity) : 
                 var zVelocity = target!!.posZ - splinterDrone.posZ
 
                 // Add random inaccuracy distributed over a gaussian with 0.4 block max inaccuracy
-                xVelocity = xVelocity + splinterDrone.rng.nextGaussian() * 0.4
-                yVelocity = yVelocity + splinterDrone.rng.nextGaussian() * 0.4
-                zVelocity = zVelocity + splinterDrone.rng.nextGaussian() * 0.4
+                xVelocity = xVelocity + splinterDrone.rng.nextGaussian() * 0.4 - 0.2
+                yVelocity = yVelocity + splinterDrone.rng.nextGaussian() * 0.4 - 0.2
+                zVelocity = zVelocity + splinterDrone.rng.nextGaussian() * 0.4 - 0.2
 
                 // Create the projectile and spawn it in
-                val attackShot: Entity =
-                    SplinterDroneProjectileEntity(splinterDrone.world, splinterDrone, xVelocity, yVelocity, zVelocity)
+                val attackShot = SplinterDroneProjectileEntity(splinterDrone.world, splinterDrone, xVelocity, yVelocity, zVelocity)
                 splinterDrone.world.addEntity(attackShot)
 
                 // Play the shoot fireball sound effect

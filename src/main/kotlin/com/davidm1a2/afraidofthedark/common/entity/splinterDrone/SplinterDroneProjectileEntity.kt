@@ -14,7 +14,6 @@ import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.IPacket
 import net.minecraft.network.datasync.DataSerializers
 import net.minecraft.network.datasync.EntityDataManager
-import net.minecraft.network.play.server.SSpawnObjectPacket
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
 import net.minecraft.util.DamageSource
@@ -22,6 +21,7 @@ import net.minecraft.util.math.*
 import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
+import net.minecraftforge.fml.network.NetworkHooks
 import kotlin.math.sqrt
 
 /**
@@ -98,12 +98,9 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
                 this.dataManager[TICKS_IN_AIR] = ticksInAir
 
                 // Perform a ray cast to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
-                val rayTraceResult: RayTraceResult? =
-                    ProjectileHelper.func_221266_a(this, true, ticksInAir >= 25, shootingEntity, RayTraceContext.BlockMode.COLLIDER)
+                val rayTraceResult = ProjectileHelper.func_221266_a(this, true, ticksInAir >= 25, shootingEntity, RayTraceContext.BlockMode.COLLIDER)
 
-                // If the ray trace hit something, perform the hit effect
-                // Intellij says this is always non-null, that is not the case....
-                if (rayTraceResult != null) {
+                if (rayTraceResult.type != RayTraceResult.Type.MISS) {
                     onImpact(rayTraceResult)
                 }
 
@@ -221,7 +218,7 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
     }
 
     override fun createSpawnPacket(): IPacket<*> {
-        return SSpawnObjectPacket(this)
+        return NetworkHooks.getEntitySpawningPacket(this)
     }
 
     override fun writeAdditional(compound: CompoundNBT) {
