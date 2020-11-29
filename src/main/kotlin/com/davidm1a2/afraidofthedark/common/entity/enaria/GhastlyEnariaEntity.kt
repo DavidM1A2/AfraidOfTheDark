@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.FlyingEntity
 import net.minecraft.entity.SharedMonsterAttributes
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.IPacket
 import net.minecraft.network.datasync.DataSerializers
 import net.minecraft.network.datasync.EntityDataManager
@@ -201,6 +202,16 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
 
     override fun createSpawnPacket(): IPacket<*> {
         return NetworkHooks.getEntitySpawningPacket(this)
+    }
+
+    override fun readAdditional(compound: CompoundNBT) {
+        super.readAdditional(compound)
+        this.dataManager[IS_BENIGN] = compound.getBoolean("is_benign")
+    }
+
+    override fun writeAdditional(compound: CompoundNBT) {
+        super.writeAdditional(compound)
+        compound.putBoolean("is_benign", this.dataManager[IS_BENIGN])
     }
 
     companion object {

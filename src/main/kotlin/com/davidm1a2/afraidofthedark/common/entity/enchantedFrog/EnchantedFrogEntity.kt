@@ -24,6 +24,7 @@ import net.minecraft.entity.ai.goal.LookRandomlyGoal
 import net.minecraft.entity.ai.goal.RandomWalkingGoal
 import net.minecraft.entity.ai.goal.SwimGoal
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.util.DamageSource
 import net.minecraft.util.SoundEvent
@@ -251,6 +252,16 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
 
     fun getSpell(): Spell {
         return this.dataManager[SPELL]
+    }
+
+    override fun readAdditional(compound: CompoundNBT) {
+        super.readAdditional(compound)
+        this.dataManager[SPELL] = Spell(compound.getCompound("spell"))
+    }
+
+    override fun writeAdditional(compound: CompoundNBT) {
+        super.writeAdditional(compound)
+        compound.put("spell", this.dataManager[SPELL].serializeNBT())
     }
 
     companion object {

@@ -22,6 +22,7 @@ import net.minecraft.entity.ai.goal.*
 import net.minecraft.entity.monster.MonsterEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.datasync.DataSerializers
 import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.potion.EffectInstance
@@ -268,6 +269,16 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
      */
     override fun getEyeHeight(pose: Pose): Float {
         return 1.9f
+    }
+
+    override fun readAdditional(compound: CompoundNBT) {
+        super.readAdditional(compound)
+        this.dataManager[PLAYED_SPAWN_ANIMATION] = compound.getBoolean("played_spawn_animation")
+    }
+
+    override fun writeAdditional(compound: CompoundNBT) {
+        super.writeAdditional(compound)
+        compound.putBoolean("played_spawn_animation", this.dataManager[PLAYED_SPAWN_ANIMATION])
     }
 
     companion object {

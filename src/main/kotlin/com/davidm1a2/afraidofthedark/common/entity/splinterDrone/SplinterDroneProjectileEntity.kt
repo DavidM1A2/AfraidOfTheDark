@@ -222,9 +222,11 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
     }
 
     override fun writeAdditional(compound: CompoundNBT) {
+        this.dataManager[TICKS_IN_AIR] = compound.getInt("ticks_in_air")
     }
 
     override fun readAdditional(compound: CompoundNBT) {
+        compound.putInt("ticks_in_air", this.dataManager[TICKS_IN_AIR])
     }
 
     companion object {

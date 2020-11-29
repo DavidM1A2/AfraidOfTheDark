@@ -296,9 +296,23 @@ class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, w
     }
 
     override fun readAdditional(compound: CompoundNBT) {
+        this.dataManager[TICKS_IN_AIR] = compound.getInt("ticks_in_air")
+        this.dataManager[SPELL] = Spell(compound.getCompound("spell"))
+        this.dataManager[SPELL_INDEX] = compound.getInt("spell_index")
+        this.dataManager[DISTANCE_REMAINING_BLOCKS] = compound.getFloat("distance_remaining_blocks")
+        this.dataManager[CASTER_ENTITY_ID] = if (compound.contains("caster_entity_id")) {
+            Optional.of(compound.getUniqueId("caster_entity_id"))
+        } else {
+            Optional.empty()
+        }
     }
 
     override fun writeAdditional(compound: CompoundNBT) {
+        compound.putInt("ticks_in_air", this.dataManager[TICKS_IN_AIR])
+        compound.put("spell", this.dataManager[SPELL].serializeNBT())
+        compound.putInt("spell_index", this.dataManager[SPELL_INDEX])
+        compound.putFloat("distance_remaining_blocks", this.dataManager[DISTANCE_REMAINING_BLOCKS])
+        this.dataManager[CASTER_ENTITY_ID].map { compound.putUniqueId("caster_entity_id", it) }
     }
 
     companion object {

@@ -21,6 +21,7 @@ import net.minecraft.entity.monster.MonsterEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.datasync.DataSerializers
 import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.util.DamageSource
@@ -274,6 +275,16 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
      */
     fun canAttackAnyone(): Boolean {
         return this.dataManager[CAN_ATTACK_ANYONE]
+    }
+
+    override fun readAdditional(compound: CompoundNBT) {
+        super.readAdditional(compound)
+        this.dataManager[CAN_ATTACK_ANYONE] = compound.getBoolean("can_attack_anyone")
+    }
+
+    override fun writeAdditional(compound: CompoundNBT) {
+        super.writeAdditional(compound)
+        compound.putBoolean("can_attack_anyone", this.dataManager[CAN_ATTACK_ANYONE])
     }
 
     companion object {

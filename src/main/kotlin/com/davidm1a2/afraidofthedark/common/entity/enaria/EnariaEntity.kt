@@ -23,6 +23,7 @@ import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal
 import net.minecraft.entity.ai.goal.SwimGoal
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.datasync.DataSerializers
 import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.util.DamageSource
@@ -337,6 +338,32 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
 
     fun getAllowedRegion(): AxisAlignedBB {
         return dataManager[ALLOWED_REGION]
+    }
+
+    override fun readAdditional(compound: CompoundNBT) {
+        super.readAdditional(compound)
+        this.dataManager[IS_VALID] = compound.getBoolean("is_valid")
+        this.dataManager[LAST_HIT] = compound.getInt("last_hit")
+        this.dataManager[ALLOWED_REGION] = AxisAlignedBB(
+            compound.getDouble("allowed_region_min_x"),
+            compound.getDouble("allowed_region_min_y"),
+            compound.getDouble("allowed_region_min_z"),
+            compound.getDouble("allowed_region_max_x"),
+            compound.getDouble("allowed_region_max_y"),
+            compound.getDouble("allowed_region_max_z")
+        )
+    }
+
+    override fun writeAdditional(compound: CompoundNBT) {
+        super.writeAdditional(compound)
+        compound.putBoolean("is_valid", this.dataManager[IS_VALID])
+        compound.putInt("last_hit", this.dataManager[LAST_HIT])
+        compound.putDouble("allowed_region_min_x", this.dataManager[ALLOWED_REGION].minX)
+        compound.putDouble("allowed_region_min_y", this.dataManager[ALLOWED_REGION].minY)
+        compound.putDouble("allowed_region_min_z", this.dataManager[ALLOWED_REGION].minZ)
+        compound.putDouble("allowed_region_max_x", this.dataManager[ALLOWED_REGION].maxX)
+        compound.putDouble("allowed_region_max_y", this.dataManager[ALLOWED_REGION].maxY)
+        compound.putDouble("allowed_region_max_z", this.dataManager[ALLOWED_REGION].maxZ)
     }
 
     companion object {

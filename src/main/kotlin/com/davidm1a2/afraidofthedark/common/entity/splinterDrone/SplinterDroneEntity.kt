@@ -20,6 +20,7 @@ import net.minecraft.entity.ai.goal.LookRandomlyGoal
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal
 import net.minecraft.entity.monster.IMob
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.datasync.DataSerializers
 import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.util.DamageSource
@@ -173,6 +174,16 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
      */
     override fun getEyeHeight(pose: Pose): Float {
         return 1.5f
+    }
+
+    override fun readAdditional(compound: CompoundNBT) {
+        super.readAdditional(compound)
+        this.dataManager[PLAYED_SPAWN_ANIMATION] = compound.getBoolean("played_spawn_animation")
+    }
+
+    override fun writeAdditional(compound: CompoundNBT) {
+        super.writeAdditional(compound)
+        compound.putBoolean("played_spawn_animation", this.dataManager[PLAYED_SPAWN_ANIMATION])
     }
 
     companion object {
