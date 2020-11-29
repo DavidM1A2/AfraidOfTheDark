@@ -89,12 +89,16 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
                 return ActionResult.newResult(ActionResultType.SUCCESS, heldItem)
             } else {
                 // If the staff is on cooldown say that
-                player.sendMessage(TranslationTextComponent("message.afraidofthedark.star_metal_staff.on_cooldown", cooldownRemainingInSeconds(heldItem)))
+                if (!world.isRemote) {
+                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.star_metal_staff.on_cooldown", cooldownRemainingInSeconds(heldItem)))
+                }
                 return ActionResult.newResult(ActionResultType.FAIL, heldItem)
             }
         } else {
             // If the player has the wrong research print an error
-            player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+            if (!world.isRemote) {
+                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+            }
         }
         return ActionResult.newResult(ActionResultType.PASS, heldItem)
     }

@@ -54,7 +54,7 @@ class GnomishCityStructure : AOTDStructure<GnomishCityConfig>({ GnomishCityConfi
     }
 
     override fun hasStartAt(worldIn: IWorld, chunkGen: ChunkGenerator<*>, random: Random, xPos: Int, zPos: Int): Boolean {
-        val frequency = 0.0008 * ModCommonConfiguration.gnomishCityFrequency
+        val frequency = 0.0012 * ModCommonConfiguration.gnomishCityFrequency
         if (random.nextDouble() >= frequency) {
             return false
         }
@@ -62,9 +62,9 @@ class GnomishCityStructure : AOTDStructure<GnomishCityConfig>({ GnomishCityConfi
         var minHeight = Int.MAX_VALUE
         var maxHeight = Int.MIN_VALUE
         val heightGranularity = 16
-        for (x in (-width / 2)..(width / 2) step heightGranularity) {
-            for (z in (-length / 2)..(length / 2) step heightGranularity) {
-                val height = WorldHeightmap.getHeight(x, z, worldIn, chunkGen)
+        for (xOffset in (-width / 2)..(width / 2) step heightGranularity) {
+            for (zOffset in (-length / 2)..(length / 2) step heightGranularity) {
+                val height = WorldHeightmap.getHeight(xPos + xOffset, zPos + zOffset, worldIn, chunkGen)
                 if (height < minHeight) {
                     minHeight = height
                 }

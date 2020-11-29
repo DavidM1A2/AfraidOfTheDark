@@ -12,8 +12,7 @@ import java.util.concurrent.TimeUnit
 
 object WorldHeightmap {
     private val cache = CacheBuilder.newBuilder()
-        .expireAfterAccess(10, TimeUnit.MINUTES)
-        .maximumSize(500)
+        .expireAfterAccess(2, TimeUnit.MINUTES)
         .build<ChunkPos, Heightmap>()
 
     fun getHeight(x: Int, z: Int, world: IWorld, chunkGen: ChunkGenerator<*>): Int {
