@@ -46,7 +46,6 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
         experienceValue = 7
         // Update our move helper to fly like a ghast
         moveController = SplinterDroneMovementController(this)
-        this.dataManager[PLAYED_SPAWN_ANIMATION] = false
     }
 
     override fun registerData() {
