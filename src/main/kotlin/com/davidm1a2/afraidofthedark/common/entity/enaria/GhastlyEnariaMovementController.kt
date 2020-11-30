@@ -32,8 +32,8 @@ class GhastlyEnariaMovementController(enaria: GhastlyEnariaEntity) : MovementCon
             if (totalDifference != 0.0) {
                 mob.motion = Vec3d(
                     mob.motion.x + xDifference / totalDifference * speed,
-                    mob.motion.x + yDifference / totalDifference * speed,
-                    mob.motion.x + zDifference / totalDifference * speed
+                    mob.motion.y + yDifference / totalDifference * speed,
+                    mob.motion.z + zDifference / totalDifference * speed
                 )
             }
         }

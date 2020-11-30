@@ -51,7 +51,7 @@ class NightmareHandler {
             if (world.dimension.type == ModDimensions.NIGHTMARE_TYPE) {
                 if (world.gameTime % 20 == 0L) {
                     (world as ServerWorld).entities
-                        .filter { it.type == ModEntities.GHASTLY_ENARIA }
+                        .filter { it?.type == ModEntities.GHASTLY_ENARIA }
                         .map { it as GhastlyEnariaEntity }
                         .filter { it.getTouchedPlayer().isPresent }
                         .forEach {

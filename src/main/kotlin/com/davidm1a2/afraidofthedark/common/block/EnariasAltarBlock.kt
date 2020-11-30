@@ -14,9 +14,6 @@ import net.minecraft.util.BlockRenderLayer
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.BlockRayTraceResult
-import net.minecraft.util.math.shapes.ISelectionContext
-import net.minecraft.util.math.shapes.VoxelShape
-import net.minecraft.util.math.shapes.VoxelShapes
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.IBlockReader
 import net.minecraft.world.World
@@ -50,19 +47,17 @@ class EnariasAltarBlock : AOTDTileEntityBlock(
                 playerResearch.setResearch(ModResearches.ENARIAS_SECRET, true)
                 playerResearch.sync(playerIn, true)
             }
+
+            if (!playerResearch.isResearched(ModResearches.ENARIAS_SECRET)) {
+                playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.enarias_altar.no_research"))
+            }
         } else {
             // If the player has the right research show the gui
             if (playerResearch.isResearched(ModResearches.ENARIAS_SECRET)) {
                 Minecraft.getInstance().displayGuiScreen(SpellListScreen())
-            } else {
-                playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.enarias_altar.no_research"))
             }
         }
         return true
-    }
-
-    override fun getShape(state: BlockState, world: IBlockReader, blockPos: BlockPos, selectionContext: ISelectionContext): VoxelShape {
-        return VoxelShapes.empty()
     }
 
     override fun getRenderLayer(): BlockRenderLayer {

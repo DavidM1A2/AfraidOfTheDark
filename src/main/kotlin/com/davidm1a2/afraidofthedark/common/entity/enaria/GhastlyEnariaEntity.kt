@@ -62,12 +62,11 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
      */
     override fun registerAttributes() {
         super.registerAttributes()
-        attributes.registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE)
+        attributes.registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).baseValue = ATTACK_DAMAGE
         attributes.getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH)?.baseValue = MAX_HEALTH
         attributes.getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE)?.baseValue = FOLLOW_RANGE
         attributes.getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE)?.baseValue = KNOCKBACK_RESISTANCE
         attributes.getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED)?.baseValue = MOVE_SPEED
-        attributes.getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE)?.baseValue = ATTACK_DAMAGE
     }
 
     /**
@@ -219,7 +218,7 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
         private val TOUCHED_PLAYER = EntityDataManager.createKey(GhastlyEnariaEntity::class.java, DataSerializers.OPTIONAL_UNIQUE_ID)
 
         // Constants defining enaria parameters
-        private const val MOVE_SPEED = 0.02
+        private const val MOVE_SPEED = 0.005
         private const val FOLLOW_RANGE = 300.0
         private const val MAX_HEALTH = 9001.0
         private const val ATTACK_DAMAGE = 900.0

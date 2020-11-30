@@ -2,17 +2,18 @@ package com.davidm1a2.afraidofthedark.common.entity.enaria
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
-import com.davidm1a2.afraidofthedark.common.constants.ModDataSerializers
-import com.davidm1a2.afraidofthedark.common.constants.ModEntities
-import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.constants.*
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.ArmthrowChannel
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.AutoattackChannel
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.SpellChannel
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.WalkChannel
+import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSkeletonEntity
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
+import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneEntity
+import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneProjectileEntity
+import com.davidm1a2.afraidofthedark.common.entity.werewolf.WerewolfEntity
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.PlayEnariasFightMusicPacket
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
@@ -21,6 +22,7 @@ import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.ai.goal.LookAtGoal
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal
 import net.minecraft.entity.ai.goal.SwimGoal
+import net.minecraft.entity.item.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.nbt.CompoundNBT
@@ -269,6 +271,26 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
                         if (playerResearch.canResearch(ModResearches.ENARIA)) {
                             playerResearch.setResearch(ModResearches.ENARIA, true)
                             playerResearch.sync(entityPlayer, true)
+                        }
+                    }
+
+                    // Kill all the entities enaria may have spawned
+                    for (entity in world.getEntitiesWithinAABB(
+                        Entity::class.java,
+                        getAllowedRegion()
+                    ) {
+                        it is WerewolfEntity || it is SplinterDroneProjectileEntity || it is SplinterDroneEntity || it is EnchantedSkeletonEntity
+                    }) {
+                        entity.onKillCommand()
+                    }
+
+                    // Kill all the enchanted skeleton bones
+                    for (itemEntity in world.getEntitiesWithinAABB(
+                        ItemEntity::class.java,
+                        getAllowedRegion()
+                    )) {
+                        if (itemEntity.item.item == ModItems.ENCHANTED_SKELETON_BONE) {
+                            itemEntity.onKillCommand()
                         }
                     }
                 }
