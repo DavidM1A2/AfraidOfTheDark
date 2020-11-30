@@ -5,10 +5,8 @@ import com.davidm1a2.afraidofthedark.common.tileEntity.DesertOasisTileEntity
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.material.Material
-import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.world.IBlockReader
-import net.minecraft.world.storage.loot.LootContext
 import net.minecraftforge.common.ToolType
 
 /**
@@ -39,9 +37,5 @@ class DesertOasisBlock : AOTDTileEntityBlock(
 
     override fun createTileEntity(state: BlockState, world: IBlockReader): TileEntity {
         return DesertOasisTileEntity()
-    }
-
-    override fun getDrops(state: BlockState, lootContext: LootContext.Builder): List<ItemStack> {
-        return emptyList()
     }
 }

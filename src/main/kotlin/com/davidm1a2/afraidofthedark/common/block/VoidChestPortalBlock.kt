@@ -10,11 +10,9 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.material.Material
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraft.item.ItemStack
 import net.minecraft.util.BlockRenderLayer
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import net.minecraft.world.storage.loot.LootContext
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
@@ -65,10 +63,6 @@ class VoidChestPortalBlock : AOTDBlock(
                 }
             }
         }
-    }
-
-    override fun getDrops(state: BlockState, context: LootContext.Builder): List<ItemStack> {
-        return emptyList()
     }
 
     @OnlyIn(Dist.CLIENT)

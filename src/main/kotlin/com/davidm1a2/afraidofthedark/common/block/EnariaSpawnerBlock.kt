@@ -7,13 +7,11 @@ import com.davidm1a2.afraidofthedark.common.tileEntity.GhastlyEnariaSpawnerTileE
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.material.Material
-import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.world.IBlockReader
 import net.minecraft.world.Region
 import net.minecraft.world.World
 import net.minecraft.world.dimension.DimensionType
-import net.minecraft.world.storage.loot.LootContext
 import net.minecraftforge.common.ToolType
 import org.apache.logging.log4j.LogManager
 
@@ -54,10 +52,6 @@ class EnariaSpawnerBlock : AOTDTileEntityBlock("enaria_spawner", Properties.crea
                 null
             }
         }
-    }
-
-    override fun getDrops(p_220076_1_: BlockState, p_220076_2_: LootContext.Builder): List<ItemStack> {
-        return emptyList()
     }
 
     companion object {

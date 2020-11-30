@@ -2,21 +2,15 @@ package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBushBlock
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import net.minecraft.block.BlockState
-import net.minecraft.block.Blocks
 import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
 import net.minecraft.block.material.MaterialColor
-import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.shapes.ISelectionContext
 import net.minecraft.util.math.shapes.VoxelShape
 import net.minecraft.world.IBlockReader
-import net.minecraft.world.IWorld
 import net.minecraft.world.IWorldReader
-import net.minecraft.world.storage.loot.LootContext
-import net.minecraftforge.common.IShearable
 import net.minecraftforge.common.PlantType
 
 class ImbuedCactusBlossomBlock : AOTDBushBlock(
@@ -25,7 +19,7 @@ class ImbuedCactusBlossomBlock : AOTDBushBlock(
         .doesNotBlockMovement()
         .hardnessAndResistance(0.0f)
         .sound(SoundType.PLANT)
-), IShearable {
+) {
     override fun isValidPosition(state: BlockState, world: IWorldReader, blockPos: BlockPos): Boolean {
         val blockOn = world.getBlockState(blockPos.down())
         @Suppress("DEPRECATION")
@@ -40,18 +34,8 @@ class ImbuedCactusBlossomBlock : AOTDBushBlock(
         return IMBUED_CACTUS_BLOSSOM_SHAPE
     }
 
-    override fun getDrops(state: BlockState, lootContext: LootContext.Builder): List<ItemStack> {
-        val numItems = kotlin.random.Random.nextInt(2) + 1
-        return List(numItems) { ItemStack(ModItems.DESERT_FRUIT) }
-    }
-
     override fun getPlantType(world: IBlockReader, pos: BlockPos): PlantType {
         return PlantType.Desert
-    }
-
-    override fun onSheared(item: ItemStack, world: IWorld, pos: BlockPos, fortune: Int): List<ItemStack> {
-        world.setBlockState(pos, Blocks.AIR.defaultState, 11)
-        return listOf(ItemStack(this))
     }
 
     companion object {
