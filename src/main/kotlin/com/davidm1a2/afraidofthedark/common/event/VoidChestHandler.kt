@@ -168,10 +168,10 @@ class VoidChestHandler {
         // If the player left the void chest reset their position
         if (dimensionFrom == ModDimensions.VOID_CHEST_TYPE) {
             // Grab the player's pre-teleport position
-            val preTeleportPosition = entityPlayer.getVoidChestData().preTeleportPosition
+            val preTeleportPosition = entityPlayer.getVoidChestData().preTeleportPosition!!
             // Reset the player's position
             entityPlayer.connection.setPlayerLocation(
-                preTeleportPosition!!.x + 0.5,
+                preTeleportPosition.x + 0.5,
                 preTeleportPosition.y + 1.5,
                 preTeleportPosition.z + 0.5,
                 0f,

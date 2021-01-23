@@ -47,6 +47,7 @@ class AfraidOfTheDark {
         forgeBus.register(SpellCharmHandler())
         forgeBus.register(ArmorHandler())
         forgeBus.register(FurnaceFuelRegister())
+        forgeBus.register(teleportQueue)
         forgeBus.register(this)
 
         modBus.register(RegistryRegister())
@@ -74,7 +75,7 @@ class AfraidOfTheDark {
         context.registerConfig(ModConfig.Type.CLIENT, ModConfigHolder.CLIENT_SPEC)
         context.registerConfig(ModConfig.Type.COMMON, ModConfigHolder.COMMON_SPEC)
 
-        proxy.initializeResearchOverlayHandler()
+        proxy.registerHandlers()
         proxy.registerKeyBindings()
     }
 
@@ -122,5 +123,6 @@ class AfraidOfTheDark {
     companion object {
         val packetHandler = PacketHandler()
         val proxy: IProxy = DistExecutor.runForDist<IProxy>({ Supplier { ClientProxy() } }, { Supplier { ServerProxy() } })
+        val teleportQueue = TeleportQueue()
     }
 }

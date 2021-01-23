@@ -26,7 +26,7 @@ class VoidChestPortalBlock : AOTDBlock(
     Properties.create(Material.PORTAL)
         // This block can't be broken
         .hardnessAndResistance(60000f)
-        .lightValue(1)
+        .lightValue(5)
         .doesNotBlockMovement()
 ) {
     override fun displayInCreative(): Boolean {

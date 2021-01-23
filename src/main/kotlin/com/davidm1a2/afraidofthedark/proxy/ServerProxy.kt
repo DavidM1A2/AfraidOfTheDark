@@ -8,7 +8,7 @@ import com.davidm1a2.afraidofthedark.common.event.ResearchOverlayHandler
 class ServerProxy : IProxy {
     override val researchOverlay: ResearchOverlayHandler? = null
 
-    override fun initializeResearchOverlayHandler() {
+    override fun registerHandlers() {
         // Not used
     }
 

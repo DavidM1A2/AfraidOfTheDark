@@ -12,9 +12,9 @@ interface IProxy {
     val researchOverlay: ResearchOverlayHandler?
 
     /**
-     * Initializes the research overlay handler
+     * Initializes event handlers
      */
-    fun initializeResearchOverlayHandler()
+    fun registerHandlers()
 
     /**
      * Called to initialize entity renderers

@@ -14,6 +14,7 @@ import net.minecraft.world.dimension.DimensionType
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
+import net.minecraftforge.client.IRenderHandler
 
 /**
  * Class that provides the void chest world
@@ -22,13 +23,6 @@ import net.minecraftforge.api.distmarker.OnlyIn
  * @param dimensionType The dimension type of this dimension
  */
 class VoidChestDimension(world: World, dimensionType: DimensionType) : Dimension(world, dimensionType) {
-    init {
-        // If we're on client side set the sky renderer
-        if (world.isRemote) {
-            skyRenderer = VoidChestSkyRenderer()
-        }
-    }
-
     /**
      * @return The dimension type
      */
@@ -159,5 +153,12 @@ class VoidChestDimension(world: World, dimensionType: DimensionType) : Dimension
      */
     override fun shouldMapSpin(entity: String, x: Double, z: Double, rotation: Double): Boolean {
         return false
+    }
+
+    override fun getSkyRenderer(): IRenderHandler? {
+        if (super.getSkyRenderer() == null) {
+            skyRenderer = VoidChestSkyRenderer()
+        }
+        return super.getSkyRenderer()
     }
 }

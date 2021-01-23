@@ -46,7 +46,8 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry
 class ClientProxy : IProxy {
     override val researchOverlay = ResearchOverlayHandler()
 
-    override fun initializeResearchOverlayHandler() {
+    override fun registerHandlers() {
+        MinecraftForge.EVENT_BUS.register(KeyInputEventHandler())
         MinecraftForge.EVENT_BUS.register(researchOverlay)
     }
 
@@ -74,7 +75,6 @@ class ClientProxy : IProxy {
     }
 
     override fun registerKeyBindings() {
-        MinecraftForge.EVENT_BUS.register(KeyInputEventHandler())
         ModKeybindings.KEY_BINDING_LIST.forEach { ClientRegistry.registerKeyBinding(it) }
     }
 
