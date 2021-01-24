@@ -186,21 +186,6 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
     }
 
     /**
-     * Called to drop items on the ground after the skeleton dies
-     *
-     * @param damageSource The damage source
-     */
-    override fun spawnDrops(damageSource: DamageSource) {
-        // Drop exactly 3 bones, because 4 bones cause another skeleton to spawn
-        entityDropItem(ItemStack(ModItems.ENCHANTED_SKELETON_BONE, 3), 1f)
-
-        // Have a 5% chance to drop a heart, increased by 5% per looting level
-        if (rand.nextDouble() < 0.05) { // TODO fix 0.05 * lootingModifier
-            entityDropItem(ModItems.CURSED_HEART, 1)
-        }
-    }
-
-    /**
      * @return The handler for all animations for this entity
      */
     override fun getAnimationHandler(): AnimationHandler {

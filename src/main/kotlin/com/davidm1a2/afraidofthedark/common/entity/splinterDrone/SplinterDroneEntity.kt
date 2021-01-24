@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.common.entity.splinterDrone
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
@@ -152,13 +151,6 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
                     playerResearch.sync(entityPlayer, true)
                 }
             }
-        }
-    }
-
-    override fun spawnDrops(damageSource: DamageSource) {
-        // Drop 1 energy core 20% of the time (+20% per looting level)
-        if (rand.nextDouble() < 0.2) { // TODO: lootingModifier * 0.2
-            entityDropItem(ModItems.POWER_CORE, 1)
         }
     }
 

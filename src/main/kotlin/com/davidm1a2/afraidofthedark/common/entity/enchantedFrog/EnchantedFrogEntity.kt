@@ -1,7 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.entity.enchantedFrog
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.constants.*
+import com.davidm1a2.afraidofthedark.common.constants.ModDataSerializers
+import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
+import com.davidm1a2.afraidofthedark.common.constants.ModSounds
+import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EnariaEntity
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.animation.CastChannel
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.animation.HopChannel
@@ -176,26 +179,6 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
 
                 ticksUntilNextCastAttempt = Random.nextInt(MIN_TICKS_BETWEEN_CASTS, MAX_TICKS_BETWEEN_CASTS)
             }
-        }
-    }
-
-    /**
-     * Called to drop items on the ground after the frog dies
-     *
-     * @param damageSource The damage that killed the frog
-     */
-    override fun spawnDrops(damageSource: DamageSource) {
-        val chance = rand.nextDouble()
-
-        // 5% chance to drop 2, 40% chance for one
-        val numberToDrop = when {
-            chance < 0.05 -> 2
-            chance < 0.4 -> 1
-            else -> 0
-        }
-
-        if (numberToDrop > 0) {
-            entityDropItem(ModItems.MAGIC_ESSENCE, numberToDrop)
         }
     }
 
