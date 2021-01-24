@@ -18,7 +18,6 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.RayTraceContext
 import net.minecraft.util.math.Vec3d
 import java.util.*
-import kotlin.Comparator
 import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.math.min
@@ -101,9 +100,9 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
                 )
             }
             // Find the closest entity
-            .minWith(Comparator<Entity> { entity1, entity2 ->
+            .minWithOrNull { entity1, entity2 ->
                 entity1.getDistanceSq(startPos).compareTo(entity2.getDistanceSq(hitPos))
-            })
+            }
         hitPos = hitEntity?.positionVector ?: hitPos
 
         // Compute the distance the ray traveled

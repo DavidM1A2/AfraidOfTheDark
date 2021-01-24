@@ -17,7 +17,7 @@ class VoidChestStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: Int,
     override fun init(generator: ChunkGenerator<*>, templateManagerIn: TemplateManager, centerChunkX: Int, centerChunkZ: Int, biomeIn: Biome) {
         val xPos = centerChunkX * 16
         val zPos = centerChunkZ * 16
-        val yPos = (structure as AOTDStructure<*>).getEdgeHeights(xPos, zPos, generator).min()!!
+        val yPos = (structure as AOTDStructure<*>).getEdgeHeights(xPos, zPos, generator).minOrNull()!!
 
         this.components.add(
             SchematicStructurePiece(

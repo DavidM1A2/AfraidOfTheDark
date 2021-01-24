@@ -112,7 +112,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
             }
         }
 
-        throw IllegalArgumentException("Texture width/height could not be created as it would be larger than ${validTextureSizes.max()}")
+        throw IllegalArgumentException("Texture width/height could not be created as it would be larger than ${validTextureSizes.maxOrNull()}")
     }
 
     /**

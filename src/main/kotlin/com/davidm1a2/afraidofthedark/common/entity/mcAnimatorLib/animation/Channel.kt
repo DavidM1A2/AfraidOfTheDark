@@ -39,7 +39,7 @@ abstract class Channel(
      */
     open fun getPreviousRotationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
         return keyFrames.asSequence().filter { it.key <= currentFrame && it.value.useBoxInRotation(boxName) }
-            .maxBy { it.key }?.value
+            .maxByOrNull { it.key }?.value
     }
 
     /**
@@ -52,7 +52,7 @@ abstract class Channel(
      */
     open fun getNextRotationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
         return keyFrames.asSequence().filter { it.key > currentFrame && it.value.useBoxInRotation(boxName) }
-            .minBy { it.key }?.value
+            .minByOrNull { it.key }?.value
     }
 
     /**
@@ -65,7 +65,7 @@ abstract class Channel(
      */
     open fun getPreviousTranslationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
         return keyFrames.asSequence().filter { it.key <= currentFrame && it.value.useBoxInTranslation(boxName) }
-            .maxBy { it.key }?.value
+            .maxByOrNull { it.key }?.value
     }
 
     /**
@@ -78,7 +78,7 @@ abstract class Channel(
      */
     open fun getNextTranslationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
         return keyFrames.asSequence().filter { it.key > currentFrame && it.value.useBoxInTranslation(boxName) }
-            .minBy { it.key }?.value
+            .minByOrNull { it.key }?.value
     }
 
     /**

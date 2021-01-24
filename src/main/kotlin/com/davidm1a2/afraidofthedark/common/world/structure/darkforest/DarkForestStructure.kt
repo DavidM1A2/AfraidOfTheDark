@@ -19,8 +19,8 @@ class DarkForestStructure : AOTDStructure<DarkForestConfig>({ DarkForestConfig.d
     private val bedHouseLength: Int
 
     init {
-        val widestTree = ModSchematics.DARK_FOREST_TREES.map { it.getWidth() }.max()!!.toInt()
-        val longestTree = ModSchematics.DARK_FOREST_TREES.map { it.getLength() }.max()!!.toInt()
+        val widestTree = ModSchematics.DARK_FOREST_TREES.map { it.getWidth() }.maxOrNull()!!.toInt()
+        val longestTree = ModSchematics.DARK_FOREST_TREES.map { it.getLength() }.maxOrNull()!!.toInt()
 
         bedHouseWidth = ModSchematics.BED_HOUSE.getWidth().toInt()
         bedHouseLength = ModSchematics.BED_HOUSE.getLength().toInt()
@@ -61,14 +61,14 @@ class DarkForestStructure : AOTDStructure<DarkForestConfig>({ DarkForestConfig.d
     override fun hasStartAt(worldIn: IWorld, chunkGen: ChunkGenerator<*>, random: Random, xPos: Int, zPos: Int): Boolean {
         val frequency = getInteriorConfigs(xPos, zPos, chunkGen, bedHouseWidth, bedHouseLength, stepNum = 2)
             .map { it?.frequency ?: 0.0 }
-            .min() ?: 0.0
+            .minOrNull() ?: 0.0
         if (random.nextDouble() >= frequency) {
             return false
         }
 
         val heights = getEdgeHeights(xPos, zPos, chunkGen, worldIn, bedHouseWidth, bedHouseLength)
-        val maxHeight = heights.max()!!
-        val minHeight = heights.min()!!
+        val maxHeight = heights.maxOrNull()!!
+        val minHeight = heights.minOrNull()!!
         if (maxHeight - minHeight > 8) {
             return false
         }

@@ -38,14 +38,14 @@ class ObservatoryStructure : AOTDStructure<ObservatoryConfig>({ ObservatoryConfi
     }
 
     override fun hasStartAt(worldIn: IWorld, chunkGen: ChunkGenerator<*>, random: Random, xPos: Int, zPos: Int): Boolean {
-        val frequency = getInteriorConfigs(xPos, zPos, chunkGen, stepNum = 2).map { it?.frequency ?: 0.0 }.min() ?: 0.0
+        val frequency = getInteriorConfigs(xPos, zPos, chunkGen, stepNum = 2).map { it?.frequency ?: 0.0 }.minOrNull() ?: 0.0
         if (random.nextDouble() >= frequency) {
             return false
         }
 
         val heights = getEdgeHeights(xPos, zPos, chunkGen, worldIn)
-        val maxHeight = heights.max()!!
-        val minHeight = heights.min()!!
+        val maxHeight = heights.maxOrNull()!!
+        val minHeight = heights.minOrNull()!!
         // If there's more than 3 blocks between the top and bottom block it's an invalid place for an observatory because it's not 'flat' enough
         // If the flat spot is below y 70 it's also not a good spot
         if (maxHeight - minHeight > 3 && minHeight <= 70) {

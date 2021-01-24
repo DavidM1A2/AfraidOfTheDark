@@ -22,6 +22,7 @@ class NullableEntityRayTraceContext(startVec: Vec3d, endVec: Vec3d, private val 
     }
 
     companion object {
+        @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
         private val DUMMY_ENTITY = ItemEntity(null, 0.0, 0.0, 0.0)
     }
 }

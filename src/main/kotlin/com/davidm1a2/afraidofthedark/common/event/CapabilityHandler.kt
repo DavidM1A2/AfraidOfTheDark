@@ -93,19 +93,19 @@ class CapabilityHandler {
 
             // Grab new and original player capabilities
             val originalPlayerBasics = event.original.getBasics()
-            val newPlayerBasics = event.entityPlayer.getBasics()
+            val newPlayerBasics = event.player.getBasics()
 
             val originalPlayerResearch = event.original.getResearch()
-            val newPlayerResearch = event.entityPlayer.getResearch()
+            val newPlayerResearch = event.player.getResearch()
 
             val originalPlayerVoidChestData = event.original.getVoidChestData()
-            val newPlayerVoidChestData = event.entityPlayer.getVoidChestData()
+            val newPlayerVoidChestData = event.player.getVoidChestData()
 
             val originalPlayerNightmareData = event.original.getNightmareData()
-            val newPlayerNightmareData = event.entityPlayer.getNightmareData()
+            val newPlayerNightmareData = event.player.getNightmareData()
 
             val originalPlayerSpellManager = event.original.getSpellManager()
-            val newPlayerSpellManager = event.entityPlayer.getSpellManager()
+            val newPlayerSpellManager = event.player.getSpellManager()
 
             // Kill the player again
             event.original.remove()

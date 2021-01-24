@@ -35,7 +35,7 @@ class FollowPlayerGoal(
 
         // Grab the closest player, if there is no closest player return false
         val closestPlayer = players.filter { !it.isCreative }
-            .minWith(Comparator { p1, p2 -> p1.getDistance(entity).compareTo(p2.getDistance(entity)) }) ?: return false
+            .minWithOrNull { p1, p2 -> p1.getDistance(entity).compareTo(p2.getDistance(entity)) } ?: return false
 
         // If the distance to the player is less than min don't walk towards the player
         val distance = closestPlayer.getDistance(entity).toDouble()

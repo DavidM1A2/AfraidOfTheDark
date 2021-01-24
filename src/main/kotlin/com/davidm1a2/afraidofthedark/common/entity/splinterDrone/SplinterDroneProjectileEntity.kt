@@ -92,6 +92,7 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
         // Update logic server side
         if (!world.isRemote) {
             // Ensure the shooting entity is null or not dead, and that the area the projectile is in is loaded
+            @Suppress("DEPRECATION")
             if ((shootingEntity == null || shootingEntity!!.isAlive) && world.isBlockLoaded(BlockPos(this))) {
                 // We are in the air, so increment our counter
                 val ticksInAir = this.dataManager[TICKS_IN_AIR] + 1

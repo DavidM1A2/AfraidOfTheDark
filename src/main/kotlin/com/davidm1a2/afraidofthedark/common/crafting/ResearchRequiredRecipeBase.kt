@@ -36,7 +36,8 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe<CraftingInventory>>(val ba
      * @return True if the crafting recipe matches, false if it does not
      */
     override fun matches(inv: CraftingInventory, world: World?): Boolean {
-        // Compute if the recipe matches first
+        // Compute if the recipe matches first. IntelliJ claims "world" can't be null, but it 100% can be
+        @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
         val matches = baseRecipe.matches(inv, world)
 
         // Grab the player who did the crafting

@@ -26,6 +26,7 @@ class ParticleRegister {
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
+    @Suppress("UNUSED_PARAMETER")
     fun registerParticleFactories(event: ParticleFactoryRegisterEvent) {
         val particleManager = Minecraft.getInstance().particles
 

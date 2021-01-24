@@ -59,7 +59,7 @@ abstract class AOTDGuiComponent(x: Int, y: Int, width: Int, height: Int) {
         // Make sure the control is visible and hovered
         if (this.isVisible && this.isHovered) {
             // Find the longest string in the hover texts array
-            val maxHoverTextLength = this.hoverTexts.map { fontRenderer.getStringWidth(it) }.max()
+            val maxHoverTextLength = this.hoverTexts.map { fontRenderer.getStringWidth(it) }.maxOrNull()
             // If it exists, draw the text
             if (maxHoverTextLength != null) {
                 // Grab the mouse X and Y coordinates to draw at

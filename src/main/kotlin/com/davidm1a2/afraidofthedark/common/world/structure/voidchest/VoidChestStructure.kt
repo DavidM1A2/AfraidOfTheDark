@@ -39,14 +39,14 @@ class VoidChestStructure : AOTDStructure<VoidChestConfig>({ VoidChestConfig.dese
     }
 
     override fun hasStartAt(worldIn: IWorld, chunkGen: ChunkGenerator<*>, random: Random, xPos: Int, zPos: Int): Boolean {
-        val frequency = getInteriorConfigs(xPos, zPos, chunkGen).map { it?.frequency ?: 0.0 }.max() ?: 0.0
+        val frequency = getInteriorConfigs(xPos, zPos, chunkGen).map { it?.frequency ?: 0.0 }.maxOrNull() ?: 0.0
         if (random.nextDouble() >= frequency) {
             return false
         }
 
         val heights = getEdgeHeights(xPos, zPos, chunkGen, worldIn)
-        val maxHeight = heights.max()!!
-        val minHeight = heights.min()!!
+        val maxHeight = heights.maxOrNull()!!
+        val minHeight = heights.minOrNull()!!
         if (maxHeight - minHeight > 8) {
             return false
         }

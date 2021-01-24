@@ -24,6 +24,7 @@ class CapabilityProvider<T>(private val capability: Capability<T>) : ICapability
      * @return The capability or null if it was the wrong type
      */
     override fun <V> getCapability(capability: Capability<V>, facing: Direction?): LazyOptional<V> {
+        @Suppress("NULLABLE_TYPE_PARAMETER_AGAINST_NOT_NULL_TYPE_PARAMETER")
         val instance = capabilityInstance?.let { LazyOptional.of { it } } ?: LazyOptional.empty()
         return if (capability == this.capability) instance.cast() else LazyOptional.empty()
     }

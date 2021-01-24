@@ -64,7 +64,7 @@ class SpellFreezeHandler {
         // Dead players don't have capabilities
         if (event.player.isAlive) {
             // Only freeze alive players
-            val playerFreezeData = event.entityPlayer.getSpellFreezeData()
+            val playerFreezeData = event.player.getSpellFreezeData()
 
             // If the player is frozen block all movement
             if (playerFreezeData.freezeTicks > 0) {

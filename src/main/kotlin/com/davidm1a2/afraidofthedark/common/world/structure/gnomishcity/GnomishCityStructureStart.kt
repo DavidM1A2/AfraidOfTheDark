@@ -89,7 +89,7 @@ class GnomishCityStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: In
                                 WorldHeightmap.getHeight(stairwellX, stairwellZ + stairwell.getLength() - 1, world, generator),
                                 WorldHeightmap.getHeight(stairwellX + stairwell.getWidth() - 1, stairwellZ + stairwell.getLength() - 1, world, generator),
                                 WorldHeightmap.getHeight(stairwellX + stairwell.getWidth() / 2, stairwellZ + stairwell.getLength() / 2, world, generator)
-                            ).max()!!
+                            ).maxOrNull()!!
 
                             var stairwellTop = stairwellY
                             while (stairwellTop < min(220, groundHeight)) {
