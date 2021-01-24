@@ -329,15 +329,14 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         // Loop while we have text to distribute
         while (textToDistribute.isNotEmpty()) {
             // Left over text
-            var leftOver: String
-            if (alternator) {
+            val leftOver = if (alternator) {
                 // Set the text of the left page, then retrieve the text that doesnt fit into the box
                 leftPage.setText(textToDistribute)
-                leftOver = leftPage.overflowText
+                leftPage.overflowText
             } else {
                 // Set the text of the right page, then retrieve the text that doesnt fit into the box
                 rightPage.setText(textToDistribute)
-                leftOver = rightPage.overflowText
+                rightPage.overflowText
             }
 
             // Flip our alternator

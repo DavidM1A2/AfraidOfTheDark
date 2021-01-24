@@ -4,7 +4,6 @@ import com.davidm1a2.afraidofthedark.common.block.core.AOTDLeavesBlock
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import net.minecraft.block.BlockState
 import net.minecraft.client.renderer.color.IBlockColor
-import net.minecraft.client.renderer.color.IItemColor
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
@@ -64,7 +63,7 @@ class ModColorRegister {
 
         // Register an item color handler so that leaf blocks are colored properly when held in the inventory
         itemColors.register(
-            IItemColor { stack: ItemStack, tintIndex: Int ->
+            { stack: ItemStack, tintIndex: Int ->
                 // Grab the state of the block if it was placed in the world
                 val iBlockState = (stack.item as BlockItem).block.defaultState
                 blockColors.getColor(iBlockState, null, null, tintIndex)

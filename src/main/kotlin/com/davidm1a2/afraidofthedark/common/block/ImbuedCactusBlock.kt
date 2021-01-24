@@ -52,7 +52,7 @@ class ImbuedCactusBlock : AOTDBlock(
         } else {
             // Check if the air block above is air, if so grow
             if (world.isAirBlock(pos.up())) {
-                var age = state.get<Int>(AGE)
+                var age = state.get(AGE)
                 age++
 
                 // If we're at max age grow and reset age to 0

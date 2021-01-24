@@ -122,7 +122,7 @@ class AfraidOfTheDark {
 
     companion object {
         val packetHandler = PacketHandler()
-        val proxy: IProxy = DistExecutor.runForDist<IProxy>({ Supplier { ClientProxy() } }, { Supplier { ServerProxy() } })
+        val proxy: IProxy = DistExecutor.runForDist({ Supplier { ClientProxy() } }, { Supplier { ServerProxy() } })
         val teleportQueue = TeleportQueue()
     }
 }

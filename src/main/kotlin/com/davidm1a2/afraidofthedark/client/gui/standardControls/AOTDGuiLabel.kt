@@ -49,9 +49,9 @@ class AOTDGuiLabel(x: Int, y: Int, width: Int, height: Int, val font: TrueTypeFo
         if (this.isVisible) {
             // Compute the x and y positions of the text
             val xCoord =
-                this.getXScaled() + when {
-                    this.textAlignment == TextAlignment.ALIGN_LEFT -> 0f
-                    this.textAlignment == TextAlignment.ALIGN_CENTER -> this.getWidthScaled() / 2f
+                this.getXScaled() + when (this.textAlignment) {
+                    TextAlignment.ALIGN_LEFT -> 0f
+                    TextAlignment.ALIGN_CENTER -> this.getWidthScaled() / 2f
                     else -> this.getWidthScaled().toFloat()
                 }
             var yCoord = this.getYScaled().toFloat()

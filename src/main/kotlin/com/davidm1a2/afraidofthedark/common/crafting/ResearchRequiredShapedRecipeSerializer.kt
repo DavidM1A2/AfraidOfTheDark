@@ -15,7 +15,7 @@ import net.minecraftforge.registries.ForgeRegistryEntry
  */
 class ResearchRequiredShapedRecipeSerializer : ForgeRegistryEntry<IRecipeSerializer<*>>(), IRecipeSerializer<ResearchRequiredShapedRecipe> {
     init {
-        setRegistryName(ResourceLocation(Constants.MOD_ID, "research_required_shaped_recipe"))
+        registryName = ResourceLocation(Constants.MOD_ID, "research_required_shaped_recipe")
     }
 
     override fun write(buffer: PacketBuffer, recipe: ResearchRequiredShapedRecipe) {

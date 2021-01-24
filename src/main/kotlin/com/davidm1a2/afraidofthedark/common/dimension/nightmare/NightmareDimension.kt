@@ -37,7 +37,7 @@ class NightmareDimension(world: World, dimensionType: DimensionType) : Dimension
      * @param chunkPos The chunk pos to find a spawn in
      * @param checkValid If the spawn should be "valid" as in not water or lava, etc
      */
-    override fun findSpawn(chunkPos: ChunkPos, checkValid: Boolean): BlockPos? {
+    override fun findSpawn(chunkPos: ChunkPos, checkValid: Boolean): BlockPos {
         // Spawn players at 255, they'll get teleported right after
         return BlockPos(chunkPos.x * 16, 255, chunkPos.z * 16)
     }
@@ -49,7 +49,7 @@ class NightmareDimension(world: World, dimensionType: DimensionType) : Dimension
      * @param z The z position to find a spawn in
      * @param checkValid If the spawn should be "valid" as in not water or lava, etc
      */
-    override fun findSpawn(x: Int, z: Int, checkValid: Boolean): BlockPos? {
+    override fun findSpawn(x: Int, z: Int, checkValid: Boolean): BlockPos {
         // Spawn players at 255, they'll get teleported right after
         return BlockPos(x, 255, z)
     }

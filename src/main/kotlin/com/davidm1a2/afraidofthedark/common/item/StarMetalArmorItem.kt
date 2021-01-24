@@ -40,7 +40,7 @@ class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
      * @param type   The subtype, can be null or "overlay"
      * @return Path of texture to bind, or null to use default
      */
-    override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EquipmentSlotType, type: String?): String? {
+    override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EquipmentSlotType, type: String?): String {
         // Star metal 1 is for helm, boots, and chest while Star metal 2 is for leggings
         return if (slot == EquipmentSlotType.LEGS) {
             "afraidofthedark:textures/armor/star_metal_2.png"
