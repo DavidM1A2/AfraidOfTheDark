@@ -33,8 +33,7 @@ class SpellLaserParticle(
         motionY = 0.0
         motionZ = 0.0
 
-        // Scale starts at 1.0
-        particleScale = 0.01f
+        particleScale = 0.001f
     }
 
     /**

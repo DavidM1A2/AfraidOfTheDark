@@ -35,8 +35,8 @@ class KeyInputEventHandler {
     @SubscribeEvent
     @Suppress("UNUSED_PARAMETER")
     fun handleKeyInputEvent(event: InputEvent.KeyInputEvent) {
-        // This gets fired in the main menu, so when not in game player is null and we return
-        if (Minecraft.getInstance().player == null) {
+        // This gets fired in the main menu, or when we have an inventory open. In either case return
+        if (Minecraft.getInstance().player == null || Minecraft.getInstance().currentScreen != null) {
             return
         }
 
