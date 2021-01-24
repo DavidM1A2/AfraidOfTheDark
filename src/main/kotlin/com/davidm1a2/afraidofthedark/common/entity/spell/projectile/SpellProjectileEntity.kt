@@ -16,13 +16,13 @@ import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.IPacket
 import net.minecraft.network.datasync.DataSerializers
 import net.minecraft.network.datasync.EntityDataManager
-import net.minecraft.network.play.server.SSpawnObjectPacket
 import net.minecraft.util.DamageSource
 import net.minecraft.util.math.*
 import net.minecraft.world.World
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
+import net.minecraftforge.fml.network.NetworkHooks
 import java.util.*
 
 /**
@@ -293,7 +293,7 @@ class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, w
     }
 
     override fun createSpawnPacket(): IPacket<*> {
-        return SSpawnObjectPacket(this)
+        return NetworkHooks.getEntitySpawningPacket(this)
     }
 
     override fun readAdditional(compound: CompoundNBT) {

@@ -32,8 +32,6 @@ class SpellLaserParticle(
         motionX = 0.0
         motionY = 0.0
         motionZ = 0.0
-
-        particleScale = 0.001f
     }
 
     /**
@@ -41,7 +39,7 @@ class SpellLaserParticle(
      */
     override fun updateMotionXYZ() {
         // Set scale to be based on time alive
-        particleScale = (maxAge - age) / maxAge.toFloat()
+        particleScale = (maxAge - age) / maxAge.toFloat() * 0.1f + 0.001f
     }
 
     @OnlyIn(Dist.CLIENT)
