@@ -136,7 +136,7 @@ class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, w
                         .withPosition(this.positionVector)
                         .withBlockPosition(this.position)
                         .withDirection(motion)
-                        .withCasterEntity(this.dataManager[CASTER_ENTITY_ID].map { (world as? ServerWorld)?.getEntityByUuid(it) }.get())
+                        .withCasterEntity(this.dataManager[CASTER_ENTITY_ID].map { (world as? ServerWorld)?.getEntityByUuid(it) }.orElse(null))
                         .withDeliveryEntity(this)
                         .build()
 
