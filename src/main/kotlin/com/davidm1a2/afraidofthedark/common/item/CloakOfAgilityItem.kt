@@ -33,7 +33,7 @@ class CloakOfAgilityItem : AOTDSharedCooldownItem("cloak_of_agility", Properties
             tooltip.add(
                 TranslationTextComponent(
                     "tooltip.afraidofthedark.cloak_of_agility.line1",
-                    TranslationTextComponent(ROLL_WITH_CLOAK_OF_AGILITY.key.translationKey)
+                    ROLL_WITH_CLOAK_OF_AGILITY.localizedName
                 )
             )
             tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.cloak_of_agility.line2"))

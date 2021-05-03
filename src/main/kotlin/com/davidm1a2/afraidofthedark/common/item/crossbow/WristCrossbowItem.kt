@@ -44,13 +44,13 @@ class WristCrossbowItem : AOTDPerItemCooldownItem("wrist_crossbow", Properties()
             tooltip.add(
                 TranslationTextComponent(
                     "tooltip.afraidofthedark.wrist_crossbow.how_to_fire",
-                    TranslationTextComponent(ModKeybindings.FIRE_WRIST_CROSSBOW.key.translationKey)
+                    ModKeybindings.FIRE_WRIST_CROSSBOW.localizedName
                 )
             )
             tooltip.add(
                 TranslationTextComponent(
                     "tooltip.afraidofthedark.wrist_crossbow.change_bolt_type",
-                    TranslationTextComponent(ModKeybindings.FIRE_WRIST_CROSSBOW.key.translationKey)
+                    ModKeybindings.FIRE_WRIST_CROSSBOW.localizedName
                 )
             )
         } else {
