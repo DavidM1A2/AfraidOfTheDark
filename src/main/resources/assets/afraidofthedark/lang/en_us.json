@@ -396,7 +396,7 @@
   "message.afraidofthedark.spell.wrong_dimension": "My mind is too clouded to cast spells here.",
   "message.afraidofthedark.spell.invalid": "Invalid spell. Make sure to have delivery methods on each spell stage and a power source!",
   "message.afraidofthedark.spell.power_source.creative.invalid_msg": "You must be in creative mode to cast this spell.",
-  "message.afraidofthedark.spell.power_source.experience.invalid_msg": "Not enough experience levels to cast this spell.",
+  "message.afraidofthedark.spell.power_source.experience.invalid_msg": "Not enough experience to cast this spell.",
   "message.afraidofthedark.spell.save_successful": "Spell '%1$s' saved successfully.",
   "message.afraidofthedark.spell.property_edit_fail": "Property %1$s did not have a valid value - %2$s",
   "message.afraidofthedark.spell.property_edit_success": "All properties saved successfully.",

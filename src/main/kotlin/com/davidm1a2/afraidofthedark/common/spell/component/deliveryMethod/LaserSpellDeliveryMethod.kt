@@ -19,8 +19,6 @@ import net.minecraft.util.math.RayTraceContext
 import net.minecraft.util.math.Vec3d
 import java.util.*
 import kotlin.math.ceil
-import kotlin.math.max
-import kotlin.math.min
 
 /**
  * Laser delivery method delivers the spell to the target with a hitscan laser
@@ -86,23 +84,12 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         )
 
         val hitEntity = potentialHitEntities
-            // Don't hitscan ourselves
+            // Don't laser ourselves
             .filter { it !== entity }
             // Ensure the entity is along the path with the ray
-            .filter {
-                it.boundingBox.intersects(
-                    min(startPos.x, endPos.x),
-                    min(startPos.y, endPos.y),
-                    min(startPos.z, endPos.z),
-                    max(startPos.x, endPos.x),
-                    max(startPos.y, endPos.y),
-                    max(startPos.z, endPos.z)
-                )
-            }
+            .filter { it.boundingBox.rayTrace(startPos, endPos).isPresent }
             // Find the closest entity
-            .minWithOrNull { entity1, entity2 ->
-                entity1.getDistanceSq(startPos).compareTo(entity2.getDistanceSq(hitPos))
-            }
+            .minWithOrNull(Comparator.comparing { it.getDistanceSq(startPos) })
         hitPos = hitEntity?.positionVector ?: hitPos
 
         // Compute the distance the ray traveled
@@ -110,7 +97,7 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         // Spawn at least 10 particles and at most 100. Take the distance to the hit position and spawn one particle per distance
         val numParticlesToSpawn = ceil(distanceToHit).coerceIn(10.0, 100.0).toInt()
 
-        // Compute points along the hitscan line
+        // Compute points along the laser line
         val laserPositions = List<Vec3d>(numParticlesToSpawn) {
             startPos.add(direction.scale(it.toDouble() / numParticlesToSpawn * distanceToHit))
         }

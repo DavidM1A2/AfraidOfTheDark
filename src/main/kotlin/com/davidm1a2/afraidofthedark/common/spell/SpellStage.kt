@@ -50,7 +50,7 @@ class SpellStage : INBTSerializable<CompoundNBT> {
             for (effect in effects) {
                 if (effect != null) {
                     // Multiply each effect's cost by the delivery method multiplier
-                    cost = cost + deliveryType.getCost(this.deliveryInstance!!) * effect.component.getCost(effect)
+                    cost = cost + deliveryType.getStageCostMultiplier(this.deliveryInstance!!) * effect.component.getCost(effect)
                 }
             }
             return cost

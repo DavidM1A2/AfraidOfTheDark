@@ -8,7 +8,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEff
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.Explosion
-import net.minecraft.world.World
 
 /**
  * Effect that creates an explosion at the given position
@@ -37,7 +36,7 @@ class ExplosionSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, 
      * @param instance The instance of the effect
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
-        val world: World = state.world
+        val world = state.world
         val position = state.position
         createParticlesAt(1, 3, position, world.dimension.type)
         world.createExplosion(null, position.x, position.y, position.z, getRadius(instance), Explosion.Mode.BREAK)
@@ -51,7 +50,7 @@ class ExplosionSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, 
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
         val radius = getRadius(instance)
-        return 10.0 + radius * radius
+        return 10.0 + radius * radius * radius
     }
 
     /**

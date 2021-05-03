@@ -21,8 +21,8 @@ class ExperienceSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constan
      */
     override fun canCast(entity: Entity, spell: Spell): Boolean {
         return (entity as? PlayerEntity)?.let {
-            val xpLevelCost = ceil(spell.getCost() / UNIT_COST_PER_LEVEL).toInt()
-            return xpLevelCost <= it.experienceLevel
+            val xpCost = ceil(spell.getCost() / UNIT_COST_PER_XP).toInt()
+            return xpCost <= it.experienceTotal
         } ?: false
     }
 
@@ -34,8 +34,8 @@ class ExperienceSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constan
      */
     override fun consumePowerToCast(entity: Entity, spell: Spell) {
         (entity as? PlayerEntity)?.let {
-            val xpLevelCost = ceil(spell.getCost() / UNIT_COST_PER_LEVEL).toInt()
-            it.addExperienceLevel(-xpLevelCost)
+            val xpCost = ceil(spell.getCost() / UNIT_COST_PER_XP).toInt()
+            it.giveExperiencePoints(-xpCost)
         }
     }
 
@@ -45,7 +45,7 @@ class ExperienceSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constan
      * @return A description describing how cost is computed
      */
     override fun getCostDescription(): String {
-        return "1xp level for every $UNIT_COST_PER_LEVEL units of spell cost"
+        return "1xp for every $UNIT_COST_PER_XP units of spell cost"
     }
 
     /**
@@ -58,7 +58,7 @@ class ExperienceSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constan
     }
 
     companion object {
-        // The number of units each xp level supplies
-        private const val UNIT_COST_PER_LEVEL = 5.0
+        // The number of units each xp supplies
+        private const val UNIT_COST_PER_XP = 5.0
     }
 }
