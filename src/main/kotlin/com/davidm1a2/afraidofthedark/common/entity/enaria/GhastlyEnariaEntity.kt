@@ -191,6 +191,15 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
     }
 
     /**
+     * Ghastly Enaria can't be pushed by water
+     *
+     * @return false
+     */
+    override fun isPushedByWater(): Boolean {
+        return false
+    }
+
+    /**
      * The animation handler for the entity
      *
      * @return The GhastlyEnaria animation handler

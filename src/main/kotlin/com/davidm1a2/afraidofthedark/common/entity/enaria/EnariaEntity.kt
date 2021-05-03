@@ -364,6 +364,15 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
         return dataManager[ALLOWED_REGION]
     }
 
+    /**
+     * Ghastly Enaria can't be pushed by water
+     *
+     * @return false
+     */
+    override fun isPushedByWater(): Boolean {
+        return false
+    }
+
     override fun createSpawnPacket(): IPacket<*> {
         return NetworkHooks.getEntitySpawningPacket(this)
     }
