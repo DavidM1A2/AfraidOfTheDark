@@ -52,7 +52,7 @@ class FlaskOfSoulsHandler {
             // Ensure the player has the right research
             if (entityPlayer.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS)) {
                 // Grab the player's inventory
-                val inventory = entityPlayer.inventory.mainInventory
+                val inventory = entityPlayer.inventory.mainInventory + entityPlayer.inventory.offHandInventory
                 val entityID = EntityType.getKey(event.entity.type)
 
                 // Iterate over the player's inventory and look for flasks. If we find one test if we have a flask for the killed entity
