@@ -221,7 +221,7 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
      * @param itemStack The itemstack to get kills from
      * @return The number of kills on the flask
      */
-    private fun getKills(itemStack: ItemStack): Int {
+    fun getKills(itemStack: ItemStack): Int {
         // Ensure we have the kills tag, and if not initialize it to 0
         if (!NBTHelper.hasTag(itemStack, NBT_FLASK_KILLS)) {
             NBTHelper.setInteger(itemStack, NBT_FLASK_KILLS, 0)
@@ -263,7 +263,6 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
         // Two constants, one for the flask type and one for flask kill count
         const val NBT_FLASK_TYPE = "flask_type"
         const val NBT_FLASK_KILLS = "flask_kills"
-        const val NBT_FLASK_COMPLETE = "flask_complete"
 
         // A default kills required count
         const val DEFAULT_KILLS_REQUIRED = 32
