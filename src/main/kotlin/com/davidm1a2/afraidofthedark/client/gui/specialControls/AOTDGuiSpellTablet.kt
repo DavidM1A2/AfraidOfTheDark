@@ -67,7 +67,7 @@ class AOTDGuiSpellTablet(
         spellName.setGhostText("Spell Name")
         // When we type into this slot set the spell name
         spellName.addKeyListener {
-            if (it.eventType == AOTDKeyEvent.KeyEventType.Press) {
+            if (it.eventType == AOTDKeyEvent.KeyEventType.Release) {
                 spell.name = spellName.getText()
             }
         }
