@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOT
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ResourceLocation
+import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -48,7 +49,7 @@ class FlaskSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MO
             if (stack.item == ModItems.FLASK_OF_SOULS) {
                 val killsRequired = ModItems.FLASK_OF_SOULS.getKillsRequired(stack)
                 val soulPower = FlaskOfSoulsItem.FLASK_POWER / killsRequired.toDouble()
-                val soulCost = max((spell.getCost() / soulPower).roundToInt(), 1) // No cheeky 0 cost spells
+                val soulCost = max(ceil(spell.getCost() / soulPower), 1.0).toInt() // No cheeky 0 cost spells
                 ModItems.FLASK_OF_SOULS.addKills(stack, -soulCost)
             }
         }
