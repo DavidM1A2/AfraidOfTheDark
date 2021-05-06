@@ -22,9 +22,9 @@ class ExplosionSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, 
                 .withDescription("The explosion's radius.")
                 .withSetter { instance, newValue -> instance.data.putFloat(NBT_RADIUS, newValue) }
                 .withGetter { it.data.getFloat(NBT_RADIUS) }
-                .withDefaultValue(5.0f)
+                .withDefaultValue(2.0f)
                 .withMinValue(1.0f)
-                .withMaxValue(150.0f)
+                .withMaxValue(100.0f)
                 .build()
         )
     }
