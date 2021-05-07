@@ -58,27 +58,32 @@ abstract class AOTDGuiComponent(x: Int, y: Int, width: Int, height: Int) {
     open fun drawOverlay() {
         // Make sure the control is visible and hovered
         if (this.isVisible && this.isHovered) {
+            // Grab the mouse X and Y coordinates to draw at
+            val mouseX = AOTDGuiUtility.getMouseXInMCCoord()
+            val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
+            // Get the window width and calculate the distance to the edge of the screen
+            val windowWidth = AOTDGuiUtility.getWindowWidthInMCCoords()
+            val distToEdge = windowWidth - (mouseX+5)
+            // Apply text wrapping to the hover text
+            val fittedHoverTexts = fitText(distToEdge, hoverTexts)
             // Find the longest string in the hover texts array
-            val maxHoverTextLength = this.hoverTexts.map { fontRenderer.getStringWidth(it) }.maxOrNull()
+            val maxHoverTextLength = fittedHoverTexts.map { fontRenderer.getStringWidth(it) }.maxOrNull()
             // If it exists, draw the text
             if (maxHoverTextLength != null) {
-                // Grab the mouse X and Y coordinates to draw at
-                val mouseX = AOTDGuiUtility.getMouseXInMCCoord()
-                val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
 
                 // Draw a background rectangle
                 AbstractGui.fill(
                     mouseX + 2,
                     mouseY - 2,
                     mouseX + maxHoverTextLength + 7,
-                    mouseY + fontRenderer.FONT_HEIGHT * this.hoverTexts.size,
+                    mouseY + fontRenderer.FONT_HEIGHT * fittedHoverTexts.size,
                     Color(140, 0, 0, 0).hashCode()
                 )
 
                 // For each hover text in the array draw one line at a time
-                for (i in hoverTexts.indices) {
+                for (i in fittedHoverTexts.indices) {
                     // Grab the hover text to draw
-                    val hoverText = hoverTexts[i]
+                    val hoverText = fittedHoverTexts[i]
                     // Draw the string
                     fontRenderer.drawStringWithShadow(
                         hoverText,
@@ -89,6 +94,50 @@ abstract class AOTDGuiComponent(x: Int, y: Int, width: Int, height: Int) {
                 }
             }
         }
+    }
+
+    /**
+     * Fits an array of strings within a given width using text wrapping
+     */
+    private fun fitText(width: Int, text: Array<String>): Array<String> {
+        var ret = emptyArray<String>()
+        for (l in text) {
+            var line = l
+            var breakIndex = -1
+            var lastBreak: Int
+            var w: Int
+            while (line.isNotEmpty()) {
+                lastBreak = breakIndex
+                // Find the next break
+                breakIndex = line.indexOf(' ', lastBreak+1)
+                // Determine width of the string up to the break
+                // If there's no break, we use the full width of the string
+                w = fontRenderer.getStringWidth(line.substring(0, if (breakIndex == -1) line.length else breakIndex))
+
+                if (breakIndex == -1 || w > width) { // No breaks left OR break is after the max width
+                    when {
+                        w < width -> {  // Line does not need to be wrapped
+                            ret += line
+                            line = ""
+                        }
+                        lastBreak != -1 -> {  // If the previous line break exists (last break before max width)
+                            ret += line.substring(0, lastBreak)
+                            line = line.substring(lastBreak+1)
+                        }
+                        breakIndex != -1 -> { // If a break exists, but after the max width
+                            ret += line.substring(0, breakIndex)
+                            line = line.substring(breakIndex+1)
+                        }
+                        else -> {    // Line is too long, but no break exists
+                            ret += line
+                            line = ""
+                        }
+                    }
+                    breakIndex = -1 // Reset the index
+                }
+            }
+        }
+        return ret
     }
 
     /**

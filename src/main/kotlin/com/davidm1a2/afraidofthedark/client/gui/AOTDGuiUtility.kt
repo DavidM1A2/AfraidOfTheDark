@@ -108,4 +108,8 @@ object AOTDGuiUtility {
         // Return default empty string
         return ""
     }
+
+    fun getWindowWidthInMCCoords(): Int {
+        return realScreenCoordToMC(window.width)
+    }
 }
