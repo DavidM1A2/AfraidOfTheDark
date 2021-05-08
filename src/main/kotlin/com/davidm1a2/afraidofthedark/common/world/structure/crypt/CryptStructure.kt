@@ -5,13 +5,14 @@ import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.base.FrequencyConfig
 import net.minecraft.world.IWorld
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 
-class CryptStructure : AOTDStructure<CryptConfig>({ CryptConfig.deserialize(it) }) {
+class CryptStructure : AOTDStructure<FrequencyConfig>({ FrequencyConfig.deserialize(it) }) {
     override fun getStructureName(): String {
         return "${Constants.MOD_ID}:crypt"
     }
@@ -27,12 +28,12 @@ class CryptStructure : AOTDStructure<CryptConfig>({ CryptConfig.deserialize(it) 
     override fun setupStructureIn(biome: Biome) {
         if (biome.category !in INCOMPATIBLE_BIOMES) {
             if (biome == ModBiomes.EERIE_FOREST) {
-                addToBiome(biome, CryptConfig(0.015 * ModCommonConfiguration.cryptMultiplier))
+                addToBiome(biome, FrequencyConfig(0.015 * ModCommonConfiguration.cryptMultiplier))
             } else {
-                addToBiome(biome, CryptConfig(0.002 * ModCommonConfiguration.cryptMultiplier))
+                addToBiome(biome, FrequencyConfig(0.002 * ModCommonConfiguration.cryptMultiplier))
             }
         } else {
-            addToBiome(biome, CryptConfig(0.0))
+            addToBiome(biome, FrequencyConfig(0.0))
         }
     }
 

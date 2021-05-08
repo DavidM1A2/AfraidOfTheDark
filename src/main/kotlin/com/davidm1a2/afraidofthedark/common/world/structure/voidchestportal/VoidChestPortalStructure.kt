@@ -7,10 +7,11 @@ import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import net.minecraft.world.IWorld
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.feature.IFeatureConfig
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 
-class VoidChestPortalStructure : AOTDStructure<VoidChestPortalConfig>({ VoidChestPortalConfig.deserialize() }, false) {
+class VoidChestPortalStructure : AOTDStructure<IFeatureConfig>({ IFeatureConfig.NO_FEATURE_CONFIG }, false) {
     override fun getStructureName(): String {
         return "${Constants.MOD_ID}:void_chest_portal"
     }
@@ -25,7 +26,7 @@ class VoidChestPortalStructure : AOTDStructure<VoidChestPortalConfig>({ VoidChes
 
     override fun setupStructureIn(biome: Biome) {
         if (biome == ModBiomes.VOID_CHEST) {
-            addToBiome(biome, VoidChestPortalConfig())
+            addToBiome(biome, IFeatureConfig.NO_FEATURE_CONFIG)
         }
     }
 

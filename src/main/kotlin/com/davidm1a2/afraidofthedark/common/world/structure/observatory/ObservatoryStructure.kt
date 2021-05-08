@@ -4,13 +4,14 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.base.FrequencyConfig
 import net.minecraft.world.IWorld
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 
-class ObservatoryStructure : AOTDStructure<ObservatoryConfig>({ ObservatoryConfig.deserialize(it) }) {
+class ObservatoryStructure : AOTDStructure<FrequencyConfig>({ FrequencyConfig.deserialize(it) }) {
     override fun getStructureName(): String {
         return "${Constants.MOD_ID}:observatory"
     }
@@ -25,9 +26,9 @@ class ObservatoryStructure : AOTDStructure<ObservatoryConfig>({ ObservatoryConfi
 
     override fun setupStructureIn(biome: Biome) {
         if (biome.category == Biome.Category.EXTREME_HILLS) {
-            addToBiome(biome, ObservatoryConfig(0.03 * ModCommonConfiguration.observatoryMultiplier))
+            addToBiome(biome, FrequencyConfig(0.03 * ModCommonConfiguration.observatoryMultiplier))
         } else {
-            addToBiome(biome, ObservatoryConfig(0.0))
+            addToBiome(biome, FrequencyConfig(0.0))
         }
     }
 

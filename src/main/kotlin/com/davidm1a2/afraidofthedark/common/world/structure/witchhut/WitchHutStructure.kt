@@ -5,13 +5,14 @@ import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.base.FrequencyConfig
 import net.minecraft.world.IWorld
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 
-class WitchHutStructure : AOTDStructure<WitchHutConfig>({ WitchHutConfig.deserialize(it) }) {
+class WitchHutStructure : AOTDStructure<FrequencyConfig>({ FrequencyConfig.deserialize(it) }) {
     override fun getStructureName(): String {
         return "${Constants.MOD_ID}:witch_hut"
     }
@@ -26,9 +27,9 @@ class WitchHutStructure : AOTDStructure<WitchHutConfig>({ WitchHutConfig.deseria
 
     override fun setupStructureIn(biome: Biome) {
         if (biome == ModBiomes.EERIE_FOREST) {
-            addToBiome(biome, WitchHutConfig(0.03 * ModCommonConfiguration.witchHutMultiplier))
+            addToBiome(biome, FrequencyConfig(0.03 * ModCommonConfiguration.witchHutMultiplier))
         } else {
-            addToBiome(biome, WitchHutConfig(0.0))
+            addToBiome(biome, FrequencyConfig(0.0))
         }
     }
 

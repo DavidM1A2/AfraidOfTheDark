@@ -6,10 +6,12 @@ import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import net.minecraft.world.IWorld
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.feature.IFeatureConfig
+import net.minecraft.world.gen.feature.NoFeatureConfig
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 
-class VoidChestBoxStructure : AOTDStructure<VoidChestBoxConfig>({ VoidChestBoxConfig.deserialize() }, false) {
+class VoidChestBoxStructure : AOTDStructure<NoFeatureConfig>({ IFeatureConfig.NO_FEATURE_CONFIG }, false) {
     override fun getStructureName(): String {
         return "${Constants.MOD_ID}:void_chest_box"
     }
@@ -24,7 +26,7 @@ class VoidChestBoxStructure : AOTDStructure<VoidChestBoxConfig>({ VoidChestBoxCo
 
     override fun setupStructureIn(biome: Biome) {
         if (biome == ModBiomes.VOID_CHEST) {
-            addToBiome(biome, VoidChestBoxConfig())
+            addToBiome(biome, IFeatureConfig.NO_FEATURE_CONFIG)
         }
     }
 

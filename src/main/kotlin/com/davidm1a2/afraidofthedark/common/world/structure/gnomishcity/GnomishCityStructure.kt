@@ -8,10 +8,12 @@ import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import net.minecraft.world.IWorld
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.feature.IFeatureConfig
+import net.minecraft.world.gen.feature.NoFeatureConfig
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 
-class GnomishCityStructure : AOTDStructure<GnomishCityConfig>({ GnomishCityConfig.deserialize() }) {
+class GnomishCityStructure : AOTDStructure<NoFeatureConfig>({ IFeatureConfig.NO_FEATURE_CONFIG }) {
     private val width: Int
     private val length: Int
 
@@ -43,7 +45,7 @@ class GnomishCityStructure : AOTDStructure<GnomishCityConfig>({ GnomishCityConfi
 
     override fun setupStructureIn(biome: Biome) {
         if (biome.category in VALID_BIOME_CATEGORIES) {
-            addToBiome(biome, GnomishCityConfig())
+            addToBiome(biome, IFeatureConfig.NO_FEATURE_CONFIG)
         }
     }
 
