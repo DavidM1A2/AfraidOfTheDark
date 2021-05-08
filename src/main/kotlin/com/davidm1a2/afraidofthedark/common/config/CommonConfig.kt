@@ -12,7 +12,7 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
     // Multipliers for each dungeon type
     private val cryptMultiplier: ForgeConfigSpec.DoubleValue
     private val darkForestMultiplier: ForgeConfigSpec.DoubleValue
-    private val gnomishCityFrequency: ForgeConfigSpec.DoubleValue
+    private val gnomishCityMultiplier: ForgeConfigSpec.DoubleValue
     private val voidChestMultiplier: ForgeConfigSpec.DoubleValue
     private val witchHutMultiplier: ForgeConfigSpec.DoubleValue
     private val desertOasisMultiplier: ForgeConfigSpec.DoubleValue
@@ -38,7 +38,7 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
             .comment("Increases the number of Dark Forests in the world by the multiplier specified.")
             .translation("config.afraidofthedark:dark_forest_multiplier")
             .defineInRange("dark_forest_multiplier", 1.0, 0.0, 100.0)
-        gnomishCityFrequency = builder
+        gnomishCityMultiplier = builder
             .comment("Increases the number of Gnomish Cities in the world by the multiplier specified.")
             .translation("config.afraidofthedark:gnomish_city_multiplier")
             .defineInRange("gnomish_city_multiplier", 1.0, 0.0, 100.0)
@@ -83,7 +83,7 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
     fun reload() {
         ModCommonConfiguration.cryptMultiplier = cryptMultiplier.get()
         ModCommonConfiguration.darkForestMultiplier = darkForestMultiplier.get()
-        ModCommonConfiguration.gnomishCityFrequency = gnomishCityFrequency.get()
+        ModCommonConfiguration.gnomishCityFrequency = gnomishCityMultiplier.get()
         ModCommonConfiguration.voidChestMultiplier = voidChestMultiplier.get()
         ModCommonConfiguration.witchHutMultiplier = witchHutMultiplier.get()
         ModCommonConfiguration.desertOasisMultiplier = desertOasisMultiplier.get()

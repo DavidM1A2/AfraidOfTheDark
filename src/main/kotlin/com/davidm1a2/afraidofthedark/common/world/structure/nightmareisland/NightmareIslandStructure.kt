@@ -7,11 +7,12 @@ import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import net.minecraft.world.IWorld
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.feature.IFeatureConfig
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 import kotlin.math.round
 
-class NightmareIslandStructure : AOTDStructure<NightmareIslandConfig>({ NightmareIslandConfig.deserialize() }, false) {
+class NightmareIslandStructure : AOTDStructure<IFeatureConfig>({ IFeatureConfig.NO_FEATURE_CONFIG }, false) {
     override fun getStructureName(): String {
         return "${Constants.MOD_ID}:nightmare_island"
     }
@@ -26,7 +27,7 @@ class NightmareIslandStructure : AOTDStructure<NightmareIslandConfig>({ Nightmar
 
     override fun setupStructureIn(biome: Biome) {
         if (biome == ModBiomes.NIGHTMARE) {
-            addToBiome(biome, NightmareIslandConfig())
+            addToBiome(biome, IFeatureConfig.NO_FEATURE_CONFIG)
         }
     }
 

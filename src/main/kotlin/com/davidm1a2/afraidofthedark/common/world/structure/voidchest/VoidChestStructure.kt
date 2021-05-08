@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.base.FrequencyConfig
 import net.minecraft.world.IWorld
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.biome.Biomes
@@ -11,7 +12,7 @@ import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 
-class VoidChestStructure : AOTDStructure<VoidChestConfig>({ VoidChestConfig.deserialize(it) }) {
+class VoidChestStructure : AOTDStructure<FrequencyConfig>({ FrequencyConfig.deserialize(it) }) {
     override fun getStructureName(): String {
         return "${Constants.MOD_ID}:void_chest"
     }
@@ -26,9 +27,9 @@ class VoidChestStructure : AOTDStructure<VoidChestConfig>({ VoidChestConfig.dese
 
     override fun setupStructureIn(biome: Biome) {
         if (biome in COMPATIBLE_BIOMES) {
-            addToBiome(biome, VoidChestConfig(0.005 * ModCommonConfiguration.voidChestMultiplier))
+            addToBiome(biome, FrequencyConfig(0.005 * ModCommonConfiguration.voidChestMultiplier))
         } else {
-            addToBiome(biome, VoidChestConfig(0.0))
+            addToBiome(biome, FrequencyConfig(0.0))
         }
     }
 

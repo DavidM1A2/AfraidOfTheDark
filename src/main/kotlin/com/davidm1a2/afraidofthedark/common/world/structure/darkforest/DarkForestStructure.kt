@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.base.FrequencyConfig
 import net.minecraft.world.IWorld
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.biome.Biomes
@@ -12,7 +13,7 @@ import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 
-class DarkForestStructure : AOTDStructure<DarkForestConfig>({ DarkForestConfig.deserialize(it) }) {
+class DarkForestStructure : AOTDStructure<FrequencyConfig>({ FrequencyConfig.deserialize(it) }) {
     private val width: Int
     private val bedHouseWidth: Int
     private val length: Int
@@ -46,9 +47,9 @@ class DarkForestStructure : AOTDStructure<DarkForestConfig>({ DarkForestConfig.d
 
     override fun setupStructureIn(biome: Biome) {
         if (biome in COMPATIBLE_HOUSE_BIOMES) {
-            addToBiome(biome, DarkForestConfig(0.002 * ModCommonConfiguration.darkForestMultiplier))
+            addToBiome(biome, FrequencyConfig(0.002 * ModCommonConfiguration.darkForestMultiplier))
         } else {
-            addToBiome(biome, DarkForestConfig(0.0))
+            addToBiome(biome, FrequencyConfig(0.0))
         }
     }
 
