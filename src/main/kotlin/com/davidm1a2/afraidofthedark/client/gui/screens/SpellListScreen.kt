@@ -33,8 +33,8 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
 
     init {
         // Calculate the x,y base position of the UI
-        val xPosSpellList = (Constants.GUI_WIDTH - GUI_WIDTH) / 2
-        val yPosSpellList = (Constants.GUI_HEIGHT - GUI_HEIGHT) / 2
+        val xPosSpellList = (Constants.BASE_GUI_WIDTH - GUI_WIDTH) / 2
+        val yPosSpellList = (Constants.BASE_GUI_HEIGHT - GUI_HEIGHT) / 2
 
         // Place the background panel in the center
         val backgroundPanel = AOTDGuiPanel(xPosSpellList, yPosSpellList, GUI_WIDTH, GUI_HEIGHT, false)

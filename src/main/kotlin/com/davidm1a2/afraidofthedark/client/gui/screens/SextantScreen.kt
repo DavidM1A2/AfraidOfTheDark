@@ -33,7 +33,7 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
 
         // Background panel holds all the gui items
         val background =
-            AOTDGuiPanel((Constants.GUI_WIDTH - guiSize) / 2, (Constants.GUI_HEIGHT - guiSize) / 2, 256, 256, false)
+            AOTDGuiPanel((Constants.BASE_GUI_WIDTH - guiSize) / 2, (Constants.BASE_GUI_HEIGHT - guiSize) / 2, 256, 256, false)
 
         // Add an image to the background of the sextant texture
         val backgroundImage = AOTDGuiImage(0, 0, guiSize, guiSize, "afraidofthedark:textures/gui/telescope/sextant.png")

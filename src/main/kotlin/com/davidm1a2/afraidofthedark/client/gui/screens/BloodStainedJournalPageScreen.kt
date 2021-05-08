@@ -67,8 +67,8 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         val journalHeight = 256
 
         // Calculate the x and y corner positions of the page
-        val xCornerOfPage = (Constants.GUI_WIDTH - journalWidth) / 2
-        val yCornerOfPage = (Constants.GUI_HEIGHT - journalHeight) / 2
+        val xCornerOfPage = (Constants.BASE_GUI_WIDTH - journalWidth) / 2
+        val yCornerOfPage = (Constants.BASE_GUI_HEIGHT - journalHeight) / 2
 
         // Create a panel to contain everything
         val journalBackground = AOTDGuiPanel(xCornerOfPage, yCornerOfPage, journalWidth, journalHeight, false)

@@ -27,8 +27,8 @@ class TelescopeScreen : AOTDScreenClickAndDragable(TranslationTextComponent("scr
 
     init {
         // Calculate the various positions of GUI elements on the screen
-        val xPosTelescope = (Constants.GUI_WIDTH - GUI_SIZE) / 2
-        val yPosTelescope = (Constants.GUI_HEIGHT - GUI_SIZE) / 2
+        val xPosTelescope = (Constants.BASE_GUI_WIDTH - GUI_SIZE) / 2
+        val yPosTelescope = (Constants.BASE_GUI_HEIGHT - GUI_SIZE) / 2
 
         // Create a panel that will hold all the UI contents
         val telescope = AOTDGuiPanel(xPosTelescope, yPosTelescope, GUI_SIZE, GUI_SIZE, false)

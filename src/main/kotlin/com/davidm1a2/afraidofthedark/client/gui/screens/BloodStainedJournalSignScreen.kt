@@ -34,8 +34,8 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
 
         // Setup the background panel that holds all of our controls
         val backgroundPanel = AOTDGuiPanel(
-            (Constants.GUI_WIDTH - guiSize) / 2,
-            (Constants.GUI_HEIGHT - guiSize) / 2,
+            (Constants.BASE_GUI_WIDTH - guiSize) / 2,
+            (Constants.BASE_GUI_HEIGHT - guiSize) / 2,
             guiSize,
             guiSize,
             false

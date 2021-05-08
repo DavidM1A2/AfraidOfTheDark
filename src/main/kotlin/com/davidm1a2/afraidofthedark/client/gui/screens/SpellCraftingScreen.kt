@@ -43,7 +43,7 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
         // Create the left side tablet to hold the current spell settings
         tablet = AOTDGuiSpellTablet(
             100,
-            (Constants.GUI_HEIGHT - 256) / 2,
+            (Constants.BASE_GUI_HEIGHT - 256) / 2,
             192,
             256,
             spellClone,
@@ -77,7 +77,7 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
         }
 
         // Create the right side scroll to hold the current spell components available
-        scroll = AOTDGuiSpellScroll(340, (Constants.GUI_HEIGHT - 256) / 2, 220, 256)
+        scroll = AOTDGuiSpellScroll(340, (Constants.BASE_GUI_HEIGHT - 256) / 2, 220, 256)
         // When we click a component on the scroll update it as hovered
         scroll.setComponentClickCallback { setSelectedComponent(it) }
         // When we click a component on the tablet update it as being edited
@@ -89,8 +89,8 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
         val helpOverlay = AOTDGuiImage(
             0,
             0,
-            Constants.GUI_WIDTH,
-            Constants.GUI_HEIGHT,
+            Constants.BASE_GUI_WIDTH,
+            Constants.BASE_GUI_HEIGHT,
             "afraidofthedark:textures/gui/spell_editor/help_screen.png"
         )
         helpOverlay.isVisible = false

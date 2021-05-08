@@ -47,8 +47,8 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
 
     init {
         // Calculate the various positions of GUI elements on the screen
-        val xPosScroll = (Constants.GUI_WIDTH - BACKGROUND_WIDTH) / 2
-        val yPosScroll = (Constants.GUI_HEIGHT - BACKGROUND_HEIGHT) / 2
+        val xPosScroll = (Constants.BASE_GUI_WIDTH - BACKGROUND_WIDTH) / 2
+        val yPosScroll = (Constants.BASE_GUI_HEIGHT - BACKGROUND_HEIGHT) / 2
 
         // Recall our previous GUI offsets from the last time we had the GUI open, this helps remember where we left off in the UI
         guiOffsetX = lastGuiOffsetX

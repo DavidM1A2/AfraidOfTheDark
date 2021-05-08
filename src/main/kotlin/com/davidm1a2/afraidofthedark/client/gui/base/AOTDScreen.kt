@@ -32,7 +32,7 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
     val entityPlayer: ClientPlayerEntity
         get() = Minecraft.getInstance().player
 
-    val contentPane = AOTDGuiPanel(0, 0, Constants.GUI_WIDTH, Constants.GUI_HEIGHT, false)
+    val contentPane = AOTDGuiPanel(0, 0, Constants.BASE_GUI_WIDTH, Constants.BASE_GUI_HEIGHT, false)
     private val spriteSheetControllers = mutableListOf<SpriteSheetController>()
     private var prevMouseX = 0
     private var prevMouseY = 0
@@ -46,8 +46,8 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
         this.buttons.clear()
 
         // Compute the correct X and Y gui scale that we should use
-        val guiScaleX = this.width / Constants.GUI_WIDTH.toDouble()
-        val guiScaleY = this.height / Constants.GUI_HEIGHT.toDouble()
+        val guiScaleX = this.width / Constants.BASE_GUI_WIDTH.toDouble()
+        val guiScaleY = this.height / Constants.BASE_GUI_HEIGHT.toDouble()
         // Set the gui screen's gui scale
         val guiScale = min(guiScaleX, guiScaleY)
         // Set the content pane's gui scale
