@@ -9,9 +9,9 @@ import net.minecraftforge.common.util.Constants
 import org.apache.commons.logging.LogFactory
 
 /**
- * Default storage implementation for AOTD spell state
+ * Default storage implementation for AOTD spell states
  */
-class AOTDWorldSpellStateStorage : Capability.IStorage<IAOTDWorldSpellStates> {
+class AOTDWorldSpellStatesStorage : Capability.IStorage<IAOTDWorldSpellStates> {
     override fun writeNBT(capability: Capability<IAOTDWorldSpellStates>, instance: IAOTDWorldSpellStates, side: Direction?): INBT {
         // Create a compound to write
         val compound = CompoundNBT()
@@ -39,7 +39,7 @@ class AOTDWorldSpellStateStorage : Capability.IStorage<IAOTDWorldSpellStates> {
     }
 
     companion object {
-        private val LOG = LogFactory.getLog(AOTDWorldSpellStateStorage::class.java)
+        private val LOG = LogFactory.getLog(AOTDWorldSpellStatesStorage::class.java)
 
         // NBT constants used in serialization/deserialization
         private const val NBT_DELAYED_DELIVERY_ENTRIES = "delayed_delivery_entries"
