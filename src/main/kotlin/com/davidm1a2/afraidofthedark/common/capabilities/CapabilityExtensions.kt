@@ -7,7 +7,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.research.IAOTDPl
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IAOTDPlayerSpellManager
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellFreezeData
-import com.davidm1a2.afraidofthedark.common.capabilities.world.spellState.IAOTDWorldSpellStates
+import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.IAOTDWorldSpellStates
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.world.World
