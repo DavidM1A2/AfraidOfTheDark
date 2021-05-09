@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.ResourceLocation
+import net.minecraft.world.World
 import net.minecraftforge.event.AttachCapabilitiesEvent
 import net.minecraftforge.event.entity.EntityJoinWorldEvent
 import net.minecraftforge.event.entity.player.PlayerEvent.Clone
@@ -17,7 +18,24 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
  */
 class CapabilityHandler {
     /**
-     * When we get an attach capabilites event we attach our player capabilities
+     * When we get an attach capabilities event we attach our world capabilities
+     *
+     * @param event The attach event that we will add to
+     */
+    @SubscribeEvent
+    fun onAttachCapabilitiesWorld(event: AttachCapabilitiesEvent<World>) {
+        val world = event.getObject()
+        // Spell states only exist server side
+        if (!world.isRemote) {
+            event.addCapability(
+                ResourceLocation(Constants.MOD_ID, "spell_states"),
+                CapabilityProvider(ModCapabilities.WORLD_SPELL_STATES)
+            )
+        }
+    }
+
+    /**
+     * When we get an attach capabilities event we attach our player capabilities
      *
      * @param event The attach event that we will add to
      */

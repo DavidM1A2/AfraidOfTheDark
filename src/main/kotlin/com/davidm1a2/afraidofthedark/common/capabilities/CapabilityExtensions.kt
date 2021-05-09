@@ -7,8 +7,10 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.research.IAOTDPl
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IAOTDPlayerSpellManager
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellFreezeData
+import com.davidm1a2.afraidofthedark.common.capabilities.world.spellState.IAOTDWorldSpellStates
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.World
 
 // Extension functions to access these player capabilities more easily
 
@@ -72,5 +74,11 @@ fun PlayerEntity.getSpellFreezeData(): IAOTDPlayerSpellFreezeData {
 fun PlayerEntity.getSpellCharmData(): IAOTDPlayerSpellCharmData {
     return this.getCapability(ModCapabilities.PLAYER_SPELL_CHARM_DATA).orElseThrow {
         IllegalStateException("Could not get player's charm data")
+    }
+}
+
+fun World.getSpellStates(): IAOTDWorldSpellStates {
+    return this.getCapability(ModCapabilities.WORLD_SPELL_STATES).orElseThrow {
+        IllegalStateException("Could not get world's spell state data")
     }
 }

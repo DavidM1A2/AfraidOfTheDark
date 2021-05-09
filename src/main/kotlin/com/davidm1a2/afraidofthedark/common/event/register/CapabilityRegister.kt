@@ -11,6 +11,9 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.AOTDPlayer
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.AOTDPlayerSpellManagerStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IAOTDPlayerSpellManager
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.*
+import com.davidm1a2.afraidofthedark.common.capabilities.world.spellState.AOTDWorldSpellStateStorage
+import com.davidm1a2.afraidofthedark.common.capabilities.world.spellState.AOTDWorldSpellStatesImpl
+import com.davidm1a2.afraidofthedark.common.capabilities.world.spellState.IAOTDWorldSpellStates
 import net.minecraftforge.common.capabilities.CapabilityManager
 
 object CapabilityRegister {
@@ -49,6 +52,10 @@ object CapabilityRegister {
                 IAOTDPlayerSpellCharmData::class.java,
                 AOTDPlayerSpellCharmDataStorage()
             ) { AOTDPlayerSpellCharmDataImpl() }
+            CapabilityManager.INSTANCE.register(
+                IAOTDWorldSpellStates::class.java,
+                AOTDWorldSpellStateStorage()
+            ) { AOTDWorldSpellStatesImpl() }
         }
         isInitialized = true
     }

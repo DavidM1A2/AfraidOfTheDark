@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 
-import com.davidm1a2.afraidofthedark.common.capabilities.world.SpellStateData
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellStates
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
@@ -37,8 +37,7 @@ class DelaySpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
      */
     override fun executeDelivery(state: DeliveryTransitionState) {
         // Delayed adds this spell to the queue to wait
-        val spellStateData = SpellStateData.get()
-        spellStateData?.addDelayedDelivery(state)
+        state.world.getSpellStates().addDelayedDelivery(state)
     }
 
     /**

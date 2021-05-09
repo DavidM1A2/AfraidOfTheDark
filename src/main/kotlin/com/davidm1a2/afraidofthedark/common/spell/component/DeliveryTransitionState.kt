@@ -19,6 +19,7 @@ import java.util.*
  *
  * @property spell The spell that is transitioning
  * @property stageIndex The index of the spell stage that is transitioning
+ * @property lazyWorld A lazy initialized version of world. Used in deserialization to postpone the computation of the world object
  * @property world The world that the transition is happening in
  * @property position The exact double vector position the transition occurred
  * @property blockPosition A rounded for of getPosition() that estimates the block the transition occurred in
@@ -30,7 +31,9 @@ import java.util.*
 class DeliveryTransitionState {
     val spell: Spell
     val stageIndex: Int
+    private val lazyWorld: Lazy<ServerWorld>
     val world: ServerWorld
+        get() = lazyWorld.value
     val position: Vec3d
     val blockPosition: BlockPos
     val direction: Vec3d
@@ -64,7 +67,7 @@ class DeliveryTransitionState {
         this.spell = spell
         this.stageIndex = stageIndex
         // This should only be created server side, so we can cast safely
-        this.world = world as ServerWorld
+        this.lazyWorld = lazyOf(world as ServerWorld)
         this.position = position
         blockPosition = blockPos
         this.direction = direction
@@ -81,7 +84,10 @@ class DeliveryTransitionState {
     constructor(nbt: CompoundNBT) {
         spell = Spell(nbt.getCompound(NBT_SPELL))
         stageIndex = nbt.getInt(NBT_STAGE_INDEX)
-        world = ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.byName(ResourceLocation(nbt.getString(NBT_WORLD)))!!)
+        lazyWorld = lazy {
+            // This call will fail during deserialization, but is valid before first use, so lazily initialize it
+            ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.byName(ResourceLocation(nbt.getString(NBT_WORLD)))!!)
+        }
         position = Vec3d(
             nbt.getDouble(NBT_POSITION + "_x"),
             nbt.getDouble(NBT_POSITION + "_y"),

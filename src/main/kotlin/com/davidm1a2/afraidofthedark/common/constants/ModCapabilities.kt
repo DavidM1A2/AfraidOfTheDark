@@ -7,6 +7,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.research.IAOTDPl
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IAOTDPlayerSpellManager
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellFreezeData
+import com.davidm1a2.afraidofthedark.common.capabilities.world.spellState.IAOTDWorldSpellStates
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.CapabilityInject
 
@@ -48,4 +49,9 @@ object ModCapabilities {
     @JvmStatic
     @CapabilityInject(IAOTDPlayerSpellCharmData::class)
     lateinit var PLAYER_SPELL_CHARM_DATA: Capability<IAOTDPlayerSpellCharmData>
+
+    // Capability that all worlds get which allows them to store spell state data
+    @JvmStatic
+    @CapabilityInject(IAOTDWorldSpellStates::class)
+    lateinit var WORLD_SPELL_STATES: Capability<IAOTDWorldSpellStates>
 }

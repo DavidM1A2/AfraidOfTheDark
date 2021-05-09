@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.event
 
-import com.davidm1a2.afraidofthedark.common.capabilities.world.SpellStateData
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellStates
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.LogicalSide
@@ -15,10 +15,9 @@ class SpellStateHandler {
      * @param event The event containing server tick info
      */
     @SubscribeEvent
-    fun onServerTick(event: TickEvent.ServerTickEvent) {
-        if (event.phase == TickEvent.Phase.START && event.type == TickEvent.Type.SERVER && event.side == LogicalSide.SERVER) {
-            // This can be null on the first server tick before everything is initialized
-            SpellStateData.get()?.update()
+    fun onWorldTick(event: TickEvent.WorldTickEvent) {
+        if (event.phase == TickEvent.Phase.START && event.type == TickEvent.Type.WORLD && event.side == LogicalSide.SERVER) {
+            event.world.getSpellStates().tick()
         }
     }
 }
