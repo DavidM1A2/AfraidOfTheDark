@@ -7,6 +7,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.research.IAOTDPl
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IAOTDPlayerSpellManager
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellFreezeData
+import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IAOTDWorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.IAOTDWorldSpellStates
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import net.minecraft.entity.player.PlayerEntity
@@ -77,8 +78,20 @@ fun PlayerEntity.getSpellCharmData(): IAOTDPlayerSpellCharmData {
     }
 }
 
+/**
+ * @return The world's 'WORLD_SPELL_STATES' capability
+ */
 fun World.getSpellStates(): IAOTDWorldSpellStates {
     return this.getCapability(ModCapabilities.WORLD_SPELL_STATES).orElseThrow {
         IllegalStateException("Could not get world's spell state data")
+    }
+}
+
+/**
+ * @return The world's 'WORLD_ISLAND_VISITORS' capability
+ */
+fun World.getIslandVisitors(): IAOTDWorldIslandVisitors {
+    return this.getCapability(ModCapabilities.WORLD_ISLAND_VISITORS).orElseThrow {
+        IllegalStateException("Could not get world's island visitors data")
     }
 }

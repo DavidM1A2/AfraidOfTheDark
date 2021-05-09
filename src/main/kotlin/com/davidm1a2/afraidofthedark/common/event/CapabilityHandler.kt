@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.event
 import com.davidm1a2.afraidofthedark.common.capabilities.*
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
@@ -25,12 +26,19 @@ class CapabilityHandler {
     @SubscribeEvent
     fun onAttachCapabilitiesWorld(event: AttachCapabilitiesEvent<World>) {
         val world = event.getObject()
-        // Spell states only exist server side
+        // Some capabilities only exist server side
         if (!world.isRemote) {
             event.addCapability(
                 ResourceLocation(Constants.MOD_ID, "spell_states"),
                 CapabilityProvider(ModCapabilities.WORLD_SPELL_STATES)
             )
+
+            if (DIMENSIONS_WITH_ISLAND_VISITORS.contains(world.dimension.type)) {
+                event.addCapability(
+                    ResourceLocation(Constants.MOD_ID, "island_visitors"),
+                    CapabilityProvider(ModCapabilities.WORLD_ISLAND_VISITORS)
+                )
+            }
         }
     }
 
@@ -189,6 +197,15 @@ class CapabilityHandler {
                 newPlayerSpellManager,
                 null,
                 originalPlayerSpellManagerNBT
+            )
+        }
+    }
+
+    companion object {
+        private val DIMENSIONS_WITH_ISLAND_VISITORS by lazy {
+            listOf(
+                ModDimensions.NIGHTMARE_TYPE,
+                ModDimensions.VOID_CHEST_TYPE
             )
         }
     }

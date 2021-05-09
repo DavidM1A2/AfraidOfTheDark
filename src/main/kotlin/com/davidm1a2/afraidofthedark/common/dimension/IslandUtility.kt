@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.dimension
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.IAOTDIslandData
-import com.davidm1a2.afraidofthedark.common.capabilities.world.IslandVisitorData
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
@@ -21,7 +21,7 @@ object IslandUtility {
         // -1 means unassigned, we need to compute the index first
         if (islandData.positionalIndex == -1) {
             // Compute this new player's index
-            val playersNewPositionalIndex = IslandVisitorData.get(world)!!.addAndReturnNewVisitor()
+            val playersNewPositionalIndex = world.getIslandVisitors().addAndGetNewVisitor()
             // Set that new index
             islandData.positionalIndex = playersNewPositionalIndex
         }

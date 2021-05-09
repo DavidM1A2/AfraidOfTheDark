@@ -11,6 +11,9 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.AOTDPlayer
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.AOTDPlayerSpellManagerStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IAOTDPlayerSpellManager
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.*
+import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.AOTDWorldIslandVisitorsImpl
+import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.AOTDWorldIslandVisitorsStorage
+import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IAOTDWorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.AOTDWorldSpellStatesImpl
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.AOTDWorldSpellStatesStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.IAOTDWorldSpellStates
@@ -56,6 +59,10 @@ object CapabilityRegister {
                 IAOTDWorldSpellStates::class.java,
                 AOTDWorldSpellStatesStorage()
             ) { AOTDWorldSpellStatesImpl() }
+            CapabilityManager.INSTANCE.register(
+                IAOTDWorldIslandVisitors::class.java,
+                AOTDWorldIslandVisitorsStorage()
+            ) { AOTDWorldIslandVisitorsImpl() }
         }
         isInitialized = true
     }

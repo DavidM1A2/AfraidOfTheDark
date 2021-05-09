@@ -7,6 +7,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.research.IAOTDPl
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IAOTDPlayerSpellManager
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellFreezeData
+import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IAOTDWorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.IAOTDWorldSpellStates
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.CapabilityInject
@@ -54,4 +55,9 @@ object ModCapabilities {
     @JvmStatic
     @CapabilityInject(IAOTDWorldSpellStates::class)
     lateinit var WORLD_SPELL_STATES: Capability<IAOTDWorldSpellStates>
+
+    // Capability that the VoidChest and Nightmare worlds get which allows them to store island visitors
+    @JvmStatic
+    @CapabilityInject(IAOTDWorldIslandVisitors::class)
+    lateinit var WORLD_ISLAND_VISITORS: Capability<IAOTDWorldIslandVisitors>
 }
