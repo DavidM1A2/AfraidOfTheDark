@@ -32,7 +32,7 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
     val entityPlayer: ClientPlayerEntity
         get() = Minecraft.getInstance().player
 
-    val contentPane = AOTDGuiPanel(0, 0, Constants.BASE_GUI_WIDTH, Constants.BASE_GUI_HEIGHT, false)
+    val contentPane = AOTDGuiPanel(this.width, this.height, scissorEnabled = false)
     private val spriteSheetControllers = mutableListOf<SpriteSheetController>()
     private var prevMouseX = 0
     private var prevMouseY = 0
@@ -44,27 +44,6 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
         super.init()
         // Clear all buttons on the screen
         this.buttons.clear()
-
-        // Compute the correct X and Y gui scale that we should use
-        val guiScaleX = this.width / Constants.BASE_GUI_WIDTH.toDouble()
-        val guiScaleY = this.height / Constants.BASE_GUI_HEIGHT.toDouble()
-        // Set the gui screen's gui scale
-        val guiScale = min(guiScaleX, guiScaleY)
-        // Set the content pane's gui scale
-        this.contentPane.setScaleXAndY(guiScale)
-
-        // If our X scale is less than our Y scale we pin the X coordinate to the left side of the screen and set the Y to center the GUI panel
-        if (guiScaleX < guiScaleY) {
-            this.contentPane.setX(0)
-            // We must multiply by 1 / guiScale so that our Y position is centered and not scaled since 1 / guiScale * guiScale = 1
-            this.contentPane.setY(round((this.height - this.contentPane.getHeightScaled()) / 2f * (1 / guiScale)).toInt())
-        }
-        // If our Y scale is less than our X scale we pin the Y coordinate to the top of the screen and set the X to center the GUI panel
-        else {
-            // We must multiply by 1 / guiScale so that our X position is centered and not scaled since 1 / guiScale * guiScale = 1
-            this.contentPane.setX(round((this.width - this.contentPane.getWidthScaled()) / 2f * (1 / guiScale)).toInt())
-            this.contentPane.setY(0)
-        }
     }
 
     /**

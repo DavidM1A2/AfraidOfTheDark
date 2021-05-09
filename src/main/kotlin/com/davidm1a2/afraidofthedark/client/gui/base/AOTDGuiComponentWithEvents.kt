@@ -19,8 +19,16 @@ import java.awt.Point
  * @property mouseScrollListeners The mouse scroll listeners of this component
  * @property keyListeners The key listeners of this component
  */
-abstract class AOTDGuiComponentWithEvents(x: Int, y: Int, width: Int, height: Int) :
-    AOTDGuiComponent(x, y, width, height) {
+abstract class AOTDGuiComponentWithEvents(
+        width: Int,
+        height: Int,
+        xOffset: Int = 0,
+        yOffset: Int = 0,
+        margins: AOTDGuiSpacing = AOTDGuiSpacing(),
+        gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
+        hoverTexts: Array<String> = emptyArray()) :
+        AOTDGuiComponent(width, height, xOffset, yOffset, margins, gravity, hoverTexts) {
+
     private var mouseListeners = mutableListOf<(AOTDMouseEvent) -> Unit>()
     private var mouseMoveListeners = mutableListOf<(AOTDMouseMoveEvent) -> Unit>()
     private var mouseScrollListeners = mutableListOf<(AOTDMouseScrollEvent) -> Unit>()

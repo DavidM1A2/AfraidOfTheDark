@@ -2,6 +2,8 @@ package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiGravity
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiSpacing
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
 
@@ -15,8 +17,18 @@ import org.lwjgl.opengl.GL11
  * @param height         The height of the component
  * @param scissorEnabled If scissors are enabled when drawing this panel
  */
-open class AOTDGuiPanel(x: Int, y: Int, width: Int, height: Int, private val scissorEnabled: Boolean) :
-    AOTDGuiContainer(x, y, width, height) {
+open class AOTDGuiPanel(
+        width: Int,
+        height: Int,
+        xOffset: Int = 0,
+        yOffset: Int = 0,
+        margins: AOTDGuiSpacing = AOTDGuiSpacing(),
+        gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
+        hoverTexts: Array<String> = emptyArray(),
+        padding: AOTDGuiSpacing = AOTDGuiSpacing(),
+        private val scissorEnabled: Boolean) :
+        AOTDGuiContainer(width, height, xOffset, yOffset, margins, gravity, hoverTexts, padding) {
+
     /**
      * A panel can only be drawn inside of a box that may be scissored
      */
@@ -24,12 +36,11 @@ open class AOTDGuiPanel(x: Int, y: Int, width: Int, height: Int, private val sci
         // If scissor is enabled we use glScissor to force all drawing to happen inside of a box
         if (scissorEnabled) {
             // Compute the OpenGL X and Y screen coordinates to scissor
-            var realX = AOTDGuiUtility.mcToRealScreenCoord(this.getXScaled())
-            var realY =
-                AOTDGuiUtility.realScreenYToGLYCoord(AOTDGuiUtility.mcToRealScreenCoord(this.getYScaled() + this.getHeightScaled()))
+            var realX = AOTDGuiUtility.mcToRealScreenCoord(this.x)
+            var realY = AOTDGuiUtility.realScreenYToGLYCoord(AOTDGuiUtility.mcToRealScreenCoord(this.y + this.height))
             // Compute the OpenGL width and height to scissor with
-            var realWidth = AOTDGuiUtility.mcToRealScreenCoord(this.getWidthScaled())
-            var realHeight = AOTDGuiUtility.mcToRealScreenCoord(this.getHeightScaled())
+            var realWidth = AOTDGuiUtility.mcToRealScreenCoord(this.width)
+            var realHeight = AOTDGuiUtility.mcToRealScreenCoord(this.height)
 
             // If open GL scissors is enabled update the x,y width,height to be clamped within the current scissor box
             if (GL11.glIsEnabled(GL11.GL_SCISSOR_TEST)) {

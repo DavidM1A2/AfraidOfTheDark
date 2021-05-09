@@ -1,10 +1,15 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
 import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.AbstractGui
 import net.minecraft.util.ResourceLocation
+import java.lang.Math.round
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.roundToInt
 
 /**
  * Class representing an image to be rendered on the GUI
@@ -20,46 +25,14 @@ import net.minecraft.util.ResourceLocation
  * @property v the y value to start drawing from inside the texture
  */
 class AOTDGuiImage(
-    x: Int,
-    y: Int,
-    width: Int,
-    height: Int,
-    var imageTexture: ResourceLocation,
-    private var textureWidth: Int = -1,
-    private var textureHeight: Int = -1
-) :
-    AOTDGuiContainer(x, y, width, height) {
-    var u = 0
-    var v = 0
+        var imageTexture: ResourceLocation,
+        var displayMode: AOTDImageDispMode,
+        private var textureWidth: Int = -1,
+        private var textureHeight: Int = -1) :
+        AOTDGuiContainer(0, 0) {
 
-    /**
-     * Constructor initializes the bounding box and the image texture
-     *
-     * @param x            The X location of the top left corner
-     * @param y            The Y location of the top left corner
-     * @param width        The width of the component
-     * @param height       The height of the component
-     * @param imageTexture The texture of the image
-     * @param textureWidth  The width of the image png texture
-     * @param textureHeight The height of the image png texture
-     */
-    constructor(
-        x: Int,
-        y: Int,
-        width: Int,
-        height: Int,
-        imageTexture: String,
-        textureWidth: Int = -1,
-        textureHeight: Int = -1
-    ) : this(
-        x,
-        y,
-        width,
-        height,
-        ResourceLocation(imageTexture),
-        textureWidth,
-        textureHeight
-    )
+    var u = 0.0f
+    var v = 0.0f
 
     /**
      * Draws the GUI image given the width and height
@@ -80,29 +53,9 @@ class AOTDGuiImage(
             Minecraft.getInstance().textureManager.bindTexture(this.imageTexture)
             // If the texture width and height are both -1, then we assume the image's size is this control's size
             if (textureHeight == -1 || textureWidth == -1) {
-                AbstractGui.blit(
-                    this.getXScaled(),
-                    this.getYScaled(),
-                    this.u.toFloat(),
-                    this.v.toFloat(),
-                    this.getWidthScaled(),
-                    this.getHeightScaled(),
-                    this.getWidthScaled(),
-                    this.getHeightScaled()
-                )
+                AbstractGui.blit(x, y, u, v, width, height, width, height)
             } else {
-                AbstractGui.blit(
-                    this.getXScaled(),
-                    this.getYScaled(),
-                    this.getWidthScaled(),
-                    this.getHeightScaled(),
-                    this.u.toFloat(),
-                    this.v.toFloat(),
-                    this.getWidth(),
-                    this.getHeight(),
-                    this.textureWidth,
-                    this.textureHeight
-                )
+                AbstractGui.blit(x, y, u, v, width, height, textureWidth, textureHeight)
             }
             GlStateManager.popMatrix()
 
@@ -111,25 +64,28 @@ class AOTDGuiImage(
         }
     }
 
-    /**
-     * @return Getter for maximum texture width. If we don't have a texture width use this control's width as the image's width
-     */
-    fun getMaxTextureWidth(): Int {
-        return if (textureWidth == -1) {
-            getWidth()
-        } else {
-            textureWidth
-        }
-    }
-
-    /**
-     * @return Getter for maximum texture height. If we don't have a texture height use this control's height as the image's height
-     */
-    fun getMaxTextureHeight(): Int {
-        return if (textureHeight == -1) {
-            getHeight()
-        } else {
-            textureHeight
+    override fun negotiateDimensions(width: Int, height: Int) {
+        when (displayMode) {
+            AOTDImageDispMode.FIT_TO_SIZE -> {
+                val scaleXRatio = (width/textureWidth.toDouble()).coerceAtMost(1.0)
+                val scaleYRatio = (height/textureHeight.toDouble()).coerceAtMost(1.0)
+                val scaleMinRatio = scaleXRatio.coerceAtMost(scaleYRatio)
+                this.width = (textureWidth * scaleMinRatio).roundToInt()
+                this.height = (textureHeight * scaleMinRatio).roundToInt()
+            }
+            AOTDImageDispMode.FIT_TO_PARENT -> {
+                val scaleXRatio = width/textureWidth.toDouble()
+                val scaleYRatio = height/textureHeight.toDouble()
+                val scaleMinRatio = scaleXRatio.coerceAtMost(scaleYRatio)
+                this.width = (textureWidth * scaleMinRatio).roundToInt()
+                this.height = (textureHeight * scaleMinRatio).roundToInt()
+            }
+            AOTDImageDispMode.STRETCH -> {
+                val scaleXRatio = width/textureWidth.toDouble()
+                val scaleYRatio = height/textureHeight.toDouble()
+                this.width = (textureWidth * scaleXRatio).roundToInt()
+                this.height = (textureHeight * scaleYRatio).roundToInt()
+            }
         }
     }
 }

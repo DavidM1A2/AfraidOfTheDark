@@ -1,6 +1,8 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiGravity
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiSpacing
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import net.minecraft.util.ResourceLocation
@@ -21,15 +23,20 @@ import java.awt.Color
  * @property color The color of the background and text
  */
 open class AOTDGuiButton(
-    x: Int,
-    y: Int,
-    width: Int,
-    height: Int,
-    private val icon: ResourceLocation,
-    private val iconHovered: ResourceLocation,
-    font: TrueTypeFont? = null
-) : AOTDGuiContainer(x, y, width, height) {
-    private val background: AOTDGuiImage
+        width: Int,
+        height: Int,
+        xOffset: Int = 0,
+        yOffset: Int = 0,
+        margins: AOTDGuiSpacing = AOTDGuiSpacing(),
+        gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
+        hoverTexts: Array<String> = emptyArray(),
+        padding: AOTDGuiSpacing = AOTDGuiSpacing(),
+        private val icon: ResourceLocation,
+        private val iconHovered: ResourceLocation = icon,
+        font: TrueTypeFont? = null) :
+        AOTDGuiContainer(width, height, xOffset, yOffset, margins, gravity, hoverTexts, padding) {
+
+    private val background: AOTDGuiImage = AOTDGuiImage(0, 0, width, height, icon)
     private val label: AOTDGuiLabel?
     override var color: Color
         get() = super.color
@@ -40,7 +47,6 @@ open class AOTDGuiButton(
 
     init {
         // Create a background image for the button
-        this.background = AOTDGuiImage(0, 0, width, height, icon)
         this.background.color = Color(255, 255, 255)
         this.add(background)
 
@@ -52,35 +58,6 @@ open class AOTDGuiButton(
             this.label = null
         }
     }
-
-    /**
-     * Constructor sets the buttons location, scale, font, icon and hovered icon paths
-     *
-     * @param x           The X location of the top left corner
-     * @param y           The Y location of the top left corner
-     * @param width       The width of the component
-     * @param height      The height of the component
-     * @param font        The font to be used to draw the button's text
-     * @param icon        The icon to use for the background of the button
-     * @param iconHovered The icon to use for the background of the button when the button is hovered
-     */
-    constructor(
-        x: Int,
-        y: Int,
-        width: Int,
-        height: Int,
-        icon: String,
-        iconHovered: String = icon,
-        font: TrueTypeFont? = null
-    ) : this(
-        x,
-        y,
-        width,
-        height,
-        ResourceLocation(icon),
-        ResourceLocation(iconHovered),
-        font
-    )
 
     /**
      * Draw function that gets called every frame. Draw the button and i's label

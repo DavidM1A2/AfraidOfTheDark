@@ -14,35 +14,24 @@ import kotlin.math.roundToInt
 
 /**
  * Base class for all GUI components like labels, buttons, etc
- *
- * @constructor initializes the bounding box *
- * @param x      The X location of the top left corner
- * @param y      The Y location of the top left corner
- * @param width  The width of the component
- * @param height The height of the component
- * @property entityPlayer A reference to the EntityPlayer object that opened the GUI
- * @property fontRenderer A reference to the font renderer that is used to draw fonts
- * @property scaleX The x scale
- * @property scaleY The y scale
- * @property isHovered True if the element is hovered by the mouse, false otherwise
- * @property isVisible True if the element is visible, false otherwise
- * @property boundingBox The raw bounding box of the gui component, this is never changed
- * @property scaledBoundingBox Scaled bounding box of the gui component, this is changed if the scale changes
- * @property color The color that this component should be
- * @property hoverTexts A list of strings to draw when the component is hovered
  */
-abstract class AOTDGuiComponent(x: Int, y: Int, width: Int, height: Int) {
-    private val boundingBox = Rectangle(x, y, width, height)
-    private val scaledBoundingBox = Rectangle(0, 0, 0, 0)
+abstract class AOTDGuiComponent(
+        var width: Int,
+        var height: Int,
+        var xOffset: Int = 0,
+        var yOffset: Int = 0,
+        var margins: AOTDGuiSpacing = AOTDGuiSpacing(),
+        var gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
+        var hoverTexts: Array<String> = emptyArray()) {
 
-    var scaleX: Double = 1.0
-        private set
-    var scaleY: Double = 1.0
-        private set
+    open var x = xOffset
+    open var y = yOffset
     open var isHovered = false
     open var isVisible = true
     open var color = Color(255, 255, 255, 255)
-    var hoverTexts = emptyArray<String>()
+
+    private val boundingBox: Rectangle
+        get() = Rectangle(x, y, width, height)
 
     /**
      * Draw function that gets called every frame. This needs to be overridden to draw custom controls
@@ -141,48 +130,22 @@ abstract class AOTDGuiComponent(x: Int, y: Int, width: Int, height: Int) {
     }
 
     /**
-     * Utility function to draw the bounding box of the GUI component, useful for debug only
-     */
-    fun drawBoundingBox() {
-        val whiteColor = Color(255, 255, 255, 255).hashCode()
-        AbstractGui.fill(
-            this.getXScaled(),
-            this.getYScaled(),
-            this.getXScaled() + this.getWidthScaled(),
-            this.getYScaled() + 1,
-            whiteColor
-        )
-        AbstractGui.fill(
-            this.getXScaled(),
-            this.getYScaled(),
-            this.getXScaled() + 1,
-            this.getYScaled() + this.getHeightScaled(),
-            whiteColor
-        )
-        AbstractGui.fill(
-            this.getXScaled() + this.getWidthScaled() - 1,
-            this.getYScaled(),
-            this.getXScaled() + this.getWidthScaled(),
-            this.getYScaled() + this.getHeightScaled(),
-            whiteColor
-        )
-        AbstractGui.fill(
-            this.getXScaled(),
-            this.getYScaled() + this.getHeightScaled() - 1,
-            this.getXScaled() + this.getWidthScaled(),
-            this.getYScaled() + this.getHeightScaled(),
-            whiteColor
-        )
-    }
-
-    /**
      * Returns true if the current component intersects the other component, or false if not
      *
      * @param other The other gui component to test intersection of
      * @return True if the components intersect, false otherwise
      */
     fun intersects(other: AOTDGuiComponent): Boolean {
-        return this.intersects(other.scaledBoundingBox)
+        return this.intersects(other.boundingBox)
+    }
+
+    /**
+     * Adjust this component to fit into the given space
+     * Default behavior takes up maximum allowed space
+     */
+    open fun negotiateDimensions(width: Int, height: Int) {
+        this.width = width
+        this.height = height
     }
 
     /**
@@ -192,7 +155,7 @@ abstract class AOTDGuiComponent(x: Int, y: Int, width: Int, height: Int) {
      * @return True if the point intersects the rectangle, false otherwise
      */
     open fun intersects(point: Point): Boolean {
-        return this.scaledBoundingBox.contains(point)
+        return this.boundingBox.contains(point)
     }
 
     /**
@@ -202,155 +165,14 @@ abstract class AOTDGuiComponent(x: Int, y: Int, width: Int, height: Int) {
      * @return True if the point intersects the rectangle, false otherwise
      */
     open fun intersects(rectangle: Rectangle): Boolean {
-        return this.scaledBoundingBox.intersects(rectangle)
+        return this.boundingBox.intersects(rectangle)
     }
 
     /**
-     * Setter for X and Y scale, also updates the scaled bounding box
-     *
-     * @param scale The new X and Y scale
+     * Updates the bounding box
      */
-    open fun setScaleXAndY(scale: Double) {
-        this.scaleX = scale
-        this.scaleY = scale
-        this.updateScaledBounds()
-    }
-
-    /**
-     * Setter for X scale, also updates the scaled bounding box
-     *
-     * @param scaleX The new X scale to use
-     */
-    open fun setScaleX(scaleX: Double) {
-        this.scaleX = scaleX
-        this.updateScaledBounds()
-    }
-
-    /**
-     * Setter for Y scale, also updates the scaled bounding box
-     *
-     * @param scaleY The new Y scale to use
-     */
-    open fun setScaleY(scaleY: Double) {
-        this.scaleY = scaleY
-        this.updateScaledBounds()
-    }
-
-    /**
-     * Setter for bounding box X
-     *
-     * @param x The new x position of the component
-     */
-    open fun setX(x: Int) {
-        boundingBox.x = x
-        updateScaledBounds()
-    }
-
-    /**
-     * @return Getter for the top left corner's X value
-     */
-    open fun getX(): Int {
-        return boundingBox.x
-    }
-
-    /**
-     * @return Getter for the scaled bounding box's top corner's X value
-     */
-    open fun getXScaled(): Int {
-        return scaledBoundingBox.x
-    }
-
-    /**
-     * Setter for bounding box Y
-     *
-     * @param y The new y position of the component
-     */
-    open fun setY(y: Int) {
-        boundingBox.y = y
-        updateScaledBounds()
-    }
-
-    /**
-     * @return Getter for the top left corner's Y value
-     */
-    open fun getY(): Int {
-        return boundingBox.y
-    }
-
-    /**
-     * @return Getter for the scaled bounding box's top corner's Y value
-     */
-    open fun getYScaled(): Int {
-        return scaledBoundingBox.y
-    }
-
-    /**
-     * Setter for the width of the component
-     *
-     * @param width The new component's width
-     */
-    open fun setWidth(width: Int) {
-        boundingBox.width = width
-        updateScaledBounds()
-    }
-
-    /**
-     * @return Getter for the component's width
-     */
-    open fun getWidth(): Int {
-        return boundingBox.width
-    }
-
-    /**
-     * @return Getter for the component's scaled width
-     */
-    open fun getWidthScaled(): Int {
-        return scaledBoundingBox.width
-    }
-
-    /**
-     * Setter for the component's height
-     *
-     * @param height The new height of the component
-     */
-    open fun setHeight(height: Int) {
-        boundingBox.height = height
-        updateScaledBounds()
-    }
-
-    /**
-     * @return Getter for the height of the component
-     */
-    open fun getHeight(): Int {
-        return boundingBox.height
-    }
-
-    /**
-     * @return Getter for the scaled height of the component
-     */
-    open fun getHeightScaled(): Int {
-        return scaledBoundingBox.height
-    }
-
-    /**
-     * Updates the scaled bounding box from the current X and Y scale
-     */
-    open fun updateScaledBounds() {
-        // Compute new X, Y, Width, and Height by scaling the original bounding box and saving it into the new bounding box
-        val xNew = (this.scaleX * this.boundingBox.x).roundToInt()
-        val yNew = (this.scaleY * this.boundingBox.y).roundToInt()
-        val widthNew = (this.scaleX * this.boundingBox.width).roundToInt()
-        val heightNew = (this.scaleY * this.boundingBox.height).roundToInt()
-        this.scaledBoundingBox.setBounds(xNew, yNew, widthNew, heightNew)
-    }
-
-    /**
-     * Second getter for hover text, this one concatenates the hover texts back together with '\n' characters
-     *
-     * @return The hover text concatenated together
-     */
-    open fun getHoverText(): String {
-        return hoverTexts.joinToString(separator = "\n")
+    open fun updateBounds() {
+        this.boundingBox.setBounds(this.x, this.y, this.width, this.height)
     }
 
     /**

@@ -17,8 +17,17 @@ import java.util.concurrent.CopyOnWriteArrayList
  * @property subComponents A list of sub-components found inside this container. Use a CopyOnWriteArrayList so we can modify it while iterating over it. The CopyOnWriteArrayList is very efficient when iterating, but costly when adding/removing elements. We iterate mostly, so it's a good choice here
  * @property parent The parent transform that this container uses as a base
  */
-abstract class AOTDGuiContainer(x: Int, y: Int, width: Int, height: Int) :
-    AOTDGuiComponentWithEvents(x, y, width, height) {
+abstract class AOTDGuiContainer(
+        width: Int,
+        height: Int,
+        xOffset: Int = 0,
+        yOffset: Int = 0,
+        margins: AOTDGuiSpacing = AOTDGuiSpacing(),
+        gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
+        hoverTexts: Array<String> = emptyArray(),
+        var padding: AOTDGuiSpacing = AOTDGuiSpacing()) :
+        AOTDGuiComponentWithEvents(width, height, xOffset, yOffset, margins, gravity, hoverTexts) {
+
     private val subComponents = CopyOnWriteArrayList<AOTDGuiContainer>()
     var parent: AOTDGuiContainer? = null
 
@@ -31,6 +40,12 @@ abstract class AOTDGuiContainer(x: Int, y: Int, width: Int, height: Int) :
             this.subComponents.forEach { subContainer -> subContainer.isVisible = isVisible }
         }
 
+    override var x = super.x
+        set(x) { field = x; calcChildrenBounds() }
+
+    override var y = super.y
+        set(y) { field = y; calcChildrenBounds() }
+
     /**
      * Adds a given gui component to the container, and position it accordingly
      *
@@ -39,13 +54,8 @@ abstract class AOTDGuiContainer(x: Int, y: Int, width: Int, height: Int) :
     fun add(container: AOTDGuiContainer) {
         // Set the container's parent
         container.parent = this
-        // Set the X position based on the parent's X
-        container.setX(container.getX() + this.getX())
-        // Set the Y position based on the parent's Y
-        container.setY(container.getY() + this.getY())
-        // Set the scale based on the parent's scale
-        container.setScaleX(this.scaleX)
-        container.setScaleY(this.scaleY)
+        // Calculate all children's positions and dimensions
+        calcChildrenBounds()
         // Add the sub-component
         this.subComponents.add(container)
     }
@@ -60,11 +70,35 @@ abstract class AOTDGuiContainer(x: Int, y: Int, width: Int, height: Int) :
             return
         }
         this.subComponents.remove(container)
-        // Reset the X without any parent transform
-        container.setX(container.getXWithoutParentTransform())
-        container.setY(container.getYWithoutParentTransform())
+        // Calculate all children's positions and dimensions
+        calcChildrenBounds()
         // Set the container's parent
         container.parent = null
+    }
+
+    /**
+     * Calculates the proper locations and dimensions of all children nodes
+     * Default behavior is that of a StackPane (children drawn on top of each other)
+     */
+    private fun calcChildrenBounds() {
+        for (child in subComponents) {
+            val internalWidth = this.width - padding.horizPx
+            val internalHeight = this.height - padding.vertPx
+            child.negotiateDimensions(internalWidth, internalHeight)
+            val calculatedXOffset = when (child.gravity) {
+                AOTDGuiGravity.TOP_LEFT, AOTDGuiGravity.CENTER_LEFT, AOTDGuiGravity.BOTTOM_LEFT -> padding.leftPx
+                AOTDGuiGravity.TOP_CENTER, AOTDGuiGravity.CENTER, AOTDGuiGravity.BOTTOM_CENTER -> this.width/2 - child.width/2
+                AOTDGuiGravity.TOP_RIGHT, AOTDGuiGravity.CENTER_RIGHT, AOTDGuiGravity.BOTTOM_RIGHT -> this.width - child.width - padding.rightPx
+            }
+            val calculatedYOffset = when (child.gravity) {
+                AOTDGuiGravity.TOP_LEFT, AOTDGuiGravity.TOP_CENTER, AOTDGuiGravity.TOP_RIGHT -> padding.topPx
+                AOTDGuiGravity.CENTER_LEFT, AOTDGuiGravity.CENTER, AOTDGuiGravity.CENTER_RIGHT -> this.height/2 - child.height/2
+                AOTDGuiGravity.BOTTOM_LEFT, AOTDGuiGravity.BOTTOM_CENTER, AOTDGuiGravity.BOTTOM_RIGHT -> this.height - child.height - padding.botPx
+            }
+            child.x = this.x + calculatedXOffset + child.xOffset
+            child.y = this.y + calculatedYOffset + child.yOffset
+            // Do not need to call calcChildrenBounds recursively; The setter will do that for us
+        }
     }
 
     /**
@@ -72,20 +106,6 @@ abstract class AOTDGuiContainer(x: Int, y: Int, width: Int, height: Int) :
      */
     fun getChildren(): List<AOTDGuiContainer> {
         return subComponents.toList()
-    }
-
-    /**
-     * @return Returns the raw X component of the container
-     */
-    open fun getXWithoutParentTransform(): Int {
-        return if (parent == null) getX() else getX() - parent!!.getX()
-    }
-
-    /**
-     * @return Returns the raw Y component of the container
-     */
-    open fun getYWithoutParentTransform(): Int {
-        return if (parent == null) getY() else getY() - parent!!.getY()
     }
 
     /**
@@ -154,65 +174,5 @@ abstract class AOTDGuiContainer(x: Int, y: Int, width: Int, height: Int) :
         super.processKeyInput(event)
         // Fire our sub-component's key input events
         this.subComponents.forEach { it.processKeyInput(event) }
-    }
-
-    /**
-     * Sets the X position of this gui container
-     *
-     * @param x The new x position of the component
-     */
-    override fun setX(x: Int) {
-        // Update all sub-components using the OLD x value of this component
-        subComponents.forEach { it.setX(it.getXWithoutParentTransform() + x) }
-        // Then, update the x of the CURRENT component
-        super.setX(x)
-    }
-
-    /**
-     * Sets the Y position of this gui container
-     *
-     * @param y The new y position of the component
-     */
-    override fun setY(y: Int) {
-        // Update all sub-components using the OLD y value of this component
-        subComponents.forEach { it.setY(it.getYWithoutParentTransform() + y) }
-        // Then, update the y of the CURRENT component
-        super.setY(y)
-    }
-
-    /**
-     * Setter for X and Y scale, also updates the scaled bounding box and all sub-components
-     *
-     * @param scale The new X and Y scale
-     */
-    override fun setScaleXAndY(scale: Double) {
-        // Set our X and Y scale
-        super.setScaleXAndY(scale)
-        // Sets our sub-components X and Y scale
-        this.subComponents.forEach { it.setScaleXAndY(scale) }
-    }
-
-    /**
-     * Setter for X scale, also updates the scaled bounding box and all sub-components
-     *
-     * @param scaleX The new X scale to use
-     */
-    override fun setScaleX(scaleX: Double) {
-        // Set our X scale
-        super.setScaleX(scaleX)
-        // Sets our sub-components X scale
-        this.subComponents.forEach { it.setScaleX(scaleX) }
-    }
-
-    /**
-     * Setter for Y scale, also updates the scaled bounding box and all sub-components
-     *
-     * @param scaleY The new Y scale to use
-     */
-    override fun setScaleY(scaleY: Double) {
-        // Set our Y scale
-        super.setScaleY(scaleY)
-        // Sets our sub-components Y scale
-        this.subComponents.forEach { it.setScaleY(scaleY) }
     }
 }
