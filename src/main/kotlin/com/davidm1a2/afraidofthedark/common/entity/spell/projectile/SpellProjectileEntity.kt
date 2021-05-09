@@ -186,7 +186,7 @@ class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, w
                         .withPosition(result.hitVec)
                         .withBlockPosition(hitPos)
                         .withDirection(motion)
-                        .withCasterEntity(this.dataManager[CASTER_ENTITY_ID].map { (world as? ServerWorld)?.getEntityByUuid(it) }.get())
+                        .withCasterEntity(this.dataManager[CASTER_ENTITY_ID].map { (world as? ServerWorld)?.getEntityByUuid(it) }.orElse(null))
                         .withDeliveryEntity(this)
                         .build()
 
@@ -198,7 +198,7 @@ class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, w
                         .withSpell(spell)
                         .withStageIndex(spellIndex)
                         .withEntity(result.entity)
-                        .withCasterEntity(this.dataManager[CASTER_ENTITY_ID].map { (world as? ServerWorld)?.getEntityByUuid(it) }.get())
+                        .withCasterEntity(this.dataManager[CASTER_ENTITY_ID].map { (world as? ServerWorld)?.getEntityByUuid(it) }.orElse(null))
                         .withDeliveryEntity(this)
                         .build()
 
