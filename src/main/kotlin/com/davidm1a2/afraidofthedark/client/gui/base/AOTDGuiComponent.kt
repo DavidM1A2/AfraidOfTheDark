@@ -16,16 +16,16 @@ import kotlin.math.roundToInt
  * Base class for all GUI components like labels, buttons, etc
  */
 abstract class AOTDGuiComponent(
-        var width: Int,
-        var height: Int,
-        var xOffset: Int = 0,
-        var yOffset: Int = 0,
+        open var width: Int,
+        open var height: Int,
+        open var xOffset: Int = 0,
+        open var yOffset: Int = 0,
         var margins: AOTDGuiSpacing = AOTDGuiSpacing(),
         var gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
         var hoverTexts: Array<String> = emptyArray()) {
 
-    open var x = xOffset
-    open var y = yOffset
+    open var x = 0
+    open var y = 0
     open var isHovered = false
     open var isVisible = true
     open var color = Color(255, 255, 255, 255)
@@ -183,6 +183,10 @@ abstract class AOTDGuiComponent(
     open fun setHoverText(hoverText: String) {
         hoverTexts = hoverText.split("\n").toTypedArray()
     }
+
+    fun getXWithOffset() = x + xOffset
+
+    fun getYWithOffset() = y + yOffset
 
     companion object {
         val fontRenderer: FontRenderer = Minecraft.getInstance().fontRenderer

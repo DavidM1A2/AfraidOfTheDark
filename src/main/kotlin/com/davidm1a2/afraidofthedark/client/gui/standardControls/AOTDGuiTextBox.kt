@@ -37,11 +37,11 @@ class AOTDGuiTextBox(x: Int, y: Int, width: Int, height: Int, private val font: 
             // Draw each string in the text lines list one at at time
             for (i in this.textLines.indices)
                 this.font.drawString(
-                    this.getXScaled().toFloat(),
-                    this.getYScaled().toFloat() + i * this.font.height * Constants.TEXT_SCALE_FACTOR * this.scaleY.toFloat(),
+                    this.getXWithOffset().toFloat(),
+                    this.getYWithOffset().toFloat() + i * this.font.height * Constants.TEXT_SCALE_FACTOR,
                     this.textLines[i],
-                    this.scaleX.toFloat() * Constants.TEXT_SCALE_FACTOR,
-                    this.scaleY.toFloat() * Constants.TEXT_SCALE_FACTOR,
+                    Constants.TEXT_SCALE_FACTOR,
+                    Constants.TEXT_SCALE_FACTOR,
                     TextAlignment.ALIGN_LEFT,
                     this.textColor
                 )
@@ -69,7 +69,7 @@ class AOTDGuiTextBox(x: Int, y: Int, width: Int, height: Int, private val font: 
             word = word.replace("\t", "   ")
             currentLineText = when {
                 // If the line is too long for the current text move to the next line
-                this.font.getWidth("$currentLineText $word") * Constants.TEXT_SCALE_FACTOR > this.getWidth() -> {
+                this.font.getWidth("$currentLineText $word") * Constants.TEXT_SCALE_FACTOR > height -> {
                     // Store the current line and move on
                     this.textLines.add(currentLineText)
                     // Store the word as the beginning of the next line
@@ -83,7 +83,7 @@ class AOTDGuiTextBox(x: Int, y: Int, width: Int, height: Int, private val font: 
         this.textLines.add(currentLineText)
 
         // Compute the maximum number of lines that fit vertically inside the text box
-        val maxLines = floor(this.getHeight() / (this.font.height * Constants.TEXT_SCALE_FACTOR)).toInt()
+        val maxLines = floor(height / (this.font.height * Constants.TEXT_SCALE_FACTOR)).toInt()
         // If the number of lines we have is less than or equal to the max we're OK
         if (textLines.size <= maxLines) {
             this.overflowText = ""

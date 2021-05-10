@@ -46,6 +46,18 @@ abstract class AOTDGuiContainer(
     override var y = super.y
         set(y) { field = y; calcChildrenBounds() }
 
+    override var xOffset = super.xOffset
+        set(xOffset) { field = xOffset; calcChildrenBounds() }
+
+    override var yOffset = super.yOffset
+        set(yOffset) { field = yOffset; calcChildrenBounds() }
+
+    override var width = super.width
+        set(width) { field = width; calcChildrenBounds() }
+
+    override var height = super.height
+        set(height) { field = height; calcChildrenBounds() }
+
     /**
      * Adds a given gui component to the container, and position it accordingly
      *
@@ -95,8 +107,8 @@ abstract class AOTDGuiContainer(
                 AOTDGuiGravity.CENTER_LEFT, AOTDGuiGravity.CENTER, AOTDGuiGravity.CENTER_RIGHT -> this.height/2 - child.height/2
                 AOTDGuiGravity.BOTTOM_LEFT, AOTDGuiGravity.BOTTOM_CENTER, AOTDGuiGravity.BOTTOM_RIGHT -> this.height - child.height - padding.botPx
             }
-            child.x = this.x + calculatedXOffset + child.xOffset
-            child.y = this.y + calculatedYOffset + child.yOffset
+            child.x = this.x + this.xOffset + calculatedXOffset + child.xOffset
+            child.y = this.y + this.yOffset + calculatedYOffset + child.yOffset
             // Do not need to call calcChildrenBounds recursively; The setter will do that for us
         }
     }

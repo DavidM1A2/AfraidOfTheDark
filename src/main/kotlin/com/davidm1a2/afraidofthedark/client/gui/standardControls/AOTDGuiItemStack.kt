@@ -1,9 +1,11 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.item.ItemStack
+import net.minecraft.util.ResourceLocation
 import org.lwjgl.opengl.GL11
 
 /**
@@ -18,21 +20,20 @@ import org.lwjgl.opengl.GL11
  * @property highlight The image that is shown when the itemstack is hovered over
  */
 class AOTDGuiItemStack(
-    x: Int,
-    y: Int,
-    width: Int,
-    height: Int,
-    backgroundHighlight: Boolean,
-    var itemStack: ItemStack = ItemStack.EMPTY
-) :
-    AOTDGuiContainer(x, y, width, height) {
+        width: Int,
+        height: Int,
+        xOffset: Int = 0,
+        yOffset: Int = 0,
+        backgroundHighlight: Boolean = false,
+        var itemStack: ItemStack = ItemStack.EMPTY) :
+        AOTDGuiContainer(width, height, xOffset, yOffset) {
+
     private val highlight: AOTDGuiImage?
 
     init {
         // if we should highlight the background then add a highlit background image
         if (backgroundHighlight) {
-            highlight =
-                AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/journal_page/slot_highlight.png")
+            highlight = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/slot_highlight.png"), AOTDImageDispMode.FIT_TO_PARENT, 32, 32)
             // Start the highlight off
             highlight.isVisible = false
             this.add(highlight)
@@ -61,9 +62,8 @@ class AOTDGuiItemStack(
             GL11.glPushMatrix()
 
             // Translate to the center of the stack
-            GL11.glTranslated(this.getXScaled().toDouble(), this.getYScaled().toDouble(), 1.0)
-            GL11.glScaled(this.scaleX, this.scaleY, 1.0)
-            GL11.glTranslated((3 - this.getXScaled()).toDouble(), (3 - this.getYScaled()).toDouble(), 1.0)
+            GL11.glTranslated(x.toDouble(), y.toDouble(), 1.0)
+            GL11.glTranslated((3 - x).toDouble(), (3 - x).toDouble(), 1.0)
 
             // Grab the render item to draw items
             val renderItem = Minecraft.getInstance().itemRenderer
@@ -74,9 +74,9 @@ class AOTDGuiItemStack(
                 // Grab the font renderer for the item
                 val font = itemStack.item.getFontRenderer(itemStack) ?: Minecraft.getInstance().fontRenderer
                 // Render the itemstack into the GUI
-                renderItem.renderItemAndEffectIntoGUI(itemStack, this.getXScaled(), this.getYScaled())
+                renderItem.renderItemAndEffectIntoGUI(itemStack, x, y)
                 // Render the itemstack count overlay into the GUI
-                renderItem.renderItemOverlayIntoGUI(font, itemStack, this.getXScaled(), this.getYScaled(), null)
+                renderItem.renderItemOverlayIntoGUI(font, itemStack, x, y, null)
                 // Set Z level to 0 like in default MC code
                 renderItem.zLevel = 0.0f
             }
@@ -97,10 +97,10 @@ class AOTDGuiItemStack(
             if (this.isHovered && !this.itemStack.isEmpty) {
                 // Show the item name and count
                 fontRenderer.drawStringWithShadow(
-                    "${itemStack.displayName.formattedText} x${itemStack.count}",
-                    this.getXScaled().toFloat(),
-                    (this.getYScaled() - 5).toFloat(),
-                    -0x1
+                        "${itemStack.displayName.formattedText} x${itemStack.count}",
+                        x.toFloat(),
+                        (y - 5).toFloat(),
+                        -0x1
                 )
             }
         }

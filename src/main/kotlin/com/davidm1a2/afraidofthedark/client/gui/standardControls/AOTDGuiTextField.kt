@@ -1,12 +1,14 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.client.Minecraft
+import net.minecraft.util.ResourceLocation
 import net.minecraft.util.SharedConstants
 import org.lwjgl.glfw.GLFW
 import java.awt.Color
@@ -42,12 +44,12 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
 
     init {
         // Create our background image
-        this.background = AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/text_field_background.png")
+        this.background = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/text_field_background.png"), AOTDImageDispMode.STRETCH, 500, 100)
 
         // Set the text container bounding box to have scissor enabled and contain the label
-        this.textContainer = AOTDGuiPanel(5, 5, width - 10, height - 10, true)
+        this.textContainer = AOTDGuiPanel(width - 10, height - 10, 5, 5, scissorEnabled = true)
         // The text label contains the text field's text
-        this.textLabel = AOTDGuiLabel(5, 0, width - 15, height - 10, font)
+        this.textLabel = AOTDGuiLabel(width - 15, height - 10, font)
         // Make sure the label doesn't shorten the text inside to fit
         this.textLabel.shortenTextToFit = false
 
@@ -215,7 +217,7 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
         // Get the text's width and multiply by our scale factor used
         val textWidth = this.textLabel.font.getWidth(this.textLabel.text) * Constants.TEXT_SCALE_FACTOR
         // If the text width is bigger than the label's width we set the alignment to right so that you see the newest text not the oldest
-        if (textWidth > this.textLabel.getWidth()) {
+        if (textWidth > this.textLabel.width) {
             this.textLabel.textAlignment = TextAlignment.ALIGN_RIGHT
         } else {
             this.textLabel.textAlignment = TextAlignment.ALIGN_LEFT

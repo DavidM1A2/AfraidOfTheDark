@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiGravity
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.common.constants.Constants
@@ -22,8 +23,8 @@ import java.awt.Color
  * @property textAlignment Text alignment
  * @property shortenTextToFit True if we should ensure the text fits inside the label by shortening it, false otherwise
  */
-class AOTDGuiLabel(x: Int, y: Int, width: Int, height: Int, val font: TrueTypeFont) :
-    AOTDGuiContainer(x, y, width, height) {
+class AOTDGuiLabel(width: Int, height: Int, val font: TrueTypeFont) : AOTDGuiContainer(width, height, gravity = AOTDGuiGravity.CENTER) {
+
     var text = ""
         set(text) {
             field = text
@@ -49,17 +50,17 @@ class AOTDGuiLabel(x: Int, y: Int, width: Int, height: Int, val font: TrueTypeFo
         if (this.isVisible) {
             // Compute the x and y positions of the text
             val xCoord =
-                this.getXScaled() + when (this.textAlignment) {
+                x + when (this.textAlignment) {
                     TextAlignment.ALIGN_LEFT -> 0f
-                    TextAlignment.ALIGN_CENTER -> this.getWidthScaled() / 2f
-                    else -> this.getWidthScaled().toFloat()
+                    TextAlignment.ALIGN_CENTER -> width / 2f
+                    else -> width.toFloat()
                 }
-            var yCoord = this.getYScaled().toFloat()
+            var yCoord = y.toFloat()
 
             // Center align text on the y-axis
-            val spaceLeft = (this.getHeight() - this.font.height * Constants.TEXT_SCALE_FACTOR).toDouble()
+            val spaceLeft = (height - this.font.height * Constants.TEXT_SCALE_FACTOR).toDouble()
             if (spaceLeft > 0) {
-                yCoord = yCoord + (spaceLeft / 2).toFloat()
+                yCoord += (spaceLeft / 2).toFloat()
             }
 
             // Draw the string at (x, y) with the correct color and scale
@@ -67,8 +68,8 @@ class AOTDGuiLabel(x: Int, y: Int, width: Int, height: Int, val font: TrueTypeFo
                 xCoord,
                 yCoord,
                 this.fitText,
-                this.scaleX.toFloat() * Constants.TEXT_SCALE_FACTOR,
-                this.scaleY.toFloat() * Constants.TEXT_SCALE_FACTOR,
+                Constants.TEXT_SCALE_FACTOR,
+                Constants.TEXT_SCALE_FACTOR,
                 textAlignment,
                 this.textColor
             )
@@ -82,8 +83,8 @@ class AOTDGuiLabel(x: Int, y: Int, width: Int, height: Int, val font: TrueTypeFo
     private fun computeTextForSize() {
         if (this.shortenTextToFit) {
             // Test if the text will fit into our label based on height
-            val height = (this.font.height.toDouble() * Constants.TEXT_SCALE_FACTOR.toDouble() * this.scaleY).toFloat()
-            if (height > this.getHeightScaled()) {
+            val height = (this.font.height.toDouble() * Constants.TEXT_SCALE_FACTOR.toDouble() ).toFloat()
+            if (height > this.height) {
                 this.fitText = ""
             }
             // If the height is OK shorten the text until it fits into the label
@@ -91,27 +92,17 @@ class AOTDGuiLabel(x: Int, y: Int, width: Int, height: Int, val font: TrueTypeFo
                 this.fitText = this.text
                 // Grab the current width of the text
                 var width =
-                    (this.font.getWidth(this.fitText).toDouble() * Constants.TEXT_SCALE_FACTOR.toDouble() * this.scaleX).toFloat()
+                    (this.font.getWidth(this.fitText).toDouble() * Constants.TEXT_SCALE_FACTOR.toDouble()).toFloat()
                 // If it's too big remove one character at a time until it isn't
-                while (width > this.getWidthScaled() && this.fitText.isNotEmpty()) {
+                while (width > this.width && this.fitText.isNotEmpty()) {
                     this.fitText = this.fitText.substring(0, this.fitText.length - 2)
                     // Grab the current width of the text
                     width =
-                        (this.font.getWidth(this.fitText).toDouble() * Constants.TEXT_SCALE_FACTOR.toDouble() * this.scaleX).toFloat()
+                        (this.font.getWidth(this.fitText).toDouble() * Constants.TEXT_SCALE_FACTOR.toDouble()).toFloat()
                 }
             }
         } else {
             this.fitText = this.text
         }
-    }
-
-    /**
-     * Sets the width of label, also update the text
-     *
-     * @param width The new label width
-     */
-    override fun setWidth(width: Int) {
-        super.setWidth(width)
-        this.needsTextUpdate = true
     }
 }

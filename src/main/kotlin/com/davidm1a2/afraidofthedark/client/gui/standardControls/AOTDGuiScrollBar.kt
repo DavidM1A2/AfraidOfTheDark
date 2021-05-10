@@ -1,8 +1,10 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
+import net.minecraft.util.ResourceLocation
 
 /**
  * Advanced control that represents a scroll bar which can be dragged up and down
@@ -21,14 +23,12 @@ import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
  * @property originalHandleLocation A float telling us where the handle was before the drag began
  */
 class AOTDGuiScrollBar @JvmOverloads constructor(
-    x: Int,
-    y: Int,
     width: Int,
     height: Int,
     scrollBarTexture: String = "afraidofthedark:textures/gui/scroll_bar.png",
     handleTexture: String = "afraidofthedark:textures/gui/scroll_bar_handle.png",
     handleHoveredTexture: String = handleTexture
-) : AOTDGuiContainer(x, y, width, height) {
+) : AOTDGuiContainer(width, height) {
     var value = 0.0f
         private set
     private val handle: AOTDGuiButton
@@ -38,11 +38,13 @@ class AOTDGuiScrollBar @JvmOverloads constructor(
 
     init {
         // The background behind the scroll bar handle
-        val barBackground = AOTDGuiImage(0, 0, width, height, scrollBarTexture)
+        val barBackground = AOTDGuiImage(ResourceLocation(scrollBarTexture), AOTDImageDispMode.FIT_TO_PARENT, 42, 593)
         // Add the background to the control
         this.add(barBackground)
         // Create a handle to grab, let the height be the height of the bar / 10
-        this.handle = AOTDGuiButton(0, 0, width, height / 10, handleTexture, handleHoveredTexture)
+        val icon = AOTDGuiImage(ResourceLocation(handleTexture), AOTDImageDispMode.STRETCH, 36, 45)
+        val iconHovered = AOTDGuiImage(ResourceLocation(handleHoveredTexture), AOTDImageDispMode.STRETCH, 36, 45)
+        this.handle = AOTDGuiButton(width, height / 10, icon = icon, iconHovered = iconHovered)
         // Add the handle
         this.add(this.handle)
 
@@ -88,21 +90,20 @@ class AOTDGuiScrollBar @JvmOverloads constructor(
      */
     fun moveHandle(yAmount: Int, isRelative: Boolean) {
         // The minimum y value the handle can have
-        val minY = getY()
+        val minY = y
         // Compute the difference between the max and min y values
-        val maxYDiff = getHeight() - handle.getHeight()
+        val maxYDiff = height - handle.height
         // The maximum y value the handle can have
-        val maxY = getY() + maxYDiff
+        val maxY = y + maxYDiff
 
         // Compute where the handle should be based on the y offset, ensure to y offset is scaled to the
         // current y scale
-        var newY =
-            (yAmount / scaleY).toInt() + (minY + (if (isRelative) value else originalHandleLocation) * maxYDiff).toInt()
+        var newY = (yAmount) + (minY + (if (isRelative) value else originalHandleLocation) * maxYDiff).toInt()
 
         // Clamp the y inside the bar so you can't drag it off the top or bottom
         newY = newY.coerceIn(minY, maxY)
         // Update the y pos of the handle
-        handle.setY(newY)
+        handle.y = newY
         // Set the handle location to be the percent down the bar the handle is
         value = (newY - minY) / maxYDiff.toFloat()
     }

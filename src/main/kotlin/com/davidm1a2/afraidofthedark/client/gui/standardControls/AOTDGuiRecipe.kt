@@ -1,10 +1,13 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe
 import net.minecraft.item.crafting.Ingredient
+import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.crafting.IShapedRecipe
+import kotlin.math.min
 
 /**
  * Advanced control that displays an entire crafting recipe
@@ -18,32 +21,30 @@ import net.minecraftforge.common.crafting.IShapedRecipe
  * @property guiItemStacks The item stacks to draw
  * @property output The itemstack that gets created
  */
-class AOTDGuiRecipe(x: Int, y: Int, width: Int, height: Int, recipe: IRecipe<*>? = null) :
-    AOTDGuiContainer(x, y, width, height) {
-    private val craftingGrid: AOTDGuiImage
+class AOTDGuiRecipe(width: Int, height: Int = width/367*267, recipe: IRecipe<*>? = null) :
+    AOTDGuiContainer(width, height) {
+    private val craftingGrid: AOTDGuiImage = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/crafting_grid.png"), AOTDImageDispMode.STRETCH, 367, 267)
     private val guiItemStacks: Array<AOTDGuiItemStack>
     private val output: AOTDGuiItemStack
 
     init {
         // Setup the crafting grid background image
-        this.craftingGrid =
-            AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/journal_page/crafting_grid.png")
         this.add(this.craftingGrid)
 
         // Create an array of 9 stacks for each of the 9 slots and initialize each of the 9 stacks
         this.guiItemStacks = Array(9)
         {
             AOTDGuiItemStack(
-                5 + it % 3 * 24,
-                6 + 26 * (it / 3),
                 (width / 5.0).toInt(),
                 (height / 4.0).toInt(),
+                5 + it % 3 * 24,    // TODO: Tune these offsets
+                6 + 26 * (it / 3),
                 true
             )
         }
 
         // Initialize the output stack
-        output = AOTDGuiItemStack(83, 31, 24, 24, true)
+        output = AOTDGuiItemStack(24, 24, 83, 31, true)
 
         // Add each stack to the pane to be drawn
         for (guiItemStack in this.guiItemStacks) {

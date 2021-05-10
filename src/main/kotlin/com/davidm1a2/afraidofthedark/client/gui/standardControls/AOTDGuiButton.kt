@@ -31,28 +31,20 @@ open class AOTDGuiButton(
         gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
         hoverTexts: Array<String> = emptyArray(),
         padding: AOTDGuiSpacing = AOTDGuiSpacing(),
-        private val icon: ResourceLocation,
-        private val iconHovered: ResourceLocation = icon,
+        private val icon: AOTDGuiImage,
+        private val iconHovered: AOTDGuiImage = icon,
         font: TrueTypeFont? = null) :
         AOTDGuiContainer(width, height, xOffset, yOffset, margins, gravity, hoverTexts, padding) {
 
-    private val background: AOTDGuiImage = AOTDGuiImage(0, 0, width, height, icon)
     private val label: AOTDGuiLabel?
-    override var color: Color
-        get() = super.color
-        set(tint) {
-            super.color = tint
-            this.background.color = tint
-        }
 
     init {
-        // Create a background image for the button
-        this.background.color = Color(255, 255, 255)
-        this.add(background)
-
+        // Add our images as child nodes
+        this.add(this.icon)
+        this.add(this.iconHovered)
         // Create a label to cover the button
         if (font != null) {
-            this.label = AOTDGuiLabel(0, 0, width, height, font)
+            this.label = AOTDGuiLabel(width, height, font)
             this.add(this.label)
         } else {
             this.label = null
@@ -65,7 +57,8 @@ open class AOTDGuiButton(
     override fun draw() {
         if (this.isVisible) {
             super.draw()
-            this.background.imageTexture = if (this.isHovered) this.iconHovered else this.icon
+            iconHovered.isVisible = this.isHovered
+            icon.isVisible = this.isHovered.not()
         }
     }
 
