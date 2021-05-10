@@ -36,10 +36,7 @@ abstract class AOTDGuiComponent(
     /**
      * Draw function that gets called every frame. This needs to be overridden to draw custom controls
      */
-    open fun draw() {
-        // Draw the bounding box for debug purposes
-        // drawBoundingBox()
-    }
+    open fun draw() {}
 
     /**
      * Draws the hover text that appears when we mouse over the control

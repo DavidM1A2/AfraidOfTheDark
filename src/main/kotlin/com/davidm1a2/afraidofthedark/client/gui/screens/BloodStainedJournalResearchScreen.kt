@@ -1,8 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreenClickAndDragable
-import com.davidm1a2.afraidofthedark.client.gui.base.SpriteSheetController
-import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiResearchNodeButton
@@ -38,57 +36,40 @@ import java.awt.Color
 class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
     AOTDScreenClickAndDragable(TranslationTextComponent("screen.afraidofthedark.blood_stained_journal_research")) {
     private val scrollBackground: AOTDGuiImage
-    private val researchNodes: AOTDGuiPanel
-    private val researchConnectors: AOTDGuiPanel
+    private val researchTreeBase: AOTDGuiPanel
     private val nodeConnectorControllerVertical = SpriteSheetController(500, 20, 15, 45, true, true)
     private val nodeConnectorControllerHorizontal = SpriteSheetController(500, 20, 45, 15, true, false)
     private val researchNodeMouseMoveListener: (AOTDMouseMoveEvent) -> Unit
     private val researchNodeMouseListener: (AOTDMouseEvent) -> Unit
 
     init {
-        // Calculate the various positions of GUI elements on the screen
-        val xPosScroll = (Constants.BASE_GUI_WIDTH - BACKGROUND_WIDTH) / 2
-        val yPosScroll = (Constants.BASE_GUI_HEIGHT - BACKGROUND_HEIGHT) / 2
-
-        // Recall our previous GUI offsets from the last time we had the GUI open, this helps remember where we left off in the UI
-        guiOffsetX = lastGuiOffsetX
-        guiOffsetY = lastGuiOffsetY
 
         // Create the research tree panel that will hold all the research nodes
         // The base panel that contains all researches
-        val researchTreeBase = AOTDGuiPanel(xPosScroll, yPosScroll, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, true)
-        researchNodes = AOTDGuiPanel(-guiOffsetX, -guiOffsetY, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, false)
-        researchConnectors = AOTDGuiPanel(-guiOffsetX, -guiOffsetY, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, false)
+        researchTreeBase = AOTDGuiPanel(BACKGROUND_WIDTH, BACKGROUND_HEIGHT, gravity = AOTDGuiGravity.CENTER)
         contentPane.add(researchTreeBase)
         scrollBackground = AOTDGuiImage(
-            0,
-            0,
+            ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/background.png"),
+            AOTDImageDispMode.FIT_TO_SIZE,
             BACKGROUND_WIDTH,
-            BACKGROUND_HEIGHT,
-            "afraidofthedark:textures/gui/journal_tech_tree/background.png",
-            1024,
-            1024
+            BACKGROUND_HEIGHT
         )
-        scrollBackground.u = guiOffsetX + (scrollBackground.getMaxTextureWidth() - scrollBackground.getWidth()) / 2
-        scrollBackground.v = guiOffsetY + (scrollBackground.getMaxTextureHeight() - scrollBackground.getHeight())
 
         // The border around the research
         val backgroundBorder = AOTDGuiImage(
-            0,
-            0,
+            ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/frame.png"),
+            AOTDImageDispMode.STRETCH,
             BACKGROUND_WIDTH,
-            BACKGROUND_HEIGHT,
-            "afraidofthedark:textures/gui/journal_tech_tree/frame.png"
+            BACKGROUND_HEIGHT
         )
+
         researchTreeBase.add(scrollBackground)
-        researchTreeBase.add(researchConnectors)
-        researchTreeBase.add(researchNodes)
         researchTreeBase.add(backgroundBorder)
 
         // If this is a cheat sheet add a label on top to make that clear
         if (isCheatSheet) {
             // Put the label on top and set the color to white
-            val lblCheatSheet = AOTDGuiLabel(15, 20, BACKGROUND_WIDTH - 30, 20, ClientData.getOrCreate(32f))
+            val lblCheatSheet = AOTDGuiLabel(BACKGROUND_WIDTH, 20, ClientData.getOrCreate(32f), AOTDGuiGravity.TOP_CENTER)
             lblCheatSheet.textAlignment = TextAlignment.ALIGN_CENTER
             lblCheatSheet.textColor = Color(255, 255, 255)
             lblCheatSheet.text = "Cheat sheet - select researches to unlock them"
@@ -119,7 +100,6 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
                         if (!isCheatSheet) {
                             // If the research is researched show the page UI, otherwise show the pre-page UI
                             if (playerResearch.isResearched(research)) {
-                                saveGuiOffsets()
                                 Minecraft.getInstance().displayGuiScreen(
                                     BloodStainedJournalPageScreen(
                                         I18n.format(research.getUnlocalizedText()),
@@ -128,7 +108,6 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
                                     )
                                 )
                             } else if (research.preRequisite != null && playerResearch.isResearched(research.preRequisite)) {
-                                saveGuiOffsets()
                                 Minecraft.getInstance().displayGuiScreen(
                                     BloodStainedJournalPageScreen(
                                         I18n.format(research.getUnlocalizedPreText()),
@@ -189,7 +168,7 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
             // Depending on where the research is in relation to its previous research create an arrow
             when {
                 research.xPosition < previous.xPosition -> {
-                    researchConnectors.add(
+                    researchTreeBase.add(
                         AOTDGuiSpriteSheetImage(
                             xPos + 26,
                             yPos + 9,
@@ -201,7 +180,7 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
                     )
                 }
                 research.xPosition > previous.xPosition -> {
-                    researchConnectors.add(
+                    researchTreeBase.add(
                         AOTDGuiSpriteSheetImage(
                             xPos - 50,
                             yPos + 9,
@@ -213,7 +192,7 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
                     )
                 }
                 research.zPosition > previous.zPosition -> {
-                    researchConnectors.add(
+                    researchTreeBase.add(
                         AOTDGuiSpriteSheetImage(
                             xPos + 9,
                             yPos + 30,
@@ -225,7 +204,7 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
                     )
                 }
                 research.zPosition < previous.zPosition -> {
-                    researchConnectors.add(
+                    researchTreeBase.add(
                         AOTDGuiSpriteSheetImage(
                             xPos + 9,
                             yPos - 46,
@@ -246,62 +225,22 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
      * @param research The research to add a button for
      */
     private fun addResearchButton(research: Research) {
-        // Compute the button's X and Y position
-        val xPos = BACKGROUND_WIDTH / 2 - 16 + DISTANCE_BETWEEN_RESEARCHES * research.xPosition
-        val yPos = BACKGROUND_HEIGHT - 50 - DISTANCE_BETWEEN_RESEARCHES * research.zPosition
         // Create the research button
-        val researchNode = AOTDGuiResearchNodeButton(xPos, yPos, research)
+        val researchNode = AOTDGuiResearchNodeButton(RESEARCH_WIDTH, RESEARCH_HEIGHT, research)
         // Add our pre-build listeners to this node
         researchNode.addMouseListener(researchNodeMouseListener)
         researchNode.addMouseMoveListener(researchNodeMouseMoveListener)
         // Add the node to our tree
-        researchNodes.add(researchNode)
-    }
-
-    /**
-     * Called when we drag the mouse
-     *
-     * @param mouseX            The mouse X position
-     * @param mouseY            The mouse Y position
-     * @param mouseXTo The position we are dragging the x from
-     * @param mouseYTo The position we are dragging the y from
-     */
-    override fun mouseDragged(mouseX: Double, mouseY: Double, lastButtonClicked: Int, mouseXTo: Double, mouseYTo: Double): Boolean {
-        // Call the super method
-        val toReturn = super.mouseDragged(mouseX, mouseY, lastButtonClicked, mouseXTo, mouseYTo)
-
-        // Update the research tree's X and Y coordinates
-        researchNodes.setX(-guiOffsetX + researchNodes.parent!!.getX())
-        researchNodes.setY(-guiOffsetY + researchNodes.parent!!.getY())
-        researchConnectors.setX(-guiOffsetX + researchConnectors.parent!!.getX())
-        researchConnectors.setY(-guiOffsetY + researchConnectors.parent!!.getY())
-        // Set the scroll background U and V
-        scrollBackground.u = guiOffsetX + (scrollBackground.getMaxTextureWidth() - scrollBackground.getWidth()) / 2
-        scrollBackground.v = guiOffsetY + (scrollBackground.getMaxTextureHeight() - scrollBackground.getHeight())
-
-        return toReturn
+        researchTreeBase.add(researchNode)
     }
 
     /**
      * We can use this to test if the gui has scrolled out of bounds or not
      */
     override fun checkOutOfBounds() {
-        val backgroundWiggleRoom = (scrollBackground.getMaxTextureWidth() - scrollBackground.getWidth()) / 2
+        val backgroundWiggleRoom = (scrollBackground.width - scrollBackground.width) / 2
         guiOffsetX = guiOffsetX.coerceIn(-backgroundWiggleRoom, backgroundWiggleRoom)
-        guiOffsetY = guiOffsetY.coerceIn(-scrollBackground.getMaxTextureHeight() + scrollBackground.getHeight(), 0)
-    }
-
-    /**
-     * Called when the screen is unloaded. Used set the last known gui offsets
-     */
-    override fun onClose() {
-        saveGuiOffsets()
-        super.onClose()
-    }
-
-    private fun saveGuiOffsets() {
-        lastGuiOffsetX = guiOffsetX
-        lastGuiOffsetY = guiOffsetY
+        guiOffsetY = guiOffsetY.coerceIn(-scrollBackground.height + scrollBackground.height, 0)
     }
 
     /**
@@ -319,15 +258,15 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
     }
 
     companion object {
-        // Set the size of the UI to always be 256x256
-        private const val BACKGROUND_HEIGHT = 256
-        private const val BACKGROUND_WIDTH = 256
+        // The background and frame texture is 1024x1024
+        private const val BACKGROUND_HEIGHT = 1024
+        private const val BACKGROUND_WIDTH = 1024
+
+        // The research texture is 64x64
+        private const val RESEARCH_HEIGHT = 64
+        private const val RESEARCH_WIDTH = 64
 
         // Distance between research icon nodes is 75px
         private const val DISTANCE_BETWEEN_RESEARCHES = 75
-
-        // Static fields that will keep track of where the offset was the last time the UI was open
-        private var lastGuiOffsetX = 0
-        private var lastGuiOffsetY = 0
     }
 }

@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
@@ -32,11 +33,10 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
         val guiSize = 256
 
         // Background panel holds all the gui items
-        val background =
-            AOTDGuiPanel((Constants.BASE_GUI_WIDTH - guiSize) / 2, (Constants.BASE_GUI_HEIGHT - guiSize) / 2, 256, 256, false)
+        val background = AOTDGuiPanel(256, 256, scissorEnabled = false)
 
         // Add an image to the background of the sextant texture
-        val backgroundImage = AOTDGuiImage(0, 0, guiSize, guiSize, "afraidofthedark:textures/gui/telescope/sextant.png")
+        val backgroundImage = AOTDGuiImage("afraidofthedark:textures/gui/telescope/sextant.png", AOTDImageDispMode.STRETCH, guiSize, guiSize)
         background.add(backgroundImage)
 
         // Grab the font for the text fields
@@ -60,13 +60,11 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
 
         // Create a calculate button that performs the math and returns drop location coordinates
         val confirm = AOTDGuiButton(
-            15,
-            204,
             120,
             20,
-            "afraidofthedark:textures/gui/journal_sign/sign_button.png",
-            "afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png",
-            ClientData.getOrCreate(40f)
+            icon = AOTDGuiImage("afraidofthedark:textures/gui/journal_sign/sign_button.png"),
+            iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png"),
+            font = ClientData.getOrCreate(40f)
         )
         // Text just says calculate
         confirm.setText("Calculate")

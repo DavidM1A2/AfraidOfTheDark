@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
@@ -32,7 +33,7 @@ class AOTDGuiSpellStage(
     val effects = Array(4)
     {
         // Place the slot at an offset based on the spacing
-        AOTDGuiSpellEffectSlot(5 + SLOT_SPACING * (it + 1), 5, height - 25, height - 25)
+        AOTDGuiSpellEffectSlot(height - 25, height - 25)
     }
     var addRunnable: (() -> Unit)? = null
     var removeRunnable: (() -> Unit)? = null
@@ -40,16 +41,15 @@ class AOTDGuiSpellStage(
     init {
         // Set the background texture of the spell stage, save 14px for add and remove buttons
         val background = AOTDGuiImage(
-            0,
-            0,
+            "afraidofthedark:textures/gui/spell_editor/spell_stage_background.png",
+            AOTDImageDispMode.STRETCH,
             width,
-            height - 14,
-            "afraidofthedark:textures/gui/spell_editor/spell_stage_background.png"
+            height - 14
         )
         add(background)
 
         // Create the delivery method slot
-        deliveryMethod = AOTDGuiSpellDeliveryMethodSlot(5, 5, height - 25, height - 25)
+        deliveryMethod = AOTDGuiSpellDeliveryMethodSlot(height - 25, height - 25)
         add(deliveryMethod)
 
         // Add a slot for each effect to the UI
@@ -58,12 +58,10 @@ class AOTDGuiSpellStage(
         // Create two buttons, one to add a new row and one to remove the current row
         addNewRow =
             AOTDGuiButton(
-                0,
-                height - 15,
                 15,
                 15,
-                "afraidofthedark:textures/gui/spell_editor/add.png",
-                "afraidofthedark:textures/gui/spell_editor/add_hovered.png"
+                icon = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/add.png"),
+                iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/add_hovered.png")
             )
         addNewRow.setHoverText("Add new spell stage")
         addNewRow.addMouseListener {
@@ -86,11 +84,9 @@ class AOTDGuiSpellStage(
 
         removeRow = AOTDGuiButton(
             15,
-            height - 15,
             15,
-            15,
-            "afraidofthedark:textures/gui/spell_editor/delete.png",
-            "afraidofthedark:textures/gui/spell_editor/delete_hovered.png"
+            icon = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/delete.png"),
+            iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/delete_hovered.png")
         )
         removeRow.setHoverText("Remove spell stage")
         removeRow.addMouseListener {

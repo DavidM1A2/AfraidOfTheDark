@@ -12,10 +12,8 @@ import net.minecraft.client.resources.I18n
  * @param width       The width of the component
  * @param height      The height of the component
  */
-class AOTDGuiSpellEffectSlot(x: Int, y: Int, width: Int, height: Int) :
+class AOTDGuiSpellEffectSlot(width: Int, height: Int) :
     AOTDGuiSpellComponentSlot<SpellEffect>(
-        x,
-        y,
         width,
         height,
         "afraidofthedark:textures/gui/spell_editor/effect_holder.png"

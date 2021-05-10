@@ -1,5 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiGravity
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
@@ -32,39 +34,30 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
     private var spellWaitingOnKeybind: AOTDGuiSpell? = null
 
     init {
-        // Calculate the x,y base position of the UI
-        val xPosSpellList = (Constants.BASE_GUI_WIDTH - GUI_WIDTH) / 2
-        val yPosSpellList = (Constants.BASE_GUI_HEIGHT - GUI_HEIGHT) / 2
 
         // Place the background panel in the center
-        val backgroundPanel = AOTDGuiPanel(xPosSpellList, yPosSpellList, GUI_WIDTH, GUI_HEIGHT, false)
+        val backgroundPanel = AOTDGuiPanel(GUI_WIDTH, GUI_HEIGHT, gravity = AOTDGuiGravity.CENTER, scissorEnabled = false)
 
         // Create a magic mirror background image
         val mirrorBackgroundImage = AOTDGuiImage(
-            0,
-            0,
-            GUI_WIDTH - SCROLL_BAR_WIDTH - SCROLL_BAR_HORIZONTAL_PADDING * 2,
-            GUI_HEIGHT,
-            "afraidofthedark:textures/gui/spell_list/spell_list_background.png"
+            "afraidofthedark:textures/gui/spell_list/spell_list_background.png",
+            AOTDImageDispMode.FIT_TO_PARENT,
+            840,
+            700
         )
         backgroundPanel.add(mirrorBackgroundImage)
 
-        // Compute the scroll bar's x and y position
-        val scrollBarX = mirrorBackgroundImage.getWidth() + SCROLL_BAR_HORIZONTAL_PADDING
-        val scrollBarY = 0
         // Create the scroll bar
         val scrollBar = AOTDGuiScrollBar(
-            scrollBarX,
-            scrollBarY,
-            GUI_WIDTH - mirrorBackgroundImage.getWidth() - SCROLL_BAR_HORIZONTAL_PADDING * 2,
-            GUI_HEIGHT,
+            mirrorBackgroundImage.width / 10,
+            height,
             "afraidofthedark:textures/gui/spell_list/scroll_bar.png",
             "afraidofthedark:textures/gui/spell_list/scroll_bar_handle.png",
             "afraidofthedark:textures/gui/spell_list/scroll_bar_handle_hovered.png"
         )
 
         // Create the scroll panel to add spells to, position it centered on the background image
-        scrollPanel = AOTDGuiScrollPanel(28, 8, 175, 238, true, scrollBar)
+        scrollPanel = AOTDGuiScrollPanel(175, 238, true, scrollBar)
         // Start with a max offset of 0
         scrollPanel.maximumOffset = 0
         // Add the panel the the background and the scroll bar
@@ -93,12 +86,10 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
 
         // Add a button to create a new spell, center it under the scrollPanel spell entries
         btnCreateSpell = AOTDGuiButton(
-            scrollPanel.getWidth() / 2 - 13,
-            0,
             26,
             26,
-            "afraidofthedark:textures/gui/spell_list/create_spell.png",
-            "afraidofthedark:textures/gui/spell_list/create_spell_hovered.png"
+            icon = AOTDGuiImage("afraidofthedark:textures/gui/spell_list/create_spell.png"),
+            iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/spell_list/create_spell_hovered.png")
         )
         btnCreateSpell.setHoverText("Create a new spell")
         btnCreateSpell.addMouseListener {
@@ -167,7 +158,7 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         // Add the gui spell to the list of spells for later use
         guiSpells.add(guiSpell)
         // Move our create spell button down
-        btnCreateSpell.setY(btnCreateSpell.getY() + DISTANCE_BETWEEN_SPELLS)
+        btnCreateSpell.y += DISTANCE_BETWEEN_SPELLS
         // Update our scroll panel offset
         refreshScrollPanelOffset()
     }
@@ -189,10 +180,10 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         // Go over all spells after this one and move them up one slot
         for (i in index until guiSpells.size) {
             val guiSpell = guiSpells[i]
-            guiSpell.setY(guiSpell.getY() - DISTANCE_BETWEEN_SPELLS)
+            guiSpell.y -= DISTANCE_BETWEEN_SPELLS
         }
         // Move our create spell button up
-        btnCreateSpell.setY(btnCreateSpell.getY() - DISTANCE_BETWEEN_SPELLS)
+        btnCreateSpell.y -= DISTANCE_BETWEEN_SPELLS
         // Update our scroll panel offset
         refreshScrollPanelOffset()
     }

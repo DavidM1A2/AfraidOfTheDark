@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiImage
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import com.mojang.blaze3d.platform.GlStateManager
@@ -20,12 +21,10 @@ import net.minecraft.util.ResourceLocation
  * @param research The research that this button represents
  */
 class AOTDGuiResearchNodeButton(x: Int, y: Int, val research: Research) : AOTDGuiButton(
-    x,
-    y,
     32,
     32,
-    "afraidofthedark:textures/gui/journal_tech_tree/research_background.png",
-    "afraidofthedark:textures/gui/journal_tech_tree/research_background_hovered.png"
+    icon = AOTDGuiImage("afraidofthedark:textures/gui/journal_tech_tree/research_background.png"),
+    iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/journal_tech_tree/research_background_hovered.png")
 ) {
     // The player's research for fast querying
     private val playerResearch = entityPlayer.getResearch()
@@ -49,28 +48,28 @@ class AOTDGuiResearchNodeButton(x: Int, y: Int, val research: Research) : AOTDGu
             // Draw the researches icon on the button
             Minecraft.getInstance().textureManager.bindTexture(this.research.icon)
             AbstractGui.blit(
-                this.getXScaled(),
-                this.getYScaled(),
+                x,
+                y,
                 0f,
                 0f,
-                this.getWidthScaled(),
-                this.getHeightScaled(),
-                this.getWidthScaled(),
-                this.getHeightScaled()
+                width,
+                height,
+                width,
+                height
             )
 
             // If the player has not researched the research then show the question mark over top
             if (!playerResearch.isResearched(this.research)) {
                 Minecraft.getInstance().textureManager.bindTexture(UNKNOWN_RESEARCH)
                 AbstractGui.blit(
-                    this.getXScaled(),
-                    this.getYScaled(),
+                    x,
+                    y,
                     0f,
                     0f,
-                    this.getWidthScaled(),
-                    this.getHeightScaled(),
-                    this.getWidthScaled(),
-                    this.getHeightScaled()
+                    width,
+                    height,
+                    width,
+                    height
                 )
             }
 

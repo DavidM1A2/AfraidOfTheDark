@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreenClickAndDragable
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiMeteorButton
@@ -31,30 +32,25 @@ class TelescopeScreen : AOTDScreenClickAndDragable(TranslationTextComponent("scr
         val yPosTelescope = (Constants.BASE_GUI_HEIGHT - GUI_SIZE) / 2
 
         // Create a panel that will hold all the UI contents
-        val telescope = AOTDGuiPanel(xPosTelescope, yPosTelescope, GUI_SIZE, GUI_SIZE, false)
+        val telescope = AOTDGuiPanel(GUI_SIZE, GUI_SIZE)
 
         // Create a frame that will be the edge of the telescope UI
-        val telescopeFrame = AOTDGuiImage(0, 0, GUI_SIZE, GUI_SIZE, "afraidofthedark:textures/gui/telescope/frame.png")
+        val telescopeFrame = AOTDGuiImage("afraidofthedark:textures/gui/telescope/frame.png", AOTDImageDispMode.FIT_TO_PARENT, 1024, 1024)
 
         // Create the panel to hold all the meteors, the size doesnt matter since it is just a base to hold all of our meteor buttons
-        telescopeMeteors = AOTDGuiPanel(0, 0, 1, 1, false)
+        telescopeMeteors = AOTDGuiPanel(1, 1)
 
         // Create a clipping panel to hold the meteors so they don't clip outside
         val telescopeMeteorClip =
-            AOTDGuiPanel(SIDE_BUFFER, SIDE_BUFFER, GUI_SIZE - SIDE_BUFFER * 2, GUI_SIZE - SIDE_BUFFER * 2, true)
+            AOTDGuiPanel(GUI_SIZE - SIDE_BUFFER * 2, GUI_SIZE - SIDE_BUFFER * 2, scissorEnabled = true)
 
         // Initialize the background star sky image and center the image
         telescopeImage = AOTDGuiImage(
-            0,
-            0,
-            GUI_SIZE - SIDE_BUFFER * 2,
-            GUI_SIZE - SIDE_BUFFER * 2,
             "afraidofthedark:textures/gui/telescope/background.png",
+            AOTDImageDispMode.FIT_TO_PARENT,
             3840,
             2160
         )
-        telescopeImage.u = guiOffsetX + (telescopeImage.getMaxTextureWidth() - telescopeImage.getWidth()) / 2
-        telescopeImage.v = guiOffsetY + (telescopeImage.getMaxTextureHeight() - telescopeImage.getHeight()) / 2
         // Click listener that gets called when we click a meteor button
         val meteorClickListener = { event: AOTDMouseEvent ->
             if (event.eventType == AOTDMouseEvent.EventType.Click) {
@@ -88,8 +84,6 @@ class TelescopeScreen : AOTDScreenClickAndDragable(TranslationTextComponent("scr
             for (i in 0 until numberOfMeteors) {
                 // Create the meteor button based on if astronomy 2 is researched or not
                 val meteorButton = AOTDGuiMeteorButton(
-                    random.nextInt(telescopeImage.getMaxTextureWidth()) - telescopeImage.getMaxTextureWidth() / 2,
-                    random.nextInt(telescopeImage.getMaxTextureHeight()) - telescopeImage.getMaxTextureHeight() / 2,
                     64,
                     64,
                     possibleMeteors[random.nextInt(possibleMeteors.size)]
@@ -109,36 +103,13 @@ class TelescopeScreen : AOTDScreenClickAndDragable(TranslationTextComponent("scr
     }
 
     /**
-     * Called when the mouse is dragged
-     *
-     * @param mouseX The x position of the mouse
-     * @param mouseY The y position of the mouse
-     * @param lastButtonClicked The mouse button that was dragged
-     * @param mouseXTo The position we are dragging the x from
-     * @param mouseYTo The position we are dragging the y from
-     */
-    override fun mouseDragged(mouseX: Double, mouseY: Double, lastButtonClicked: Int, mouseXTo: Double, mouseYTo: Double): Boolean {
-        // Call super first
-        val toReturn = super.mouseDragged(mouseX, mouseY, lastButtonClicked, mouseXTo, mouseYTo)
-
-        // Move the meteors based on the gui offset
-        telescopeMeteors.setX(-guiOffsetX + telescopeMeteors.parent!!.getX())
-        telescopeMeteors.setY(-guiOffsetY + telescopeMeteors.parent!!.getY())
-        // Update the background image's U/V
-        telescopeImage.u = guiOffsetX + (telescopeImage.getMaxTextureWidth() - telescopeImage.getWidth()) / 2
-        telescopeImage.v = guiOffsetY + (telescopeImage.getMaxTextureHeight() - telescopeImage.getHeight()) / 2
-
-        return toReturn
-    }
-
-    /**
      * We can use this to test if the gui has scrolled out of bounds or not
      */
     override fun checkOutOfBounds() {
         guiOffsetX =
-            guiOffsetX.coerceIn(-telescopeImage.getMaxTextureWidth() / 2, telescopeImage.getMaxTextureWidth() / 2)
+            guiOffsetX.coerceIn(-telescopeImage.width / 2, telescopeImage.width / 2)
         guiOffsetY =
-            guiOffsetY.coerceIn(-telescopeImage.getMaxTextureHeight() / 2, telescopeImage.getMaxTextureHeight() / 2)
+            guiOffsetY.coerceIn(-telescopeImage.height / 2, telescopeImage.height / 2)
     }
 
     /**

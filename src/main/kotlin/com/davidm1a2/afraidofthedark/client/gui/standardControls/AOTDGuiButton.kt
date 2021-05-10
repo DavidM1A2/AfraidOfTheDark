@@ -31,8 +31,8 @@ open class AOTDGuiButton(
         gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
         hoverTexts: Array<String> = emptyArray(),
         padding: AOTDGuiSpacing = AOTDGuiSpacing(),
-        private val icon: AOTDGuiImage,
-        private val iconHovered: AOTDGuiImage = icon,
+        private val icon: AOTDGuiImage?,
+        private val iconHovered: AOTDGuiImage? = icon,
         font: TrueTypeFont? = null) :
         AOTDGuiContainer(width, height, xOffset, yOffset, margins, gravity, hoverTexts, padding) {
 
@@ -40,8 +40,8 @@ open class AOTDGuiButton(
 
     init {
         // Add our images as child nodes
-        this.add(this.icon)
-        this.add(this.iconHovered)
+        this.icon?.let { this.add(it) }
+        this.iconHovered?.let { this.add(it) }
         // Create a label to cover the button
         if (font != null) {
             this.label = AOTDGuiLabel(width, height, font)
@@ -57,8 +57,8 @@ open class AOTDGuiButton(
     override fun draw() {
         if (this.isVisible) {
             super.draw()
-            iconHovered.isVisible = this.isHovered
-            icon.isVisible = this.isHovered.not()
+            iconHovered?.isVisible = this.isHovered
+            icon?.isVisible = this.isHovered.not()
         }
     }
 

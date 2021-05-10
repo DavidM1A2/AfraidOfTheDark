@@ -45,23 +45,23 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
     init {
         // Create the base panel to attach all of our components to
         // The scroll that contains either a list of components or a component editor
-        val scroll = AOTDGuiPanel(0, 0, width, height, false)
+        val scroll = AOTDGuiPanel(width, height)
 
         // Add the background scroll texture image
         val backgroundScroll =
-            AOTDGuiImage(0, 0, width - 20, height, "afraidofthedark:textures/gui/spell_editor/effect_list_scroll.png")
+            AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/effect_list_scroll.png")
         scroll.add(backgroundScroll)
 
         // Add a scroll bar to the right of the scroll
-        val componentScrollBar = AOTDGuiScrollBar(backgroundScroll.getWidth(), 50, 13, height - 100)
+        val componentScrollBar = AOTDGuiScrollBar(backgroundScroll.width, 50)
         scroll.add(componentScrollBar)
 
         // Add a scroll panel to the scroll
-        scrollPanel = AOTDGuiScrollPanel(40, 50, 120, 175, true, componentScrollBar)
+        scrollPanel = AOTDGuiScrollPanel(120, 175, true, componentScrollBar)
         scroll.add(scrollPanel)
 
         // Create a base panel for all components
-        this.componentScrollPanel = AOTDGuiPanel(0, 0, 120, 175, false)
+        this.componentScrollPanel = AOTDGuiPanel(120, 175)
 
         // The current component index we're adding to the scroll
         val componentsPerLine = 5
@@ -70,8 +70,6 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
         // Create the power source label
         val powerSourceHeading =
             AOTDGuiLabel(
-                5 + 24 * (currentComponent % 5),
-                5 + 24 * (currentComponent / 5),
                 120,
                 20,
                 ClientData.getOrCreate(46f)
@@ -79,7 +77,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
         powerSourceHeading.textColor = Color(140, 35, 206)
         powerSourceHeading.text = "Power Sources"
         this.componentScrollPanel.add(powerSourceHeading)
-        currentComponent = currentComponent + componentsPerLine
+        currentComponent += componentsPerLine
 
         // Listener to be used by all of our spell components
         val componentClickListener: ((AOTDMouseEvent) -> Unit) =
@@ -95,11 +93,11 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
         // Go over all power sources and add a slot for each
         for (powerSourceEntry in ModRegistries.SPELL_POWER_SOURCES) {
             val powerSource =
-                AOTDGuiSpellPowerSourceSlot(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 20, 20)
+                AOTDGuiSpellPowerSourceSlot(20, 20)
             powerSource.setSpellComponent(SpellPowerSourceInstance(powerSourceEntry).apply { setDefaults() })
             powerSource.addMouseListener(componentClickListener)
             this.componentScrollPanel.add(powerSource)
-            currentComponent = currentComponent + 1
+            currentComponent += 1
         }
 
         // Round the current component to a multiple of COMPONENTS_PER_LINE
@@ -107,8 +105,6 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
 
         // Create the effect label
         val effectHeading = AOTDGuiLabel(
-            5 + 24 * (currentComponent % 5),
-            5 + 24 * (currentComponent / 5),
             120,
             20,
             ClientData.getOrCreate(46f)
@@ -116,16 +112,16 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
         effectHeading.textColor = Color(140, 35, 206)
         effectHeading.text = "Effects"
         this.componentScrollPanel.add(effectHeading)
-        currentComponent = currentComponent + componentsPerLine
+        currentComponent += componentsPerLine
 
         // Go over all effects and add a slot for each
         for (effectEntry in ModRegistries.SPELL_EFFECTS) {
             val effect =
-                AOTDGuiSpellEffectSlot(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 20, 20)
+                AOTDGuiSpellEffectSlot(20, 20)
             effect.setSpellComponent(SpellEffectInstance(effectEntry).apply { setDefaults() })
             effect.addMouseListener(componentClickListener)
             this.componentScrollPanel.add(effect)
-            currentComponent = currentComponent + 1
+            currentComponent += 1
         }
 
         // Round the current component to a multiple of COMPONENTS_PER_LINE
@@ -134,8 +130,6 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
         // Create the delivery method label
         val deliveryMethodHeading =
             AOTDGuiLabel(
-                5 + 24 * (currentComponent % 5),
-                5 + 24 * (currentComponent / 5),
                 120,
                 20,
                 ClientData.getOrCreate(46f)
@@ -143,16 +137,16 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
         deliveryMethodHeading.textColor = Color(140, 35, 206)
         deliveryMethodHeading.text = "Delivery Methods"
         this.componentScrollPanel.add(deliveryMethodHeading)
-        currentComponent = currentComponent + componentsPerLine
+        currentComponent += componentsPerLine
 
         // Go over all delivery methods and add a slot for each
         for (deliveryMethodEntry in ModRegistries.SPELL_DELIVERY_METHODS) {
             val deliveryMethod =
-                AOTDGuiSpellDeliveryMethodSlot(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 20, 20)
+                AOTDGuiSpellDeliveryMethodSlot(20, 20)
             deliveryMethod.setSpellComponent(SpellDeliveryMethodInstance(deliveryMethodEntry).apply { setDefaults() })
             deliveryMethod.addMouseListener(componentClickListener)
             this.componentScrollPanel.add(deliveryMethod)
-            currentComponent = currentComponent + 1
+            currentComponent += 1
         }
 
         // Update the scroll offset accordingly
@@ -193,7 +187,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             this.scrollPanel.maximumOffset = this.componentScrollPanelOffset
         } else {
             // Create a panel to hold all of our controls
-            val editPanel = AOTDGuiPanel(0, 0, 120, 175, false)
+            val editPanel = AOTDGuiPanel(120, 175)
             // Start at y=0, or the "top" of the scroll
             var currentY = 0
 
@@ -201,48 +195,48 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             val purpleText = Color(140, 35, 206)
 
             // Create a heading label to indicate what is currently being edited
-            val heading = AOTDGuiLabel(0, currentY, 120, 30, ClientData.getOrCreate(32f))
+            val heading = AOTDGuiLabel(120, 30, ClientData.getOrCreate(32f))
             heading.textColor = purpleText
             // This cast is required even though IntelliJ doesn't agree
             @Suppress("USELESS_CAST")
             val spellComponent = componentInstance.component as SpellComponent<*>
             heading.text = "${I18n.format(spellComponent.getUnlocalizedName())} Properties"
             editPanel.add(heading)
-            currentY = currentY + heading.getHeight()
+            currentY += heading.height
 
             // Grab a list of editable properties
             val editableProperties = spellComponent.getEditableProperties()
 
             // If there are no editable properties say so with a text box
             if (editableProperties.isEmpty()) {
-                val noPropsLine = AOTDGuiTextBox(0, currentY, 120, 30, ClientData.getOrCreate(26f))
+                val noPropsLine = AOTDGuiTextBox(120, 30, ClientData.getOrCreate(26f))
                 noPropsLine.textColor = purpleText
                 noPropsLine.setText("This component has no editable properties.")
                 editPanel.add(noPropsLine)
-                currentY = currentY + noPropsLine.getHeight()
+                currentY += noPropsLine.height
             } else {
                 // Go over each editable property and add an editor for it
                 for (editableProp in editableProperties) {
                     // Create a label that states the name of the property
-                    val propertyName = AOTDGuiLabel(0, currentY, 120, 15, ClientData.getOrCreate(26f))
+                    val propertyName = AOTDGuiLabel(120, 15, ClientData.getOrCreate(26f))
                     propertyName.textColor = purpleText
                     propertyName.text = "Name: ${editableProp.name}"
                     editPanel.add(propertyName)
-                    currentY = currentY + propertyName.getHeight()
+                    currentY += propertyName.height
 
                     // Create a text box that shows the description of the property
-                    val propertyDescription = AOTDGuiTextBox(0, currentY, 120, 12, ClientData.getOrCreate(26f))
+                    val propertyDescription = AOTDGuiTextBox(120, 12, ClientData.getOrCreate(26f))
                     propertyDescription.textColor = purpleText
                     propertyDescription.setText("Description: ${editableProp.description}")
 
                     // While we don't have enough room for the description increase the size by a constant
                     while (propertyDescription.overflowText.isNotEmpty()) {
-                        propertyDescription.setHeight(propertyDescription.getHeight() + 12)
+                        propertyDescription.height + 12
                         propertyDescription.setText("Description: ${editableProp.description}")
                     }
 
                     editPanel.add(propertyDescription)
-                    currentY = currentY + propertyDescription.getHeight()
+                    currentY += propertyDescription.height
 
                     // Create a text field that edits the property value
                     val propertyEditor = AOTDGuiTextField(0, currentY, 120, 30, ClientData.getOrCreate(26f))
@@ -252,7 +246,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
 
                     // Store the editor off for later use
                     this.currentPropEditors.add(Pair.of(editableProp, propertyEditor))
-                    currentY = currentY + propertyEditor.getHeight()
+                    currentY += propertyEditor.height
                 }
             }
 
@@ -260,13 +254,11 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             if (editableProperties.isNotEmpty()) {
                 // Add a save button at the bottom if we have any editable properties
                 val save = AOTDGuiButton(
-                    0,
-                    currentY + 5,
                     50,
                     20,
-                    "afraidofthedark:textures/gui/spell_editor/button.png",
-                    "afraidofthedark:textures/gui/spell_editor/button_hovered.png",
-                    ClientData.getOrCreate(32f)
+                    icon = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/button.png"),
+                    iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/button_hovered.png"),
+                    font = ClientData.getOrCreate(32f)
                 )
                 save.setTextAlignment(TextAlignment.ALIGN_CENTER)
                 save.setText("Save")
@@ -315,15 +307,13 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             }
 
             // Add a cancel button at the bottom. Center it if we have no edit properties (and no save button!)
-            val cancelX = if (editableProperties.isEmpty()) editPanel.getWidth() / 2 - 25 else editPanel.getWidth() - 50
+            val cancelX = if (editableProperties.isEmpty()) editPanel.width / 2 - 25 else editPanel.width - 50
             val cancel = AOTDGuiButton(
-                cancelX,
-                currentY + 5,
                 50,
                 20,
-                "afraidofthedark:textures/gui/spell_editor/button.png",
-                "afraidofthedark:textures/gui/spell_editor/button_hovered.png",
-                ClientData.getOrCreate(32f)
+                icon = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/button.png"),
+                iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/button_hovered.png"),
+                font = ClientData.getOrCreate(32f)
             )
             cancel.setTextAlignment(TextAlignment.ALIGN_CENTER)
             cancel.setText(if (editableProperties.isEmpty()) "Close" else "Cancel")
@@ -344,14 +334,14 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                 }
             }
             editPanel.add(cancel)
-            currentY = currentY + cancel.getHeight() + 5
+            currentY += cancel.height + 5
 
             // Remove all nodes from the scroll panel
             this.scrollPanel.getChildren().forEach { this.scrollPanel.remove(it) }
             // Add in the edit panel
             this.scrollPanel.add(editPanel)
             // Update the scroll offset
-            this.scrollPanel.maximumOffset = max(0, currentY - editPanel.getHeight())
+            this.scrollPanel.maximumOffset = max(0, currentY - editPanel.height)
         }
     }
 

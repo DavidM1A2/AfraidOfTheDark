@@ -12,10 +12,8 @@ import net.minecraft.client.resources.I18n
  * @param width            The width of the component
  * @param height           The height of the component
  */
-class AOTDGuiSpellPowerSourceSlot(x: Int, y: Int, width: Int, height: Int) :
+class AOTDGuiSpellPowerSourceSlot(width: Int, height: Int) :
     AOTDGuiSpellComponentSlot<SpellPowerSource>(
-        x,
-        y,
         width,
         height,
         "afraidofthedark:textures/gui/spell_editor/power_source_holder.png"

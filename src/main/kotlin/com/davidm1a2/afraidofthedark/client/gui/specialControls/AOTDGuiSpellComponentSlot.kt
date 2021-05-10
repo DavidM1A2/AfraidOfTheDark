@@ -18,28 +18,26 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
  * @property componentInstance The instance of this spell component
  */
 abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
-    x: Int,
-    y: Int,
     width: Int,
     height: Int,
     slotBackground: String
-) : AOTDGuiContainer(x, y, width, height) {
+) : AOTDGuiContainer(width, height) {
     private val icon: AOTDGuiImage
     private val highlight: AOTDGuiImage
     private var componentInstance: SpellComponentInstance<T>? = null
 
     init {
         // The background image of the spell slot
-        val background = AOTDGuiImage(0, 0, width, height, slotBackground)
+        val background = AOTDGuiImage(slotBackground)
         this.add(background)
 
         // Add a highlight effect image over the background
-        this.highlight = AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spell_editor/highlight.png")
+        this.highlight = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/highlight.png")
         this.highlight.isVisible = false
         this.add(highlight)
 
         // Set the icon to be blank
-        this.icon = AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spell_editor/blank_slot.png")
+        this.icon = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/blank_slot.png")
         this.icon.isVisible = false
         this.add(icon)
     }

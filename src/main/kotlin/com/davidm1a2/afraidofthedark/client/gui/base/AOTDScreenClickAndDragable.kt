@@ -55,6 +55,8 @@ abstract class AOTDScreenClickAndDragable(name: ITextComponent) : AOTDScreen(nam
         if (lastButtonClicked == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
             this.guiOffsetX = this.originalXPosition - mouseX.roundToInt()
             this.guiOffsetY = this.originalYPosition - mouseY.roundToInt()
+            this.contentPane.xOffset += guiOffsetX
+            this.contentPane.yOffset += guiOffsetY
 
             this.checkOutOfBounds()
         }

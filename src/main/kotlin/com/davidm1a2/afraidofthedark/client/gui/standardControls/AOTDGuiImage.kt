@@ -26,10 +26,12 @@ import kotlin.math.roundToInt
  */
 class AOTDGuiImage(
         var imageTexture: ResourceLocation,
-        var displayMode: AOTDImageDispMode,
+        var displayMode: AOTDImageDispMode = AOTDImageDispMode.STRETCH,
         private var textureWidth: Int = -1,
         private var textureHeight: Int = -1) :
         AOTDGuiContainer(0, 0) {
+
+    constructor(imageTexture: String, displayMode: AOTDImageDispMode = AOTDImageDispMode.STRETCH, textureHeight: Int = -1, textureWidth: Int = -1): this(ResourceLocation(imageTexture), displayMode, textureHeight, textureWidth)
 
     var u = 0.0f
     var v = 0.0f
@@ -55,7 +57,7 @@ class AOTDGuiImage(
             if (textureHeight == -1 || textureWidth == -1) {
                 AbstractGui.blit(x, y, u, v, width, height, width, height)
             } else {
-                AbstractGui.blit(x, y, u, v, width, height, textureWidth, textureHeight)
+                AbstractGui.blit(x, y, u, v, textureWidth, textureHeight, width, height)
             }
             GlStateManager.popMatrix()
 

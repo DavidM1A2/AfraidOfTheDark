@@ -21,8 +21,8 @@ import kotlin.math.min
  * @property guiItemStacks The item stacks to draw
  * @property output The itemstack that gets created
  */
-class AOTDGuiRecipe(width: Int, height: Int = width/367*267, recipe: IRecipe<*>? = null) :
-    AOTDGuiContainer(width, height) {
+class AOTDGuiRecipe(width: Int, height: Int = width/367*267, xOffset: Int, yOffset: Int, recipe: IRecipe<*>? = null) :
+    AOTDGuiContainer(width, height, xOffset, yOffset) {
     private val craftingGrid: AOTDGuiImage = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/crafting_grid.png"), AOTDImageDispMode.STRETCH, 367, 267)
     private val guiItemStacks: Array<AOTDGuiItemStack>
     private val output: AOTDGuiItemStack

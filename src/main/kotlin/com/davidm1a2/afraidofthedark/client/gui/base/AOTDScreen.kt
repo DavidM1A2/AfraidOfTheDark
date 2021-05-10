@@ -32,7 +32,7 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
     val entityPlayer: ClientPlayerEntity
         get() = Minecraft.getInstance().player
 
-    val contentPane = AOTDGuiPanel(this.width, this.height, scissorEnabled = false)
+    val contentPane = AOTDGuiPanel(AOTDGuiUtility.getWindowWidthInMCCoords(), AOTDGuiUtility.getWindowHeightInMCCoords())
     private val spriteSheetControllers = mutableListOf<SpriteSheetController>()
     private var prevMouseX = 0
     private var prevMouseY = 0
@@ -66,6 +66,8 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
         this.contentPane.draw()
         // Draw the overlay on top of the content pane
         this.contentPane.drawOverlay()
+        // Force pane to fit to the screen
+        this.contentPane.negotiateDimensions(width, height)
         // Call the super method
         super.render(mouseX, mouseY, partialTicks)
         // Disable blend now that we drew the UI

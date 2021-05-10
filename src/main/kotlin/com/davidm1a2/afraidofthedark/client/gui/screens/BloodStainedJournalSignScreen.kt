@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
@@ -16,6 +17,7 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.item.JournalItem
+import net.minecraft.util.ResourceLocation
 import net.minecraft.util.SoundEvents
 import net.minecraft.util.text.TranslationTextComponent
 import java.awt.Color
@@ -34,21 +36,18 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
 
         // Setup the background panel that holds all of our controls
         val backgroundPanel = AOTDGuiPanel(
-            (Constants.BASE_GUI_WIDTH - guiSize) / 2,
-            (Constants.BASE_GUI_HEIGHT - guiSize) / 2,
             guiSize,
             guiSize,
-            false
+            scissorEnabled = false
         )
 
         // Add a background image to the background panel
         val backgroundImageSize = 220
         val backgroundImage = AOTDGuiImage(
-            (guiSize - backgroundImageSize) / 2,
-            0,
+            ResourceLocation("afraidofthedark:textures/gui/journal_sign/blood_stained_journal.png"),
+            AOTDImageDispMode.FIT_TO_PARENT,
             backgroundImageSize,
-            backgroundImageSize,
-            "afraidofthedark:textures/gui/journal_sign/blood_stained_journal.png"
+            backgroundImageSize
         )
         backgroundPanel.add(backgroundImage)
 
@@ -66,13 +65,11 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
         val signButtonWidth = 100
         val signButtonHeight = 25
         val signButton = AOTDGuiButton(
-            guiSize / 2 - signButtonWidth / 2,
-            guiSize - 30,
             signButtonWidth,
             signButtonHeight,
-            "afraidofthedark:textures/gui/journal_sign/sign_button.png",
-            "afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png",
-            ClientData.getOrCreate(55f)
+            icon = AOTDGuiImage("afraidofthedark:textures/gui/journal_sign/sign_button.png"),
+            iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png"),
+            font = ClientData.getOrCreate(55f)
         )
         signButton.setText("Sign")
         signButton.setTextColor(Color(255, 0, 0))

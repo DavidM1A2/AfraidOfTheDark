@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
@@ -38,18 +39,16 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
     init {
         // The background image to hold all the buttons
         val background =
-            AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spell_list/spell_background.png")
+            AOTDGuiImage("afraidofthedark:textures/gui/spell_list/spell_background.png", AOTDImageDispMode.FIT_TO_PARENT, width, height)
         this.add(background)
 
         // The container for spell name
-        val spellNameContainer = AOTDGuiPanel(10, 3, width - 20, 15, false)
+        val spellNameContainer = AOTDGuiPanel(width - 20, 15)
 
         // The label holding the actual spell name
         val lblSpellName = AOTDGuiLabel(
-            0,
-            0,
-            spellNameContainer.getWidth(),
-            spellNameContainer.getHeight(),
+            spellNameContainer.width,
+            spellNameContainer.height,
             ClientData.getOrCreate(36f)
         )
         // Set the name label's name and color
@@ -86,12 +85,10 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
         // Create a button to edit the spell
         val btnEdit =
             AOTDGuiButton(
-                5,
-                22,
                 24,
                 13,
-                "afraidofthedark:textures/gui/spell_list/spell_edit.png",
-                "afraidofthedark:textures/gui/spell_list/spell_edit_hovered.png"
+                icon = AOTDGuiImage("afraidofthedark:textures/gui/spell_list/spell_edit.png"),
+                iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/spell_list/spell_edit_hovered.png")
             )
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)
@@ -108,15 +105,14 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
 
         // Create a button to delete a spell
         val btnDelete = AOTDGuiButton(
-            width - 5 - 24,
-            22,
             24,
             13,
-            "afraidofthedark:textures/gui/spell_list/spell_delete.png",
-            "afraidofthedark:textures/gui/spell_list/spell_delete_hovered.png"
+            icon = AOTDGuiImage("afraidofthedark:textures/gui/spell_list/spell_delete.png"),
+            iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/spell_list/spell_delete_hovered.png")
         )
-        btnEdit.addMouseListener(clickSound)
-        btnEdit.addMouseMoveListener(hoverSound)
+        btnDelete.addMouseListener(clickSound)
+        btnDelete.addMouseMoveListener(hoverSound)
+        btnDelete.hoverTexts = arrayOf("Delete Spell", "This cannot be undone")
         btnDelete.addMouseListener {
             if (it.eventType == AOTDMouseEvent.EventType.Click) {
                 if (it.source.isHovered && it.source.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
@@ -124,11 +120,10 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
                 }
             }
         }
-        btnDelete.hoverTexts = arrayOf("Delete Spell", "This cannot be undone")
         this.add(btnDelete)
 
         // Create a button to keybind this spell
-        lblKeybind = AOTDGuiLabel(37, 20, 100, 13, ClientData.getOrCreate(30f))
+        lblKeybind = AOTDGuiLabel(100, 13, ClientData.getOrCreate(30f))
         lblKeybind.textAlignment = TextAlignment.ALIGN_CENTER
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)

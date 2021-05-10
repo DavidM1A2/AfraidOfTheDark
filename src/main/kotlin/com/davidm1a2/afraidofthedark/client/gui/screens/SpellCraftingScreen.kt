@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
@@ -53,16 +54,16 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
         contentPane.add(tablet)
 
         // Setup the selected component hover under the mouse cursor using image component
-        selectedCursorIcon = AOTDGuiImage(0, 0, 20, 20, "afraidofthedark:textures/gui/spell_editor/blank_slot.png")
+        selectedCursorIcon = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/blank_slot.png", AOTDImageDispMode.STRETCH, 20, 20)
         selectedCursorIcon.addMouseMoveListener {
             if (it.eventType == AOTDMouseMoveEvent.EventType.Move) {
                 // If we have nothing selected put the component off in the middle of nowhere
                 if (selectedComponent == null) {
-                    selectedCursorIcon.setX(-20)
-                    selectedCursorIcon.setY(-20)
+                    selectedCursorIcon.x = -20
+                    selectedCursorIcon.y = -20
                 } else {
-                    selectedCursorIcon.setX((it.mouseX / tablet.scaleX).toInt() - selectedCursorIcon.getWidthScaled() / 2)
-                    selectedCursorIcon.setY((it.mouseY / tablet.scaleY).toInt() - selectedCursorIcon.getHeightScaled() / 2)
+                    selectedCursorIcon.x = ((it.mouseX) - selectedCursorIcon.width / 2)
+                    selectedCursorIcon.y = ((it.mouseY) - selectedCursorIcon.height / 2)
                 }
             }
         }
@@ -87,11 +88,10 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
 
         // Create a help overlay that comes up when you press the ? button
         val helpOverlay = AOTDGuiImage(
-            0,
-            0,
-            Constants.BASE_GUI_WIDTH,
-            Constants.BASE_GUI_HEIGHT,
-            "afraidofthedark:textures/gui/spell_editor/help_screen.png"
+            "afraidofthedark:textures/gui/spell_editor/help_screen.png",
+            AOTDImageDispMode.FIT_TO_PARENT,
+            1920,
+            1080
         )
         helpOverlay.isVisible = false
         // When pressing any key hide the overlay

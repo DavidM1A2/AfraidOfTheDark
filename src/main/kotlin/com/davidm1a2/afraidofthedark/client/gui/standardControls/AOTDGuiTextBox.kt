@@ -20,8 +20,8 @@ import kotlin.math.floor
  * @property textColor The color to draw the text with
  * @property overflowText The overflow text that doesn't fit inside this text box
  */
-class AOTDGuiTextBox(x: Int, y: Int, width: Int, height: Int, private val font: TrueTypeFont) :
-    AOTDGuiContainer(x, y, width, height) {
+class AOTDGuiTextBox(width: Int, height: Int, private val font: TrueTypeFont) :
+    AOTDGuiContainer(width, height) {
     private var textLines = mutableListOf<String>()
     var textColor = Color(255, 255, 255, 255)
     var overflowText = ""

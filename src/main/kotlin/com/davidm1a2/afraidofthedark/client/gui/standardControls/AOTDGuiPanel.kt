@@ -26,7 +26,7 @@ open class AOTDGuiPanel(
         gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
         hoverTexts: Array<String> = emptyArray(),
         padding: AOTDGuiSpacing = AOTDGuiSpacing(),
-        private val scissorEnabled: Boolean) :
+        private val scissorEnabled: Boolean = false) :
         AOTDGuiContainer(width, height, xOffset, yOffset, margins, gravity, hoverTexts, padding) {
 
     /**

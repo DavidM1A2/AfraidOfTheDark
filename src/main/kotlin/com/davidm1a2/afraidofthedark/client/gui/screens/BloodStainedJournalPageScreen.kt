@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
-import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
@@ -12,6 +11,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import net.minecraft.client.Minecraft
 import net.minecraft.item.Item
 import net.minecraft.item.crafting.IRecipe
+import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
 import org.lwjgl.glfw.GLFW
 import java.awt.Color
@@ -40,9 +40,9 @@ import java.awt.Color
  */
 class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItemRecipes: List<Item>) :
     AOTDScreen(TranslationTextComponent("screen.afraidofthedark.blood_stained_journal_page")) {
-    private val completeText: String
+    private val completeText: String = text
     private val textOnEachPage: MutableList<String> = mutableListOf()
-    private val researchRecipes: List<IRecipe<*>>
+    private val researchRecipes: List<IRecipe<*>> = entityPlayer.world.recipeManager.recipes.filter { relatedItemRecipes.contains(it.recipeOutput.item) }
     private val leftPage: AOTDGuiTextBox
     private val rightPage: AOTDGuiTextBox
     private val forwardButton: AOTDGuiButton
@@ -56,26 +56,11 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
     private var pageNumber = 0
 
     init {
-        // Get a list of recipes for each item
-        researchRecipes = entityPlayer.world.recipeManager.recipes.filter { relatedItemRecipes.contains(it.recipeOutput.item) }
-
-        // Store the raw text of the research
-        completeText = text
-
-        // Set the width and height of the journal
-        val journalWidth = 256
-        val journalHeight = 256
-
-        // Calculate the x and y corner positions of the page
-        val xCornerOfPage = (Constants.BASE_GUI_WIDTH - journalWidth) / 2
-        val yCornerOfPage = (Constants.BASE_GUI_HEIGHT - journalHeight) / 2
-
         // Create a panel to contain everything
-        val journalBackground = AOTDGuiPanel(xCornerOfPage, yCornerOfPage, journalWidth, journalHeight, false)
+        val journalBackground = AOTDGuiPanel(width, height, gravity = AOTDGuiGravity.CENTER, padding = AOTDGuiSpacing(50))
 
         // Create a page image to be used as the background
-        val pageBackgroundImage =
-            AOTDGuiImage(0, 0, journalWidth, journalHeight, "afraidofthedark:textures/gui/journal_page/background.png")
+        val pageBackgroundImage = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/background.png"), AOTDImageDispMode.FIT_TO_PARENT, 990, 843)
         journalBackground.add(pageBackgroundImage)
 
         // Create red colors for text
@@ -83,20 +68,15 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         val titleColor = Color(200, 0, 0)
 
         // Create a title label to contain the research name
-        val titleLabel = AOTDGuiLabel(
-            xCornerOfPage,
-            yCornerOfPage - 25,
-            journalWidth, 25,
-            ClientData.getOrCreate(50f)
-        )
+        val titleLabel = AOTDGuiLabel(width, 50, ClientData.getOrCreate(50f), AOTDGuiGravity.TOP_CENTER)
         titleLabel.text = titleText
         titleLabel.textColor = titleColor
         titleLabel.textAlignment = TextAlignment.ALIGN_CENTER
         contentPane.add(titleLabel)
 
         // Create two page numbers, one for the left page and one for the right page
-        leftPageNumber = AOTDGuiLabel(15, 12, 15, 15, ClientData.getOrCreate(32f))
-        rightPageNumber = AOTDGuiLabel(journalWidth - 27, 12, 15, 15, ClientData.getOrCreate(32f))
+        leftPageNumber = AOTDGuiLabel(15, 15, ClientData.getOrCreate(32f), AOTDGuiGravity.TOP_LEFT)
+        rightPageNumber = AOTDGuiLabel(15, 15, ClientData.getOrCreate(32f), AOTDGuiGravity.TOP_RIGHT)
         // Align the right page number right so that it fits into the corner
         rightPageNumber.textAlignment = TextAlignment.ALIGN_RIGHT
         // Start the page numbers at 1 and 2
@@ -110,8 +90,8 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         journalBackground.add(rightPageNumber)
 
         // Create two pages, one for the left page text and one for the right page text
-        leftPage = AOTDGuiTextBox(15, 30, journalWidth / 2 - 20, journalHeight - 70, ClientData.getOrCreate(32f))
-        rightPage = AOTDGuiTextBox(135, 30, journalWidth / 2 - 20, journalHeight - 70, ClientData.getOrCreate(32f))
+        leftPage = AOTDGuiTextBox((width - journalBackground.padding.horizPx) / 2, height - journalBackground.padding.vertPx, ClientData.getOrCreate(32f))
+        rightPage = AOTDGuiTextBox((width - journalBackground.padding.horizPx) / 2, height - journalBackground.padding.vertPx, ClientData.getOrCreate(32f))
         // Set the text on both pages to red
         leftPage.textColor = textColor
         rightPage.textColor = textColor
@@ -121,12 +101,14 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
 
         // The bookmark button returns the user to the research screen
         // The bookmark button to go back
+        val bookmarkIcon = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/slot_highlight.png"), AOTDImageDispMode.FIT_TO_PARENT, 32, 32)
         val bookmarkButton = AOTDGuiButton(
-            journalWidth / 2 - 16,
-            journalHeight - 28,
             15,
             30,
-            "afraidofthedark:textures/gui/journal_page/slot_highlight.png"
+            width / 2 - 16,
+            height - 28,
+            icon = null,
+            iconHovered = bookmarkIcon
         )
         // Hide the button to start
         bookmarkButton.isVisible = false
@@ -151,31 +133,31 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         journalBackground.add(bookmarkButton)
 
         // Initialize 4 recipes, two for the left page and two for the right page
-        topLeftRecipe = AOTDGuiRecipe(10, 38, 110, 90)
+        topLeftRecipe = AOTDGuiRecipe(110, xOffset = 10, yOffset = 38)
         journalBackground.add(topLeftRecipe)
-        bottomLeftRecipe = AOTDGuiRecipe(10, 130, 110, 90)
+        bottomLeftRecipe = AOTDGuiRecipe(110, xOffset = 10, yOffset = 130)
         journalBackground.add(bottomLeftRecipe)
-        topRightRecipe = AOTDGuiRecipe(130, 38, 110, 90)
+        topRightRecipe = AOTDGuiRecipe(110, xOffset = 130, yOffset = 38)
         journalBackground.add(topRightRecipe)
-        bottomRightRecipe = AOTDGuiRecipe(130, 130, 110, 90)
+        bottomRightRecipe = AOTDGuiRecipe(110, xOffset = 130, yOffset = 130)
         journalBackground.add(bottomRightRecipe)
 
         // Create the forward and backward button to advance and rewind pages
         forwardButton = AOTDGuiButton(
-            journalWidth - 23,
-            journalHeight - 40,
             16,
             16,
-            "afraidofthedark:textures/gui/journal_page/forward_button.png",
-            "afraidofthedark:textures/gui/journal_page/forward_button_hovered.png"
+            width - 23,
+            height - 40,
+            icon = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/forward_button.png")),
+            iconHovered = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/forward_button_hovered.png"))
         )
         backwardButton = AOTDGuiButton(
+            16,
+            16,
             10,
-            journalHeight - 40,
-            16,
-            16,
-            "afraidofthedark:textures/gui/journal_page/backward_button.png",
-            "afraidofthedark:textures/gui/journal_page/backward_button_hovered.png"
+            height - 40,
+            icon = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/backward_button.png")),
+            iconHovered = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/backward_button_hovered.png"))
         )
         // Upon clicking forward then advance the page, if we hover the button darken the color, if we don't hover the button brighten the color
         forwardButton.addMouseListener {
@@ -233,7 +215,7 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         // Ensure we can advance the page
         if (this.hasPageForward()) {
             // Advance the page number
-            pageNumber = pageNumber + 2
+            pageNumber += 2
             // Play the turn sound
             entityPlayer.playSound(ModSounds.PAGE_TURN, 1.0f, 1.0f)
             // Update the page content
@@ -248,7 +230,7 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         // Ensure we can rewind the page
         if (this.hasPageBackward()) {
             // Rewind the page number
-            pageNumber = pageNumber - 2
+            pageNumber -= 2
             // Play the turn sound
             entityPlayer.playSound(ModSounds.PAGE_TURN, 1.0f, 1.0f)
             // Update the page content
@@ -293,7 +275,7 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
             leftPage.setText(textOnEachPage[pageNumber])
             topLeftRecipe.setRecipe(null)
             bottomLeftRecipe.setRecipe(null)
-            adjustedIndexForRecipe = adjustedIndexForRecipe + 2
+            adjustedIndexForRecipe += 2
         } else {
             leftPage.setText("")
             // If we have another recipe load it into the top left box, otherwise clear it

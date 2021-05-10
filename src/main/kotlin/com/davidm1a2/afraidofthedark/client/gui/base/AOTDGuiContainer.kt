@@ -40,24 +40,6 @@ abstract class AOTDGuiContainer(
             this.subComponents.forEach { subContainer -> subContainer.isVisible = isVisible }
         }
 
-    override var x = super.x
-        set(x) { field = x; calcChildrenBounds() }
-
-    override var y = super.y
-        set(y) { field = y; calcChildrenBounds() }
-
-    override var xOffset = super.xOffset
-        set(xOffset) { field = xOffset; calcChildrenBounds() }
-
-    override var yOffset = super.yOffset
-        set(yOffset) { field = yOffset; calcChildrenBounds() }
-
-    override var width = super.width
-        set(width) { field = width; calcChildrenBounds() }
-
-    override var height = super.height
-        set(height) { field = height; calcChildrenBounds() }
-
     /**
      * Adds a given gui component to the container, and position it accordingly
      *
@@ -66,10 +48,10 @@ abstract class AOTDGuiContainer(
     fun add(container: AOTDGuiContainer) {
         // Set the container's parent
         container.parent = this
-        // Calculate all children's positions and dimensions
-        calcChildrenBounds()
         // Add the sub-component
         this.subComponents.add(container)
+        // Calculate all children's positions and dimensions
+        calcChildrenBounds()
     }
 
     /**
@@ -94,9 +76,7 @@ abstract class AOTDGuiContainer(
      */
     private fun calcChildrenBounds() {
         for (child in subComponents) {
-            val internalWidth = this.width - padding.horizPx
-            val internalHeight = this.height - padding.vertPx
-            child.negotiateDimensions(internalWidth, internalHeight)
+            // Set position
             val calculatedXOffset = when (child.gravity) {
                 AOTDGuiGravity.TOP_LEFT, AOTDGuiGravity.CENTER_LEFT, AOTDGuiGravity.BOTTOM_LEFT -> padding.leftPx
                 AOTDGuiGravity.TOP_CENTER, AOTDGuiGravity.CENTER, AOTDGuiGravity.BOTTOM_CENTER -> this.width/2 - child.width/2
@@ -109,8 +89,20 @@ abstract class AOTDGuiContainer(
             }
             child.x = this.x + this.xOffset + calculatedXOffset + child.xOffset
             child.y = this.y + this.yOffset + calculatedYOffset + child.yOffset
-            // Do not need to call calcChildrenBounds recursively; The setter will do that for us
+            // Set dimensions
+            val internalWidth = this.width - padding.horizPx
+            val internalHeight = this.height - padding.vertPx
+            child.negotiateDimensions(internalWidth, internalHeight)
         }
+    }
+
+    /**
+     * Adjust this component to fit into the given space
+     */
+    override fun negotiateDimensions(width: Int, height: Int) {
+        this.width = width
+        this.height = height
+        calcChildrenBounds()
     }
 
     /**
