@@ -79,6 +79,7 @@ class BoundingBoxTree : INBTSerializable<ListNBT> {
     }
 
     override fun deserializeNBT(nbt: ListNBT) {
+        root = null
         for (i in 0..nbt.size step 6) {
             insert(
                 MutableBoundingBox(

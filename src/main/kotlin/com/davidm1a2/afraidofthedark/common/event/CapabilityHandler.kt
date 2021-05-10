@@ -32,6 +32,10 @@ class CapabilityHandler {
                 ResourceLocation(Constants.MOD_ID, "spell_states"),
                 CapabilityProvider(ModCapabilities.WORLD_SPELL_STATES)
             )
+            event.addCapability(
+                ResourceLocation(Constants.MOD_ID, "structure_collision_map"),
+                CapabilityProvider(ModCapabilities.WORLD_STRUCTURE_COLLISION_MAP)
+            )
 
             if (DIMENSIONS_WITH_ISLAND_VISITORS.contains(world.dimension.type)) {
                 event.addCapability(

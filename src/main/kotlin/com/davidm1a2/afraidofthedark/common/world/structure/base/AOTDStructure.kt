@@ -1,12 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.world.structure.base
 
-import com.davidm1a2.afraidofthedark.common.capabilities.world.StructureCollisionMap
+import com.davidm1a2.afraidofthedark.common.capabilities.getStructureCollisionMap
 import com.davidm1a2.afraidofthedark.common.world.WorldHeightmap
 import com.mojang.datafixers.Dynamic
 import net.minecraft.util.SharedSeedRandom
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.world.IWorld
+import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.GenerationStage
@@ -49,7 +50,7 @@ abstract class AOTDStructure<T : IFeatureConfig>(configFactory: (Dynamic<*>) -> 
                 startFactory.create(this, centerChunkX, centerChunkZ, centerBiome, MutableBoundingBox.getNewBoundingBox(), 0, chunkGenerator.seed)
             structureStart.init(chunkGenerator, (world as ServerWorld).saveHandler.structureTemplateManager, centerChunkX, centerChunkZ, centerBiome)
             return if (checksCollision) {
-                doesNotCollide(world, structureStart)
+                doesNotCollide(world as World, structureStart)
             } else {
                 true
             }
@@ -73,8 +74,8 @@ abstract class AOTDStructure<T : IFeatureConfig>(configFactory: (Dynamic<*>) -> 
         )
     }
 
-    private fun doesNotCollide(worldIn: IWorld, expectedStart: StructureStart): Boolean {
-        val collisionMap = StructureCollisionMap.get(worldIn)
+    private fun doesNotCollide(worldIn: World, expectedStart: StructureStart): Boolean {
+        val collisionMap = worldIn.getStructureCollisionMap()
         synchronized(collisionMap) {
             return if (!collisionMap.isStructureBlocked(expectedStart)) {
                 collisionMap.insertStructure(expectedStart)

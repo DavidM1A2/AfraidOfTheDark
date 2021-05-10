@@ -17,6 +17,9 @@ import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IA
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.AOTDWorldSpellStatesImpl
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.AOTDWorldSpellStatesStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.IAOTDWorldSpellStates
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.AOTDWorldStructureCollisionMapImpl
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.AOTDWorldStructureCollisionMapStorage
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.IAOTDWorldStructureCollisionMap
 import net.minecraftforge.common.capabilities.CapabilityManager
 
 object CapabilityRegister {
@@ -63,6 +66,10 @@ object CapabilityRegister {
                 IAOTDWorldIslandVisitors::class.java,
                 AOTDWorldIslandVisitorsStorage()
             ) { AOTDWorldIslandVisitorsImpl() }
+            CapabilityManager.INSTANCE.register(
+                IAOTDWorldStructureCollisionMap::class.java,
+                AOTDWorldStructureCollisionMapStorage()
+            ) { AOTDWorldStructureCollisionMapImpl() }
         }
         isInitialized = true
     }

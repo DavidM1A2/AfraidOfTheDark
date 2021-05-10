@@ -9,6 +9,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IAOTDWorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.IAOTDWorldSpellStates
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.IAOTDWorldStructureCollisionMap
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.CapabilityInject
 
@@ -60,4 +61,9 @@ object ModCapabilities {
     @JvmStatic
     @CapabilityInject(IAOTDWorldIslandVisitors::class)
     lateinit var WORLD_ISLAND_VISITORS: Capability<IAOTDWorldIslandVisitors>
+
+    // Capability that worlds get which allows them to compute structure collisions
+    @JvmStatic
+    @CapabilityInject(IAOTDWorldStructureCollisionMap::class)
+    lateinit var WORLD_STRUCTURE_COLLISION_MAP: Capability<IAOTDWorldStructureCollisionMap>
 }
