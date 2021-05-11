@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap
 
-import com.davidm1a2.afraidofthedark.common.world.aabb.BoundingBoxTree
 import net.minecraft.world.gen.feature.structure.StructureStart
 
 class AOTDWorldStructureCollisionMapImpl : IAOTDWorldStructureCollisionMap {

@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.world.aabb
+package com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap
 
 import net.minecraft.nbt.IntNBT
 import net.minecraft.nbt.ListNBT
