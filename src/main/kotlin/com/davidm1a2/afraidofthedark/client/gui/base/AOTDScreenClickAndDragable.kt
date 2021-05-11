@@ -1,5 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.base
 
+import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel
 import net.minecraft.util.text.ITextComponent
 import org.lwjgl.glfw.GLFW
 import java.io.IOException
@@ -17,8 +19,15 @@ abstract class AOTDScreenClickAndDragable(name: ITextComponent) : AOTDScreen(nam
     protected var guiOffsetY = 0
 
     // The original X and Y position set before dragging
-    private var originalXPosition = 0
-    private var originalYPosition = 0
+    private var originalXPosition = 0.0
+    private var originalYPosition = 0.0
+
+    // The pane that will be scrolled (contentPane is for overlays)
+    val scrollPane = AOTDGuiPanel(AOTDGuiUtility.getWindowWidthInMCCoords(), AOTDGuiUtility.getWindowHeightInMCCoords())
+
+    init {
+        contentPane.add(scrollPane)
+    }
 
     /**
      * Called when the mouse is clicked
@@ -33,8 +42,10 @@ abstract class AOTDScreenClickAndDragable(name: ITextComponent) : AOTDScreen(nam
 
         if (mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
             // Store the original position before dragging when the mouse goes down
-            this.originalXPosition = mouseX.roundToInt() + this.guiOffsetX
-            this.originalYPosition = mouseY.roundToInt() + this.guiOffsetY
+            this.guiOffsetX = this.scrollPane.xOffset
+            this.guiOffsetY = this.scrollPane.yOffset
+            this.originalXPosition = mouseX
+            this.originalYPosition = mouseY
         }
 
         return toReturn
@@ -53,10 +64,8 @@ abstract class AOTDScreenClickAndDragable(name: ITextComponent) : AOTDScreen(nam
         val toReturn = super.mouseDragged(mouseX, mouseY, lastButtonClicked, mouseXTo, mouseYTo)
 
         if (lastButtonClicked == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-            this.guiOffsetX = this.originalXPosition - mouseX.roundToInt()
-            this.guiOffsetY = this.originalYPosition - mouseY.roundToInt()
-            this.contentPane.xOffset += guiOffsetX
-            this.contentPane.yOffset += guiOffsetY
+            this.scrollPane.xOffset = guiOffsetX + (mouseX - originalXPosition).toInt()
+            this.scrollPane.yOffset = guiOffsetY + (mouseY - originalYPosition).toInt()
 
             this.checkOutOfBounds()
         }

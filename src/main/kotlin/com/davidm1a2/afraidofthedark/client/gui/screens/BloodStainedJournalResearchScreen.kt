@@ -47,7 +47,7 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
         // Create the research tree panel that will hold all the research nodes
         // The base panel that contains all researches
         researchTreeBase = AOTDGuiPanel(BACKGROUND_WIDTH, BACKGROUND_HEIGHT, gravity = AOTDGuiGravity.CENTER)
-        contentPane.add(researchTreeBase)
+        scrollPane.add(researchTreeBase)
         scrollBackground = AOTDGuiImage(
             ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/background.png"),
             AOTDImageDispMode.FIT_TO_SIZE,
@@ -58,13 +58,13 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
         // The border around the research
         val backgroundBorder = AOTDGuiImage(
             ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/frame.png"),
-            AOTDImageDispMode.STRETCH,
+            AOTDImageDispMode.FIT_TO_PARENT,
             BACKGROUND_WIDTH,
             BACKGROUND_HEIGHT
         )
 
         researchTreeBase.add(scrollBackground)
-        researchTreeBase.add(backgroundBorder)
+        contentPane.add(backgroundBorder)
 
         // If this is a cheat sheet add a label on top to make that clear
         if (isCheatSheet) {
@@ -136,7 +136,7 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
         }
 
         // Go over all known researches and add a connector for each that has a known pre-requisite
-        ModRegistries.RESEARCH.values
+        /*ModRegistries.RESEARCH.values
             // We can only draw connectors if we have a pre-requisite
             .filter { it.preRequisite != null }
             // Only add the connectors if we know if the previous research or the current research
@@ -150,7 +150,7 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
 
         // Add our sprite sheet controllers
         addSpriteSheetController(nodeConnectorControllerHorizontal)
-        addSpriteSheetController(nodeConnectorControllerVertical)
+        addSpriteSheetController(nodeConnectorControllerVertical)*/
     }
 
     /**
@@ -239,7 +239,7 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
      */
     override fun checkOutOfBounds() {
         val backgroundWiggleRoom = (scrollBackground.width - scrollBackground.width) / 2
-        guiOffsetX = guiOffsetX.coerceIn(-backgroundWiggleRoom, backgroundWiggleRoom)
+        this.contentPane.xOffset = guiOffsetX.coerceIn(-backgroundWiggleRoom, backgroundWiggleRoom)
         guiOffsetY = guiOffsetY.coerceIn(-scrollBackground.height + scrollBackground.height, 0)
     }
 

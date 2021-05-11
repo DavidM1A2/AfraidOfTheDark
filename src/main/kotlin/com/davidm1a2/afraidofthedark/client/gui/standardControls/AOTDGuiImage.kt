@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
+import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
 import com.mojang.blaze3d.platform.GlStateManager
@@ -55,9 +56,10 @@ class AOTDGuiImage(
             Minecraft.getInstance().textureManager.bindTexture(this.imageTexture)
             // If the texture width and height are both -1, then we assume the image's size is this control's size
             if (textureHeight == -1 || textureWidth == -1) {
-                AbstractGui.blit(x, y, u, v, width, height, width, height)
+                // No longer allowed
             } else {
-                AbstractGui.blit(x, y, u, v, textureWidth, textureHeight, width, height)
+                AbstractGui.blit(x, y, 0, u, v, width, height, width, height)
+                //AOTDGuiUtility.blit(x, y, x+width, y+height, 0f, 0f, 0.9f, 0.9f)
             }
             GlStateManager.popMatrix()
 
