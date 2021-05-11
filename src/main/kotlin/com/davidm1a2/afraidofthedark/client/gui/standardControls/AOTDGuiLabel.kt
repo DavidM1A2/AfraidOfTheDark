@@ -23,7 +23,7 @@ import java.awt.Color
  * @property textAlignment Text alignment
  * @property shortenTextToFit True if we should ensure the text fits inside the label by shortening it, false otherwise
  */
-class AOTDGuiLabel(width: Int, height: Int, val font: TrueTypeFont, gravity: AOTDGuiGravity = AOTDGuiGravity.CENTER) : AOTDGuiContainer(width, height, gravity = gravity) {
+class AOTDGuiLabel(val font: TrueTypeFont, gravity: AOTDGuiGravity = AOTDGuiGravity.CENTER) : AOTDGuiContainer(0, 0, gravity = gravity) {
 
     var text = ""
         set(text) {
@@ -104,5 +104,10 @@ class AOTDGuiLabel(width: Int, height: Int, val font: TrueTypeFont, gravity: AOT
         } else {
             this.fitText = this.text
         }
+    }
+
+    override fun negotiateDimensions(width: Int, height: Int) {
+        this.width = this.font.getWidth(this.fitText).coerceAtMost(width.toFloat()).toInt()
+        this.height = this.font.height.coerceAtMost(height)
     }
 }

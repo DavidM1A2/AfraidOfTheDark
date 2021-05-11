@@ -1,12 +1,8 @@
 package com.davidm1a2.afraidofthedark.client.gui.base
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseScrollEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.*
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.player.ClientPlayerEntity
@@ -14,8 +10,6 @@ import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.InputMappings
 import net.minecraft.util.text.ITextComponent
 import org.lwjgl.glfw.GLFW
-import kotlin.math.min
-import kotlin.math.round
 import kotlin.math.roundToInt
 
 /**
@@ -215,6 +209,12 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
         contentPane.processMouseScrollInput(AOTDMouseScrollEvent(contentPane, distance.roundToInt()))
 
         return super.mouseScrolled(mouseX, mouseY, distance)
+    }
+
+    override fun mouseDragged(mouseX: Double, mouseY: Double, lastButtonClicked: Int, mouseXTo: Double, mouseYTo: Double): Boolean {
+        val ret = super.mouseDragged(mouseX, mouseY, lastButtonClicked, mouseXTo, mouseYTo)
+        contentPane.processMouseDragInput(MouseDragEvent(contentPane, mouseX.roundToInt(), mouseY.roundToInt(), lastButtonClicked))
+        return ret
     }
 
     override fun tick() {

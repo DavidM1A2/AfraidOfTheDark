@@ -1,9 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.base
 
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseScrollEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.*
 import java.awt.Point
 
 /**
@@ -20,17 +17,16 @@ import java.awt.Point
  * @property keyListeners The key listeners of this component
  */
 abstract class AOTDGuiComponentWithEvents(
-        width: Int,
-        height: Int,
         xOffset: Int = 0,
         yOffset: Int = 0,
         margins: AOTDGuiSpacing = AOTDGuiSpacing(),
         gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
         hoverTexts: Array<String> = emptyArray()) :
-        AOTDGuiComponent(width, height, xOffset, yOffset, margins, gravity, hoverTexts) {
+        AOTDGuiComponent(xOffset, yOffset, margins, gravity, hoverTexts) {
 
     private var mouseListeners = mutableListOf<(AOTDMouseEvent) -> Unit>()
     private var mouseMoveListeners = mutableListOf<(AOTDMouseMoveEvent) -> Unit>()
+    private var mouseDragListeners = mutableListOf<(MouseDragEvent) -> Unit>()
     private var mouseScrollListeners = mutableListOf<(AOTDMouseScrollEvent) -> Unit>()
     private var keyListeners = mutableListOf<(AOTDKeyEvent) -> Unit>()
 
@@ -110,6 +106,23 @@ abstract class AOTDGuiComponentWithEvents(
     }
 
     /**
+     * Called to process a mouse drag input event
+     *
+     * @param event The event to process
+     */
+    open fun processMouseDragInput(event: MouseDragEvent) {
+        // If the event is consumed, don't do anything
+        if (event.isConsumed) {
+            return
+        }
+
+        // We set the source to be this component, because we are processing it
+        event.source = this
+
+        mouseDragListeners.forEach { it(event) }
+    }
+
+    /**
      * Called to process a mouse scroll input event
      *
      * @param event The event to process
@@ -159,6 +172,10 @@ abstract class AOTDGuiComponentWithEvents(
      */
     fun addMouseMoveListener(mouseMoveListener: (AOTDMouseMoveEvent) -> Unit) {
         this.mouseMoveListeners.add(mouseMoveListener)
+    }
+
+    fun addMouseDragListener(mouseDragListener: (MouseDragEvent) -> Unit) {
+        this.mouseDragListeners.add(mouseDragListener)
     }
 
     /**

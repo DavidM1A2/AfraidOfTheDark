@@ -68,15 +68,15 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         val titleColor = Color(200, 0, 0)
 
         // Create a title label to contain the research name
-        val titleLabel = AOTDGuiLabel(width, 50, ClientData.getOrCreate(50f), AOTDGuiGravity.TOP_CENTER)
+        val titleLabel = AOTDGuiLabel(ClientData.getOrCreate(50f), AOTDGuiGravity.TOP_CENTER)
         titleLabel.text = titleText
         titleLabel.textColor = titleColor
         titleLabel.textAlignment = TextAlignment.ALIGN_CENTER
         contentPane.add(titleLabel)
 
         // Create two page numbers, one for the left page and one for the right page
-        leftPageNumber = AOTDGuiLabel(15, 15, ClientData.getOrCreate(32f), AOTDGuiGravity.TOP_LEFT)
-        rightPageNumber = AOTDGuiLabel(15, 15, ClientData.getOrCreate(32f), AOTDGuiGravity.TOP_RIGHT)
+        leftPageNumber = AOTDGuiLabel(ClientData.getOrCreate(32f), AOTDGuiGravity.TOP_LEFT)
+        rightPageNumber = AOTDGuiLabel(ClientData.getOrCreate(32f), AOTDGuiGravity.TOP_RIGHT)
         // Align the right page number right so that it fits into the corner
         rightPageNumber.textAlignment = TextAlignment.ALIGN_RIGHT
         // Start the page numbers at 1 and 2

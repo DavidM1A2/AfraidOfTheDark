@@ -18,8 +18,8 @@ import org.lwjgl.opengl.GL11
  * @param scissorEnabled If scissors are enabled when drawing this panel
  */
 open class AOTDGuiPanel(
-        width: Int,
-        height: Int,
+        width: Int = Int.MAX_VALUE,
+        height: Int = Int.MAX_VALUE,
         xOffset: Int = 0,
         yOffset: Int = 0,
         margins: AOTDGuiSpacing = AOTDGuiSpacing(),
@@ -36,8 +36,8 @@ open class AOTDGuiPanel(
         // If scissor is enabled we use glScissor to force all drawing to happen inside of a box
         if (scissorEnabled) {
             // Compute the OpenGL X and Y screen coordinates to scissor
-            var realX = AOTDGuiUtility.mcToRealScreenCoord(this.x)
-            var realY = AOTDGuiUtility.realScreenYToGLYCoord(AOTDGuiUtility.mcToRealScreenCoord(this.y + this.height))
+            var realX = AOTDGuiUtility.mcToRealScreenCoord(this.getXWithOffset())
+            var realY = AOTDGuiUtility.realScreenYToGLYCoord(AOTDGuiUtility.mcToRealScreenCoord(this.getYWithOffset() + this.height))
             // Compute the OpenGL width and height to scissor with
             var realWidth = AOTDGuiUtility.mcToRealScreenCoord(this.width)
             var realHeight = AOTDGuiUtility.mcToRealScreenCoord(this.height)

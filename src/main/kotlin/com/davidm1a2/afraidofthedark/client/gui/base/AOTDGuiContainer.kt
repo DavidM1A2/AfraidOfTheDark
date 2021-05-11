@@ -1,10 +1,8 @@
 package com.davidm1a2.afraidofthedark.client.gui.base
 
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseScrollEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.*
 import java.util.concurrent.CopyOnWriteArrayList
+import kotlin.math.min
 
 /**
  * Base class for all GUI containers. Containers are gui components that are made up of other components inside
@@ -18,15 +16,15 @@ import java.util.concurrent.CopyOnWriteArrayList
  * @property parent The parent transform that this container uses as a base
  */
 abstract class AOTDGuiContainer(
-        width: Int,
-        height: Int,
+        protected val prefWidth: Int = Int.MAX_VALUE,
+        protected val prefHeight: Int = Int.MAX_VALUE,
         xOffset: Int = 0,
         yOffset: Int = 0,
         margins: AOTDGuiSpacing = AOTDGuiSpacing(),
         gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
         hoverTexts: Array<String> = emptyArray(),
         var padding: AOTDGuiSpacing = AOTDGuiSpacing()) :
-        AOTDGuiComponentWithEvents(width, height, xOffset, yOffset, margins, gravity, hoverTexts) {
+        AOTDGuiComponentWithEvents(xOffset, yOffset, margins, gravity, hoverTexts) {
 
     private val subComponents = CopyOnWriteArrayList<AOTDGuiContainer>()
     var parent: AOTDGuiContainer? = null
@@ -74,8 +72,12 @@ abstract class AOTDGuiContainer(
      * Calculates the proper locations and dimensions of all children nodes
      * Default behavior is that of a StackPane (children drawn on top of each other)
      */
-    private fun calcChildrenBounds() {
+    open fun calcChildrenBounds() {
         for (child in subComponents) {
+            // Set dimensions
+            val internalWidth = this.width - padding.horizPx
+            val internalHeight = this.height - padding.vertPx
+            child.negotiateDimensions(internalWidth, internalHeight)
             // Set position
             val calculatedXOffset = when (child.gravity) {
                 AOTDGuiGravity.TOP_LEFT, AOTDGuiGravity.CENTER_LEFT, AOTDGuiGravity.BOTTOM_LEFT -> padding.leftPx
@@ -89,10 +91,6 @@ abstract class AOTDGuiContainer(
             }
             child.x = this.x + this.xOffset + calculatedXOffset + child.xOffset
             child.y = this.y + this.yOffset + calculatedYOffset + child.yOffset
-            // Set dimensions
-            val internalWidth = this.width - padding.horizPx
-            val internalHeight = this.height - padding.vertPx
-            child.negotiateDimensions(internalWidth, internalHeight)
         }
     }
 
@@ -100,9 +98,9 @@ abstract class AOTDGuiContainer(
      * Adjust this component to fit into the given space
      */
     override fun negotiateDimensions(width: Int, height: Int) {
-        this.width = width
-        this.height = height
-        calcChildrenBounds()
+        this.width = min(prefWidth, width)
+        this.height = min(prefHeight, height)
+        this.calcChildrenBounds()
     }
 
     /**
@@ -149,11 +147,11 @@ abstract class AOTDGuiContainer(
      *
      * @param event The event to process
      */
-    override fun processMouseMoveInput(event: AOTDMouseMoveEvent) {
+    override fun processMouseDragInput(event: MouseDragEvent) {
         // Fire our component's mouse move input
-        super.processMouseMoveInput(event)
+        super.processMouseDragInput(event)
         // Fire our sub-component's mouse move input events
-        this.subComponents.forEach { it.processMouseMoveInput(event) }
+        this.subComponents.forEach { it.processMouseDragInput(event) }
     }
 
     /**

@@ -233,7 +233,7 @@ class AOTDGuiSpellTablet(
         }
         tablet.add(uiPowerSource)
         // Add the spell cost label
-        spellCost = AOTDGuiLabel(120, 20, ClientData.getOrCreate(32f))
+        spellCost = AOTDGuiLabel(ClientData.getOrCreate(32f))
         tablet.add(spellCost)
         // Update all the gui components from our spell
         refresh()

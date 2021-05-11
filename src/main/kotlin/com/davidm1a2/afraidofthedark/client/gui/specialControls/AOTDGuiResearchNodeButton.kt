@@ -20,9 +20,11 @@ import net.minecraft.util.ResourceLocation
  * @param y        The y coordinate of the button
  * @param research The research that this button represents
  */
-class AOTDGuiResearchNodeButton(x: Int, y: Int, val research: Research) : AOTDGuiButton(
-    32,
-    32,
+class AOTDGuiResearchNodeButton(width: Int, height: Int, val research: Research) : AOTDGuiButton(
+    width,
+    height,
+    research.xPosition,
+    research.zPosition,
     icon = AOTDGuiImage("afraidofthedark:textures/gui/journal_tech_tree/research_background.png"),
     iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/journal_tech_tree/research_background_hovered.png")
 ) {
@@ -48,8 +50,8 @@ class AOTDGuiResearchNodeButton(x: Int, y: Int, val research: Research) : AOTDGu
             // Draw the researches icon on the button
             Minecraft.getInstance().textureManager.bindTexture(this.research.icon)
             AbstractGui.blit(
-                x,
-                y,
+                getXWithOffset(),
+                getYWithOffset(),
                 0f,
                 0f,
                 width,
@@ -62,8 +64,8 @@ class AOTDGuiResearchNodeButton(x: Int, y: Int, val research: Research) : AOTDGu
             if (!playerResearch.isResearched(this.research)) {
                 Minecraft.getInstance().textureManager.bindTexture(UNKNOWN_RESEARCH)
                 AbstractGui.blit(
-                    x,
-                    y,
+                    getXWithOffset(),
+                    getYWithOffset(),
                     0f,
                     0f,
                     width,

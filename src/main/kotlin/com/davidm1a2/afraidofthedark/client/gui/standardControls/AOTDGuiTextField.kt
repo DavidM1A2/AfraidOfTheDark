@@ -49,7 +49,7 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
         // Set the text container bounding box to have scissor enabled and contain the label
         this.textContainer = AOTDGuiPanel(width - 10, height - 10, 5, 5, scissorEnabled = true)
         // The text label contains the text field's text
-        this.textLabel = AOTDGuiLabel(width - 15, height - 10, font)
+        this.textLabel = AOTDGuiLabel(font)
         // Make sure the label doesn't shorten the text inside to fit
         this.textLabel.shortenTextToFit = false
 

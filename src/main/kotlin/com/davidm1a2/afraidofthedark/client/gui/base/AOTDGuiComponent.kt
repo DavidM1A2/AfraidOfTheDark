@@ -16,14 +16,14 @@ import kotlin.math.roundToInt
  * Base class for all GUI components like labels, buttons, etc
  */
 abstract class AOTDGuiComponent(
-        open var width: Int,
-        open var height: Int,
         open var xOffset: Int = 0,
         open var yOffset: Int = 0,
         var margins: AOTDGuiSpacing = AOTDGuiSpacing(),
         var gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
         var hoverTexts: Array<String> = emptyArray()) {
 
+    open var width = 0
+    open var height = 0
     open var x = 0
     open var y = 0
     open var isHovered = false

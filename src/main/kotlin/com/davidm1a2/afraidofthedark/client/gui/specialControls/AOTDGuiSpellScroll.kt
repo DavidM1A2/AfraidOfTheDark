@@ -69,11 +69,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
 
         // Create the power source label
         val powerSourceHeading =
-            AOTDGuiLabel(
-                120,
-                20,
-                ClientData.getOrCreate(46f)
-            )
+            AOTDGuiLabel(ClientData.getOrCreate(46f))
         powerSourceHeading.textColor = Color(140, 35, 206)
         powerSourceHeading.text = "Power Sources"
         this.componentScrollPanel.add(powerSourceHeading)
@@ -104,11 +100,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
         currentComponent = MathHelper.roundUp(currentComponent, componentsPerLine)
 
         // Create the effect label
-        val effectHeading = AOTDGuiLabel(
-            120,
-            20,
-            ClientData.getOrCreate(46f)
-        )
+        val effectHeading = AOTDGuiLabel(ClientData.getOrCreate(46f))
         effectHeading.textColor = Color(140, 35, 206)
         effectHeading.text = "Effects"
         this.componentScrollPanel.add(effectHeading)
@@ -129,11 +121,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
 
         // Create the delivery method label
         val deliveryMethodHeading =
-            AOTDGuiLabel(
-                120,
-                20,
-                ClientData.getOrCreate(46f)
-            )
+            AOTDGuiLabel(ClientData.getOrCreate(46f))
         deliveryMethodHeading.textColor = Color(140, 35, 206)
         deliveryMethodHeading.text = "Delivery Methods"
         this.componentScrollPanel.add(deliveryMethodHeading)
@@ -195,7 +183,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             val purpleText = Color(140, 35, 206)
 
             // Create a heading label to indicate what is currently being edited
-            val heading = AOTDGuiLabel(120, 30, ClientData.getOrCreate(32f))
+            val heading = AOTDGuiLabel(ClientData.getOrCreate(32f))
             heading.textColor = purpleText
             // This cast is required even though IntelliJ doesn't agree
             @Suppress("USELESS_CAST")
@@ -218,7 +206,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                 // Go over each editable property and add an editor for it
                 for (editableProp in editableProperties) {
                     // Create a label that states the name of the property
-                    val propertyName = AOTDGuiLabel(120, 15, ClientData.getOrCreate(26f))
+                    val propertyName = AOTDGuiLabel(ClientData.getOrCreate(26f))
                     propertyName.textColor = purpleText
                     propertyName.text = "Name: ${editableProp.name}"
                     editPanel.add(propertyName)

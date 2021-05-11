@@ -46,11 +46,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
         val spellNameContainer = AOTDGuiPanel(width - 20, 15)
 
         // The label holding the actual spell name
-        val lblSpellName = AOTDGuiLabel(
-            spellNameContainer.width,
-            spellNameContainer.height,
-            ClientData.getOrCreate(36f)
-        )
+        val lblSpellName = AOTDGuiLabel(ClientData.getOrCreate(36f))
         // Set the name label's name and color
         lblSpellName.text = this.spell.name
         lblSpellName.textColor = Color(245, 61, 199)
@@ -123,7 +119,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
         this.add(btnDelete)
 
         // Create a button to keybind this spell
-        lblKeybind = AOTDGuiLabel(100, 13, ClientData.getOrCreate(30f))
+        lblKeybind = AOTDGuiLabel(ClientData.getOrCreate(30f))
         lblKeybind.textAlignment = TextAlignment.ALIGN_CENTER
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)

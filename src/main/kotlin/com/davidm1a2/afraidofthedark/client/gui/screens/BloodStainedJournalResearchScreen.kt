@@ -1,13 +1,11 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
+import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiResearchNodeButton
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiImage
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiLabel
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiSpriteSheetImage
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.Constants
@@ -34,9 +32,9 @@ import java.awt.Color
  * @property researchNodeMouseListener Listener used by all research tree nodes
  */
 class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
-    AOTDScreenClickAndDragable(TranslationTextComponent("screen.afraidofthedark.blood_stained_journal_research")) {
+    AOTDScreen(TranslationTextComponent("screen.afraidofthedark.blood_stained_journal_research")) {
     private val scrollBackground: AOTDGuiImage
-    private val researchTreeBase: AOTDGuiPanel
+    private val researchTreeBase: ScrollPane
     private val nodeConnectorControllerVertical = SpriteSheetController(500, 20, 15, 45, true, true)
     private val nodeConnectorControllerHorizontal = SpriteSheetController(500, 20, 45, 15, true, false)
     private val researchNodeMouseMoveListener: (AOTDMouseMoveEvent) -> Unit
@@ -46,11 +44,11 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
 
         // Create the research tree panel that will hold all the research nodes
         // The base panel that contains all researches
-        researchTreeBase = AOTDGuiPanel(BACKGROUND_WIDTH, BACKGROUND_HEIGHT, gravity = AOTDGuiGravity.CENTER)
-        scrollPane.add(researchTreeBase)
+        researchTreeBase = ScrollPane(BACKGROUND_WIDTH, BACKGROUND_HEIGHT)
+
         scrollBackground = AOTDGuiImage(
             ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/background.png"),
-            AOTDImageDispMode.FIT_TO_SIZE,
+            AOTDImageDispMode.STRETCH,
             BACKGROUND_WIDTH,
             BACKGROUND_HEIGHT
         )
@@ -58,22 +56,31 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
         // The border around the research
         val backgroundBorder = AOTDGuiImage(
             ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/frame.png"),
-            AOTDImageDispMode.FIT_TO_PARENT,
+            AOTDImageDispMode.STRETCH,
             BACKGROUND_WIDTH,
             BACKGROUND_HEIGHT
         )
 
         researchTreeBase.add(scrollBackground)
+        contentPane.add(researchTreeBase)
         contentPane.add(backgroundBorder)
+
+        val windowWidth = AOTDGuiUtility.getWindowWidthInMCCoords()
+        val windowHeight = AOTDGuiUtility.getWindowHeightInMCCoords()
+        val guiSize: Int
+        guiSize = if (windowWidth < windowHeight) windowWidth*3/4 else windowHeight*3/4
+        val horizontalPadding = (windowWidth - guiSize)/2
+        val verticalPadding = (windowHeight - guiSize)/2
+        contentPane.padding = AOTDGuiSpacing(verticalPadding, verticalPadding, horizontalPadding, horizontalPadding)
 
         // If this is a cheat sheet add a label on top to make that clear
         if (isCheatSheet) {
             // Put the label on top and set the color to white
-            val lblCheatSheet = AOTDGuiLabel(BACKGROUND_WIDTH, 20, ClientData.getOrCreate(32f), AOTDGuiGravity.TOP_CENTER)
+            val lblCheatSheet = AOTDGuiLabel(ClientData.getOrCreate(32f), AOTDGuiGravity.TOP_CENTER)
             lblCheatSheet.textAlignment = TextAlignment.ALIGN_CENTER
             lblCheatSheet.textColor = Color(255, 255, 255)
             lblCheatSheet.text = "Cheat sheet - select researches to unlock them"
-            researchTreeBase.add(lblCheatSheet)
+            contentPane.add(lblCheatSheet)
         }
 
         // Grab the player's research to be used later...
@@ -136,7 +143,7 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
         }
 
         // Go over all known researches and add a connector for each that has a known pre-requisite
-        /*ModRegistries.RESEARCH.values
+        ModRegistries.RESEARCH.values
             // We can only draw connectors if we have a pre-requisite
             .filter { it.preRequisite != null }
             // Only add the connectors if we know if the previous research or the current research
@@ -150,7 +157,7 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
 
         // Add our sprite sheet controllers
         addSpriteSheetController(nodeConnectorControllerHorizontal)
-        addSpriteSheetController(nodeConnectorControllerVertical)*/
+        addSpriteSheetController(nodeConnectorControllerVertical)
     }
 
     /**
@@ -232,15 +239,6 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
         researchNode.addMouseMoveListener(researchNodeMouseMoveListener)
         // Add the node to our tree
         researchTreeBase.add(researchNode)
-    }
-
-    /**
-     * We can use this to test if the gui has scrolled out of bounds or not
-     */
-    override fun checkOutOfBounds() {
-        val backgroundWiggleRoom = (scrollBackground.width - scrollBackground.width) / 2
-        this.contentPane.xOffset = guiOffsetX.coerceIn(-backgroundWiggleRoom, backgroundWiggleRoom)
-        guiOffsetY = guiOffsetY.coerceIn(-scrollBackground.height + scrollBackground.height, 0)
     }
 
     /**

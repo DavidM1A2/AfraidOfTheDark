@@ -30,7 +30,7 @@ class AOTDGuiImage(
         var displayMode: AOTDImageDispMode = AOTDImageDispMode.STRETCH,
         private var textureWidth: Int = -1,
         private var textureHeight: Int = -1) :
-        AOTDGuiContainer(0, 0) {
+        AOTDGuiContainer() {
 
     constructor(imageTexture: String, displayMode: AOTDImageDispMode = AOTDImageDispMode.STRETCH, textureHeight: Int = -1, textureWidth: Int = -1): this(ResourceLocation(imageTexture), displayMode, textureHeight, textureWidth)
 
@@ -54,12 +54,9 @@ class AOTDGuiImage(
             )
             // Bind the texture to render
             Minecraft.getInstance().textureManager.bindTexture(this.imageTexture)
-            // If the texture width and height are both -1, then we assume the image's size is this control's size
-            if (textureHeight == -1 || textureWidth == -1) {
-                // No longer allowed
-            } else {
+            // Check for invalid texture dimensions
+            if (textureHeight != -1 && textureWidth != -1) {
                 AbstractGui.blit(x, y, 0, u, v, width, height, width, height)
-                //AOTDGuiUtility.blit(x, y, x+width, y+height, 0f, 0f, 0.9f, 0.9f)
             }
             GlStateManager.popMatrix()
 

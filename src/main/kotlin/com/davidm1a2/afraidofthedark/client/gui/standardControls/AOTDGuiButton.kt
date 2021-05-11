@@ -7,6 +7,7 @@ import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import net.minecraft.util.ResourceLocation
 import java.awt.Color
+import kotlin.math.min
 
 /**
  * Class representing a GUI button to be used by AOTD
@@ -23,8 +24,8 @@ import java.awt.Color
  * @property color The color of the background and text
  */
 open class AOTDGuiButton(
-        width: Int,
-        height: Int,
+        prefWidth: Int,
+        prefHeight: Int,
         xOffset: Int = 0,
         yOffset: Int = 0,
         margins: AOTDGuiSpacing = AOTDGuiSpacing(),
@@ -34,7 +35,7 @@ open class AOTDGuiButton(
         private val icon: AOTDGuiImage?,
         private val iconHovered: AOTDGuiImage? = icon,
         font: TrueTypeFont? = null) :
-        AOTDGuiContainer(width, height, xOffset, yOffset, margins, gravity, hoverTexts, padding) {
+        AOTDGuiContainer(prefWidth, prefHeight, xOffset, yOffset, margins, gravity, hoverTexts, padding) {
 
     private val label: AOTDGuiLabel?
 
@@ -44,7 +45,7 @@ open class AOTDGuiButton(
         this.iconHovered?.let { this.add(it) }
         // Create a label to cover the button
         if (font != null) {
-            this.label = AOTDGuiLabel(width, height, font)
+            this.label = AOTDGuiLabel(font)
             this.add(this.label)
         } else {
             this.label = null

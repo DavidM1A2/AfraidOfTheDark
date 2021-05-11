@@ -24,7 +24,7 @@ class AOTDGuiSpriteSheetImage(
     height: Int,
     private val spriteSheet: ResourceLocation,
     private val sheetController: SpriteSheetController
-) : AOTDGuiContainer(x, y, width, height) {
+) : AOTDGuiContainer(width, height, x, y) {
     /**
      * Draws the sprite sheet on the screen
      */
