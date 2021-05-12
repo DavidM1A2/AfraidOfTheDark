@@ -147,6 +147,18 @@ abstract class AOTDGuiContainer(
      *
      * @param event The event to process
      */
+    override fun processMouseMoveInput(event: AOTDMouseMoveEvent) {
+        // Fire our component's mouse move input
+        super.processMouseMoveInput(event)
+        // Fire our sub-component's mouse move input events
+        this.subComponents.forEach { it.processMouseMoveInput(event) }
+    }
+
+    /**
+     * Called to process a mouse move input event
+     *
+     * @param event The event to process
+     */
     override fun processMouseDragInput(event: MouseDragEvent) {
         // Fire our component's mouse move input
         super.processMouseDragInput(event)

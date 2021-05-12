@@ -8,7 +8,6 @@ import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiResearchN
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
@@ -44,7 +43,7 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
 
         // Create the research tree panel that will hold all the research nodes
         // The base panel that contains all researches
-        researchTreeBase = ScrollPane(BACKGROUND_WIDTH, BACKGROUND_HEIGHT)
+        researchTreeBase = ScrollPane(2.0, 2.0)
 
         scrollBackground = AOTDGuiImage(
             ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/background.png"),
@@ -233,7 +232,7 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
      */
     private fun addResearchButton(research: Research) {
         // Create the research button
-        val researchNode = AOTDGuiResearchNodeButton(RESEARCH_WIDTH, RESEARCH_HEIGHT, research)
+        val researchNode = AOTDGuiResearchNodeButton(RESEARCH_WIDTH, RESEARCH_HEIGHT, researchTreeBase, research)
         // Add our pre-build listeners to this node
         researchNode.addMouseListener(researchNodeMouseListener)
         researchNode.addMouseMoveListener(researchNodeMouseMoveListener)

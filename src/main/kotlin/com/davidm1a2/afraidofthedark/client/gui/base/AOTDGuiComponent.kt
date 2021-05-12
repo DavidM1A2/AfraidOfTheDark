@@ -166,13 +166,6 @@ abstract class AOTDGuiComponent(
     }
 
     /**
-     * Updates the bounding box
-     */
-    open fun updateBounds() {
-        this.boundingBox.setBounds(this.x, this.y, this.width, this.height)
-    }
-
-    /**
      * Second setter for hover texts, this one assumes the parameter is a '\n' delimited string to be converted into an array
      *
      * @param hoverText The new text to be the hover text of this component

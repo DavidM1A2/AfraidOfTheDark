@@ -212,9 +212,8 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
     }
 
     override fun mouseDragged(mouseX: Double, mouseY: Double, lastButtonClicked: Int, mouseXTo: Double, mouseYTo: Double): Boolean {
-        val ret = super.mouseDragged(mouseX, mouseY, lastButtonClicked, mouseXTo, mouseYTo)
         contentPane.processMouseDragInput(MouseDragEvent(contentPane, mouseX.roundToInt(), mouseY.roundToInt(), lastButtonClicked))
-        return ret
+        return super.mouseDragged(mouseX, mouseY, lastButtonClicked, mouseXTo, mouseYTo)
     }
 
     override fun tick() {

@@ -1,8 +1,10 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiGravity
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiImage
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ScrollPane
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import com.mojang.blaze3d.platform.GlStateManager
@@ -11,6 +13,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.AbstractGui
 import net.minecraft.client.resources.I18n
 import net.minecraft.util.ResourceLocation
+import kotlin.math.roundToInt
 
 /**
  * Button that represents a research in the research GUI
@@ -20,13 +23,14 @@ import net.minecraft.util.ResourceLocation
  * @param y        The y coordinate of the button
  * @param research The research that this button represents
  */
-class AOTDGuiResearchNodeButton(width: Int, height: Int, val research: Research) : AOTDGuiButton(
-    width,
-    height,
-    research.xPosition,
-    research.zPosition,
+class AOTDGuiResearchNodeButton(width: Int, height: Int, scrollPane: ScrollPane, val research: Research) : AOTDGuiButton(
+    (width/scrollPane.scrollWidthRatio).roundToInt(),
+    (height/scrollPane.scrollHeightRatio).roundToInt(),
+    (research.xPosition * Research.DISTANCE_BETWEEN_RESEARCHES / scrollPane.scrollWidthRatio).roundToInt(),
+    (research.zPosition * Research.DISTANCE_BETWEEN_RESEARCHES / scrollPane.scrollHeightRatio).roundToInt(),
     icon = AOTDGuiImage("afraidofthedark:textures/gui/journal_tech_tree/research_background.png"),
-    iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/journal_tech_tree/research_background_hovered.png")
+    iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/journal_tech_tree/research_background_hovered.png"),
+    gravity = AOTDGuiGravity.CENTER
 ) {
     // The player's research for fast querying
     private val playerResearch = entityPlayer.getResearch()
