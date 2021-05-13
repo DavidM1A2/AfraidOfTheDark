@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiResearchNodeButton
+import com.davidm1a2.afraidofthedark.client.gui.specialControls.ResearchConnector
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
@@ -16,6 +17,7 @@ import net.minecraft.client.resources.I18n
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
 import java.awt.Color
+import kotlin.math.roundToInt
 
 /**
  * The research GUI used by the blood stained journal to show what has been unlocked and what has not been unlocked
@@ -47,17 +49,13 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
 
         scrollBackground = AOTDGuiImage(
             ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/background.png"),
-            AOTDImageDispMode.STRETCH,
-            BACKGROUND_WIDTH,
-            BACKGROUND_HEIGHT
+            AOTDImageDispMode.STRETCH
         )
 
         // The border around the research
         val backgroundBorder = AOTDGuiImage(
             ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/frame.png"),
-            AOTDImageDispMode.STRETCH,
-            BACKGROUND_WIDTH,
-            BACKGROUND_HEIGHT
+            AOTDImageDispMode.STRETCH
         )
 
         researchTreeBase.add(scrollBackground)
@@ -141,18 +139,11 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
             }
         }
 
-        // Go over all known researches and add a connector for each that has a known pre-requisite
-        ModRegistries.RESEARCH.values
-            // We can only draw connectors if we have a pre-requisite
-            .filter { it.preRequisite != null }
-            // Only add the connectors if we know if the previous research or the current research
-            .filter { playerResearch.isResearched(it) || playerResearch.canResearch(it) }
-            .forEach { addConnector(it) }
         // Now that we have all connectors added add each research node on top to ensure correct z-layer order
         ModRegistries.RESEARCH.values
             // Only add the node if we know if the previous research or the current research
             .filter { playerResearch.isResearched(it) || playerResearch.canResearch(it) }
-            .forEach { addResearchButton(it) }
+            .forEach { addConnector(it); addResearchButton(it) }
 
         // Add our sprite sheet controllers
         addSpriteSheetController(nodeConnectorControllerHorizontal)
@@ -165,64 +156,15 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
      * @param research The research to add a connector to
      */
     private fun addConnector(research: Research) {
-        // Compute the button's X and Y position
-        val xPos = BACKGROUND_WIDTH / 2 - 16 + DISTANCE_BETWEEN_RESEARCHES * research.xPosition
-        val yPos = BACKGROUND_HEIGHT - 50 - DISTANCE_BETWEEN_RESEARCHES * research.zPosition
-        // Grab the prerequisite research
-        val previous = research.preRequisite
-        if (previous != null) {
-            // Depending on where the research is in relation to its previous research create an arrow
-            when {
-                research.xPosition < previous.xPosition -> {
-                    researchTreeBase.add(
-                        AOTDGuiSpriteSheetImage(
-                            xPos + 26,
-                            yPos + 9,
-                            54,
-                            14,
-                            ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/horizontal_connector.png"),
-                            nodeConnectorControllerHorizontal
-                        )
-                    )
-                }
-                research.xPosition > previous.xPosition -> {
-                    researchTreeBase.add(
-                        AOTDGuiSpriteSheetImage(
-                            xPos - 50,
-                            yPos + 9,
-                            54,
-                            14,
-                            ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/horizontal_connector.png"),
-                            nodeConnectorControllerHorizontal
-                        )
-                    )
-                }
-                research.zPosition > previous.zPosition -> {
-                    researchTreeBase.add(
-                        AOTDGuiSpriteSheetImage(
-                            xPos + 9,
-                            yPos + 30,
-                            14,
-                            46,
-                            ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/vertical_connector.png"),
-                            nodeConnectorControllerVertical
-                        )
-                    )
-                }
-                research.zPosition < previous.zPosition -> {
-                    researchTreeBase.add(
-                        AOTDGuiSpriteSheetImage(
-                            xPos + 9,
-                            yPos - 46,
-                            14,
-                            46,
-                            ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/vertical_connector.png"),
-                            nodeConnectorControllerVertical
-                        )
-                    )
-                }
-            }
-        }
+        // Get the prerequisite research
+        val previous = research.preRequisite ?: return
+        // Compute the researches' X and Y position
+        val xPos = (research.xPosition * DISTANCE_BETWEEN_RESEARCHES / researchTreeBase.scrollWidthRatio).roundToInt()
+        val yPos = (research.zPosition * DISTANCE_BETWEEN_RESEARCHES / researchTreeBase.scrollHeightRatio).roundToInt()
+        val xPosPrev = (previous.xPosition * DISTANCE_BETWEEN_RESEARCHES / researchTreeBase.scrollWidthRatio).roundToInt()
+        val yPosPrev = (previous.zPosition * DISTANCE_BETWEEN_RESEARCHES / researchTreeBase.scrollHeightRatio).roundToInt()
+
+        researchTreeBase.add(ResearchConnector(Position(xPos, yPos), Position(xPosPrev - xPos, yPosPrev - yPos)))
     }
 
     /**
@@ -231,8 +173,12 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
      * @param research The research to add a button for
      */
     private fun addResearchButton(research: Research) {
+        val xPos = (research.xPosition * DISTANCE_BETWEEN_RESEARCHES / researchTreeBase.scrollWidthRatio).roundToInt()
+        val yPos = (research.zPosition * DISTANCE_BETWEEN_RESEARCHES / researchTreeBase.scrollHeightRatio).roundToInt()
+        val width = (RESEARCH_WIDTH / researchTreeBase.scrollWidthRatio).roundToInt()
+        val height = (RESEARCH_HEIGHT / researchTreeBase.scrollHeightRatio).roundToInt()
         // Create the research button
-        val researchNode = AOTDGuiResearchNodeButton(RESEARCH_WIDTH, RESEARCH_HEIGHT, researchTreeBase, research)
+        val researchNode = AOTDGuiResearchNodeButton(width, height, xPos, yPos, research)
         // Add our pre-build listeners to this node
         researchNode.addMouseListener(researchNodeMouseListener)
         researchNode.addMouseMoveListener(researchNodeMouseMoveListener)

@@ -33,7 +33,7 @@ class AOTDGuiItemStack(
     init {
         // if we should highlight the background then add a highlit background image
         if (backgroundHighlight) {
-            highlight = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/slot_highlight.png"), AOTDImageDispMode.FIT_TO_PARENT, 32, 32)
+            highlight = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/slot_highlight.png"), AOTDImageDispMode.FIT_TO_PARENT)
             // Start the highlight off
             highlight.isVisible = false
             this.add(highlight)

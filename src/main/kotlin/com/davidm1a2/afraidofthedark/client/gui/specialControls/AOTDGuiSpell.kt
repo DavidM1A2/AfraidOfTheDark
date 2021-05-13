@@ -39,7 +39,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
     init {
         // The background image to hold all the buttons
         val background =
-            AOTDGuiImage("afraidofthedark:textures/gui/spell_list/spell_background.png", AOTDImageDispMode.FIT_TO_PARENT, width, height)
+            AOTDGuiImage("afraidofthedark:textures/gui/spell_list/spell_background.png", AOTDImageDispMode.FIT_TO_PARENT)
         this.add(background)
 
         // The container for spell name

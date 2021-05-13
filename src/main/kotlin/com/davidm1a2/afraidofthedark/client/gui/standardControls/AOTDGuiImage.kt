@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
+import com.davidm1a2.afraidofthedark.client.gui.TextureDimensionsCache
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
 import com.mojang.blaze3d.platform.GlStateManager
@@ -27,15 +28,15 @@ import kotlin.math.roundToInt
  */
 class AOTDGuiImage(
         var imageTexture: ResourceLocation,
-        var displayMode: AOTDImageDispMode = AOTDImageDispMode.STRETCH,
-        private var textureWidth: Int = -1,
-        private var textureHeight: Int = -1) :
+        var displayMode: AOTDImageDispMode = AOTDImageDispMode.STRETCH) :
         AOTDGuiContainer() {
 
-    constructor(imageTexture: String, displayMode: AOTDImageDispMode = AOTDImageDispMode.STRETCH, textureHeight: Int = -1, textureWidth: Int = -1): this(ResourceLocation(imageTexture), displayMode, textureHeight, textureWidth)
+    constructor(imageTexture: String, displayMode: AOTDImageDispMode = AOTDImageDispMode.STRETCH): this(ResourceLocation(imageTexture), displayMode)
 
     var u = 0.0f
     var v = 0.0f
+    var textureWidth = TextureDimensionsCache.cache.get(imageTexture).width
+    var textureHeight = TextureDimensionsCache.cache.get(imageTexture).height
 
     /**
      * Draws the GUI image given the width and height
@@ -55,7 +56,7 @@ class AOTDGuiImage(
             // Bind the texture to render
             Minecraft.getInstance().textureManager.bindTexture(this.imageTexture)
             // Check for invalid texture dimensions
-            if (textureHeight != -1 && textureWidth != -1) {
+            if (textureHeight > -1 && textureWidth > -1) {
                 AbstractGui.blit(x, y, 0, u, v, width, height, width, height)
             }
             GlStateManager.popMatrix()

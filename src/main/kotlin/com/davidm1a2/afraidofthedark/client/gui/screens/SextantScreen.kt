@@ -36,7 +36,7 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
         val background = AOTDGuiPanel(256, 256, scissorEnabled = false)
 
         // Add an image to the background of the sextant texture
-        val backgroundImage = AOTDGuiImage("afraidofthedark:textures/gui/telescope/sextant.png", AOTDImageDispMode.STRETCH, guiSize, guiSize)
+        val backgroundImage = AOTDGuiImage("afraidofthedark:textures/gui/telescope/sextant.png", AOTDImageDispMode.STRETCH)
         background.add(backgroundImage)
 
         // Grab the font for the text fields

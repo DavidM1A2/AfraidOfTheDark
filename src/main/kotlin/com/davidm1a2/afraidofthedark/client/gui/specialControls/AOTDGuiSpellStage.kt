@@ -42,9 +42,7 @@ class AOTDGuiSpellStage(
         // Set the background texture of the spell stage, save 14px for add and remove buttons
         val background = AOTDGuiImage(
             "afraidofthedark:textures/gui/spell_editor/spell_stage_background.png",
-            AOTDImageDispMode.STRETCH,
-            width,
-            height - 14
+            AOTDImageDispMode.STRETCH
         )
         add(background)
 

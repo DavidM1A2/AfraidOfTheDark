@@ -37,8 +37,8 @@ class AOTDGuiTextBox(width: Int, height: Int, private val font: TrueTypeFont) :
             // Draw each string in the text lines list one at at time
             for (i in this.textLines.indices)
                 this.font.drawString(
-                    this.getXWithOffset().toFloat(),
-                    this.getYWithOffset().toFloat() + i * this.font.height * Constants.TEXT_SCALE_FACTOR,
+                    this.x.toFloat(),
+                    this.y.toFloat() + i * this.font.height * Constants.TEXT_SCALE_FACTOR,
                     this.textLines[i],
                     Constants.TEXT_SCALE_FACTOR,
                     Constants.TEXT_SCALE_FACTOR,

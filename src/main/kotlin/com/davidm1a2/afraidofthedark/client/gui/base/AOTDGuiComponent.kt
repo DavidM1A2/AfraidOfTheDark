@@ -174,10 +174,6 @@ abstract class AOTDGuiComponent(
         hoverTexts = hoverText.split("\n").toTypedArray()
     }
 
-    fun getXWithOffset() = x + xOffset
-
-    fun getYWithOffset() = y + yOffset
-
     companion object {
         val fontRenderer: FontRenderer = Minecraft.getInstance().fontRenderer
         val entityPlayer: ClientPlayerEntity

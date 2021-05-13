@@ -41,9 +41,7 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         // Create a magic mirror background image
         val mirrorBackgroundImage = AOTDGuiImage(
             "afraidofthedark:textures/gui/spell_list/spell_list_background.png",
-            AOTDImageDispMode.FIT_TO_PARENT,
-            840,
-            700
+            AOTDImageDispMode.FIT_TO_PARENT
         )
         backgroundPanel.add(mirrorBackgroundImage)
 

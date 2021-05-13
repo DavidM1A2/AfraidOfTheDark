@@ -59,8 +59,8 @@ class AOTDGuiSpriteSheetImage(
                 // Draw vertically
                 if (sheetController.isVertical) {
                     AbstractGui.blit(
-                        getXWithOffset(),
-                        getYWithOffset(),
+                        x,
+                        y,
                         width,
                         height,
                         0f,
@@ -77,8 +77,8 @@ class AOTDGuiSpriteSheetImage(
                         1 - percentageToNextFrame
                     )
                     AbstractGui.blit(
-                        getXWithOffset(),
-                        getYWithOffset(),
+                        x,
+                        y,
                         width,
                         height,
                         0f,
@@ -90,8 +90,8 @@ class AOTDGuiSpriteSheetImage(
                     )
                 } else {
                     AbstractGui.blit(
-                        getXWithOffset(),
-                        getYWithOffset(),
+                        x,
+                        y,
                         width,
                         height,
                         (currentFrame * frameWidth).toFloat(),
@@ -108,8 +108,8 @@ class AOTDGuiSpriteSheetImage(
                         1 - percentageToNextFrame
                     )
                     AbstractGui.blit(
-                        getXWithOffset(),
-                        getYWithOffset(),
+                        x,
+                        y,
                         width,
                         height,
                         (nextFrame * frameWidth).toFloat(),
@@ -131,8 +131,8 @@ class AOTDGuiSpriteSheetImage(
                 // Draw vertically
                 if (sheetController.isVertical) {
                     AbstractGui.blit(
-                        getXWithOffset(),
-                        getYWithOffset(),
+                        x,
+                        y,
                         width,
                         height,
                         0f,
@@ -144,8 +144,8 @@ class AOTDGuiSpriteSheetImage(
                     )
                 } else {
                     AbstractGui.blit(
-                        getXWithOffset(),
-                        getYWithOffset(),
+                        x,
+                        y,
                         width,
                         height,
                         (currentFrame * frameWidth).toFloat(),

@@ -45,9 +45,7 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
         val backgroundImageSize = 220
         val backgroundImage = AOTDGuiImage(
             ResourceLocation("afraidofthedark:textures/gui/journal_sign/blood_stained_journal.png"),
-            AOTDImageDispMode.FIT_TO_PARENT,
-            backgroundImageSize,
-            backgroundImageSize
+            AOTDImageDispMode.FIT_TO_PARENT
         )
         backgroundPanel.add(backgroundImage)
 

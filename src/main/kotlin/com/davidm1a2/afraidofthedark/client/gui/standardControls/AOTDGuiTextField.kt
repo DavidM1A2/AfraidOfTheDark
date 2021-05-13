@@ -44,7 +44,7 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
 
     init {
         // Create our background image
-        this.background = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/text_field_background.png"), AOTDImageDispMode.STRETCH, 500, 100)
+        this.background = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/text_field_background.png"), AOTDImageDispMode.STRETCH)
 
         // Set the text container bounding box to have scissor enabled and contain the label
         this.textContainer = AOTDGuiPanel(width - 10, height - 10, 5, 5, scissorEnabled = true)

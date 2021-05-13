@@ -35,7 +35,7 @@ class TelescopeScreen : AOTDScreenClickAndDragable(TranslationTextComponent("scr
         val telescope = AOTDGuiPanel(GUI_SIZE, GUI_SIZE)
 
         // Create a frame that will be the edge of the telescope UI
-        val telescopeFrame = AOTDGuiImage("afraidofthedark:textures/gui/telescope/frame.png", AOTDImageDispMode.FIT_TO_PARENT, 1024, 1024)
+        val telescopeFrame = AOTDGuiImage("afraidofthedark:textures/gui/telescope/frame.png", AOTDImageDispMode.FIT_TO_PARENT)
 
         // Create the panel to hold all the meteors, the size doesnt matter since it is just a base to hold all of our meteor buttons
         telescopeMeteors = AOTDGuiPanel(1, 1)
@@ -47,9 +47,7 @@ class TelescopeScreen : AOTDScreenClickAndDragable(TranslationTextComponent("scr
         // Initialize the background star sky image and center the image
         telescopeImage = AOTDGuiImage(
             "afraidofthedark:textures/gui/telescope/background.png",
-            AOTDImageDispMode.FIT_TO_PARENT,
-            3840,
-            2160
+            AOTDImageDispMode.FIT_TO_PARENT
         )
         // Click listener that gets called when we click a meteor button
         val meteorClickListener = { event: AOTDMouseEvent ->

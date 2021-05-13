@@ -36,11 +36,11 @@ open class AOTDGuiPanel(
         // If scissor is enabled we use glScissor to force all drawing to happen inside of a box
         if (scissorEnabled) {
             // Compute the OpenGL X and Y screen coordinates to scissor
-            var realX = AOTDGuiUtility.mcToRealScreenCoord(this.getXWithOffset())
-            var realY = AOTDGuiUtility.realScreenYToGLYCoord(AOTDGuiUtility.mcToRealScreenCoord(this.getYWithOffset() + this.height))
+            var realX = AOTDGuiUtility.mcToRealScreenCoord(x)
+            var realY = AOTDGuiUtility.realScreenYToGLYCoord(AOTDGuiUtility.mcToRealScreenCoord(y + height))
             // Compute the OpenGL width and height to scissor with
-            var realWidth = AOTDGuiUtility.mcToRealScreenCoord(this.width)
-            var realHeight = AOTDGuiUtility.mcToRealScreenCoord(this.height)
+            var realWidth = AOTDGuiUtility.mcToRealScreenCoord(width)
+            var realHeight = AOTDGuiUtility.mcToRealScreenCoord(height)
 
             // If open GL scissors is enabled update the x,y width,height to be clamped within the current scissor box
             if (GL11.glIsEnabled(GL11.GL_SCISSOR_TEST)) {

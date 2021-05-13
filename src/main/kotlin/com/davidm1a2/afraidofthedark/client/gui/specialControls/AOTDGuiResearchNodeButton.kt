@@ -23,11 +23,11 @@ import kotlin.math.roundToInt
  * @param y        The y coordinate of the button
  * @param research The research that this button represents
  */
-class AOTDGuiResearchNodeButton(width: Int, height: Int, scrollPane: ScrollPane, val research: Research) : AOTDGuiButton(
-    (width/scrollPane.scrollWidthRatio).roundToInt(),
-    (height/scrollPane.scrollHeightRatio).roundToInt(),
-    (research.xPosition * Research.DISTANCE_BETWEEN_RESEARCHES / scrollPane.scrollWidthRatio).roundToInt(),
-    (research.zPosition * Research.DISTANCE_BETWEEN_RESEARCHES / scrollPane.scrollHeightRatio).roundToInt(),
+class AOTDGuiResearchNodeButton(width: Int, height: Int, xOffset: Int, yOffset: Int, val research: Research) : AOTDGuiButton(
+    width,
+    height,
+    xOffset,
+    yOffset,
     icon = AOTDGuiImage("afraidofthedark:textures/gui/journal_tech_tree/research_background.png"),
     iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/journal_tech_tree/research_background_hovered.png"),
     gravity = AOTDGuiGravity.CENTER
@@ -54,8 +54,8 @@ class AOTDGuiResearchNodeButton(width: Int, height: Int, scrollPane: ScrollPane,
             // Draw the researches icon on the button
             Minecraft.getInstance().textureManager.bindTexture(this.research.icon)
             AbstractGui.blit(
-                getXWithOffset(),
-                getYWithOffset(),
+                x,
+                y,
                 0f,
                 0f,
                 width,
@@ -68,8 +68,8 @@ class AOTDGuiResearchNodeButton(width: Int, height: Int, scrollPane: ScrollPane,
             if (!playerResearch.isResearched(this.research)) {
                 Minecraft.getInstance().textureManager.bindTexture(UNKNOWN_RESEARCH)
                 AbstractGui.blit(
-                    getXWithOffset(),
-                    getYWithOffset(),
+                    x,
+                    y,
                     0f,
                     0f,
                     width,

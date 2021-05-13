@@ -60,7 +60,7 @@ class AOTDGuiSpellTablet(
         val tablet = AOTDGuiPanel(width, height)
         // Create the background image
         val backgroundImage =
-            AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/tablet_background.png", AOTDImageDispMode.STRETCH, width, height)
+            AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/tablet_background.png", AOTDImageDispMode.STRETCH)
         tablet.add(backgroundImage)
 
         // Setup the spell name label
@@ -80,7 +80,7 @@ class AOTDGuiSpellTablet(
 
         // Add the background for the spell stages
         val spellStageBackground =
-            AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/spell_stage_panel_background.png", AOTDImageDispMode.FIT_TO_SIZE, 120, 170)
+            AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/spell_stage_panel_background.png", AOTDImageDispMode.FIT_TO_SIZE)
         tablet.add(spellStageBackground)
 
         // Add the spell stage container scroll panel

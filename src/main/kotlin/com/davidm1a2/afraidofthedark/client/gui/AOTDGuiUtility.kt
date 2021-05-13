@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility.window
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
+import net.minecraft.util.ResourceLocation
 import java.awt.Toolkit
 import java.awt.datatransfer.DataFlavor
 import java.awt.datatransfer.StringSelection

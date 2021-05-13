@@ -60,7 +60,7 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         val journalBackground = AOTDGuiPanel(width, height, gravity = AOTDGuiGravity.CENTER, padding = AOTDGuiSpacing(50))
 
         // Create a page image to be used as the background
-        val pageBackgroundImage = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/background.png"), AOTDImageDispMode.FIT_TO_PARENT, 990, 843)
+        val pageBackgroundImage = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/background.png"), AOTDImageDispMode.FIT_TO_PARENT)
         journalBackground.add(pageBackgroundImage)
 
         // Create red colors for text
@@ -101,7 +101,7 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
 
         // The bookmark button returns the user to the research screen
         // The bookmark button to go back
-        val bookmarkIcon = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/slot_highlight.png"), AOTDImageDispMode.FIT_TO_PARENT, 32, 32)
+        val bookmarkIcon = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/slot_highlight.png"), AOTDImageDispMode.FIT_TO_PARENT)
         val bookmarkButton = AOTDGuiButton(
             15,
             30,

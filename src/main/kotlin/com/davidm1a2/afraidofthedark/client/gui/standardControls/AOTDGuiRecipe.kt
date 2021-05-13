@@ -23,7 +23,7 @@ import kotlin.math.min
  */
 class AOTDGuiRecipe(width: Int, height: Int = width/367*267, xOffset: Int, yOffset: Int, recipe: IRecipe<*>? = null) :
     AOTDGuiContainer(width, height, xOffset, yOffset) {
-    private val craftingGrid: AOTDGuiImage = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/crafting_grid.png"), AOTDImageDispMode.STRETCH, 367, 267)
+    private val craftingGrid: AOTDGuiImage = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/crafting_grid.png"), AOTDImageDispMode.STRETCH)
     private val guiItemStacks: Array<AOTDGuiItemStack>
     private val output: AOTDGuiItemStack
 

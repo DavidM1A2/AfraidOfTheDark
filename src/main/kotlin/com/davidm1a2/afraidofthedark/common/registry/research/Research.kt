@@ -102,7 +102,5 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
 
         // Gson serializer to convert from JSON to java types
         private val DESERIALIZER = GsonBuilder().disableHtmlEscaping().create()
-
-        const val DISTANCE_BETWEEN_RESEARCHES = 50
     }
 }

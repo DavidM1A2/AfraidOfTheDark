@@ -38,12 +38,12 @@ class AOTDGuiScrollBar @JvmOverloads constructor(
 
     init {
         // The background behind the scroll bar handle
-        val barBackground = AOTDGuiImage(ResourceLocation(scrollBarTexture), AOTDImageDispMode.FIT_TO_PARENT, 42, 593)
+        val barBackground = AOTDGuiImage(ResourceLocation(scrollBarTexture), AOTDImageDispMode.FIT_TO_PARENT)
         // Add the background to the control
         this.add(barBackground)
         // Create a handle to grab, let the height be the height of the bar / 10
-        val icon = AOTDGuiImage(ResourceLocation(handleTexture), AOTDImageDispMode.STRETCH, 36, 45)
-        val iconHovered = AOTDGuiImage(ResourceLocation(handleHoveredTexture), AOTDImageDispMode.STRETCH, 36, 45)
+        val icon = AOTDGuiImage(ResourceLocation(handleTexture), AOTDImageDispMode.STRETCH)
+        val iconHovered = AOTDGuiImage(ResourceLocation(handleHoveredTexture), AOTDImageDispMode.STRETCH)
         this.handle = AOTDGuiButton(width, height / 10, icon = icon, iconHovered = iconHovered)
         // Add the handle
         this.add(this.handle)
