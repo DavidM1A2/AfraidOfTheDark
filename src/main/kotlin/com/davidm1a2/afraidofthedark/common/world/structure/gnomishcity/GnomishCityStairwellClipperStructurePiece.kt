@@ -12,7 +12,7 @@ import net.minecraft.world.gen.feature.structure.StructurePiece
 import java.util.*
 
 class GnomishCityStairwellClipperStructurePiece : StructurePiece {
-    constructor(nbt: CompoundNBT) : super(ModStructures.SCHEMATIC_STRUCTURE_PIECE, nbt)
+    constructor(nbt: CompoundNBT) : super(ModStructures.GNOMISH_CITY_STAIRWELL_CLIPPER_STRUCTURE_PIECE, nbt)
 
     constructor(xPos: Int, groundY: Int, maxStairwellY: Int, zPos: Int) : super(ModStructures.GNOMISH_CITY_STAIRWELL_CLIPPER_STRUCTURE_PIECE, 0) {
         val stairwell = ModSchematics.STAIRWELL
