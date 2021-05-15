@@ -1,16 +1,15 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
+import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiImage
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiTextField
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.ProcessSextantInputPacket
 import net.minecraft.util.text.TranslationTextComponent
 import java.awt.Color
@@ -30,22 +29,22 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
 
     init {
         // The gui will be 256x256
-        val guiSize = 256
+        val guiSize = 256.0
 
         // Background panel holds all the gui items
-        val background = AOTDGuiPanel(256, 256, scissorEnabled = false)
+        val background = StackPane(Dimensions(guiSize, guiSize), scissorEnabled = false)
 
         // Add an image to the background of the sextant texture
-        val backgroundImage = AOTDGuiImage("afraidofthedark:textures/gui/telescope/sextant.png", AOTDImageDispMode.STRETCH)
+        val backgroundImage = ImagePane("afraidofthedark:textures/gui/telescope/sextant.png", ImagePane.DispMode.STRETCH)
         background.add(backgroundImage)
 
         // Grab the font for the text fields
         val textFieldFont = ClientData.getOrCreate(45f)
 
         // Initialize fields
-        angle = AOTDGuiTextField(15, 108, 120, 30, textFieldFont)
-        latitude = AOTDGuiTextField(15, 140, 120, 30, textFieldFont)
-        longitude = AOTDGuiTextField(15, 172, 120, 30, textFieldFont)
+        angle = AOTDGuiTextField(prefSize = Dimensions(120.0, 30.0), font = textFieldFont)
+        latitude = AOTDGuiTextField(prefSize = Dimensions(120.0, 30.0), font = textFieldFont)
+        longitude = AOTDGuiTextField(prefSize = Dimensions(120.0, 30.0), font = textFieldFont)
 
         // All fields are white and contain ghost text based on what they represent
         angle.setTextColor(Color(255, 255, 255))
@@ -60,10 +59,9 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
 
         // Create a calculate button that performs the math and returns drop location coordinates
         val confirm = AOTDGuiButton(
-            120,
-            20,
-            icon = AOTDGuiImage("afraidofthedark:textures/gui/journal_sign/sign_button.png"),
-            iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png"),
+            prefSize = Dimensions(120.0, 20.0),
+            icon = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button.png"),
+            iconHovered = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png"),
             font = ClientData.getOrCreate(40f)
         )
         // Text just says calculate

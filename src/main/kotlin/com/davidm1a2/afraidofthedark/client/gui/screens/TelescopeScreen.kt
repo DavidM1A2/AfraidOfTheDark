@@ -1,12 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreenClickAndDragable
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
+import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiMeteorButton
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiImage
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
@@ -14,6 +14,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.item.telescope.TelescopeBaseItem
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.UpdateWatchedMeteorPacket
 import net.minecraft.util.text.TranslationTextComponent
+import java.awt.Image
 
 /**
  * Gui screen that represents the telescope GUI
@@ -22,9 +23,9 @@ import net.minecraft.util.text.TranslationTextComponent
  * @property telescopeMeteors The panel that will contain all the meteors on it
  * @property telescopeImage The image that represents the 'sky'
  */
-class TelescopeScreen : AOTDScreenClickAndDragable(TranslationTextComponent("screen.afraidofthedark.telescope")) {
-    private val telescopeMeteors: AOTDGuiPanel
-    private val telescopeImage: AOTDGuiImage
+class TelescopeScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.telescope")) {
+    private val telescopeMeteors: StackPane
+    private val telescopeImage: ImagePane
 
     init {
         // Calculate the various positions of GUI elements on the screen
@@ -32,22 +33,22 @@ class TelescopeScreen : AOTDScreenClickAndDragable(TranslationTextComponent("scr
         val yPosTelescope = (Constants.BASE_GUI_HEIGHT - GUI_SIZE) / 2
 
         // Create a panel that will hold all the UI contents
-        val telescope = AOTDGuiPanel(GUI_SIZE, GUI_SIZE)
+        val telescope = StackPane(Dimensions(GUI_SIZE.toDouble(), GUI_SIZE.toDouble()))
 
         // Create a frame that will be the edge of the telescope UI
-        val telescopeFrame = AOTDGuiImage("afraidofthedark:textures/gui/telescope/frame.png", AOTDImageDispMode.FIT_TO_PARENT)
+        val telescopeFrame = ImagePane("afraidofthedark:textures/gui/telescope/frame.png", ImagePane.DispMode.FIT_TO_PARENT)
 
         // Create the panel to hold all the meteors, the size doesnt matter since it is just a base to hold all of our meteor buttons
-        telescopeMeteors = AOTDGuiPanel(1, 1)
+        telescopeMeteors = StackPane()
 
         // Create a clipping panel to hold the meteors so they don't clip outside
         val telescopeMeteorClip =
-            AOTDGuiPanel(GUI_SIZE - SIDE_BUFFER * 2, GUI_SIZE - SIDE_BUFFER * 2, scissorEnabled = true)
+            StackPane(scissorEnabled = true)
 
         // Initialize the background star sky image and center the image
-        telescopeImage = AOTDGuiImage(
+        telescopeImage = ImagePane(
             "afraidofthedark:textures/gui/telescope/background.png",
-            AOTDImageDispMode.FIT_TO_PARENT
+            ImagePane.DispMode.FIT_TO_PARENT
         )
         // Click listener that gets called when we click a meteor button
         val meteorClickListener = { event: AOTDMouseEvent ->
@@ -82,8 +83,7 @@ class TelescopeScreen : AOTDScreenClickAndDragable(TranslationTextComponent("scr
             for (i in 0 until numberOfMeteors) {
                 // Create the meteor button based on if astronomy 2 is researched or not
                 val meteorButton = AOTDGuiMeteorButton(
-                    64,
-                    64,
+                    Dimensions(64.0, 64.0),
                     possibleMeteors[random.nextInt(possibleMeteors.size)]
                 )
                 // Add a listener
@@ -98,16 +98,6 @@ class TelescopeScreen : AOTDScreenClickAndDragable(TranslationTextComponent("scr
         telescope.add(telescopeMeteorClip)
         telescope.add(telescopeFrame)
         contentPane.add(telescope)
-    }
-
-    /**
-     * We can use this to test if the gui has scrolled out of bounds or not
-     */
-    override fun checkOutOfBounds() {
-        guiOffsetX =
-            guiOffsetX.coerceIn(-telescopeImage.width / 2, telescopeImage.width / 2)
-        guiOffsetY =
-            guiOffsetY.coerceIn(-telescopeImage.height / 2, telescopeImage.height / 2)
     }
 
     /**

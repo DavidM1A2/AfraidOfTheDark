@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui.base
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.events.*
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.player.ClientPlayerEntity
@@ -26,7 +26,7 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
     val entityPlayer: ClientPlayerEntity
         get() = Minecraft.getInstance().player
 
-    val contentPane = AOTDGuiPanel(AOTDGuiUtility.getWindowWidthInMCCoords(), AOTDGuiUtility.getWindowHeightInMCCoords())
+    val contentPane = StackPane(AOTDGuiUtility.getWindowSizeInMCCoords())
     private val spriteSheetControllers = mutableListOf<SpriteSheetController>()
     private var prevMouseX = 0
     private var prevMouseY = 0
@@ -38,6 +38,16 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
         super.init()
         // Clear all buttons on the screen
         this.buttons.clear()
+    }
+
+    override fun resize(p_resize_1_: Minecraft, p_resize_2_: Int, p_resize_3_: Int) {
+        super.resize(p_resize_1_, p_resize_2_, p_resize_3_)
+        // Resize pane
+        this.contentPane.prefSize = AOTDGuiUtility.getWindowSizeInMCCoords()
+        // Force pane to fit to the screen
+        this.contentPane.negotiateDimensions(width.toDouble(), height.toDouble())
+        // Resize the tree to fit the dimensions
+        this.contentPane.calcChildrenBounds()
     }
 
     /**
@@ -56,12 +66,14 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
         if (this.drawGradientBackground()) {
             this.renderBackground()
         }
+        // Force pane to fit to the screen
+        this.contentPane.negotiateDimensions(width.toDouble(), height.toDouble())
+        // Resize the tree to fit the dimensions
+        this.contentPane.calcChildrenBounds()
         // Draw the content pane
         this.contentPane.draw()
         // Draw the overlay on top of the content pane
         this.contentPane.drawOverlay()
-        // Force pane to fit to the screen
-        this.contentPane.negotiateDimensions(width, height)
         // Call the super method
         super.render(mouseX, mouseY, partialTicks)
         // Disable blend now that we drew the UI

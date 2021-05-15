@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.base
 
 import com.davidm1a2.afraidofthedark.client.gui.events.*
+import java.awt.Color
 import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.math.min
 
@@ -15,19 +16,22 @@ import kotlin.math.min
  * @property subComponents A list of sub-components found inside this container. Use a CopyOnWriteArrayList so we can modify it while iterating over it. The CopyOnWriteArrayList is very efficient when iterating, but costly when adding/removing elements. We iterate mostly, so it's a good choice here
  * @property parent The parent transform that this container uses as a base
  */
-abstract class AOTDGuiContainer(
-        protected val prefWidth: Int = Int.MAX_VALUE,
-        protected val prefHeight: Int = Int.MAX_VALUE,
-        xOffset: Int = 0,
-        yOffset: Int = 0,
-        margins: AOTDGuiSpacing = AOTDGuiSpacing(),
-        gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
-        hoverTexts: Array<String> = emptyArray(),
-        var padding: AOTDGuiSpacing = AOTDGuiSpacing()) :
-        AOTDGuiComponentWithEvents(xOffset, yOffset, margins, gravity, hoverTexts) {
+abstract class AOTDPane (
+    offset: Position<Double> = Position(0.0, 0.0),
+    prefSize: Dimensions<Double> = Dimensions(0.0, 0.0),
+    margins: AOTDGuiSpacing = AOTDGuiSpacing(),
+    gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
+    hoverTexts: Array<String> = emptyArray(),
+    var padding: AOTDGuiSpacing = AOTDGuiSpacing(),
+    color: Color = Color(255, 255, 255, 255)) :
+    AOTDGuiComponentWithEvents(offset, prefSize, margins, gravity, hoverTexts, color) {
 
-    private val subComponents = CopyOnWriteArrayList<AOTDGuiContainer>()
-    var parent: AOTDGuiContainer? = null
+    // Panes can have children
+    private val subComponents = CopyOnWriteArrayList<AOTDGuiComponent>()
+
+    // Special offsets so that panes can scroll with children
+    var guiOffsetX = 0.0
+    var guiOffsetY = 0.0
 
     override var isVisible: Boolean
         get() = super.isVisible
@@ -43,9 +47,7 @@ abstract class AOTDGuiContainer(
      *
      * @param container The container to add
      */
-    fun add(container: AOTDGuiContainer) {
-        // Set the container's parent
-        container.parent = this
+    fun add(container: AOTDGuiComponent) {
         // Add the sub-component
         this.subComponents.add(container)
         // Calculate all children's positions and dimensions
@@ -57,56 +59,60 @@ abstract class AOTDGuiContainer(
      *
      * @param container The container to remove
      */
-    fun remove(container: AOTDGuiContainer) {
+    fun remove(container: AOTDGuiComponent) {
         if (!this.subComponents.contains(container)) {
             return
         }
         this.subComponents.remove(container)
         // Calculate all children's positions and dimensions
         calcChildrenBounds()
-        // Set the container's parent
-        container.parent = null
     }
 
     /**
      * Calculates the proper locations and dimensions of all children nodes
      * Default behavior is that of a StackPane (children drawn on top of each other)
      */
-    open fun calcChildrenBounds() {
+    open fun calcChildrenBounds(width: Double = this.width.toDouble(), height: Double = this.height.toDouble()) {
         for (child in subComponents) {
             // Set dimensions
-            val internalWidth = this.width - padding.horizPx
-            val internalHeight = this.height - padding.vertPx
+            val internalWidth = width - padding.horizPx
+            val internalHeight = height - padding.vertPx
             child.negotiateDimensions(internalWidth, internalHeight)
             // Set position
-            val calculatedXOffset = when (child.gravity) {
-                AOTDGuiGravity.TOP_LEFT, AOTDGuiGravity.CENTER_LEFT, AOTDGuiGravity.BOTTOM_LEFT -> padding.leftPx
-                AOTDGuiGravity.TOP_CENTER, AOTDGuiGravity.CENTER, AOTDGuiGravity.BOTTOM_CENTER -> this.width/2 - child.width/2
-                AOTDGuiGravity.TOP_RIGHT, AOTDGuiGravity.CENTER_RIGHT, AOTDGuiGravity.BOTTOM_RIGHT -> this.width - child.width - padding.rightPx
+            val gravityXOffset = when (child.gravity) {
+                AOTDGuiGravity.TOP_LEFT, AOTDGuiGravity.CENTER_LEFT, AOTDGuiGravity.BOTTOM_LEFT -> padding.leftPx.toDouble()
+                AOTDGuiGravity.TOP_CENTER, AOTDGuiGravity.CENTER, AOTDGuiGravity.BOTTOM_CENTER -> width/2 - child.width/2
+                AOTDGuiGravity.TOP_RIGHT, AOTDGuiGravity.CENTER_RIGHT, AOTDGuiGravity.BOTTOM_RIGHT -> width - child.width - padding.rightPx
             }
-            val calculatedYOffset = when (child.gravity) {
-                AOTDGuiGravity.TOP_LEFT, AOTDGuiGravity.TOP_CENTER, AOTDGuiGravity.TOP_RIGHT -> padding.topPx
-                AOTDGuiGravity.CENTER_LEFT, AOTDGuiGravity.CENTER, AOTDGuiGravity.CENTER_RIGHT -> this.height/2 - child.height/2
-                AOTDGuiGravity.BOTTOM_LEFT, AOTDGuiGravity.BOTTOM_CENTER, AOTDGuiGravity.BOTTOM_RIGHT -> this.height - child.height - padding.botPx
+            val gravityYOffset = when (child.gravity) {
+                AOTDGuiGravity.TOP_LEFT, AOTDGuiGravity.TOP_CENTER, AOTDGuiGravity.TOP_RIGHT -> padding.topPx.toDouble()
+                AOTDGuiGravity.CENTER_LEFT, AOTDGuiGravity.CENTER, AOTDGuiGravity.CENTER_RIGHT -> height/2 - child.height/2
+                AOTDGuiGravity.BOTTOM_LEFT, AOTDGuiGravity.BOTTOM_CENTER, AOTDGuiGravity.BOTTOM_RIGHT -> height - child.height - padding.botPx
             }
-            child.x = this.x + this.xOffset + calculatedXOffset + child.xOffset
-            child.y = this.y + this.yOffset + calculatedYOffset + child.yOffset
+            val xOffset = if (child.offset is RelativePosition) this.width.toDouble() * child.offset.x else child.offset.x
+            val yOffset = if (child.offset is RelativePosition) this.height.toDouble() * child.offset.y else child.offset.y
+            child.x = (this.x + this.guiOffsetX + gravityXOffset + xOffset).toInt()
+            child.y = (this.y + this.guiOffsetY + gravityYOffset + yOffset).toInt()
+            // If it's a pane, have it recalculate its children too
+            if (child is AOTDPane) child.calcChildrenBounds()
+            // Determine if the subtree of children are in this node's bounds
+            determineInBounds(child)
         }
     }
 
-    /**
-     * Adjust this component to fit into the given space
-     */
-    override fun negotiateDimensions(width: Int, height: Int) {
-        this.width = min(prefWidth, width)
-        this.height = min(prefHeight, height)
-        this.calcChildrenBounds()
+    private fun determineInBounds(component: AOTDGuiComponent) {
+        if (!component.intersects(this.boundingBox)) component.inBounds = false
+        if (component is AOTDPane) {
+            for (child in component.getChildren()) {
+                determineInBounds(child)
+            }
+        }
     }
 
     /**
      * @return Returns the unmodifiable list of sub-components. If you want to add to this list, please use the AOTDGuiContainer.add instead
      */
-    fun getChildren(): List<AOTDGuiContainer> {
+    fun getChildren(): List<AOTDGuiComponent> {
         return subComponents.toList()
     }
 
@@ -139,7 +145,7 @@ abstract class AOTDGuiContainer(
         // Fire our component's mouse input
         super.processMouseInput(event)
         // Fire our sub-component's mouse input events
-        this.subComponents.forEach { it.processMouseInput(event) }
+        this.subComponents.forEach { if (it is AOTDGuiComponentWithEvents) it.processMouseInput(event) }
     }
 
     /**
@@ -151,7 +157,7 @@ abstract class AOTDGuiContainer(
         // Fire our component's mouse move input
         super.processMouseMoveInput(event)
         // Fire our sub-component's mouse move input events
-        this.subComponents.forEach { it.processMouseMoveInput(event) }
+        this.subComponents.forEach { if (it is AOTDGuiComponentWithEvents) it.processMouseMoveInput(event) }
     }
 
     /**
@@ -163,7 +169,7 @@ abstract class AOTDGuiContainer(
         // Fire our component's mouse move input
         super.processMouseDragInput(event)
         // Fire our sub-component's mouse move input events
-        this.subComponents.forEach { it.processMouseDragInput(event) }
+        this.subComponents.forEach { if (it is AOTDGuiComponentWithEvents) it.processMouseDragInput(event) }
     }
 
     /**
@@ -175,7 +181,7 @@ abstract class AOTDGuiContainer(
         // Fire our component's mouse scroll input
         super.processMouseScrollInput(event)
         // Fire our sub-component's mouse scroll input events
-        this.subComponents.forEach { it.processMouseScrollInput(event) }
+        this.subComponents.forEach { if (it is AOTDGuiComponentWithEvents) it.processMouseScrollInput(event) }
     }
 
     /**
@@ -187,6 +193,6 @@ abstract class AOTDGuiContainer(
         // Fire our component's key input
         super.processKeyInput(event)
         // Fire our sub-component's key input events
-        this.subComponents.forEach { it.processKeyInput(event) }
+        this.subComponents.forEach { if (it is AOTDGuiComponentWithEvents) it.processKeyInput(event) }
     }
 }

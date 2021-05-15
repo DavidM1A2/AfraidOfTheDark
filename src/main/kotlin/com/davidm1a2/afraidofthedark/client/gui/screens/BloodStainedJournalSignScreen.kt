@@ -1,19 +1,18 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
+import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiImage
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiTextField
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.item.JournalItem
@@ -32,41 +31,35 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
     private val nameSignField: AOTDGuiTextField
 
     init {
-        val guiSize = 256
+        val guiSize = 256.0
 
         // Setup the background panel that holds all of our controls
-        val backgroundPanel = AOTDGuiPanel(
-            guiSize,
-            guiSize,
+        val backgroundPanel = StackPane(
+            Dimensions(guiSize, guiSize),
             scissorEnabled = false
         )
 
         // Add a background image to the background panel
-        val backgroundImageSize = 220
-        val backgroundImage = AOTDGuiImage(
+        val backgroundImage = ImagePane(
             ResourceLocation("afraidofthedark:textures/gui/journal_sign/blood_stained_journal.png"),
-            AOTDImageDispMode.FIT_TO_PARENT
+            ImagePane.DispMode.FIT_TO_PARENT
         )
         backgroundPanel.add(backgroundImage)
 
         this.nameSignField = AOTDGuiTextField(
-            45,
-            90,
-            160,
-            30,
-            ClientData.getOrCreate(45f)
+            prefSize = Dimensions(160.0, 30.0),
+            font = ClientData.getOrCreate(45f)
         )
         this.nameSignField.setTextColor(Color(255, 0, 0))
         backgroundPanel.add(this.nameSignField)
 
         // Add the sign button
-        val signButtonWidth = 100
-        val signButtonHeight = 25
+        val signButtonWidth = 100.0
+        val signButtonHeight = 25.0
         val signButton = AOTDGuiButton(
-            signButtonWidth,
-            signButtonHeight,
-            icon = AOTDGuiImage("afraidofthedark:textures/gui/journal_sign/sign_button.png"),
-            iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png"),
+            prefSize = Dimensions(signButtonWidth, signButtonHeight),
+            icon = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button.png"),
+            iconHovered = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png"),
             font = ClientData.getOrCreate(55f)
         )
         signButton.setText("Sign")

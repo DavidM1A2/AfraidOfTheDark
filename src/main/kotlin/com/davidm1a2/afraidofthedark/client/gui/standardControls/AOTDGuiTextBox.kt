@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
+import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.common.constants.Constants
@@ -20,8 +21,8 @@ import kotlin.math.floor
  * @property textColor The color to draw the text with
  * @property overflowText The overflow text that doesn't fit inside this text box
  */
-class AOTDGuiTextBox(width: Int, height: Int, private val font: TrueTypeFont) :
-    AOTDGuiContainer(width, height) {
+class AOTDGuiTextBox(prefSize: Dimensions<Double> = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE), private val font: TrueTypeFont) :
+    AOTDPane(prefSize = prefSize) {
     private var textLines = mutableListOf<String>()
     var textColor = Color(255, 255, 255, 255)
     var overflowText = ""

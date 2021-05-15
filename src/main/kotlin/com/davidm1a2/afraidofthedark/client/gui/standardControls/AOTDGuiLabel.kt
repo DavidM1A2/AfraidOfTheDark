@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiGravity
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
@@ -23,7 +23,7 @@ import java.awt.Color
  * @property textAlignment Text alignment
  * @property shortenTextToFit True if we should ensure the text fits inside the label by shortening it, false otherwise
  */
-class AOTDGuiLabel(val font: TrueTypeFont, gravity: AOTDGuiGravity = AOTDGuiGravity.CENTER) : AOTDGuiContainer(0, 0, gravity = gravity) {
+class AOTDGuiLabel(val font: TrueTypeFont, gravity: AOTDGuiGravity = AOTDGuiGravity.CENTER) : AOTDPane(gravity = gravity) {
 
     var text = ""
         set(text) {
@@ -106,8 +106,8 @@ class AOTDGuiLabel(val font: TrueTypeFont, gravity: AOTDGuiGravity = AOTDGuiGrav
         }
     }
 
-    override fun negotiateDimensions(width: Int, height: Int) {
+    override fun negotiateDimensions(width: Double, height: Double) {
         this.width = this.font.getWidth(this.fitText).coerceAtMost(width.toFloat()).toInt()
-        this.height = this.font.height.coerceAtMost(height)
+        this.height = this.font.height.coerceAtMost(height.toInt())
     }
 }

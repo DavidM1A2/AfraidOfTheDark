@@ -1,8 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
-import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
@@ -29,10 +27,10 @@ import java.awt.Color
  * @property textColor If we were not showing ghost text update the label's color
  * @property text The current text in the text field or empty string if it is ghost text
  */
-class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFont) :
-    AOTDGuiContainer(x, y, width, height) {
-    private val background: AOTDGuiImage
-    private val textContainer: AOTDGuiPanel
+class AOTDGuiTextField(offset: Position<Double> = Position(0.0, 0.0), prefSize: Dimensions<Double> = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE), font: TrueTypeFont) :
+    AOTDPane(offset, prefSize) {
+    private val background: ImagePane
+    private val textContainer: StackPane
     private val textLabel: AOTDGuiLabel
     var isFocused = false
         private set
@@ -44,10 +42,10 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
 
     init {
         // Create our background image
-        this.background = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/text_field_background.png"), AOTDImageDispMode.STRETCH)
+        this.background = ImagePane(ResourceLocation("afraidofthedark:textures/gui/text_field_background.png"), ImagePane.DispMode.STRETCH)
 
         // Set the text container bounding box to have scissor enabled and contain the label
-        this.textContainer = AOTDGuiPanel(width - 10, height - 10, 5, 5, scissorEnabled = true)
+        this.textContainer = StackPane(Dimensions(width.toDouble(), height.toDouble()), margins = AOTDGuiSpacing(10), scissorEnabled = true)
         // The text label contains the text field's text
         this.textLabel = AOTDGuiLabel(font)
         // Make sure the label doesn't shorten the text inside to fit

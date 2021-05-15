@@ -1,13 +1,8 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiGravity
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiSpacing
-import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
-import net.minecraft.util.ResourceLocation
 import java.awt.Color
-import kotlin.math.min
 
 /**
  * Class representing a GUI button to be used by AOTD
@@ -24,18 +19,16 @@ import kotlin.math.min
  * @property color The color of the background and text
  */
 open class AOTDGuiButton(
-        prefWidth: Int,
-        prefHeight: Int,
-        xOffset: Int = 0,
-        yOffset: Int = 0,
+        prefSize: Dimensions<Double> = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE),
+        offset: Position<Double> = Position(0.0, 0.0),
         margins: AOTDGuiSpacing = AOTDGuiSpacing(),
         gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
         hoverTexts: Array<String> = emptyArray(),
         padding: AOTDGuiSpacing = AOTDGuiSpacing(),
-        private val icon: AOTDGuiImage?,
-        private val iconHovered: AOTDGuiImage? = icon,
+        private val icon: ImagePane?,
+        private val iconHovered: ImagePane? = icon,
         font: TrueTypeFont? = null) :
-        AOTDGuiContainer(prefWidth, prefHeight, xOffset, yOffset, margins, gravity, hoverTexts, padding) {
+        AOTDPane(offset, prefSize, margins, gravity, hoverTexts, padding) {
 
     private val label: AOTDGuiLabel?
 

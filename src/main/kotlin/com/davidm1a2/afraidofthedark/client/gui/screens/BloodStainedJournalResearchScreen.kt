@@ -34,31 +34,25 @@ import kotlin.math.roundToInt
  */
 class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
     AOTDScreen(TranslationTextComponent("screen.afraidofthedark.blood_stained_journal_research")) {
-    private val scrollBackground: AOTDGuiImage
-    private val researchTreeBase: ScrollPane
-    private val nodeConnectorControllerVertical = SpriteSheetController(500, 20, 15, 45, true, true)
-    private val nodeConnectorControllerHorizontal = SpriteSheetController(500, 20, 45, 15, true, false)
+    private val researchTreeBase: ScrollPane = ScrollPane(2.0, 2.0)
+    private val researchTree: StackPane = StackPane(padding = AOTDGuiSpacing(50))
     private val researchNodeMouseMoveListener: (AOTDMouseMoveEvent) -> Unit
     private val researchNodeMouseListener: (AOTDMouseEvent) -> Unit
+    private val scrollBackground: ImagePane = ImagePane(
+            ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/background.png"),
+            ImagePane.DispMode.STRETCH
+    )
 
     init {
 
-        // Create the research tree panel that will hold all the research nodes
-        // The base panel that contains all researches
-        researchTreeBase = ScrollPane(2.0, 2.0)
-
-        scrollBackground = AOTDGuiImage(
-            ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/background.png"),
-            AOTDImageDispMode.STRETCH
-        )
-
         // The border around the research
-        val backgroundBorder = AOTDGuiImage(
+        val backgroundBorder = ImagePane(
             ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/frame.png"),
-            AOTDImageDispMode.STRETCH
+            ImagePane.DispMode.STRETCH
         )
 
         researchTreeBase.add(scrollBackground)
+        researchTreeBase.add(researchTree)
         contentPane.add(researchTreeBase)
         contentPane.add(backgroundBorder)
 
@@ -86,7 +80,7 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
         researchNodeMouseMoveListener = {
             if (it.eventType == AOTDMouseMoveEvent.EventType.Enter) {
                 // If the node is visible then play the hover sound since we moved our mouse over it
-                if (it.source.isVisible && researchTreeBase.intersects(it.source)) {
+                if (it.source.isVisible && it.source.inBounds) {
                     entityPlayer.playSound(ModSounds.BUTTON_HOVER, 0.7f, 1.9f)
                 }
             }
@@ -139,15 +133,15 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
             }
         }
 
+        ModRegistries.RESEARCH.values
+            // Only add the node if we know if the previous research or the current research
+            .filter { playerResearch.isResearched(it) || playerResearch.canResearch(it) }
+            .forEach { addConnector(it) }
         // Now that we have all connectors added add each research node on top to ensure correct z-layer order
         ModRegistries.RESEARCH.values
             // Only add the node if we know if the previous research or the current research
             .filter { playerResearch.isResearched(it) || playerResearch.canResearch(it) }
-            .forEach { addConnector(it); addResearchButton(it) }
-
-        // Add our sprite sheet controllers
-        addSpriteSheetController(nodeConnectorControllerHorizontal)
-        addSpriteSheetController(nodeConnectorControllerVertical)
+            .forEach { addResearchButton(it) }
     }
 
     /**
@@ -159,12 +153,10 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
         // Get the prerequisite research
         val previous = research.preRequisite ?: return
         // Compute the researches' X and Y position
-        val xPos = (research.xPosition * DISTANCE_BETWEEN_RESEARCHES / researchTreeBase.scrollWidthRatio).roundToInt()
-        val yPos = (research.zPosition * DISTANCE_BETWEEN_RESEARCHES / researchTreeBase.scrollHeightRatio).roundToInt()
-        val xPosPrev = (previous.xPosition * DISTANCE_BETWEEN_RESEARCHES / researchTreeBase.scrollWidthRatio).roundToInt()
-        val yPosPrev = (previous.zPosition * DISTANCE_BETWEEN_RESEARCHES / researchTreeBase.scrollHeightRatio).roundToInt()
+        val pos = RelativePosition(research.xPosition / 10.0, research.zPosition / 10.0)
+        val prevPos = RelativePosition(previous.xPosition / 10.0, previous.zPosition / 10.0)
 
-        researchTreeBase.add(ResearchConnector(Position(xPos, yPos), Position(xPosPrev - xPos, yPosPrev - yPos)))
+        researchTree.add(ResearchConnector(prevPos, pos))
     }
 
     /**
@@ -173,17 +165,15 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
      * @param research The research to add a button for
      */
     private fun addResearchButton(research: Research) {
-        val xPos = (research.xPosition * DISTANCE_BETWEEN_RESEARCHES / researchTreeBase.scrollWidthRatio).roundToInt()
-        val yPos = (research.zPosition * DISTANCE_BETWEEN_RESEARCHES / researchTreeBase.scrollHeightRatio).roundToInt()
-        val width = (RESEARCH_WIDTH / researchTreeBase.scrollWidthRatio).roundToInt()
-        val height = (RESEARCH_HEIGHT / researchTreeBase.scrollHeightRatio).roundToInt()
+        val pos = RelativePosition(research.xPosition / TREE_WIDTH, research.zPosition / TREE_HEIGHT)
+        val dim = RelativeDimensions(RESEARCH_WIDTH, RESEARCH_HEIGHT)
         // Create the research button
-        val researchNode = AOTDGuiResearchNodeButton(width, height, xPos, yPos, research)
+        val researchNode = AOTDGuiResearchNodeButton(dim, pos, research)
         // Add our pre-build listeners to this node
         researchNode.addMouseListener(researchNodeMouseListener)
         researchNode.addMouseMoveListener(researchNodeMouseMoveListener)
         // Add the node to our tree
-        researchTreeBase.add(researchNode)
+        researchTree.add(researchNode)
     }
 
     /**
@@ -201,15 +191,12 @@ class BloodStainedJournalResearchScreen(isCheatSheet: Boolean) :
     }
 
     companion object {
-        // The background and frame texture is 1024x1024
-        private const val BACKGROUND_HEIGHT = 1024
-        private const val BACKGROUND_WIDTH = 1024
-
         // The research texture is 64x64
-        private const val RESEARCH_HEIGHT = 64
-        private const val RESEARCH_WIDTH = 64
+        private const val RESEARCH_HEIGHT = 0.08
+        private const val RESEARCH_WIDTH = 0.08
 
-        // Distance between research icon nodes is 75px
-        private const val DISTANCE_BETWEEN_RESEARCHES = 75
+        // Display 10x10 of researches
+        private const val TREE_WIDTH = 10.0
+        private const val TREE_HEIGHT = 10.0
     }
 }

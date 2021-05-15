@@ -2,18 +2,15 @@ package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiGravity
+import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.base.Position
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiImage
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ScrollPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
-import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.realmsclient.gui.ChatFormatting
-import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.AbstractGui
 import net.minecraft.client.resources.I18n
 import net.minecraft.util.ResourceLocation
-import kotlin.math.roundToInt
 
 /**
  * Button that represents a research in the research GUI
@@ -23,13 +20,11 @@ import kotlin.math.roundToInt
  * @param y        The y coordinate of the button
  * @param research The research that this button represents
  */
-class AOTDGuiResearchNodeButton(width: Int, height: Int, xOffset: Int, yOffset: Int, val research: Research) : AOTDGuiButton(
-    width,
-    height,
-    xOffset,
-    yOffset,
-    icon = AOTDGuiImage("afraidofthedark:textures/gui/journal_tech_tree/research_background.png"),
-    iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/journal_tech_tree/research_background_hovered.png"),
+class AOTDGuiResearchNodeButton(prefSize: Dimensions<Double>, offset: Position<Double>, val research: Research) : AOTDGuiButton(
+    prefSize,
+    offset,
+    icon = ImagePane("afraidofthedark:textures/gui/journal_tech_tree/research_background.png", ImagePane.DispMode.FIT_TO_PARENT),
+    iconHovered = ImagePane("afraidofthedark:textures/gui/journal_tech_tree/research_background_hovered.png", ImagePane.DispMode.FIT_TO_PARENT),
     gravity = AOTDGuiGravity.CENTER
 ) {
     // The player's research for fast querying
@@ -38,49 +33,7 @@ class AOTDGuiResearchNodeButton(width: Int, height: Int, xOffset: Int, yOffset: 
     init {
         // Make the button visible if the research is either researched or can be researched show it
         this.isVisible = playerResearch.isResearched(this.research) || playerResearch.canResearch(this.research)
-    }
-
-    /**
-     * Draws the node button
-     */
-    override fun draw() {
-        if (this.isVisible) {
-            super.draw()
-
-            // Ensure our color is white to draw with
-            GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f)
-            GlStateManager.enableBlend()
-
-            // Draw the researches icon on the button
-            Minecraft.getInstance().textureManager.bindTexture(this.research.icon)
-            AbstractGui.blit(
-                x,
-                y,
-                0f,
-                0f,
-                width,
-                height,
-                width,
-                height
-            )
-
-            // If the player has not researched the research then show the question mark over top
-            if (!playerResearch.isResearched(this.research)) {
-                Minecraft.getInstance().textureManager.bindTexture(UNKNOWN_RESEARCH)
-                AbstractGui.blit(
-                    x,
-                    y,
-                    0f,
-                    0f,
-                    width,
-                    height,
-                    width,
-                    height
-                )
-            }
-
-            GlStateManager.disableBlend()
-        }
+        this.add(ImagePane(this.research.icon, ImagePane.DispMode.FIT_TO_PARENT))
     }
 
     /**
@@ -90,7 +43,7 @@ class AOTDGuiResearchNodeButton(width: Int, height: Int, xOffset: Int, yOffset: 
         super.drawOverlay()
 
         // If the button intersects the pane it's in then allow for drawing hover text
-        if (this.parent!!.parent!!.intersects(this) && this.isHovered) {
+        if (this.isVisible && this.inBounds && this.isHovered) {
             val mouseX = AOTDGuiUtility.getMouseXInMCCoord()
             val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
 

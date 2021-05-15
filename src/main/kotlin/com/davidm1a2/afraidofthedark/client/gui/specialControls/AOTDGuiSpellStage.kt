@@ -1,11 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
+import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.base.Position
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiImage
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 
@@ -26,7 +27,7 @@ import com.davidm1a2.afraidofthedark.common.spell.SpellStage
  */
 class AOTDGuiSpellStage(
     x: Int, y: Int, width: Int, height: Int, private val spellStage: SpellStage
-) : AOTDGuiContainer(x, y, width, height) {
+) : AOTDPane(Position(x.toDouble(), y.toDouble()), Dimensions(width.toDouble(), height.toDouble())) {
     private val addNewRow: AOTDGuiButton
     private val removeRow: AOTDGuiButton
     val deliveryMethod: AOTDGuiSpellDeliveryMethodSlot
@@ -40,9 +41,9 @@ class AOTDGuiSpellStage(
 
     init {
         // Set the background texture of the spell stage, save 14px for add and remove buttons
-        val background = AOTDGuiImage(
+        val background = ImagePane(
             "afraidofthedark:textures/gui/spell_editor/spell_stage_background.png",
-            AOTDImageDispMode.STRETCH
+            ImagePane.DispMode.STRETCH
         )
         add(background)
 
@@ -56,10 +57,9 @@ class AOTDGuiSpellStage(
         // Create two buttons, one to add a new row and one to remove the current row
         addNewRow =
             AOTDGuiButton(
-                15,
-                15,
-                icon = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/add.png"),
-                iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/add_hovered.png")
+                Dimensions(15.0, 15.0),
+                icon = ImagePane("afraidofthedark:textures/gui/spell_editor/add.png"),
+                iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/add_hovered.png")
             )
         addNewRow.setHoverText("Add new spell stage")
         addNewRow.addMouseListener {
@@ -81,10 +81,9 @@ class AOTDGuiSpellStage(
         add(addNewRow)
 
         removeRow = AOTDGuiButton(
-            15,
-            15,
-            icon = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/delete.png"),
-            iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/delete_hovered.png")
+            Dimensions(15.0, 15.0),
+            icon = ImagePane("afraidofthedark:textures/gui/spell_editor/delete.png"),
+            iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/delete_hovered.png")
         )
         removeRow.setHoverText("Remove spell stage")
         removeRow.addMouseListener {

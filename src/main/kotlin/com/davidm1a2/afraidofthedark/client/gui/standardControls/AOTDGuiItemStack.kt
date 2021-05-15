@@ -1,7 +1,8 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
+import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.base.Position
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.item.ItemStack
@@ -20,20 +21,20 @@ import org.lwjgl.opengl.GL11
  * @property highlight The image that is shown when the itemstack is hovered over
  */
 class AOTDGuiItemStack(
-        width: Int,
-        height: Int,
-        xOffset: Int = 0,
-        yOffset: Int = 0,
+        width: Double,
+        height: Double,
+        xOffset: Double = 0.0,
+        yOffset: Double = 0.0,
         backgroundHighlight: Boolean = false,
         var itemStack: ItemStack = ItemStack.EMPTY) :
-        AOTDGuiContainer(width, height, xOffset, yOffset) {
+        AOTDPane(Position(xOffset, yOffset), Dimensions(width, height)) {
 
-    private val highlight: AOTDGuiImage?
+    private val highlight: ImagePane?
 
     init {
         // if we should highlight the background then add a highlit background image
         if (backgroundHighlight) {
-            highlight = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/slot_highlight.png"), AOTDImageDispMode.FIT_TO_PARENT)
+            highlight = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/slot_highlight.png"), ImagePane.DispMode.FIT_TO_PARENT)
             // Start the highlight off
             highlight.isVisible = false
             this.add(highlight)

@@ -14,8 +14,6 @@ import net.minecraft.client.resources.I18n
  */
 class AOTDGuiSpellEffectSlot(width: Int, height: Int) :
     AOTDGuiSpellComponentSlot<SpellEffect>(
-        width,
-        height,
         "afraidofthedark:textures/gui/spell_editor/effect_holder.png"
     ) {
     /**

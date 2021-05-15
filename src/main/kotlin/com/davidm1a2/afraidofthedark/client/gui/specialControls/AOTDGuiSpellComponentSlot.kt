@@ -1,7 +1,8 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiImage
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
+import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 
@@ -18,26 +19,24 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
  * @property componentInstance The instance of this spell component
  */
 abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
-    width: Int,
-    height: Int,
     slotBackground: String
-) : AOTDGuiContainer(width, height) {
-    private val icon: AOTDGuiImage
-    private val highlight: AOTDGuiImage
+) : AOTDPane() {
+    private val icon: ImagePane
+    private val highlight: ImagePane
     private var componentInstance: SpellComponentInstance<T>? = null
 
     init {
         // The background image of the spell slot
-        val background = AOTDGuiImage(slotBackground)
+        val background = ImagePane(slotBackground)
         this.add(background)
 
         // Add a highlight effect image over the background
-        this.highlight = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/highlight.png")
+        this.highlight = ImagePane("afraidofthedark:textures/gui/spell_editor/highlight.png")
         this.highlight.isVisible = false
         this.add(highlight)
 
         // Set the icon to be blank
-        this.icon = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/blank_slot.png")
+        this.icon = ImagePane("afraidofthedark:textures/gui/spell_editor/blank_slot.png")
         this.icon.isVisible = false
         this.add(icon)
     }

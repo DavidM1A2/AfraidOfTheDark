@@ -14,8 +14,6 @@ import net.minecraft.client.resources.I18n
  */
 class AOTDGuiSpellDeliveryMethodSlot(width: Int, height: Int) :
     AOTDGuiSpellComponentSlot<SpellDeliveryMethod>(
-        width,
-        height,
         "afraidofthedark:textures/gui/spell_editor/delivery_method_holder.png"
     ) {
     /**

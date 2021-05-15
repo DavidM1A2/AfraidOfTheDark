@@ -1,9 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiGravity
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiSpacing
+import com.davidm1a2.afraidofthedark.client.gui.base.*
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
 
@@ -17,17 +15,15 @@ import org.lwjgl.opengl.GL11
  * @param height         The height of the component
  * @param scissorEnabled If scissors are enabled when drawing this panel
  */
-open class AOTDGuiPanel(
-        width: Int = Int.MAX_VALUE,
-        height: Int = Int.MAX_VALUE,
-        xOffset: Int = 0,
-        yOffset: Int = 0,
+open class StackPane (
+        prefSize: Dimensions<Double> = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE),
+        offset: Position<Double> = Position(0.0, 0.0),
         margins: AOTDGuiSpacing = AOTDGuiSpacing(),
         gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
         hoverTexts: Array<String> = emptyArray(),
         padding: AOTDGuiSpacing = AOTDGuiSpacing(),
         private val scissorEnabled: Boolean = false) :
-        AOTDGuiContainer(width, height, xOffset, yOffset, margins, gravity, hoverTexts, padding) {
+        AOTDPane(offset, prefSize, margins, gravity, hoverTexts, padding) {
 
     /**
      * A panel can only be drawn inside of a box that may be scissored

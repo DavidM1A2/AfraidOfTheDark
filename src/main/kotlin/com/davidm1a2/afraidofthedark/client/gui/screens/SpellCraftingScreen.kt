@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
@@ -8,13 +7,14 @@ import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiSpellComponentSlot
 import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiSpellScroll
 import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiSpellTablet
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiImage
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import net.minecraft.client.Minecraft
 import net.minecraft.util.text.TranslationTextComponent
+import java.awt.Image
 
 /**
  * Class representing the spell crating GUI screen used to edit spells
@@ -29,7 +29,7 @@ import net.minecraft.util.text.TranslationTextComponent
 class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.spell_crafting")) {
     private val tablet: AOTDGuiSpellTablet
     private val scroll: AOTDGuiSpellScroll
-    private val selectedCursorIcon: AOTDGuiImage
+    private val selectedCursorIcon: ImagePane
     private var selectedComponent: AOTDGuiSpellComponentSlot<*>? = null
 
     init {
@@ -54,7 +54,7 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
         contentPane.add(tablet)
 
         // Setup the selected component hover under the mouse cursor using image component
-        selectedCursorIcon = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/blank_slot.png", AOTDImageDispMode.STRETCH)
+        selectedCursorIcon = ImagePane("afraidofthedark:textures/gui/spell_editor/blank_slot.png", ImagePane.DispMode.STRETCH)
         selectedCursorIcon.addMouseMoveListener {
             if (it.eventType == AOTDMouseMoveEvent.EventType.Move) {
                 // If we have nothing selected put the component off in the middle of nowhere
@@ -87,9 +87,9 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
         contentPane.add(selectedCursorIcon)
 
         // Create a help overlay that comes up when you press the ? button
-        val helpOverlay = AOTDGuiImage(
+        val helpOverlay = ImagePane(
             "afraidofthedark:textures/gui/spell_editor/help_screen.png",
-            AOTDImageDispMode.FIT_TO_PARENT
+            ImagePane.DispMode.FIT_TO_PARENT
         )
         helpOverlay.isVisible = false
         // When pressing any key hide the overlay

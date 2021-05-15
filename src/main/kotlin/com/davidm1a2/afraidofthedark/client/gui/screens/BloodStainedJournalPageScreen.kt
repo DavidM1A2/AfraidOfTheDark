@@ -6,7 +6,6 @@ import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import net.minecraft.client.Minecraft
 import net.minecraft.item.Item
@@ -57,10 +56,10 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
 
     init {
         // Create a panel to contain everything
-        val journalBackground = AOTDGuiPanel(width, height, gravity = AOTDGuiGravity.CENTER, padding = AOTDGuiSpacing(50))
+        val journalBackground = StackPane(Dimensions(width.toDouble(), height.toDouble()), gravity = AOTDGuiGravity.CENTER, padding = AOTDGuiSpacing(50))
 
         // Create a page image to be used as the background
-        val pageBackgroundImage = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/background.png"), AOTDImageDispMode.FIT_TO_PARENT)
+        val pageBackgroundImage = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/background.png"), ImagePane.DispMode.FIT_TO_PARENT)
         journalBackground.add(pageBackgroundImage)
 
         // Create red colors for text
@@ -90,8 +89,8 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         journalBackground.add(rightPageNumber)
 
         // Create two pages, one for the left page text and one for the right page text
-        leftPage = AOTDGuiTextBox((width - journalBackground.padding.horizPx) / 2, height - journalBackground.padding.vertPx, ClientData.getOrCreate(32f))
-        rightPage = AOTDGuiTextBox((width - journalBackground.padding.horizPx) / 2, height - journalBackground.padding.vertPx, ClientData.getOrCreate(32f))
+        leftPage = AOTDGuiTextBox(RelativeDimensions(0.5, 1.0), ClientData.getOrCreate(32f))
+        rightPage = AOTDGuiTextBox(RelativeDimensions(0.5, 1.0), ClientData.getOrCreate(32f))
         // Set the text on both pages to red
         leftPage.textColor = textColor
         rightPage.textColor = textColor
@@ -101,12 +100,9 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
 
         // The bookmark button returns the user to the research screen
         // The bookmark button to go back
-        val bookmarkIcon = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/slot_highlight.png"), AOTDImageDispMode.FIT_TO_PARENT)
+        val bookmarkIcon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/slot_highlight.png"), ImagePane.DispMode.FIT_TO_PARENT)
         val bookmarkButton = AOTDGuiButton(
-            15,
-            30,
-            width / 2 - 16,
-            height - 28,
+            Dimensions(15.0, 30.0),
             icon = null,
             iconHovered = bookmarkIcon
         )
@@ -133,31 +129,25 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         journalBackground.add(bookmarkButton)
 
         // Initialize 4 recipes, two for the left page and two for the right page
-        topLeftRecipe = AOTDGuiRecipe(110, xOffset = 10, yOffset = 38)
+        topLeftRecipe = AOTDGuiRecipe(110.0, xOffset = 10.0, yOffset = 38.0)
         journalBackground.add(topLeftRecipe)
-        bottomLeftRecipe = AOTDGuiRecipe(110, xOffset = 10, yOffset = 130)
+        bottomLeftRecipe = AOTDGuiRecipe(110.0, xOffset = 10.0, yOffset = 130.0)
         journalBackground.add(bottomLeftRecipe)
-        topRightRecipe = AOTDGuiRecipe(110, xOffset = 130, yOffset = 38)
+        topRightRecipe = AOTDGuiRecipe(110.0, xOffset = 130.0, yOffset = 38.0)
         journalBackground.add(topRightRecipe)
-        bottomRightRecipe = AOTDGuiRecipe(110, xOffset = 130, yOffset = 130)
+        bottomRightRecipe = AOTDGuiRecipe(110.0, xOffset = 130.0, yOffset = 130.0)
         journalBackground.add(bottomRightRecipe)
 
         // Create the forward and backward button to advance and rewind pages
         forwardButton = AOTDGuiButton(
-            16,
-            16,
-            width - 23,
-            height - 40,
-            icon = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/forward_button.png")),
-            iconHovered = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/forward_button_hovered.png"))
+            Dimensions(16.0, 16.0),
+            icon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/forward_button.png")),
+            iconHovered = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/forward_button_hovered.png"))
         )
         backwardButton = AOTDGuiButton(
-            16,
-            16,
-            10,
-            height - 40,
-            icon = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/backward_button.png")),
-            iconHovered = AOTDGuiImage(ResourceLocation("afraidofthedark:textures/gui/journal_page/backward_button_hovered.png"))
+            Dimensions(16.0, 16.0),
+            icon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/backward_button.png")),
+            iconHovered = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/backward_button_hovered.png"))
         )
         // Upon clicking forward then advance the page, if we hover the button darken the color, if we don't hover the button brighten the color
         forwardButton.addMouseListener {

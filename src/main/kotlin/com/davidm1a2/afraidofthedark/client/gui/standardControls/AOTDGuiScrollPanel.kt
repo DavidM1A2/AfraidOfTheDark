@@ -1,7 +1,9 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
+import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.base.Position
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
 import java.awt.Point
@@ -22,20 +24,20 @@ import kotlin.math.round
  * @property viewport A rectangle that represents the scroll panel's viewport
  */
 class AOTDGuiScrollPanel(
-    width: Int,
-    height: Int,
+    width: Double,
+    height: Double,
     private val scissorEnabled: Boolean,
     private val scrollBar: AOTDGuiScrollBar
 ) :
-    AOTDGuiContainer(width, height) {
+    AOTDPane(prefSize = Dimensions(width, height)) {
     var maximumOffset = 0
         set(maximumOffset) {
             field = maximumOffset
-            this.lastSliderPosition = -1f
+            this.lastSliderPosition = -1.0
         }
-    private var lastSliderPosition = 0f
+    private var lastSliderPosition = 0.0
     private var viewport = Rectangle(0, 0, 0, 0)
-    var scrollYOffset = 0;
+    var scrollYOffset = 0.0;
 
     init {
         // When we scroll we want to move the content pane up or down
@@ -103,9 +105,9 @@ class AOTDGuiScrollPanel(
         if (lastSliderPosition != this.scrollBar.value) {
             lastSliderPosition = this.scrollBar.value
             // Update the y position internally by offsetting based on slider percent
-            scrollYOffset = (y - (this.maximumOffset * lastSliderPosition).toInt())
+            scrollYOffset = (y - (this.maximumOffset * lastSliderPosition))
             for (child in getChildren()) {
-                child.yOffset = scrollYOffset
+                child.offset = Position(child.offset.x, child.offset.y + scrollYOffset)
             }
             // Compute the actual elements in "view"
             // Rectangle realBoundingBox = new Rectangle(this.getXScaled(), (int) (this.originalYPos * this.getScaleY()), this.getWidthScaled(), this.getHeightScaled());

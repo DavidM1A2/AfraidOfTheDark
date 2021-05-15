@@ -1,8 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.base
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiComponent.Companion.entityPlayer
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiComponent.Companion.fontRenderer
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.player.ClientPlayerEntity
 import net.minecraft.client.gui.AbstractGui
@@ -10,17 +8,19 @@ import net.minecraft.client.gui.FontRenderer
 import java.awt.Color
 import java.awt.Point
 import java.awt.Rectangle
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 /**
  * Base class for all GUI components like labels, buttons, etc
  */
 abstract class AOTDGuiComponent(
-        open var xOffset: Int = 0,
-        open var yOffset: Int = 0,
+        var offset: Position<Double> = Position(0.0, 0.0),
+        var prefSize: Dimensions<Double> = Dimensions(0.0, 0.0),
         var margins: AOTDGuiSpacing = AOTDGuiSpacing(),
         var gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
-        var hoverTexts: Array<String> = emptyArray()) {
+        var hoverTexts: Array<String> = emptyArray(),
+        var color: Color = Color(255, 255, 255, 255)) {
 
     open var width = 0
     open var height = 0
@@ -28,9 +28,9 @@ abstract class AOTDGuiComponent(
     open var y = 0
     open var isHovered = false
     open var isVisible = true
-    open var color = Color(255, 255, 255, 255)
+    open var inBounds = true
 
-    private val boundingBox: Rectangle
+    val boundingBox: Rectangle
         get() = Rectangle(x, y, width, height)
 
     /**
@@ -43,7 +43,7 @@ abstract class AOTDGuiComponent(
      */
     open fun drawOverlay() {
         // Make sure the control is visible and hovered
-        if (this.isVisible && this.isHovered) {
+        if (this.isVisible && this.inBounds && this.isHovered) {
             // Grab the mouse X and Y coordinates to draw at
             val mouseX = AOTDGuiUtility.getMouseXInMCCoord()
             val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
@@ -140,9 +140,10 @@ abstract class AOTDGuiComponent(
      * Adjust this component to fit into the given space
      * Default behavior takes up maximum allowed space
      */
-    open fun negotiateDimensions(width: Int, height: Int) {
-        this.width = width
-        this.height = height
+    open fun negotiateDimensions(width: Double, height: Double) {
+        this.width = if (prefSize is RelativeDimensions) (this.prefSize.width * width).roundToInt() else min(prefSize.width, width).roundToInt()
+        this.height = if (prefSize is RelativeDimensions) (this.prefSize.height * height).roundToInt() else min(prefSize.height, height).roundToInt()
+        this.inBounds = true    // Reset the inBounds tag and let ancestor nodes check it again
     }
 
     /**

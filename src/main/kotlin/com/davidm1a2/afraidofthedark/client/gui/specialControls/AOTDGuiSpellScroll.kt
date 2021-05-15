@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
-import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
@@ -35,33 +34,33 @@ import kotlin.math.max
  * @property componentScrollPanelOffset The offset that the scroll panel should have when the component scroll panel is visible
  * @property currentPropEditors A List of any additional text fields we currently have editing properties
  */
-class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiContainer(x, y, width, height) {
+class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Position(x.toDouble(), y.toDouble()), Dimensions(width.toDouble(), height.toDouble())) {
     private var componentClickCallback: ((AOTDGuiSpellComponentSlot<*>) -> Unit) = { }
     private val scrollPanel: AOTDGuiScrollPanel
-    private val componentScrollPanel: AOTDGuiPanel
+    private val componentScrollPanel: StackPane
     private val componentScrollPanelOffset: Int
     private val currentPropEditors = mutableListOf<Pair<SpellComponentProperty, AOTDGuiTextField>>()
 
     init {
         // Create the base panel to attach all of our components to
         // The scroll that contains either a list of components or a component editor
-        val scroll = AOTDGuiPanel(width, height)
+        val scroll = StackPane(Dimensions(width.toDouble(), height.toDouble()))
 
         // Add the background scroll texture image
         val backgroundScroll =
-            AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/effect_list_scroll.png")
+            ImagePane("afraidofthedark:textures/gui/spell_editor/effect_list_scroll.png")
         scroll.add(backgroundScroll)
 
         // Add a scroll bar to the right of the scroll
-        val componentScrollBar = AOTDGuiScrollBar(backgroundScroll.width, 50)
+        val componentScrollBar = AOTDGuiScrollBar(RelativeDimensions(0.05, 1.0))
         scroll.add(componentScrollBar)
 
         // Add a scroll panel to the scroll
-        scrollPanel = AOTDGuiScrollPanel(120, 175, true, componentScrollBar)
+        scrollPanel = AOTDGuiScrollPanel(120.0, 175.0, true, componentScrollBar)
         scroll.add(scrollPanel)
 
         // Create a base panel for all components
-        this.componentScrollPanel = AOTDGuiPanel(120, 175)
+        this.componentScrollPanel = StackPane(Dimensions(120.0, 175.0))
 
         // The current component index we're adding to the scroll
         val componentsPerLine = 5
@@ -175,7 +174,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             this.scrollPanel.maximumOffset = this.componentScrollPanelOffset
         } else {
             // Create a panel to hold all of our controls
-            val editPanel = AOTDGuiPanel(120, 175)
+            val editPanel = StackPane(Dimensions(120.0, 175.0))
             // Start at y=0, or the "top" of the scroll
             var currentY = 0
 
@@ -197,7 +196,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
 
             // If there are no editable properties say so with a text box
             if (editableProperties.isEmpty()) {
-                val noPropsLine = AOTDGuiTextBox(120, 30, ClientData.getOrCreate(26f))
+                val noPropsLine = AOTDGuiTextBox(Dimensions(120.0, 30.0), ClientData.getOrCreate(26f))
                 noPropsLine.textColor = purpleText
                 noPropsLine.setText("This component has no editable properties.")
                 editPanel.add(noPropsLine)
@@ -213,7 +212,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                     currentY += propertyName.height
 
                     // Create a text box that shows the description of the property
-                    val propertyDescription = AOTDGuiTextBox(120, 12, ClientData.getOrCreate(26f))
+                    val propertyDescription = AOTDGuiTextBox(Dimensions(120.0, 12.0), ClientData.getOrCreate(26f))
                     propertyDescription.textColor = purpleText
                     propertyDescription.setText("Description: ${editableProp.description}")
 
@@ -227,7 +226,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                     currentY += propertyDescription.height
 
                     // Create a text field that edits the property value
-                    val propertyEditor = AOTDGuiTextField(0, currentY, 120, 30, ClientData.getOrCreate(26f))
+                    val propertyEditor = AOTDGuiTextField(Position(0.0, currentY.toDouble()), Dimensions(120.0, 30.0), ClientData.getOrCreate(26f))
                     propertyEditor.setTextColor(purpleText)
                     propertyEditor.setText(editableProp.getter(componentInstance))
                     editPanel.add(propertyEditor)
@@ -242,10 +241,9 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             if (editableProperties.isNotEmpty()) {
                 // Add a save button at the bottom if we have any editable properties
                 val save = AOTDGuiButton(
-                    50,
-                    20,
-                    icon = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/button.png"),
-                    iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/button_hovered.png"),
+                    Dimensions(50.0, 20.0),
+                    icon = ImagePane("afraidofthedark:textures/gui/spell_editor/button.png"),
+                    iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/button_hovered.png"),
                     font = ClientData.getOrCreate(32f)
                 )
                 save.setTextAlignment(TextAlignment.ALIGN_CENTER)
@@ -297,10 +295,9 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             // Add a cancel button at the bottom. Center it if we have no edit properties (and no save button!)
             val cancelX = if (editableProperties.isEmpty()) editPanel.width / 2 - 25 else editPanel.width - 50
             val cancel = AOTDGuiButton(
-                50,
-                20,
-                icon = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/button.png"),
-                iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/button_hovered.png"),
+                Dimensions(50.0, 20.0),
+                icon = ImagePane("afraidofthedark:textures/gui/spell_editor/button.png"),
+                iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/button_hovered.png"),
                 font = ClientData.getOrCreate(32f)
             )
             cancel.setTextAlignment(TextAlignment.ALIGN_CENTER)

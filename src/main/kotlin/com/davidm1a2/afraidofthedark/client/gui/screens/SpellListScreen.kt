@@ -1,8 +1,9 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiGravity
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
+import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.base.RelativeDimensions
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
@@ -10,7 +11,6 @@ import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiSpell
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.keybindings.KeybindingUtils
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import net.minecraft.util.text.TranslationTextComponent
@@ -36,26 +36,25 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
     init {
 
         // Place the background panel in the center
-        val backgroundPanel = AOTDGuiPanel(GUI_WIDTH, GUI_HEIGHT, gravity = AOTDGuiGravity.CENTER, scissorEnabled = false)
+        val backgroundPanel = StackPane(Dimensions(GUI_WIDTH.toDouble(), GUI_HEIGHT.toDouble()), gravity = AOTDGuiGravity.CENTER, scissorEnabled = false)
 
         // Create a magic mirror background image
-        val mirrorBackgroundImage = AOTDGuiImage(
+        val mirrorBackgroundImage = ImagePane(
             "afraidofthedark:textures/gui/spell_list/spell_list_background.png",
-            AOTDImageDispMode.FIT_TO_PARENT
+            ImagePane.DispMode.FIT_TO_PARENT
         )
         backgroundPanel.add(mirrorBackgroundImage)
 
         // Create the scroll bar
         val scrollBar = AOTDGuiScrollBar(
-            mirrorBackgroundImage.width / 10,
-            height,
+            RelativeDimensions(0.1, 1.0),
             "afraidofthedark:textures/gui/spell_list/scroll_bar.png",
             "afraidofthedark:textures/gui/spell_list/scroll_bar_handle.png",
             "afraidofthedark:textures/gui/spell_list/scroll_bar_handle_hovered.png"
         )
 
         // Create the scroll panel to add spells to, position it centered on the background image
-        scrollPanel = AOTDGuiScrollPanel(175, 238, true, scrollBar)
+        scrollPanel = AOTDGuiScrollPanel(175.0, 238.0, true, scrollBar)
         // Start with a max offset of 0
         scrollPanel.maximumOffset = 0
         // Add the panel the the background and the scroll bar
@@ -84,10 +83,9 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
 
         // Add a button to create a new spell, center it under the scrollPanel spell entries
         btnCreateSpell = AOTDGuiButton(
-            26,
-            26,
-            icon = AOTDGuiImage("afraidofthedark:textures/gui/spell_list/create_spell.png"),
-            iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/spell_list/create_spell_hovered.png")
+            prefSize = Dimensions(26.0, 26.0),
+            icon = ImagePane("afraidofthedark:textures/gui/spell_list/create_spell.png"),
+            iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/create_spell_hovered.png")
         )
         btnCreateSpell.setHoverText("Create a new spell")
         btnCreateSpell.addMouseListener {

@@ -14,8 +14,6 @@ import net.minecraft.client.resources.I18n
  */
 class AOTDGuiSpellPowerSourceSlot(width: Int, height: Int) :
     AOTDGuiSpellComponentSlot<SpellPowerSource>(
-        width,
-        height,
         "afraidofthedark:textures/gui/spell_editor/power_source_holder.png"
     ) {
     /**

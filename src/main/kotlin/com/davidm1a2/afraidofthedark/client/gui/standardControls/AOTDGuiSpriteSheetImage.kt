@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.base.SpriteSheetController
 import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.Minecraft
@@ -24,7 +24,7 @@ class AOTDGuiSpriteSheetImage(
     height: Int,
     private val spriteSheet: ResourceLocation,
     private val sheetController: SpriteSheetController
-) : AOTDGuiContainer(width, height, x, y) {
+) : AOTDPane() {
     /**
      * Draws the sprite sheet on the screen
      */

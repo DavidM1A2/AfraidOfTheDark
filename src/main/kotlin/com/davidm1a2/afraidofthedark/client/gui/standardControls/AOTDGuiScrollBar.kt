@@ -1,10 +1,13 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
+import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.base.RelativeDimensions
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import net.minecraft.util.ResourceLocation
+import java.awt.Image
+import kotlin.math.roundToInt
 
 /**
  * Advanced control that represents a scroll bar which can be dragged up and down
@@ -23,28 +26,27 @@ import net.minecraft.util.ResourceLocation
  * @property originalHandleLocation A float telling us where the handle was before the drag began
  */
 class AOTDGuiScrollBar @JvmOverloads constructor(
-    width: Int,
-    height: Int,
+    prefSize: Dimensions<Double>,
     scrollBarTexture: String = "afraidofthedark:textures/gui/scroll_bar.png",
     handleTexture: String = "afraidofthedark:textures/gui/scroll_bar_handle.png",
     handleHoveredTexture: String = handleTexture
-) : AOTDGuiContainer(width, height) {
-    var value = 0.0f
+) : AOTDPane(prefSize = prefSize) {
+    var value = 0.0
         private set
     private val handle: AOTDGuiButton
     private var handleHeld = false
     private var originalMousePressLocation = 0
-    private var originalHandleLocation = 0f
+    private var originalHandleLocation = 0.0
 
     init {
         // The background behind the scroll bar handle
-        val barBackground = AOTDGuiImage(ResourceLocation(scrollBarTexture), AOTDImageDispMode.FIT_TO_PARENT)
+        val barBackground = ImagePane(ResourceLocation(scrollBarTexture), ImagePane.DispMode.FIT_TO_PARENT)
         // Add the background to the control
         this.add(barBackground)
         // Create a handle to grab, let the height be the height of the bar / 10
-        val icon = AOTDGuiImage(ResourceLocation(handleTexture), AOTDImageDispMode.STRETCH)
-        val iconHovered = AOTDGuiImage(ResourceLocation(handleHoveredTexture), AOTDImageDispMode.STRETCH)
-        this.handle = AOTDGuiButton(width, height / 10, icon = icon, iconHovered = iconHovered)
+        val icon = ImagePane(ResourceLocation(handleTexture), ImagePane.DispMode.STRETCH)
+        val iconHovered = ImagePane(ResourceLocation(handleHoveredTexture), ImagePane.DispMode.STRETCH)
+        this.handle = AOTDGuiButton(RelativeDimensions(1.0, 0.1), icon = icon, iconHovered = iconHovered)
         // Add the handle
         this.add(this.handle)
 
@@ -90,21 +92,21 @@ class AOTDGuiScrollBar @JvmOverloads constructor(
      */
     fun moveHandle(yAmount: Int, isRelative: Boolean) {
         // The minimum y value the handle can have
-        val minY = y
+        val minY = y.toDouble()
         // Compute the difference between the max and min y values
         val maxYDiff = height - handle.height
         // The maximum y value the handle can have
-        val maxY = y + maxYDiff
+        val maxY = y.toDouble() + maxYDiff
 
         // Compute where the handle should be based on the y offset, ensure to y offset is scaled to the
         // current y scale
-        var newY = (yAmount) + (minY + (if (isRelative) value else originalHandleLocation) * maxYDiff).toInt()
+        var newY = (yAmount) + (minY + (if (isRelative) value else originalHandleLocation) * maxYDiff)
 
         // Clamp the y inside the bar so you can't drag it off the top or bottom
         newY = newY.coerceIn(minY, maxY)
         // Update the y pos of the handle
-        handle.y = newY
+        handle.y = newY.roundToInt()
         // Set the handle location to be the percent down the bar the handle is
-        value = (newY - minY) / maxYDiff.toFloat()
+        value = (newY - minY) / maxYDiff
     }
 }

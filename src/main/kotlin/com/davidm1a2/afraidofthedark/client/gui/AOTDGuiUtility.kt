@@ -2,6 +2,8 @@ package com.davidm1a2.afraidofthedark.client.gui
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility.minecraft
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility.window
+import com.davidm1a2.afraidofthedark.client.gui.base.AbsoluteDimensions
+import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
@@ -22,7 +24,9 @@ import kotlin.math.roundToInt
  */
 object AOTDGuiUtility {
     private val minecraft = Minecraft.getInstance()
-    private var window = minecraft.mainWindow
+    private val window = minecraft.mainWindow
+
+    val guiUnitSquare = Dimensions(1024, 1024)
 
     /**
      * Converts a coordinate from minecraft resolution to screen resolution
@@ -118,5 +122,9 @@ object AOTDGuiUtility {
 
     fun getWindowHeightInMCCoords(): Int {
         return realScreenCoordToMC(window.height)
+    }
+
+    fun getWindowSizeInMCCoords(): AbsoluteDimensions {
+        return AbsoluteDimensions(getWindowWidthInMCCoords().toDouble(), getWindowHeightInMCCoords().toDouble())
     }
 }

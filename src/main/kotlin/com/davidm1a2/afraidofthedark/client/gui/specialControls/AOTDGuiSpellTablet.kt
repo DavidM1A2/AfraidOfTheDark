@@ -1,7 +1,8 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDImageDispMode
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
+import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.base.Position
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
@@ -46,7 +47,7 @@ class AOTDGuiSpellTablet(
     private val spell: Spell,
     private val selectedComponentGetter: () -> AOTDGuiSpellComponentSlot<*>?,
     private val clearSelectedComponent: () -> Unit
-) : AOTDGuiContainer(x, y, width, height) {
+) : AOTDPane(Position(x.toDouble(), y.toDouble()), Dimensions(width.toDouble(), height.toDouble())) {
     private val spellName: AOTDGuiTextField
     private val spellStagePanel: AOTDGuiScrollPanel
     private val uiSpellStages: MutableList<AOTDGuiSpellStage> = mutableListOf()
@@ -57,14 +58,14 @@ class AOTDGuiSpellTablet(
 
     init {
         // A base panel to contain all tablet gui controls
-        val tablet = AOTDGuiPanel(width, height)
+        val tablet = StackPane(this.prefSize)
         // Create the background image
         val backgroundImage =
-            AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/tablet_background.png", AOTDImageDispMode.STRETCH)
+            ImagePane("afraidofthedark:textures/gui/spell_editor/tablet_background.png", ImagePane.DispMode.STRETCH)
         tablet.add(backgroundImage)
 
         // Setup the spell name label
-        spellName = AOTDGuiTextField(60, 30, 85, 25, ClientData.getOrCreate(36f))
+        spellName = AOTDGuiTextField(Position(60.0, 30.0), Dimensions(85.0, 25.0), ClientData.getOrCreate(36f))
         spellName.setGhostText("Spell Name")
         // When we type into this slot set the spell name
         spellName.addKeyListener {
@@ -75,25 +76,24 @@ class AOTDGuiSpellTablet(
         tablet.add(spellName)
 
         // Add a scroll bar on the left to scroll through spell stages
-        val scrollBar = AOTDGuiScrollBar(15, 170)
+        val scrollBar = AOTDGuiScrollBar(Dimensions(15.0, 170.0))
         tablet.add(scrollBar)
 
         // Add the background for the spell stages
         val spellStageBackground =
-            AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/spell_stage_panel_background.png", AOTDImageDispMode.FIT_TO_SIZE)
+            ImagePane("afraidofthedark:textures/gui/spell_editor/spell_stage_panel_background.png", ImagePane.DispMode.FIT_TO_SIZE)
         tablet.add(spellStageBackground)
 
         // Add the spell stage container scroll panel
-        spellStagePanel = AOTDGuiScrollPanel(120, 170, true, scrollBar)
+        spellStagePanel = AOTDGuiScrollPanel(120.0, 170.0, true, scrollBar)
         tablet.add(spellStagePanel)
 
         // Create a save spell button
         val saveButton =
             AOTDGuiButton(
-                20,
-                20,
-                icon = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/save.png"),
-                iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/save_hovered.png")
+                Dimensions(20.0, 20.0),
+                icon = ImagePane("afraidofthedark:textures/gui/spell_editor/save.png"),
+                iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/save_hovered.png")
             )
         saveButton.setHoverText("Save Spell")
         saveButton.addMouseListener {
@@ -126,10 +126,9 @@ class AOTDGuiSpellTablet(
         // Create a close UI and don't save button
         val closeButton =
             AOTDGuiButton(
-                20,
-                20,
-                icon = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/delete.png"),
-                iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/delete_hovered.png")
+                Dimensions(20.0, 20.0),
+                icon = ImagePane("afraidofthedark:textures/gui/spell_editor/delete.png"),
+                iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/delete_hovered.png")
             )
         closeButton.setHoverText("Exit without saving")
         // When we click the close button show the spell list
@@ -154,10 +153,9 @@ class AOTDGuiSpellTablet(
 
         // Create a help button
         val helpButton = AOTDGuiButton(
-            20,
-            20,
-            icon = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/question.png"),
-            iconHovered = AOTDGuiImage("afraidofthedark:textures/gui/spell_editor/question_hovered.png")
+            Dimensions(20.0, 20.0),
+            icon = ImagePane("afraidofthedark:textures/gui/spell_editor/question.png"),
+            iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/question_hovered.png")
         )
         helpButton.setHoverText("Help")
         // When pressing help execute our on help runnable
