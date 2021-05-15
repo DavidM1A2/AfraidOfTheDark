@@ -10,6 +10,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IAOTDWorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.IAOTDWorldSpellStates
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.IAOTDWorldStructureCollisionMap
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.IStructureMissCounter
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.world.World
@@ -103,5 +104,14 @@ fun World.getIslandVisitors(): IAOTDWorldIslandVisitors {
 fun World.getStructureCollisionMap(): IAOTDWorldStructureCollisionMap {
     return this.getCapability(ModCapabilities.WORLD_STRUCTURE_COLLISION_MAP).orElseThrow {
         IllegalStateException("Could not get world's structure collision map")
+    }
+}
+
+/**
+ * @return The world's 'WORLD_STRUCTURE_COLLISION_MAP' capability
+ */
+fun World.getStructureMissCounter(): IStructureMissCounter {
+    return this.getCapability(ModCapabilities.STRUCTURE_MISS_COUNTER).orElseThrow {
+        IllegalStateException("Could not get world's structure miss counter")
     }
 }

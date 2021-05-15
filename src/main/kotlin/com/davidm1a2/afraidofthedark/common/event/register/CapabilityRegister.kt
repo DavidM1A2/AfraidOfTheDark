@@ -20,6 +20,9 @@ import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.IAOTD
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.AOTDWorldStructureCollisionMapImpl
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.AOTDWorldStructureCollisionMapStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.IAOTDWorldStructureCollisionMap
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.IStructureMissCounter
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.StructureMissCounter
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.StructureMissCounterStorage
 import net.minecraftforge.common.capabilities.CapabilityManager
 
 object CapabilityRegister {
@@ -70,6 +73,10 @@ object CapabilityRegister {
                 IAOTDWorldStructureCollisionMap::class.java,
                 AOTDWorldStructureCollisionMapStorage()
             ) { AOTDWorldStructureCollisionMapImpl() }
+            CapabilityManager.INSTANCE.register(
+                IStructureMissCounter::class.java,
+                StructureMissCounterStorage()
+            ) { StructureMissCounter() }
         }
         isInitialized = true
     }

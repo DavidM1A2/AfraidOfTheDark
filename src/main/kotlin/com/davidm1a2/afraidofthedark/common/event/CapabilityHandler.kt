@@ -36,6 +36,10 @@ class CapabilityHandler {
                 ResourceLocation(Constants.MOD_ID, "structure_collision_map"),
                 CapabilityProvider(ModCapabilities.WORLD_STRUCTURE_COLLISION_MAP)
             )
+            event.addCapability(
+                ResourceLocation(Constants.MOD_ID, "structure_miss_counter"),
+                CapabilityProvider(ModCapabilities.STRUCTURE_MISS_COUNTER)
+            )
 
             if (DIMENSIONS_WITH_ISLAND_VISITORS.contains(world.dimension.type)) {
                 event.addCapability(
