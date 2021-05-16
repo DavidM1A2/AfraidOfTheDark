@@ -39,13 +39,6 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
         super.init()
         // Clear all buttons on the screen
         this.buttons.clear()
-        // Draw the screen
-        update()
-    }
-
-    override fun resize(p_resize_1_: Minecraft, p_resize_2_: Int, p_resize_3_: Int) {
-        super.resize(p_resize_1_, p_resize_2_, p_resize_3_)
-        update()
     }
 
     // This is called whenever the screen is resized, initialized, or updated (new research)
@@ -74,8 +67,8 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
         if (this.drawGradientBackground()) {
             this.renderBackground()
         }
-        // Resize the tree to fit the dimensions
-        this.contentPane.calcChildrenBounds()
+        // Resize the tree
+        update()
         // Draw the content pane
         this.contentPane.draw()
         // Draw the overlay on top of the content pane
