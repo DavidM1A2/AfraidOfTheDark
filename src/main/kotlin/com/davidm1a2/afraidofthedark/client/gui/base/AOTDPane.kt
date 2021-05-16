@@ -89,8 +89,8 @@ abstract class AOTDPane (
                 AOTDGuiGravity.CENTER_LEFT, AOTDGuiGravity.CENTER, AOTDGuiGravity.CENTER_RIGHT -> height/2 - child.height/2
                 AOTDGuiGravity.BOTTOM_LEFT, AOTDGuiGravity.BOTTOM_CENTER, AOTDGuiGravity.BOTTOM_RIGHT -> height - child.height - padding.botPx
             }
-            val xOffset = if (child.offset is RelativePosition) this.width.toDouble() * child.offset.x else child.offset.x
-            val yOffset = if (child.offset is RelativePosition) this.height.toDouble() * child.offset.y else child.offset.y
+            val xOffset = if (child.offset is RelativePosition) width * child.offset.x else child.offset.x
+            val yOffset = if (child.offset is RelativePosition) height * child.offset.y else child.offset.y
             child.x = (this.x + this.guiOffsetX + gravityXOffset + xOffset).toInt()
             child.y = (this.y + this.guiOffsetY + gravityYOffset + yOffset).toInt()
             // If it's a pane, have it recalculate its children too

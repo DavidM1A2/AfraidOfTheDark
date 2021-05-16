@@ -1,9 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
-import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.base.Position
-import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.screens.SpellCraftingScreen
@@ -47,7 +44,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
         val spellNameContainer = StackPane(Dimensions(width - 20.0, 15.0))
 
         // The label holding the actual spell name
-        val lblSpellName = AOTDGuiLabel(ClientData.getOrCreate(36f))
+        val lblSpellName = AOTDGuiLabel(ClientData.getOrCreate(36f), RelativeDimensions(0.0, 0.0))
         // Set the name label's name and color
         lblSpellName.text = this.spell.name
         lblSpellName.textColor = Color(245, 61, 199)
@@ -118,7 +115,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
         this.add(btnDelete)
 
         // Create a button to keybind this spell
-        lblKeybind = AOTDGuiLabel(ClientData.getOrCreate(30f))
+        lblKeybind = AOTDGuiLabel(ClientData.getOrCreate(30f), RelativeDimensions(0.0, 0.0))
         lblKeybind.textAlignment = TextAlignment.ALIGN_CENTER
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)

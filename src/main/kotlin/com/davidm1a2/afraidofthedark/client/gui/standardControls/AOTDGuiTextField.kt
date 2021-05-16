@@ -47,7 +47,7 @@ class AOTDGuiTextField(offset: Position<Double> = Position(0.0, 0.0), prefSize: 
         // Set the text container bounding box to have scissor enabled and contain the label
         this.textContainer = StackPane(Dimensions(width.toDouble(), height.toDouble()), margins = AOTDGuiSpacing(10), scissorEnabled = true)
         // The text label contains the text field's text
-        this.textLabel = AOTDGuiLabel(font)
+        this.textLabel = AOTDGuiLabel(font, RelativeDimensions(1.0, 1.0))
         // Make sure the label doesn't shorten the text inside to fit
         this.textLabel.shortenTextToFit = false
 

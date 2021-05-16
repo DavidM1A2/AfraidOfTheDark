@@ -16,7 +16,7 @@ import kotlin.math.roundToInt
  */
 abstract class AOTDGuiComponent(
         var offset: Position<Double> = Position(0.0, 0.0),
-        var prefSize: Dimensions<Double> = Dimensions(0.0, 0.0),
+        var prefSize: Dimensions<Double> = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE),
         var margins: AOTDGuiSpacing = AOTDGuiSpacing(),
         var gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
         var hoverTexts: Array<String> = emptyArray(),
@@ -141,8 +141,8 @@ abstract class AOTDGuiComponent(
      * Default behavior takes up maximum allowed space
      */
     open fun negotiateDimensions(width: Double, height: Double) {
-        this.width = if (prefSize is RelativeDimensions) (this.prefSize.width * width).roundToInt() else min(prefSize.width, width).roundToInt()
-        this.height = if (prefSize is RelativeDimensions) (this.prefSize.height * height).roundToInt() else min(prefSize.height, height).roundToInt()
+        this.width = if (prefSize is RelativeDimensions) (prefSize.width * width).roundToInt() else min(prefSize.width, width).roundToInt()
+        this.height = if (prefSize is RelativeDimensions) (prefSize.height * height).roundToInt() else min(prefSize.height, height).roundToInt()
         this.inBounds = true    // Reset the inBounds tag and let ancestor nodes check it again
     }
 

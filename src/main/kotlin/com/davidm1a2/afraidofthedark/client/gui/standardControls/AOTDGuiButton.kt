@@ -38,7 +38,7 @@ open class AOTDGuiButton(
         this.iconHovered?.let { this.add(it) }
         // Create a label to cover the button
         if (font != null) {
-            this.label = AOTDGuiLabel(font)
+            this.label = AOTDGuiLabel(font, RelativeDimensions(1.0, 1.0))
             this.add(this.label)
         } else {
             this.label = null

@@ -1,8 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiGravity
-import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import java.awt.Color
@@ -23,7 +21,7 @@ import java.awt.Color
  * @property textAlignment Text alignment
  * @property shortenTextToFit True if we should ensure the text fits inside the label by shortening it, false otherwise
  */
-class AOTDGuiLabel(val font: TrueTypeFont, gravity: AOTDGuiGravity = AOTDGuiGravity.CENTER) : AOTDPane(gravity = gravity) {
+class AOTDGuiLabel(val font: TrueTypeFont, prefSize: Dimensions<Double>, gravity: AOTDGuiGravity = AOTDGuiGravity.CENTER) : AOTDGuiComponentWithEvents(prefSize = prefSize, gravity = gravity) {
 
     var text = ""
         set(text) {
@@ -47,13 +45,13 @@ class AOTDGuiLabel(val font: TrueTypeFont, gravity: AOTDGuiGravity = AOTDGuiGrav
         }
 
         // If the label is visible, draw it
-        if (this.isVisible) {
+        if (this.isVisible && this.inBounds) {
             // Compute the x and y positions of the text
             val xCoord =
                 x + when (this.textAlignment) {
-                    TextAlignment.ALIGN_LEFT -> 0f
+                    TextAlignment.ALIGN_RIGHT -> width.toFloat()
                     TextAlignment.ALIGN_CENTER -> width / 2f
-                    else -> width.toFloat()
+                    else -> 0f
                 }
             var yCoord = y.toFloat()
 
@@ -104,10 +102,5 @@ class AOTDGuiLabel(val font: TrueTypeFont, gravity: AOTDGuiGravity = AOTDGuiGrav
         } else {
             this.fitText = this.text
         }
-    }
-
-    override fun negotiateDimensions(width: Double, height: Double) {
-        this.width = this.font.getWidth(this.fitText).coerceAtMost(width.toFloat()).toInt()
-        this.height = this.font.height.coerceAtMost(height.toInt())
     }
 }

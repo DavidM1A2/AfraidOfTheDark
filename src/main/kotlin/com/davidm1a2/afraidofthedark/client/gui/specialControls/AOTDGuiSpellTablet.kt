@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.client.gui.specialControls
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.base.Position
+import com.davidm1a2.afraidofthedark.client.gui.base.RelativeDimensions
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
@@ -231,7 +232,7 @@ class AOTDGuiSpellTablet(
         }
         tablet.add(uiPowerSource)
         // Add the spell cost label
-        spellCost = AOTDGuiLabel(ClientData.getOrCreate(32f))
+        spellCost = AOTDGuiLabel(ClientData.getOrCreate(32f), RelativeDimensions(0.0, 0.0))
         tablet.add(spellCost)
         // Update all the gui components from our spell
         refresh()

@@ -51,7 +51,7 @@ class ScrollPane(val scrollWidthRatio: Double, val scrollHeightRatio: Double) : 
     /**
      * We can use this to test if the gui has scrolled out of bounds or not
      */
-    private fun checkOutOfBounds() {
+    fun checkOutOfBounds() {
         if (this.guiOffsetX < width - scrollWidth) this.guiOffsetX = width - scrollWidth
         if (this.guiOffsetY < height - scrollHeight) this.guiOffsetY = height - scrollHeight
         if (this.guiOffsetX > 0) this.guiOffsetX = 0.0

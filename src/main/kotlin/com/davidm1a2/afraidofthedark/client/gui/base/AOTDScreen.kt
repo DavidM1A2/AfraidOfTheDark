@@ -7,6 +7,7 @@ import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.player.ClientPlayerEntity
 import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.gui.widget.Widget
 import net.minecraft.client.util.InputMappings
 import net.minecraft.util.text.ITextComponent
 import org.lwjgl.glfw.GLFW
@@ -38,15 +39,22 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
         super.init()
         // Clear all buttons on the screen
         this.buttons.clear()
+        // Draw the screen
+        update()
     }
 
     override fun resize(p_resize_1_: Minecraft, p_resize_2_: Int, p_resize_3_: Int) {
         super.resize(p_resize_1_, p_resize_2_, p_resize_3_)
+        update()
+    }
+
+    // This is called whenever the screen is resized, initialized, or updated (new research)
+    open fun update() {
         // Resize pane
         this.contentPane.prefSize = AOTDGuiUtility.getWindowSizeInMCCoords()
-        // Force pane to fit to the screen
-        this.contentPane.negotiateDimensions(width.toDouble(), height.toDouble())
-        // Resize the tree to fit the dimensions
+        // Fit pane to the screen
+        this.contentPane.negotiateDimensions(AOTDGuiUtility.getWindowWidthInMCCoords().toDouble(), AOTDGuiUtility.getWindowHeightInMCCoords().toDouble())
+        // Resize any children to fit the new dimensions
         this.contentPane.calcChildrenBounds()
     }
 
@@ -66,8 +74,6 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
         if (this.drawGradientBackground()) {
             this.renderBackground()
         }
-        // Force pane to fit to the screen
-        this.contentPane.negotiateDimensions(width.toDouble(), height.toDouble())
         // Resize the tree to fit the dimensions
         this.contentPane.calcChildrenBounds()
         // Draw the content pane
