@@ -51,7 +51,7 @@ class AOTDGuiResearchNodeButton(prefSize: Dimensions<Double>, offset: Position<D
                         if (playerResearch.canResearch(research)) {
                             playerResearch.setResearchAndAlert(research, true, entityPlayer)
                             playerResearch.sync(entityPlayer, false)
-                            parent.update()
+                            parent.invalidate() // Redraw the screen with new research
                         }
                     } else {    // If this isn't a cheat sheet open the research page
                         if (playerResearch.isResearched(research)) {    // Page UI

@@ -52,7 +52,7 @@ class ImagePane(
             Minecraft.getInstance().textureManager.bindTexture(this.imageTexture)
             // Check for invalid texture dimensions
             if (textureHeight > -1 && textureWidth > -1) {
-                AbstractGui.blit(x, y, 0, u, v, width, height, width, height)
+                AbstractGui.blit(x, y, u, v, width, height, width, height)
             }
             GlStateManager.popMatrix()
 

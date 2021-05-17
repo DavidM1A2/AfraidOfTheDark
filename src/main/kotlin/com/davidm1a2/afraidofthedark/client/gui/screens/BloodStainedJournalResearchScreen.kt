@@ -42,8 +42,8 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
         }
     }
 
-    override fun update() {
-        super.update()
+    override fun invalidate() {
+        super.invalidate()
 
         // Remove everything but the background
         researchTreeBase.getChildren().filter { it != scrollBackground }.forEach { researchTreeBase.remove(it) }
@@ -55,9 +55,6 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
         val horizontalPadding = (windowWidth - guiSize)/2
         val verticalPadding = (windowHeight - guiSize)/2
         contentPane.padding = AOTDGuiSpacing(verticalPadding, verticalPadding, horizontalPadding, horizontalPadding)
-
-        // Make sure the scroll pane hasn't gone out of bounds
-        researchTreeBase.checkOutOfBounds()
 
         // Update research
         val playerResearch = entityPlayer.getResearch()
@@ -73,6 +70,9 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
                 // Only add the node if we know if the previous research or the current research
                 .filter { playerResearch.isResearched(it) || playerResearch.canResearch(it) }
                 .forEach { addResearchButton(it) }
+
+        // Make sure the scroll pane hasn't gone out of bounds
+        researchTreeBase.checkOutOfBounds()
     }
 
     private fun addConnector(research: Research) {

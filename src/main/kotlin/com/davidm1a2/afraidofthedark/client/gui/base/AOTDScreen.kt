@@ -7,7 +7,6 @@ import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.player.ClientPlayerEntity
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.gui.widget.Widget
 import net.minecraft.client.util.InputMappings
 import net.minecraft.util.text.ITextComponent
 import org.lwjgl.glfw.GLFW
@@ -39,14 +38,18 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
         super.init()
         // Clear all buttons on the screen
         this.buttons.clear()
+        // Draw the pane
+        this.invalidate()
     }
 
-    // This is called whenever the screen is resized, initialized, or updated (new research)
-    open fun update() {
+    open fun invalidate() {
         // Resize pane
         this.contentPane.prefSize = AOTDGuiUtility.getWindowSizeInMCCoords()
         // Fit pane to the screen
         this.contentPane.negotiateDimensions(AOTDGuiUtility.getWindowWidthInMCCoords().toDouble(), AOTDGuiUtility.getWindowHeightInMCCoords().toDouble())
+    }
+
+    open fun update() {
         // Resize any children to fit the new dimensions
         this.contentPane.calcChildrenBounds()
     }
@@ -67,8 +70,12 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
         if (this.drawGradientBackground()) {
             this.renderBackground()
         }
-        // Resize the tree
-        update()
+        // Do lazy updates only when the screen has changed size
+        if (contentPane.prefSize != AOTDGuiUtility.getWindowSizeInMCCoords()) {
+            this.invalidate()
+        }
+        // Update the pane
+        this.update()
         // Draw the content pane
         this.contentPane.draw()
         // Draw the overlay on top of the content pane

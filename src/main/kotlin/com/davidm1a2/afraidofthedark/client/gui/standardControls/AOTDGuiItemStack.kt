@@ -21,13 +21,11 @@ import org.lwjgl.opengl.GL11
  * @property highlight The image that is shown when the itemstack is hovered over
  */
 class AOTDGuiItemStack(
-        width: Double,
-        height: Double,
-        xOffset: Double = 0.0,
-        yOffset: Double = 0.0,
+        prefSize: Dimensions<Double>,
+        offset: Position<Double>,
         backgroundHighlight: Boolean = false,
         var itemStack: ItemStack = ItemStack.EMPTY) :
-        AOTDPane(Position(xOffset, yOffset), Dimensions(width, height)) {
+        AOTDPane(offset, prefSize) {
 
     private val highlight: ImagePane?
 

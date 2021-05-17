@@ -84,7 +84,7 @@ class AOTDGuiTextBox(prefSize: Dimensions<Double> = Dimensions(Double.MAX_VALUE,
         this.textLines.add(currentLineText)
 
         // Compute the maximum number of lines that fit vertically inside the text box
-        val maxLines = floor(height / (this.font.height * Constants.TEXT_SCALE_FACTOR)).toInt()
+        val maxLines = (height / (this.font.height * Constants.TEXT_SCALE_FACTOR)).coerceAtLeast(0f).toInt()
         // If the number of lines we have is less than or equal to the max we're OK
         if (textLines.size <= maxLines) {
             this.overflowText = ""

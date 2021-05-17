@@ -56,26 +56,27 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
 
     init {
         // Create a panel to contain everything
-        val journalBackground = StackPane(Dimensions(width.toDouble(), height.toDouble()), gravity = AOTDGuiGravity.CENTER, padding = AOTDGuiSpacing(50))
+        val journalBackground = StackPane(padding = AOTDGuiSpacing(50))
 
         // Create a page image to be used as the background
-        val pageBackgroundImage = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/background.png"), ImagePane.DispMode.FIT_TO_PARENT)
-        journalBackground.add(pageBackgroundImage)
+        val pageBackground = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/background.png"), ImagePane.DispMode.FIT_TO_PARENT)
+        pageBackground.gravity = AOTDGuiGravity.CENTER
+        journalBackground.add(pageBackground)
 
         // Create red colors for text
         val textColor = Color(170, 3, 25)
         val titleColor = Color(200, 0, 0)
 
         // Create a title label to contain the research name
-        val titleLabel = AOTDGuiLabel(ClientData.getOrCreate(50f), RelativeDimensions(0.0, 0.0), AOTDGuiGravity.TOP_CENTER)
+        val titleLabel = AOTDGuiLabel(ClientData.getOrCreate(50f), RelativeDimensions(1.0, 0.1), AOTDGuiGravity.TOP_CENTER)
         titleLabel.text = titleText
         titleLabel.textColor = titleColor
         titleLabel.textAlignment = TextAlignment.ALIGN_CENTER
         contentPane.add(titleLabel)
 
         // Create two page numbers, one for the left page and one for the right page
-        leftPageNumber = AOTDGuiLabel(ClientData.getOrCreate(32f), RelativeDimensions(0.0, 0.0), AOTDGuiGravity.TOP_LEFT)
-        rightPageNumber = AOTDGuiLabel(ClientData.getOrCreate(32f), RelativeDimensions(0.0, 0.0), AOTDGuiGravity.TOP_RIGHT)
+        leftPageNumber = AOTDGuiLabel(ClientData.getOrCreate(32f), RelativeDimensions(0.05, 0.05), AOTDGuiGravity.TOP_LEFT)
+        rightPageNumber = AOTDGuiLabel(ClientData.getOrCreate(32f), RelativeDimensions(0.05, 0.05), AOTDGuiGravity.TOP_RIGHT)
         // Align the right page number right so that it fits into the corner
         rightPageNumber.textAlignment = TextAlignment.ALIGN_RIGHT
         // Start the page numbers at 1 and 2
@@ -90,7 +91,9 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
 
         // Create two pages, one for the left page text and one for the right page text
         leftPage = AOTDGuiTextBox(RelativeDimensions(0.5, 1.0), ClientData.getOrCreate(32f))
+        leftPage.gravity = AOTDGuiGravity.TOP_LEFT
         rightPage = AOTDGuiTextBox(RelativeDimensions(0.5, 1.0), ClientData.getOrCreate(32f))
+        leftPage.gravity = AOTDGuiGravity.TOP_RIGHT
         // Set the text on both pages to red
         leftPage.textColor = textColor
         rightPage.textColor = textColor
@@ -106,6 +109,7 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
             icon = null,
             iconHovered = bookmarkIcon
         )
+        bookmarkButton.gravity = AOTDGuiGravity.BOTTOM_CENTER
         // Hide the button to start
         bookmarkButton.isVisible = false
         // Set the color to a see-through white
@@ -129,13 +133,17 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         journalBackground.add(bookmarkButton)
 
         // Initialize 4 recipes, two for the left page and two for the right page
-        topLeftRecipe = AOTDGuiRecipe(110.0, xOffset = 10.0, yOffset = 38.0)
+        topLeftRecipe = AOTDGuiRecipe(RelativeDimensions(0.5, 0.5))
+        topLeftRecipe.gravity = AOTDGuiGravity.TOP_LEFT
         journalBackground.add(topLeftRecipe)
-        bottomLeftRecipe = AOTDGuiRecipe(110.0, xOffset = 10.0, yOffset = 130.0)
+        bottomLeftRecipe = AOTDGuiRecipe(RelativeDimensions(0.5, 0.5))
+        topLeftRecipe.gravity = AOTDGuiGravity.BOTTOM_LEFT
         journalBackground.add(bottomLeftRecipe)
-        topRightRecipe = AOTDGuiRecipe(110.0, xOffset = 130.0, yOffset = 38.0)
+        topRightRecipe = AOTDGuiRecipe(RelativeDimensions(0.5, 0.5))
+        topLeftRecipe.gravity = AOTDGuiGravity.TOP_RIGHT
         journalBackground.add(topRightRecipe)
-        bottomRightRecipe = AOTDGuiRecipe(110.0, xOffset = 130.0, yOffset = 130.0)
+        bottomRightRecipe = AOTDGuiRecipe(RelativeDimensions(0.5, 0.5))
+        topLeftRecipe.gravity = AOTDGuiGravity.BOTTOM_RIGHT
         journalBackground.add(bottomRightRecipe)
 
         // Create the forward and backward button to advance and rewind pages
@@ -165,6 +173,8 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
                 }
             }
         }
+        forwardButton.gravity = AOTDGuiGravity.BOTTOM_RIGHT
+        backwardButton.gravity = AOTDGuiGravity.BOTTOM_LEFT
         // Add the buttons to the pane
         journalBackground.add(forwardButton)
         journalBackground.add(backwardButton)
@@ -313,7 +323,8 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
 
             // Flip our alternator
             alternator = !alternator
-
+            // Don't get caught filling zero sized pages infinitely
+            if (textToDistribute.length <= leftOver.length) break
             // Grab the text that will go on this page alone
             val pageText = textToDistribute.substring(0, textToDistribute.length - leftOver.length)
             // Update the remaining text that needs distributing

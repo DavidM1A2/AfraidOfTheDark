@@ -1,8 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
-import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.base.Position
+import com.davidm1a2.afraidofthedark.client.gui.base.*
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe
 import net.minecraft.item.crafting.Ingredient
@@ -21,9 +19,9 @@ import net.minecraftforge.common.crafting.IShapedRecipe
  * @property guiItemStacks The item stacks to draw
  * @property output The itemstack that gets created
  */
-class AOTDGuiRecipe(width: Double, height: Double = width/367*267, xOffset: Double, yOffset: Double, recipe: IRecipe<*>? = null) :
-    AOTDPane(Position(xOffset, yOffset), Dimensions(width, height)) {
-    private val craftingGrid: ImagePane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/crafting_grid.png"), ImagePane.DispMode.STRETCH)
+class AOTDGuiRecipe(prefSize: Dimensions<Double>, offset: Position<Double> = AbsolutePosition(0.0, 0.0), recipe: IRecipe<*>? = null) :
+    AOTDPane(offset, prefSize) {
+    private val craftingGrid: ImagePane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/crafting_grid.png"), ImagePane.DispMode.FIT_TO_PARENT)
     private val guiItemStacks: Array<AOTDGuiItemStack>
     private val output: AOTDGuiItemStack
 
@@ -35,16 +33,15 @@ class AOTDGuiRecipe(width: Double, height: Double = width/367*267, xOffset: Doub
         this.guiItemStacks = Array(9)
         {
             AOTDGuiItemStack(
-                width / 5.0,
-                height / 4.0,
-                5.0 + it % 3 * 24,    // TODO: Tune these offsets
-                6.0 + 26 * (it / 3),
+                RelativeDimensions(0.2, 0.33),
+                RelativePosition((it % 3) * 0.2, (it / 3) * 0.33),
                 true
             )
         }
 
         // Initialize the output stack
-        output = AOTDGuiItemStack(24.0, 24.0, 83.0, 31.0, true)
+        output = AOTDGuiItemStack(RelativeDimensions(0.2, 0.33), RelativePosition(0.85, 0.5), true)
+        output.gravity = AOTDGuiGravity.CENTER
 
         // Add each stack to the pane to be drawn
         for (guiItemStack in this.guiItemStacks) {
