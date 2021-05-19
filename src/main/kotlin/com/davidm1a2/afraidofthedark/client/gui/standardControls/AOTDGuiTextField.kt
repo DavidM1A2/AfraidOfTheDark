@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.client.Minecraft
 import net.minecraft.util.ResourceLocation
@@ -27,7 +28,7 @@ import java.awt.Color
  * @property textColor If we were not showing ghost text update the label's color
  * @property text The current text in the text field or empty string if it is ghost text
  */
-class AOTDGuiTextField(offset: Position<Double> = Position(0.0, 0.0), prefSize: Dimensions<Double> = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE), font: TrueTypeFont) :
+class AOTDGuiTextField(offset: Position = AbsolutePosition(0.0, 0.0), prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE, Double.MAX_VALUE), font: TrueTypeFont) :
     AOTDPane(offset, prefSize) {
     private val background: ImagePane
     private val textContainer: StackPane
@@ -45,7 +46,7 @@ class AOTDGuiTextField(offset: Position<Double> = Position(0.0, 0.0), prefSize: 
         this.background = ImagePane(ResourceLocation("afraidofthedark:textures/gui/text_field_background.png"), ImagePane.DispMode.STRETCH)
 
         // Set the text container bounding box to have scissor enabled and contain the label
-        this.textContainer = StackPane(Dimensions(width.toDouble(), height.toDouble()), margins = AOTDGuiSpacing(10), scissorEnabled = true)
+        this.textContainer = StackPane(AbsoluteDimensions(width.toDouble(), height.toDouble()), margins = AbsoluteSpacing(10.0), scissorEnabled = true)
         // The text label contains the text field's text
         this.textLabel = AOTDGuiLabel(font, RelativeDimensions(1.0, 1.0))
         // Make sure the label doesn't shorten the text inside to fit

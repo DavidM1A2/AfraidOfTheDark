@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import java.awt.Color
 
 /**
@@ -19,12 +20,12 @@ import java.awt.Color
  * @property color The color of the background and text
  */
 open class AOTDGuiButton(
-        prefSize: Dimensions<Double> = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE),
-        offset: Position<Double> = Position(0.0, 0.0),
-        margins: AOTDGuiSpacing = AOTDGuiSpacing(),
-        gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
+        prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE, Double.MAX_VALUE),
+        offset: Position = RelativePosition(0.0, 0.0),
+        margins: GuiSpacing = AbsoluteSpacing(),
+        gravity: GuiGravity = GuiGravity.TOP_LEFT,
         hoverTexts: Array<String> = emptyArray(),
-        padding: AOTDGuiSpacing = AOTDGuiSpacing(),
+        padding: GuiSpacing = AbsoluteSpacing(),
         private val icon: ImagePane?,
         private val iconHovered: ImagePane? = icon,
         font: TrueTypeFont? = null) :
@@ -51,8 +52,8 @@ open class AOTDGuiButton(
     override fun draw() {
         if (this.isVisible) {
             super.draw()
-            iconHovered?.isVisible = this.isHovered
-            icon?.isVisible = this.isHovered.not()
+            iconHovered?.let { it.isVisible = this.isHovered }
+            icon?.let { it.isVisible = this.isHovered.not() }
         }
     }
 

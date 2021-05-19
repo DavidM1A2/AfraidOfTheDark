@@ -1,11 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
-import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
+import com.davidm1a2.afraidofthedark.client.gui.layout.AbsoluteDimensions
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
@@ -35,7 +36,7 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
 
         // Setup the background panel that holds all of our controls
         val backgroundPanel = StackPane(
-            Dimensions(guiSize, guiSize),
+            AbsoluteDimensions(guiSize, guiSize),
             scissorEnabled = false
         )
 
@@ -47,7 +48,7 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
         backgroundPanel.add(backgroundImage)
 
         this.nameSignField = AOTDGuiTextField(
-            prefSize = Dimensions(160.0, 30.0),
+            prefSize = AbsoluteDimensions(160.0, 30.0),
             font = ClientData.getOrCreate(45f)
         )
         this.nameSignField.setTextColor(Color(255, 0, 0))
@@ -57,7 +58,7 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
         val signButtonWidth = 100.0
         val signButtonHeight = 25.0
         val signButton = AOTDGuiButton(
-            prefSize = Dimensions(signButtonWidth, signButtonHeight),
+            prefSize = AbsoluteDimensions(signButtonWidth, signButtonHeight),
             icon = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png"),
             font = ClientData.getOrCreate(55f)

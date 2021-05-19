@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.registry.meteor.MeteorEntry
@@ -17,7 +17,7 @@ import kotlin.random.Random
  * @param height     The height of this button
  * @param meteorType The type of meteor to represent
  */
-class AOTDGuiMeteorButton(prefSize: Dimensions<Double>, val meteorType: MeteorEntry) :
+class AOTDGuiMeteorButton(prefSize: Dimensions, val meteorType: MeteorEntry) :
     AOTDGuiButton(prefSize, icon = ImagePane(meteorType.icon.toString())) {
     init {
         // Give the meteor a random opacity

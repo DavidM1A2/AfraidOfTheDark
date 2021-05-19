@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.base.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiResearchNodeButton
 import com.davidm1a2.afraidofthedark.client.gui.specialControls.ResearchConnector
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
@@ -34,7 +35,7 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
         // If this is a cheat sheet add a label on top to make that clear
         if (isCheatSheet) {
             // Put the label on top and set the color to white
-            val lblCheatSheet = AOTDGuiLabel(ClientData.getOrCreate(32f), RelativeDimensions(1.0, 0.08), AOTDGuiGravity.TOP_CENTER)
+            val lblCheatSheet = AOTDGuiLabel(ClientData.getOrCreate(32f), RelativeDimensions(1.0, 0.08), GuiGravity.TOP_CENTER)
             lblCheatSheet.textAlignment = TextAlignment.ALIGN_CENTER
             lblCheatSheet.textColor = Color(255, 255, 255)
             lblCheatSheet.text = "Cheat sheet - select researches to unlock them"
@@ -52,9 +53,9 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
         val windowWidth = AOTDGuiUtility.getWindowWidthInMCCoords()
         val windowHeight = AOTDGuiUtility.getWindowHeightInMCCoords()
         val guiSize = if (windowWidth < windowHeight) windowWidth*3/4 else windowHeight*3/4
-        val horizontalPadding = (windowWidth - guiSize)/2
-        val verticalPadding = (windowHeight - guiSize)/2
-        contentPane.padding = AOTDGuiSpacing(verticalPadding, verticalPadding, horizontalPadding, horizontalPadding)
+        val horizontalPadding = (windowWidth - guiSize)/2.0
+        val verticalPadding = (windowHeight - guiSize)/2.0
+        contentPane.padding = AbsoluteSpacing(verticalPadding, verticalPadding, horizontalPadding, horizontalPadding)
 
         // Update research
         val playerResearch = entityPlayer.getResearch()
@@ -77,13 +78,13 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
 
     private fun addConnector(research: Research) {
         val previous = research.preRequisite ?: return
-        val pos = RelativePosition(research.xPosition / 10.0, research.zPosition / 10.0)
-        val prevPos = RelativePosition(previous.xPosition / 10.0, previous.zPosition / 10.0)
+        val pos = RelativePosition(research.xPosition / TREE_WIDTH, (research.zPosition - 4) / TREE_HEIGHT)
+        val prevPos = RelativePosition(previous.xPosition / TREE_WIDTH, (previous.zPosition - 4) / TREE_HEIGHT)
         researchTreeBase.add(ResearchConnector(prevPos, pos))
     }
 
     private fun addResearchButton(research: Research) {
-        val pos = RelativePosition(research.xPosition / TREE_WIDTH, research.zPosition / TREE_HEIGHT)
+        val pos = RelativePosition(research.xPosition / TREE_WIDTH, (research.zPosition - 4) / TREE_HEIGHT)
         val dim = RelativeDimensions(RESEARCH_WIDTH, RESEARCH_HEIGHT)
         val researchNode = AOTDGuiResearchNodeButton(dim, pos, research, isCheatSheet, this)
         researchTreeBase.add(researchNode)
@@ -95,11 +96,11 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
 
     companion object {
         // The research texture is 64x64
-        private const val RESEARCH_HEIGHT = 0.08
-        private const val RESEARCH_WIDTH = 0.08
+        private const val RESEARCH_HEIGHT = 0.06
+        private const val RESEARCH_WIDTH = 0.06
 
         // Display 10x10 of researches
-        private const val TREE_WIDTH = 10.0
-        private const val TREE_HEIGHT = 10.0
+        private const val TREE_WIDTH = 12.0
+        private const val TREE_HEIGHT = 12.0
     }
 }

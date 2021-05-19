@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiGravity
-import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.base.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.screens.BloodStainedJournalPageScreen
@@ -20,12 +20,12 @@ import net.minecraft.client.resources.I18n
 /**
  * Button that represents a research in the research GUI
  */
-class AOTDGuiResearchNodeButton(prefSize: Dimensions<Double>, offset: Position<Double>, val research: Research, isCheatSheet: Boolean, parent: BloodStainedJournalResearchScreen) : AOTDGuiButton(
+class AOTDGuiResearchNodeButton(prefSize: Dimensions, offset: Position, val research: Research, isCheatSheet: Boolean, parent: BloodStainedJournalResearchScreen) : AOTDGuiButton(
     prefSize,
     offset,
     icon = ImagePane("afraidofthedark:textures/gui/journal_tech_tree/research_background.png", ImagePane.DispMode.FIT_TO_PARENT),
     iconHovered = ImagePane("afraidofthedark:textures/gui/journal_tech_tree/research_background_hovered.png", ImagePane.DispMode.FIT_TO_PARENT),
-    gravity = AOTDGuiGravity.CENTER
+    gravity = GuiGravity.CENTER
 ) {
     // The player's research for fast querying
     private val playerResearch = entityPlayer.getResearch()

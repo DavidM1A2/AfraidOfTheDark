@@ -2,9 +2,10 @@ package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
-import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
+import com.davidm1a2.afraidofthedark.client.gui.layout.AbsoluteDimensions
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
@@ -32,7 +33,7 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
         val guiSize = 256.0
 
         // Background panel holds all the gui items
-        val background = StackPane(Dimensions(guiSize, guiSize), scissorEnabled = false)
+        val background = StackPane(AbsoluteDimensions(guiSize, guiSize), scissorEnabled = false)
 
         // Add an image to the background of the sextant texture
         val backgroundImage = ImagePane("afraidofthedark:textures/gui/telescope/sextant.png", ImagePane.DispMode.STRETCH)
@@ -42,9 +43,9 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
         val textFieldFont = ClientData.getOrCreate(45f)
 
         // Initialize fields
-        angle = AOTDGuiTextField(prefSize = Dimensions(120.0, 30.0), font = textFieldFont)
-        latitude = AOTDGuiTextField(prefSize = Dimensions(120.0, 30.0), font = textFieldFont)
-        longitude = AOTDGuiTextField(prefSize = Dimensions(120.0, 30.0), font = textFieldFont)
+        angle = AOTDGuiTextField(prefSize = AbsoluteDimensions(120.0, 30.0), font = textFieldFont)
+        latitude = AOTDGuiTextField(prefSize = AbsoluteDimensions(120.0, 30.0), font = textFieldFont)
+        longitude = AOTDGuiTextField(prefSize = AbsoluteDimensions(120.0, 30.0), font = textFieldFont)
 
         // All fields are white and contain ghost text based on what they represent
         angle.setTextColor(Color(255, 255, 255))
@@ -59,7 +60,7 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
 
         // Create a calculate button that performs the math and returns drop location coordinates
         val confirm = AOTDGuiButton(
-            prefSize = Dimensions(120.0, 20.0),
+            prefSize = AbsoluteDimensions(120.0, 20.0),
             icon = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png"),
             font = ClientData.getOrCreate(40f)

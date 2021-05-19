@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.base
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.player.ClientPlayerEntity
 import net.minecraft.client.gui.AbstractGui
@@ -15,10 +16,10 @@ import kotlin.math.roundToInt
  * Base class for all GUI components like labels, buttons, etc
  */
 abstract class AOTDGuiComponent(
-        var offset: Position<Double> = Position(0.0, 0.0),
-        var prefSize: Dimensions<Double> = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE),
-        var margins: AOTDGuiSpacing = AOTDGuiSpacing(),
-        var gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
+        var offset: Position = AbsolutePosition(0.0, 0.0),
+        var prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE, Double.MAX_VALUE),
+        var margins: GuiSpacing = AbsoluteSpacing(),
+        var gravity: GuiGravity = GuiGravity.TOP_LEFT,
         var hoverTexts: Array<String> = emptyArray(),
         var color: Color = Color(255, 255, 255, 255)) {
 
@@ -141,8 +142,8 @@ abstract class AOTDGuiComponent(
      * Default behavior takes up maximum allowed space
      */
     open fun negotiateDimensions(width: Double, height: Double) {
-        this.width = if (prefSize is RelativeDimensions) (prefSize.width * width).roundToInt() else min(prefSize.width, width).roundToInt()
-        this.height = if (prefSize is RelativeDimensions) (prefSize.height * height).roundToInt() else min(prefSize.height, height).roundToInt()
+        this.width = if (prefSize is RelativeDimensions) (min(prefSize.width, 1.0) * width).roundToInt() else min(prefSize.width, width).roundToInt()
+        this.height = if (prefSize is RelativeDimensions) (min(prefSize.height, 1.0) * height).roundToInt() else min(prefSize.height, height).roundToInt()
         this.inBounds = true    // Reset the inBounds tag and let ancestor nodes check it again
     }
 

@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
-import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance

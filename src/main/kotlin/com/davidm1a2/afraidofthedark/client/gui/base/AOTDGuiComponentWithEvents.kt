@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.base
 
 import com.davidm1a2.afraidofthedark.client.gui.events.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import java.awt.Color
 import java.awt.Point
 
@@ -18,12 +19,12 @@ import java.awt.Point
  * @property keyListeners The key listeners of this component
  */
 abstract class AOTDGuiComponentWithEvents(
-    offset: Position<Double> = Position(0.0, 0.0),
-    prefSize: Dimensions<Double> = Dimensions(0.0, 0.0),
-    margins: AOTDGuiSpacing = AOTDGuiSpacing(),
-    gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
-    hoverTexts: Array<String> = emptyArray(),
-    color: Color = Color(255, 255, 255, 255)) :
+        offset: Position = AbsolutePosition(0.0, 0.0),
+        prefSize: Dimensions = AbsoluteDimensions(0.0, 0.0),
+        margins: GuiSpacing = AbsoluteSpacing(),
+        gravity: GuiGravity = GuiGravity.TOP_LEFT,
+        hoverTexts: Array<String> = emptyArray(),
+        color: Color = Color(255, 255, 255, 255)) :
     AOTDGuiComponent(offset, prefSize, margins, gravity, hoverTexts, color) {
 
     private var mouseListeners = mutableListOf<(AOTDMouseEvent) -> Unit>()

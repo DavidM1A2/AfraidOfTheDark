@@ -1,10 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
-import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.base.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
+import com.davidm1a2.afraidofthedark.client.gui.layout.AbsoluteDimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.AbsolutePosition
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
@@ -27,7 +29,7 @@ import com.davidm1a2.afraidofthedark.common.spell.SpellStage
  */
 class AOTDGuiSpellStage(
     x: Int, y: Int, width: Int, height: Int, private val spellStage: SpellStage
-) : AOTDPane(Position(x.toDouble(), y.toDouble()), Dimensions(width.toDouble(), height.toDouble())) {
+) : AOTDPane(AbsolutePosition(x.toDouble(), y.toDouble()), AbsoluteDimensions(width.toDouble(), height.toDouble())) {
     private val addNewRow: AOTDGuiButton
     private val removeRow: AOTDGuiButton
     val deliveryMethod: AOTDGuiSpellDeliveryMethodSlot
@@ -57,7 +59,7 @@ class AOTDGuiSpellStage(
         // Create two buttons, one to add a new row and one to remove the current row
         addNewRow =
             AOTDGuiButton(
-                Dimensions(15.0, 15.0),
+                AbsoluteDimensions(15.0, 15.0),
                 icon = ImagePane("afraidofthedark:textures/gui/spell_editor/add.png"),
                 iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/add_hovered.png")
             )
@@ -81,7 +83,7 @@ class AOTDGuiSpellStage(
         add(addNewRow)
 
         removeRow = AOTDGuiButton(
-            Dimensions(15.0, 15.0),
+            AbsoluteDimensions(15.0, 15.0),
             icon = ImagePane("afraidofthedark:textures/gui/spell_editor/delete.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/delete_hovered.png")
         )

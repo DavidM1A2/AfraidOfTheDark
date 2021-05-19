@@ -1,6 +1,8 @@
-package com.davidm1a2.afraidofthedark.client.gui.base
+package com.davidm1a2.afraidofthedark.client.gui.layout
 
-class AbsolutePosition(x: Double, y: Double): Position<Double>(x, y) {
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
+
+class AbsolutePosition(x: Double, y: Double): Position(x, y) {
     fun add(other: AbsolutePosition): AbsolutePosition {
         return AbsolutePosition(x + other.x, y + other.y)
     }
@@ -10,7 +12,7 @@ class AbsolutePosition(x: Double, y: Double): Position<Double>(x, y) {
     }
 
     fun avg(other: AbsolutePosition): AbsolutePosition {
-        return AbsolutePosition((x + other.x)/2, (y + other.y)/2)
+        return AbsolutePosition((x + other.x) / 2, (y + other.y) / 2)
     }
 
     fun toDimensions(): AbsoluteDimensions {
@@ -18,6 +20,6 @@ class AbsolutePosition(x: Double, y: Double): Position<Double>(x, y) {
     }
 
     fun toRelative(reference: AOTDPane): RelativePosition {
-        return RelativePosition(this.x / reference.width, this.y / reference.height)
+        return RelativePosition(this.x / (reference.width - reference.padding.horizPx), this.y / (reference.height - reference.padding.vertPx))
     }
 }

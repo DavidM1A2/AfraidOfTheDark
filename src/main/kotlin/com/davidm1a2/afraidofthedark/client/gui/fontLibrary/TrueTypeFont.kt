@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.fontLibrary
 
-import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.renderer.GLAllocation
 import net.minecraft.client.renderer.Tessellator
@@ -240,13 +240,13 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      * @param rgba The color to use when drawing the string
      */
     fun drawString(
-        x: Float,
-        y: Float,
-        stringToDraw: String,
-        scaleX: Float,
-        scaleY: Float,
-        textAlignment: TextAlignment,
-        rgba: Color
+            x: Float,
+            y: Float,
+            stringToDraw: String,
+            scaleX: Float,
+            scaleY: Float,
+            textAlignment: TextAlignment,
+            rgba: Color
     ) {
         drawString(x, y, stringToDraw, 0, stringToDraw.length - 1, scaleX, scaleY, textAlignment, rgba)
     }
@@ -265,15 +265,15 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      * @param rgba The color to use when drawing the string
      */
     fun drawString(
-        x: Float,
-        y: Float,
-        stringToDraw: String,
-        startIndex: Int,
-        endIndex: Int,
-        scaleX: Float,
-        scaleY: Float,
-        textAlignment: TextAlignment,
-        rgba: Color
+            x: Float,
+            y: Float,
+            stringToDraw: String,
+            startIndex: Int,
+            endIndex: Int,
+            scaleX: Float,
+            scaleY: Float,
+            textAlignment: TextAlignment,
+            rgba: Color
     ) {
         // The current glyph being drawn
         var characterGlyph: CharacterGlyph

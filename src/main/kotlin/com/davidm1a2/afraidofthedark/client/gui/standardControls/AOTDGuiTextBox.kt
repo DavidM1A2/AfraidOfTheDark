@@ -1,13 +1,13 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
-import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
+import com.davidm1a2.afraidofthedark.client.gui.layout.AbsoluteDimensions
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import java.awt.Color
 import java.util.*
-import kotlin.math.floor
 
 /**
  * A text box control that will have multiple lines of text like a label
@@ -21,9 +21,10 @@ import kotlin.math.floor
  * @property textColor The color to draw the text with
  * @property overflowText The overflow text that doesn't fit inside this text box
  */
-class AOTDGuiTextBox(prefSize: Dimensions<Double> = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE), private val font: TrueTypeFont) :
+class AOTDGuiTextBox(prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE, Double.MAX_VALUE), private val font: TrueTypeFont) :
     AOTDPane(prefSize = prefSize) {
     private var textLines = mutableListOf<String>()
+    private var text = ""
     var textColor = Color(255, 255, 255, 255)
     var overflowText = ""
         private set
@@ -55,6 +56,8 @@ class AOTDGuiTextBox(prefSize: Dimensions<Double> = Dimensions(Double.MAX_VALUE,
      * @param text The text to use
      */
     fun setText(text: String) {
+        // Store the text as a string
+        this.text = text
         // Clear the original text
         this.textLines.clear()
         // Split the text into words
@@ -70,7 +73,7 @@ class AOTDGuiTextBox(prefSize: Dimensions<Double> = Dimensions(Double.MAX_VALUE,
             word = word.replace("\t", "   ")
             currentLineText = when {
                 // If the line is too long for the current text move to the next line
-                this.font.getWidth("$currentLineText $word") * Constants.TEXT_SCALE_FACTOR > height -> {
+                this.font.getWidth("$currentLineText $word") * Constants.TEXT_SCALE_FACTOR > width -> {
                     // Store the current line and move on
                     this.textLines.add(currentLineText)
                     // Store the word as the beginning of the next line
@@ -96,6 +99,11 @@ class AOTDGuiTextBox(prefSize: Dimensions<Double> = Dimensions(Double.MAX_VALUE,
             this.textLines = actualText
             this.overflowText = spareText.joinToString(" ")
         }
+    }
+
+    override fun negotiateDimensions(width: Double, height: Double) {
+        super.negotiateDimensions(width, height)
+        this.setText(text)
     }
 
     /**

@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.base.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
 
@@ -16,12 +17,12 @@ import org.lwjgl.opengl.GL11
  * @param scissorEnabled If scissors are enabled when drawing this panel
  */
 open class StackPane (
-        prefSize: Dimensions<Double> = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE),
-        offset: Position<Double> = Position(0.0, 0.0),
-        margins: AOTDGuiSpacing = AOTDGuiSpacing(),
-        gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
+        prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE, Double.MAX_VALUE),
+        offset: Position = AbsolutePosition(0.0, 0.0),
+        margins: GuiSpacing = AbsoluteSpacing(),
+        gravity: GuiGravity = GuiGravity.TOP_LEFT,
         hoverTexts: Array<String> = emptyArray(),
-        padding: AOTDGuiSpacing = AOTDGuiSpacing(),
+        padding: GuiSpacing = AbsoluteSpacing(),
         private val scissorEnabled: Boolean = false) :
         AOTDPane(offset, prefSize, margins, gravity, hoverTexts, padding) {
 

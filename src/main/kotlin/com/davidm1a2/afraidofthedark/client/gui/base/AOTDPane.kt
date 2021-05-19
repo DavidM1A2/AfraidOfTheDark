@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.client.gui.base
 
 import com.davidm1a2.afraidofthedark.client.gui.events.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import java.awt.Color
 import java.util.concurrent.CopyOnWriteArrayList
-import kotlin.math.min
 
 /**
  * Base class for all GUI containers. Containers are gui components that are made up of other components inside
@@ -17,13 +17,13 @@ import kotlin.math.min
  * @property parent The parent transform that this container uses as a base
  */
 abstract class AOTDPane (
-    offset: Position<Double> = Position(0.0, 0.0),
-    prefSize: Dimensions<Double> = Dimensions(0.0, 0.0),
-    margins: AOTDGuiSpacing = AOTDGuiSpacing(),
-    gravity: AOTDGuiGravity = AOTDGuiGravity.TOP_LEFT,
-    hoverTexts: Array<String> = emptyArray(),
-    var padding: AOTDGuiSpacing = AOTDGuiSpacing(),
-    color: Color = Color(255, 255, 255, 255)) :
+        offset: Position = AbsolutePosition(0.0, 0.0),
+        prefSize: Dimensions = AbsoluteDimensions(0.0, 0.0),
+        margins: GuiSpacing = AbsoluteSpacing(),
+        gravity: GuiGravity = GuiGravity.TOP_LEFT,
+        hoverTexts: Array<String> = emptyArray(),
+        var padding: GuiSpacing = AbsoluteSpacing(),
+        color: Color = Color(255, 255, 255, 255)) :
     AOTDGuiComponentWithEvents(offset, prefSize, margins, gravity, hoverTexts, color) {
 
     // Panes can have children
@@ -75,22 +75,24 @@ abstract class AOTDPane (
     open fun calcChildrenBounds(width: Double = this.width.toDouble(), height: Double = this.height.toDouble()) {
         for (child in subComponents) {
             // Set dimensions
-            val internalWidth = width - padding.horizPx
-            val internalHeight = height - padding.vertPx
+            var calcPadding = padding
+            if (calcPadding is RelativeSpacing) calcPadding = calcPadding.toAbsolute(this)
+            val internalWidth = width - calcPadding.horizPx
+            val internalHeight = height - calcPadding.vertPx
             child.negotiateDimensions(internalWidth, internalHeight)
             // Set position
             val gravityXOffset = when (child.gravity) {
-                AOTDGuiGravity.TOP_LEFT, AOTDGuiGravity.CENTER_LEFT, AOTDGuiGravity.BOTTOM_LEFT -> padding.leftPx.toDouble()
-                AOTDGuiGravity.TOP_CENTER, AOTDGuiGravity.CENTER, AOTDGuiGravity.BOTTOM_CENTER -> width/2 - child.width/2
-                AOTDGuiGravity.TOP_RIGHT, AOTDGuiGravity.CENTER_RIGHT, AOTDGuiGravity.BOTTOM_RIGHT -> width - child.width - padding.rightPx
+                GuiGravity.TOP_LEFT, GuiGravity.CENTER_LEFT, GuiGravity.BOTTOM_LEFT -> calcPadding.left
+                GuiGravity.TOP_CENTER, GuiGravity.CENTER, GuiGravity.BOTTOM_CENTER -> width/2 - child.width/2
+                GuiGravity.TOP_RIGHT, GuiGravity.CENTER_RIGHT, GuiGravity.BOTTOM_RIGHT -> width - child.width - calcPadding.right
             }
             val gravityYOffset = when (child.gravity) {
-                AOTDGuiGravity.TOP_LEFT, AOTDGuiGravity.TOP_CENTER, AOTDGuiGravity.TOP_RIGHT -> padding.topPx.toDouble()
-                AOTDGuiGravity.CENTER_LEFT, AOTDGuiGravity.CENTER, AOTDGuiGravity.CENTER_RIGHT -> height/2 - child.height/2
-                AOTDGuiGravity.BOTTOM_LEFT, AOTDGuiGravity.BOTTOM_CENTER, AOTDGuiGravity.BOTTOM_RIGHT -> height - child.height - padding.botPx
+                GuiGravity.TOP_LEFT, GuiGravity.TOP_CENTER, GuiGravity.TOP_RIGHT -> calcPadding.top
+                GuiGravity.CENTER_LEFT, GuiGravity.CENTER, GuiGravity.CENTER_RIGHT -> height/2 - child.height/2
+                GuiGravity.BOTTOM_LEFT, GuiGravity.BOTTOM_CENTER, GuiGravity.BOTTOM_RIGHT -> height - child.height - calcPadding.bot
             }
-            val xOffset = if (child.offset is RelativePosition) width * child.offset.x else child.offset.x
-            val yOffset = if (child.offset is RelativePosition) height * child.offset.y else child.offset.y
+            val xOffset = if (child.offset is RelativePosition) internalWidth * child.offset.x else child.offset.x
+            val yOffset = if (child.offset is RelativePosition) internalHeight * child.offset.y else child.offset.y
             child.x = (this.x + this.guiOffsetX + gravityXOffset + xOffset).toInt()
             child.y = (this.y + this.guiOffsetY + gravityYOffset + yOffset).toInt()
             // If it's a pane, have it recalculate its children too

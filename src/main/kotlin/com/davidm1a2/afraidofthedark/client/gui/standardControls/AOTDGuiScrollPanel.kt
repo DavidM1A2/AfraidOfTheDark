@@ -2,8 +2,10 @@ package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
-import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.base.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.AbsoluteDimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.AbsolutePosition
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
 import java.awt.Point
@@ -29,7 +31,7 @@ class AOTDGuiScrollPanel(
     private val scissorEnabled: Boolean,
     private val scrollBar: AOTDGuiScrollBar
 ) :
-    AOTDPane(prefSize = Dimensions(width, height)) {
+    AOTDPane(prefSize = AbsoluteDimensions(width, height)) {
     var maximumOffset = 0
         set(maximumOffset) {
             field = maximumOffset
@@ -107,7 +109,7 @@ class AOTDGuiScrollPanel(
             // Update the y position internally by offsetting based on slider percent
             scrollYOffset = (y - (this.maximumOffset * lastSliderPosition))
             for (child in getChildren()) {
-                child.offset = Position(child.offset.x, child.offset.y + scrollYOffset)
+                child.offset = AbsolutePosition(child.offset.x, child.offset.y + scrollYOffset)
             }
             // Compute the actual elements in "view"
             // Rectangle realBoundingBox = new Rectangle(this.getXScaled(), (int) (this.originalYPos * this.getScaleY()), this.getWidthScaled(), this.getHeightScaled());

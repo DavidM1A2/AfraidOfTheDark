@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.client.gui.specialControls
 import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
@@ -34,7 +35,7 @@ import kotlin.math.max
  * @property componentScrollPanelOffset The offset that the scroll panel should have when the component scroll panel is visible
  * @property currentPropEditors A List of any additional text fields we currently have editing properties
  */
-class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Position(x.toDouble(), y.toDouble()), Dimensions(width.toDouble(), height.toDouble())) {
+class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(AbsolutePosition(x.toDouble(), y.toDouble()), AbsoluteDimensions(width.toDouble(), height.toDouble())) {
     private var componentClickCallback: ((AOTDGuiSpellComponentSlot<*>) -> Unit) = { }
     private val scrollPanel: AOTDGuiScrollPanel
     private val componentScrollPanel: StackPane
@@ -44,7 +45,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Pos
     init {
         // Create the base panel to attach all of our components to
         // The scroll that contains either a list of components or a component editor
-        val scroll = StackPane(Dimensions(width.toDouble(), height.toDouble()))
+        val scroll = StackPane(AbsoluteDimensions(width.toDouble(), height.toDouble()))
 
         // Add the background scroll texture image
         val backgroundScroll =
@@ -60,7 +61,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Pos
         scroll.add(scrollPanel)
 
         // Create a base panel for all components
-        this.componentScrollPanel = StackPane(Dimensions(120.0, 175.0))
+        this.componentScrollPanel = StackPane(AbsoluteDimensions(120.0, 175.0))
 
         // The current component index we're adding to the scroll
         val componentsPerLine = 5
@@ -174,7 +175,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Pos
             this.scrollPanel.maximumOffset = this.componentScrollPanelOffset
         } else {
             // Create a panel to hold all of our controls
-            val editPanel = StackPane(Dimensions(120.0, 175.0))
+            val editPanel = StackPane(AbsoluteDimensions(120.0, 175.0))
             // Start at y=0, or the "top" of the scroll
             var currentY = 0
 
@@ -196,7 +197,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Pos
 
             // If there are no editable properties say so with a text box
             if (editableProperties.isEmpty()) {
-                val noPropsLine = AOTDGuiTextBox(Dimensions(120.0, 30.0), ClientData.getOrCreate(26f))
+                val noPropsLine = AOTDGuiTextBox(AbsoluteDimensions(120.0, 30.0), ClientData.getOrCreate(26f))
                 noPropsLine.textColor = purpleText
                 noPropsLine.setText("This component has no editable properties.")
                 editPanel.add(noPropsLine)
@@ -212,7 +213,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Pos
                     currentY += propertyName.height
 
                     // Create a text box that shows the description of the property
-                    val propertyDescription = AOTDGuiTextBox(Dimensions(120.0, 12.0), ClientData.getOrCreate(26f))
+                    val propertyDescription = AOTDGuiTextBox(AbsoluteDimensions(120.0, 12.0), ClientData.getOrCreate(26f))
                     propertyDescription.textColor = purpleText
                     propertyDescription.setText("Description: ${editableProp.description}")
 
@@ -226,7 +227,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Pos
                     currentY += propertyDescription.height
 
                     // Create a text field that edits the property value
-                    val propertyEditor = AOTDGuiTextField(Position(0.0, currentY.toDouble()), Dimensions(120.0, 30.0), ClientData.getOrCreate(26f))
+                    val propertyEditor = AOTDGuiTextField(AbsolutePosition(0.0, currentY.toDouble()), AbsoluteDimensions(120.0, 30.0), ClientData.getOrCreate(26f))
                     propertyEditor.setTextColor(purpleText)
                     propertyEditor.setText(editableProp.getter(componentInstance))
                     editPanel.add(propertyEditor)
@@ -241,7 +242,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Pos
             if (editableProperties.isNotEmpty()) {
                 // Add a save button at the bottom if we have any editable properties
                 val save = AOTDGuiButton(
-                    Dimensions(50.0, 20.0),
+                    AbsoluteDimensions(50.0, 20.0),
                     icon = ImagePane("afraidofthedark:textures/gui/spell_editor/button.png"),
                     iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/button_hovered.png"),
                     font = ClientData.getOrCreate(32f)
@@ -295,7 +296,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Pos
             // Add a cancel button at the bottom. Center it if we have no edit properties (and no save button!)
             val cancelX = if (editableProperties.isEmpty()) editPanel.width / 2 - 25 else editPanel.width - 50
             val cancel = AOTDGuiButton(
-                Dimensions(50.0, 20.0),
+                AbsoluteDimensions(50.0, 20.0),
                 icon = ImagePane("afraidofthedark:textures/gui/spell_editor/button.png"),
                 iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/button_hovered.png"),
                 font = ClientData.getOrCreate(32f)

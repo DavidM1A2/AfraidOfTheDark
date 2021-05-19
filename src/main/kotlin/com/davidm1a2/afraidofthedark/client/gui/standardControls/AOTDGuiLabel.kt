@@ -2,6 +2,9 @@ package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
+import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import java.awt.Color
 
@@ -21,12 +24,12 @@ import java.awt.Color
  * @property textAlignment Text alignment
  * @property shortenTextToFit True if we should ensure the text fits inside the label by shortening it, false otherwise
  */
-class AOTDGuiLabel(val font: TrueTypeFont, prefSize: Dimensions<Double>, gravity: AOTDGuiGravity = AOTDGuiGravity.CENTER) : AOTDGuiComponentWithEvents(prefSize = prefSize, gravity = gravity) {
+class AOTDGuiLabel(val font: TrueTypeFont, prefSize: Dimensions, gravity: GuiGravity = GuiGravity.CENTER) : AOTDGuiComponentWithEvents(prefSize = prefSize, gravity = gravity) {
 
     var text = ""
         set(text) {
             field = text
-            this.needsTextUpdate = true
+            computeTextForSize()
         }
     private var fitText = ""
     private var needsTextUpdate = true
@@ -38,25 +41,19 @@ class AOTDGuiLabel(val font: TrueTypeFont, prefSize: Dimensions<Double>, gravity
      * Draw function that gets called every frame. Draw the text
      */
     override fun draw() {
-        // If we need a text to size update do that
-        if (this.needsTextUpdate) {
-            this.computeTextForSize()
-            this.needsTextUpdate = false
-        }
-
         // If the label is visible, draw it
         if (this.isVisible && this.inBounds) {
             // Compute the x and y positions of the text
             val xCoord =
                 x + when (this.textAlignment) {
-                    TextAlignment.ALIGN_RIGHT -> width.toFloat()
-                    TextAlignment.ALIGN_CENTER -> width / 2f
+                    TextAlignment.ALIGN_RIGHT -> this.width.toFloat()
+                    TextAlignment.ALIGN_CENTER -> this.width.toFloat() / 2f
                     else -> 0f
                 }
             var yCoord = y.toFloat()
 
             // Center align text on the y-axis
-            val spaceLeft = (height - this.font.height * Constants.TEXT_SCALE_FACTOR).toDouble()
+            val spaceLeft = (this.height - this.font.height * Constants.TEXT_SCALE_FACTOR).toDouble()
             if (spaceLeft > 0) {
                 yCoord += (spaceLeft / 2).toFloat()
             }
@@ -73,6 +70,11 @@ class AOTDGuiLabel(val font: TrueTypeFont, prefSize: Dimensions<Double>, gravity
             )
             super.draw()
         }
+    }
+
+    override fun negotiateDimensions(width: Double, height: Double) {
+        super.negotiateDimensions(width, height)
+        computeTextForSize()
     }
 
     /**
@@ -92,7 +94,7 @@ class AOTDGuiLabel(val font: TrueTypeFont, prefSize: Dimensions<Double>, gravity
                 var width =
                     (this.font.getWidth(this.fitText).toDouble() * Constants.TEXT_SCALE_FACTOR.toDouble()).toFloat()
                 // If it's too big remove one character at a time until it isn't
-                while (width > this.width && this.fitText.isNotEmpty()) {
+                while (width > this.width && this.fitText.length >= 2) {
                     this.fitText = this.fitText.substring(0, this.fitText.length - 2)
                     // Grab the current width of the text
                     width =

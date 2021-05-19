@@ -1,12 +1,11 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
-import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.base.RelativeDimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import net.minecraft.util.ResourceLocation
-import java.awt.Image
 import kotlin.math.roundToInt
 
 /**
@@ -26,10 +25,10 @@ import kotlin.math.roundToInt
  * @property originalHandleLocation A float telling us where the handle was before the drag began
  */
 class AOTDGuiScrollBar @JvmOverloads constructor(
-    prefSize: Dimensions<Double>,
-    scrollBarTexture: String = "afraidofthedark:textures/gui/scroll_bar.png",
-    handleTexture: String = "afraidofthedark:textures/gui/scroll_bar_handle.png",
-    handleHoveredTexture: String = handleTexture
+        prefSize: Dimensions,
+        scrollBarTexture: String = "afraidofthedark:textures/gui/scroll_bar.png",
+        handleTexture: String = "afraidofthedark:textures/gui/scroll_bar_handle.png",
+        handleHoveredTexture: String = handleTexture
 ) : AOTDPane(prefSize = prefSize) {
     var value = 0.0
         private set

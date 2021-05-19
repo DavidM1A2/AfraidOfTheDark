@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.client.gui.specialControls
 import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.screens.SpellCraftingScreen
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
@@ -29,7 +30,7 @@ import java.awt.Color
  * @property keybindCallback Callback function that we fire when we want a new keybind for this spell
  * @property deleteCallback Callback function that we fire when the delete spell button is pressed
  */
-class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : AOTDPane(Position(x.toDouble(), y.toDouble()), Dimensions(width.toDouble(), height.toDouble())) {
+class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : AOTDPane(AbsolutePosition(x.toDouble(), y.toDouble()), AbsoluteDimensions(width.toDouble(), height.toDouble())) {
     private val lblKeybind: AOTDGuiLabel
     private var keybindCallback: (() -> Unit) = { }
     private var deleteCallback: (() -> Unit) = { }
@@ -41,7 +42,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
         this.add(background)
 
         // The container for spell name
-        val spellNameContainer = StackPane(Dimensions(width - 20.0, 15.0))
+        val spellNameContainer = StackPane(AbsoluteDimensions(width - 20.0, 15.0))
 
         // The label holding the actual spell name
         val lblSpellName = AOTDGuiLabel(ClientData.getOrCreate(36f), RelativeDimensions(0.0, 0.0))
@@ -79,7 +80,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
         // Create a button to edit the spell
         val btnEdit =
             AOTDGuiButton(
-                Dimensions(24.0, 13.0),
+                AbsoluteDimensions(24.0, 13.0),
                 icon = ImagePane("afraidofthedark:textures/gui/spell_list/spell_edit.png"),
                 iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/spell_edit_hovered.png")
             )
@@ -98,7 +99,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
 
         // Create a button to delete a spell
         val btnDelete = AOTDGuiButton(
-            Dimensions(24.0, 13.0),
+            AbsoluteDimensions(24.0, 13.0),
             icon = ImagePane("afraidofthedark:textures/gui/spell_list/spell_delete.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/spell_delete_hovered.png")
         )

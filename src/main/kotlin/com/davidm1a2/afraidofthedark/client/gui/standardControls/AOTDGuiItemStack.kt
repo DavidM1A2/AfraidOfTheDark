@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
-import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.base.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.item.ItemStack
@@ -21,8 +21,8 @@ import org.lwjgl.opengl.GL11
  * @property highlight The image that is shown when the itemstack is hovered over
  */
 class AOTDGuiItemStack(
-        prefSize: Dimensions<Double>,
-        offset: Position<Double>,
+        prefSize: Dimensions,
+        offset: Position,
         backgroundHighlight: Boolean = false,
         var itemStack: ItemStack = ItemStack.EMPTY) :
         AOTDPane(offset, prefSize) {
@@ -61,8 +61,8 @@ class AOTDGuiItemStack(
             GL11.glPushMatrix()
 
             // Translate to the center of the stack
-            GL11.glTranslated(x.toDouble(), y.toDouble(), 1.0)
-            GL11.glTranslated((3 - x).toDouble(), (3 - x).toDouble(), 1.0)
+            //GL11.glTranslated(x.toDouble(), y.toDouble(), 1.0)
+            //GL11.glTranslated((3 - x).toDouble(), (3 - x).toDouble(), 1.0)
 
             // Grab the render item to draw items
             val renderItem = Minecraft.getInstance().itemRenderer

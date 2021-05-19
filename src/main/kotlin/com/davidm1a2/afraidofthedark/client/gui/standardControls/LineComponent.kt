@@ -1,22 +1,23 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import java.awt.Color
 import kotlin.math.sqrt
 
-open class LineComponent(private val lineFrom: Position<Double>, private val lineTo: Position<Double>, private val weight: Double, color: Color, gravity: AOTDGuiGravity = AOTDGuiGravity.CENTER):
+open class LineComponent(private val lineFrom: Position, private val lineTo: Position, private val weight: Double, color: Color, gravity: GuiGravity = GuiGravity.CENTER):
         AOTDGuiComponent(color = color, gravity = gravity) {
 
     init {
         this.prefSize = if (lineFrom is AbsolutePosition && lineTo is AbsolutePosition) lineTo.sub(lineFrom).toDimensions()
             else if (lineFrom is RelativePosition && lineTo is RelativePosition) lineTo.sub(lineFrom).toDimensions()
-            else Dimensions(0.0, 0.0)
+            else AbsoluteDimensions(0.0, 0.0)
         this.offset = if (lineFrom is AbsolutePosition && lineTo is AbsolutePosition) lineTo.avg(lineFrom)
             else if (lineFrom is RelativePosition && lineTo is RelativePosition) lineTo.avg(lineFrom)
-            else Position(0.0, 0.0)
+            else AbsolutePosition(0.0, 0.0)
     }
 
     override fun draw() {
@@ -43,8 +44,8 @@ open class LineComponent(private val lineFrom: Position<Double>, private val lin
             var newY = 0.0
 
             if (mag != 0.0) {
-                newX = deltaY * weight
-                newY = -deltaX * weight
+                newX = deltaY / mag * weight
+                newY = -deltaX / mag * weight
             }
 
             val x1 = x - (newX/2)

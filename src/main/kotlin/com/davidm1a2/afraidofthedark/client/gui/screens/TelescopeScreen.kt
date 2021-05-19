@@ -2,8 +2,9 @@ package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
-import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
+import com.davidm1a2.afraidofthedark.client.gui.layout.AbsoluteDimensions
 import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiMeteorButton
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
@@ -14,7 +15,6 @@ import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.item.telescope.TelescopeBaseItem
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.UpdateWatchedMeteorPacket
 import net.minecraft.util.text.TranslationTextComponent
-import java.awt.Image
 
 /**
  * Gui screen that represents the telescope GUI
@@ -33,7 +33,7 @@ class TelescopeScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         val yPosTelescope = (Constants.BASE_GUI_HEIGHT - GUI_SIZE) / 2
 
         // Create a panel that will hold all the UI contents
-        val telescope = StackPane(Dimensions(GUI_SIZE.toDouble(), GUI_SIZE.toDouble()))
+        val telescope = StackPane(AbsoluteDimensions(GUI_SIZE.toDouble(), GUI_SIZE.toDouble()))
 
         // Create a frame that will be the edge of the telescope UI
         val telescopeFrame = ImagePane("afraidofthedark:textures/gui/telescope/frame.png", ImagePane.DispMode.FIT_TO_PARENT)
@@ -83,7 +83,7 @@ class TelescopeScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
             for (i in 0 until numberOfMeteors) {
                 // Create the meteor button based on if astronomy 2 is researched or not
                 val meteorButton = AOTDGuiMeteorButton(
-                    Dimensions(64.0, 64.0),
+                    AbsoluteDimensions(64.0, 64.0),
                     possibleMeteors[random.nextInt(possibleMeteors.size)]
                 )
                 // Add a listener

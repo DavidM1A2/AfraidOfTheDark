@@ -2,12 +2,9 @@ package com.davidm1a2.afraidofthedark.client.gui
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility.minecraft
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility.window
-import com.davidm1a2.afraidofthedark.client.gui.base.AbsoluteDimensions
-import com.davidm1a2.afraidofthedark.client.gui.base.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.AbsoluteDimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.Tessellator
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats
-import net.minecraft.util.ResourceLocation
 import java.awt.Toolkit
 import java.awt.datatransfer.DataFlavor
 import java.awt.datatransfer.StringSelection
@@ -25,8 +22,6 @@ import kotlin.math.roundToInt
 object AOTDGuiUtility {
     private val minecraft = Minecraft.getInstance()
     private val window = minecraft.mainWindow
-
-    val guiUnitSquare = Dimensions(1024, 1024)
 
     /**
      * Converts a coordinate from minecraft resolution to screen resolution
