@@ -74,13 +74,18 @@ abstract class AOTDPane (
      */
     open fun calcChildrenBounds(width: Double = this.width.toDouble(), height: Double = this.height.toDouble()) {
         for (child in subComponents) {
-            // Set dimensions
+            // Calculate padding and margins
             var calcPadding = padding
             if (calcPadding is RelativeSpacing) calcPadding = calcPadding.toAbsolute(this)
             val internalWidth = width - calcPadding.horizPx
             val internalHeight = height - calcPadding.vertPx
-            child.negotiateDimensions(internalWidth, internalHeight)
-            // Set position
+            var calcMargins = child.margins
+            if (calcMargins is RelativeSpacing) calcMargins = calcMargins.toAbsolute(this)
+            val marginWidth = calcMargins.horizPx
+            val marginHeight = calcMargins.vertPx
+            // Set dimensions
+            child.negotiateDimensions(internalWidth - marginWidth, internalHeight - marginHeight)
+            // Calculate position
             val gravityXOffset = when (child.gravity) {
                 GuiGravity.TOP_LEFT, GuiGravity.CENTER_LEFT, GuiGravity.BOTTOM_LEFT -> calcPadding.left
                 GuiGravity.TOP_CENTER, GuiGravity.CENTER, GuiGravity.BOTTOM_CENTER -> width/2 - child.width/2
@@ -93,8 +98,9 @@ abstract class AOTDPane (
             }
             val xOffset = if (child.offset is RelativePosition) internalWidth * child.offset.x else child.offset.x
             val yOffset = if (child.offset is RelativePosition) internalHeight * child.offset.y else child.offset.y
-            child.x = (this.x + this.guiOffsetX + gravityXOffset + xOffset).toInt()
-            child.y = (this.y + this.guiOffsetY + gravityYOffset + yOffset).toInt()
+            // Set position
+            child.x = (this.x + this.guiOffsetX + gravityXOffset + xOffset + calcMargins.left).toInt()
+            child.y = (this.y + this.guiOffsetY + gravityYOffset + yOffset + calcMargins.top).toInt()
             // If it's a pane, have it recalculate its children too
             if (child is AOTDPane) child.calcChildrenBounds()
             // Determine if the subtree of children are in this node's bounds
