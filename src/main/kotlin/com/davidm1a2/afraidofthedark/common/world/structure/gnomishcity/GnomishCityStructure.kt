@@ -3,9 +3,8 @@ package com.davidm1a2.afraidofthedark.common.world.structure.gnomishcity
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import com.davidm1a2.afraidofthedark.common.world.WorldHeightmap
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
-import net.minecraft.world.IWorld
+import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.IFeatureConfig
@@ -55,35 +54,20 @@ class GnomishCityStructure : AOTDStructure<NoFeatureConfig>({ IFeatureConfig.NO_
         }
     }
 
-    override fun hasStartAt(worldIn: IWorld, chunkGen: ChunkGenerator<*>, random: Random, xPos: Int, zPos: Int): Boolean {
-        val frequency = 0.0012 * ModCommonConfiguration.gnomishCityFrequency
-        if (random.nextDouble() >= frequency) {
+    override fun hasStartAt(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
+        // chance = gnomishCityFrequency * CHANCE_QUARTIC_COEFFICIENT * missCount^4
+        val chance = ModCommonConfiguration.gnomishCityFrequency * (CHANCE_QUARTIC_COEFFICIENT * missCount).powOptimized(4)
+        if (random.nextDouble() >= chance) {
             return false
         }
 
-        var minHeight = Int.MAX_VALUE
-        var maxHeight = Int.MIN_VALUE
-        val heightGranularity = 16
-        for (xOffset in (-width / 2)..(width / 2) step heightGranularity) {
-            for (zOffset in (-length / 2)..(length / 2) step heightGranularity) {
-                val height = WorldHeightmap.getHeight(xPos + xOffset, zPos + zOffset, worldIn, chunkGen)
-                if (height < minHeight) {
-                    minHeight = height
-                }
-                if (height > maxHeight) {
-                    maxHeight = height
-                }
-            }
-        }
-
-        // If there's less than a 25 block difference, continue, otherwise exit out
-        if (maxHeight - minHeight > 25) {
-            return false
-        }
         return true
     }
 
     companion object {
+        // 4th root of 0.0000000000000001
+        private const val CHANCE_QUARTIC_COEFFICIENT = 0.0001
+
         private val VALID_BIOME_CATEGORIES = listOf(
             Biome.Category.TAIGA,
             Biome.Category.EXTREME_HILLS,

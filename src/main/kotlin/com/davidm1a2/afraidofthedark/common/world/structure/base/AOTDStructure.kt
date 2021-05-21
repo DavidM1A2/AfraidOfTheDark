@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.world.structure.base
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getStructureCollisionMap
+import com.davidm1a2.afraidofthedark.common.capabilities.getStructureMissCounter
 import com.davidm1a2.afraidofthedark.common.world.WorldHeightmap
 import com.mojang.datafixers.Dynamic
 import net.minecraft.util.SharedSeedRandom
@@ -44,13 +45,21 @@ abstract class AOTDStructure<T : IFeatureConfig>(configFactory: (Dynamic<*>) -> 
         val zPos = centerChunkZ * 16
         val world = chunkGenerator.getWorld()
 
-        return if (hasStartAt(world, chunkGenerator, random, xPos, zPos)) {
+        val structureMissCounter = world.getStructureMissCounter()
+
+        structureMissCounter.increment(this)
+        val currentCount = structureMissCounter.get(this)
+        return if (hasStartAt(world, chunkGenerator, random, currentCount, xPos, zPos)) {
             val centerBiome = chunkGenerator.biomeProvider.getBiome(BlockPos(xPos + 9, 0, zPos + 9))
             val structureStart =
                 startFactory.create(this, centerChunkX, centerChunkZ, centerBiome, MutableBoundingBox.getNewBoundingBox(), 0, chunkGenerator.seed)
             structureStart.init(chunkGenerator, (world as ServerWorld).saveHandler.structureTemplateManager, centerChunkX, centerChunkZ, centerBiome)
             return if (checksCollision) {
-                doesNotCollide(world as World, structureStart)
+                doesNotCollide(world, structureStart).also {
+                    if (it) {
+                        structureMissCounter.reset(this)
+                    }
+                }
             } else {
                 true
             }
@@ -59,7 +68,7 @@ abstract class AOTDStructure<T : IFeatureConfig>(configFactory: (Dynamic<*>) -> 
         }
     }
 
-    abstract fun hasStartAt(worldIn: IWorld, chunkGen: ChunkGenerator<*>, random: Random, xPos: Int, zPos: Int): Boolean
+    abstract fun hasStartAt(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean
 
     fun addToBiome(biome: Biome, config: T) {
         biome.addStructure(this, config)
@@ -93,17 +102,18 @@ abstract class AOTDStructure<T : IFeatureConfig>(configFactory: (Dynamic<*>) -> 
         world: IWorld = chunkGen.getWorld(),
         width: Int = getWidth(),
         length: Int = getLength()
-    ): Array<Int> {
-        val corner1Height = WorldHeightmap.getHeight(x - width / 2, z - length / 2, world, chunkGen)
-        val corner2Height = WorldHeightmap.getHeight(x + width / 2, z - length / 2, world, chunkGen)
-        val corner3Height = WorldHeightmap.getHeight(x - width / 2, z + length / 2, world, chunkGen)
-        val corner4Height = WorldHeightmap.getHeight(x + width / 2, z + length / 2, world, chunkGen)
-        val edge1Height = WorldHeightmap.getHeight(x, z - length / 2, world, chunkGen)
-        val edge2Height = WorldHeightmap.getHeight(x, z + length / 2, world, chunkGen)
-        val edge3Height = WorldHeightmap.getHeight(x - width / 2, z, world, chunkGen)
-        val edge4Height = WorldHeightmap.getHeight(x + width / 2, z, world, chunkGen)
-        val centerHeight = WorldHeightmap.getHeight(x, z, world, chunkGen)
-        return arrayOf(corner1Height, corner2Height, corner3Height, corner4Height, edge1Height, edge2Height, edge3Height, edge4Height, centerHeight)
+    ): Sequence<Int> {
+        return sequence {
+            yield(WorldHeightmap.getHeight(x - width / 2, z - length / 2, world, chunkGen))
+            yield(WorldHeightmap.getHeight(x + width / 2, z - length / 2, world, chunkGen))
+            yield(WorldHeightmap.getHeight(x - width / 2, z + length / 2, world, chunkGen))
+            yield(WorldHeightmap.getHeight(x + width / 2, z + length / 2, world, chunkGen))
+            yield(WorldHeightmap.getHeight(x, z - length / 2, world, chunkGen))
+            yield(WorldHeightmap.getHeight(x, z + length / 2, world, chunkGen))
+            yield(WorldHeightmap.getHeight(x - width / 2, z, world, chunkGen))
+            yield(WorldHeightmap.getHeight(x + width / 2, z, world, chunkGen))
+            yield(WorldHeightmap.getHeight(x, z, world, chunkGen))
+        }
     }
 
     protected fun getInteriorConfigs(
@@ -113,7 +123,7 @@ abstract class AOTDStructure<T : IFeatureConfig>(configFactory: (Dynamic<*>) -> 
         width: Int = getWidth(),
         length: Int = getLength(),
         stepNum: Int = 1
-    ): Sequence<T?> {
+    ): Sequence<T> {
         val biomeProvider = chunkGen.biomeProvider
         return sequence {
             for (xPos in x until x + width step stepNum) {
@@ -122,6 +132,35 @@ abstract class AOTDStructure<T : IFeatureConfig>(configFactory: (Dynamic<*>) -> 
                     yield(chunkGen.getStructureConfig(biome, this@AOTDStructure))
                 }
             }
+        }.filterNotNull()
+    }
+
+    protected fun getInteriorConfigEstimate(
+        x: Int,
+        z: Int,
+        chunkGen: ChunkGenerator<*>,
+        width: Int = getWidth(),
+        length: Int = getLength()
+    ): Sequence<T> {
+        val biomeProvider = chunkGen.biomeProvider
+        return sequence {
+            yield(chunkGen.getStructureConfig(biomeProvider.getBiome(x - width / 2, z - length / 2), this@AOTDStructure))
+            yield(chunkGen.getStructureConfig(biomeProvider.getBiome(x + width / 2, z - length / 2), this@AOTDStructure))
+            yield(chunkGen.getStructureConfig(biomeProvider.getBiome(x - width / 2, z + length / 2), this@AOTDStructure))
+            yield(chunkGen.getStructureConfig(biomeProvider.getBiome(x + width / 2, z + length / 2), this@AOTDStructure))
+            yield(chunkGen.getStructureConfig(biomeProvider.getBiome(x, z - length / 2), this@AOTDStructure))
+            yield(chunkGen.getStructureConfig(biomeProvider.getBiome(x, z + length / 2), this@AOTDStructure))
+            yield(chunkGen.getStructureConfig(biomeProvider.getBiome(x - width / 2, z), this@AOTDStructure))
+            yield(chunkGen.getStructureConfig(biomeProvider.getBiome(x + width / 2, z), this@AOTDStructure))
+            yield(chunkGen.getStructureConfig(biomeProvider.getBiome(x, z), this@AOTDStructure))
+        }.filterNotNull()
+    }
+
+    protected fun Double.powOptimized(n: Int): Double {
+        var result = this
+        for (ignored in 0 until n - 1) {
+            result = result * this
         }
+        return result
     }
 }

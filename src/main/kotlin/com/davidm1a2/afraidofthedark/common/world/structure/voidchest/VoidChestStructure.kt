@@ -4,15 +4,15 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
-import com.davidm1a2.afraidofthedark.common.world.structure.base.FrequencyConfig
-import net.minecraft.world.IWorld
+import com.davidm1a2.afraidofthedark.common.world.structure.base.BooleanConfig
+import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.biome.Biomes
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 
-class VoidChestStructure : AOTDStructure<FrequencyConfig>({ FrequencyConfig.deserialize(it) }) {
+class VoidChestStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deserialize(it) }) {
     override fun getStructureName(): String {
         return "${Constants.MOD_ID}:void_chest"
     }
@@ -26,11 +26,7 @@ class VoidChestStructure : AOTDStructure<FrequencyConfig>({ FrequencyConfig.dese
     }
 
     override fun setupStructureIn(biome: Biome) {
-        if (biome in COMPATIBLE_BIOMES) {
-            addToBiome(biome, FrequencyConfig(0.005 * ModCommonConfiguration.voidChestMultiplier))
-        } else {
-            addToBiome(biome, FrequencyConfig(0.0))
-        }
+        addToBiome(biome, BooleanConfig(biome in COMPATIBLE_BIOMES))
     }
 
     override fun getStartFactory(): IStartFactory {
@@ -39,9 +35,15 @@ class VoidChestStructure : AOTDStructure<FrequencyConfig>({ FrequencyConfig.dese
         }
     }
 
-    override fun hasStartAt(worldIn: IWorld, chunkGen: ChunkGenerator<*>, random: Random, xPos: Int, zPos: Int): Boolean {
-        val frequency = getInteriorConfigs(xPos, zPos, chunkGen).map { it?.frequency ?: 0.0 }.maxOrNull() ?: 0.0
-        if (random.nextDouble() >= frequency) {
+    override fun hasStartAt(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
+        val isNotSupported = getInteriorConfigEstimate(xPos, zPos, chunkGen).any { !it.supported }
+        if (isNotSupported) {
+            return false
+        }
+
+        // chance = voidChestMultiplier * CHANCE_QUARTIC_COEFFICIENT * missCount^4
+        val chance = ModCommonConfiguration.voidChestMultiplier * (CHANCE_QUARTIC_COEFFICIENT * missCount).powOptimized(4)
+        if (random.nextDouble() >= chance) {
             return false
         }
 
@@ -55,6 +57,9 @@ class VoidChestStructure : AOTDStructure<FrequencyConfig>({ FrequencyConfig.dese
     }
 
     companion object {
+        // 4th root of 0.00000000000009
+        private const val CHANCE_QUARTIC_COEFFICIENT = 0.0005477226
+
         // A set of compatible biomes
         private val COMPATIBLE_BIOMES = setOf(
             Biomes.SNOWY_BEACH,

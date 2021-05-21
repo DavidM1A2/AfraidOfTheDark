@@ -4,14 +4,14 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
-import com.davidm1a2.afraidofthedark.common.world.structure.base.FrequencyConfig
-import net.minecraft.world.IWorld
+import com.davidm1a2.afraidofthedark.common.world.structure.base.BooleanConfig
+import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 
-class ObservatoryStructure : AOTDStructure<FrequencyConfig>({ FrequencyConfig.deserialize(it) }) {
+class ObservatoryStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deserialize(it) }) {
     override fun getStructureName(): String {
         return "${Constants.MOD_ID}:observatory"
     }
@@ -26,9 +26,9 @@ class ObservatoryStructure : AOTDStructure<FrequencyConfig>({ FrequencyConfig.de
 
     override fun setupStructureIn(biome: Biome) {
         if (biome.category == Biome.Category.EXTREME_HILLS) {
-            addToBiome(biome, FrequencyConfig(0.03 * ModCommonConfiguration.observatoryMultiplier))
+            addToBiome(biome, BooleanConfig(true))
         } else {
-            addToBiome(biome, FrequencyConfig(0.0))
+            addToBiome(biome, BooleanConfig(false))
         }
     }
 
@@ -38,9 +38,15 @@ class ObservatoryStructure : AOTDStructure<FrequencyConfig>({ FrequencyConfig.de
         }
     }
 
-    override fun hasStartAt(worldIn: IWorld, chunkGen: ChunkGenerator<*>, random: Random, xPos: Int, zPos: Int): Boolean {
-        val frequency = getInteriorConfigs(xPos, zPos, chunkGen, stepNum = 2).map { it?.frequency ?: 0.0 }.minOrNull() ?: 0.0
-        if (random.nextDouble() >= frequency) {
+    override fun hasStartAt(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
+        val isNotSupported = getInteriorConfigEstimate(xPos, zPos, chunkGen).any { !it.supported }
+        if (isNotSupported) {
+            return false
+        }
+
+        // chance = observatoryMultiplier * biomeMultiplier * CHANCE_QUARTIC_COEFFICIENT * missCount^4
+        val chance = ModCommonConfiguration.observatoryMultiplier * (CHANCE_QUARTIC_COEFFICIENT * missCount).powOptimized(4)
+        if (random.nextDouble() >= chance) {
             return false
         }
 
@@ -53,5 +59,10 @@ class ObservatoryStructure : AOTDStructure<FrequencyConfig>({ FrequencyConfig.de
             return false
         }
         return true
+    }
+
+    companion object {
+        // 4th root of 0.0000000000001
+        private const val CHANCE_QUARTIC_COEFFICIENT = 0.0005623413
     }
 }

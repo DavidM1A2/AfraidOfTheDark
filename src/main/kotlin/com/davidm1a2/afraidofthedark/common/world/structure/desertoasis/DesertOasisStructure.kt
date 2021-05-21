@@ -4,14 +4,14 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
-import net.minecraft.world.IWorld
+import com.davidm1a2.afraidofthedark.common.world.structure.base.BooleanConfig
+import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
-import kotlin.math.max
 
-class DesertOasisStructure : AOTDStructure<DesertOasisConfig>({ DesertOasisConfig.deserialize(it) }) {
+class DesertOasisStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deserialize(it) }) {
     override fun getStructureName(): String {
         return "${Constants.MOD_ID}:desert_oasis"
     }
@@ -26,9 +26,9 @@ class DesertOasisStructure : AOTDStructure<DesertOasisConfig>({ DesertOasisConfi
 
     override fun setupStructureIn(biome: Biome) {
         if (biome.category in VALID_BIOME_CATEGORIES) {
-            addToBiome(biome, DesertOasisConfig(true))
+            addToBiome(biome, BooleanConfig(true))
         } else {
-            addToBiome(biome, DesertOasisConfig(false))
+            addToBiome(biome, BooleanConfig(false))
         }
     }
 
@@ -38,23 +38,25 @@ class DesertOasisStructure : AOTDStructure<DesertOasisConfig>({ DesertOasisConfi
         }
     }
 
-    override fun hasStartAt(worldIn: IWorld, chunkGen: ChunkGenerator<*>, random: Random, xPos: Int, zPos: Int): Boolean {
-        val frequency = getInteriorConfigs(xPos, zPos, chunkGen, stepNum = 16).groupingBy { it!!.supported }.eachCount()
-        val numValid = frequency[true] ?: 0
-        val numInvalid = max(frequency[false] ?: 1, 1)
-        val percentDesertTiles = numValid / (numValid + numInvalid).toDouble()
-
-        // 70% valid tiles required, .5% chance to spawn
-        if (percentDesertTiles < 0.7) {
+    override fun hasStartAt(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
+        val numValidTiles = getInteriorConfigEstimate(xPos, zPos, chunkGen).count { it.supported }
+        // 66% desert tiles required (there's 9 checked, so 6+ must be valid)
+        if (numValidTiles < 6) {
             return false
         }
-        if (random.nextDouble() >= 0.005 * ModCommonConfiguration.desertOasisMultiplier) {
+
+        // chance = desertOasisMultiplier * CHANCE_QUARTIC_COEFFICIENT * missCount^4
+        val chance = ModCommonConfiguration.desertOasisMultiplier * (CHANCE_QUARTIC_COEFFICIENT * missCount).powOptimized(4)
+        if (random.nextDouble() >= chance) {
             return false
         }
         return true
     }
 
     companion object {
+        // 4th root of 0.0000000000000005
+        private const val CHANCE_QUARTIC_COEFFICIENT = 0.0001495349
+
         private val VALID_BIOME_CATEGORIES = setOf(
             Biome.Category.DESERT,
             Biome.Category.RIVER

@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.world.structure.voidchestbox
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
-import net.minecraft.world.IWorld
+import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.IFeatureConfig
@@ -36,7 +36,7 @@ class VoidChestBoxStructure : AOTDStructure<NoFeatureConfig>({ IFeatureConfig.NO
         }
     }
 
-    override fun hasStartAt(worldIn: IWorld, chunkGen: ChunkGenerator<*>, random: Random, xPos: Int, zPos: Int): Boolean {
+    override fun hasStartAt(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
         val xStart = xPos
         val xEnd = xStart + 15
         val amountOverMultipleOf1000 = xEnd % 1000

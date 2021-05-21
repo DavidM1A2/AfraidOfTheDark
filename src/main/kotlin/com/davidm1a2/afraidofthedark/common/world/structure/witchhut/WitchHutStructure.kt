@@ -5,14 +5,14 @@ import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
-import com.davidm1a2.afraidofthedark.common.world.structure.base.FrequencyConfig
-import net.minecraft.world.IWorld
+import com.davidm1a2.afraidofthedark.common.world.structure.base.MultiplierConfig
+import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 
-class WitchHutStructure : AOTDStructure<FrequencyConfig>({ FrequencyConfig.deserialize(it) }) {
+class WitchHutStructure : AOTDStructure<MultiplierConfig>({ MultiplierConfig.deserialize(it) }) {
     override fun getStructureName(): String {
         return "${Constants.MOD_ID}:witch_hut"
     }
@@ -27,9 +27,9 @@ class WitchHutStructure : AOTDStructure<FrequencyConfig>({ FrequencyConfig.deser
 
     override fun setupStructureIn(biome: Biome) {
         if (biome == ModBiomes.EERIE_FOREST) {
-            addToBiome(biome, FrequencyConfig(0.03 * ModCommonConfiguration.witchHutMultiplier))
+            addToBiome(biome, MultiplierConfig(1))
         } else {
-            addToBiome(biome, FrequencyConfig(0.0))
+            addToBiome(biome, MultiplierConfig(0))
         }
     }
 
@@ -39,9 +39,11 @@ class WitchHutStructure : AOTDStructure<FrequencyConfig>({ FrequencyConfig.deser
         }
     }
 
-    override fun hasStartAt(worldIn: IWorld, chunkGen: ChunkGenerator<*>, random: Random, xPos: Int, zPos: Int): Boolean {
-        val frequency = getInteriorConfigs(xPos, zPos, chunkGen, stepNum = 2).map { it?.frequency ?: 0.0 }.minOrNull() ?: 0.0
-        if (random.nextDouble() >= frequency) {
+    override fun hasStartAt(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
+        val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, chunkGen).map { it.multiplier }.minOrNull() ?: 0
+        // chance = witchHutMultiplier * biomeMultiplier * CHANCE_QUARTIC_COEFFICIENT * missCount^4
+        val chance = ModCommonConfiguration.witchHutMultiplier * biomeMultiplier * (CHANCE_QUARTIC_COEFFICIENT * missCount).powOptimized(4)
+        if (random.nextDouble() >= chance) {
             return false
         }
 
@@ -52,5 +54,10 @@ class WitchHutStructure : AOTDStructure<FrequencyConfig>({ FrequencyConfig.deser
             return false
         }
         return true
+    }
+
+    companion object {
+        // 4th root of 0.000000000001
+        private const val CHANCE_QUARTIC_COEFFICIENT = 0.001
     }
 }

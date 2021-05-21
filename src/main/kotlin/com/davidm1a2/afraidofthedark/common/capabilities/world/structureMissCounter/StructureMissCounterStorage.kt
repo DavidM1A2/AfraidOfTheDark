@@ -29,7 +29,7 @@ class StructureMissCounterStorage : Capability.IStorage<IStructureMissCounter> {
 
     override fun readNBT(capability: Capability<IStructureMissCounter>, instance: IStructureMissCounter, side: Direction?, nbt: INBT) {
         if (nbt is ListNBT) {
-            for (i in 0..nbt.size) {
+            for (i in 0 until nbt.size) {
                 val structureNbt = nbt.getCompound(i)
                 val structureLocation = ResourceLocation(structureNbt.getString(NBT_NAME))
                 val structure = ForgeRegistries.FEATURES.getValue(structureLocation) as AOTDStructure<*>
