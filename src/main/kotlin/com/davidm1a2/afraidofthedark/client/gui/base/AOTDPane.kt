@@ -47,7 +47,7 @@ abstract class AOTDPane (
      *
      * @param container The container to add
      */
-    fun add(container: AOTDGuiComponent) {
+    open fun add(container: AOTDGuiComponent) {
         // Add the sub-component
         this.subComponents.add(container)
         // Calculate all children's positions and dimensions
@@ -59,7 +59,7 @@ abstract class AOTDPane (
      *
      * @param container The container to remove
      */
-    fun remove(container: AOTDGuiComponent) {
+    open fun remove(container: AOTDGuiComponent) {
         if (!this.subComponents.contains(container)) {
             return
         }
@@ -80,7 +80,7 @@ abstract class AOTDPane (
             val internalWidth = width - calcPadding.horizPx
             val internalHeight = height - calcPadding.vertPx
             var calcMargins = child.margins
-            if (calcMargins is RelativeSpacing) calcMargins = calcMargins.toAbsolute(this)
+            if (calcMargins is RelativeSpacing) calcMargins = calcMargins.toAbsolute(child)
             val marginWidth = calcMargins.horizPx
             val marginHeight = calcMargins.vertPx
             // Set dimensions
@@ -88,13 +88,13 @@ abstract class AOTDPane (
             // Calculate position
             val gravityXOffset = when (child.gravity) {
                 GuiGravity.TOP_LEFT, GuiGravity.CENTER_LEFT, GuiGravity.BOTTOM_LEFT -> calcPadding.left
-                GuiGravity.TOP_CENTER, GuiGravity.CENTER, GuiGravity.BOTTOM_CENTER -> width/2 - child.width/2
-                GuiGravity.TOP_RIGHT, GuiGravity.CENTER_RIGHT, GuiGravity.BOTTOM_RIGHT -> width - child.width - calcPadding.right
+                GuiGravity.TOP_CENTER, GuiGravity.CENTER, GuiGravity.BOTTOM_CENTER -> width/2 - (child.width + marginWidth)/2
+                GuiGravity.TOP_RIGHT, GuiGravity.CENTER_RIGHT, GuiGravity.BOTTOM_RIGHT -> width - (child.width + marginWidth) - calcPadding.right
             }
             val gravityYOffset = when (child.gravity) {
                 GuiGravity.TOP_LEFT, GuiGravity.TOP_CENTER, GuiGravity.TOP_RIGHT -> calcPadding.top
-                GuiGravity.CENTER_LEFT, GuiGravity.CENTER, GuiGravity.CENTER_RIGHT -> height/2 - child.height/2
-                GuiGravity.BOTTOM_LEFT, GuiGravity.BOTTOM_CENTER, GuiGravity.BOTTOM_RIGHT -> height - child.height - calcPadding.bot
+                GuiGravity.CENTER_LEFT, GuiGravity.CENTER, GuiGravity.CENTER_RIGHT -> height/2 - (child.height + marginHeight)/2
+                GuiGravity.BOTTOM_LEFT, GuiGravity.BOTTOM_CENTER, GuiGravity.BOTTOM_RIGHT -> height - (child.height + marginHeight) - calcPadding.bot
             }
             val xOffset = if (child.offset is RelativePosition) internalWidth * child.offset.x else child.offset.x
             val yOffset = if (child.offset is RelativePosition) internalHeight * child.offset.y else child.offset.y

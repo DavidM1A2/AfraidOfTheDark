@@ -1,13 +1,10 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
-import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
-import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.AbsoluteDimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiSpell
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.keybindings.KeybindingUtils
@@ -28,7 +25,7 @@ import kotlin.math.round
  * @property spellWaitingOnKeybind The spell we are currently waiting on a keybind to be pressed or not
  */
 class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.spell_list")) {
-    private val scrollPanel: AOTDGuiScrollPanel
+    private val scrollPanel: ListPane
     private val btnCreateSpell: AOTDGuiButton
     private val guiSpells = mutableListOf<AOTDGuiSpell>()
     private val spellManager = entityPlayer.getSpellManager()
@@ -37,30 +34,32 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
     init {
 
         // Place the background panel in the center
-        val backgroundPanel = StackPane(AbsoluteDimensions(GUI_WIDTH.toDouble(), GUI_HEIGHT.toDouble()), gravity = GuiGravity.CENTER, scissorEnabled = false)
+        contentPane.padding = RelativeSpacing(0.1)
 
         // Create a magic mirror background image
-        val mirrorBackgroundImage = ImagePane(
+        val mirrorBackground = ImagePane(
             "afraidofthedark:textures/gui/spell_list/spell_list_background.png",
             ImagePane.DispMode.FIT_TO_PARENT
         )
-        backgroundPanel.add(mirrorBackgroundImage)
+        mirrorBackground.gravity = GuiGravity.CENTER
+        contentPane.add(mirrorBackground)
 
         // Create the scroll bar
         val scrollBar = AOTDGuiScrollBar(
-                RelativeDimensions(0.1, 1.0),
+            RelativeDimensions(0.1, 1.0),
             "afraidofthedark:textures/gui/spell_list/scroll_bar.png",
             "afraidofthedark:textures/gui/spell_list/scroll_bar_handle.png",
             "afraidofthedark:textures/gui/spell_list/scroll_bar_handle_hovered.png"
         )
+        scrollBar.offset = RelativePosition(1.1, 0.0)
 
         // Create the scroll panel to add spells to, position it centered on the background image
-        scrollPanel = AOTDGuiScrollPanel(175.0, 238.0, true, scrollBar)
-        // Start with a max offset of 0
-        scrollPanel.maximumOffset = 0
+        scrollPanel = ListPane(ListPane.ExpandDirection.DOWN)
+        scrollPanel.gravity = GuiGravity.CENTER
+        scrollPanel.prefSize = RelativeDimensions(0.8, 0.8)
         // Add the panel the the background and the scroll bar
-        backgroundPanel.add(scrollPanel)
-        backgroundPanel.add(scrollBar)
+        mirrorBackground.add(scrollPanel)
+        mirrorBackground.add(scrollBar)
 
         // When we press a key test if we are waiting for a keybind, if so set the spell's keybind
         contentPane.addKeyListener {
@@ -84,10 +83,11 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
 
         // Add a button to create a new spell, center it under the scrollPanel spell entries
         btnCreateSpell = AOTDGuiButton(
-            prefSize = AbsoluteDimensions(26.0, 26.0),
+            prefSize = RelativeDimensions(0.2, 0.15),
             icon = ImagePane("afraidofthedark:textures/gui/spell_list/create_spell.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/create_spell_hovered.png")
         )
+        btnCreateSpell.margins = RelativeSpacing(0.01, 0.1, 0.0, 0.0)
         btnCreateSpell.setHoverText("Create a new spell")
         btnCreateSpell.addMouseListener {
             if (it.eventType == AOTDMouseEvent.EventType.Click) {
@@ -112,22 +112,7 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         // Go over each spell the player has and add a gui spell for it
         spellManager.getSpells().forEach { addSpell(it) }
 
-        // When we scroll we want to move the content pane up or down
-        scrollPanel.addMouseScrollListener {
-            // Only scroll the pane if it's hovered
-            if (scrollPanel.isHovered) {
-                // Only move the handle if scrollDistance is non-zero
-                if (it.scrollDistance != 0) {
-                    // Move the scroll bar by the distance amount
-                    scrollBar.moveHandle(
-                        round(-it.scrollDistance / scrollPanel.maximumOffset.toFloat() * SCROLL_SPEED).toInt(),
-                        true
-                    )
-                }
-            }
-        }
 
-        contentPane.add(backgroundPanel)
     }
 
     /**
@@ -137,7 +122,7 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
      */
     private fun addSpell(spell: Spell) {
         // Create a gui spell for this spell
-        val guiSpell = AOTDGuiSpell(0, guiSpells.size * DISTANCE_BETWEEN_SPELLS, 175, 40, spell)
+        val guiSpell = AOTDGuiSpell(RelativeDimensions(1.0, 0.20), spell)
         // When delete is pressed remove the GUI spell
         guiSpell.setDeleteCallback { removeSpell(guiSpell) }
         // When keybind is pressed update our variable to let us know we're waiting on a keybind, or clear the keybind
@@ -151,13 +136,11 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
             }
         }
         // Add the gui spell to the panel
+        scrollPanel.remove(btnCreateSpell)
         scrollPanel.add(guiSpell)
+        scrollPanel.add(btnCreateSpell)
         // Add the gui spell to the list of spells for later use
         guiSpells.add(guiSpell)
-        // Move our create spell button down
-        btnCreateSpell.y += DISTANCE_BETWEEN_SPELLS
-        // Update our scroll panel offset
-        refreshScrollPanelOffset()
     }
 
     /**
@@ -174,27 +157,6 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         scrollPanel.remove(spell)
         // Remove the spell from the spell manager
         spellManager.deleteSpell(spell.spell)
-        // Go over all spells after this one and move them up one slot
-        for (i in index until guiSpells.size) {
-            val guiSpell = guiSpells[i]
-            guiSpell.y -= DISTANCE_BETWEEN_SPELLS
-        }
-        // Move our create spell button up
-        btnCreateSpell.y -= DISTANCE_BETWEEN_SPELLS
-        // Update our scroll panel offset
-        refreshScrollPanelOffset()
-    }
-
-    /**
-     * Updates the scroll panel offset based on the gui spells present
-     */
-    private fun refreshScrollPanelOffset() {
-        // If there's more than 4 spells update the maximum offset so we can scroll over spells
-        if (guiSpells.size > 4) {
-            scrollPanel.maximumOffset = (guiSpells.size - 4) * DISTANCE_BETWEEN_SPELLS
-        } else {
-            scrollPanel.maximumOffset = 0
-        }
     }
 
     /**
@@ -217,21 +179,5 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
      */
     override fun drawGradientBackground(): Boolean {
         return true
-    }
-
-    companion object {
-        // The distance between spell entries in pixels
-        private const val DISTANCE_BETWEEN_SPELLS = 45
-
-        // Constants for scroll bar width and padding
-        private const val SCROLL_BAR_WIDTH = 15
-        private const val SCROLL_BAR_HORIZONTAL_PADDING = 5
-
-        // The gui will be 256x256
-        private const val GUI_WIDTH = 256
-        private const val GUI_HEIGHT = 256
-
-        // Scroll speed
-        private const val SCROLL_SPEED = 1000
     }
 }

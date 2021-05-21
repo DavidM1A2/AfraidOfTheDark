@@ -20,7 +20,7 @@ import java.awt.Color
 class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
     AOTDScreen(TranslationTextComponent("screen.afraidofthedark.blood_stained_journal_research")) {
 
-    private val researchTreeBase: ScrollPane = ScrollPane(2.0, 2.0)
+    private val researchTreeBase: ScrollPane = ScrollPane(2.0, 2.0, true)
     private val scrollBackground: ImagePane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/background.png"))
     private val backgroundBorder = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/frame.png"))
 

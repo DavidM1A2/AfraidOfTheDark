@@ -49,10 +49,7 @@ class AOTDGuiScrollPanel(
                 // Only move the handle if scrollDistance is non-zero
                 if (it.scrollDistance != 0) {
                     // Move the scroll bar by the distance amount
-                    scrollBar.moveHandle(
-                        round(-it.scrollDistance / this.maximumOffset.toFloat() * SCROLL_SPEED).toInt(),
-                        true
-                    )
+                    scrollBar.value = (-it.scrollDistance / this.maximumOffset.toFloat() * SCROLL_SPEED).toDouble()
                 }
             }
         }

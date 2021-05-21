@@ -1,0 +1,111 @@
+package com.davidm1a2.afraidofthedark.client.gui.standardControls
+
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiComponent
+import com.davidm1a2.afraidofthedark.client.gui.layout.AbsolutePosition
+import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
+import com.davidm1a2.afraidofthedark.client.gui.screens.SpellListScreen
+import kotlin.math.max
+
+class ListPane(val expandDirection: ExpandDirection, val scrollBar: AOTDGuiScrollBar? = null) : ScrollPane(1.0, 1.0) {
+    private var maxOffset = 0.0
+
+    init {
+        scrollBar?.addMouseDragListener {
+            when (expandDirection) {
+                ExpandDirection.UP -> guiOffsetY = maxOffset * scrollBar.value
+                ExpandDirection.DOWN -> guiOffsetY = -maxOffset * scrollBar.value
+                ExpandDirection.LEFT -> guiOffsetX = -maxOffset * scrollBar.value
+                ExpandDirection.RIGHT -> guiOffsetX = maxOffset * scrollBar.value
+            }
+        }
+        this.addMouseDragListener {
+            scrollBar?.value = when (expandDirection) {
+                ExpandDirection.UP -> guiOffsetY / maxOffset
+                ExpandDirection.DOWN -> guiOffsetY / -maxOffset
+                ExpandDirection.LEFT -> guiOffsetX / -maxOffset
+                ExpandDirection.RIGHT -> guiOffsetX / maxOffset
+            }
+        }
+        // When we scroll we want to move the content pane up or down
+        this.addMouseScrollListener {
+            // Only scroll the pane if it's hovered
+            if (this.isHovered) {
+                // Only move the handle if scrollDistance is non-zero
+                if (it.scrollDistance != 0) {
+                    // Move the scroll bar by the distance amount
+                    if (scrollBar != null) scrollBar.value += it.scrollDistance * SCROLL_SPEED
+                }
+            }
+        }
+    }
+
+    private fun calculateMaxOffset() {
+        maxOffset = 0.0
+        when (expandDirection) {
+            ExpandDirection.UP, ExpandDirection.DOWN -> {
+                for (child in getChildren()) {
+                    maxOffset += child.height + child.margins.vertPx
+                }
+                maxOffset = max(maxOffset - height, 0.0)
+            }
+            ExpandDirection.LEFT, ExpandDirection.RIGHT -> {
+                for (child in getChildren()) {
+                    maxOffset += child.width + child.margins.horizPx
+                }
+                maxOffset = max(maxOffset - width, 0.0)
+            }
+        }
+    }
+    
+    private fun recalculateChildrenOffsets() {
+        var nextChildOffset = 0.0
+        for (child in getChildren()) {
+            when (expandDirection) {
+                ExpandDirection.UP -> {
+                    child.offset = AbsolutePosition(0.0, -nextChildOffset).toRelative(this)
+                    child.gravity = GuiGravity.BOTTOM_CENTER
+                    nextChildOffset += child.height + child.margins.vertPx
+                }
+                ExpandDirection.DOWN -> {
+                    child.offset = AbsolutePosition(0.0, nextChildOffset).toRelative(this)
+                    child.gravity = GuiGravity.TOP_CENTER
+                    nextChildOffset += child.height + child.margins.vertPx
+                }
+                ExpandDirection.LEFT -> {
+                    child.offset = AbsolutePosition(-nextChildOffset, 0.0).toRelative(this)
+                    child.gravity = GuiGravity.CENTER_RIGHT
+                    nextChildOffset += child.width + child.margins.horizPx
+                }
+                ExpandDirection.RIGHT -> {
+                    child.offset = AbsolutePosition(nextChildOffset, 0.0).toRelative(this)
+                    child.gravity = GuiGravity.CENTER_LEFT
+                    nextChildOffset += child.width + child.margins.horizPx
+                }
+            }
+        }
+    }
+
+    override fun checkOutOfBounds() {
+        val leftBounds = if (expandDirection == ExpandDirection.LEFT) maxOffset else 0.0
+        val topBounds = if (expandDirection == ExpandDirection.UP) maxOffset else 0.0
+        val rightBounds = if (expandDirection == ExpandDirection.RIGHT) -maxOffset else 0.0
+        val botBounds = if (expandDirection == ExpandDirection.DOWN) -maxOffset else 0.0
+        guiOffsetX = guiOffsetX.coerceIn(rightBounds, leftBounds)
+        guiOffsetY = guiOffsetY.coerceIn(botBounds, topBounds)
+    }
+
+    override fun calcChildrenBounds(width: Double, height: Double) {
+        super.calcChildrenBounds(width, height)
+        recalculateChildrenOffsets()
+        calculateMaxOffset()
+        checkOutOfBounds()
+    }
+
+    enum class ExpandDirection {
+        UP, DOWN, LEFT, RIGHT
+    }
+
+    companion object {
+        const val SCROLL_SPEED = 100
+    }
+}

@@ -5,6 +5,8 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
+import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.RelativePosition
 import net.minecraft.util.ResourceLocation
 import kotlin.math.roundToInt
 
@@ -31,11 +33,14 @@ class AOTDGuiScrollBar @JvmOverloads constructor(
         handleHoveredTexture: String = handleTexture
 ) : AOTDPane(prefSize = prefSize) {
     var value = 0.0
-        private set
+        set(value) {
+            field = value.coerceIn(0.0, 1.0)
+            this.handle.offset = RelativePosition(0.0, field - 0.5)
+        }
     private val handle: AOTDGuiButton
     private var handleHeld = false
     private var originalMousePressLocation = 0
-    private var originalHandleLocation = 0.0
+    private var originalValue = 0.0
 
     init {
         // The background behind the scroll bar handle
@@ -45,9 +50,9 @@ class AOTDGuiScrollBar @JvmOverloads constructor(
         // Create a handle to grab, let the height be the height of the bar / 10
         val icon = ImagePane(ResourceLocation(handleTexture), ImagePane.DispMode.STRETCH)
         val iconHovered = ImagePane(ResourceLocation(handleHoveredTexture), ImagePane.DispMode.STRETCH)
-        this.handle = AOTDGuiButton(RelativeDimensions(1.0, 0.1), icon = icon, iconHovered = iconHovered)
+        this.handle = AOTDGuiButton(RelativeDimensions(1.0, 0.1), icon = icon, iconHovered = iconHovered, gravity = GuiGravity.CENTER)
         // Add the handle
-        this.add(this.handle)
+        barBackground.add(this.handle)
 
         // When we click the mouse we update the state of the handle to being held/released
         this.handle.addMouseListener {
@@ -58,7 +63,7 @@ class AOTDGuiScrollBar @JvmOverloads constructor(
                     handleHeld = true
                     // Store the handle's current pos
                     originalMousePressLocation = it.mouseY
-                    originalHandleLocation = value
+                    originalValue = value
                 }
             } else if (it.eventType == AOTDMouseEvent.EventType.Release) {
                 // Ensure the lmb was released
@@ -77,35 +82,11 @@ class AOTDGuiScrollBar @JvmOverloads constructor(
                     // Compute the offset between mouse and original hold location
                     val yOffset = it.mouseY - originalMousePressLocation
                     // Move the the handle based on the offset
-                    moveHandle(yOffset, false)
+                    value = originalValue + yOffset / height.toDouble()
                 }
             }
         }
-    }
 
-    /**
-     * Moves the handle up (+) or down (-) by yAmount
-     *
-     * @param yAmount    The amount to move the handle
-     * @param isRelative True if the yAmount is relative to the current position, false if not
-     */
-    fun moveHandle(yAmount: Int, isRelative: Boolean) {
-        // The minimum y value the handle can have
-        val minY = y.toDouble()
-        // Compute the difference between the max and min y values
-        val maxYDiff = height - handle.height
-        // The maximum y value the handle can have
-        val maxY = y.toDouble() + maxYDiff
-
-        // Compute where the handle should be based on the y offset, ensure to y offset is scaled to the
-        // current y scale
-        var newY = (yAmount) + (minY + (if (isRelative) value else originalHandleLocation) * maxYDiff)
-
-        // Clamp the y inside the bar so you can't drag it off the top or bottom
-        newY = newY.coerceIn(minY, maxY)
-        // Update the y pos of the handle
-        handle.y = newY.roundToInt()
-        // Set the handle location to be the percent down the bar the handle is
-        value = (newY - minY) / maxYDiff
+        value = 0.0
     }
 }

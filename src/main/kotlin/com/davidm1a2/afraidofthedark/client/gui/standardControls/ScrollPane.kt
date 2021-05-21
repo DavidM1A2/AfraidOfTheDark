@@ -9,7 +9,7 @@ import org.lwjgl.glfw.GLFW
  * As an example for the ratio constants, a ratio of 2.0 would make the scrollable pane twice the width or height
  * of the actual control, which acts as a viewport.
  */
-class ScrollPane(val scrollWidthRatio: Double, val scrollHeightRatio: Double) : StackPane(scissorEnabled = true) {
+open class ScrollPane(val scrollWidthRatio: Double, val scrollHeightRatio: Double, val persistentOffset: Boolean = false) : StackPane(scissorEnabled = true) {
     // Variables for calculating the GUI offset
     // The current X and Y gui offsets
     private var originalGuiOffsetX = 0.0
@@ -24,15 +24,20 @@ class ScrollPane(val scrollWidthRatio: Double, val scrollHeightRatio: Double) : 
     var scrollHeight = 0.0
 
     init {
+        if (persistentOffset) {
+            guiOffsetX = lastXOffset
+            guiOffsetY = lastYOffset
+            this.checkOutOfBounds()
+        }
         addMouseListener {
             if (it.source.isHovered) {
                 if (it.eventType == AOTDMouseEvent.EventType.Click) {
                     if (it.clickedButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                         // Store the original position before dragging when the mouse goes down
-                        this.originalXPosition = it.mouseX
-                        this.originalYPosition = it.mouseY
-                        this.originalGuiOffsetX = guiOffsetX
-                        this.originalGuiOffsetY = guiOffsetY
+                        originalXPosition = it.mouseX
+                        originalYPosition = it.mouseY
+                        originalGuiOffsetX = guiOffsetX
+                        originalGuiOffsetY = guiOffsetY
                     }
                 }
             }
@@ -40,9 +45,13 @@ class ScrollPane(val scrollWidthRatio: Double, val scrollHeightRatio: Double) : 
         addMouseDragListener {
             if (it.source.isHovered) {
                 if (it.clickedButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                    this.guiOffsetX = originalGuiOffsetX + (it.mouseX - originalXPosition)
-                    this.guiOffsetY = originalGuiOffsetY + (it.mouseY - originalYPosition)
-                    this.checkOutOfBounds()
+                    guiOffsetX = originalGuiOffsetX + (it.mouseX - originalXPosition)
+                    guiOffsetY = originalGuiOffsetY + (it.mouseY - originalYPosition)
+                    if (persistentOffset) {
+                        lastXOffset = guiOffsetX
+                        lastYOffset = guiOffsetY
+                    }
+                    checkOutOfBounds()
                 }
             }
         }
@@ -51,7 +60,7 @@ class ScrollPane(val scrollWidthRatio: Double, val scrollHeightRatio: Double) : 
     /**
      * We can use this to test if the gui has scrolled out of bounds or not
      */
-    fun checkOutOfBounds() {
+    open fun checkOutOfBounds() {
         if (this.guiOffsetX < width - scrollWidth) this.guiOffsetX = width - scrollWidth
         if (this.guiOffsetY < height - scrollHeight) this.guiOffsetY = height - scrollHeight
         if (this.guiOffsetX > 0) this.guiOffsetX = 0.0
@@ -66,5 +75,10 @@ class ScrollPane(val scrollWidthRatio: Double, val scrollHeightRatio: Double) : 
         super.negotiateDimensions(width, height)
         this.scrollWidth = this.width * scrollWidthRatio
         this.scrollHeight = this.height * scrollHeightRatio
+    }
+
+    companion object {
+        var lastXOffset = 0.0
+        var lastYOffset = 0.0
     }
 }
