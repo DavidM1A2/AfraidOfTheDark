@@ -108,7 +108,7 @@ abstract class AOTDPane (
         }
     }
 
-    private fun determineInBounds(component: AOTDGuiComponent) {
+    fun determineInBounds(component: AOTDGuiComponent) {
         if (!component.intersects(this.boundingBox)) component.inBounds = false
         if (component is AOTDPane) {
             for (child in component.getChildren()) {

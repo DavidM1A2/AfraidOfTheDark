@@ -12,7 +12,6 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import net.minecraft.util.text.TranslationTextComponent
-import kotlin.math.round
 
 /**
  * Spell selection/list gui allows players to create spells and keybind them
@@ -37,29 +36,32 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         contentPane.padding = RelativeSpacing(0.1)
 
         // Create a magic mirror background image
-        val mirrorBackground = ImagePane(
+        val mainGui = ImagePane(
             "afraidofthedark:textures/gui/spell_list/spell_list_background.png",
             ImagePane.DispMode.FIT_TO_PARENT
         )
-        mirrorBackground.gravity = GuiGravity.CENTER
-        contentPane.add(mirrorBackground)
 
         // Create the scroll bar
-        val scrollBar = AOTDGuiScrollBar(
+        val scrollBar = HScrollBar(
             RelativeDimensions(0.1, 1.0),
             "afraidofthedark:textures/gui/spell_list/scroll_bar.png",
             "afraidofthedark:textures/gui/spell_list/scroll_bar_handle.png",
             "afraidofthedark:textures/gui/spell_list/scroll_bar_handle_hovered.png"
         )
-        scrollBar.offset = RelativePosition(1.1, 0.0)
+        scrollBar.margins = RelativeSpacing(0.0, 0.0, 1.0, 0.0)
 
         // Create the scroll panel to add spells to, position it centered on the background image
-        scrollPanel = ListPane(ListPane.ExpandDirection.DOWN)
+        scrollPanel = ListPane(ListPane.ExpandDirection.DOWN, scrollBar)
         scrollPanel.gravity = GuiGravity.CENTER
         scrollPanel.prefSize = RelativeDimensions(0.8, 0.8)
         // Add the panel the the background and the scroll bar
-        mirrorBackground.add(scrollPanel)
-        mirrorBackground.add(scrollBar)
+        mainGui.add(scrollPanel)
+
+        // Use an HPane to position the main gui and the scroll bar
+        val layoutPane = HPane(HPane.Layout.CLOSE)
+        layoutPane.add(mainGui)
+        layoutPane.add(scrollBar)
+        contentPane.add(layoutPane)
 
         // When we press a key test if we are waiting for a keybind, if so set the spell's keybind
         contentPane.addKeyListener {

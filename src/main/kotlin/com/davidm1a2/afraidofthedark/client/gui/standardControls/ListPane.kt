@@ -1,29 +1,30 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiComponent
 import com.davidm1a2.afraidofthedark.client.gui.layout.AbsolutePosition
 import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
-import com.davidm1a2.afraidofthedark.client.gui.screens.SpellListScreen
+import java.util.function.Consumer
 import kotlin.math.max
 
-class ListPane(val expandDirection: ExpandDirection, val scrollBar: AOTDGuiScrollBar? = null) : ScrollPane(1.0, 1.0) {
+class ListPane(val expandDirection: ExpandDirection, val scrollBar: HScrollBar? = null) : ScrollPane(1.0, 1.0) {
     private var maxOffset = 0.0
 
     init {
-        scrollBar?.addMouseDragListener {
+        scrollBar?.onValueChanged = Consumer {
             when (expandDirection) {
-                ExpandDirection.UP -> guiOffsetY = maxOffset * scrollBar.value
-                ExpandDirection.DOWN -> guiOffsetY = -maxOffset * scrollBar.value
-                ExpandDirection.LEFT -> guiOffsetX = -maxOffset * scrollBar.value
-                ExpandDirection.RIGHT -> guiOffsetX = maxOffset * scrollBar.value
+                ExpandDirection.UP -> guiOffsetY = maxOffset * it
+                ExpandDirection.DOWN -> guiOffsetY = -maxOffset * it
+                ExpandDirection.LEFT -> guiOffsetX = -maxOffset * it
+                ExpandDirection.RIGHT -> guiOffsetX = maxOffset * it
             }
         }
         this.addMouseDragListener {
-            scrollBar?.value = when (expandDirection) {
-                ExpandDirection.UP -> guiOffsetY / maxOffset
-                ExpandDirection.DOWN -> guiOffsetY / -maxOffset
-                ExpandDirection.LEFT -> guiOffsetX / -maxOffset
-                ExpandDirection.RIGHT -> guiOffsetX / maxOffset
+            if (scrollBar != null && maxOffset != 0.0) {
+                scrollBar.value = when (expandDirection) {
+                    ExpandDirection.UP -> guiOffsetY / maxOffset
+                    ExpandDirection.DOWN -> guiOffsetY / -maxOffset
+                    ExpandDirection.LEFT -> guiOffsetX / -maxOffset
+                    ExpandDirection.RIGHT -> guiOffsetX / maxOffset
+                }
             }
         }
         // When we scroll we want to move the content pane up or down
@@ -32,8 +33,20 @@ class ListPane(val expandDirection: ExpandDirection, val scrollBar: AOTDGuiScrol
             if (this.isHovered) {
                 // Only move the handle if scrollDistance is non-zero
                 if (it.scrollDistance != 0) {
-                    // Move the scroll bar by the distance amount
-                    if (scrollBar != null) scrollBar.value += it.scrollDistance * SCROLL_SPEED
+                    // Move the panel by the distance amount
+                    when (expandDirection) {
+                        ExpandDirection.UP -> guiOffsetY += maxOffset * -it.scrollDistance * SCROLL_SPEED
+                        ExpandDirection.DOWN -> guiOffsetY += -maxOffset * -it.scrollDistance * SCROLL_SPEED
+                        ExpandDirection.LEFT -> guiOffsetX += -maxOffset * -it.scrollDistance * SCROLL_SPEED
+                        ExpandDirection.RIGHT -> guiOffsetX += maxOffset * -it.scrollDistance * SCROLL_SPEED
+                    }
+                    checkOutOfBounds()
+                    scrollBar?.value = when (expandDirection) {
+                        ExpandDirection.UP -> if (maxOffset == 0.0) 0.0 else guiOffsetY / maxOffset
+                        ExpandDirection.DOWN -> if (maxOffset == 0.0) 0.0 else guiOffsetY / -maxOffset
+                        ExpandDirection.LEFT -> if (maxOffset == 0.0) 0.0 else guiOffsetX / -maxOffset
+                        ExpandDirection.RIGHT -> if (maxOffset == 0.0) 0.0 else guiOffsetX / maxOffset
+                    }
                 }
             }
         }
@@ -106,6 +119,6 @@ class ListPane(val expandDirection: ExpandDirection, val scrollBar: AOTDGuiScrol
     }
 
     companion object {
-        const val SCROLL_SPEED = 100
+        const val SCROLL_SPEED = 0.1
     }
 }

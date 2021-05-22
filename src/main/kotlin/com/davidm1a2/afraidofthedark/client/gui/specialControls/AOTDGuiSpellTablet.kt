@@ -75,7 +75,7 @@ class AOTDGuiSpellTablet(
         tablet.add(spellName)
 
         // Add a scroll bar on the left to scroll through spell stages
-        val scrollBar = AOTDGuiScrollBar(AbsoluteDimensions(15.0, 170.0))
+        val scrollBar = HScrollBar(AbsoluteDimensions(15.0, 170.0))
         tablet.add(scrollBar)
 
         // Add the background for the spell stages

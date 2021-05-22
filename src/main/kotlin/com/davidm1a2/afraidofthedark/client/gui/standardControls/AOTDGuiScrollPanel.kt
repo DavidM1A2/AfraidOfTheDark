@@ -4,13 +4,10 @@ import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.layout.AbsoluteDimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.AbsolutePosition
-import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
 import java.awt.Point
 import java.awt.Rectangle
-import kotlin.math.round
 
 /**
  * Extension of a standard panel that requires a scroll bar to move content up and down
@@ -29,7 +26,7 @@ class AOTDGuiScrollPanel(
     width: Double,
     height: Double,
     private val scissorEnabled: Boolean,
-    private val scrollBar: AOTDGuiScrollBar
+    private val scrollBar: HScrollBar
 ) :
     AOTDPane(prefSize = AbsoluteDimensions(width, height)) {
     var maximumOffset = 0

@@ -53,7 +53,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Abs
         scroll.add(backgroundScroll)
 
         // Add a scroll bar to the right of the scroll
-        val componentScrollBar = AOTDGuiScrollBar(RelativeDimensions(0.05, 1.0))
+        val componentScrollBar = HScrollBar(RelativeDimensions(0.05, 1.0))
         scroll.add(componentScrollBar)
 
         // Add a scroll panel to the scroll

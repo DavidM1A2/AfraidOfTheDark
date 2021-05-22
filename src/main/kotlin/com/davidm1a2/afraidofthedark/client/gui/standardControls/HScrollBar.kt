@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.RelativePosition
 import net.minecraft.util.ResourceLocation
+import java.util.function.Consumer
 import kotlin.math.roundToInt
 
 /**
@@ -26,7 +27,7 @@ import kotlin.math.roundToInt
  * @property originalMousePressLocation An int telling us the screen position the mouse was pressed at
  * @property originalHandleLocation A float telling us where the handle was before the drag began
  */
-class AOTDGuiScrollBar @JvmOverloads constructor(
+class HScrollBar @JvmOverloads constructor(
         prefSize: Dimensions,
         scrollBarTexture: String = "afraidofthedark:textures/gui/scroll_bar.png",
         handleTexture: String = "afraidofthedark:textures/gui/scroll_bar_handle.png",
@@ -35,12 +36,13 @@ class AOTDGuiScrollBar @JvmOverloads constructor(
     var value = 0.0
         set(value) {
             field = value.coerceIn(0.0, 1.0)
-            this.handle.offset = RelativePosition(0.0, field - 0.5)
+            this.handle.offset = RelativePosition(0.0, (field - 0.5) * (0.9))
         }
     private val handle: AOTDGuiButton
     private var handleHeld = false
     private var originalMousePressLocation = 0
     private var originalValue = 0.0
+    var onValueChanged: Consumer<Double> = Consumer {}
 
     init {
         // The background behind the scroll bar handle
@@ -82,7 +84,9 @@ class AOTDGuiScrollBar @JvmOverloads constructor(
                     // Compute the offset between mouse and original hold location
                     val yOffset = it.mouseY - originalMousePressLocation
                     // Move the the handle based on the offset
-                    value = originalValue + yOffset / height.toDouble()
+                    value = originalValue + yOffset / height.toDouble() / 0.9
+                    // Call the callback
+                    onValueChanged.accept(value)
                 }
             }
         }
