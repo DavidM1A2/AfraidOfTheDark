@@ -25,7 +25,7 @@ import net.minecraft.util.text.TranslationTextComponent
  */
 class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.spell_list")) {
     private val scrollPanel: ListPane
-    private val btnCreateSpell: AOTDGuiButton
+    private val btnCreateSpell: Button
     private val guiSpells = mutableListOf<AOTDGuiSpell>()
     private val spellManager = entityPlayer.getSpellManager()
     private var spellWaitingOnKeybind: AOTDGuiSpell? = null
@@ -48,7 +48,6 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
             "afraidofthedark:textures/gui/spell_list/scroll_bar_handle.png",
             "afraidofthedark:textures/gui/spell_list/scroll_bar_handle_hovered.png"
         )
-        scrollBar.margins = RelativeSpacing(0.0, 0.0, 1.0, 0.0)
 
         // Create the scroll panel to add spells to, position it centered on the background image
         scrollPanel = ListPane(ListPane.ExpandDirection.DOWN, scrollBar)
@@ -84,7 +83,7 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         }
 
         // Add a button to create a new spell, center it under the scrollPanel spell entries
-        btnCreateSpell = AOTDGuiButton(
+        btnCreateSpell = Button(
             prefSize = RelativeDimensions(0.2, 0.15),
             icon = ImagePane("afraidofthedark:textures/gui/spell_list/create_spell.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/create_spell_hovered.png")

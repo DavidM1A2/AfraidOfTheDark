@@ -241,7 +241,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Abs
             // If we have any editable properties show the save button
             if (editableProperties.isNotEmpty()) {
                 // Add a save button at the bottom if we have any editable properties
-                val save = AOTDGuiButton(
+                val save = Button(
                     AbsoluteDimensions(50.0, 20.0),
                     icon = ImagePane("afraidofthedark:textures/gui/spell_editor/button.png"),
                     iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/button_hovered.png"),
@@ -295,7 +295,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Abs
 
             // Add a cancel button at the bottom. Center it if we have no edit properties (and no save button!)
             val cancelX = if (editableProperties.isEmpty()) editPanel.width / 2 - 25 else editPanel.width - 50
-            val cancel = AOTDGuiButton(
+            val cancel = Button(
                 AbsoluteDimensions(50.0, 20.0),
                 icon = ImagePane("afraidofthedark:textures/gui/spell_editor/button.png"),
                 iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/button_hovered.png"),

@@ -19,7 +19,7 @@ import java.awt.Color
  * @property label The label containing the center text
  * @property color The color of the background and text
  */
-open class AOTDGuiButton(
+open class Button(
         prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE, Double.MAX_VALUE),
         offset: Position = RelativePosition(0.0, 0.0),
         margins: GuiSpacing = AbsoluteSpacing(),

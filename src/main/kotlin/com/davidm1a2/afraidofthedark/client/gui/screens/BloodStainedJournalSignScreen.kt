@@ -5,9 +5,8 @@ import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.Button
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiTextField
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
@@ -51,7 +50,7 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
         background.add(this.nameSignField)
 
         // Add the sign button
-        val signButton = AOTDGuiButton(
+        val signButton = Button(
             prefSize = RelativeDimensions(0.5, 0.1),
             offset = RelativePosition(0.0, 0.1),
             icon = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button.png"),

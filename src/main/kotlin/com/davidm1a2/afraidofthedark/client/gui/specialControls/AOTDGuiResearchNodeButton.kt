@@ -8,7 +8,7 @@ import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.screens.BloodStainedJournalPageScreen
 import com.davidm1a2.afraidofthedark.client.gui.screens.BloodStainedJournalResearchScreen
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.Button
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
@@ -20,7 +20,7 @@ import net.minecraft.client.resources.I18n
 /**
  * Button that represents a research in the research GUI
  */
-class AOTDGuiResearchNodeButton(prefSize: Dimensions, offset: Position, val research: Research, isCheatSheet: Boolean, parent: BloodStainedJournalResearchScreen) : AOTDGuiButton(
+class AOTDGuiResearchNodeButton(prefSize: Dimensions, offset: Position, val research: Research, isCheatSheet: Boolean, parent: BloodStainedJournalResearchScreen) : Button(
     prefSize,
     offset,
     icon = ImagePane("afraidofthedark:textures/gui/journal_tech_tree/research_background.png", ImagePane.DispMode.FIT_TO_PARENT),

@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.Button
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.registry.meteor.MeteorEntry
 import java.awt.Color
@@ -18,7 +18,7 @@ import kotlin.random.Random
  * @param meteorType The type of meteor to represent
  */
 class AOTDGuiMeteorButton(prefSize: Dimensions, val meteorType: MeteorEntry) :
-    AOTDGuiButton(prefSize, icon = ImagePane(meteorType.icon.toString())) {
+    Button(prefSize, icon = ImagePane(meteorType.icon.toString())) {
     init {
         // Give the meteor a random opacity
         this.color = Color(255, 255, 255, Random.nextInt(256))

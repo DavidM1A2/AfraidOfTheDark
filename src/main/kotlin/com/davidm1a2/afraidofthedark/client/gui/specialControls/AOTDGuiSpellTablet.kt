@@ -89,7 +89,7 @@ class AOTDGuiSpellTablet(
 
         // Create a save spell button
         val saveButton =
-            AOTDGuiButton(
+            Button(
                 AbsoluteDimensions(20.0, 20.0),
                 icon = ImagePane("afraidofthedark:textures/gui/spell_editor/save.png"),
                 iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/save_hovered.png")
@@ -124,7 +124,7 @@ class AOTDGuiSpellTablet(
 
         // Create a close UI and don't save button
         val closeButton =
-            AOTDGuiButton(
+            Button(
                 AbsoluteDimensions(20.0, 20.0),
                 icon = ImagePane("afraidofthedark:textures/gui/spell_editor/delete.png"),
                 iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/delete_hovered.png")
@@ -151,7 +151,7 @@ class AOTDGuiSpellTablet(
         tablet.add(closeButton)
 
         // Create a help button
-        val helpButton = AOTDGuiButton(
+        val helpButton = Button(
             AbsoluteDimensions(20.0, 20.0),
             icon = ImagePane("afraidofthedark:textures/gui/spell_editor/question.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/question_hovered.png")

@@ -9,7 +9,6 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.RelativePosition
 import net.minecraft.util.ResourceLocation
 import java.util.function.Consumer
-import kotlin.math.roundToInt
 
 /**
  * Advanced control that represents a scroll bar which can be dragged up and down
@@ -38,7 +37,7 @@ class HScrollBar @JvmOverloads constructor(
             field = value.coerceIn(0.0, 1.0)
             this.handle.offset = RelativePosition(0.0, (field - 0.5) * (0.9))
         }
-    private val handle: AOTDGuiButton
+    private val handle: Button
     private var handleHeld = false
     private var originalMousePressLocation = 0
     private var originalValue = 0.0
@@ -52,7 +51,7 @@ class HScrollBar @JvmOverloads constructor(
         // Create a handle to grab, let the height be the height of the bar / 10
         val icon = ImagePane(ResourceLocation(handleTexture), ImagePane.DispMode.STRETCH)
         val iconHovered = ImagePane(ResourceLocation(handleHoveredTexture), ImagePane.DispMode.STRETCH)
-        this.handle = AOTDGuiButton(RelativeDimensions(1.0, 0.1), icon = icon, iconHovered = iconHovered, gravity = GuiGravity.CENTER)
+        this.handle = Button(RelativeDimensions(1.0, 0.1), icon = icon, iconHovered = iconHovered, gravity = GuiGravity.CENTER)
         // Add the handle
         barBackground.add(this.handle)
 

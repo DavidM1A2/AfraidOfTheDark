@@ -2,11 +2,10 @@ package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
-import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.AbsoluteDimensions
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.Button
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiTextField
@@ -59,7 +58,7 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
         background.add(longitude)
 
         // Create a calculate button that performs the math and returns drop location coordinates
-        val confirm = AOTDGuiButton(
+        val confirm = Button(
             prefSize = AbsoluteDimensions(120.0, 20.0),
             icon = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png"),

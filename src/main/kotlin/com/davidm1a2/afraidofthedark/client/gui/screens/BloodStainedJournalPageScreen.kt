@@ -3,7 +3,6 @@ package com.davidm1a2.afraidofthedark.client.gui.screens
 import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
@@ -47,8 +46,8 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
     private val rightPage: StackPane
     private val leftPageText: AOTDGuiTextBox
     private val rightPageText: AOTDGuiTextBox
-    private val forwardButton: AOTDGuiButton
-    private val backwardButton: AOTDGuiButton
+    private val forwardButton: Button
+    private val backwardButton: Button
     private val leftPageNumber: AOTDGuiLabel
     private val rightPageNumber: AOTDGuiLabel
     private val topLeftRecipe: AOTDGuiRecipe
@@ -113,7 +112,7 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         // The bookmark button returns the user to the research screen
         // The bookmark button to go back
         val bookmarkIcon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/slot_highlight.png"), ImagePane.DispMode.STRETCH)
-        val bookmarkButton = AOTDGuiButton(
+        val bookmarkButton = Button(
             RelativeDimensions(0.05, 0.1),
             RelativePosition(-0.036, 0.0),
             icon = null,
@@ -147,12 +146,12 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         rightPage.add(bottomRightRecipe)
 
         // Create the forward and backward button to advance and rewind pages
-        forwardButton = AOTDGuiButton(
+        forwardButton = Button(
             AbsoluteDimensions(16.0, 16.0),
             icon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/forward_button.png")),
             iconHovered = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/forward_button_hovered.png"))
         )
-        backwardButton = AOTDGuiButton(
+        backwardButton = Button(
             AbsoluteDimensions(16.0, 16.0),
             icon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/backward_button.png")),
             iconHovered = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/backward_button_hovered.png"))

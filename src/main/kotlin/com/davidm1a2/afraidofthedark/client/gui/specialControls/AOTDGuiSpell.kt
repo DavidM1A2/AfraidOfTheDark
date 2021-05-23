@@ -1,11 +1,10 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.screens.SpellCraftingScreen
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.Button
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiLabel
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
@@ -43,7 +42,7 @@ class AOTDGuiSpell(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize 
         this.add(background)
 
         // The container for spell name
-        val spellNameContainer = StackPane(RelativeDimensions(0.8, 0.3))
+        val spellNameContainer = StackPane(RelativeDimensions(0.8, 0.5))
 
         // The label holding the actual spell name
         val lblSpellName = AOTDGuiLabel(ClientData.getOrCreate(36f), RelativeDimensions(1.0, 1.0))
@@ -51,6 +50,7 @@ class AOTDGuiSpell(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize 
         lblSpellName.text = this.spell.name
         lblSpellName.textColor = Color(245, 61, 199)
         lblSpellName.textAlignment = TextAlignment.ALIGN_CENTER
+        lblSpellName.gravity = GuiGravity.TOP_CENTER
         // Update the hover text of the container and add the spell label to it
         spellNameContainer.setHoverText(lblSpellName.text)
         spellNameContainer.add(lblSpellName)
@@ -80,9 +80,9 @@ class AOTDGuiSpell(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize 
 
         // Create a button to edit the spell
         val btnEdit =
-            AOTDGuiButton(
-                RelativeDimensions(0.15, 0.4),
-                RelativePosition(0.8, 0.5),
+            Button(
+                RelativeDimensions(0.145, 0.35),
+                RelativePosition(0.82, 0.52),
                 icon = ImagePane("afraidofthedark:textures/gui/spell_list/spell_edit.png"),
                 iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/spell_edit_hovered.png")
             )
@@ -100,9 +100,9 @@ class AOTDGuiSpell(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize 
         this.add(btnEdit)
 
         // Create a button to delete a spell
-        val btnDelete = AOTDGuiButton(
-            RelativeDimensions(0.15, 0.4),
-            RelativePosition(0.0, 0.5),
+        val btnDelete = Button(
+            RelativeDimensions(0.145, 0.35),
+            RelativePosition(0.035, 0.52),
             icon = ImagePane("afraidofthedark:textures/gui/spell_list/spell_delete.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/spell_delete_hovered.png")
         )
@@ -119,8 +119,9 @@ class AOTDGuiSpell(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize 
         this.add(btnDelete)
 
         // Create a button to keybind this spell
-        lblKeybind = AOTDGuiLabel(ClientData.getOrCreate(30f), RelativeDimensions(0.8, 0.3))
+        lblKeybind = AOTDGuiLabel(ClientData.getOrCreate(30f), RelativeDimensions(0.6, 0.33))
         lblKeybind.textAlignment = TextAlignment.ALIGN_CENTER
+        lblKeybind.offset = RelativePosition(0.0, 0.15)
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)
         lblKeybind.addMouseListener {
