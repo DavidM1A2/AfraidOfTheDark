@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.client.gui.screens
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
-import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiResearchNodeButton
-import com.davidm1a2.afraidofthedark.client.gui.specialControls.ResearchConnector
+import com.davidm1a2.afraidofthedark.client.gui.customControls.ResearchNode
+import com.davidm1a2.afraidofthedark.client.gui.customControls.ResearchConnector
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
@@ -86,7 +86,7 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
     private fun addResearchButton(research: Research) {
         val pos = RelativePosition(research.xPosition / TREE_WIDTH, (research.zPosition - 4) / TREE_HEIGHT)
         val dim = RelativeDimensions(RESEARCH_WIDTH, RESEARCH_HEIGHT)
-        val researchNode = AOTDGuiResearchNodeButton(dim, pos, research, isCheatSheet, this)
+        val researchNode = ResearchNode(dim, pos, research, isCheatSheet, this)
         researchTreeBase.add(researchNode)
     }
 

@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.layout.AbsolutePosition
 import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeSpacing
 import java.util.function.Consumer
 import kotlin.math.max
 
@@ -54,14 +55,18 @@ class ListPane(val expandDirection: ExpandDirection, val scrollBar: HScrollBar? 
 
     private fun calculateMaxOffset() {
         maxOffset = 0.0
+        var calcPadding = this.padding
+        if (calcPadding is RelativeSpacing) calcPadding = calcPadding.toAbsolute(this)
         when (expandDirection) {
             ExpandDirection.UP, ExpandDirection.DOWN -> {
+                maxOffset += calcPadding.vertPx
                 for (child in getChildren()) {
                     maxOffset += child.height + child.margins.vertPx
                 }
                 maxOffset = max(maxOffset - height, 0.0)
             }
             ExpandDirection.LEFT, ExpandDirection.RIGHT -> {
+                maxOffset += calcPadding.horizPx
                 for (child in getChildren()) {
                     maxOffset += child.width + child.margins.horizPx
                 }
@@ -108,9 +113,9 @@ class ListPane(val expandDirection: ExpandDirection, val scrollBar: HScrollBar? 
     }
 
     override fun calcChildrenBounds(width: Double, height: Double) {
-        super.calcChildrenBounds(width, height)
         recalculateChildrenOffsets()
         calculateMaxOffset()
+        super.calcChildrenBounds(width, height)
         checkOutOfBounds()
     }
 

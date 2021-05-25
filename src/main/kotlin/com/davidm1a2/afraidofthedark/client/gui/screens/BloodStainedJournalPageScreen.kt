@@ -113,10 +113,10 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         // The bookmark button to go back
         val bookmarkIcon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/slot_highlight.png"), ImagePane.DispMode.STRETCH)
         val bookmarkButton = Button(
-            RelativeDimensions(0.05, 0.1),
-            RelativePosition(-0.036, 0.0),
             icon = null,
-            iconHovered = bookmarkIcon
+            iconHovered = bookmarkIcon,
+            prefSize = RelativeDimensions(0.05, 0.1),
+            offset = RelativePosition(-0.036, 0.0)
         )
         bookmarkButton.gravity = GuiGravity.BOTTOM_CENTER
         // Set the color to a see-through white
@@ -147,14 +147,14 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
 
         // Create the forward and backward button to advance and rewind pages
         forwardButton = Button(
-            AbsoluteDimensions(16.0, 16.0),
             icon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/forward_button.png")),
-            iconHovered = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/forward_button_hovered.png"))
+            iconHovered = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/forward_button_hovered.png")),
+            prefSize = AbsoluteDimensions(16.0, 16.0)
         )
         backwardButton = Button(
-            AbsoluteDimensions(16.0, 16.0),
             icon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/backward_button.png")),
-            iconHovered = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/backward_button_hovered.png"))
+            iconHovered = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/backward_button_hovered.png")),
+            prefSize = AbsoluteDimensions(16.0, 16.0)
         )
         // Upon clicking forward then advance the page, if we hover the button darken the color, if we don't hover the button brighten the color
         forwardButton.addMouseListener {

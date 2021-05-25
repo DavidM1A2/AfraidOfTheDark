@@ -59,9 +59,9 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
 
         // Create a calculate button that performs the math and returns drop location coordinates
         val confirm = Button(
-            prefSize = AbsoluteDimensions(120.0, 20.0),
             icon = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png"),
+            prefSize = AbsoluteDimensions(120.0, 20.0),
             font = ClientData.getOrCreate(40f)
         )
         // Text just says calculate

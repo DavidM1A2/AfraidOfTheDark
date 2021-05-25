@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.client.gui.specialControls
+package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
@@ -36,7 +36,8 @@ import kotlin.math.max
  * @property currentPropEditors A List of any additional text fields we currently have editing properties
  */
 class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(AbsolutePosition(x.toDouble(), y.toDouble()), AbsoluteDimensions(width.toDouble(), height.toDouble())) {
-    private var componentClickCallback: ((AOTDGuiSpellComponentSlot<*>) -> Unit) = { }
+    /*
+    private var componentClickCallback: ((SpellComponentSlot<*>) -> Unit) = { }
     private val scrollPanel: AOTDGuiScrollPanel
     private val componentScrollPanel: StackPane
     private val componentScrollPanelOffset: Int
@@ -81,15 +82,14 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Abs
                 if (it.eventType == AOTDMouseEvent.EventType.Click) {
                     // If the component is hovered fire the listener
                     if (it.source.isHovered && it.source.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
-                        componentClickCallback(it.source as AOTDGuiSpellComponentSlot<*>)
+                        componentClickCallback(it.source as SpellComponentSlot<*>)
                     }
                 }
             }
 
         // Go over all power sources and add a slot for each
         for (powerSourceEntry in ModRegistries.SPELL_POWER_SOURCES) {
-            val powerSource =
-                AOTDGuiSpellPowerSourceSlot(20, 20)
+            val powerSource = SpellPowerSourceSlot()
             powerSource.setSpellComponent(SpellPowerSourceInstance(powerSourceEntry).apply { setDefaults() })
             powerSource.addMouseListener(componentClickListener)
             this.componentScrollPanel.add(powerSource)
@@ -109,7 +109,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Abs
         // Go over all effects and add a slot for each
         for (effectEntry in ModRegistries.SPELL_EFFECTS) {
             val effect =
-                AOTDGuiSpellEffectSlot(20, 20)
+                SpellEffectSlot(AbsolutePosition(20.0, 20.0), AbsoluteDimensions(10.0, 10.0))
             effect.setSpellComponent(SpellEffectInstance(effectEntry).apply { setDefaults() })
             effect.addMouseListener(componentClickListener)
             this.componentScrollPanel.add(effect)
@@ -130,7 +130,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Abs
         // Go over all delivery methods and add a slot for each
         for (deliveryMethodEntry in ModRegistries.SPELL_DELIVERY_METHODS) {
             val deliveryMethod =
-                AOTDGuiSpellDeliveryMethodSlot(20, 20)
+                SpellDeliveryMethodSlot(AbsolutePosition(20.0, 20.0))
             deliveryMethod.setSpellComponent(SpellDeliveryMethodInstance(deliveryMethodEntry).apply { setDefaults() })
             deliveryMethod.addMouseListener(componentClickListener)
             this.componentScrollPanel.add(deliveryMethod)
@@ -153,7 +153,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Abs
      *
      * @param componentClickCallback The callback that to fire
      */
-    fun setComponentClickCallback(componentClickCallback: (AOTDGuiSpellComponentSlot<*>) -> Unit) {
+    fun setComponentClickCallback(componentClickCallback: (SpellComponentSlot<*>) -> Unit) {
         this.componentClickCallback = componentClickCallback
     }
 
@@ -242,9 +242,9 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Abs
             if (editableProperties.isNotEmpty()) {
                 // Add a save button at the bottom if we have any editable properties
                 val save = Button(
-                    AbsoluteDimensions(50.0, 20.0),
                     icon = ImagePane("afraidofthedark:textures/gui/spell_editor/button.png"),
                     iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/button_hovered.png"),
+                    prefSize = AbsoluteDimensions(50.0, 20.0),
                     font = ClientData.getOrCreate(32f)
                 )
                 save.setTextAlignment(TextAlignment.ALIGN_CENTER)
@@ -296,9 +296,9 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Abs
             // Add a cancel button at the bottom. Center it if we have no edit properties (and no save button!)
             val cancelX = if (editableProperties.isEmpty()) editPanel.width / 2 - 25 else editPanel.width - 50
             val cancel = Button(
-                AbsoluteDimensions(50.0, 20.0),
                 icon = ImagePane("afraidofthedark:textures/gui/spell_editor/button.png"),
                 iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/button_hovered.png"),
+                prefSize = AbsoluteDimensions(50.0, 20.0),
                 font = ClientData.getOrCreate(32f)
             )
             cancel.setTextAlignment(TextAlignment.ALIGN_CENTER)
@@ -337,4 +337,5 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDPane(Abs
     fun inventoryKeyClosesUI(): Boolean {
         return currentPropEditors.stream().map { it.right }.noneMatch { it.isFocused }
     }
+     */
 }

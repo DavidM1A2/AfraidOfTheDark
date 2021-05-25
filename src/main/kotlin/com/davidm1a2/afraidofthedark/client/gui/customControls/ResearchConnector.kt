@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.client.gui.specialControls
+package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.RelativePosition

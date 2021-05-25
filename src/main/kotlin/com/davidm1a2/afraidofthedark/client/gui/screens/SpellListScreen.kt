@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
-import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiSpell
+import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellListItem
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.keybindings.KeybindingUtils
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
@@ -26,9 +26,9 @@ import net.minecraft.util.text.TranslationTextComponent
 class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.spell_list")) {
     private val scrollPanel: ListPane
     private val btnCreateSpell: Button
-    private val guiSpells = mutableListOf<AOTDGuiSpell>()
+    private val guiSpells = mutableListOf<SpellListItem>()
     private val spellManager = entityPlayer.getSpellManager()
-    private var spellWaitingOnKeybind: AOTDGuiSpell? = null
+    private var spellWaitingOnKeybind: SpellListItem? = null
 
     init {
 
@@ -84,9 +84,9 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
 
         // Add a button to create a new spell, center it under the scrollPanel spell entries
         btnCreateSpell = Button(
-            prefSize = RelativeDimensions(0.2, 0.15),
             icon = ImagePane("afraidofthedark:textures/gui/spell_list/create_spell.png"),
-            iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/create_spell_hovered.png")
+            iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/create_spell_hovered.png"),
+            prefSize = RelativeDimensions(0.2, 0.15)
         )
         btnCreateSpell.margins = RelativeSpacing(0.01, 0.1, 0.0, 0.0)
         btnCreateSpell.setHoverText("Create a new spell")
@@ -123,7 +123,7 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
      */
     private fun addSpell(spell: Spell) {
         // Create a gui spell for this spell
-        val guiSpell = AOTDGuiSpell(RelativeDimensions(1.0, 0.20), spell)
+        val guiSpell = SpellListItem(RelativeDimensions(1.0, 0.20), spell)
         // When delete is pressed remove the GUI spell
         guiSpell.setDeleteCallback { removeSpell(guiSpell) }
         // When keybind is pressed update our variable to let us know we're waiting on a keybind, or clear the keybind
@@ -149,7 +149,7 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
      *
      * @param spell The spell to remove
      */
-    private fun removeSpell(spell: AOTDGuiSpell) {
+    private fun removeSpell(spell: SpellListItem) {
         // Find the index of this gui spell
         val index = guiSpells.indexOf(spell)
         // Remove the spell at the index

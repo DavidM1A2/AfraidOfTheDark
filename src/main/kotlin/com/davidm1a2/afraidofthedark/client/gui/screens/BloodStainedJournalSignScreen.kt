@@ -51,10 +51,10 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
 
         // Add the sign button
         val signButton = Button(
-            prefSize = RelativeDimensions(0.5, 0.1),
-            offset = RelativePosition(0.0, 0.1),
             icon = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png"),
+            prefSize = RelativeDimensions(0.5, 0.1),
+            offset = RelativePosition(0.0, 0.1),
             font = ClientData.getOrCreate(55f)
         )
         signButton.setText("Sign")

@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.client.gui.specialControls
+package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
@@ -29,7 +29,7 @@ import java.awt.Color
  * @property keybindCallback Callback function that we fire when we want a new keybind for this spell
  * @property deleteCallback Callback function that we fire when the delete spell button is pressed
  */
-class AOTDGuiSpell(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize = prefSize, margins = RelativeSpacing(0.0, 0.0, 0.0, 0.0)) {
+class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize = prefSize, margins = RelativeSpacing(0.0, 0.0, 0.0, 0.0)) {
 
     private val lblKeybind: AOTDGuiLabel
     private var keybindCallback: (() -> Unit) = { }
@@ -81,10 +81,10 @@ class AOTDGuiSpell(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize 
         // Create a button to edit the spell
         val btnEdit =
             Button(
-                RelativeDimensions(0.145, 0.35),
-                RelativePosition(0.82, 0.52),
                 icon = ImagePane("afraidofthedark:textures/gui/spell_list/spell_edit.png"),
-                iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/spell_edit_hovered.png")
+                iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/spell_edit_hovered.png"),
+                prefSize = RelativeDimensions(0.145, 0.35),
+                offset = RelativePosition(0.82, 0.52)
             )
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)
@@ -101,10 +101,10 @@ class AOTDGuiSpell(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize 
 
         // Create a button to delete a spell
         val btnDelete = Button(
-            RelativeDimensions(0.145, 0.35),
-            RelativePosition(0.035, 0.52),
             icon = ImagePane("afraidofthedark:textures/gui/spell_list/spell_delete.png"),
-            iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/spell_delete_hovered.png")
+            iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/spell_delete_hovered.png"),
+            prefSize = RelativeDimensions(0.145, 0.35),
+            offset = RelativePosition(0.035, 0.52)
         )
         btnDelete.addMouseListener(clickSound)
         btnDelete.addMouseMoveListener(hoverSound)

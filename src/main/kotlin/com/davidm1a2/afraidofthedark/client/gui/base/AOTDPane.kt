@@ -18,7 +18,7 @@ import java.util.concurrent.CopyOnWriteArrayList
  */
 abstract class AOTDPane (
         offset: Position = AbsolutePosition(0.0, 0.0),
-        prefSize: Dimensions = AbsoluteDimensions(0.0, 0.0),
+        prefSize: Dimensions = RelativeDimensions(1.0, 1.0),
         margins: GuiSpacing = AbsoluteSpacing(),
         gravity: GuiGravity = GuiGravity.TOP_LEFT,
         hoverTexts: Array<String> = emptyArray(),
@@ -51,7 +51,7 @@ abstract class AOTDPane (
         // Add the sub-component
         this.subComponents.add(container)
         // Calculate all children's positions and dimensions
-        calcChildrenBounds()
+        this.calcChildrenBounds()
     }
 
     /**
@@ -65,7 +65,19 @@ abstract class AOTDPane (
         }
         this.subComponents.remove(container)
         // Calculate all children's positions and dimensions
-        calcChildrenBounds()
+        this.calcChildrenBounds()
+    }
+
+    open fun getInternalWidth(): Double {
+        var calcPadding = padding
+        if (calcPadding is RelativeSpacing) calcPadding = calcPadding.toAbsolute(this)
+        return width - calcPadding.horizPx
+    }
+
+    open fun getInternalHeight(): Double {
+        var calcPadding = padding
+        if (calcPadding is RelativeSpacing) calcPadding = calcPadding.toAbsolute(this)
+        return height - calcPadding.vertPx
     }
 
     /**

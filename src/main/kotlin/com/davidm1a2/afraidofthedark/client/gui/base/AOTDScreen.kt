@@ -1,7 +1,11 @@
 package com.davidm1a2.afraidofthedark.client.gui.base
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
+import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableConsumer
+import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableProducer
 import com.davidm1a2.afraidofthedark.client.gui.events.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.AbsolutePosition
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.Minecraft
@@ -14,20 +18,17 @@ import kotlin.math.roundToInt
 
 /**
  * Base class for all GuiScreens used by the mod, allows support for things such as action listeners and proper UI scaling
- *
- * @param name The name of the GUI
- * @property contentPane The panel that contains all the content on the screen
- * @property spriteSheetControllers A list of sprite sheet controllers that are used to control sprite sheets
- * @property prevMouseX The previous mouse X position
- * @property prevMouseY The previous mouse Y position
  */
-abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
+abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: Boolean = false) : Screen(name) {
     // Don't cache these in a companion object, they can change!
     val entityPlayer: ClientPlayerEntity
         get() = Minecraft.getInstance().player
 
     val contentPane = StackPane(AOTDGuiUtility.getWindowSizeInMCCoords())
+    private val overlayPane = StackPane(AOTDGuiUtility.getWindowSizeInMCCoords())
     private val spriteSheetControllers = mutableListOf<SpriteSheetController>()
+    private var dragAndDropIcon : ImagePane? = null
+    private var dragAndDropData : Any? = null
     private var prevMouseX = 0
     private var prevMouseY = 0
 
@@ -43,15 +44,18 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
     }
 
     open fun invalidate() {
-        // Resize pane
+        // Resize panes
         this.contentPane.prefSize = AOTDGuiUtility.getWindowSizeInMCCoords()
-        // Fit pane to the screen
+        this.overlayPane.prefSize = AOTDGuiUtility.getWindowSizeInMCCoords()
+        // Fit panes to the screen
         this.contentPane.negotiateDimensions(AOTDGuiUtility.getWindowWidthInMCCoords().toDouble(), AOTDGuiUtility.getWindowHeightInMCCoords().toDouble())
+        this.overlayPane.negotiateDimensions(AOTDGuiUtility.getWindowWidthInMCCoords().toDouble(), AOTDGuiUtility.getWindowHeightInMCCoords().toDouble())
     }
 
     open fun update() {
         // Resize any children to fit the new dimensions
         this.contentPane.calcChildrenBounds()
+        this.overlayPane.calcChildrenBounds()
     }
 
     /**
@@ -80,6 +84,8 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
         this.contentPane.draw()
         // Draw the overlay on top of the content pane
         this.contentPane.drawOverlay()
+        // Draw the overlay pane
+        if (dragAndDropEnabled) this.overlayPane.draw()
         // Call the super method
         super.render(mouseX, mouseY, partialTicks)
         // Disable blend now that we drew the UI
@@ -196,6 +202,18 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
             )
         )
 
+        if (dragAndDropEnabled) {
+            val producer = findProducer(contentPane)
+            if (producer != null) {
+                dragAndDropIcon?.let { overlayPane.remove(it) }
+                val icon = producer.getIcon()
+                dragAndDropIcon = icon
+                dragAndDropData = producer.produce()
+                overlayPane.add(icon)
+                icon.offset = AbsolutePosition(mouseX, mouseY)
+            }
+        }
+
         return super.mouseClicked(mouseX, mouseY, mouseButton)
     }
 
@@ -219,6 +237,16 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
             )
         )
 
+        if (dragAndDropEnabled) {
+            val consumers = findConsumers(contentPane)
+            for (consumer in consumers) {
+                dragAndDropData?.let { consumer.consume(it) }
+            }
+            dragAndDropIcon?.let { overlayPane.remove(it) }
+            dragAndDropIcon = null
+            dragAndDropData = null
+        }
+
         return super.mouseReleased(mouseX, mouseY, mouseButton)
     }
 
@@ -231,7 +259,33 @@ abstract class AOTDScreen(name: ITextComponent) : Screen(name) {
 
     override fun mouseDragged(mouseX: Double, mouseY: Double, lastButtonClicked: Int, mouseXTo: Double, mouseYTo: Double): Boolean {
         contentPane.processMouseDragInput(MouseDragEvent(contentPane, mouseX.roundToInt(), mouseY.roundToInt(), lastButtonClicked))
+
+        if (dragAndDropEnabled) {
+                dragAndDropIcon?.let { it.offset = AbsolutePosition(mouseX, mouseY) }
+        }
+
         return super.mouseDragged(mouseX, mouseY, lastButtonClicked, mouseXTo, mouseYTo)
+    }
+
+    private fun findProducer(cur: AOTDGuiComponent) : DraggableProducer<*>? {
+        if (cur is AOTDPane) {
+            for (child in cur.getChildren()) {
+                val res = findProducer(child)
+                if (res != null) return res
+            }
+        }
+        return if (cur is DraggableProducer<*> && cur.inBounds && cur.isVisible && cur.isHovered) cur else null
+    }
+
+    private fun findConsumers(cur: AOTDGuiComponent) : List<DraggableConsumer<*>> {
+        val ret = ArrayList<DraggableConsumer<*>>()
+        if (cur is DraggableConsumer<*> && cur.inBounds && cur.isVisible && cur.isHovered) ret.add(cur)
+        if (cur is AOTDPane) {
+            for (child in cur.getChildren()) {
+                ret.addAll(findConsumers(child))
+            }
+        }
+        return ret
     }
 
     override fun tick() {

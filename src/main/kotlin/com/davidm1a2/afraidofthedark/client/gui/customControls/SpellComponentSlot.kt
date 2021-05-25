@@ -1,7 +1,13 @@
-package com.davidm1a2.afraidofthedark.client.gui.specialControls
+package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
+import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
+import com.davidm1a2.afraidofthedark.client.gui.layout.AbsolutePosition
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
+import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 
@@ -17,9 +23,13 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
  * @property highlight The highlight effect around the spell slot
  * @property componentInstance The instance of this spell component
  */
-abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
-    slotBackground: String
-) : AOTDPane() {
+abstract class SpellComponentSlot<T : SpellComponent<T>>(
+    slotBackground: String,
+    offset: Position = AbsolutePosition(0.0, 0.0),
+    prefSize: Dimensions = RelativeDimensions(1.0, 1.0),
+    val spell: Spell
+) : AOTDPane(offset, prefSize) {
+
     private val icon: ImagePane
     private val highlight: ImagePane
     private var componentInstance: SpellComponentInstance<T>? = null
@@ -38,6 +48,14 @@ abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
         this.icon = ImagePane("afraidofthedark:textures/gui/spell_editor/blank_slot.png")
         this.icon.isVisible = false
         this.add(icon)
+
+        this.addMouseListener {
+            if (it.eventType == AOTDMouseEvent.EventType.Click && it.clickedButton == AOTDMouseEvent.RIGHT_MOUSE_BUTTON) {
+                if (this.isHovered && this.inBounds && this.isVisible) {
+                    this.setSpellComponent(null)
+                }
+            }
+        }
     }
 
     /**
@@ -61,30 +79,16 @@ abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
         this.refreshHoverText()
     }
 
-    /**
-     * Refreshes the text that gets displayed when the slot is hovered
-     */
     internal abstract fun refreshHoverText()
 
-    /**
-     * @return The component type of this slot
-     */
     fun getComponentType(): T? {
         return componentInstance?.component
     }
 
-    /**
-     * @return The component instance of this slot
-     */
     fun getComponentInstance(): SpellComponentInstance<T>? {
         return componentInstance
     }
 
-    /**
-     * True if the highlight should be shown, false otherwise
-     *
-     * @param highlit True if the slot is highlit, false otherwise
-     */
     fun setHighlight(highlit: Boolean) {
         this.highlight.isVisible = highlit
     }

@@ -1,20 +1,18 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
-import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiSpellComponentSlot
-import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiSpellScroll
-import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiSpellTablet
+import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellComponentSlot
+import com.davidm1a2.afraidofthedark.client.gui.customControls.AOTDGuiSpellTablet
+import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeSpacing
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.HPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import net.minecraft.client.Minecraft
 import net.minecraft.util.text.TranslationTextComponent
-import java.awt.Image
 
 /**
  * Class representing the spell crating GUI screen used to edit spells
@@ -28,12 +26,12 @@ import java.awt.Image
  */
 class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.spell_crafting")) {
     private val tablet: AOTDGuiSpellTablet
-    private val scroll: AOTDGuiSpellScroll
+    //private val scroll: AOTDGuiSpellScroll
     private val selectedCursorIcon: ImagePane
-    private var selectedComponent: AOTDGuiSpellComponentSlot<*>? = null
+    private var selectedComponent: SpellComponentSlot<*>? = null
 
     init {
-        // Clone the spell so we don't modify the original\
+        // Clone the spell so we don't modify the original
         val spellClone = Spell(spell.serializeNBT())
 
         // First ensure the spell has the minimum 1 spell stage
@@ -41,27 +39,25 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
             spellClone.spellStages.add(SpellStage())
         }
 
+        // Make an HPane to organize the different parts of the GUI
+        val layoutPane = HPane(HPane.Layout.CLOSE)
+        contentPane.add(layoutPane)
+        contentPane.padding = RelativeSpacing(0.1)
+
         // Create the left side tablet to hold the current spell settings
         tablet = AOTDGuiSpellTablet(
-            100,
-            (Constants.BASE_GUI_HEIGHT - 256) / 2,
-            192,
-            256,
             spellClone,
             { this.selectedComponent },
             { this.setSelectedComponent(null) }
         )
+        //layoutPane.add(tablet)
         contentPane.add(tablet)
 
         // Setup the selected component hover under the mouse cursor using image component
-        selectedCursorIcon = ImagePane("afraidofthedark:textures/gui/spell_editor/blank_slot.png", ImagePane.DispMode.STRETCH)
-        selectedCursorIcon.addMouseMoveListener {
+        selectedCursorIcon = ImagePane("afraidofthedark:textures/gui/spell_editor/blank_slot.png", ImagePane.DispMode.FIT_TO_SIZE)
+        contentPane.addMouseMoveListener {
             if (it.eventType == AOTDMouseMoveEvent.EventType.Move) {
-                // If we have nothing selected put the component off in the middle of nowhere
-                if (selectedComponent == null) {
-                    selectedCursorIcon.x = -20
-                    selectedCursorIcon.y = -20
-                } else {
+                if (selectedComponent != null) {
                     selectedCursorIcon.x = ((it.mouseX) - selectedCursorIcon.width / 2)
                     selectedCursorIcon.y = ((it.mouseY) - selectedCursorIcon.height / 2)
                 }
@@ -77,13 +73,14 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
             }
         }
 
+        /*
         // Create the right side scroll to hold the current spell components available
         scroll = AOTDGuiSpellScroll(340, (Constants.BASE_GUI_HEIGHT - 256) / 2, 220, 256)
         // When we click a component on the scroll update it as hovered
         scroll.setComponentClickCallback { setSelectedComponent(it) }
         // When we click a component on the tablet update it as being edited
         tablet.componentEditCallback = { scroll.setEditing(it.getComponentInstance()) }
-        contentPane.add(scroll)
+        layoutPane.add(scroll)
         contentPane.add(selectedCursorIcon)
 
         // Create a help overlay that comes up when you press the ? button
@@ -101,10 +98,11 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
         // When pressing help on the tablet show the help overlay
         tablet.onHelp = { helpOverlay.isVisible = true }
         contentPane.add(helpOverlay)
+         */
 
         contentPane.addKeyListener {
             // If the inventory key closes the ui and is pressed open the spell list UI
-            if (tablet.inventoryKeyClosesUI() && scroll.inventoryKeyClosesUI()) {
+            if (tablet.inventoryKeyClosesUI()) { //  && scroll.inventoryKeyClosesUI()
                 if (isInventoryKeybind(it.key, it.scanCode)) {
                     Minecraft.getInstance().displayGuiScreen(SpellListScreen())
                 }
@@ -112,13 +110,7 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
         }
     }
 
-    /**
-     * Update the selected component, highlight the component// If we have a previously selected component deselect it
-     * If the new component is non-null update our image texture and highlight the component
-     *
-     * @param selectedComponent The newly selected component, could be null to clear
-     */
-    private fun setSelectedComponent(selectedComponent: AOTDGuiSpellComponentSlot<*>?) {
+    private fun setSelectedComponent(selectedComponent: SpellComponentSlot<*>?) {
         // If we have a previously selected component deselect it
         this.selectedComponent?.setHighlight(false)
 
@@ -137,20 +129,10 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
         }
     }
 
-    /**
-     * False, inventory doesn't close the gui screen. We have more advanced logic in keyTyped()
-     *
-     * @return False to avoid any super code going off
-     */
     override fun inventoryToCloseGuiScreen(): Boolean {
         return false
     }
 
-    /**
-     * True, we want the background to be a gradient
-     *
-     * @return True
-     */
     override fun drawGradientBackground(): Boolean {
         return true
     }

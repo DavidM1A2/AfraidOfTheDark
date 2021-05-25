@@ -20,6 +20,6 @@ class AbsolutePosition(x: Double, y: Double): Position(x, y) {
     }
 
     fun toRelative(reference: AOTDPane): RelativePosition {
-        return RelativePosition(this.x / (reference.width - reference.padding.horizPx), this.y / (reference.height - reference.padding.vertPx))
+        return RelativePosition(this.x / reference.getInternalWidth(), this.y / reference.getInternalHeight())
     }
 }

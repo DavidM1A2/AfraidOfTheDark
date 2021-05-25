@@ -21,7 +21,7 @@ import kotlin.math.roundToInt
  * @property u the x value to start drawing from inside the texture
  * @property v the y value to start drawing from inside the texture
  */
-class ImagePane(
+open class ImagePane(
         var imageTexture: ResourceLocation,
         var displayMode: DispMode = DispMode.STRETCH) :
         AOTDPane() {

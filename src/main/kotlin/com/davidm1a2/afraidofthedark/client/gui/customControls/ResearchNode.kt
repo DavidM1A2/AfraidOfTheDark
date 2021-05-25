@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.client.gui.specialControls
+package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
@@ -20,12 +20,12 @@ import net.minecraft.client.resources.I18n
 /**
  * Button that represents a research in the research GUI
  */
-class AOTDGuiResearchNodeButton(prefSize: Dimensions, offset: Position, val research: Research, isCheatSheet: Boolean, parent: BloodStainedJournalResearchScreen) : Button(
-    prefSize,
-    offset,
+class ResearchNode(prefSize: Dimensions, offset: Position, val research: Research, isCheatSheet: Boolean, parent: BloodStainedJournalResearchScreen) : Button(
     icon = ImagePane("afraidofthedark:textures/gui/journal_tech_tree/research_background.png", ImagePane.DispMode.FIT_TO_PARENT),
     iconHovered = ImagePane("afraidofthedark:textures/gui/journal_tech_tree/research_background_hovered.png", ImagePane.DispMode.FIT_TO_PARENT),
-    gravity = GuiGravity.CENTER
+    gravity = GuiGravity.CENTER,
+    prefSize = prefSize,
+    offset = offset
 ) {
     // The player's research for fast querying
     private val playerResearch = entityPlayer.getResearch()

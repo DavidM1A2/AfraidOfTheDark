@@ -51,7 +51,13 @@ class HScrollBar @JvmOverloads constructor(
         // Create a handle to grab, let the height be the height of the bar / 10
         val icon = ImagePane(ResourceLocation(handleTexture), ImagePane.DispMode.STRETCH)
         val iconHovered = ImagePane(ResourceLocation(handleHoveredTexture), ImagePane.DispMode.STRETCH)
-        this.handle = Button(RelativeDimensions(1.0, 0.1), icon = icon, iconHovered = iconHovered, gravity = GuiGravity.CENTER)
+        this.handle = Button(
+            icon = icon,
+            iconHovered = iconHovered,
+            gravity = GuiGravity.CENTER,
+            prefSize = RelativeDimensions(1.0, 0.1),
+            silent = true
+        )
         // Add the handle
         barBackground.add(this.handle)
 
