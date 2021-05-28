@@ -33,9 +33,7 @@ import kotlin.math.roundToInt
  *
  */
 class AOTDGuiSpellTablet(
-    private val spell: Spell,
-    private val selectedComponentGetter: () -> SpellComponentSlot<*>?,
-    private val clearSelectedComponent: () -> Unit
+    private val spell: Spell
 ) : ImagePane("afraidofthedark:textures/gui/spell_editor/tablet_background.png", DispMode.FIT_TO_PARENT) {
 
     private val spellName: AOTDGuiTextField
@@ -51,6 +49,10 @@ class AOTDGuiSpellTablet(
     private val buttonLayout: HPane
     var onHelp: (() -> Unit)? = null
     var componentEditCallback: ((SpellComponentSlot<*>) -> Unit)? = null
+    set(value) {
+        field = value
+        uiSpellStages.forEach { it.componentEditCallback = field }
+    }
 
     init {
 
@@ -83,7 +85,7 @@ class AOTDGuiSpellTablet(
 
         // Add the spell stage scroll panel
         spellStageList = ListPane(ListPane.ExpandDirection.DOWN, scrollBar)
-        spellStageList.padding = RelativeSpacing(0.05)
+        spellStageList.padding = RelativeSpacing(0.02)
         spellStagePanel.add(spellStageList)
 
         // Create add and remove buttons for spell stages
@@ -211,7 +213,7 @@ class AOTDGuiSpellTablet(
      */
     private fun addGuiSpellStage(spellStage: SpellStage) {
         // Create the spell stage GUI
-        val spellStageGui = AOTDGuiSpellStage(spellStage, spell)
+        val spellStageGui = AOTDGuiSpellStage(spellStage, spell, componentEditCallback)
         // Add the spell stage to the panel
         spellStageList.remove(buttonLayout)
         spellStageList.add(spellStageGui)

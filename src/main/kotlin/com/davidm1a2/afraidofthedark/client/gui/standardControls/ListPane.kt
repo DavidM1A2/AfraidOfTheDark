@@ -61,14 +61,18 @@ class ListPane(val expandDirection: ExpandDirection, val scrollBar: HScrollBar? 
             ExpandDirection.UP, ExpandDirection.DOWN -> {
                 maxOffset += calcPadding.vertPx
                 for (child in getChildren()) {
-                    maxOffset += child.height + child.margins.vertPx
+                    var calcMargins = child.margins
+                    if (calcMargins is RelativeSpacing) calcMargins = calcMargins.toAbsolute(child)
+                    maxOffset += child.height + calcMargins.vertPx
                 }
                 maxOffset = max(maxOffset - height, 0.0)
             }
             ExpandDirection.LEFT, ExpandDirection.RIGHT -> {
                 maxOffset += calcPadding.horizPx
                 for (child in getChildren()) {
-                    maxOffset += child.width + child.margins.horizPx
+                    var calcMargins = child.margins
+                    if (calcMargins is RelativeSpacing) calcMargins = calcMargins.toAbsolute(child)
+                    maxOffset += child.width + calcMargins.horizPx
                 }
                 maxOffset = max(maxOffset - width, 0.0)
             }
@@ -78,26 +82,28 @@ class ListPane(val expandDirection: ExpandDirection, val scrollBar: HScrollBar? 
     private fun recalculateChildrenOffsets() {
         var nextChildOffset = 0.0
         for (child in getChildren()) {
+            var calcMargins = child.margins
+            if (calcMargins is RelativeSpacing) calcMargins = calcMargins.toAbsolute(child)
             when (expandDirection) {
                 ExpandDirection.UP -> {
                     child.offset = AbsolutePosition(0.0, -nextChildOffset).toRelative(this)
                     child.gravity = GuiGravity.BOTTOM_CENTER
-                    nextChildOffset += child.height + child.margins.vertPx
+                    nextChildOffset += child.height + calcMargins.vertPx
                 }
                 ExpandDirection.DOWN -> {
                     child.offset = AbsolutePosition(0.0, nextChildOffset).toRelative(this)
                     child.gravity = GuiGravity.TOP_CENTER
-                    nextChildOffset += child.height + child.margins.vertPx
+                    nextChildOffset += child.height + calcMargins.vertPx
                 }
                 ExpandDirection.LEFT -> {
                     child.offset = AbsolutePosition(-nextChildOffset, 0.0).toRelative(this)
                     child.gravity = GuiGravity.CENTER_RIGHT
-                    nextChildOffset += child.width + child.margins.horizPx
+                    nextChildOffset += child.width + calcMargins.horizPx
                 }
                 ExpandDirection.RIGHT -> {
                     child.offset = AbsolutePosition(nextChildOffset, 0.0).toRelative(this)
                     child.gravity = GuiGravity.CENTER_LEFT
-                    nextChildOffset += child.width + child.margins.horizPx
+                    nextChildOffset += child.width + calcMargins.horizPx
                 }
             }
         }

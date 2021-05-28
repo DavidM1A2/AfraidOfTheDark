@@ -33,6 +33,7 @@ class SpellDeliveryMethodSlot(offset: Position, prefSize: Dimensions, spell: Spe
     override fun consume(data: Any) {
         if (data is SpellDeliveryMethod) {
             val inst = SpellComponentInstance(data)
+            inst.setDefaults()
             this.setSpellComponent(inst)
             this.spell.spellStages[stageIndex].deliveryInstance = inst
         }

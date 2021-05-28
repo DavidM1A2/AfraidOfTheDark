@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.TextureDimensionsCache
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
+import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
 import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.AbstractGui
@@ -62,32 +63,38 @@ open class ImagePane(
     }
 
     override fun negotiateDimensions(width: Double, height: Double) {
+        val calcPrefWidth = if (prefSize is RelativeDimensions) prefSize.width * width else prefSize.width
+        val calcPrefHeight = if (prefSize is RelativeDimensions) prefSize.height * height else prefSize.height
+        val fitWidth = if (width < calcPrefWidth) width else calcPrefWidth
+        val fitHeight = if (height < calcPrefHeight) height else calcPrefHeight
         when (displayMode) {
-            DispMode.FIT_TO_SIZE -> {
-                val scaleXRatio = (width/textureWidth.toDouble()).coerceAtMost(1.0)
-                val scaleYRatio = (height/textureHeight.toDouble()).coerceAtMost(1.0)
+            DispMode.FIT_TO_TEXTURE -> {
+                val scaleXRatio = (fitWidth/textureWidth).coerceAtMost(1.0)
+                val scaleYRatio = (fitHeight/textureHeight).coerceAtMost(1.0)
                 val scaleMinRatio = scaleXRatio.coerceAtMost(scaleYRatio)
                 this.width = (textureWidth * scaleMinRatio).roundToInt()
                 this.height = (textureHeight * scaleMinRatio).roundToInt()
             }
             DispMode.FIT_TO_PARENT -> {
-                val scaleXRatio = width/textureWidth.toDouble()
-                val scaleYRatio = height/textureHeight.toDouble()
+                val scaleXRatio = fitWidth/textureWidth
+                val scaleYRatio = fitHeight/textureHeight
                 val scaleMinRatio = scaleXRatio.coerceAtMost(scaleYRatio)
                 this.width = (textureWidth * scaleMinRatio).roundToInt()
                 this.height = (textureHeight * scaleMinRatio).roundToInt()
             }
             DispMode.STRETCH -> {
-                val scaleXRatio = width/textureWidth.toDouble()
-                val scaleYRatio = height/textureHeight.toDouble()
+                val scaleXRatio = fitWidth/textureWidth
+                val scaleYRatio = fitHeight/textureHeight
                 this.width = (textureWidth * scaleXRatio).roundToInt()
                 this.height = (textureHeight * scaleYRatio).roundToInt()
             }
         }
+        // Reset the inbounds flag
+        inBounds = true
     }
 
     enum class DispMode {
-        FIT_TO_SIZE,
+        FIT_TO_TEXTURE,
         FIT_TO_PARENT,
         STRETCH
     }

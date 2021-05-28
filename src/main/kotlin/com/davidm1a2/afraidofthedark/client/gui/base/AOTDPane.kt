@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.client.gui.events.*
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import java.awt.Color
 import java.util.concurrent.CopyOnWriteArrayList
+import kotlin.math.roundToInt
 
 /**
  * Base class for all GUI containers. Containers are gui components that are made up of other components inside

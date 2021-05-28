@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
+import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.spell.Spell
@@ -21,12 +22,14 @@ import com.davidm1a2.afraidofthedark.common.spell.SpellStage
  * @property addRunnable to be fired when add is called
  * @property removeRunnable to be fired when remove is called
  */
-class AOTDGuiSpellStage(private val spellStage: SpellStage, val spell: Spell) :
-    AOTDPane(prefSize = RelativeDimensions(1.0, 0.2), margins = RelativeSpacing(0.0, 0.2, 0.0, 0.0)) {
+class AOTDGuiSpellStage(private val spellStage: SpellStage, val spell: Spell, var componentEditCallback: ((SpellComponentSlot<*>) -> Unit)?) :
+    AOTDPane(prefSize = RelativeDimensions(1.0, 0.2), margins = RelativeSpacing(0.0, 0.15, 0.0, 0.0)) {
+
+    private val slotSize = RelativeDimensions(0.16, 0.65)
 
     val deliveryMethod: SpellDeliveryMethodSlot
     val effects = Array(4) {
-        SpellEffectSlot(RelativePosition(0.2 + it * 0.2, 0.125), SLOT_SIZE, spell, spell.spellStages.indexOf(spellStage), it)
+        SpellEffectSlot(RelativePosition(0.25 + it * 0.18, 0.175), slotSize, spell, spell.spellStages.indexOf(spellStage), it)
     }
 
     init {
@@ -35,11 +38,27 @@ class AOTDGuiSpellStage(private val spellStage: SpellStage, val spell: Spell) :
         this.add(background)
 
         // Create the delivery method slot
-        deliveryMethod = SpellDeliveryMethodSlot(RelativePosition(0.0, 0.125), SLOT_SIZE, spell, spell.spellStages.indexOf(spellStage))
+        deliveryMethod = SpellDeliveryMethodSlot(RelativePosition(0.06, 0.175), slotSize, spell, spell.spellStages.indexOf(spellStage))
         this.add(deliveryMethod)
+        deliveryMethod.addMouseListener {
+            if (it.eventType == AOTDMouseEvent.EventType.Click && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
+                if (deliveryMethod.inBounds && deliveryMethod.isHovered && deliveryMethod.isVisible) {
+                    componentEditCallback?.invoke(deliveryMethod)
+                }
+            }
+        }
 
         // Add a slot for each effect to the UI
-        effects.forEach { this.add(it) }
+        for (effect in effects) {
+            this.add(effect)
+            effect.addMouseListener {
+                if (it.eventType == AOTDMouseEvent.EventType.Click && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
+                    if (effect.inBounds && effect.isHovered && effect.isVisible) {
+                        componentEditCallback?.invoke(effect)
+                    }
+                }
+            }
+        }
     }
 
     fun refresh() {
@@ -49,9 +68,5 @@ class AOTDGuiSpellStage(private val spellStage: SpellStage, val spell: Spell) :
         for (i in spellStage.effects.indices) {
             effects[i].setSpellComponent(spellStage.effects[i])
         }
-    }
-
-    companion object {
-        val SLOT_SIZE = RelativeDimensions(0.19, 0.75)
     }
 }
