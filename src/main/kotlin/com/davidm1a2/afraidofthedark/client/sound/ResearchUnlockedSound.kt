@@ -8,7 +8,7 @@ import net.minecraft.util.SoundCategory
  *
  * @constructor sets the sound event to play and sound category
  */
-class ResearchUnlockedSound : PlayerFollowingSound(ModSounds.ACHIEVEMENT_UNLOCKED, SoundCategory.PLAYERS) {
+class ResearchUnlockedSound : PlayerFollowingSound(ModSounds.RESEARCH_UNLOCKED, SoundCategory.PLAYERS) {
     init {
         volume = 1.0f
         pitch = 1.0f

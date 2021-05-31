@@ -97,11 +97,11 @@
     ],
     "subtitle": "Journal Signed"
   },
-  "achievement_unlocked": {
+  "research_unlocked": {
     "category": "player",
     "sounds": [
       {
-        "name": "afraidofthedark:achievement_unlocked",
+        "name": "afraidofthedark:research_unlocked",
         "stream": false
       }
     ],

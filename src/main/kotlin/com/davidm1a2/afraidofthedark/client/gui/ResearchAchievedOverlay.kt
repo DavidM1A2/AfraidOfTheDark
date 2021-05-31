@@ -74,7 +74,7 @@ class ResearchAchievedOverlay : AbstractGui() {
 
         // After this everything is copied from the default MC achievement class
         if (notificationTime != 0L && Minecraft.getInstance().player != null) {
-            val d0 = (System.currentTimeMillis() - notificationTime) / 3000.0
+            val d0 = (System.currentTimeMillis() - notificationTime) / 6000.0
             if (d0 < 0.0 || d0 > 1.0) {
                 notificationTime = 0L
                 return

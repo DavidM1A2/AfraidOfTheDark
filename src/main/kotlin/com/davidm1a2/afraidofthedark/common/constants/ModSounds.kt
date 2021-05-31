@@ -17,7 +17,7 @@ object ModSounds {
     val ENCHANTED_FROG_DEATH = create("enchanted_frog_death")
     val ENCHANTED_FROG_HURT = create("enchanted_frog_hurt")
     val JOURNAL_SIGN = create("journal_sign")
-    val ACHIEVEMENT_UNLOCKED = create("achievement_unlocked")
+    val RESEARCH_UNLOCKED = create("research_unlocked")
     val PAGE_TURN = create("page_turn")
     val BUTTON_HOVER = create("button_hover")
     val SPELL_CRAFTING_BUTTON_HOVER = create("spell_crafting_button_hover")
@@ -40,7 +40,7 @@ object ModSounds {
         WEREWOLF_HURT,
         ENCHANTED_FROG_CROAK,
         JOURNAL_SIGN,
-        ACHIEVEMENT_UNLOCKED,
+        RESEARCH_UNLOCKED,
         PAGE_TURN,
         BUTTON_HOVER,
         SPELL_CRAFTING_BUTTON_HOVER,
