@@ -17,7 +17,7 @@ class SpellEffectIcon(val effect: SpellEffect) :
         componentInstance.setDefaults()
         this.hoverTexts = arrayOf(
             "Effect (${I18n.format(effect.getUnlocalizedName())})",
-            "Cost: ${effect.getCost(componentInstance)}"
+            "Cost: %.1f".format(effect.getCost(componentInstance))
         )
     }
 

@@ -75,8 +75,6 @@ abstract class SpellComponentSlot<T : SpellComponent<T>>(
             this.componentInstance = instance
             this.icon.imageTexture = instance.component.icon
         }
-        // Update the hover text based on the slot
-        this.refreshHoverText()
     }
 
     internal abstract fun refreshHoverText()

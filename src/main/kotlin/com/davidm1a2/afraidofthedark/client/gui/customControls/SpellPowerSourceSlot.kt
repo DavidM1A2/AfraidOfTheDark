@@ -37,8 +37,15 @@ class SpellPowerSourceSlot(offset: Position, prefSize: Dimensions, spell: Spell)
     override fun consume(data: Any) {
         if (data is SpellPowerSource) {
             val inst = SpellComponentInstance(data)
+            inst.setDefaults()
             this.setSpellComponent(inst)
             this.spell.powerSource = inst
+            this.refreshHoverText()
         }
+    }
+
+    override fun calcChildrenBounds(width: Double, height: Double) {
+        super.calcChildrenBounds(width, height)
+        this.refreshHoverText() // Update hover text whenever the component is updated
     }
 }

@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableConsumer
+import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.common.spell.Spell
@@ -22,6 +23,16 @@ class SpellEffectSlot(offset: Position, prefSize: Dimensions, spell: Spell, val 
     SpellComponentSlot<SpellEffect>("afraidofthedark:textures/gui/spell_editor/effect_holder.png", offset, prefSize, spell),
     DraggableConsumer<SpellEffect> {
 
+    init {
+        this.addMouseListener {
+            if (it.eventType == AOTDMouseEvent.EventType.Click && it.clickedButton == AOTDMouseEvent.RIGHT_MOUSE_BUTTON) {
+                if (this.isHovered && this.inBounds && this.isVisible) {
+                    this.spell.spellStages[stageIndex].effects[effectIndex] = null
+                }
+            }
+        }
+    }
+
     override fun refreshHoverText() {
         // If the component type is non-null show the effect method and stats, otherwise show the slot is empty
         val componentType = this.getComponentType()
@@ -29,7 +40,7 @@ class SpellEffectSlot(offset: Position, prefSize: Dimensions, spell: Spell, val 
             val componentInstance = this.getComponentInstance()!!
             this.hoverTexts = arrayOf(
                 "Effect (${I18n.format(componentType.getUnlocalizedName())})",
-                "Cost: ${componentType.getCost(componentInstance)}"
+                "Cost: %.1f".format(componentType.getCost(componentInstance))
             )
         } else {
             this.setHoverText("Empty effect slot")
@@ -39,8 +50,15 @@ class SpellEffectSlot(offset: Position, prefSize: Dimensions, spell: Spell, val 
     override fun consume(data: Any) {
         if (data is SpellEffect) {
             val inst = SpellComponentInstance(data)
+            inst.setDefaults()
             this.setSpellComponent(inst)
             this.spell.spellStages[stageIndex].effects[effectIndex] = inst
+            this.refreshHoverText()
         }
+    }
+
+    override fun calcChildrenBounds(width: Double, height: Double) {
+        super.calcChildrenBounds(width, height)
+        this.refreshHoverText() // Update hover text whenever the component is updated
     }
 }

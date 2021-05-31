@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableConsumer
+import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.common.spell.Spell
@@ -15,6 +16,16 @@ class SpellDeliveryMethodSlot(offset: Position, prefSize: Dimensions, spell: Spe
     SpellComponentSlot<SpellDeliveryMethod>("afraidofthedark:textures/gui/spell_editor/delivery_method_holder.png", offset, prefSize, spell),
     DraggableConsumer<SpellDeliveryMethod> {
 
+    init {
+        this.addMouseListener {
+            if (it.eventType == AOTDMouseEvent.EventType.Click && it.clickedButton == AOTDMouseEvent.RIGHT_MOUSE_BUTTON) {
+                if (this.isHovered && this.inBounds && this.isVisible) {
+                    this.spell.spellStages[stageIndex].deliveryInstance = null
+                }
+            }
+        }
+    }
+
     override fun refreshHoverText() {
         // If the component type is non-null show the delivery method and stats, otherwise show the slot is empty
         val componentType = this.getComponentType()
@@ -22,8 +33,8 @@ class SpellDeliveryMethodSlot(offset: Position, prefSize: Dimensions, spell: Spe
             val componentInstance = this.getComponentInstance()!!
             this.hoverTexts = arrayOf(
                 "Delivery Method (${I18n.format(componentType.getUnlocalizedName())})",
-                "Cost Multiplier: ${componentType.getStageCostMultiplier(componentInstance)}",
-                "Cost: ${componentType.getCost(componentInstance)}"
+                "Cost Multiplier: %.1f".format(componentType.getStageCostMultiplier(componentInstance)),
+                "Cost: %.1f".format(componentType.getCost(componentInstance))
             )
         } else {
             this.setHoverText("Empty delivery method slot")
@@ -36,6 +47,12 @@ class SpellDeliveryMethodSlot(offset: Position, prefSize: Dimensions, spell: Spe
             inst.setDefaults()
             this.setSpellComponent(inst)
             this.spell.spellStages[stageIndex].deliveryInstance = inst
+            this.refreshHoverText()
         }
+    }
+
+    override fun calcChildrenBounds(width: Double, height: Double) {
+        super.calcChildrenBounds(width, height)
+        this.refreshHoverText() // Update hover text whenever the component is updated
     }
 }

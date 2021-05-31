@@ -178,9 +178,6 @@ class AOTDGuiTextField(offset: Position = AbsolutePosition(0.0, 0.0), prefSize: 
                 textLabel.textColor = textColor
             }
         }
-
-        // Update the scroll based on the new text
-        updateScroll()
     }
 
     /**
@@ -221,6 +218,11 @@ class AOTDGuiTextField(offset: Position = AbsolutePosition(0.0, 0.0), prefSize: 
         } else {
             this.textLabel.textAlignment = TextAlignment.ALIGN_LEFT
         }
+    }
+
+    override fun calcChildrenBounds(width: Double, height: Double) {
+        super.calcChildrenBounds(width, height)
+        updateScroll()  // Update the alignment every UI update
     }
 
     /**

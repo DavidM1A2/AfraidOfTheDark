@@ -170,8 +170,8 @@ class AOTDGuiSpellTablet(
         this.add(uiPowerSource)
 
         // Add the spell cost label
-        spellCost = AOTDGuiLabel(ClientData.getOrCreate(32f), RelativeDimensions(0.8, 0.2))
-        spellCost.offset = RelativePosition(0.1, 0.8)
+        spellCost = AOTDGuiLabel(ClientData.getOrCreate(36f), RelativeDimensions(0.7, 0.13))
+        spellCost.offset = RelativePosition(0.15, 0.87)
         this.add(spellCost)
 
         // Update all the gui components from our spell
@@ -198,11 +198,7 @@ class AOTDGuiSpellTablet(
         refreshCost()
     }
 
-    /**
-     * Updates the cost label
-     */
     private fun refreshCost() {
-        // Update the spell cost label
         spellCost.text = "Cost: ${spell.getCost().roundToInt()}"
     }
 
@@ -238,6 +234,12 @@ class AOTDGuiSpellTablet(
             // If only 1 spell stage exists hide the delete button
             removeButton.isVisible = uiSpellStages.size > 1
         }
+    }
+
+    override fun calcChildrenBounds(width: Double, height: Double) {
+        super.calcChildrenBounds(width, height)
+        // Safe call is necessary here because calcChildrenBounds gets called in the constructor before the label is added
+        spellCost?.let { this.refreshCost() }   // Refresh the cost every UI update
     }
 
     /**
