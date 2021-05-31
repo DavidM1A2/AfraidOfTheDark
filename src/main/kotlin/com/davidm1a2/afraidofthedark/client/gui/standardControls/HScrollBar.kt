@@ -31,7 +31,7 @@ class HScrollBar @JvmOverloads constructor(
         scrollBarTexture: String = "afraidofthedark:textures/gui/scroll_bar.png",
         handleTexture: String = "afraidofthedark:textures/gui/scroll_bar_handle.png",
         handleHoveredTexture: String = handleTexture
-) : AOTDPane(prefSize = prefSize) {
+) : ImagePane(ResourceLocation(scrollBarTexture), DispMode.FIT_TO_PARENT) {
     var value = 0.0
         set(value) {
             field = value.coerceIn(0.0, 1.0)
@@ -45,12 +45,10 @@ class HScrollBar @JvmOverloads constructor(
 
     init {
         // The background behind the scroll bar handle
-        val barBackground = ImagePane(ResourceLocation(scrollBarTexture), ImagePane.DispMode.FIT_TO_PARENT)
-        // Add the background to the control
-        this.add(barBackground)
+        this.prefSize = prefSize
         // Create a handle to grab, let the height be the height of the bar / 10
-        val icon = ImagePane(ResourceLocation(handleTexture), ImagePane.DispMode.STRETCH)
-        val iconHovered = ImagePane(ResourceLocation(handleHoveredTexture), ImagePane.DispMode.STRETCH)
+        val icon = ImagePane(ResourceLocation(handleTexture), DispMode.STRETCH)
+        val iconHovered = ImagePane(ResourceLocation(handleHoveredTexture), DispMode.STRETCH)
         this.handle = Button(
             icon = icon,
             iconHovered = iconHovered,
@@ -59,7 +57,7 @@ class HScrollBar @JvmOverloads constructor(
             silent = true
         )
         // Add the handle
-        barBackground.add(this.handle)
+        this.add(this.handle)
 
         // When we click the mouse we update the state of the handle to being held/released
         this.handle.addMouseListener {

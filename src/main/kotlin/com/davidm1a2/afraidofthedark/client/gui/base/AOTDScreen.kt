@@ -210,7 +210,7 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
                 dragAndDropIcon = icon
                 dragAndDropData = producer.produce()
                 overlayPane.add(icon)
-                icon.offset = AbsolutePosition(mouseX, mouseY)
+                icon.offset = AbsolutePosition(mouseX - icon.width/2, mouseY - icon.height/2)
             }
         }
 
@@ -261,7 +261,7 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
         contentPane.processMouseDragInput(MouseDragEvent(contentPane, mouseX.roundToInt(), mouseY.roundToInt(), lastButtonClicked))
 
         if (dragAndDropEnabled) {
-                dragAndDropIcon?.let { it.offset = AbsolutePosition(mouseX, mouseY) }
+                dragAndDropIcon?.let { it.offset = AbsolutePosition(mouseX - it.width/2, mouseY - it.height/2) }
         }
 
         return super.mouseDragged(mouseX, mouseY, lastButtonClicked, mouseXTo, mouseYTo)

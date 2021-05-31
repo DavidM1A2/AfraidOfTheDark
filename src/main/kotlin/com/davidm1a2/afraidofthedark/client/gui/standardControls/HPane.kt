@@ -64,7 +64,7 @@ class HPane(val layout: Layout = Layout.SPREAD) : StackPane() {
                 val extraSpaceAllowed = extraSpace / requesterCount
                 val requestedSpace = childWidthWithMargins - initSpace
                 if (requestedSpace > extraSpaceAllowed) {   // Request exceeds space allowance
-                    child.negotiateDimensions(initSpace + extraSpaceAllowed, internalHeight)
+                    child.negotiateDimensions(initSpace + extraSpaceAllowed - marginWidth, internalHeight)
                     extraSpace -= extraSpaceAllowed
                 } else {    // Request is within space allowance
                     extraSpace -= requestedSpace

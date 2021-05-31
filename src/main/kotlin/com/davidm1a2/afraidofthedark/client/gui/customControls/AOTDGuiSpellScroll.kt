@@ -62,7 +62,7 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
 
         // Create the power source label
         val powerSourceHeading =
-            AOTDGuiLabel(ClientData.getOrCreate(46f), RelativeDimensions(1.0, 0.2))
+            AOTDGuiLabel(ClientData.getOrCreate(42f), RelativeDimensions(1.0, 0.2))
         powerSourceHeading.textColor = Color(140, 35, 206)
         powerSourceHeading.text = "Power Sources"
         componentList.add(powerSourceHeading)
@@ -82,7 +82,7 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
         powerSourceHPane?.let { componentList.add(it) }
 
         // Create the effect label
-        val effectHeading = AOTDGuiLabel(ClientData.getOrCreate(46f), RelativeDimensions(1.0, 0.2))
+        val effectHeading = AOTDGuiLabel(ClientData.getOrCreate(42f), RelativeDimensions(1.0, 0.2))
         effectHeading.textColor = Color(140, 35, 206)
         effectHeading.text = "Effects"
         componentList.add(effectHeading)
@@ -103,7 +103,7 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
 
         // Create the delivery method label
         val deliveryMethodHeading =
-            AOTDGuiLabel(ClientData.getOrCreate(46f), RelativeDimensions(1.0, 0.2))
+            AOTDGuiLabel(ClientData.getOrCreate(42f), RelativeDimensions(1.0, 0.2))
         deliveryMethodHeading.textColor = Color(140, 35, 206)
         deliveryMethodHeading.text = "Delivery Methods"
         componentList.add(deliveryMethodHeading)
