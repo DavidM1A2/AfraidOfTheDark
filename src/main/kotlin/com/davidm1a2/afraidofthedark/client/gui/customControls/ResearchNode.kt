@@ -20,7 +20,7 @@ import net.minecraft.client.resources.I18n
 /**
  * Button that represents a research in the research GUI
  */
-class ResearchNode(prefSize: Dimensions, offset: Position, val research: Research, isCheatSheet: Boolean, parent: BloodStainedJournalResearchScreen) : Button(
+class ResearchNode(prefSize: Dimensions, offset: Position, val research: Research, isCheatSheet: Boolean) : Button(
     icon = ImagePane("afraidofthedark:textures/gui/journal_tech_tree/research_background.png", ImagePane.DispMode.FIT_TO_PARENT),
     iconHovered = ImagePane("afraidofthedark:textures/gui/journal_tech_tree/research_background_hovered.png", ImagePane.DispMode.FIT_TO_PARENT),
     gravity = GuiGravity.CENTER,
@@ -30,9 +30,11 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
     // The player's research for fast querying
     private val playerResearch = entityPlayer.getResearch()
 
+    override var isVisible: Boolean
+        get() = playerResearch.isResearched(this.research) || playerResearch.canResearch(this.research)
+        set(value) {}
+
     init {
-        // Make the button visible if the research is either researched or can be researched show it
-        this.isVisible = playerResearch.isResearched(this.research) || playerResearch.canResearch(this.research)
         this.add(ImagePane(this.research.icon, ImagePane.DispMode.FIT_TO_PARENT))
 
         // Create two node listeners that controls the behavior of this research node
@@ -51,7 +53,6 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
                         if (playerResearch.canResearch(research)) {
                             playerResearch.setResearchAndAlert(research, true, entityPlayer)
                             playerResearch.sync(entityPlayer, false)
-                            parent.invalidate() // Redraw the screen with new research
                         }
                     } else {    // If this isn't a cheat sheet open the research page
                         if (playerResearch.isResearched(research)) {    // Page UI

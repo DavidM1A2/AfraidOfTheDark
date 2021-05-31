@@ -205,6 +205,8 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
 
         // Play a page turn sound to the player
         entityPlayer.playSound(ModSounds.PAGE_TURN, 1.0f, 1.0f)
+
+        this.invalidate()
     }
 
     /**
@@ -298,9 +300,8 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
     }
 
     override fun invalidate() {
-        super.invalidate()  // Resize with screen
-        super.update()  // Resize children positions
-        this.updateText()   // Render text
+        super.invalidate()
+        this.updateText()
         this.refreshPagesForNumber()
     }
 

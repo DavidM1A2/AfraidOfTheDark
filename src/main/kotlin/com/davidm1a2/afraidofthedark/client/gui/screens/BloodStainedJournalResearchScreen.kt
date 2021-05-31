@@ -13,6 +13,7 @@ import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
 import java.awt.Color
+import kotlin.math.min
 
 /**
  * The research GUI used by the blood stained journal to show what has been unlocked and what has not been unlocked
@@ -22,15 +23,22 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
 
     private val researchTreeBase: ScrollPane = ScrollPane(2.0, 2.0, true)
     private val scrollBackground: ImagePane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/background.png"))
-    private val backgroundBorder = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/frame.png"))
+    private val backgroundBorder = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/frame.png"), ImagePane.DispMode.FIT_TO_PARENT)
+    private val ratioPane = RatioPane(1, 1)
 
     init {
         // Add our panes to the root
-        contentPane.add(researchTreeBase)
+        ratioPane.add(researchTreeBase)
+        contentPane.add(ratioPane)
         contentPane.add(backgroundBorder)
+        contentPane.padding = RelativeSpacing(0.125)
+        ratioPane.gravity = GuiGravity.CENTER
+        backgroundBorder.gravity = GuiGravity.CENTER
 
         // Add a background image
         researchTreeBase.add(scrollBackground)
+        researchTreeBase.addMouseDragListener { this.invalidate() }
+        researchTreeBase.addMouseListener { this.invalidate() }
 
         // If this is a cheat sheet add a label on top to make that clear
         if (isCheatSheet) {
@@ -41,52 +49,33 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
             lblCheatSheet.text = "Cheat sheet - select researches to unlock them"
             backgroundBorder.add(lblCheatSheet)
         }
+
+        // Add all connectors for visible researches
+        ModRegistries.RESEARCH.values.forEach { addConnector(it) }
+
+        // Now that we have all connectors added add each research node on top to ensure correct z-layer order
+        ModRegistries.RESEARCH.values.forEach { addResearchButton(it) }
+
+        this.invalidate()
     }
 
     override fun invalidate() {
-        super.invalidate()
-
-        // Remove everything but the background
-        researchTreeBase.getChildren().filter { it != scrollBackground }.forEach { researchTreeBase.remove(it) }
-
-        // Add padding to keep the GUI square
-        val windowWidth = AOTDGuiUtility.getWindowWidthInMCCoords()
-        val windowHeight = AOTDGuiUtility.getWindowHeightInMCCoords()
-        val guiSize = if (windowWidth < windowHeight) windowWidth*3/4 else windowHeight*3/4
-        val horizontalPadding = (windowWidth - guiSize)/2.0
-        val verticalPadding = (windowHeight - guiSize)/2.0
-        contentPane.padding = AbsoluteSpacing(verticalPadding, verticalPadding, horizontalPadding, horizontalPadding)
-
-        // Update research
-        val playerResearch = entityPlayer.getResearch()
-
-        // Add all connectors for visible researches
-        ModRegistries.RESEARCH.values
-                // Only add the node if we know if the previous research or the current research
-                .filter { playerResearch.isResearched(it) || playerResearch.canResearch(it) }
-                .forEach { addConnector(it) }
-
-        // Now that we have all connectors added add each research node on top to ensure correct z-layer order
-        ModRegistries.RESEARCH.values
-                // Only add the node if we know if the previous research or the current research
-                .filter { playerResearch.isResearched(it) || playerResearch.canResearch(it) }
-                .forEach { addResearchButton(it) }
-
         // Make sure the scroll pane hasn't gone out of bounds
         researchTreeBase.checkOutOfBounds()
+        super.invalidate()
     }
 
     private fun addConnector(research: Research) {
         val previous = research.preRequisite ?: return
         val pos = RelativePosition(research.xPosition / TREE_WIDTH, (research.zPosition - 4) / TREE_HEIGHT)
         val prevPos = RelativePosition(previous.xPosition / TREE_WIDTH, (previous.zPosition - 4) / TREE_HEIGHT)
-        researchTreeBase.add(ResearchConnector(prevPos, pos))
+        researchTreeBase.add(ResearchConnector(prevPos, pos, research))
     }
 
     private fun addResearchButton(research: Research) {
         val pos = RelativePosition(research.xPosition / TREE_WIDTH, (research.zPosition - 4) / TREE_HEIGHT)
         val dim = RelativeDimensions(RESEARCH_WIDTH, RESEARCH_HEIGHT)
-        val researchNode = ResearchNode(dim, pos, research, isCheatSheet, this)
+        val researchNode = ResearchNode(dim, pos, research, isCheatSheet)
         researchTreeBase.add(researchNode)
     }
 

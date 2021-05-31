@@ -91,6 +91,11 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
                 }
             }
         }
+
+        contentPane.addMouseDragListener { this.invalidate() }
+        contentPane.addMouseScrollListener { this.invalidate() }
+
+        this.invalidate()
     }
 
     override fun inventoryToCloseGuiScreen(): Boolean {

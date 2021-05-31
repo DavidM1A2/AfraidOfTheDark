@@ -128,6 +128,8 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
             }
         }
         background.add(signButton)
+
+        this.invalidate()
     }
 
     /**

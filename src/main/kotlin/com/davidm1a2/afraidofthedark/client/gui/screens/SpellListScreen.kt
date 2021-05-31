@@ -100,6 +100,8 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
                     spellManager.addOrUpdateSpell(spell)
                     // Add the UI spell
                     addSpell(spell)
+                    // Update the GUI
+                    this.invalidate()
                 }
             }
         }
@@ -113,7 +115,11 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         // Go over each spell the player has and add a gui spell for it
         spellManager.getSpells().forEach { addSpell(it) }
 
+        contentPane.addMouseListener { this.invalidate(); println("click detected") }
+        contentPane.addMouseDragListener { this.invalidate() }
+        contentPane.addMouseScrollListener { this.invalidate() }
 
+        this.invalidate()
     }
 
     /**

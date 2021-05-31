@@ -44,18 +44,26 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
     }
 
     open fun invalidate() {
-        // Resize panes
-        this.contentPane.prefSize = AOTDGuiUtility.getWindowSizeInMCCoords()
-        this.overlayPane.prefSize = AOTDGuiUtility.getWindowSizeInMCCoords()
-        // Fit panes to the screen
-        this.contentPane.negotiateDimensions(AOTDGuiUtility.getWindowWidthInMCCoords().toDouble(), AOTDGuiUtility.getWindowHeightInMCCoords().toDouble())
-        this.overlayPane.negotiateDimensions(AOTDGuiUtility.getWindowWidthInMCCoords().toDouble(), AOTDGuiUtility.getWindowHeightInMCCoords().toDouble())
-    }
-
-    open fun update() {
-        // Resize any children to fit the new dimensions
-        this.contentPane.calcChildrenBounds()
-        this.overlayPane.calcChildrenBounds()
+        println("Window invalidated!")
+        val windowSize = AOTDGuiUtility.getWindowSizeInMCCoords()
+        // Only redraw screen if the new dimensions are valid
+        if (windowSize.width > 0 && windowSize.height > 0) {
+            // Record dimensions so we can tell when they change
+            this.contentPane.prefSize = windowSize
+            // Fit panes to the screen
+            this.contentPane.negotiateDimensions(windowSize.width, windowSize.height)
+            this.overlayPane.negotiateDimensions(windowSize.width, windowSize.height)
+            // Resize any children to fit the new dimensions
+            this.contentPane.calcChildrenBounds()
+            this.overlayPane.calcChildrenBounds()
+        }
+        // Send the mouse position to the updated pane
+        this.contentPane.processMouseMoveInput(AOTDMouseMoveEvent(
+            contentPane,
+            AOTDGuiUtility.getMouseXInMCCoord(),
+            AOTDGuiUtility.getMouseYInMCCoord(),
+            AOTDMouseMoveEvent.EventType.Move)
+        )
     }
 
     /**
@@ -78,8 +86,6 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
         if (contentPane.prefSize != AOTDGuiUtility.getWindowSizeInMCCoords()) {
             this.invalidate()
         }
-        // Update the pane
-        this.update()
         // Draw the content pane
         this.contentPane.draw()
         // Draw the overlay on top of the content pane
@@ -211,6 +217,7 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
                 dragAndDropData = producer.produce()
                 overlayPane.add(icon)
                 icon.offset = AbsolutePosition(mouseX - icon.width/2, mouseY - icon.height/2)
+                invalidate()
             }
         }
 
@@ -261,7 +268,8 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
         contentPane.processMouseDragInput(MouseDragEvent(contentPane, mouseX.roundToInt(), mouseY.roundToInt(), lastButtonClicked))
 
         if (dragAndDropEnabled) {
-                dragAndDropIcon?.let { it.offset = AbsolutePosition(mouseX - it.width/2, mouseY - it.height/2) }
+            dragAndDropIcon?.let { it.offset = AbsolutePosition(mouseX - it.width/2, mouseY - it.height/2) }
+            invalidate()
         }
 
         return super.mouseDragged(mouseX, mouseY, lastButtonClicked, mouseXTo, mouseYTo)

@@ -44,29 +44,21 @@ abstract class AOTDPane (
         }
 
     /**
-     * Adds a given gui component to the container, and position it accordingly
-     *
-     * @param container The container to add
+     * Adds a given gui component to the container
      */
     open fun add(container: AOTDGuiComponent) {
         // Add the sub-component
         this.subComponents.add(container)
-        // Calculate all children's positions and dimensions
-        this.calcChildrenBounds()
     }
 
     /**
-     * Removes a given gui component to the container, and position it accordingly
-     *
-     * @param container The container to remove
+     * Removes a given gui component from the container
      */
     open fun remove(container: AOTDGuiComponent) {
         if (!this.subComponents.contains(container)) {
             return
         }
         this.subComponents.remove(container)
-        // Calculate all children's positions and dimensions
-        this.calcChildrenBounds()
     }
 
     open fun getInternalWidth(): Double {
@@ -100,20 +92,20 @@ abstract class AOTDPane (
             child.negotiateDimensions(internalWidth - marginWidth, internalHeight - marginHeight)
             // Calculate position
             val gravityXOffset = when (child.gravity) {
-                GuiGravity.TOP_LEFT, GuiGravity.CENTER_LEFT, GuiGravity.BOTTOM_LEFT -> calcPadding.left
-                GuiGravity.TOP_CENTER, GuiGravity.CENTER, GuiGravity.BOTTOM_CENTER -> width/2 - (child.width + marginWidth)/2
-                GuiGravity.TOP_RIGHT, GuiGravity.CENTER_RIGHT, GuiGravity.BOTTOM_RIGHT -> width - (child.width + marginWidth) - calcPadding.right
+                GuiGravity.TOP_LEFT, GuiGravity.CENTER_LEFT, GuiGravity.BOTTOM_LEFT -> calcPadding.left + calcMargins.left
+                GuiGravity.TOP_CENTER, GuiGravity.CENTER, GuiGravity.BOTTOM_CENTER -> width/2 - (child.width + calcMargins.horizPx)/2 + calcMargins.left
+                GuiGravity.TOP_RIGHT, GuiGravity.CENTER_RIGHT, GuiGravity.BOTTOM_RIGHT -> width - child.width - calcMargins.right - calcPadding.right
             }
             val gravityYOffset = when (child.gravity) {
-                GuiGravity.TOP_LEFT, GuiGravity.TOP_CENTER, GuiGravity.TOP_RIGHT -> calcPadding.top
-                GuiGravity.CENTER_LEFT, GuiGravity.CENTER, GuiGravity.CENTER_RIGHT -> height/2 - (child.height + marginHeight)/2
-                GuiGravity.BOTTOM_LEFT, GuiGravity.BOTTOM_CENTER, GuiGravity.BOTTOM_RIGHT -> height - (child.height + marginHeight) - calcPadding.bot
+                GuiGravity.TOP_LEFT, GuiGravity.TOP_CENTER, GuiGravity.TOP_RIGHT -> calcPadding.top + calcMargins.top
+                GuiGravity.CENTER_LEFT, GuiGravity.CENTER, GuiGravity.CENTER_RIGHT -> height/2 - (child.height + calcMargins.vertPx)/2 + calcMargins.top
+                GuiGravity.BOTTOM_LEFT, GuiGravity.BOTTOM_CENTER, GuiGravity.BOTTOM_RIGHT -> height - child.height - calcMargins.bot - calcPadding.bot
             }
             val xOffset = if (child.offset is RelativePosition) internalWidth * child.offset.x else child.offset.x
             val yOffset = if (child.offset is RelativePosition) internalHeight * child.offset.y else child.offset.y
             // Set position
-            child.x = (this.x + this.guiOffsetX + gravityXOffset + xOffset + calcMargins.left).toInt()
-            child.y = (this.y + this.guiOffsetY + gravityYOffset + yOffset + calcMargins.top).toInt()
+            child.x = (this.x + this.guiOffsetX + gravityXOffset + xOffset).roundToInt()
+            child.y = (this.y + this.guiOffsetY + gravityYOffset + yOffset).roundToInt()
             // If it's a pane, have it recalculate its children too
             if (child is AOTDPane) child.calcChildrenBounds()
             // Determine if the subtree of children are in this node's bounds
