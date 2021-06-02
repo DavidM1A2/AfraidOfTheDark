@@ -50,9 +50,9 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         lblSpellName.text = this.spell.name
         lblSpellName.textColor = Color(245, 61, 199)
         lblSpellName.textAlignment = TextAlignment.ALIGN_CENTER
-        lblSpellName.gravity = GuiGravity.TOP_CENTER
         // Update the hover text of the container and add the spell label to it
         spellNameContainer.setHoverText(lblSpellName.text)
+        spellNameContainer.gravity = GuiGravity.TOP_CENTER
         spellNameContainer.add(lblSpellName)
         this.add(spellNameContainer)
 
@@ -119,9 +119,9 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         this.add(btnDelete)
 
         // Create a button to keybind this spell
-        lblKeybind = AOTDGuiLabel(ClientData.getOrCreate(30f), RelativeDimensions(0.6, 0.33))
+        lblKeybind = AOTDGuiLabel(ClientData.getOrCreate(30f), RelativeDimensions(0.6, 0.3))
         lblKeybind.textAlignment = TextAlignment.ALIGN_CENTER
-        lblKeybind.offset = RelativePosition(0.0, 0.15)
+        lblKeybind.offset = RelativePosition(0.2, 0.5)
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)
         lblKeybind.addMouseListener {

@@ -43,7 +43,7 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
         // If this is a cheat sheet add a label on top to make that clear
         if (isCheatSheet) {
             // Put the label on top and set the color to white
-            val lblCheatSheet = AOTDGuiLabel(ClientData.getOrCreate(32f), RelativeDimensions(1.0, 0.08), GuiGravity.TOP_CENTER)
+            val lblCheatSheet = AOTDGuiLabel(ClientData.getOrCreate(32f), RelativeDimensions(1.0, 0.08))
             lblCheatSheet.textAlignment = TextAlignment.ALIGN_CENTER
             lblCheatSheet.textColor = Color(255, 255, 255)
             lblCheatSheet.text = "Cheat sheet - select researches to unlock them"

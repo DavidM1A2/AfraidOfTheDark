@@ -1,7 +1,9 @@
 package com.davidm1a2.afraidofthedark.client.gui.fontLibrary
 
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
+import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.mojang.blaze3d.platform.GlStateManager
+import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GLAllocation
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
@@ -14,9 +16,7 @@ import java.awt.image.DataBufferByte
 import java.awt.image.DataBufferInt
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.pow
+import kotlin.math.*
 import kotlin.system.exitProcess
 
 /**
@@ -228,6 +228,13 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         return fontImage
     }
 
+    private fun calcGuiScale(): Float {
+        val minecraft = Minecraft.getInstance()
+        val min = min(minecraft.mainWindow.width, minecraft.mainWindow.height)
+        val refSize = 480f  // Our reference screen size is 480p (ie. text will look like gui scale 1 at 480p)
+        return Constants.TEXT_SCALE_FACTOR * min / refSize / minecraft.mainWindow.calcGuiScale(minecraft.gameSettings.guiScale, minecraft.forceUnicodeFont)
+    }
+
     /**
      * Draws a string at a given x,y position with a scale, alignment, and color
      *
@@ -254,6 +261,10 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         var drawX = 0
         var drawY = 0
 
+        // Multiply the scale by the overall gui scale
+        val guiScale = calcGuiScale()
+
+        // Get the width of the widest line of text
         for (line in stringToDraw.split("\n")) {
             var lineLen = 0
             for (ch in line) {
@@ -271,9 +282,9 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         for (line in stringToDraw.split("\n")) {
             // Set start position
             drawX = when (textAlignment) {
-                TextAlignment.ALIGN_CENTER -> -(getWidth(line) / 2)
+                TextAlignment.ALIGN_CENTER -> -(this.fontMetrics.stringWidth(line) / 2)
                 TextAlignment.ALIGN_LEFT -> 0
-                TextAlignment.ALIGN_RIGHT -> -getWidth(line)
+                TextAlignment.ALIGN_RIGHT -> -this.fontMetrics.stringWidth(line)
             }
             // Draw each character
             for (currentChar in line) {
@@ -281,10 +292,10 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 characterGlyph = glyphs[currentChar] ?: glyphs[DEFAULT_CHARACTER]!!
                 // Draw a letter
                 drawQuad(
-                    drawX * scaleX + x,
-                    drawY * scaleY + y,
-                    (drawX + characterGlyph.width) * scaleX + x,
-                    (drawY + characterGlyph.height) * scaleY + y,
+                    drawX * guiScale + x,
+                    drawY * guiScale + y,
+                    (drawX + characterGlyph.width) * guiScale + x,
+                    (drawY + characterGlyph.height) * guiScale + y,
                     characterGlyph.storedX.toFloat(),
                     characterGlyph.storedY.toFloat(),
                     characterGlyph.storedX.toFloat() + characterGlyph.width,
@@ -340,7 +351,14 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      * Gets the rendered width of a given string
      */
     fun getWidth(string: String): Int {
-        return this.fontMetrics.stringWidth(string)
+        return (this.fontMetrics.stringWidth(string) * calcGuiScale()).roundToInt()
+    }
+
+    /**
+     * Gets the rendered height of a given string
+     */
+    fun getHeight(string: String): Int {
+        return (this.fontMetrics.height * calcGuiScale() * (string.count { it == '\n' } + 1)).roundToInt()
     }
 
     /**

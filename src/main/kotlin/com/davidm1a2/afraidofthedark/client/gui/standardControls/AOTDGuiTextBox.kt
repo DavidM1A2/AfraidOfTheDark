@@ -73,7 +73,7 @@ class AOTDGuiTextBox(prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE,
             word = word.replace("\t", "   ")
             currentLineText = when {
                 // If the line is too long for the current text move to the next line
-                this.font.getWidth("$currentLineText $word") * Constants.TEXT_SCALE_FACTOR > width -> {
+                this.font.getWidth("$currentLineText $word") > width -> {
                     // Store the current line and move on
                     this.textLines.add(currentLineText)
                     // Store the word as the beginning of the next line

@@ -211,7 +211,7 @@ class AOTDGuiTextField(offset: Position = AbsolutePosition(0.0, 0.0), prefSize: 
      */
     private fun updateScroll() {
         // Get the text's width and multiply by our scale factor used
-        val textWidth = this.textLabel.font.getWidth(this.textLabel.text) * Constants.TEXT_SCALE_FACTOR
+        val textWidth = this.textLabel.font.getWidth(this.textLabel.text)
         // If the text width is bigger than the label's width we set the alignment to right so that you see the newest text not the oldest
         if (textWidth > this.textLabel.width) {
             this.textLabel.textAlignment = TextAlignment.ALIGN_RIGHT

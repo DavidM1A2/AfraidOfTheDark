@@ -53,7 +53,7 @@ class AOTDGuiLabel(val font: TrueTypeFont, prefSize: Dimensions, gravity: GuiGra
             var yCoord = y.toFloat()
 
             // Center align text on the y-axis
-            val spaceLeft = (this.height - this.font.height * Constants.TEXT_SCALE_FACTOR).toDouble()
+            val spaceLeft = (this.height - this.font.getHeight(this.fitText)).toDouble()
             if (spaceLeft > 0) {
                 yCoord += (spaceLeft / 2).toFloat()
             }
@@ -83,22 +83,19 @@ class AOTDGuiLabel(val font: TrueTypeFont, prefSize: Dimensions, gravity: GuiGra
     private fun computeTextForSize() {
         if (this.shortenTextToFit) {
             // Test if the text will fit into our label based on height
-            val height = (this.font.height.toDouble() * Constants.TEXT_SCALE_FACTOR.toDouble() ).toFloat()
-            if (height > this.height) {
+            if (this.font.getHeight(this.text) > this.height) {
                 this.fitText = ""
             }
             // If the height is OK shorten the text until it fits into the label
             else {
                 this.fitText = this.text
                 // Grab the current width of the text
-                var width =
-                    (this.font.getWidth(this.fitText).toDouble() * Constants.TEXT_SCALE_FACTOR.toDouble()).toFloat()
+                var width = this.font.getWidth(this.fitText)
                 // If it's too big remove one character at a time until it isn't
                 while (width > this.width && this.fitText.length >= 2) {
                     this.fitText = this.fitText.substring(0, this.fitText.length - 2)
                     // Grab the current width of the text
-                    width =
-                        (this.font.getWidth(this.fitText).toDouble() * Constants.TEXT_SCALE_FACTOR.toDouble()).toFloat()
+                    width = this.font.getWidth(this.fitText)
                 }
             }
         } else {
