@@ -12,11 +12,14 @@ buildscript {
         maven {
             url = uri("https://files.minecraftforge.net/maven")
         }
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
         jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath("net.minecraftforge.gradle", "ForgeGradle", "3.+") {
+        classpath("net.minecraftforge.gradle", "ForgeGradle", "4.+") {
             isChanging = true
         }
         classpath("org.jetbrains.kotlin", "kotlin-gradle-plugin", findProperty("kotlin_version").toString())
