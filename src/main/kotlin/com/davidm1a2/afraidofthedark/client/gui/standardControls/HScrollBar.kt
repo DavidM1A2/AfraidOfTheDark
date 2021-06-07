@@ -36,6 +36,7 @@ class HScrollBar @JvmOverloads constructor(
         set(value) {
             field = value.coerceIn(0.0, 1.0)
             this.handle.offset = RelativePosition(0.0, (field - 0.5) * (0.9))
+            this.invalidate()
         }
     private val handle: Button
     private var handleHeld = false

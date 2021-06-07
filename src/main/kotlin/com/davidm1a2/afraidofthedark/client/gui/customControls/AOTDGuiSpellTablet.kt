@@ -36,13 +36,13 @@ class AOTDGuiSpellTablet(
     private val spell: Spell
 ) : ImagePane("afraidofthedark:textures/gui/spell_editor/tablet_background.png", DispMode.FIT_TO_PARENT) {
 
-    private val spellName: AOTDGuiTextField
+    private val spellName: TextFieldPane
     private val spellStagePanel: StackPane
     private val spellStageList: ListPane
     private val spellStageBackground: ImagePane
     private val uiSpellStages: MutableList<AOTDGuiSpellStage> = mutableListOf()
     private val uiPowerSource: SpellPowerSourceSlot
-    private val spellCost: AOTDGuiLabel
+    private val spellCost: LabelComponent
     private val scrollBar: HScrollBar
     private val addButton: Button
     private val removeButton: Button
@@ -57,7 +57,7 @@ class AOTDGuiSpellTablet(
     init {
 
         // Setup the spell name label
-        spellName = AOTDGuiTextField(RelativePosition(0.2, 0.18), RelativeDimensions(0.5, 0.1), ClientData.getOrCreate(36f))
+        spellName = TextFieldPane(RelativePosition(0.2, 0.18), RelativeDimensions(0.5, 0.1), ClientData.getOrCreate(36f))
         spellName.setGhostText("Spell Name")
         // When we type into this slot set the spell name
         spellName.addKeyListener {
@@ -170,7 +170,7 @@ class AOTDGuiSpellTablet(
         this.add(uiPowerSource)
 
         // Add the spell cost label
-        spellCost = AOTDGuiLabel(ClientData.getOrCreate(36f), RelativeDimensions(0.7, 0.13))
+        spellCost = LabelComponent(ClientData.getOrCreate(36f), RelativeDimensions(0.7, 0.13))
         spellCost.offset = RelativePosition(0.15, 0.87)
         this.add(spellCost)
 

@@ -52,6 +52,7 @@ open class ScrollPane(val scrollWidthRatio: Double, val scrollHeightRatio: Doubl
                         lastYOffset = guiOffsetY
                     }
                     checkOutOfBounds()
+                    this.invalidate()
                 }
             }
         }

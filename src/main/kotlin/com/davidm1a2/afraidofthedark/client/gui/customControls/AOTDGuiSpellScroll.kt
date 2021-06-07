@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.base.*
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
@@ -16,7 +15,6 @@ import net.minecraft.client.resources.I18n
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.commons.lang3.tuple.Pair
 import java.awt.Color
-import kotlin.math.max
 
 /**
  * Compliment control to the tablet, allows players to click spell components up
@@ -39,7 +37,7 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
     private val propertyScrollBar = HScrollBar(RelativeDimensions(0.05, 1.0))
     private val componentList: ListPane = ListPane(ListPane.ExpandDirection.DOWN, componentScrollBar)
     private val propertyList: ListPane = ListPane(ListPane.ExpandDirection.DOWN, propertyScrollBar)
-    private val currentPropEditors = mutableListOf<Pair<SpellComponentProperty, AOTDGuiTextField>>()
+    private val currentPropEditors = mutableListOf<Pair<SpellComponentProperty, TextFieldPane>>()
 
     init {
         // Put everything that isn't the scroll bar into a padded pane
@@ -62,7 +60,7 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
 
         // Create the power source label
         val powerSourceHeading =
-            AOTDGuiLabel(ClientData.getOrCreate(42f), RelativeDimensions(1.0, 0.2))
+            LabelComponent(ClientData.getOrCreate(42f), RelativeDimensions(1.0, 0.2))
         powerSourceHeading.textColor = Color(140, 35, 206)
         powerSourceHeading.text = "Power Sources"
         componentList.add(powerSourceHeading)
@@ -82,7 +80,7 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
         powerSourceHPane?.let { componentList.add(it) }
 
         // Create the effect label
-        val effectHeading = AOTDGuiLabel(ClientData.getOrCreate(42f), RelativeDimensions(1.0, 0.2))
+        val effectHeading = LabelComponent(ClientData.getOrCreate(42f), RelativeDimensions(1.0, 0.2))
         effectHeading.textColor = Color(140, 35, 206)
         effectHeading.text = "Effects"
         componentList.add(effectHeading)
@@ -103,7 +101,7 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
 
         // Create the delivery method label
         val deliveryMethodHeading =
-            AOTDGuiLabel(ClientData.getOrCreate(42f), RelativeDimensions(1.0, 0.2))
+            LabelComponent(ClientData.getOrCreate(42f), RelativeDimensions(1.0, 0.2))
         deliveryMethodHeading.textColor = Color(140, 35, 206)
         deliveryMethodHeading.text = "Delivery Methods"
         componentList.add(deliveryMethodHeading)
@@ -152,7 +150,7 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
             val purpleText = Color(140, 35, 206)
 
             // Create a heading label to indicate what is currently being edited
-            val heading = AOTDGuiLabel(ClientData.getOrCreate(32f), RelativeDimensions(1.0, 0.2))
+            val heading = LabelComponent(ClientData.getOrCreate(32f), RelativeDimensions(1.0, 0.2))
             heading.textColor = purpleText
             // This cast is required even though IntelliJ doesn't agree
             @Suppress("USELESS_CAST")
@@ -173,7 +171,7 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
                 // Go over each editable property and add an editor for it
                 for (editableProp in editableProperties) {
                     // Create a label that states the name of the property
-                    val propertyName = AOTDGuiLabel(ClientData.getOrCreate(26f), RelativeDimensions(1.0, 0.1))
+                    val propertyName = LabelComponent(ClientData.getOrCreate(26f), RelativeDimensions(1.0, 0.1))
                     propertyName.textColor = purpleText
                     propertyName.text = "Name: ${editableProp.name}"
                     propertyList.add(propertyName)
@@ -186,7 +184,7 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
                     propertyList.add(propertyDescription)
 
                     // Create a text field that edits the property value
-                    val propertyEditor = AOTDGuiTextField(prefSize = AbsoluteDimensions(120.0, 30.0), font = ClientData.getOrCreate(26f))
+                    val propertyEditor = TextFieldPane(prefSize = AbsoluteDimensions(120.0, 30.0), font = ClientData.getOrCreate(26f))
                     propertyEditor.setTextColor(purpleText)
                     propertyEditor.setText(editableProp.getter(componentInstance))
                     propertyList.add(propertyEditor)

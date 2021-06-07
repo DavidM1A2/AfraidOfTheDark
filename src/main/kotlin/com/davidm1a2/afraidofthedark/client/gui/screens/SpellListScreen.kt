@@ -77,6 +77,8 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
                         guiSpells.forEach { guiSpell -> guiSpell.refreshLabels() }
                         // We're no longer waiting on a keybind
                         spellWaitingOnKeybind = null
+                        // Update the GUI
+                        this.invalidate()
                     }
                 }
             }
@@ -114,12 +116,6 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         scrollPanel.add(btnCreateSpell)
         // Go over each spell the player has and add a gui spell for it
         spellManager.getSpells().forEach { addSpell(it) }
-
-        contentPane.addMouseListener { this.invalidate(); println("click detected") }
-        contentPane.addMouseDragListener { this.invalidate() }
-        contentPane.addMouseScrollListener { this.invalidate() }
-
-        this.invalidate()
     }
 
     /**

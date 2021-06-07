@@ -7,7 +7,7 @@ import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.Button
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiTextField
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
@@ -26,7 +26,7 @@ import java.awt.Color
  * @property nameSignField The text field that you sign your name in
  */
 class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.blood_stained_journal_sign")) {
-    private val nameSignField: AOTDGuiTextField
+    private val nameSignField: TextFieldPane
 
     init {
         // Add padding to our root pane
@@ -40,7 +40,7 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
         background.gravity = GuiGravity.CENTER
         contentPane.add(background)
 
-        this.nameSignField = AOTDGuiTextField(
+        this.nameSignField = TextFieldPane(
             prefSize = RelativeDimensions(0.6, 0.15),
             offset = RelativePosition(0.0, -0.1),
             font = ClientData.getOrCreate(45f)
@@ -128,8 +128,6 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
             }
         }
         background.add(signButton)
-
-        this.invalidate()
     }
 
     /**

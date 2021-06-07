@@ -29,7 +29,6 @@ import net.minecraft.util.text.TranslationTextComponent
 class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.spell_crafting"), true) {
     private val tablet: AOTDGuiSpellTablet
     private val scroll: AOTDGuiSpellScroll
-    private val selectedCursorIcon: ImagePane
     private var selectedComponent: SpellComponentSlot<*>? = null
 
     init {
@@ -49,17 +48,6 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
         // Create the left side tablet to hold the current spell settings
         tablet = AOTDGuiSpellTablet(spellClone)
         layoutPane.add(tablet)
-
-        // Setup the selected component hover under the mouse cursor using image component
-        selectedCursorIcon = ImagePane("afraidofthedark:textures/gui/spell_editor/blank_slot.png", ImagePane.DispMode.FIT_TO_TEXTURE)
-        contentPane.addMouseMoveListener {
-            if (it.eventType == AOTDMouseMoveEvent.EventType.Move) {
-                if (selectedComponent != null) {
-                    selectedCursorIcon.x = ((it.mouseX) - selectedCursorIcon.width / 2)
-                    selectedCursorIcon.y = ((it.mouseY) - selectedCursorIcon.height / 2)
-                }
-            }
-        }
 
         // Create the right side scroll to hold the current spell components available
         scroll = AOTDGuiSpellScroll()
@@ -91,11 +79,6 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
                 }
             }
         }
-
-        contentPane.addMouseDragListener { this.invalidate() }
-        contentPane.addMouseScrollListener { this.invalidate() }
-
-        this.invalidate()
     }
 
     override fun inventoryToCloseGuiScreen(): Boolean {

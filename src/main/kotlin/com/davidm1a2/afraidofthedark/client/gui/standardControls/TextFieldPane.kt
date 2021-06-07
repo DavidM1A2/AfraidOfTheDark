@@ -5,7 +5,6 @@ import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.client.Minecraft
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.SharedConstants
@@ -28,11 +27,11 @@ import java.awt.Color
  * @property textColor If we were not showing ghost text update the label's color
  * @property text The current text in the text field or empty string if it is ghost text
  */
-class AOTDGuiTextField(offset: Position = AbsolutePosition(0.0, 0.0), prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE, Double.MAX_VALUE), font: TrueTypeFont) :
+class TextFieldPane(offset: Position = AbsolutePosition(0.0, 0.0), prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE, Double.MAX_VALUE), font: TrueTypeFont) :
     AOTDPane(offset, prefSize) {
     private val background: ImagePane
     private val textContainer: StackPane
-    private val textLabel: AOTDGuiLabel
+    private val textLabel: LabelComponent
     var isFocused = false
         private set
     var ghostText = ""
@@ -48,7 +47,7 @@ class AOTDGuiTextField(offset: Position = AbsolutePosition(0.0, 0.0), prefSize: 
         // Set the text container bounding box to have scissor enabled and contain the label
         this.textContainer = StackPane(RelativeDimensions(1.0, 1.0), margins = RelativeSpacing(0.0, 0.0, 0.1, 0.05), scissorEnabled = true)
         // The text label contains the text field's text
-        this.textLabel = AOTDGuiLabel(font, RelativeDimensions(1.0, 1.0))
+        this.textLabel = LabelComponent(font, RelativeDimensions(1.0, 1.0))
         // Make sure the label doesn't shorten the text inside to fit
         this.textLabel.shortenTextToFit = false
 

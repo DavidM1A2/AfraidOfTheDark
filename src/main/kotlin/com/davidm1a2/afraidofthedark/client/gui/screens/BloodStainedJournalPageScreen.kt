@@ -48,8 +48,8 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
     private val rightPageText: AOTDGuiTextBox
     private val forwardButton: Button
     private val backwardButton: Button
-    private val leftPageNumber: AOTDGuiLabel
-    private val rightPageNumber: AOTDGuiLabel
+    private val leftPageNumber: LabelComponent
+    private val rightPageNumber: LabelComponent
     private val topLeftRecipe: AOTDGuiRecipe
     private val bottomLeftRecipe: AOTDGuiRecipe
     private val topRightRecipe: AOTDGuiRecipe
@@ -70,16 +70,16 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         val titleColor = Color(200, 0, 0)
 
         // Create a title label to contain the research name
-        val titleLabel = AOTDGuiLabel(ClientData.getOrCreate(50f), RelativeDimensions(1.0, 0.1), GuiGravity.TOP_CENTER)
+        val titleLabel = LabelComponent(ClientData.getOrCreate(50f), RelativeDimensions(1.0, 0.1), GuiGravity.TOP_CENTER)
         titleLabel.text = titleText
         titleLabel.textColor = titleColor
         titleLabel.textAlignment = TextAlignment.ALIGN_CENTER
         contentPane.add(titleLabel)
 
         // Create two page numbers, one for the left page and one for the right page
-        leftPageNumber = AOTDGuiLabel(ClientData.getOrCreate(32f), RelativeDimensions(0.1, 0.1), GuiGravity.TOP_LEFT)
+        leftPageNumber = LabelComponent(ClientData.getOrCreate(32f), RelativeDimensions(0.1, 0.1), GuiGravity.TOP_LEFT)
         leftPageNumber.offset = RelativePosition(0.05, 0.03)
-        rightPageNumber = AOTDGuiLabel(ClientData.getOrCreate(32f), RelativeDimensions(0.1, 0.1), GuiGravity.TOP_RIGHT)
+        rightPageNumber = LabelComponent(ClientData.getOrCreate(32f), RelativeDimensions(0.1, 0.1), GuiGravity.TOP_RIGHT)
         rightPageNumber.offset = RelativePosition(-0.05, 0.03)
         // Align the right page number right so that it fits into the corner
         rightPageNumber.textAlignment = TextAlignment.ALIGN_RIGHT
@@ -94,11 +94,11 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         journalPane.add(rightPageNumber)
 
         // Create two pages, one for the left page text and one for the right page text
-        leftPage = StackPane(prefSize = RelativeDimensions(0.5, 1.0), padding = RelativeSpacing(0.08, 0.12, 0.2, 0.05))
+        leftPage = StackPane(prefSize = RelativeDimensions(0.5, 1.0), padding = RelativeSpacing(0.08, 0.15, 0.2, 0.05))
         leftPage.gravity = GuiGravity.TOP_LEFT
         leftPageText = AOTDGuiTextBox(font = ClientData.getOrCreate(32f))
         leftPage.add(leftPageText)
-        rightPage = StackPane(prefSize = RelativeDimensions(0.5, 1.0), padding = RelativeSpacing(0.08, 0.12, 0.05, 0.2))
+        rightPage = StackPane(prefSize = RelativeDimensions(0.5, 1.0), padding = RelativeSpacing(0.08, 0.15, 0.05, 0.2))
         rightPage.gravity = GuiGravity.TOP_RIGHT
         rightPageText = AOTDGuiTextBox(font = ClientData.getOrCreate(32f))
         rightPage.add(rightPageText)
@@ -161,6 +161,7 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
             if (it.eventType == AOTDMouseEvent.EventType.Click) {
                 if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     advancePage()
+                    invalidate()
                 }
             }
         }
@@ -169,6 +170,7 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
             if (it.eventType == AOTDMouseEvent.EventType.Click) {
                 if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     rewindPage()
+                    invalidate()
                 }
             }
         }
@@ -205,8 +207,6 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
 
         // Play a page turn sound to the player
         entityPlayer.playSound(ModSounds.PAGE_TURN, 1.0f, 1.0f)
-
-        this.invalidate()
     }
 
     /**

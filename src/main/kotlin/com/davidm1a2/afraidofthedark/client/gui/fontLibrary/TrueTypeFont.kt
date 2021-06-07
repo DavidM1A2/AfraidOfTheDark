@@ -357,7 +357,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
     /**
      * Gets the rendered height of a given string
      */
-    fun getHeight(string: String): Int {
+    fun getHeight(string: String = ""): Int {
         return (this.fontMetrics.height * calcGuiScale() * (string.count { it == '\n' } + 1)).roundToInt()
     }
 

@@ -6,7 +6,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.screens.SpellCraftingScreen
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.Button
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiLabel
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
@@ -31,7 +31,7 @@ import java.awt.Color
  */
 class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize = prefSize, margins = RelativeSpacing(0.0, 0.0, 0.0, 0.0)) {
 
-    private val lblKeybind: AOTDGuiLabel
+    private val lblKeybind: LabelComponent
     private var keybindCallback: (() -> Unit) = { }
     private var deleteCallback: (() -> Unit) = { }
 
@@ -45,7 +45,7 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         val spellNameContainer = StackPane(RelativeDimensions(0.8, 0.5))
 
         // The label holding the actual spell name
-        val lblSpellName = AOTDGuiLabel(ClientData.getOrCreate(36f), RelativeDimensions(1.0, 1.0))
+        val lblSpellName = LabelComponent(ClientData.getOrCreate(36f), RelativeDimensions(1.0, 1.0))
         // Set the name label's name and color
         lblSpellName.text = this.spell.name
         lblSpellName.textColor = Color(245, 61, 199)
@@ -119,7 +119,7 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         this.add(btnDelete)
 
         // Create a button to keybind this spell
-        lblKeybind = AOTDGuiLabel(ClientData.getOrCreate(30f), RelativeDimensions(0.6, 0.3))
+        lblKeybind = LabelComponent(ClientData.getOrCreate(30f), RelativeDimensions(0.6, 0.3))
         lblKeybind.textAlignment = TextAlignment.ALIGN_CENTER
         lblKeybind.offset = RelativePosition(0.2, 0.5)
         btnEdit.addMouseListener(clickSound)

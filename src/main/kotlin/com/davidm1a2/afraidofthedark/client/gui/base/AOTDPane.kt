@@ -208,4 +208,9 @@ abstract class AOTDPane (
         // Fire our sub-component's key input events
         this.subComponents.forEach { if (it is AOTDGuiComponentWithEvents) it.processKeyInput(event) }
     }
+
+    override fun invalidate() {
+        calcChildrenBounds()
+        getChildren().forEach { it.invalidate() }
+    }
 }

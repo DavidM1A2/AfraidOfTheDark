@@ -8,7 +8,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.AbsoluteDimensions
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.Button
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiTextField
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.ProcessSextantInputPacket
 import net.minecraft.util.text.TranslationTextComponent
@@ -23,9 +23,9 @@ import java.awt.Color
  * @property longitude The text field containing the meteor's longitude
  */
 class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.sextant")) {
-    private val angle: AOTDGuiTextField
-    private val latitude: AOTDGuiTextField
-    private val longitude: AOTDGuiTextField
+    private val angle: TextFieldPane
+    private val latitude: TextFieldPane
+    private val longitude: TextFieldPane
 
     init {
         // The gui will be 256x256
@@ -42,9 +42,9 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
         val textFieldFont = ClientData.getOrCreate(45f)
 
         // Initialize fields
-        angle = AOTDGuiTextField(prefSize = AbsoluteDimensions(120.0, 30.0), font = textFieldFont)
-        latitude = AOTDGuiTextField(prefSize = AbsoluteDimensions(120.0, 30.0), font = textFieldFont)
-        longitude = AOTDGuiTextField(prefSize = AbsoluteDimensions(120.0, 30.0), font = textFieldFont)
+        angle = TextFieldPane(prefSize = AbsoluteDimensions(120.0, 30.0), font = textFieldFont)
+        latitude = TextFieldPane(prefSize = AbsoluteDimensions(120.0, 30.0), font = textFieldFont)
+        longitude = TextFieldPane(prefSize = AbsoluteDimensions(120.0, 30.0), font = textFieldFont)
 
         // All fields are white and contain ghost text based on what they represent
         angle.setTextColor(Color(255, 255, 255))

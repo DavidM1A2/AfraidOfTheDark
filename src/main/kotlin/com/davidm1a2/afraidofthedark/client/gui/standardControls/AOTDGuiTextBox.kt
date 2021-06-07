@@ -1,10 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
+import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiComponentWithEvents
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.client.gui.layout.AbsoluteDimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import java.awt.Color
 import java.util.*
@@ -21,8 +23,8 @@ import java.util.*
  * @property textColor The color to draw the text with
  * @property overflowText The overflow text that doesn't fit inside this text box
  */
-class AOTDGuiTextBox(prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE, Double.MAX_VALUE), private val font: TrueTypeFont) :
-    AOTDPane(prefSize = prefSize) {
+class AOTDGuiTextBox(prefSize: Dimensions = RelativeDimensions(1.0, 1.0), private val font: TrueTypeFont, val textAlignment: TextAlignment = TextAlignment.ALIGN_LEFT) :
+    AOTDGuiComponentWithEvents(prefSize = prefSize) {
     private var textLines = mutableListOf<String>()
     private var text = ""
     var textColor = Color(255, 255, 255, 255)
@@ -33,20 +35,31 @@ class AOTDGuiTextBox(prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE,
      * Draw the text given the width and height as bounds
      */
     override fun draw() {
-        // Only draw the text if it's visible
-        if (this.isVisible) {
-            super.draw()
-            // Draw each string in the text lines list one at at time
-            for (i in this.textLines.indices)
+        if (this.isVisible && this.inBounds) {
+            var yCoord = y.toFloat()
+
+            for (line in this.textLines) {
+                val lineWidth = this.font.getWidth(line)
+                val lineHeight = this.font.getHeight(line)
+
+                val xCoord = x + when (this.textAlignment) {
+                        TextAlignment.ALIGN_RIGHT -> lineWidth.toFloat()
+                        TextAlignment.ALIGN_CENTER -> lineWidth.toFloat() / 2f
+                        else -> 0f
+                    }
+
                 this.font.drawString(
-                    this.x.toFloat(),
-                    this.y.toFloat() + i * this.font.height * Constants.TEXT_SCALE_FACTOR,
-                    this.textLines[i],
+                    xCoord,
+                    yCoord,
+                    line,
                     Constants.TEXT_SCALE_FACTOR,
                     Constants.TEXT_SCALE_FACTOR,
-                    TextAlignment.ALIGN_LEFT,
+                    textAlignment,
                     this.textColor
                 )
+
+                yCoord += lineHeight
+            }
         }
     }
 
@@ -56,53 +69,36 @@ class AOTDGuiTextBox(prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE,
      * @param text The text to use
      */
     fun setText(text: String) {
-        // Store the text as a string
         this.text = text
-        // Clear the original text
         this.textLines.clear()
-        // Split the text into words
         val words = StringTokenizer(text, " ")
-        // The current line text
         var currentLineText = ""
 
-        // Iterate over all words
+        // Read words into lines that fit inside the text box
         while (words.hasMoreTokens()) {
-            // Grab the first word
             var word = words.nextToken()
             // Replace tab characters with spaces since tab characters are buggy to render
             word = word.replace("\t", "   ")
-            currentLineText = when {
-                // If the line is too long for the current text move to the next line
-                this.font.getWidth("$currentLineText $word") > width -> {
-                    // Store the current line and move on
-                    this.textLines.add(currentLineText)
-                    // Store the word as the beginning of the next line
-                    word
-                }
-                // Else append to the current line
-                currentLineText.isEmpty() -> word
-                else -> "$currentLineText $word"
+            if (this.font.getWidth("$currentLineText $word") > width) {
+                this.textLines.add(currentLineText)
+                currentLineText = word
+            } else {
+                if (currentLineText.isNotEmpty()) currentLineText += " "
+                currentLineText += word
             }
         }
         this.textLines.add(currentLineText)
 
-        // Compute the maximum number of lines that fit vertically inside the text box
-        val maxLines = (height / (this.font.height * Constants.TEXT_SCALE_FACTOR)).coerceAtLeast(0f).toInt()
-        // If the number of lines we have is less than or equal to the max we're OK
-        if (textLines.size <= maxLines) {
-            this.overflowText = ""
-        }
-        // If the number of lines is greater than the max then we partition the lines into actual text lines and overflow text
-        else {
-            val actualText = this.textLines.subList(0, maxLines)
-            val spareText = this.textLines.subList(maxLines, this.textLines.size)
-            this.textLines = actualText
-            this.overflowText = spareText.joinToString(" ")
+        // Check for overflow
+        this.overflowText = ""
+        var textHeight = this.font.getHeight(this.textLines.joinToString("\n"))
+        while (textHeight > this.height && textLines.isNotEmpty()) {
+            overflowText += this.textLines.removeLast() + "\n"
+            textHeight = this.font.getHeight(this.textLines.joinToString("\n"))
         }
     }
 
-    override fun negotiateDimensions(width: Double, height: Double) {
-        super.negotiateDimensions(width, height)
+    override fun invalidate() {
         this.setText(text)
     }
 
@@ -110,6 +106,6 @@ class AOTDGuiTextBox(prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE,
      * @return Returns the text found inside this text box
      */
     fun getText(): String {
-        return textLines.joinToString(separator = "")
+        return text
     }
 }

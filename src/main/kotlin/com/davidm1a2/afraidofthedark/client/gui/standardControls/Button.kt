@@ -24,7 +24,7 @@ open class Button(
     font: TrueTypeFont? = null
 ) : AOTDPane(offset, prefSize, margins, gravity, hoverTexts, padding) {
 
-    private val label: AOTDGuiLabel?
+    private val label: LabelComponent?
 
     init {
         // Add our images as child nodes
@@ -32,7 +32,7 @@ open class Button(
         this.iconHovered?.let { this.add(it) }
         // Create a label to cover the button
         if (font != null) {
-            this.label = AOTDGuiLabel(font, RelativeDimensions(1.0, 1.0))
+            this.label = LabelComponent(font, RelativeDimensions(1.0, 1.0))
             this.add(this.label)
         } else {
             this.label = null

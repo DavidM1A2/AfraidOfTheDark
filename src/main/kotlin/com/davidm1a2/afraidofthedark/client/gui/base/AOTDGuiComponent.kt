@@ -176,6 +176,8 @@ abstract class AOTDGuiComponent(
         hoverTexts = hoverText.split("\n").toTypedArray()
     }
 
+    open fun invalidate() {}
+
     companion object {
         val fontRenderer: FontRenderer = Minecraft.getInstance().fontRenderer
         val entityPlayer: ClientPlayerEntity

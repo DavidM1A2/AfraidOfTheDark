@@ -1,19 +1,16 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.customControls.ResearchNode
 import com.davidm1a2.afraidofthedark.client.gui.customControls.ResearchConnector
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
-import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
 import java.awt.Color
-import kotlin.math.min
 
 /**
  * The research GUI used by the blood stained journal to show what has been unlocked and what has not been unlocked
@@ -37,13 +34,11 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
 
         // Add a background image
         researchTreeBase.add(scrollBackground)
-        researchTreeBase.addMouseDragListener { this.invalidate() }
-        researchTreeBase.addMouseListener { this.invalidate() }
 
         // If this is a cheat sheet add a label on top to make that clear
         if (isCheatSheet) {
             // Put the label on top and set the color to white
-            val lblCheatSheet = AOTDGuiLabel(ClientData.getOrCreate(32f), RelativeDimensions(1.0, 0.08))
+            val lblCheatSheet = LabelComponent(ClientData.getOrCreate(32f), RelativeDimensions(1.0, 0.08))
             lblCheatSheet.textAlignment = TextAlignment.ALIGN_CENTER
             lblCheatSheet.textColor = Color(255, 255, 255)
             lblCheatSheet.text = "Cheat sheet - select researches to unlock them"
@@ -55,8 +50,6 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
 
         // Now that we have all connectors added add each research node on top to ensure correct z-layer order
         ModRegistries.RESEARCH.values.forEach { addResearchButton(it) }
-
-        this.invalidate()
     }
 
     override fun invalidate() {

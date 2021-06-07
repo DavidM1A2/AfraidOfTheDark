@@ -17,6 +17,7 @@ class ListPane(val expandDirection: ExpandDirection, val scrollBar: HScrollBar? 
                 ExpandDirection.LEFT -> guiOffsetX = -maxOffset * it
                 ExpandDirection.RIGHT -> guiOffsetX = maxOffset * it
             }
+            this.invalidate()
         }
         this.addMouseDragListener {
             if (scrollBar != null && maxOffset != 0.0) {
@@ -48,6 +49,7 @@ class ListPane(val expandDirection: ExpandDirection, val scrollBar: HScrollBar? 
                         ExpandDirection.LEFT -> if (maxOffset == 0.0) 0.0 else guiOffsetX / -maxOffset
                         ExpandDirection.RIGHT -> if (maxOffset == 0.0) 0.0 else guiOffsetX / maxOffset
                     }
+                    this.invalidate()
                 }
             }
         }
