@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
-import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.customControls.ResearchNode
 import com.davidm1a2.afraidofthedark.client.gui.customControls.ResearchConnector

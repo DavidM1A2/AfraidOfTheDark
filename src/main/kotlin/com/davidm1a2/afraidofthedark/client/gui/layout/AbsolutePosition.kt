@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.layout
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
 
 class AbsolutePosition(x: Double, y: Double): Position(x, y) {
     fun add(other: AbsolutePosition): AbsolutePosition {

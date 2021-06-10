@@ -1,11 +1,10 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.Button
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
@@ -21,9 +20,6 @@ import java.awt.Color
 
 /**
  * Class used to create a blood stained journal signing UI
- *
- * @constructor adds any required components to the sign UI
- * @property nameSignField The text field that you sign your name in
  */
 class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.blood_stained_journal_sign")) {
     private val nameSignField: TextFieldPane
@@ -50,7 +46,7 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
         background.add(this.nameSignField)
 
         // Add the sign button
-        val signButton = Button(
+        val signButton = ButtonPane(
             icon = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png"),
             prefSize = RelativeDimensions(0.5, 0.1),
@@ -64,8 +60,8 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
 
         // When we click the sign button either start the mod or tell the user they messed up
         signButton.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Click) {
-                if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
+            if (it.eventType == MouseEvent.EventType.Click) {
+                if (it.source.isHovered && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
                     entityPlayer.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f)
                     val playerBasics = entityPlayer.getBasics()
                     val playerResearch = entityPlayer.getResearch()
@@ -114,13 +110,13 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
         }
         // If we hover the sign button play a button hover sound
         signButton.addMouseMoveListener {
-            if (it.eventType == AOTDMouseMoveEvent.EventType.Enter) {
+            if (it.eventType == MouseMoveEvent.EventType.Enter) {
                 entityPlayer.playSound(ModSounds.BUTTON_HOVER, 0.1f, 0.8f)
             }
         }
         // When we type a character play a type sound
         this.nameSignField.addKeyListener {
-            if (it.eventType == AOTDKeyEvent.KeyEventType.Type) {
+            if (it.eventType == KeyEvent.KeyEventType.Type) {
                 if (nameSignField.isFocused) {
                     entityPlayer.playSound(ModSounds.KEY_TYPED, 0.4f, 0.8f)
                     it.consume()

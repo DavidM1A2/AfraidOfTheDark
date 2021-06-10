@@ -1,34 +1,23 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
-import com.davidm1a2.afraidofthedark.client.gui.customControls.AOTDGuiSpellScroll
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
+import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellScroll
 import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellComponentSlot
-import com.davidm1a2.afraidofthedark.client.gui.customControls.AOTDGuiSpellTablet
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
+import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellTablet
+import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeSpacing
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.HPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.HChainPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
-import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import net.minecraft.client.Minecraft
 import net.minecraft.util.text.TranslationTextComponent
 
 /**
  * Class representing the spell crating GUI screen used to edit spells
- *
- * @constructor creates the spell GUI
- * @param spell The spell that this gui will edit
- * @property tablet The tablet left side of the GUI
- * @property scroll The scroll right side of the GUI
- * @property selectedCursorIcon The selected cursor icon to hold the currently selected component's icon
- * @property selectedComponent The currently selected spell component slot on the spell scroll, or null
  */
 class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.spell_crafting"), true) {
-    private val tablet: AOTDGuiSpellTablet
-    private val scroll: AOTDGuiSpellScroll
+    private val tablet: SpellTablet
+    private val scroll: SpellScroll
     private var selectedComponent: SpellComponentSlot<*>? = null
 
     init {
@@ -41,16 +30,16 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
         }
 
         // Make an HPane to organize the different parts of the GUI
-        val layoutPane = HPane(HPane.Layout.CLOSE)
+        val layoutPane = HChainPane(HChainPane.Layout.CLOSE)
         contentPane.add(layoutPane)
         contentPane.padding = RelativeSpacing(0.1)
 
         // Create the left side tablet to hold the current spell settings
-        tablet = AOTDGuiSpellTablet(spellClone)
+        tablet = SpellTablet(spellClone)
         layoutPane.add(tablet)
 
         // Create the right side scroll to hold the current spell components available
-        scroll = AOTDGuiSpellScroll()
+        scroll = SpellScroll()
         // When we click a component on the tablet update it as being edited
         tablet.componentEditCallback = { scroll.setEditing(it.getComponentInstance()) }
         layoutPane.add(scroll)
@@ -63,7 +52,7 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
         helpOverlay.isVisible = false
         // When pressing any key hide the overlay
         helpOverlay.addKeyListener {
-            if (it.eventType == AOTDKeyEvent.KeyEventType.Press) {
+            if (it.eventType == KeyEvent.KeyEventType.Press) {
                 it.source.isVisible = false
             }
         }

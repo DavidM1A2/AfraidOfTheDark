@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.screens.SpellListScreen
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
@@ -10,13 +10,12 @@ import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import net.minecraft.client.Minecraft
 import net.minecraft.util.text.TranslationTextComponent
-import java.util.*
 import kotlin.math.roundToInt
 
 /**
  * Class representing the tablet used in the spell crafting gui on the left
  */
-class AOTDGuiSpellTablet(
+class SpellTablet(
     private val spell: Spell
 ) : ImagePane("afraidofthedark:textures/gui/spell_editor/tablet_background.png", DispMode.FIT_TO_PARENT) {
 
@@ -24,13 +23,13 @@ class AOTDGuiSpellTablet(
     private val spellStagePanel: StackPane
     private val spellStageList: ListPane
     private val spellStageBackground: ImagePane
-    private val uiSpellStages: MutableList<AOTDGuiSpellStage> = mutableListOf()
+    private val uiSpellStages: MutableList<GuiSpellStage> = mutableListOf()
     private val uiPowerSource: SpellPowerSourceSlot
     private val spellCost: LabelComponent
     private val scrollBar: HScrollBar
-    private val addButton: Button
-    private val removeButton: Button
-    private val buttonLayout: HPane
+    private val addButton: ButtonPane
+    private val removeButton: ButtonPane
+    private val buttonLayout: HChainPane
     var onHelp: (() -> Unit)? = null
     var componentEditCallback: ((SpellComponentSlot<*>) -> Unit)? = null
     set(value) {
@@ -45,7 +44,7 @@ class AOTDGuiSpellTablet(
         spellName.setGhostText("Spell Name")
         // When we type into this slot set the spell name
         spellName.addKeyListener {
-            if (it.eventType == AOTDKeyEvent.KeyEventType.Release) {
+            if (it.eventType == KeyEvent.KeyEventType.Release) {
                 spell.name = spellName.getText()
             }
         }
@@ -73,7 +72,7 @@ class AOTDGuiSpellTablet(
         spellStagePanel.add(spellStageList)
 
         // Create add and remove buttons for spell stages
-        addButton = Button(
+        addButton = ButtonPane(
             icon = ImagePane("afraidofthedark:textures/gui/spell_editor/add.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/add_hovered.png"),
             prefSize = RelativeDimensions(0.45, 1.0)
@@ -84,7 +83,7 @@ class AOTDGuiSpellTablet(
             addGuiSpellStage(newStage)
             invalidate()
         }
-        removeButton = Button(
+        removeButton = ButtonPane(
             icon = ImagePane("afraidofthedark:textures/gui/spell_editor/delete.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/delete_hovered.png"),
             prefSize = RelativeDimensions(0.45, 1.0)
@@ -94,7 +93,7 @@ class AOTDGuiSpellTablet(
             removeLastGuiSpellStage()
             invalidate()
         }
-        buttonLayout = HPane()
+        buttonLayout = HChainPane()
         buttonLayout.prefSize = RelativeDimensions(0.25, 0.08)
         buttonLayout.add(addButton)
         buttonLayout.add(removeButton)
@@ -102,7 +101,7 @@ class AOTDGuiSpellTablet(
 
         // Create a save spell button
         val saveButton =
-            Button(
+            ButtonPane(
                 icon = ImagePane("afraidofthedark:textures/gui/spell_editor/save.png"),
                 iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/save_hovered.png"),
                 prefSize = RelativeDimensions(0.13, 0.1),
@@ -125,7 +124,7 @@ class AOTDGuiSpellTablet(
 
         // Create a close UI and don't save button
         val closeButton =
-            Button(
+            ButtonPane(
                 icon = ImagePane("afraidofthedark:textures/gui/spell_editor/delete.png"),
                 iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/delete_hovered.png"),
                 prefSize = RelativeDimensions(0.13, 0.1),
@@ -139,7 +138,7 @@ class AOTDGuiSpellTablet(
         this.add(closeButton)
 
         // Create a help button
-        val helpButton = Button(
+        val helpButton = ButtonPane(
             icon = ImagePane("afraidofthedark:textures/gui/spell_editor/question.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/question_hovered.png"),
             prefSize = RelativeDimensions(0.13, 0.1),
@@ -195,7 +194,7 @@ class AOTDGuiSpellTablet(
      */
     private fun addGuiSpellStage(spellStage: SpellStage) {
         // Create the spell stage GUI
-        val spellStageGui = AOTDGuiSpellStage(spellStage, spell, componentEditCallback)
+        val spellStageGui = GuiSpellStage(spellStage, spell, componentEditCallback)
         // Add the spell stage to the panel
         spellStageList.remove(buttonLayout)
         spellStageList.add(spellStageGui)

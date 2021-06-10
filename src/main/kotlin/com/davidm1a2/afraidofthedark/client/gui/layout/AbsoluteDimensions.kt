@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.layout
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
 
 class AbsoluteDimensions(width: Double, height: Double): Dimensions(width, height) {
     fun add(other: AbsoluteDimensions): AbsoluteDimensions {

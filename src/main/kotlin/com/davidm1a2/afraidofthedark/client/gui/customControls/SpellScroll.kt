@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.*
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
@@ -19,9 +18,8 @@ import java.awt.Color
 /**
  * Compliment control to the tablet, allows players to click spell components up
  */
-class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_list_scroll.png", DispMode.FIT_TO_PARENT) {
+class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_list_scroll.png", DispMode.FIT_TO_PARENT) {
 
-    private var componentClickCallback: ((SpellComponentSlot<*>) -> Unit) = { }
     private val interiorPane: StackPane = StackPane()
     private val componentScrollBar = HScrollBar(RelativeDimensions(0.05, 1.0))
     private val propertyScrollBar = HScrollBar(RelativeDimensions(0.05, 1.0))
@@ -56,11 +54,11 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
         componentList.add(powerSourceHeading)
 
         // Go over all power sources and add a slot for each
-        var powerSourceHPane: HPane? = null
+        var powerSourceHPane: HChainPane? = null
         for ((powerSourceIndex, powerSourceEntry) in ModRegistries.SPELL_POWER_SOURCES.withIndex()) {
             if (powerSourceIndex % componentsPerLine == 0) {
                 if (powerSourceHPane != null) componentList.add(powerSourceHPane)
-                powerSourceHPane = HPane(HPane.Layout.CLOSE)
+                powerSourceHPane = HChainPane(HChainPane.Layout.CLOSE)
                 powerSourceHPane.prefSize = RelativeDimensions(1.0, 0.2)
             }
             val powerSource = SpellPowerSourceIcon(powerSourceEntry)
@@ -76,11 +74,11 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
         componentList.add(effectHeading)
 
         // Go over all effects and add a slot for each
-        var effectHPane: HPane? = null
+        var effectHPane: HChainPane? = null
         for ((effectIndex, effectEntry) in ModRegistries.SPELL_EFFECTS.withIndex()) {
             if (effectIndex % componentsPerLine == 0) {
                 if (effectHPane != null) componentList.add(effectHPane)
-                effectHPane = HPane(HPane.Layout.CLOSE)
+                effectHPane = HChainPane(HChainPane.Layout.CLOSE)
                 effectHPane.prefSize = RelativeDimensions(1.0, 0.2)
             }
             val effect = SpellEffectIcon(effectEntry)
@@ -97,11 +95,11 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
         componentList.add(deliveryMethodHeading)
 
         // Go over all delivery methods and add a slot for each
-        var deliveryMethodHPane: HPane? = null
+        var deliveryMethodHPane: HChainPane? = null
         for ((deliveryMethodIndex, deliveryMethodEntry) in ModRegistries.SPELL_DELIVERY_METHODS.withIndex()) {
             if (deliveryMethodIndex % componentsPerLine == 0) {
                 if (deliveryMethodHPane != null) componentList.add(deliveryMethodHPane)
-                deliveryMethodHPane = HPane(HPane.Layout.CLOSE)
+                deliveryMethodHPane = HChainPane(HChainPane.Layout.CLOSE)
                 deliveryMethodHPane.prefSize = RelativeDimensions(1.0, 0.2)
             }
             val deliveryMethod = SpellDeliveryMethodIcon(deliveryMethodEntry)
@@ -153,7 +151,7 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
 
             // If there are no editable properties say so with a text box
             if (editableProperties.isEmpty()) {
-                val noPropsLine = AOTDGuiTextBox(AbsoluteDimensions(120.0, 30.0), ClientData.getOrCreate(26f))
+                val noPropsLine = TextBoxComponent(AbsoluteDimensions(120.0, 30.0), ClientData.getOrCreate(26f))
                 noPropsLine.textColor = purpleText
                 noPropsLine.setText("This component has no editable properties.")
                 propertyList.add(noPropsLine)
@@ -167,7 +165,7 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
                     propertyList.add(propertyName)
 
                     // Create a text box that shows the description of the property
-                    val propertyDescription = AOTDGuiTextBox(AbsoluteDimensions(120.0, 36.0), ClientData.getOrCreate(26f))
+                    val propertyDescription = TextBoxComponent(AbsoluteDimensions(120.0, 36.0), ClientData.getOrCreate(26f))
                     propertyDescription.textColor = purpleText
                     propertyDescription.setText("Description: ${editableProp.description}")
 
@@ -187,7 +185,7 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
             // If we have any editable properties show the save button
             if (editableProperties.isNotEmpty()) {
                 // Add a save button at the bottom if we have any editable properties
-                val save = Button(
+                val save = ButtonPane(
                     icon = ImagePane("afraidofthedark:textures/gui/spell_editor/button.png"),
                     iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/button_hovered.png"),
                     prefSize = AbsoluteDimensions(50.0, 20.0),
@@ -226,7 +224,7 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
                 }
                 // When we hover the button play the hover sound
                 save.addMouseMoveListener {
-                    if (it.eventType == AOTDMouseMoveEvent.EventType.Enter) {
+                    if (it.eventType == MouseMoveEvent.EventType.Enter) {
                         if (save.isVisible) {
                             entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.7f, 1.7f)
                         }
@@ -236,7 +234,7 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
             }
 
             // Add a cancel button at the bottom. Center it if we have no edit properties (and no save button!)
-            val cancel = Button(
+            val cancel = ButtonPane(
                 icon = ImagePane("afraidofthedark:textures/gui/spell_editor/button.png"),
                 iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/button_hovered.png"),
                 prefSize = AbsoluteDimensions(50.0, 20.0),
@@ -250,7 +248,7 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
             }
             // When we hover the button play the hover sound
             cancel.addMouseMoveListener {
-                if (it.eventType == AOTDMouseMoveEvent.EventType.Enter) {
+                if (it.eventType == MouseMoveEvent.EventType.Enter) {
                     if (cancel.isVisible) {
                         entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.7f, 1.7f)
                     }

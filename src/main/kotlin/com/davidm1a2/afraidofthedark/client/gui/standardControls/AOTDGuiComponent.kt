@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.client.gui.base
+package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.layout.*

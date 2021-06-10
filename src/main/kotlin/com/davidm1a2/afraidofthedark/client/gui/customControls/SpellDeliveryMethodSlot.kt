@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableConsumer
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.common.spell.Spell
@@ -18,7 +18,7 @@ class SpellDeliveryMethodSlot(offset: Position, prefSize: Dimensions, spell: Spe
 
     init {
         this.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Click && it.clickedButton == AOTDMouseEvent.RIGHT_MOUSE_BUTTON) {
+            if (it.eventType == MouseEvent.EventType.Click && it.clickedButton == MouseEvent.RIGHT_MOUSE_BUTTON) {
                 if (this.isHovered && this.inBounds && this.isVisible) {
                     this.spell.spellStages[stageIndex].deliveryInstance = null
                 }

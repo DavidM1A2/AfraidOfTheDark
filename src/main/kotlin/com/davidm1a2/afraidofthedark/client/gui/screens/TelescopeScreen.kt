@@ -1,27 +1,18 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.customControls.AOTDGuiMeteorButton
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.item.telescope.TelescopeBaseItem
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.UpdateWatchedMeteorPacket
 import net.minecraft.util.text.TranslationTextComponent
 import java.awt.Color
-import kotlin.random.Random
 
 /**
  * Gui screen that represents the telescope GUI
- *
- * @constructor initializes the entire UI
- * @property telescopeMeteors The panel that will contain all the meteors on it
- * @property telescopeImage The image that represents the 'sky'
  */
 class TelescopeScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.telescope")) {
 
@@ -44,15 +35,6 @@ class TelescopeScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         )
         telescope.add(telescopeImage)
 
-        // Click listener that gets called when we click a meteor button
-        val meteorClickListener = { event : AOTDMouseEvent ->
-            val telescopeItem = entityPlayer.heldItemMainhand.item as? TelescopeBaseItem ?: entityPlayer.heldItemOffhand.item as? TelescopeBaseItem
-            val accuracy = telescopeItem?.accuracy ?: WORST_ACCURACY
-            // Tell the server we're watching a new meteor. It will update our capability NBT data for us
-            AfraidOfTheDark.packetHandler.sendToServer(UpdateWatchedMeteorPacket((event.source as AOTDGuiMeteorButton).meteorType, accuracy))
-            onClose()
-        }
-
         // Grab the player's research
         val playerResearch = entityPlayer.getResearch()
         // Grab a list of possible meteors
@@ -70,7 +52,7 @@ class TelescopeScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
                 // Create the meteor button based on if astronomy 2 is researched or not
                 val meteorType = possibleMeteors[random.nextInt(possibleMeteors.size)]
                 val meteorIcon = ImagePane(meteorType.icon)
-                val meteorButton = Button(
+                val meteorButton = ButtonPane(
                     icon = meteorIcon,
                     iconHovered = meteorIcon,
                     prefSize = RelativeDimensions(0.009, 0.012),

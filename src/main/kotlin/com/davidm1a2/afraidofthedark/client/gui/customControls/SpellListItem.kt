@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.screens.SpellCraftingScreen
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.Button
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
@@ -18,16 +18,6 @@ import java.awt.Color
 
 /**
  * UI component representing a spell in the GUI
- *
- * @constructor Just initializes the gui spell by laying out all necessary controls
- * @param x The x position of the control
- * @param y The y position of the control
- * @param width The width of the control
- * @param height The height of the control
- * @param spell The spell that this control represents
- * @property lblKeybind Reference to the keybind label that allows us to bind keys to spells
- * @property keybindCallback Callback function that we fire when we want a new keybind for this spell
- * @property deleteCallback Callback function that we fire when the delete spell button is pressed
  */
 class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize = prefSize, margins = RelativeSpacing(0.0, 0.0, 0.0, 0.0)) {
 
@@ -57,9 +47,9 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         this.add(spellNameContainer)
 
         // When we hover any button play hover sound
-        val hoverSound: ((AOTDMouseMoveEvent) -> Unit) =
+        val hoverSound: ((MouseMoveEvent) -> Unit) =
             {
-                if (it.eventType == AOTDMouseMoveEvent.EventType.Enter) {
+                if (it.eventType == MouseMoveEvent.EventType.Enter) {
                     // Play a hover sound for visible buttons
                     if (it.source.isVisible && it.source.isHovered) {
                         entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.7f, 1.9f)
@@ -68,9 +58,9 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
             }
 
         // When we click any button play the click sound
-        val clickSound: ((AOTDMouseEvent) -> Unit) =
+        val clickSound: ((MouseEvent) -> Unit) =
             {
-                if (it.eventType == AOTDMouseEvent.EventType.Click) {
+                if (it.eventType == MouseEvent.EventType.Click) {
                     // Play a clicked sound for visible buttons
                     if (it.source.isVisible && it.source.isHovered) {
                         entityPlayer.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f)
@@ -80,7 +70,7 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
 
         // Create a button to edit the spell
         val btnEdit =
-            Button(
+            ButtonPane(
                 icon = ImagePane("afraidofthedark:textures/gui/spell_list/spell_edit.png"),
                 iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/spell_edit_hovered.png"),
                 prefSize = RelativeDimensions(0.145, 0.35),
@@ -90,8 +80,8 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         btnEdit.addMouseMoveListener(hoverSound)
         btnEdit.setHoverText("Edit Spell")
         btnEdit.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Click) {
-                if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
+            if (it.eventType == MouseEvent.EventType.Click) {
+                if (it.source.isHovered && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
                     // Open the spell edit GUI
                     Minecraft.getInstance().displayGuiScreen(SpellCraftingScreen(spell))
                 }
@@ -100,7 +90,7 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         this.add(btnEdit)
 
         // Create a button to delete a spell
-        val btnDelete = Button(
+        val btnDelete = ButtonPane(
             icon = ImagePane("afraidofthedark:textures/gui/spell_list/spell_delete.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/spell_delete_hovered.png"),
             prefSize = RelativeDimensions(0.145, 0.35),
@@ -110,8 +100,8 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         btnDelete.addMouseMoveListener(hoverSound)
         btnDelete.hoverTexts = arrayOf("Delete Spell", "This cannot be undone")
         btnDelete.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Click) {
-                if (it.source.isHovered && it.source.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
+            if (it.eventType == MouseEvent.EventType.Click) {
+                if (it.source.isHovered && it.source.isVisible && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
                     deleteCallback()
                 }
             }
@@ -125,8 +115,8 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)
         lblKeybind.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Click) {
-                if (it.source.isHovered && it.source.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
+            if (it.eventType == MouseEvent.EventType.Click) {
+                if (it.source.isHovered && it.source.isVisible && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
                     lblKeybind.setHoverText("Awaiting keypress...")
                     lblKeybind.text = "Awaiting keypress..."
                     keybindCallback()

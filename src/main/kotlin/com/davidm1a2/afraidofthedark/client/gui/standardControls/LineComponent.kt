@@ -1,18 +1,18 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
-import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.mojang.blaze3d.platform.GlStateManager
-import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import java.awt.Color
-import java.time.chrono.MinguoChronology
 import kotlin.math.min
 import kotlin.math.sqrt
 
+/**
+ * Class representing a line drawn on a GUI. The provided weight will be scaled to match the size of the window.
+ */
 open class LineComponent(lineFrom: Position, lineTo: Position, private val weight: Double, color: Color, gravity: GuiGravity = GuiGravity.CENTER):
         AOTDGuiComponent(color = color, gravity = gravity) {
 

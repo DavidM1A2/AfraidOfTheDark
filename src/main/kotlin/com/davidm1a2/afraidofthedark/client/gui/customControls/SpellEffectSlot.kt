@@ -1,12 +1,11 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableConsumer
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
-import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import net.minecraft.client.resources.I18n
 
@@ -25,7 +24,7 @@ class SpellEffectSlot(offset: Position, prefSize: Dimensions, spell: Spell, val 
 
     init {
         this.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Click && it.clickedButton == AOTDMouseEvent.RIGHT_MOUSE_BUTTON) {
+            if (it.eventType == MouseEvent.EventType.Click && it.clickedButton == MouseEvent.RIGHT_MOUSE_BUTTON) {
                 if (this.isHovered && this.inBounds && this.isVisible) {
                     this.spell.spellStages[stageIndex].effects[effectIndex] = null
                 }

@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.events
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiComponentWithEvents
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiComponentWithEvents
 
 /**
  * Base class for all AOTD gui events

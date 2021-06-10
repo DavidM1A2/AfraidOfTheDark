@@ -1,8 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.*
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
@@ -11,7 +10,7 @@ import java.awt.Color
 /**
  * Class representing a GUI button to be used by AOTD
  */
-open class Button(
+open class ButtonPane(
     private val icon: ImagePane?,
     private val iconHovered: ImagePane? = icon,
     silent: Boolean = false,
@@ -39,7 +38,7 @@ open class Button(
         }
         if (!silent) {
             this.addMouseMoveListener {
-                if (it.eventType == AOTDMouseMoveEvent.EventType.Enter) {
+                if (it.eventType == MouseMoveEvent.EventType.Enter) {
                     // When hovering the button play the hover sound
                     if (it.source.isHovered && it.source.isVisible) {
                         entityPlayer.playSound(ModSounds.BUTTON_HOVER, 0.6f, 1.7f)
@@ -65,10 +64,10 @@ open class Button(
     }
 
     // Adds an onClick listener
-    fun addOnClick(listener: (AOTDMouseEvent) -> Unit) {
+    fun addOnClick(listener: (MouseEvent) -> Unit) {
         this.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Click &&
-                it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON &&
+            if (it.eventType == MouseEvent.EventType.Click &&
+                it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON &&
                 this.isVisible && this.isHovered && this.inBounds) {
                 listener.invoke(it)
             }

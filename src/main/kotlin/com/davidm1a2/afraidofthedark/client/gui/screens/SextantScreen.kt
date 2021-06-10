@@ -1,12 +1,9 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDScreen
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.Button
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.ProcessSextantInputPacket
@@ -15,11 +12,6 @@ import java.awt.Color
 
 /**
  * Gui screen that represents the sextant GUI
- *
- * @constructor initializes the GUI
- * @property angle The text field containing the meteor's drop angle
- * @property latitude The text field containing the meteor's latitude
- * @property longitude The text field containing the meteor's longitude
  */
 class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.sextant")) {
     private val angle: TextFieldPane
@@ -54,7 +46,7 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
         background.add(longitude)
 
         // Create a calculate button that performs the math and returns drop location coordinates
-        val confirm = Button(
+        val confirm = ButtonPane(
             icon = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png"),
             prefSize = RelativeDimensions(0.5, 0.1),

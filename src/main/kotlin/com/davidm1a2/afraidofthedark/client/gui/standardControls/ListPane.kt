@@ -6,6 +6,9 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeSpacing
 import java.util.function.Consumer
 import kotlin.math.max
 
+/**
+ * A subclass of ScrollPane that only scrolls in one dimension, can be used with a scroll bar, and expands to fit children
+ */
 class ListPane(val expandDirection: ExpandDirection, val scrollBar: HScrollBar? = null) : ScrollPane(1.0, 1.0) {
     private var maxOffset = 0.0
 

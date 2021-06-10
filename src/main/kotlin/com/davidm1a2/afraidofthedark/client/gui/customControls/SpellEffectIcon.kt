@@ -7,6 +7,9 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import net.minecraft.client.resources.I18n
 
+/**
+ * The icon for a spell effect on the scroll panel
+ */
 class SpellEffectIcon(val effect: SpellEffect) :
     ImagePane("afraidofthedark:textures/gui/spell_editor/effect_holder.png", DispMode.FIT_TO_PARENT),
     DraggableProducer<SpellEffect> {

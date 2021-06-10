@@ -21,20 +21,7 @@ import kotlin.math.*
 import kotlin.system.exitProcess
 
 /**
- * TrueTyper: Open Source TTF implementation for Minecraft.
- *
- * Heavily modified the implementation found online for later versions of MC 1.12+
- *
- * @constructor initializes the font glyphs
- * @param font The java font to render
- * @param antiAlias True if anti-alias is on, false otherwise
- * @param alphabet A list of characters to support
- * @property glyphs Map of font characters (Character <-> IntObject)
- * @property height Font's height
- * @property fontTextureID Texture used to cache the font 0-255 characters
- * @property textureWidth Default font texture width
- * @property textureHeight Default font texture height
- * @property fontMetrics The font metrics for our Java AWT font
+ * Modified TTF implementation for Minecraft.
  */
 class TrueTypeFont internal constructor(private val font: Font, private val antiAlias: Boolean, alphabet: Set<Char>) {
     private val glyphs = mutableMapOf<Char, CharacterGlyph>()
@@ -242,8 +229,6 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      * @param x The x position to draw at
      * @param y The y position to draw at
      * @param stringToDraw The string to draw
-     * @param scaleX The x scale to draw with
-     * @param scaleY The y scale to draw with
      * @param textAlignment The alignment to draw the text with
      * @param rgba The color to use when drawing the string
      */
@@ -251,8 +236,6 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
             x: Float,
             y: Float,
             stringToDraw: String,
-            scaleX: Float,
-            scaleY: Float,
             textAlignment: TextAlignment,
             rgba: Color
     ) {

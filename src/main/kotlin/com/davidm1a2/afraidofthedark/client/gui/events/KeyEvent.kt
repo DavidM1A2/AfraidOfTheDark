@@ -1,13 +1,13 @@
 package com.davidm1a2.afraidofthedark.client.gui.events
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiComponentWithEvents
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiComponentWithEvents
 import org.lwjgl.glfw.GLFW
 
 /**
  * Event fired when a key is pressed, released, or a char is typed. [key] and [scanCode] will be valid for Press and Release events,
  * and [char] will be valid for a Type event. [eventType] indicates what kind of event [source] triggered.
  */
-class AOTDKeyEvent(
+class KeyEvent(
     source: AOTDGuiComponentWithEvents,
     val key: Int,
     val scanCode: Int,

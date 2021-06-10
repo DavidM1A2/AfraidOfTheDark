@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.spell.Spell
@@ -9,20 +9,8 @@ import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 
 /**
  * Class representing the gui version of a spell stage
- *
- * @param x      The X location of the top left corner
- * @param y      The Y location of the top left corner
- * @param width  The width of the component
- * @param height The height of the component
- * @param spellStage The spell stage that this gui represents
- * @property addNewRow Button for adding new spell stages
- * @property removeRow Button for removing spell stages
- * @property deliveryMethod The delivery method of this spell stage
- * @property effects The 4 effects of this spell stage
- * @property addRunnable to be fired when add is called
- * @property removeRunnable to be fired when remove is called
  */
-class AOTDGuiSpellStage(private val spellStage: SpellStage, val spell: Spell, var componentEditCallback: ((SpellComponentSlot<*>) -> Unit)?) :
+class GuiSpellStage(private val spellStage: SpellStage, val spell: Spell, var componentEditCallback: ((SpellComponentSlot<*>) -> Unit)?) :
     AOTDPane(prefSize = RelativeDimensions(1.0, 0.2), margins = RelativeSpacing(0.0, 0.15, 0.0, 0.0)) {
 
     private val slotSize = RelativeDimensions(0.16, 0.65)
@@ -41,7 +29,7 @@ class AOTDGuiSpellStage(private val spellStage: SpellStage, val spell: Spell, va
         deliveryMethod = SpellDeliveryMethodSlot(RelativePosition(0.06, 0.175), slotSize, spell, spell.spellStages.indexOf(spellStage))
         this.add(deliveryMethod)
         deliveryMethod.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Click && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
+            if (it.eventType == MouseEvent.EventType.Click && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
                 if (deliveryMethod.inBounds && deliveryMethod.isHovered && deliveryMethod.isVisible) {
                     componentEditCallback?.invoke(deliveryMethod)
                 }
@@ -52,7 +40,7 @@ class AOTDGuiSpellStage(private val spellStage: SpellStage, val spell: Spell, va
         for (effect in effects) {
             this.add(effect)
             effect.addMouseListener {
-                if (it.eventType == AOTDMouseEvent.EventType.Click && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
+                if (it.eventType == MouseEvent.EventType.Click && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
                     if (effect.inBounds && effect.isHovered && effect.isVisible) {
                         componentEditCallback?.invoke(effect)
                     }

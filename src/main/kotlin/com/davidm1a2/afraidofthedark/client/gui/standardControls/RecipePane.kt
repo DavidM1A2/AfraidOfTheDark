@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe
@@ -11,11 +10,11 @@ import net.minecraftforge.common.crafting.IShapedRecipe
 /**
  * Advanced control that displays an entire crafting recipe
  */
-class AOTDGuiRecipe(prefSize: Dimensions, offset: Position = AbsolutePosition(0.0, 0.0), recipe: IRecipe<*>? = null) :
+class RecipePane(prefSize: Dimensions, offset: Position = AbsolutePosition(0.0, 0.0), recipe: IRecipe<*>? = null) :
     AOTDPane(offset, prefSize) {
     private val craftingGrid: ImagePane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/crafting_grid.png"), ImagePane.DispMode.FIT_TO_PARENT)
-    private val guiItemStacks: Array<AOTDGuiItemStack>
-    private val output: AOTDGuiItemStack
+    private val guiItemStacks: Array<ItemStackPane>
+    private val output: ItemStackPane
 
     init {
         // Setup the crafting grid background image
@@ -24,7 +23,7 @@ class AOTDGuiRecipe(prefSize: Dimensions, offset: Position = AbsolutePosition(0.
         // Create an array of 9 stacks for each of the 9 slots and initialize each of the 9 stacks
         this.guiItemStacks = Array(9)
         {
-            AOTDGuiItemStack(
+            ItemStackPane(
                 RelativeDimensions(0.2, 0.33),
                 RelativePosition((it % 3) * 0.22 + 0.07, (it / 3) * 0.3 + 0.06),
                 true
@@ -32,7 +31,7 @@ class AOTDGuiRecipe(prefSize: Dimensions, offset: Position = AbsolutePosition(0.
         }
 
         // Initialize the output stack
-        output = AOTDGuiItemStack(RelativeDimensions(0.2, 0.33), RelativePosition(0.78, 0.35), true)
+        output = ItemStackPane(RelativeDimensions(0.2, 0.33), RelativePosition(0.78, 0.35), true)
 
         // Add each stack to the pane to be drawn
         for (guiItemStack in this.guiItemStacks) {

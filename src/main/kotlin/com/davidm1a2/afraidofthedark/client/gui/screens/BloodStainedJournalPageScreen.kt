@@ -1,8 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
-import com.davidm1a2.afraidofthedark.client.gui.base.*
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
@@ -17,25 +16,6 @@ import java.awt.Color
 
 /**
  * Journal page UI which is shown when a player opens a page
- *
- * @constructor Initializes the entire UI
- * @param text The text on the pages to render
- * @param titleText The text of the title
- * @param relatedItemRecipes The items that we should show recipes for
- * @property completeText The complete text that is to be shown on the GUI
- * @property textOnEachPage A partitioned list the "complete text" list to be written on each page
- * @property researchRecipes A list of recipes for this research
- * @property leftPage The text box of the left page
- * @property rightPage The text box of the right page
- * @property forwardButton The button to go forward
- * @property backwardButton The button to go backward
- * @property leftPageNumber The left page number
- * @property rightPageNumber The right page number
- * @property topLeftRecipe The top left recipe image box
- * @property bottomLeftRecipe The bottom left recipe image box
- * @property topRightRecipe The top right recipe image box
- * @property bottomRightRecipe The bottom right recipe image box
- * @property pageNumber The current page we're on
  */
 class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItemRecipes: List<Item>) :
     AOTDScreen(TranslationTextComponent("screen.afraidofthedark.blood_stained_journal_page")) {
@@ -44,16 +24,16 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
     private val researchRecipes: List<IRecipe<*>> = entityPlayer.world.recipeManager.recipes.filter { relatedItemRecipes.contains(it.recipeOutput.item) }
     private val leftPage: StackPane
     private val rightPage: StackPane
-    private val leftPageText: AOTDGuiTextBox
-    private val rightPageText: AOTDGuiTextBox
-    private val forwardButton: Button
-    private val backwardButton: Button
+    private val leftPageText: TextBoxComponent
+    private val rightPageText: TextBoxComponent
+    private val forwardButton: ButtonPane
+    private val backwardButton: ButtonPane
     private val leftPageNumber: LabelComponent
     private val rightPageNumber: LabelComponent
-    private val topLeftRecipe: AOTDGuiRecipe
-    private val bottomLeftRecipe: AOTDGuiRecipe
-    private val topRightRecipe: AOTDGuiRecipe
-    private val bottomRightRecipe: AOTDGuiRecipe
+    private val topLeftRecipe: RecipePane
+    private val bottomLeftRecipe: RecipePane
+    private val topRightRecipe: RecipePane
+    private val bottomRightRecipe: RecipePane
     private var pageNumber = 0
 
     init {
@@ -96,11 +76,11 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         // Create two pages, one for the left page text and one for the right page text
         leftPage = StackPane(prefSize = RelativeDimensions(0.5, 1.0), padding = RelativeSpacing(0.08, 0.15, 0.2, 0.05))
         leftPage.gravity = GuiGravity.TOP_LEFT
-        leftPageText = AOTDGuiTextBox(font = ClientData.getOrCreate(32f))
+        leftPageText = TextBoxComponent(font = ClientData.getOrCreate(32f))
         leftPage.add(leftPageText)
         rightPage = StackPane(prefSize = RelativeDimensions(0.5, 1.0), padding = RelativeSpacing(0.08, 0.15, 0.05, 0.2))
         rightPage.gravity = GuiGravity.TOP_RIGHT
-        rightPageText = AOTDGuiTextBox(font = ClientData.getOrCreate(32f))
+        rightPageText = TextBoxComponent(font = ClientData.getOrCreate(32f))
         rightPage.add(rightPageText)
         // Set the text on both pages to red
         leftPageText.textColor = textColor
@@ -112,7 +92,7 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         // The bookmark button returns the user to the research screen
         // The bookmark button to go back
         val bookmarkIcon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/slot_highlight.png"), ImagePane.DispMode.STRETCH)
-        val bookmarkButton = Button(
+        val bookmarkButton = ButtonPane(
             icon = null,
             iconHovered = bookmarkIcon,
             prefSize = RelativeDimensions(0.05, 0.1),
@@ -123,8 +103,8 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         bookmarkIcon.color = Color(255, 255, 255, 50)
         // When we click the bookmark return to the journal research ui
         bookmarkButton.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Click) {
-                if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
+            if (it.eventType == MouseEvent.EventType.Click) {
+                if (it.source.isHovered && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
                     Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchScreen(false))
                 }
             }
@@ -132,34 +112,34 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         journalPane.add(bookmarkButton)
 
         // Initialize 4 recipes, two for the left page and two for the right page
-        topLeftRecipe = AOTDGuiRecipe(RelativeDimensions(1.0, 0.5))
+        topLeftRecipe = RecipePane(RelativeDimensions(1.0, 0.5))
         topLeftRecipe.gravity = GuiGravity.TOP_LEFT
         leftPage.add(topLeftRecipe)
-        bottomLeftRecipe = AOTDGuiRecipe(RelativeDimensions(1.0, 0.5))
+        bottomLeftRecipe = RecipePane(RelativeDimensions(1.0, 0.5))
         bottomLeftRecipe.gravity = GuiGravity.BOTTOM_LEFT
         leftPage.add(bottomLeftRecipe)
-        topRightRecipe = AOTDGuiRecipe(RelativeDimensions(1.0, 0.5))
+        topRightRecipe = RecipePane(RelativeDimensions(1.0, 0.5))
         topRightRecipe.gravity = GuiGravity.TOP_RIGHT
         rightPage.add(topRightRecipe)
-        bottomRightRecipe = AOTDGuiRecipe(RelativeDimensions(1.0, 0.5))
+        bottomRightRecipe = RecipePane(RelativeDimensions(1.0, 0.5))
         bottomRightRecipe.gravity = GuiGravity.BOTTOM_RIGHT
         rightPage.add(bottomRightRecipe)
 
         // Create the forward and backward button to advance and rewind pages
-        forwardButton = Button(
+        forwardButton = ButtonPane(
             icon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/forward_button.png")),
             iconHovered = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/forward_button_hovered.png")),
             prefSize = AbsoluteDimensions(16.0, 16.0)
         )
-        backwardButton = Button(
+        backwardButton = ButtonPane(
             icon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/backward_button.png")),
             iconHovered = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/backward_button_hovered.png")),
             prefSize = AbsoluteDimensions(16.0, 16.0)
         )
         // Upon clicking forward then advance the page, if we hover the button darken the color, if we don't hover the button brighten the color
         forwardButton.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Click) {
-                if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
+            if (it.eventType == MouseEvent.EventType.Click) {
+                if (it.source.isHovered && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
                     advancePage()
                     invalidate()
                 }
@@ -167,8 +147,8 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         }
         // Upon clicking backward then rewind the page, if we hover the button darken the color, if we don't hover the button brighten the color
         backwardButton.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Click) {
-                if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
+            if (it.eventType == MouseEvent.EventType.Click) {
+                if (it.source.isHovered && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
                     rewindPage()
                     invalidate()
                 }
@@ -194,7 +174,7 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         backwardButton.isVisible = this.hasPageBackward()
 
         contentPane.addKeyListener {
-            if (it.eventType == AOTDKeyEvent.KeyEventType.Press) {
+            if (it.eventType == KeyEvent.KeyEventType.Press) {
                 if (isInventoryKeybind(it.key, it.scanCode)) {
                     Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchScreen(false))
                 } else if (it.key == GLFW.GLFW_KEY_A || it.key == GLFW.GLFW_KEY_LEFT) {

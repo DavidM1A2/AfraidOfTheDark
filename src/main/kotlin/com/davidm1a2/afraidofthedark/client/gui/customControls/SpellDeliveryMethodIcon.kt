@@ -1,13 +1,15 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableProducer
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import net.minecraft.client.resources.I18n
 
+/**
+ * The icon for a spell delivery method on the scroll panel
+ */
 class SpellDeliveryMethodIcon(val deliveryMethod: SpellDeliveryMethod) :
     ImagePane("afraidofthedark:textures/gui/spell_editor/delivery_method_holder.png", DispMode.FIT_TO_PARENT),
     DraggableProducer<SpellDeliveryMethod> {

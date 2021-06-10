@@ -1,6 +1,8 @@
-package com.davidm1a2.afraidofthedark.client.gui.base
+package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiComponent
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableConsumer
 import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableProducer
 import com.davidm1a2.afraidofthedark.client.gui.events.*
@@ -26,7 +28,6 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
 
     val contentPane = StackPane(AOTDGuiUtility.getWindowSizeInMCCoords())
     private val overlayPane = StackPane(AOTDGuiUtility.getWindowSizeInMCCoords())
-    private val spriteSheetControllers = mutableListOf<SpriteSheetController>()
     private var dragAndDropIcon : ImagePane? = null
     private var dragAndDropData : Any? = null
     private var prevMouseX = 0
@@ -57,11 +58,11 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
             this.overlayPane.invalidate()
         }
         // Send the mouse position to the updated pane
-        this.contentPane.processMouseMoveInput(AOTDMouseMoveEvent(
+        this.contentPane.processMouseMoveInput(MouseMoveEvent(
             contentPane,
             AOTDGuiUtility.getMouseXInMCCoord(),
             AOTDGuiUtility.getMouseYInMCCoord(),
-            AOTDMouseMoveEvent.EventType.Move)
+            MouseMoveEvent.EventType.Move)
         )
     }
 
@@ -73,8 +74,6 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
      * @param partialTicks How much time has happened since the last tick, ignored
      */
     override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
-        // First update all of our sprite sheet controllers
-        this.spriteSheetControllers.forEach { it.performUpdate() }
         // Enable blend so we can draw opacity
         GlStateManager.enableBlend()
         // If we want a gradient background draw that background
@@ -112,13 +111,13 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
     override fun charTyped(char: Char, modifiers: Int): Boolean {
         // Fire the process key event on our content pane
         this.contentPane.processKeyInput(
-            AOTDKeyEvent(
+            KeyEvent(
                 this.contentPane,
                 Int.MIN_VALUE, // Default since we don't know what int the char corresponds to
                 Int.MIN_VALUE, // Default since we don't know what int the char corresponds to
                 char,
                 modifiers,
-                AOTDKeyEvent.KeyEventType.Type
+                KeyEvent.KeyEventType.Type
             )
         )
 
@@ -128,13 +127,13 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
     override fun keyPressed(key: Int, scanCode: Int, modifiers: Int): Boolean {
         // Fire the process key event on our content pane
         this.contentPane.processKeyInput(
-            AOTDKeyEvent(
+            KeyEvent(
                 this.contentPane,
                 key,
                 scanCode,
                 Char.MIN_VALUE, // Default since we don't know what char the int corresponds to
                 modifiers,
-                AOTDKeyEvent.KeyEventType.Press
+                KeyEvent.KeyEventType.Press
             )
         )
 
@@ -160,13 +159,13 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
 
         // Fire the process key event on our content pane
         this.contentPane.processKeyInput(
-            AOTDKeyEvent(
+            KeyEvent(
                 this.contentPane,
                 key,
                 scanCode,
                 Char.MIN_VALUE, // Default since we don't know what char the int corresponds to
                 modifiers,
-                AOTDKeyEvent.KeyEventType.Release
+                KeyEvent.KeyEventType.Release
             )
         )
 
@@ -179,15 +178,6 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
     abstract fun inventoryToCloseGuiScreen(): Boolean
 
     /**
-     * Adds a sprite sheet controller to the list that will be updated every tick
-     *
-     * @param sheetController The controller to update every tick
-     */
-    fun addSpriteSheetController(sheetController: SpriteSheetController) {
-        this.spriteSheetControllers.add(sheetController)
-    }
-
-    /**
      * Called when the mouse is pressed and released
      *
      * @param mouseX The X coordinate of the mouse
@@ -198,12 +188,12 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
     override fun mouseClicked(mouseX: Double, mouseY: Double, mouseButton: Int): Boolean {
         // Fire the mouse clicked event
         contentPane.processMouseInput(
-            AOTDMouseEvent(
+            MouseEvent(
                 contentPane,
                 mouseX.roundToInt(),
                 mouseY.roundToInt(),
                 mouseButton,
-                AOTDMouseEvent.EventType.Click
+                MouseEvent.EventType.Click
             )
         )
 
@@ -234,12 +224,12 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
     override fun mouseReleased(mouseX: Double, mouseY: Double, mouseButton: Int): Boolean {
         // Fire the release event
         contentPane.processMouseInput(
-            AOTDMouseEvent(
+            MouseEvent(
                 contentPane,
                 mouseX.roundToInt(),
                 mouseY.roundToInt(),
                 mouseButton,
-                AOTDMouseEvent.EventType.Release
+                MouseEvent.EventType.Release
             )
         )
 
@@ -258,7 +248,7 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
 
     override fun mouseScrolled(mouseX: Double, mouseY: Double, distance: Double): Boolean {
         // Fire the content pane's mouse scroll listener
-        contentPane.processMouseScrollInput(AOTDMouseScrollEvent(contentPane, distance.roundToInt()))
+        contentPane.processMouseScrollInput(MouseScrollEvent(contentPane, distance.roundToInt()))
 
         return super.mouseScrolled(mouseX, mouseY, distance)
     }
@@ -305,11 +295,11 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
 
             // Fire the content pane's move listener
             contentPane.processMouseMoveInput(
-                AOTDMouseMoveEvent(
+                MouseMoveEvent(
                     contentPane,
                     prevMouseX,
                     prevMouseY,
-                    AOTDMouseMoveEvent.EventType.Move
+                    MouseMoveEvent.EventType.Move
                 )
             )
         }

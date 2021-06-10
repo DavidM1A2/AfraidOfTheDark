@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.client.gui.base
+package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.events.*
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
@@ -146,7 +146,7 @@ abstract class AOTDPane (
      *
      * @param event The event to process
      */
-    override fun processMouseInput(event: AOTDMouseEvent) {
+    override fun processMouseInput(event: MouseEvent) {
         // Fire our component's mouse input
         super.processMouseInput(event)
         // Fire our sub-component's mouse input events
@@ -158,7 +158,7 @@ abstract class AOTDPane (
      *
      * @param event The event to process
      */
-    override fun processMouseMoveInput(event: AOTDMouseMoveEvent) {
+    override fun processMouseMoveInput(event: MouseMoveEvent) {
         // Fire our component's mouse move input
         super.processMouseMoveInput(event)
         // Fire our sub-component's mouse move input events
@@ -182,7 +182,7 @@ abstract class AOTDPane (
      *
      * @param event The event to process
      */
-    override fun processMouseScrollInput(event: AOTDMouseScrollEvent) {
+    override fun processMouseScrollInput(event: MouseScrollEvent) {
         // Fire our component's mouse scroll input
         super.processMouseScrollInput(event)
         // Fire our sub-component's mouse scroll input events
@@ -194,7 +194,7 @@ abstract class AOTDPane (
      *
      * @param event The event to process
      */
-    override fun processKeyInput(event: AOTDKeyEvent) {
+    override fun processKeyInput(event: KeyEvent) {
         // Fire our component's key input
         super.processKeyInput(event)
         // Fire our sub-component's key input events

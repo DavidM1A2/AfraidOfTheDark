@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
@@ -9,20 +8,7 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import java.awt.Color
 
 /**
- * Class representing a label to be drawn on the GUI
- *
- * @constructor Takes an x and y position as well as a font
- * @param x      The X coordinate of the label
- * @param y      The Y coordinate of the label
- * @param width  The width of the label
- * @param height The height of the label
- * @param font   The font to use to draw the label
- * @property text The raw text to draw
- * @property fitText The actual text to draw within the bounds of the label
- * @property needsTextUpdate Flag telling the label it needs to update the fit text
- * @property textColor The color to draw the text with
- * @property textAlignment Text alignment
- * @property shortenTextToFit True if we should ensure the text fits inside the label by shortening it, false otherwise
+ * Class representing a label (single line of text) to be drawn on the GUI
  */
 class LabelComponent(val font: TrueTypeFont, prefSize: Dimensions, gravity: GuiGravity = GuiGravity.TOP_LEFT) : AOTDGuiComponentWithEvents(prefSize = prefSize, gravity = gravity) {
 
@@ -63,8 +49,6 @@ class LabelComponent(val font: TrueTypeFont, prefSize: Dimensions, gravity: GuiG
                 xCoord,
                 yCoord,
                 this.fitText,
-                Constants.TEXT_SCALE_FACTOR,
-                Constants.TEXT_SCALE_FACTOR,
                 textAlignment,
                 this.textColor
             )

@@ -1,8 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.*
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import net.minecraft.client.Minecraft
@@ -13,19 +12,6 @@ import java.awt.Color
 
 /**
  * The GUI text field control to let users enter text
- *
- * @param x      The X location of the top left corner
- * @param y      The Y location of the top left corner
- * @param width  The width of the component
- * @param height The height of the component
- * @param font   The font to use for the text
- * @property background The background image of the text field
- * @property textContainer The text container panel
- * @property textLabel The label which shows the text
- * @property isFocused If the text field is focused or not
- * @property ghostText The text to show when no text is present
- * @property textColor If we were not showing ghost text update the label's color
- * @property text The current text in the text field or empty string if it is ghost text
  */
 class TextFieldPane(offset: Position = AbsolutePosition(0.0, 0.0), prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE, Double.MAX_VALUE), font: TrueTypeFont) :
     AOTDPane(offset, prefSize) {
@@ -60,9 +46,9 @@ class TextFieldPane(offset: Position = AbsolutePosition(0.0, 0.0), prefSize: Dim
 
         // Set the control to focused once it's selected
         this.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Click) {
+            if (it.eventType == MouseEvent.EventType.Click) {
                 // Make sure it was a left click
-                if (it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
+                if (it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
                     // Test if we're hovered or not, if so set it to focused, otherwise set it to not focused
                     setFocused(isHovered)
                 }
@@ -70,9 +56,9 @@ class TextFieldPane(offset: Position = AbsolutePosition(0.0, 0.0), prefSize: Dim
         }
         // When a key is typed save that information
         this.addKeyListener {
-            if (it.eventType == AOTDKeyEvent.KeyEventType.Type) {
+            if (it.eventType == KeyEvent.KeyEventType.Type) {
                 keyTyped(it)
-            } else if (it.eventType == AOTDKeyEvent.KeyEventType.Press) {
+            } else if (it.eventType == KeyEvent.KeyEventType.Press) {
                 keyPressed(it)
             }
         }
@@ -87,25 +73,25 @@ class TextFieldPane(offset: Position = AbsolutePosition(0.0, 0.0), prefSize: Dim
         }
     }
 
-    private fun keyPressed(event: AOTDKeyEvent) {
+    private fun keyPressed(event: KeyEvent) {
         // Ensure the text field is focused
         if (this.isFocused) {
             // CTRL + A
-            if (event.hasModifier(AOTDKeyEvent.Modifier.CONTROL) && event.key == GLFW.GLFW_KEY_A) {
+            if (event.hasModifier(KeyEvent.Modifier.CONTROL) && event.key == GLFW.GLFW_KEY_A) {
                 // Select all text, not yet implemented
             }
             // CTRL + C
-            else if (event.hasModifier(AOTDKeyEvent.Modifier.CONTROL) && event.key == GLFW.GLFW_KEY_C) {
+            else if (event.hasModifier(KeyEvent.Modifier.CONTROL) && event.key == GLFW.GLFW_KEY_C) {
                 // Update the clipboard string
                 Minecraft.getInstance().keyboardListener.clipboardString = this.getText()
             }
             // Ctrl + V
-            else if (event.hasModifier(AOTDKeyEvent.Modifier.CONTROL) && event.key == GLFW.GLFW_KEY_V) {
+            else if (event.hasModifier(KeyEvent.Modifier.CONTROL) && event.key == GLFW.GLFW_KEY_V) {
                 this.setText("")
                 this.addText(SharedConstants.filterAllowedCharacters(Minecraft.getInstance().keyboardListener.clipboardString))
             }
             // CTRL + X
-            else if (event.hasModifier(AOTDKeyEvent.Modifier.CONTROL) && event.key == GLFW.GLFW_KEY_X) {
+            else if (event.hasModifier(KeyEvent.Modifier.CONTROL) && event.key == GLFW.GLFW_KEY_X) {
                 Minecraft.getInstance().keyboardListener.clipboardString = this.getText()
                 this.setText("")
             }
@@ -124,7 +110,7 @@ class TextFieldPane(offset: Position = AbsolutePosition(0.0, 0.0), prefSize: Dim
         }
     }
 
-    private fun keyTyped(event: AOTDKeyEvent) {
+    private fun keyTyped(event: KeyEvent) {
         // Ensure the text field is focused
         if (this.isFocused) {
             val char = SharedConstants.filterAllowedCharacters(event.char.toString())
@@ -177,6 +163,7 @@ class TextFieldPane(offset: Position = AbsolutePosition(0.0, 0.0), prefSize: Dim
                 textLabel.textColor = textColor
             }
         }
+        invalidate()
     }
 
     /**

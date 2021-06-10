@@ -4,11 +4,10 @@ import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.screens.BloodStainedJournalPageScreen
-import com.davidm1a2.afraidofthedark.client.gui.screens.BloodStainedJournalResearchScreen
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.Button
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
@@ -16,12 +15,11 @@ import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import com.mojang.realmsclient.gui.ChatFormatting
 import net.minecraft.client.Minecraft
 import net.minecraft.client.resources.I18n
-import java.awt.Color
 
 /**
  * Button that represents a research in the research GUI
  */
-class ResearchNode(prefSize: Dimensions, offset: Position, val research: Research, isCheatSheet: Boolean) : Button(
+class ResearchNode(prefSize: Dimensions, offset: Position, val research: Research, isCheatSheet: Boolean) : ButtonPane(
     icon = ImagePane("afraidofthedark:textures/gui/journal_tech_tree/research_background.png", ImagePane.DispMode.FIT_TO_PARENT),
     iconHovered = ImagePane("afraidofthedark:textures/gui/journal_tech_tree/research_background_hovered.png", ImagePane.DispMode.FIT_TO_PARENT),
     gravity = GuiGravity.CENTER,
@@ -49,7 +47,7 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
 
         // Create two node listeners that controls the behavior of this research node
         this.addMouseMoveListener{
-            if (it.eventType == AOTDMouseMoveEvent.EventType.Enter) {
+            if (it.eventType == MouseMoveEvent.EventType.Enter) {
                 // If the node is visible then play the hover sound since we moved our mouse over it
                 if (it.source.isVisible && it.source.inBounds) {
                     entityPlayer.playSound(ModSounds.BUTTON_HOVER, 0.7f, 1.9f)
@@ -57,8 +55,8 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
             }
         }
         this.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Click) {
-                if (it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON && this.isVisible && this.isHovered && this.inBounds) {
+            if (it.eventType == MouseEvent.EventType.Click) {
+                if (it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON && this.isVisible && this.isHovered && this.inBounds) {
                     if (isCheatSheet) { // Cheat Sheet - If this research can be researched unlock it
                         if (playerResearch.canResearch(research)) {
                             playerResearch.setResearchAndAlert(research, true, entityPlayer)

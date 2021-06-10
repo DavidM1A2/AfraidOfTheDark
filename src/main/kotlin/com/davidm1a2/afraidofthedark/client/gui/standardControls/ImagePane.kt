@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.TextureDimensionsCache
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
 import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.Minecraft
@@ -11,16 +10,6 @@ import kotlin.math.roundToInt
 
 /**
  * Class representing an image to be rendered on the GUI
- *
- * @param x             The X location of the top left corner
- * @param y             The Y location of the top left corner
- * @param width         The width of the component
- * @param height        The height of the component
- * @param imageTexture  The texture of the image
- * @param textureWidth  The width of the image png texture
- * @param textureHeight The height of the image png texture
- * @property u the x value to start drawing from inside the texture
- * @property v the y value to start drawing from inside the texture
  */
 open class ImagePane(
         var imageTexture: ResourceLocation,

@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
@@ -14,7 +13,7 @@ import org.lwjgl.opengl.GL11
 /**
  * Advanced control that displays an itemstack in a GUI
  */
-class AOTDGuiItemStack(
+class ItemStackPane(
     prefSize: Dimensions,
     offset: Position,
     backgroundHighlight: Boolean = false,

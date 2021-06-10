@@ -1,20 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
-import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
 
 /**
  * Super basic control that just scissors the border and holds gui elements
- *
- * @constructor Initializes the bounding box and if scissors are enabled or not
- * @param x              The X location of the top left corner
- * @param y              The Y location of the top left corner
- * @param width          The width of the component
- * @param height         The height of the component
- * @param scissorEnabled If scissors are enabled when drawing this panel
  */
 open class StackPane (
         prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE, Double.MAX_VALUE),

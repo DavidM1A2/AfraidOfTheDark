@@ -1,10 +1,9 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeSpacing
 
-class HPane(val layout: Layout = Layout.SPREAD) : StackPane() {
+class HChainPane(val layout: Layout = Layout.SPREAD) : StackPane() {
 
     override fun calcChildrenBounds(width: Double, height: Double) {
         // Calculate padding

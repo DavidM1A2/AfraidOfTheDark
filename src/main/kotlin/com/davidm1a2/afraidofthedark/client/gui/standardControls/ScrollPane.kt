@@ -1,10 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.AbsolutePosition
 import org.lwjgl.glfw.GLFW
 
 /**
+ * A draggable pane that can be scrolled to display different components in the viewport
+ *
  * @param scrollWidthRatio The constant ratio of the width of the control to the width of the underlying pane
  * @param scrollWidthRatio The constant ratio of the height of the control to the height of the underlying pane
  * As an example for the ratio constants, a ratio of 2.0 would make the scrollable pane twice the width or height
@@ -27,7 +29,7 @@ open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHe
     init {
         addMouseListener {
             if (it.source.isHovered) {
-                if (it.eventType == AOTDMouseEvent.EventType.Click) {
+                if (it.eventType == MouseEvent.EventType.Click) {
                     if (it.clickedButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                         // Store the original position before dragging when the mouse goes down
                         originalXPosition = it.mouseX
