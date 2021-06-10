@@ -12,7 +12,7 @@ import java.util.function.Consumer
 /**
  * Advanced control that represents a scroll bar which can be dragged up and down
  */
-class HScrollBar @JvmOverloads constructor(
+class VScrollBar @JvmOverloads constructor(
         prefSize: Dimensions,
         scrollBarTexture: String = "afraidofthedark:textures/gui/scroll_bar.png",
         handleTexture: String = "afraidofthedark:textures/gui/scroll_bar_handle.png",

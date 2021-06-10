@@ -34,7 +34,7 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         )
 
         // Create the scroll bar
-        val scrollBar = HScrollBar(
+        val scrollBar = VScrollBar(
             RelativeDimensions(0.1, 1.0),
             "afraidofthedark:textures/gui/spell_list/scroll_bar.png",
             "afraidofthedark:textures/gui/spell_list/scroll_bar_handle.png",

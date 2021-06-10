@@ -26,7 +26,7 @@ class SpellTablet(
     private val uiSpellStages: MutableList<GuiSpellStage> = mutableListOf()
     private val uiPowerSource: SpellPowerSourceSlot
     private val spellCost: LabelComponent
-    private val scrollBar: HScrollBar
+    private val scrollBar: VScrollBar
     private val addButton: ButtonPane
     private val removeButton: ButtonPane
     private val buttonLayout: HChainPane
@@ -51,7 +51,7 @@ class SpellTablet(
         this.add(spellName)
 
         // Add a scroll bar on the left to scroll through spell stages
-        scrollBar = HScrollBar(RelativeDimensions(0.08, 0.6))
+        scrollBar = VScrollBar(RelativeDimensions(0.08, 0.6))
         scrollBar.offset = RelativePosition(0.05, 0.3)
         this.add(scrollBar)
 

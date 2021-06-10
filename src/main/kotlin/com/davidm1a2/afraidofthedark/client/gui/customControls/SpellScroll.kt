@@ -21,8 +21,8 @@ import java.awt.Color
 class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_list_scroll.png", DispMode.FIT_TO_PARENT) {
 
     private val interiorPane: StackPane = StackPane()
-    private val componentScrollBar = HScrollBar(RelativeDimensions(0.05, 1.0))
-    private val propertyScrollBar = HScrollBar(RelativeDimensions(0.05, 1.0))
+    private val componentScrollBar = VScrollBar(RelativeDimensions(0.05, 1.0))
+    private val propertyScrollBar = VScrollBar(RelativeDimensions(0.05, 1.0))
     private val componentList: ListPane = ListPane(ListPane.ExpandDirection.DOWN, componentScrollBar)
     private val propertyList: ListPane = ListPane(ListPane.ExpandDirection.DOWN, propertyScrollBar)
     private val currentPropEditors = mutableListOf<Pair<SpellComponentProperty, TextFieldPane>>()
