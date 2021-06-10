@@ -82,6 +82,7 @@ class SpellTablet(
             spell.spellStages.add(newStage)
             addGuiSpellStage(newStage)
             invalidate()
+            addButton.isHovered = false // Button moves, so un-hover it
         }
         removeButton = ButtonPane(
             icon = ImagePane("afraidofthedark:textures/gui/spell_editor/delete.png"),
@@ -92,6 +93,7 @@ class SpellTablet(
             if (spell.spellStages.size > 1) spell.spellStages.removeLast()
             removeLastGuiSpellStage()
             invalidate()
+            removeButton.isHovered = false // Button moves, so un-hover it
         }
         buttonLayout = HChainPane()
         buttonLayout.prefSize = RelativeDimensions(0.25, 0.08)
