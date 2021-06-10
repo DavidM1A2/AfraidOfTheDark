@@ -31,8 +31,11 @@ object Constants {
     const val BASE_GUI_WIDTH = 640
     const val BASE_GUI_HEIGHT = 360
 
+    // The reference UI square size used for any calculations that need it
+    const val REFERENCE_SIZE = 480f
+
     // All text will be rendered with this scale factor to avoid blurry text
-    const val TEXT_SCALE_FACTOR = 0.25f
+    const val TEXT_SCALE_FACTOR = 0.4f
 
     // The distance between nightmare and void chest islands
     const val DISTANCE_BETWEEN_ISLANDS = 1000

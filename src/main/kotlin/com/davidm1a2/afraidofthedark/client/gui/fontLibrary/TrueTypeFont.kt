@@ -1,7 +1,10 @@
 package com.davidm1a2.afraidofthedark.client.gui.fontLibrary
 
-import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
+import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.mojang.blaze3d.platform.GlStateManager
+import com.mojang.datafixers.kinds.Const
+import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GLAllocation
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
@@ -14,26 +17,11 @@ import java.awt.image.DataBufferByte
 import java.awt.image.DataBufferInt
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.pow
+import kotlin.math.*
 import kotlin.system.exitProcess
 
 /**
- * TrueTyper: Open Source TTF implementation for Minecraft.
- *
- * Heavily modified the implementation found online for later versions of MC 1.12+
- *
- * @constructor initializes the font glyphs
- * @param font The java font to render
- * @param antiAlias True if anti-alias is on, false otherwise
- * @param alphabet A list of characters to support
- * @property glyphs Map of font characters (Character <-> IntObject)
- * @property height Font's height
- * @property fontTextureID Texture used to cache the font 0-255 characters
- * @property textureWidth Default font texture width
- * @property textureHeight Default font texture height
- * @property fontMetrics The font metrics for our Java AWT font
+ * Modified TTF implementation for Minecraft.
  */
 class TrueTypeFont internal constructor(private val font: Font, private val antiAlias: Boolean, alphabet: Set<Char>) {
     private val glyphs = mutableMapOf<Char, CharacterGlyph>()
@@ -106,7 +94,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                     currentRowLength = 0.0
                     rowsRemaining--
                 } else {
-                    currentRowLength = currentRowLength + currentCharWidth
+                    currentRowLength += currentCharWidth
                     currentCharIndex++
                 }
             }
@@ -155,7 +143,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 // Reset X to the far left
                 positionX = 0
                 // Move Y down a row
-                positionY = positionY + rowHeight
+                positionY += rowHeight
                 // Reset row height to be 0, the current row has no glyphs
                 rowHeight = 0
             }
@@ -174,7 +162,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
             g.drawImage(fontImage, positionX, positionY, null)
 
             // Move the X position over by the glyph's width
-            positionX = positionX + characterGlyph.width
+            positionX += characterGlyph.width
 
             glyphs[character] = characterGlyph
         }
@@ -228,27 +216,11 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         return fontImage
     }
 
-    /**
-     * Draws a string at a given x,y position with a scale, alignment, and color
-     *
-     * @param x The x position to draw at
-     * @param y The y position to draw at
-     * @param stringToDraw The string to draw
-     * @param scaleX The x scale to draw with
-     * @param scaleY The y scale to draw with
-     * @param textAlignment The alignment to draw the text with
-     * @param rgba The color to use when drawing the string
-     */
-    fun drawString(
-        x: Float,
-        y: Float,
-        stringToDraw: String,
-        scaleX: Float,
-        scaleY: Float,
-        textAlignment: TextAlignment,
-        rgba: Color
-    ) {
-        drawString(x, y, stringToDraw, 0, stringToDraw.length - 1, scaleX, scaleY, textAlignment, rgba)
+    private fun calcGuiScale(): Float {
+        val minecraft = Minecraft.getInstance()
+        val min = min(minecraft.mainWindow.width, minecraft.mainWindow.height)
+        val refSize = Constants.REFERENCE_SIZE  // Our reference screen size is 480p (ie. text will look like gui scale 1 at 480p)
+        return Constants.TEXT_SCALE_FACTOR * min / refSize / minecraft.mainWindow.calcGuiScale(minecraft.gameSettings.guiScale, minecraft.forceUnicodeFont)
     }
 
     /**
@@ -257,158 +229,66 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      * @param x The x position to draw at
      * @param y The y position to draw at
      * @param stringToDraw The string to draw
-     * @param startIndex The start index in the string to draw at
-     * @param endIndex The end index in the string to draw at
-     * @param scaleX The x scale to draw with
-     * @param scaleY The y scale to draw with
      * @param textAlignment The alignment to draw the text with
      * @param rgba The color to use when drawing the string
      */
     fun drawString(
-        x: Float,
-        y: Float,
-        stringToDraw: String,
-        startIndex: Int,
-        endIndex: Int,
-        scaleX: Float,
-        scaleY: Float,
-        textAlignment: TextAlignment,
-        rgba: Color
+            x: Float,
+            y: Float,
+            stringToDraw: String,
+            textAlignment: TextAlignment,
+            rgba: Color
     ) {
         // The current glyph being drawn
         var characterGlyph: CharacterGlyph
-        // The current character to draw
-        var currentChar: Char
-        // The total width of the current line being drawn
         var totalWidth = 0
-        // The current index being drawn
-        var currentIndex = startIndex
-        // The alignment flag which is more useful than an enum, -1 = right, 0 = center, 1 = left
-        val alignmentFlag: Int
-        // The spacing correction value, if we are left aligned or center then this will be CORRECT_L, otherwise CORRECT_R
-        val spacingCorrection: Int
-        // The z position to begin drawing at
-        var startY = 0
+        var drawX = 0
+        var drawY = 0
 
-        // Based on the text alignment start drawing at different positions
-        when (textAlignment) {
-            // Align the text right
-            TextAlignment.ALIGN_RIGHT -> {
-                // Align right is set, so use flag = -1
-                alignmentFlag = -1
-                // Set spacing correction to right since we are aligned right
-                spacingCorrection = CORRECT_R
+        // Multiply the scale by the overall gui scale
+        val guiScale = calcGuiScale()
 
-                // Iterate while our current index is smaller than the end index so there are still characters to draw
-                while (currentIndex < endIndex) {
-                    // For each new line move the start y coordinate down by the font's height
-                    if (stringToDraw[currentIndex] == '\n') {
-                        startY = startY - height
-                    }
-                    currentIndex++
-                }
+        // Get the width of the widest line of text
+        for (line in stringToDraw.split("\n")) {
+            var lineLen = 0
+            for (ch in line) {
+                lineLen += fontMetrics.charWidth(ch)
             }
-            // Align the text centered
-            TextAlignment.ALIGN_CENTER -> {
-                // Go over each character in the string
-                for (i in startIndex..endIndex) {
-                    // Grab the character
-                    currentChar = stringToDraw[i]
-
-                    // If the character is a new line we're done, break and align on this alone
-                    if (currentChar == '\n') {
-                        break
-                    }
-
-                    // Grab the current glyph, if it's an ascii character grab it from the array, otherwise get it from
-                    // our custom character hash map
-                    characterGlyph = glyphs[currentChar] ?: glyphs[DEFAULT_CHARACTER]!!
-
-                    // Increase our total width by the glyph's width
-                    totalWidth = totalWidth + (characterGlyph.width - CORRECT_L)
-                }
-                // Divide the total width by 2 to get the center the current line
-                totalWidth = totalWidth / -2
-
-                // Set the alignment flag to be 1 to render l->r
-                alignmentFlag = 1
-                // Use the left spacing correction
-                spacingCorrection = CORRECT_L
-            }
-            // Align the text left, also used for align center
-            TextAlignment.ALIGN_LEFT -> {
-                alignmentFlag = 1
-                spacingCorrection = CORRECT_L
-            }
+            if (lineLen > totalWidth) totalWidth = lineLen
         }
 
         // Bind our custom texture sheet
         GlStateManager.bindTexture(fontTextureID)
-        // Grab the MC tesselator to render with
         val tessellator = Tessellator.getInstance()
-        // Create a new buffer builder to draw to
         val bufferBuilder = tessellator.buffer
-        // Begin drawing a texture
         bufferBuilder.begin(7, DefaultVertexFormats.POSITION_TEX)
-        // Set the color to be the passed in color
         GlStateManager.color4f(rgba.red / 255f, rgba.green / 255f, rgba.blue / 255f, rgba.alpha / 255f)
-        // Loop while the current index is between the start and end index
-        while (currentIndex in startIndex..endIndex) {
-            // Grab the current character to draw
-            currentChar = stringToDraw[currentIndex]
-            // Grab the glyph to draw, it will either be ascii or in the additional glyphs map
-            characterGlyph = glyphs[currentChar] ?: glyphs[DEFAULT_CHARACTER]!!
-
-            // If the alignment flag is -1 align right is set so we reduce the total width
-            if (alignmentFlag < 0) {
-                totalWidth = totalWidth + (characterGlyph.width - spacingCorrection) * alignmentFlag
+        for (line in stringToDraw.split("\n")) {
+            // Set start position
+            drawX = when (textAlignment) {
+                TextAlignment.ALIGN_CENTER -> -(this.fontMetrics.stringWidth(line) / 2)
+                TextAlignment.ALIGN_LEFT -> 0
+                TextAlignment.ALIGN_RIGHT -> -this.fontMetrics.stringWidth(line)
             }
-            // If the current character is a new line change lines
-            if (currentChar == '\n') {
-                // Move in the right direction (up if align right, down otherwise)
-                startY = startY - height * alignmentFlag
-                // Reset the width since we're on a new line
-                totalWidth = 0
-                // If the alignment is center we need to compute the width of the next line
-                if (textAlignment == TextAlignment.ALIGN_CENTER) {
-                    // Iterate over the next line, compute its width
-                    for (i in currentIndex + 1..endIndex) {
-                        // Grab the current character
-                        currentChar = stringToDraw[i]
-                        // If we've hit a new new line then the line is over
-                        if (currentChar == '\n') {
-                            break
-                        }
-
-                        // Set the current glyph to be either an ascii glyph or a custom glyph if it's bigger than 255
-                        characterGlyph = glyphs[currentChar] ?: glyphs[DEFAULT_CHARACTER]!!
-                        // Increase the width by the glyph width, subtract off the spacing modifier
-                        totalWidth = totalWidth + (characterGlyph.width - CORRECT_L)
-                    }
-                    // Center the text, so divide by 2
-                    totalWidth = totalWidth / -2
-                }
-            }
-            // If the current char is not a new line then we can continue drawing our character
-            else {
+            // Draw each character
+            for (currentChar in line) {
+                // Grab the glyph to draw, it will either be ascii or in the additional glyphs map
+                characterGlyph = glyphs[currentChar] ?: glyphs[DEFAULT_CHARACTER]!!
                 // Draw a letter
                 drawQuad(
-                    totalWidth * scaleX + x,
-                    startY * scaleY + y,
-                    (totalWidth + characterGlyph.width) * scaleX + x,
-                    (startY + characterGlyph.height) * scaleY + y,
-                    (characterGlyph.storedX + characterGlyph.width).toFloat(),
-                    characterGlyph.storedY.toFloat() + characterGlyph.height,
+                    drawX * guiScale + x,
+                    drawY * guiScale + y,
+                    (drawX + characterGlyph.width) * guiScale + x,
+                    (drawY + characterGlyph.height) * guiScale + y,
                     characterGlyph.storedX.toFloat(),
-                    characterGlyph.storedY.toFloat()
+                    characterGlyph.storedY.toFloat(),
+                    characterGlyph.storedX.toFloat() + characterGlyph.width,
+                    characterGlyph.storedY.toFloat() + characterGlyph.height
                 )
-                // If we are aligning left then increase the width of the current line
-                if (alignmentFlag > 0) {
-                    totalWidth = totalWidth + (characterGlyph.width - spacingCorrection) * alignmentFlag
-                }
+                drawX += characterGlyph.width
             }
-            // Advance or reduce the current index depending on if we're aligning right or left
-            currentIndex = currentIndex + alignmentFlag
+            // On newline
+            drawY += height
         }
         // Finally draw the screen now that all the glyphs are in place
         tessellator.draw()
@@ -416,15 +296,6 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
     /**
      * Draws a glyph using a quad on the screen
-     *
-     * @param drawX Tbe x position to draw at
-     * @param drawY The y position to draw at
-     * @param drawX2 The far x position to draw to
-     * @param drawY2 The far y position to draw to
-     * @param srcX The source x position to draw from
-     * @param srcY The source y position to draw from
-     * @param srcX2 The source x position to draw to
-     * @param srcY2 The source y position to draw to
      */
     private fun drawQuad(
         drawX: Float,
@@ -440,34 +311,38 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         val drawWidth = abs(drawX2 - drawX)
         val drawHeight = abs(drawY2 - drawY)
         // Compute the width and height of the glyph on the source
-        val srcWidth = srcX2 - srcX
-        val srcHeight = srcY2 - srcY
-        // Grab the tessellator instance and create a buffer builder
+        val srcWidth = abs(srcX2 - srcX)
+        val srcHeight = abs(srcY2 - srcY)
+        // Grab the tessellator instance and buffer builder
         val bufferBuilder = Tessellator.getInstance().buffer
 
         // Add the 4 vertices that are used to draw the glyph. These must be done in this order
         bufferBuilder.pos(drawX.toDouble(), (drawY + drawHeight).toDouble(), 0.0)
-            .tex(((srcX + srcWidth) / textureWidth).toDouble(), (srcY / textureHeight).toDouble())
-            .endVertex()
-        bufferBuilder.pos((drawX + drawWidth).toDouble(), (drawY + drawHeight).toDouble(), 0.0)
-            .tex((srcX / textureWidth).toDouble(), (srcY / textureHeight).toDouble())
-            .endVertex()
-        bufferBuilder.pos((drawX + drawWidth).toDouble(), drawY.toDouble(), 0.0)
             .tex((srcX / textureWidth).toDouble(), ((srcY + srcHeight) / textureHeight).toDouble())
             .endVertex()
-        bufferBuilder.pos(drawX.toDouble(), drawY.toDouble(), 0.0)
+        bufferBuilder.pos((drawX + drawWidth).toDouble(), (drawY + drawHeight).toDouble(), 0.0)
             .tex(((srcX + srcWidth) / textureWidth).toDouble(), ((srcY + srcHeight) / textureHeight).toDouble())
+            .endVertex()
+        bufferBuilder.pos((drawX + drawWidth).toDouble(), drawY.toDouble(), 0.0)
+            .tex(((srcX + srcWidth) / textureWidth).toDouble(), (srcY / textureHeight).toDouble())
+            .endVertex()
+        bufferBuilder.pos(drawX.toDouble(), drawY.toDouble(), 0.0)
+            .tex((srcX / textureWidth).toDouble(), (srcY / textureHeight).toDouble())
             .endVertex()
     }
 
     /**
-     * Gets the width of a given string if it was printed as pixels
-     *
-     * @param string The string to get the width of
-     * @return The width of the string if printed in pixels
+     * Gets the rendered width of a given string
      */
-    fun getWidth(string: String): Float {
-        return this.fontMetrics.stringWidth(string).toFloat()
+    fun getWidth(string: String): Int {
+        return (this.fontMetrics.stringWidth(string) * calcGuiScale()).roundToInt()
+    }
+
+    /**
+     * Gets the rendered height of a given string
+     */
+    fun getHeight(string: String = ""): Int {
+        return (this.fontMetrics.height * calcGuiScale() * (string.count { it == '\n' } + 1)).roundToInt()
     }
 
     /**
@@ -497,10 +372,6 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
     companion object {
         private val logger = LogManager.getLogger()
-
-        // Correction constants used to render letters closer together. These cause a big with getWidth() currently
-        private const val CORRECT_L = 0 // 2
-        private const val CORRECT_R = 0 // 1
 
         // Default character
         private const val DEFAULT_CHARACTER = '?'
