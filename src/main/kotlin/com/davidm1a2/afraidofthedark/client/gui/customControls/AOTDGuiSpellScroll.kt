@@ -18,16 +18,6 @@ import java.awt.Color
 
 /**
  * Compliment control to the tablet, allows players to click spell components up
- *
- * @param x      The X location of the top left corner
- * @param y      The Y location of the top left corner
- * @param width  The width of the component
- * @param height The height of the component
- * @property componentClickCallback The callback that will be fired when a spell component is selected
- * @property componentList The scroll panel containing parts or the edit UI
- * @property componentList The actual component scroll panel that holds a list of spell components
- * @property componentScrollPanelOffset The offset that the scroll panel should have when the component scroll panel is visible
- * @property currentPropEditors A List of any additional text fields we currently have editing properties
  */
 class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_list_scroll.png", DispMode.FIT_TO_PARENT) {
 
@@ -268,6 +258,7 @@ class AOTDGuiSpellScroll() : ImagePane("afraidofthedark:textures/gui/spell_edito
             }
             propertyList.add(cancel)
         }
+        invalidate()
     }
 
     /**

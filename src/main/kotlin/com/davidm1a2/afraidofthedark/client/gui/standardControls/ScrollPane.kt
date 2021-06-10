@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
+import com.davidm1a2.afraidofthedark.client.gui.layout.AbsolutePosition
 import org.lwjgl.glfw.GLFW
 
 /**
@@ -9,7 +10,7 @@ import org.lwjgl.glfw.GLFW
  * As an example for the ratio constants, a ratio of 2.0 would make the scrollable pane twice the width or height
  * of the actual control, which acts as a viewport.
  */
-open class ScrollPane(val scrollWidthRatio: Double, val scrollHeightRatio: Double, val persistentOffset: Boolean = false) : StackPane(scissorEnabled = true) {
+open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHeightRatio: Double, private val persistentOffset : AbsolutePosition = AbsolutePosition(0.0, 0.0)) : StackPane(scissorEnabled = true) {
     // Variables for calculating the GUI offset
     // The current X and Y gui offsets
     private var originalGuiOffsetX = 0.0
@@ -24,11 +25,6 @@ open class ScrollPane(val scrollWidthRatio: Double, val scrollHeightRatio: Doubl
     var scrollHeight = 0.0
 
     init {
-        if (persistentOffset) {
-            guiOffsetX = lastXOffset
-            guiOffsetY = lastYOffset
-            this.checkOutOfBounds()
-        }
         addMouseListener {
             if (it.source.isHovered) {
                 if (it.eventType == AOTDMouseEvent.EventType.Click) {
@@ -47,10 +43,6 @@ open class ScrollPane(val scrollWidthRatio: Double, val scrollHeightRatio: Doubl
                 if (it.clickedButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                     guiOffsetX = originalGuiOffsetX + (it.mouseX - originalXPosition)
                     guiOffsetY = originalGuiOffsetY + (it.mouseY - originalYPosition)
-                    if (persistentOffset) {
-                        lastXOffset = guiOffsetX
-                        lastYOffset = guiOffsetY
-                    }
                     checkOutOfBounds()
                     this.invalidate()
                 }
@@ -76,10 +68,12 @@ open class ScrollPane(val scrollWidthRatio: Double, val scrollHeightRatio: Doubl
         super.negotiateDimensions(width, height)
         this.scrollWidth = this.width * scrollWidthRatio
         this.scrollHeight = this.height * scrollHeightRatio
+        guiOffsetX = persistentOffset.x
+        guiOffsetY = persistentOffset.y
+        checkOutOfBounds()
     }
 
-    companion object {
-        var lastXOffset = 0.0
-        var lastYOffset = 0.0
+    fun getOffset() : AbsolutePosition {
+        return AbsolutePosition(guiOffsetX, guiOffsetY)
     }
 }

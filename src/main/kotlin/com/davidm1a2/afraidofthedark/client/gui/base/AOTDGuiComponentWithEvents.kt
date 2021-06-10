@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.base
 
+import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.events.*
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import java.awt.Color
@@ -7,16 +8,6 @@ import java.awt.Point
 
 /**
  * A base class for any GUI components that can listen for action events like mouse clicks
- *
- * @constructor initializes the bounding box
- * @param x      The X location of the top left corner
- * @param y      The Y location of the top left corner
- * @param width  The width of the component
- * @param height The height of the component
- * @property mouseListeners The mouse listeners of this component
- * @property mouseMoveListeners The mouse move listeners of this component
- * @property mouseScrollListeners The mouse scroll listeners of this component
- * @property keyListeners The key listeners of this component
  */
 abstract class AOTDGuiComponentWithEvents(
         offset: Position = AbsolutePosition(0.0, 0.0),
@@ -197,5 +188,9 @@ abstract class AOTDGuiComponentWithEvents(
      */
     fun addKeyListener(keyListener: (AOTDKeyEvent) -> Unit) {
         this.keyListeners.add(keyListener)
+    }
+
+    override fun invalidate() {
+        this.processMouseMoveInput(AOTDMouseMoveEvent(this, AOTDGuiUtility.getMouseXInMCCoord(), AOTDGuiUtility.getMouseYInMCCoord(), AOTDMouseMoveEvent.EventType.Move))
     }
 }

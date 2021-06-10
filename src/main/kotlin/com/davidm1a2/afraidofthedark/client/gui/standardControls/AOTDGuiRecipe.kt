@@ -10,15 +10,6 @@ import net.minecraftforge.common.crafting.IShapedRecipe
 
 /**
  * Advanced control that displays an entire crafting recipe
- *
- * @param x      The X location of the top left corner
- * @param y      The Y location of the top left corner
- * @param width  The width of the component
- * @param height The height of the component
- * @param recipe The recipe to draw
- * @property craftingGrid The background crafting grid texture
- * @property guiItemStacks The item stacks to draw
- * @property output The itemstack that gets created
  */
 class AOTDGuiRecipe(prefSize: Dimensions, offset: Position = AbsolutePosition(0.0, 0.0), recipe: IRecipe<*>? = null) :
     AOTDPane(offset, prefSize) {
@@ -34,8 +25,8 @@ class AOTDGuiRecipe(prefSize: Dimensions, offset: Position = AbsolutePosition(0.
         this.guiItemStacks = Array(9)
         {
             AOTDGuiItemStack(
-                    RelativeDimensions(0.2, 0.33),
-                    RelativePosition((it % 3) * 0.22 + 0.07, (it / 3) * 0.3 + 0.06),
+                RelativeDimensions(0.2, 0.33),
+                RelativePosition((it % 3) * 0.22 + 0.07, (it / 3) * 0.3 + 0.06),
                 true
             )
         }

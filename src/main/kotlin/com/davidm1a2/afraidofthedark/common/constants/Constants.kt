@@ -31,6 +31,9 @@ object Constants {
     const val BASE_GUI_WIDTH = 640
     const val BASE_GUI_HEIGHT = 360
 
+    // The reference square used for any calculations that need it
+    const val REFERENCE_SIZE = 480f
+
     // All text will be rendered with this scale factor to avoid blurry text
     const val TEXT_SCALE_FACTOR = 0.4f
 

@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.client.gui.fontLibrary
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.mojang.blaze3d.platform.GlStateManager
+import com.mojang.datafixers.kinds.Const
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GLAllocation
 import net.minecraft.client.renderer.Tessellator
@@ -231,7 +232,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
     private fun calcGuiScale(): Float {
         val minecraft = Minecraft.getInstance()
         val min = min(minecraft.mainWindow.width, minecraft.mainWindow.height)
-        val refSize = 480f  // Our reference screen size is 480p (ie. text will look like gui scale 1 at 480p)
+        val refSize = Constants.REFERENCE_SIZE  // Our reference screen size is 480p (ie. text will look like gui scale 1 at 480p)
         return Constants.TEXT_SCALE_FACTOR * min / refSize / minecraft.mainWindow.calcGuiScale(minecraft.gameSettings.guiScale, minecraft.forceUnicodeFont)
     }
 

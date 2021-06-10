@@ -18,7 +18,7 @@ import java.awt.Color
 class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
     AOTDScreen(TranslationTextComponent("screen.afraidofthedark.blood_stained_journal_research")) {
 
-    private val researchTreeBase: ScrollPane = ScrollPane(2.0, 2.0, true)
+    private val researchTreeBase: ScrollPane = ScrollPane(2.0, 2.0, scrollOffset)
     private val scrollBackground: ImagePane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/background.png"))
     private val backgroundBorder = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/frame.png"), ImagePane.DispMode.FIT_TO_PARENT)
     private val ratioPane = RatioPane(1, 1)
@@ -76,6 +76,11 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
 
     override fun drawGradientBackground() = true
 
+    override fun onClose() {
+        scrollOffset = researchTreeBase.getOffset()
+        super.onClose()
+    }
+
     companion object {
         // The research texture is 64x64
         private const val RESEARCH_HEIGHT = 0.06
@@ -84,5 +89,8 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
         // Display 10x10 of researches
         private const val TREE_WIDTH = 12.0
         private const val TREE_HEIGHT = 12.0
+
+        // The stored scroll pane offset
+        private var scrollOffset = AbsolutePosition(0.0, 0.0)
     }
 }

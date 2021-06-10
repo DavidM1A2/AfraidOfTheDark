@@ -16,6 +16,7 @@ import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import com.mojang.realmsclient.gui.ChatFormatting
 import net.minecraft.client.Minecraft
 import net.minecraft.client.resources.I18n
+import java.awt.Color
 
 /**
  * Button that represents a research in the research GUI
@@ -30,12 +31,21 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
     // The player's research for fast querying
     private val playerResearch = entityPlayer.getResearch()
 
+    private val questionIcon = ImagePane("afraidofthedark:textures/gui/research_icons/question_mark.png")
+    private val researchIcon = ImagePane(this.research.icon, ImagePane.DispMode.FIT_TO_PARENT)
+
     override var isVisible: Boolean
-        get() = playerResearch.isResearched(this.research) || playerResearch.canResearch(this.research)
+        get() {
+            // Whenever visibility is checked, also update visibility of the icon displayed
+            this.questionIcon.isVisible = playerResearch.isResearched(this.research).not()
+            this.researchIcon.isVisible = playerResearch.isResearched(this.research)
+            return playerResearch.isResearched(this.research) || playerResearch.canResearch(this.research)
+        }
         set(value) {}
 
     init {
-        this.add(ImagePane(this.research.icon, ImagePane.DispMode.FIT_TO_PARENT))
+        this.add(researchIcon)
+        this.add(questionIcon)
 
         // Create two node listeners that controls the behavior of this research node
         this.addMouseMoveListener{

@@ -13,15 +13,6 @@ import java.util.*
 
 /**
  * A text box control that will have multiple lines of text like a label
- *
- * @param x      The X location of the top left corner
- * @param y      The Y location of the top left corner
- * @param width  The width of the component
- * @param height The height of the component
- * @param font   The font to draw text with
- * @property textLines A computed list of text lines
- * @property textColor The color to draw the text with
- * @property overflowText The overflow text that doesn't fit inside this text box
  */
 class AOTDGuiTextBox(prefSize: Dimensions = RelativeDimensions(1.0, 1.0), private val font: TrueTypeFont, val textAlignment: TextAlignment = TextAlignment.ALIGN_LEFT) :
     AOTDGuiComponentWithEvents(prefSize = prefSize) {
@@ -100,6 +91,7 @@ class AOTDGuiTextBox(prefSize: Dimensions = RelativeDimensions(1.0, 1.0), privat
 
     override fun invalidate() {
         this.setText(text)
+        super.invalidate()
     }
 
     /**

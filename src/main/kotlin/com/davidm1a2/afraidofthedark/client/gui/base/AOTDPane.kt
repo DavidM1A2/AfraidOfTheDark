@@ -8,14 +8,6 @@ import kotlin.math.roundToInt
 
 /**
  * Base class for all GUI containers. Containers are gui components that are made up of other components inside
- *
- * @constructor initializes the bounding box
- * @param x      The X location of the top left corner
- * @param y      The Y location of the top left corner
- * @param width  The width of the component
- * @param height The height of the component
- * @property subComponents A list of sub-components found inside this container. Use a CopyOnWriteArrayList so we can modify it while iterating over it. The CopyOnWriteArrayList is very efficient when iterating, but costly when adding/removing elements. We iterate mostly, so it's a good choice here
- * @property parent The parent transform that this container uses as a base
  */
 abstract class AOTDPane (
         offset: Position = AbsolutePosition(0.0, 0.0),
@@ -212,5 +204,6 @@ abstract class AOTDPane (
     override fun invalidate() {
         calcChildrenBounds()
         getChildren().forEach { it.invalidate() }
+        super.invalidate()
     }
 }

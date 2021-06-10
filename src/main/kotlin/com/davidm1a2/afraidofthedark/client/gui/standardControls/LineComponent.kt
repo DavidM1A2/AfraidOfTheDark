@@ -1,14 +1,19 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
+import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.base.*
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
+import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.mojang.blaze3d.platform.GlStateManager
+import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import java.awt.Color
+import java.time.chrono.MinguoChronology
+import kotlin.math.min
 import kotlin.math.sqrt
 
-open class LineComponent(private val lineFrom: Position, private val lineTo: Position, private val weight: Double, color: Color, gravity: GuiGravity = GuiGravity.CENTER):
+open class LineComponent(lineFrom: Position, lineTo: Position, private val weight: Double, color: Color, gravity: GuiGravity = GuiGravity.CENTER):
         AOTDGuiComponent(color = color, gravity = gravity) {
 
     init {
@@ -43,9 +48,11 @@ open class LineComponent(private val lineFrom: Position, private val lineTo: Pos
             var newX = 0.0
             var newY = 0.0
 
+            val size = min(AOTDGuiUtility.getWindowWidthInMCCoords(), AOTDGuiUtility.getWindowHeightInMCCoords())
+
             if (mag != 0.0) {
-                newX = deltaY / mag * weight
-                newY = -deltaX / mag * weight
+                newX = deltaY / mag * weight * (size / Constants.REFERENCE_SIZE)
+                newY = -deltaX / mag * weight * (size / Constants.REFERENCE_SIZE)
             }
 
             val x1 = x - (newX/2)

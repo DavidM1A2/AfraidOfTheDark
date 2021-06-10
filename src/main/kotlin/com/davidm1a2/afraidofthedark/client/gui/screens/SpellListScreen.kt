@@ -160,6 +160,8 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         scrollPanel.remove(spell)
         // Remove the spell from the spell manager
         spellManager.deleteSpell(spell.spell)
+        // Redraw the screen
+        invalidate()
     }
 
     /**

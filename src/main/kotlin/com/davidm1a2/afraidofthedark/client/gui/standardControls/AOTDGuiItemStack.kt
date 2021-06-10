@@ -1,7 +1,9 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
+import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.RenderHelper
@@ -11,20 +13,12 @@ import org.lwjgl.opengl.GL11
 
 /**
  * Advanced control that displays an itemstack in a GUI
- *
- * @param x                   The X location of the top left corner
- * @param y                   The Y location of the top left corner
- * @param width               The width of the component
- * @param height              The height of the component
- * @param backgroundHighlight If the background should be highlit when hovered
- * @param itemStack           The itemstack to draw
- * @property highlight The image that is shown when the itemstack is hovered over
  */
 class AOTDGuiItemStack(
-        prefSize: Dimensions,
-        offset: Position,
-        backgroundHighlight: Boolean = false,
-        var itemStack: ItemStack = ItemStack.EMPTY) :
+    prefSize: Dimensions,
+    offset: Position,
+    backgroundHighlight: Boolean = false,
+    var itemStack: ItemStack = ItemStack.EMPTY) :
         AOTDPane(offset, prefSize) {
 
     private val highlight: ImagePane?
@@ -72,10 +66,13 @@ class AOTDGuiItemStack(
             if (!itemStack.isEmpty) {
                 // Grab the font renderer for the item
                 val font = itemStack.item.getFontRenderer(itemStack) ?: Minecraft.getInstance().fontRenderer
+                // Attempt to at least center the item because we can't scale them
+                val calcX = x + this.width / 2 - 10
+                val calcY = y + this.height / 2 - 10
                 // Render the itemstack into the GUI
-                renderItem.renderItemAndEffectIntoGUI(itemStack, x, y)
+                renderItem.renderItemAndEffectIntoGUI(itemStack, calcX, calcY)
                 // Render the itemstack count overlay into the GUI
-                renderItem.renderItemOverlayIntoGUI(font, itemStack, x, y, null)
+                renderItem.renderItemOverlayIntoGUI(font, itemStack, calcX, calcY, null)
                 // Set Z level to 0 like in default MC code
                 renderItem.zLevel = 0.0f
             }

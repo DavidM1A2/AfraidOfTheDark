@@ -15,22 +15,6 @@ import kotlin.math.roundToInt
 
 /**
  * Class representing the tablet used in the spell crafting gui on the left
- *
- * @param x      The X location of the top left corner
- * @param y      The Y location of the top left corner
- * @param width  The width of the component
- * @param height The height of the component
- * @property spell  The spell being edited
- * @property selectedComponentGetter A special supplier that gets the currently selected component
- * @property clearSelectedComponent A special runnable that tells the crafting UI to clear it's currently selected spell component
- * @property spellName The text field containing the spell's name
- * @property spellStagePanel The scroll panel containing the spell's stages
- * @property uiSpellStages A list of spell stages that this spell has
- * @property uiPowerSource The spell's power source
- * @property spellCost A label to show the spell's cost
- * @property onHelp Listener for the help button
- * @property componentEditCallback The callback that will be fired when a spell component is selected
- *
  */
 class AOTDGuiSpellTablet(
     private val spell: Spell
@@ -98,6 +82,7 @@ class AOTDGuiSpellTablet(
             val newStage = SpellStage()
             spell.spellStages.add(newStage)
             addGuiSpellStage(newStage)
+            invalidate()
         }
         removeButton = Button(
             icon = ImagePane("afraidofthedark:textures/gui/spell_editor/delete.png"),
@@ -107,9 +92,10 @@ class AOTDGuiSpellTablet(
         removeButton.addOnClick {
             if (spell.spellStages.size > 1) spell.spellStages.removeLast()
             removeLastGuiSpellStage()
+            invalidate()
         }
         buttonLayout = HPane()
-        buttonLayout.prefSize = RelativeDimensions(0.25, 0.1)
+        buttonLayout.prefSize = RelativeDimensions(0.25, 0.08)
         buttonLayout.add(addButton)
         buttonLayout.add(removeButton)
         spellStageList.add(buttonLayout)

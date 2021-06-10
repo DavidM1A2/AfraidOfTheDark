@@ -14,7 +14,7 @@ import java.awt.Color
 open class Button(
     private val icon: ImagePane?,
     private val iconHovered: ImagePane? = icon,
-    private val silent: Boolean = false,
+    silent: Boolean = false,
     margins: GuiSpacing = AbsoluteSpacing(),
     gravity: GuiGravity = GuiGravity.TOP_LEFT,
     hoverTexts: Array<String> = emptyArray(),
@@ -52,8 +52,15 @@ open class Button(
     override fun draw() {
         if (this.isVisible) {
             super.draw()
-            iconHovered?.let { it.isVisible = this.isHovered }
-            icon?.let { it.isVisible = this.isHovered.not() }
+            if (iconHovered != null && icon != null) {
+                if (this.isHovered) {   // Always end with setting the visibility to true just in case the two icons are the same
+                    icon.isVisible = false
+                    iconHovered.isVisible = true
+                } else {
+                    iconHovered.isVisible = false
+                    icon.isVisible = true
+                }
+            }
         }
     }
 
