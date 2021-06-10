@@ -189,8 +189,4 @@ abstract class AOTDGuiComponentWithEvents(
     fun addKeyListener(keyListener: (KeyEvent) -> Unit) {
         this.keyListeners.add(keyListener)
     }
-
-    override fun invalidate() {
-        this.processMouseMoveInput(MouseMoveEvent(this, AOTDGuiUtility.getMouseXInMCCoord(), AOTDGuiUtility.getMouseYInMCCoord(), MouseMoveEvent.EventType.Move))
-    }
 }

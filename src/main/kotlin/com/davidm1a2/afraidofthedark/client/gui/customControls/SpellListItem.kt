@@ -102,6 +102,7 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         btnDelete.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click) {
                 if (it.source.isHovered && it.source.isVisible && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
+                    it.consume()    // Consume so we don't accidentally delete multiple spells at once
                     deleteCallback()
                 }
             }
