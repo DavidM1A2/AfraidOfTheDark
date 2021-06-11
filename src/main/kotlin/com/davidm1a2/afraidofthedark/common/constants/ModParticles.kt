@@ -13,6 +13,7 @@ object ModParticles {
     val SPELL_CAST = SpellCastParticleType()
     val SPELL_HIT = SpellHitParticleType()
     val SPELL_LASER = SpellLaserParticleType()
+    val FREEZE = FreezeParticleType()
 
     val PARTICLE_LIST = arrayOf(
         ENARIA_BASIC_ATTACK,
@@ -24,6 +25,7 @@ object ModParticles {
         SMOKE_SCREEN,
         SPELL_CAST,
         SPELL_HIT,
-        SPELL_LASER
+        SPELL_LASER,
+        FREEZE
     )
 }

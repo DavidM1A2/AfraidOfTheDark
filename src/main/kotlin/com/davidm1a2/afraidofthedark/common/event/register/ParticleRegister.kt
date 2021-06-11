@@ -40,5 +40,6 @@ class ParticleRegister {
         particleManager.registerFactory(ModParticles.SPELL_CAST, SpellCastParticle::Factory)
         particleManager.registerFactory(ModParticles.SPELL_HIT, SpellHitParticle::Factory)
         particleManager.registerFactory(ModParticles.SPELL_LASER, SpellLaserParticle::Factory)
+        particleManager.registerFactory(ModParticles.FREEZE, FreezeParticle::Factory)
     }
 }
