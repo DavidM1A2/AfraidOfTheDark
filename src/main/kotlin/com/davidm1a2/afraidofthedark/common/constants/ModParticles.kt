@@ -11,6 +11,8 @@ object ModParticles {
     val ENCHANTED_FROG_SPAWN = EnchantedFrogSpawnParticleType()
     val SMOKE_SCREEN = SmokeScreenParticleType()
     val SPELL_CAST = SpellCastParticleType()
+    val SPELL_CAST2 = SpellCast2ParticleType()
+    val SPELL_CAST3 = SpellCast3ParticleType()
     val SPELL_HIT = SpellHitParticleType()
     val SPELL_LASER = SpellLaserParticleType()
     val FREEZE = FreezeParticleType()
@@ -24,6 +26,8 @@ object ModParticles {
         ENCHANTED_FROG_SPAWN,
         SMOKE_SCREEN,
         SPELL_CAST,
+        SPELL_CAST2,
+        SPELL_CAST3,
         SPELL_HIT,
         SPELL_LASER,
         FREEZE

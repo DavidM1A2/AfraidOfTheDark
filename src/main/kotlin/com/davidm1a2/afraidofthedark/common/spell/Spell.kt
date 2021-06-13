@@ -14,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.ListNBT
 import net.minecraft.nbt.NBTUtil
+import net.minecraft.particles.IParticleData
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.text.TranslationTextComponent
@@ -85,6 +86,11 @@ class Spell : INBTSerializable<CompoundNBT> {
                             1.0f,
                             (0.8f + Math.random() * 0.4).toFloat()
                         )
+                        // Determine the particles from the strength of the spell
+                        val spellPower = this.getCost()
+                        var spellParticle : IParticleData = ModParticles.SPELL_CAST
+                        if (spellPower > SPELL_TIER2_CUTOFF) spellParticle = ModParticles.SPELL_CAST2
+                        if (spellPower > SPELL_TIER3_CUTOFF) spellParticle = ModParticles.SPELL_CAST3
                         // Spawn 3-5 particles
                         val positions: MutableList<Vec3d> = ArrayList()
                         for (i in 0 until Random.nextInt(2, 6)) {
@@ -93,7 +99,7 @@ class Spell : INBTSerializable<CompoundNBT> {
                         // Send the particle packet
                         AfraidOfTheDark.packetHandler.sendToAllAround(
                             ParticlePacket(
-                                ModParticles.SPELL_CAST,
+                                spellParticle,
                                 positions,
                                 List<Vec3d>(positions.size) { Vec3d.ZERO }
                             ),
@@ -164,9 +170,9 @@ class Spell : INBTSerializable<CompoundNBT> {
         // Go over each spell stage and add up costs
         for (spellStage in spellStages) {
             // Add the cost of the stage times the multiplier
-            cost = cost + spellStage.getCost() * costMultiplier
+            cost += spellStage.getCost() * costMultiplier
             // Increase the cost of the next spell stage by 5% by default
-            costMultiplier = costMultiplier + 0.05
+            costMultiplier += 0.05
         }
 
         // If cost overflowed then set it to max double
@@ -261,6 +267,10 @@ class Spell : INBTSerializable<CompoundNBT> {
 
     companion object {
         private val logger = LogManager.getLogger()
+
+        // Constants used for spell tiers
+        private const val SPELL_TIER2_CUTOFF = 100
+        private const val SPELL_TIER3_CUTOFF = 500
 
         // Constants used for NBT serialization/deserialiation
         private const val NBT_NAME = "name"

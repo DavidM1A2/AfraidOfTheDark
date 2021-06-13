@@ -38,6 +38,8 @@ class ParticleRegister {
         particleManager.registerFactory(ModParticles.ENCHANTED_FROG_SPAWN, EnchantedFrogSpawnParticle::Factory)
         particleManager.registerFactory(ModParticles.SMOKE_SCREEN, SmokeScreenParticle::Factory)
         particleManager.registerFactory(ModParticles.SPELL_CAST, SpellCastParticle::Factory)
+        particleManager.registerFactory(ModParticles.SPELL_CAST2, SpellCast2Particle::Factory)
+        particleManager.registerFactory(ModParticles.SPELL_CAST3, SpellCast3Particle::Factory)
         particleManager.registerFactory(ModParticles.SPELL_HIT, SpellHitParticle::Factory)
         particleManager.registerFactory(ModParticles.SPELL_LASER, SpellLaserParticle::Factory)
         particleManager.registerFactory(ModParticles.FREEZE, FreezeParticle::Factory)
