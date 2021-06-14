@@ -43,5 +43,15 @@ class ParticleRegister {
         particleManager.registerFactory(ModParticles.SPELL_HIT, SpellHitParticle::Factory)
         particleManager.registerFactory(ModParticles.SPELL_LASER, SpellLaserParticle::Factory)
         particleManager.registerFactory(ModParticles.FREEZE, FreezeParticle::Factory)
+        particleManager.registerFactory(ModParticles.DIG, FreezeParticle::Factory)
+        particleManager.registerFactory(ModParticles.ENDER, FreezeParticle::Factory)
+        particleManager.registerFactory(ModParticles.EXPLOSION, FreezeParticle::Factory)
+        particleManager.registerFactory(ModParticles.FIRE, FreezeParticle::Factory)
+        particleManager.registerFactory(ModParticles.FLY, FreezeParticle::Factory)
+        particleManager.registerFactory(ModParticles.GROW, FreezeParticle::Factory)
+        particleManager.registerFactory(ModParticles.HEAL, FreezeParticle::Factory)
+        particleManager.registerFactory(ModParticles.POISON, FreezeParticle::Factory)
+        particleManager.registerFactory(ModParticles.STRENGTH, FreezeParticle::Factory)
+        particleManager.registerFactory(ModParticles.WEAKNESS, FreezeParticle::Factory)
     }
 }

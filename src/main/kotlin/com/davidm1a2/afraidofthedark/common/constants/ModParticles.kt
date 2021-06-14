@@ -16,6 +16,16 @@ object ModParticles {
     val SPELL_HIT = SpellHitParticleType()
     val SPELL_LASER = SpellLaserParticleType()
     val FREEZE = FreezeParticleType()
+    val DIG = DigParticleType()
+    val ENDER = EnderParticleType()
+    val EXPLOSION = ExplosionParticleType()
+    val FIRE = FireParticleType()
+    val FLY = FlyParticleType()
+    val GROW = GrowParticleType()
+    val HEAL = HealParticleType()
+    val POISON = PoisonParticleType()
+    val STRENGTH = StrengthParticleType()
+    val WEAKNESS = WeaknessParticleType()
 
     val PARTICLE_LIST = arrayOf(
         ENARIA_BASIC_ATTACK,
@@ -30,6 +40,16 @@ object ModParticles {
         SPELL_CAST3,
         SPELL_HIT,
         SPELL_LASER,
-        FREEZE
+        FREEZE,
+        DIG,
+        ENDER,
+        EXPLOSION,
+        FIRE,
+        FLY,
+        GROW,
+        HEAL,
+        POISON,
+        STRENGTH,
+        WEAKNESS
     )
 }
