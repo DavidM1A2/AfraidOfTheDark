@@ -39,7 +39,7 @@ class ExplosionSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, 
         val world = state.world
         val position = state.position
         createParticlesAt(1, 3, position, world.dimension.type)
-        world.createExplosion(null, position.x, position.y, position.z, getRadius(instance), Explosion.Mode.BREAK)
+        world.createExplosion(null, position.x, position.y - 0.01f, position.z, getRadius(instance), Explosion.Mode.BREAK)
     }
 
     /**
