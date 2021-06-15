@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.entity.splinterDrone
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
@@ -40,6 +41,8 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
         ChargeChannel("Charge", 100.0f, 100, ChannelMode.LINEAR),
         IdleChannel("Idle", 25.0f, 100, ChannelMode.LINEAR)
     )
+
+    constructor(world: World) : this(ModEntities.SPLINTER_DRONE, world)
 
     init {
         // Set the EXP value to 7

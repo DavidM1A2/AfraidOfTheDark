@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.tileEntity.core
 
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.tileentity.ITickableTileEntity
 import net.minecraft.tileentity.TileEntityType
 
@@ -19,5 +20,20 @@ abstract class AOTDTickingTileEntity(tileEntityType: TileEntityType<*>) : AOTDTi
      */
     override fun tick() {
         ticksExisted++
+    }
+
+    override fun read(compound: CompoundNBT) {
+        super.read(compound)
+        ticksExisted = compound.getLong(NBT_TICKS_EXISTED)
+    }
+
+    override fun write(compound: CompoundNBT): CompoundNBT {
+        super.write(compound)
+        compound.putLong(NBT_TICKS_EXISTED, ticksExisted)
+        return compound
+    }
+
+    companion object {
+        private const val NBT_TICKS_EXISTED = "ticks_existed"
     }
 }

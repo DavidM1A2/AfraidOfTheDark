@@ -9,7 +9,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellCompon
 import net.minecraft.block.Blocks
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.Vec3d
-import net.minecraft.world.World
 
 /**
  * Effect that sets fire to the hit target
@@ -42,12 +41,12 @@ class BurnSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "burn
             createParticlesAt(3, 5, Vec3d(entity!!.posX, entity.posY, entity.posZ), entity.dimension)
             entity.setFire(getBurnDuration(instance))
         } else {
-            val world: World = state.world
+            val world = state.world
             val position = state.blockPosition
             val upBlockState = world.getBlockState(position.up())
             if (upBlockState.isAir(world, position.up())) {
                 val blockState = world.getBlockState(position)
-                if (blockState.isAir(world, position)) {
+                if (!blockState.isAir(world, position)) {
                     createParticlesAt(1, 3, state.position, world.dimension.type)
                     world.setBlockState(position.up(), Blocks.FIRE.defaultState)
                 }

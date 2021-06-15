@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.entity.werewolf
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
+import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
@@ -16,7 +17,12 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.Pose
 import net.minecraft.entity.SharedMonsterAttributes
-import net.minecraft.entity.ai.goal.*
+import net.minecraft.entity.ai.goal.HurtByTargetGoal
+import net.minecraft.entity.ai.goal.LookAtGoal
+import net.minecraft.entity.ai.goal.LookRandomlyGoal
+import net.minecraft.entity.ai.goal.MeleeAttackGoal
+import net.minecraft.entity.ai.goal.SwimGoal
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal
 import net.minecraft.entity.monster.MonsterEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -42,6 +48,8 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
         BiteChannel("Bite", 50.0f, 21, ChannelMode.LINEAR),
         RunChannel("Run", 60.0f, 32, ChannelMode.LINEAR)
     )
+
+    constructor(world: World) : this(ModEntities.WEREWOLF, world)
 
     init {
         // Ensure this werewolf does not attack anyone yet

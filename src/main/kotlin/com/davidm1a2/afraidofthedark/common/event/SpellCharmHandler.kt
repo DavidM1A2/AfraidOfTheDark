@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellCharmData
 import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraft.network.play.server.SPlayerPositionLookPacket
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -53,10 +52,12 @@ class SpellCharmHandler {
 
                             // Set the player's look to be at the charming entity
                             (entityPlayer as ServerPlayerEntity).connection.setPlayerLocation(
-                                0.0, 0.0, 0.0,
+                                // TODO: In forge 1.15, this should not be needed. Use 0s and make the TP relative
+                                entityPlayer.posX,
+                                entityPlayer.posY,
+                                entityPlayer.posZ,
                                 yaw,
-                                pitch,
-                                setOf(SPlayerPositionLookPacket.Flags.X, SPlayerPositionLookPacket.Flags.Y, SPlayerPositionLookPacket.Flags.Z)
+                                pitch
                             )
                         }
                     }

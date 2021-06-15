@@ -79,6 +79,10 @@ class FreezeSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "fr
         return 26 + freezeDuration * freezeDuration / 100.0
     }
 
+    fun setFreezeDuration(instance: SpellComponentInstance<SpellEffect>, duration: Int) {
+        instance.data.putInt(NBT_FREEZE_DURATION, duration)
+    }
+
     /**
      * Gets the freeze duration in ticks
      *

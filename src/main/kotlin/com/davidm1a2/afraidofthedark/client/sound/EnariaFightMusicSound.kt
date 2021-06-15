@@ -25,30 +25,10 @@ class EnariaFightMusicSound(private val enariaId: Int) :
     override fun tick() {
         super.tick()
 
-        val entityPlayer = Minecraft.getInstance().player!!
-        val enaria = entityPlayer.world.getEntityByID(enariaId) as? EnariaEntity
+        val enaria = Minecraft.getInstance().player!!.world.getEntityByID(enariaId) as? EnariaEntity
         // If the enaria entity doesn't exist kill the sound
         if (enaria == null) {
             donePlaying = true
-        } else {
-            // Get the distance from the player to enaria, and fade based on distance
-            val distance = entityPlayer.getDistance(enaria)
-            volume = when {
-                distance > MAX_MUSIC_DISTANCE -> 0f
-                distance > MAX_MUSIC_VOLUME_DISTANCE -> (MAX_MUSIC_DISTANCE - distance) / MAX_MUSIC_VOLUME_DISTANCE * MAX_MUSIC_VOLUME
-                else -> MAX_MUSIC_VOLUME
-            }
         }
-    }
-
-    companion object {
-        // The max distance (in # blocks) that you can hear music
-        private const val MAX_MUSIC_DISTANCE = 50
-
-        // The distance at which the music is full volume
-        private const val MAX_MUSIC_VOLUME_DISTANCE = 30
-
-        // The max music volume
-        private const val MAX_MUSIC_VOLUME = 1.0f
     }
 }

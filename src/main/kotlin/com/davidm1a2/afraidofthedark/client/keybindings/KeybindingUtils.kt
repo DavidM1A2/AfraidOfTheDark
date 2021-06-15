@@ -47,14 +47,14 @@ object KeybindingUtils {
             // If they are down then append the key to the string
             if (GLFW.glfwGetKey(Minecraft.getInstance().mainWindow.handle, unbindableKeyCode) == GLFW.GLFW_PRESS) {
                 // Append the key and a + symbol
-                keybindString.append(UNBINDABLE_KEY_NAMES[unbindableKeyCode]!!.toUpperCase()).append("+")
+                keybindString.append(UNBINDABLE_KEY_NAMES[unbindableKeyCode]!!.uppercase()).append("+")
             }
         }
 
         // Finally append the key pressed
         val keyName = GLFW.glfwGetKeyName(keyCode, scanCode)
         if (keyName != null) {
-            keybindString.append(keyName.toUpperCase())
+            keybindString.append(keyName.uppercase())
         }
 
         // Return the keybinding string

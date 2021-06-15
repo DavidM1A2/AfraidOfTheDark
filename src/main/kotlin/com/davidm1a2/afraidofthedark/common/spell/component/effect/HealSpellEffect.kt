@@ -52,6 +52,10 @@ class HealSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "heal
         return getHealAmount(instance) * 2.0
     }
 
+    fun setHealAmount(instance: SpellComponentInstance<SpellEffect>, amount: Int) {
+        instance.data.putInt(NBT_HEALING_AMOUNT, amount)
+    }
+
     /**
      * Gets the number of half hearts this spell effect heals
      *

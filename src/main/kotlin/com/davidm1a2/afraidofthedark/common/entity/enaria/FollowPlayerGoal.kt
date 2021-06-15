@@ -34,8 +34,7 @@ class FollowPlayerGoal(
             entity.world.getEntitiesWithinAABB(PlayerEntity::class.java, entity.boundingBox.grow(trackRange))
 
         // Grab the closest player, if there is no closest player return false
-        val closestPlayer = players.filter { !it.isCreative }
-            .minWithOrNull { p1, p2 -> p1.getDistance(entity).compareTo(p2.getDistance(entity)) } ?: return false
+        val closestPlayer = players.minWithOrNull { p1, p2 -> p1.getDistance(entity).compareTo(p2.getDistance(entity)) } ?: return false
 
         // If the distance to the player is less than min don't walk towards the player
         val distance = closestPlayer.getDistance(entity).toDouble()
@@ -61,8 +60,8 @@ class FollowPlayerGoal(
      * @return True if the pathing should continue to execute, false otherwise
      */
     override fun shouldContinueExecuting(): Boolean {
-        // If the target is dead or in creative don't execute
-        return if (!target!!.isAlive || target!!.isCreative) {
+        // If the target is dead
+        return if (!target!!.isAlive) {
             false
         } else {
             val distance = entity.getDistance(target!!).toDouble()

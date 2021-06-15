@@ -183,6 +183,10 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         return 1.2
     }
 
+    fun setRange(instance: SpellComponentInstance<SpellDeliveryMethod>, range: Double) {
+        instance.data.putDouble(NBT_RANGE, range)
+    }
+
     /**
      * Gets the hitscan range from the NBT data
      *

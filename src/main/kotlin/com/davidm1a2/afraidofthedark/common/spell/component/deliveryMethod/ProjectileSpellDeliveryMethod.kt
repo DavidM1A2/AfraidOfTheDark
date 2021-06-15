@@ -117,6 +117,10 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
         return instance.data.getDouble(NBT_SPEED)
     }
 
+    fun setRange(instance: SpellComponentInstance<SpellDeliveryMethod>, range: Double) {
+        instance.data.putDouble(NBT_RANGE, range)
+    }
+
     /**
      * Gets the projectile range
      *

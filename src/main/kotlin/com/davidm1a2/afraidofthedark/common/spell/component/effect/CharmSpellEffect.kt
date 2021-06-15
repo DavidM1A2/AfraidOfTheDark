@@ -86,6 +86,10 @@ class CharmSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
         return 10.0 + getCharmDuration(instance)
     }
 
+    fun setCharmDuration(instance: SpellComponentInstance<SpellEffect>, duration: Int) {
+        instance.data.putInt(NBT_CHARM_DURATION, duration)
+    }
+
     /**
      * The charm duration this effect gives
      *

@@ -1,6 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.common.tileEntity.*
+import com.davidm1a2.afraidofthedark.common.tileEntity.DarkForestTileEntity
+import com.davidm1a2.afraidofthedark.common.tileEntity.DesertOasisTileEntity
+import com.davidm1a2.afraidofthedark.common.tileEntity.EnariaSpawnerTileEntity
+import com.davidm1a2.afraidofthedark.common.tileEntity.GhastlyEnariaSpawnerTileEntity
+import com.davidm1a2.afraidofthedark.common.tileEntity.VoidChestTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.EnariasAltarTileEntity
 import net.minecraft.tileentity.TileEntityType
 

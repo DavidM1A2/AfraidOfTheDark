@@ -9,9 +9,15 @@ class PlayEnariasFightMusicPacket(
     entityID: Int,
     internal val playMusic: Boolean
 ) : EntityPacket(entityUUID, entityID) {
-    constructor(entity: Entity, playMusic: Boolean) : this(
+    constructor(entity: Entity) : this(
         entity.uniqueID,
         entity.entityId,
-        playMusic
+        true
+    )
+
+    constructor() : this(
+        UUID.randomUUID(),
+        0,
+        false
     )
 }

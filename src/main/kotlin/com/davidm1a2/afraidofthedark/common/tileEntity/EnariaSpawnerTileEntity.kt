@@ -5,131 +5,87 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EnariaEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
+import com.davidm1a2.afraidofthedark.common.utility.toRotation
+import net.minecraft.block.HorizontalFaceBlock
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
-import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.math.AxisAlignedBB
-import net.minecraft.world.Difficulty
-import net.minecraft.world.server.ServerWorld
-import java.util.*
+import net.minecraft.util.math.BlockPos
 
 /**
  * Tile entity that spawns enaria in the gnomish city
  *
  * @constructor just sets the enaria spawner block
- * @property enariaEntityID The enaria entity ID that this tile entity is observing
- * @property playerCheckRegion The bounding box that represents the check region to test for nearby players to spawn enaria
- * @property enariaArenaRegion The bounding box of the downstairs room enaria spawns in
  */
 class EnariaSpawnerTileEntity : AOTDTickingTileEntity(ModTileEntities.ENARIA_SPAWNER) {
-    private var enariaEntityID: UUID? = null
-    private lateinit var playerCheckRegion: AxisAlignedBB
-    private lateinit var enariaArenaRegion: AxisAlignedBB
-
-    /**
-     * Called when the tile entity is added to the world
-     */
-    override fun onLoad() {
-        super.onLoad()
-        playerCheckRegion = AxisAlignedBB(
-            (pos.x - 11).toDouble(),
-            (pos.y - 2).toDouble(),
-            (pos.z - 2).toDouble(),
-            (pos.x + 11).toDouble(),
-            (pos.y + 11).toDouble(),
-            (pos.z + 20).toDouble()
-        )
-        enariaArenaRegion = AxisAlignedBB(
-            (pos.x - 30).toDouble(),
-            (pos.y - 3).toDouble(),
-            (pos.z - 3).toDouble(),
-            (pos.x + 30).toDouble(),
-            (pos.y + 12).toDouble(),
-            (pos.z + 80).toDouble()
-        )
+    // Unfortunately world.getBlockState() only works right before the first tick, so lazily initialize this
+    private val enariaFightStartTriggerBox: AxisAlignedBB by lazy {
+        val direction = world!!.getBlockState(pos)[HorizontalFaceBlock.HORIZONTAL_FACING]
+        val rotation = direction.toRotation()
+        val enariaFightStartTriggerBoxNegCorner = BlockPos(-11, -2, -2).rotate(rotation).add(pos)
+        val enariaFightStartTriggerBoxPosCorner = BlockPos(11, 11, 20).rotate(rotation).add(pos)
+        AxisAlignedBB(enariaFightStartTriggerBoxNegCorner, enariaFightStartTriggerBoxPosCorner)
     }
 
-    /**
-     * Called once per tick
-     */
+    private var fightCooldownTime: Long = 0L
+    private var fightIsActive = false
+
     override fun tick() {
         super.tick()
-        // Server side processing only
-        if (world?.isRemote == false) {
-            // Only update every 40 ticks
-            if (ticksExisted % TICKS_INBETWEEN_CHECKS == 0L) {
-                // Only spawn enaria in non-peaceful difficulty
-                if (world!!.difficulty != Difficulty.PEACEFUL) {
-                    // If the entity id is null we should spawn enaria
-                    if (enariaEntityID == null) {
-                        // Go over all nearby players and if one of them can research the enaria research spawn enaria
-                        for (entityPlayer in world!!.getEntitiesWithinAABB(PlayerEntity::class.java, playerCheckRegion)) {
-                            // If any player can spawn her spawn her
-                            if (entityPlayer.getResearch().canResearch(ModResearches.ENARIA)) {
-                                summonEnaria()
-                                break
-                            }
-                        }
-                    } else {
-                        // Grab the entity from the world
-                        val entity = (world as ServerWorld).getEntityByUuid(enariaEntityID!!)
-                        // If the entity no longer exists clear the entityID
-                        if (entity == null) {
-                            enariaEntityID = null
-                        }
+        // Only process server side
+        if (!world!!.isRemote) {
+            // If no fight is active...
+            if (!fightIsActive) {
+                // And the fight is not on cooldown...
+                if (ticksExisted >= this.fightCooldownTime) {
+                    // And a player that qualifies for the fight is nearby...
+                    val playersEligibleToFight = world!!.getEntitiesWithinAABB(PlayerEntity::class.java, enariaFightStartTriggerBox) {
+                        it.getResearch().canResearch(ModResearches.ENARIA)
+                    }
+                    if (playersEligibleToFight.isNotEmpty()) {
+                        // Start the fight
+                        startFight()
                     }
                 }
             }
         }
     }
 
-    /**
-     * Summons enaria into this dungeon
-     */
-    private fun summonEnaria() {
-        // Create a new enaria entity
-        val enaria = EnariaEntity(world!!, enariaArenaRegion)
-        // Set enaria to spawn on her throne
-        enaria.setPosition(pos.x + 0.5, pos.y + 7.0, pos.z + 0.5)
-        // Spawn her in
-        world!!.addEntity(enaria)
-        // Get her ID and store it
-        enariaEntityID = enaria.uniqueID
+    private fun startFight() {
+        fightIsActive = true
+        summonEnaria()
+        markDirty()
     }
 
-    /**
-     * Writes the tile entity to the nbt tag compound
-     *
-     * @param compound The nbt tag compound to write to
-     * @return The new nbt tag compound with any required changes made
-     */
+    fun endFight() {
+        fightIsActive = false
+        fightCooldownTime = ticksExisted + POST_FIGHT_COOLDOWN_TICKS
+        markDirty()
+    }
+
+    private fun summonEnaria() {
+        val enaria = EnariaEntity(world!!, pos)
+        enaria.setPosition(pos.x + 0.5, pos.y + 7.0, pos.z + 0.5)
+        world!!.addEntity(enaria)
+    }
+
+    override fun read(compound: CompoundNBT) {
+        super.read(compound)
+        fightIsActive = compound.getBoolean(NBT_FIGHT_IS_ACTIVE)
+        fightCooldownTime = compound.getLong(NBT_POST_FIGHT_COOLDOWN)
+    }
+
     override fun write(compound: CompoundNBT): CompoundNBT {
         super.write(compound)
-        if (enariaEntityID != null) {
-            compound.put(NBT_ENARIA_ID, NBTUtil.writeUniqueId(enariaEntityID!!))
-        }
+        compound.putBoolean(NBT_FIGHT_IS_ACTIVE, fightIsActive)
+        compound.putLong(NBT_POST_FIGHT_COOLDOWN, fightCooldownTime)
         return compound
     }
 
-    /**
-     * Reads the tile entity in from the NBT tag compound
-     *
-     * @param compound The nbt compound to read data from
-     */
-    override fun read(compound: CompoundNBT) {
-        super.read(compound)
-        enariaEntityID = if (compound.contains(NBT_ENARIA_ID)) {
-            NBTUtil.readUniqueId(compound.getCompound(NBT_ENARIA_ID))
-        } else {
-            null
-        }
-    }
-
     companion object {
-        // The NBT tag containing enaria's UUID
-        private const val NBT_ENARIA_ID = "enaria_id"
+        private const val NBT_FIGHT_IS_ACTIVE = "fight_is_active"
+        private const val NBT_POST_FIGHT_COOLDOWN = "post_fight_cooldown"
 
-        // The number of ticks inbetween update checks
-        private const val TICKS_INBETWEEN_CHECKS = 40
+        private const val POST_FIGHT_COOLDOWN_TICKS = 20 * 60 * 1 // 1 minute before she can respawn
     }
 }

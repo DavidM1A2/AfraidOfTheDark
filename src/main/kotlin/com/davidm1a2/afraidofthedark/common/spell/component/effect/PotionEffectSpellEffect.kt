@@ -120,6 +120,10 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
         )
     }
 
+    fun setPotionType(instance: SpellComponentInstance<SpellEffect>, effect: Effect) {
+        instance.data.putString(NBT_POTION_TYPE, effect.registryName.toString())
+    }
+
     /**
      * Gets the potion type for the given spell instance
      *
@@ -130,6 +134,10 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
         return ForgeRegistries.POTIONS.getValue(ResourceLocation(instance.data.getString(NBT_POTION_TYPE)))!!
     }
 
+    fun setPotionStrength(instance: SpellComponentInstance<SpellEffect>, strength: Int) {
+        instance.data.putInt(NBT_POTION_STRENGTH, strength)
+    }
+
     /**
      * Gets the potion strength for the given spell instance
      *
@@ -138,6 +146,10 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
      */
     fun getPotionStrength(instance: SpellComponentInstance<SpellEffect>): Int {
         return instance.data.getInt(NBT_POTION_STRENGTH)
+    }
+
+    fun setPotionDuration(instance: SpellComponentInstance<SpellEffect>, duration: Int) {
+        instance.data.putInt(NBT_POTION_DURATION, duration)
     }
 
     /**

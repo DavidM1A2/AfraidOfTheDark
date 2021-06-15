@@ -228,6 +228,10 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
         return 3.0
     }
 
+    fun setRadius(instance: SpellComponentInstance<SpellDeliveryMethod>, radius: Double) {
+        instance.data.putDouble(NBT_RADIUS, radius)
+    }
+
     /**
      * Gets the radius of the delivery in blocks
      *
