@@ -25,14 +25,12 @@ class ExplosionParticle(
     z: Double
 ) : AOTDParticle(world, x, y, z) {
     init {
-        // 0.5-1.5 second lifespan
-        maxAge = rand.nextInt(10) + 30
-        // Make the particles noticable
-        particleScale = 0.5f + rand.nextFloat() * 0.5f
+        // 1 second lifespan
+        maxAge = 20
         // Random motion
-        motionX = (rand.nextFloat() - 0.5) * 0.2
-        motionY = rand.nextFloat() * 0.1
-        motionZ = (rand.nextFloat() - 0.5) * 0.2
+        motionX = (rand.nextFloat() - 0.5) * 0.5
+        motionY = (rand.nextFloat() - 0.5) * 0.5
+        motionZ = (rand.nextFloat() - 0.5) * 0.5
     }
 
     @OnlyIn(Dist.CLIENT)

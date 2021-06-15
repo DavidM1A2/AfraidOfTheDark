@@ -27,12 +27,14 @@ class FlyParticle(
     init {
         // 0.5-1.5 second lifespan
         maxAge = rand.nextInt(10) + 30
-        // Make the particles noticable
-        particleScale = 0.5f + rand.nextFloat() * 0.5f
         // Random motion
         motionX = (rand.nextFloat() - 0.5) * 0.2
-        motionY = rand.nextFloat() * 0.1
+        motionY = 0.2
         motionZ = (rand.nextFloat() - 0.5) * 0.2
+    }
+
+    override fun updateMotionXYZ() {
+        motionY -= 0.05
     }
 
     @OnlyIn(Dist.CLIENT)

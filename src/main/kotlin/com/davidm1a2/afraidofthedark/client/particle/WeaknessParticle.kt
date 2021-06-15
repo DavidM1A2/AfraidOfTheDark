@@ -25,14 +25,16 @@ class WeaknessParticle(
     z: Double
 ) : AOTDParticle(world, x, y, z) {
     init {
-        // 0.5-1.5 second lifespan
-        maxAge = rand.nextInt(10) + 30
-        // Make the particles noticable
-        particleScale = 0.5f + rand.nextFloat() * 0.5f
-        // Random motion
-        motionX = (rand.nextFloat() - 0.5) * 0.2
-        motionY = rand.nextFloat() * 0.1
-        motionZ = (rand.nextFloat() - 0.5) * 0.2
+        // 1 second lifespan
+        maxAge = 20
+        // Gradually Descend
+        motionX = 0.0
+        motionY = -0.3
+        motionZ = 0.0
+    }
+
+    override fun updateMotionXYZ() {
+        motionY *= 0.8
     }
 
     @OnlyIn(Dist.CLIENT)

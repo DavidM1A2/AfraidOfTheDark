@@ -25,14 +25,18 @@ class FireParticle(
     z: Double
 ) : AOTDParticle(world, x, y, z) {
     init {
-        // 0.5-1.5 second lifespan
-        maxAge = rand.nextInt(10) + 30
-        // Make the particles noticable
-        particleScale = 0.5f + rand.nextFloat() * 0.5f
-        // Random motion
-        motionX = (rand.nextFloat() - 0.5) * 0.2
-        motionY = rand.nextFloat() * 0.1
-        motionZ = (rand.nextFloat() - 0.5) * 0.2
+        // 1-1.5 second lifespan
+        maxAge = 20 + rand.nextInt(10)
+        // Drift Upwards
+        motionX = (rand.nextDouble() - 0.5) * 0.3
+        motionY = rand.nextDouble() * 0.3
+        motionZ = (rand.nextDouble() - 0.5) * 0.3
+    }
+
+    override fun updateMotionXYZ() {
+        motionX *= 0.9
+        motionY *= 0.95
+        motionZ *= 0.9
     }
 
     @OnlyIn(Dist.CLIENT)
