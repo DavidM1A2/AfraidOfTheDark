@@ -1,11 +1,11 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
-import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
-import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.screens.BloodStainedJournalPageScreen
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
@@ -35,8 +35,7 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
     override var isVisible: Boolean
         get() {
             // Whenever visibility is checked, also update visibility of the icon displayed
-            this.questionIcon.isVisible = playerResearch.isResearched(this.research).not()
-            this.researchIcon.isVisible = playerResearch.isResearched(this.research)
+            this.questionIcon.isVisible = !playerResearch.isResearched(this.research)
             return playerResearch.isResearched(this.research) || playerResearch.canResearch(this.research)
         }
         set(value) {}
@@ -46,7 +45,7 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
         this.add(questionIcon)
 
         // Create two node listeners that controls the behavior of this research node
-        this.addMouseMoveListener{
+        this.addMouseMoveListener {
             if (it.eventType == MouseMoveEvent.EventType.Enter) {
                 // If the node is visible then play the hover sound since we moved our mouse over it
                 if (it.source.isVisible && it.source.inBounds) {
@@ -65,18 +64,19 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
                     } else {    // If this isn't a cheat sheet open the research page
                         if (playerResearch.isResearched(research)) {    // Page UI
                             Minecraft.getInstance().displayGuiScreen(
-                                    BloodStainedJournalPageScreen(
-                                            I18n.format(research.getUnlocalizedText()),
-                                            I18n.format(research.getUnlocalizedName()),
-                                            research.researchedRecipes)
+                                BloodStainedJournalPageScreen(
+                                    I18n.format(research.getUnlocalizedText()),
+                                    I18n.format(research.getUnlocalizedName()),
+                                    research.researchedRecipes
+                                )
                             )
                         } else if (research.preRequisite != null && playerResearch.isResearched(research.preRequisite)) {   // Pre-Page UI
                             Minecraft.getInstance().displayGuiScreen(
-                                    BloodStainedJournalPageScreen(
-                                            I18n.format(research.getUnlocalizedPreText()),
-                                            "???",
-                                            research.preResearchedRecipes
-                                    )
+                                BloodStainedJournalPageScreen(
+                                    I18n.format(research.getUnlocalizedPreText()),
+                                    "???",
+                                    research.preResearchedRecipes
+                                )
                             )
                         }
                     }
