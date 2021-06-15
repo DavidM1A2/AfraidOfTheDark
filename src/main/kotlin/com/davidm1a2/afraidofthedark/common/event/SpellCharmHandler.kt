@@ -46,9 +46,13 @@ class SpellCharmHandler {
                                 .subtract(playerEyePosition.x, playerEyePosition.y, playerEyePosition.z)
                                 .normalize()
 
-                            // Convert 3d direction vector to pitch and yaw
-                            val yaw = (-atan2(direction.x, direction.z) * 180 / Math.PI).toFloat()
-                            val pitch = (-asin(direction.y) * 180 / Math.PI).toFloat()
+                            // Convert 3d direction vector to pitch and yaw. Yes, coerceIn() is required. Due to java's float preceision not being very high,
+                            // direction vectors might be slightly outside of the [-1, 1] bounds, eg: -1.0000000118067964
+                            val xDirection = direction.x.coerceIn(-1.0, 1.0)
+                            val zDirection = direction.z.coerceIn(-1.0, 1.0)
+                            val yDirection = direction.y.coerceIn(-1.0, 1.0)
+                            val yaw = (-atan2(xDirection, zDirection) * 180 / Math.PI).toFloat()
+                            val pitch = (-asin(yDirection) * 180 / Math.PI).toFloat()
 
                             // Set the player's look to be at the charming entity
                             (entityPlayer as ServerPlayerEntity).connection.setPlayerLocation(
