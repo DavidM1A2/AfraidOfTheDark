@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.entity.spell.projectile
 
 import com.davidm1a2.afraidofthedark.common.constants.ModDataSerializers
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
+import com.davidm1a2.afraidofthedark.common.constants.ModSpellDeliveryMethods
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
@@ -17,12 +18,18 @@ import net.minecraft.network.IPacket
 import net.minecraft.network.datasync.DataSerializers
 import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.util.DamageSource
-import net.minecraft.util.math.*
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.BlockRayTraceResult
+import net.minecraft.util.math.EntityRayTraceResult
+import net.minecraft.util.math.RayTraceContext
+import net.minecraft.util.math.RayTraceResult
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.fml.network.NetworkHooks
+import java.awt.Color
 import java.util.*
 
 /**
@@ -36,7 +43,7 @@ import java.util.*
 class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, world: World) : Entity(entityType, world),
     IMCAnimatedModel {
     private var shooter: Entity? = null
-    private val animHandler = AnimationHandler(SpellProjectileIdleChannel("Idle", 100.0f, 60, ChannelMode.LOOP))
+    private val animHandler = AnimationHandler(SpellProjectileIdleChannel("Idle", 50.0f, 60, ChannelMode.LOOP))
 
     /**
      * Required constructor that sets the world, pos, and velocity
@@ -92,11 +99,6 @@ class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, w
      */
     override fun tick() {
         super.tick()
-
-        // Animations only update client side
-        if (world.isRemote) {
-            animHandler.update()
-        }
 
         // Update logic server side
         if (!world.isRemote) {
@@ -225,6 +227,10 @@ class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, w
                 animHandler.playAnimation("Idle")
             }
         }
+    }
+
+    fun getColor(): Color {
+        return ModSpellDeliveryMethods.PROJECTILE.getColor(dataManager[SPELL].spellStages[dataManager[SPELL_INDEX]].deliveryInstance!!)
     }
 
     /**

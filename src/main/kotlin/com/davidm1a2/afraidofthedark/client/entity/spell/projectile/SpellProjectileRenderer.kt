@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.entity.spell.projectile
 
 import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.SpellProjectileEntity
+import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererManager
 import net.minecraft.util.ResourceLocation
@@ -34,7 +35,10 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
         GL11.glPushMatrix()
         GL11.glDisable(GL11.GL_CULL_FACE)
         GL11.glTranslatef(posX.toFloat(), posY.toFloat() + 0.2f, posZ.toFloat())
+        val rgb = entity.getColor()
+        GlStateManager.color3f(rgb.red / 255f, rgb.green / 255f, rgb.blue / 255f)
         this.bindEntityTexture(entity)
+        entity.getAnimationHandler().update()
         SPELL_PROJECTILE_MODEL.render(entity, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0625f)
         GL11.glEnable(GL11.GL_CULL_FACE)
         GL11.glPopMatrix()
