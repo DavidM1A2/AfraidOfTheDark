@@ -1,8 +1,15 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.AbsolutePosition
+import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.RelativePosition
+import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeSpacing
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.RatioPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ScrollPane
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
@@ -93,9 +100,9 @@ class TelescopeScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         return true
     }
 
-    override fun onClose() {
+    override fun removed() {
         telescopeOffset = telescope.getOffset()
-        super.onClose()
+        super.removed()
     }
 
     companion object {

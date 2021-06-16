@@ -1,9 +1,17 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
-import com.davidm1a2.afraidofthedark.client.gui.customControls.ResearchNode
 import com.davidm1a2.afraidofthedark.client.gui.customControls.ResearchConnector
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
+import com.davidm1a2.afraidofthedark.client.gui.customControls.ResearchNode
+import com.davidm1a2.afraidofthedark.client.gui.layout.AbsolutePosition
+import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.RelativePosition
+import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeSpacing
+import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.RatioPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ScrollPane
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
@@ -75,9 +83,9 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
 
     override fun drawGradientBackground() = true
 
-    override fun onClose() {
+    override fun removed() {
         scrollOffset = researchTreeBase.getOffset()
-        super.onClose()
+        super.removed()
     }
 
     companion object {

@@ -1,11 +1,17 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
+import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellListItem
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
-import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellListItem
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeSpacing
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.HChainPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ListPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
 import com.davidm1a2.afraidofthedark.client.keybindings.KeybindingUtils
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
@@ -159,9 +165,9 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
     /**
      * When the GUI is closed sync the player's spell manager
      */
-    override fun onClose() {
+    override fun removed() {
         spellManager.syncAll(entityPlayer)
-        super.onClose()
+        super.removed()
     }
 
     /**
