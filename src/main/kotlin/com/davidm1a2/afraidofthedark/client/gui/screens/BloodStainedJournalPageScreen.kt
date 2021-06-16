@@ -2,9 +2,20 @@ package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.AbsoluteDimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.RelativePosition
+import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeSpacing
+import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.RecipePane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextBoxComponent
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
+import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import net.minecraft.client.Minecraft
 import net.minecraft.item.Item
@@ -105,7 +116,7 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         bookmarkButton.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click) {
                 if (it.source.isHovered && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
-                    Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchScreen(false))
+                    returnToResearchScreen()
                 }
             }
         }
@@ -176,7 +187,7 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         contentPane.addKeyListener {
             if (it.eventType == KeyEvent.KeyEventType.Press) {
                 if (isInventoryKeybind(it.key, it.scanCode)) {
-                    Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchScreen(false))
+                    returnToResearchScreen()
                 } else if (it.key == GLFW.GLFW_KEY_A || it.key == GLFW.GLFW_KEY_LEFT) {
                     rewindPage()
                 } else if (it.key == GLFW.GLFW_KEY_D || it.key == GLFW.GLFW_KEY_RIGHT) {
@@ -187,6 +198,16 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
 
         // Play a page turn sound to the player
         entityPlayer.playSound(ModSounds.PAGE_TURN, 1.0f, 1.0f)
+    }
+
+    private fun returnToResearchScreen() {
+        val mainhandItem = entityPlayer.heldItemMainhand
+        val isCheatSheet = if (mainhandItem.item == ModItems.JOURNAL) {
+            ModItems.JOURNAL.isCheatSheet(mainhandItem)
+        } else {
+            ModItems.JOURNAL.isCheatSheet(entityPlayer.heldItemOffhand)
+        }
+        Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchScreen(isCheatSheet))
     }
 
     /**

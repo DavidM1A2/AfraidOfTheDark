@@ -37,9 +37,6 @@ class JournalItem : AOTDItem("journal", Properties().maxStackSize(1)) {
      */
     override fun onItemRightClick(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
         val heldItemStack = player.getHeldItem(hand)
-        // Test if the journal is a cheat sheet or not
-        val isCheatSheet =
-            NBTHelper.hasTag(heldItemStack, NBT_CHEAT_SHEET) && NBTHelper.getBoolean(heldItemStack, NBT_CHEAT_SHEET)!!
 
         // If the journal does not have an owner yet...
         if (!NBTHelper.hasTag(heldItemStack, NBT_OWNER)) {
@@ -50,7 +47,7 @@ class JournalItem : AOTDItem("journal", Properties().maxStackSize(1)) {
 
                 // Show the journal UI
                 if (world.isRemote) {
-                    Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchScreen(isCheatSheet))
+                    Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchScreen(isCheatSheet(heldItemStack)))
                 }
             } else {
                 if (world.isRemote) {
@@ -63,7 +60,7 @@ class JournalItem : AOTDItem("journal", Properties().maxStackSize(1)) {
             // If the player has started AOTD show the journal UI
             if (player.getBasics().startedAOTD) {
                 if (world.isRemote) {
-                    Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchScreen(isCheatSheet))
+                    Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchScreen(isCheatSheet(heldItemStack)))
                 }
             }
             // If the player has not started AOTD show the sign UI and clear the owner
@@ -82,6 +79,10 @@ class JournalItem : AOTDItem("journal", Properties().maxStackSize(1)) {
 
         // Return success because the journal processed the right click successfully
         return ActionResult.newResult(ActionResultType.SUCCESS, heldItemStack)
+    }
+
+    fun isCheatSheet(itemStack: ItemStack): Boolean {
+        return NBTHelper.hasTag(itemStack, NBT_CHEAT_SHEET) && NBTHelper.getBoolean(itemStack, NBT_CHEAT_SHEET)!!
     }
 
     /**

@@ -56,13 +56,24 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
         this.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click) {
                 if (it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON && this.isVisible && this.isHovered && this.inBounds) {
-                    if (isCheatSheet) { // Cheat Sheet - If this research can be researched unlock it
+                    if (isCheatSheet) {
+                        // Cheat Sheet - If this research can be researched unlock it
                         if (playerResearch.canResearch(research)) {
                             playerResearch.setResearchAndAlert(research, true, entityPlayer)
                             playerResearch.sync(entityPlayer, false)
+                        } else if (playerResearch.isResearched(research)) {
+                            // Show the research if it's already researched
+                            Minecraft.getInstance().displayGuiScreen(
+                                BloodStainedJournalPageScreen(
+                                    I18n.format(research.getUnlocalizedText()),
+                                    I18n.format(research.getUnlocalizedName()),
+                                    research.researchedRecipes
+                                )
+                            )
                         }
-                    } else {    // If this isn't a cheat sheet open the research page
-                        if (playerResearch.isResearched(research)) {    // Page UI
+                    } else {
+                        // If this isn't a cheat sheet open the research page
+                        if (playerResearch.isResearched(research)) {
                             Minecraft.getInstance().displayGuiScreen(
                                 BloodStainedJournalPageScreen(
                                     I18n.format(research.getUnlocalizedText()),
