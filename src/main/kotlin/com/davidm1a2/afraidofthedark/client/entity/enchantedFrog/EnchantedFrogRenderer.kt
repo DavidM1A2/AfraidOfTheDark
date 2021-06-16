@@ -35,6 +35,7 @@ class EnchantedFrogRenderer(renderManager: EntityRendererManager) :
         // Disable culling and render the model
         GL11.glPushMatrix()
         GL11.glDisable(GL11.GL_CULL_FACE)
+        entity.getAnimationHandler().update()
         super.doRender(entity, posX, posY, posZ, entityYaw, partialTicks)
         GL11.glEnable(GL11.GL_CULL_FACE)
         GL11.glPopMatrix()

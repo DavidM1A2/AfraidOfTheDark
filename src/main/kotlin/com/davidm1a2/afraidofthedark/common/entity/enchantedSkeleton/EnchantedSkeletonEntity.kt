@@ -18,7 +18,13 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.Pose
 import net.minecraft.entity.SharedMonsterAttributes
-import net.minecraft.entity.ai.goal.*
+import net.minecraft.entity.ai.goal.HurtByTargetGoal
+import net.minecraft.entity.ai.goal.LookAtGoal
+import net.minecraft.entity.ai.goal.LookRandomlyGoal
+import net.minecraft.entity.ai.goal.MeleeAttackGoal
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal
+import net.minecraft.entity.ai.goal.RandomWalkingGoal
+import net.minecraft.entity.ai.goal.SwimGoal
 import net.minecraft.entity.monster.MonsterEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -95,17 +101,6 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
         attributes.getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE)?.baseValue = KNOCKBACK_RESISTANCE.toDouble()
         attributes.getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED)?.baseValue = MOVE_SPEED.toDouble()
         attributes.getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE)?.baseValue = ATTACK_DAMAGE.toDouble()
-    }
-
-    /**
-     * Update animations for this entity when update is called
-     */
-    override fun tick() {
-        super.tick()
-        // Animations only update client side
-        if (world.isRemote) {
-            animHandler.update()
-        }
     }
 
     /**

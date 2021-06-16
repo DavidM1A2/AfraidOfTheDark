@@ -96,11 +96,6 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
         if (!world.isRemote && world.difficulty == Difficulty.PEACEFUL) {
             remove()
         }
-
-        // Animations only update client side
-        if (world.isRemote) {
-            animHandler.update()
-        }
     }
 
     /**

@@ -104,17 +104,6 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
     }
 
     /**
-     * Called to update the entity every tick
-     */
-    override fun tick() {
-        super.tick()
-        // Animations only update client side
-        if (world.isRemote) {
-            animHandler.update()
-        }
-    }
-
-    /**
      * Called every game tick for the entity
      */
     override fun baseTick() {

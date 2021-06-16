@@ -37,6 +37,7 @@ class GhastlyEnariaRenderer(renderManager: EntityRendererManager) :
         GL11.glDisable(GL11.GL_CULL_FACE)
         GL11.glEnable(GL11.GL_BLEND)
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.3f)
+        entity.getAnimationHandler().update()
         super.doRender(entity, posX, posY, posZ, entityYaw, partialTicks)
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f)
         GL11.glDisable(GL11.GL_BLEND)

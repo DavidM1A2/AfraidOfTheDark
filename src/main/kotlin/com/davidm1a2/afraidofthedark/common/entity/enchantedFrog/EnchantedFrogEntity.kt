@@ -138,17 +138,6 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
     }
 
     /**
-     * Update animations for this entity when update is called
-     */
-    override fun tick() {
-        super.tick()
-        // Animations only update client side
-        if (world.isRemote) {
-            animHandler.update()
-        }
-    }
-
-    /**
      * Called every game tick for the entity
      */
     override fun baseTick() {

@@ -39,6 +39,7 @@ class TileEntityEnariasAltarRenderer : TileEntityRenderer<EnariasAltarTileEntity
         GlStateManager.pushMatrix()
         GlStateManager.translatef(x.toFloat() + 0.5f, y.toFloat(), z.toFloat() + 0.5f)
         bindTexture(texture)
+        te.getAnimationHandler().update()
         model.render(te, 0.0625f)
         GlStateManager.popMatrix()
     }

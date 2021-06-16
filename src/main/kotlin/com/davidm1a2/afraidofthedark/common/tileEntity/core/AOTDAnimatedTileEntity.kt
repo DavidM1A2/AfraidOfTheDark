@@ -9,15 +9,6 @@ import net.minecraft.tileentity.TileEntityType
  */
 abstract class AOTDAnimatedTileEntity(tileEntityType: TileEntityType<*>, private val animationHandler: AnimationHandler) :
     AOTDTickingTileEntity(tileEntityType), IMCAnimatedModel {
-    /**
-     * Called every tick to update the tile entity's state
-     */
-    override fun tick() {
-        super.tick()
-        if (world?.isRemote == true) {
-            animationHandler.update()
-        }
-    }
 
     /**
      * @return the animation handler for this model

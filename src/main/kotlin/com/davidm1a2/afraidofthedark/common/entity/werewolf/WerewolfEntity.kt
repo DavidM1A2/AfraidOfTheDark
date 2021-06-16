@@ -94,18 +94,6 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
     }
 
     /**
-     * Update animations for this entity when update is called
-     */
-    override fun tick() {
-        super.tick()
-
-        // Animations only update client side
-        if (world.isRemote) {
-            animHandler.update()
-        }
-    }
-
-    /**
      * Called every tick to update the entities state
      */
     override fun baseTick() {

@@ -24,7 +24,6 @@ class EnariasAltarTileEntity : AOTDAnimatedTileEntity(
      * Called every tick to update the tile entity's state
      */
     override fun tick() {
-        super.tick()
         if (world?.isRemote == true) {
             val animHandler = getAnimationHandler()
             if (animHandler.isAnimationActive("SpinSlow")) {
