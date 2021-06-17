@@ -1,6 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.event
 
-import com.davidm1a2.afraidofthedark.common.capabilities.*
+import com.davidm1a2.afraidofthedark.common.capabilities.CapabilityProvider
+import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
+import com.davidm1a2.afraidofthedark.common.capabilities.getNightmareData
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
+import com.davidm1a2.afraidofthedark.common.capabilities.getVoidChestData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
@@ -41,7 +47,7 @@ class CapabilityHandler {
                 CapabilityProvider(ModCapabilities.STRUCTURE_MISS_COUNTER)
             )
 
-            if (DIMENSIONS_WITH_ISLAND_VISITORS.contains(world.dimension.type)) {
+            if (world.dimension.type == ModDimensions.NIGHTMARE_TYPE || world.dimension.type == ModDimensions.VOID_CHEST_TYPE) {
                 event.addCapability(
                     ResourceLocation(Constants.MOD_ID, "island_visitors"),
                     CapabilityProvider(ModCapabilities.WORLD_ISLAND_VISITORS)
@@ -205,15 +211,6 @@ class CapabilityHandler {
                 newPlayerSpellManager,
                 null,
                 originalPlayerSpellManagerNBT
-            )
-        }
-    }
-
-    companion object {
-        private val DIMENSIONS_WITH_ISLAND_VISITORS by lazy {
-            listOf(
-                ModDimensions.NIGHTMARE_TYPE,
-                ModDimensions.VOID_CHEST_TYPE
             )
         }
     }
