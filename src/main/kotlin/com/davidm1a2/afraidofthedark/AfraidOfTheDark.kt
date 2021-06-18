@@ -42,14 +42,6 @@ import com.davidm1a2.afraidofthedark.common.network.packets.packetHandler.Packet
 import com.davidm1a2.afraidofthedark.proxy.ClientProxy
 import com.davidm1a2.afraidofthedark.proxy.IProxy
 import com.davidm1a2.afraidofthedark.proxy.ServerProxy
-import com.mojang.blaze3d.platform.GlStateManager
-import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.Tessellator
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats
-import net.minecraft.util.ResourceLocation
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
-import net.minecraftforge.client.event.RenderWorldLastEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.DistExecutor
@@ -61,7 +53,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
-import org.lwjgl.opengl.GL11
 import java.util.function.Supplier
 
 /**
@@ -159,39 +150,6 @@ class AfraidOfTheDark {
     fun serverStartingEvent(event: FMLServerStartingEvent) {
         // Register mod commands
         AOTDCommands.register(event.commandDispatcher)
-    }
-
-    @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    fun test(event: RenderWorldLastEvent) {
-        val cameraPos = Minecraft.getInstance().gameRenderer.activeRenderInfo.projectedView
-        Minecraft.getInstance().textureManager.bindTexture(ResourceLocation(Constants.MOD_ID, "textures/block/eldritch_stone.png"))
-        val tessellator = Tessellator.getInstance()
-        val bufferBuilder = tessellator.buffer
-        GlStateManager.pushMatrix()
-        bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX)
-        GlStateManager.disableCull()
-        GlStateManager.translatef(-cameraPos.x.toFloat(), -cameraPos.y.toFloat() + 100, -cameraPos.z.toFloat())
-        GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f)
-        bufferBuilder.pos(-0.5, 1.0, -0.5)
-            .tex(0.0, 0.0)
-            .endVertex()
-
-        bufferBuilder.pos(0.5, 1.0, -0.5)
-            .tex(1.0, 0.0)
-            .endVertex()
-
-        bufferBuilder.pos(0.5, 1.0, 0.5)
-            .tex(1.0, 1.0)
-            .endVertex()
-
-        bufferBuilder.pos(-0.5, 1.0, 0.5)
-            .tex(0.0, 1.0)
-            .endVertex()
-
-        tessellator.draw()
-        GlStateManager.enableCull()
-        GlStateManager.popMatrix()
     }
 
     companion object {
