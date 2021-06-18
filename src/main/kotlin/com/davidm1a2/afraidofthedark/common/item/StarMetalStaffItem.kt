@@ -111,7 +111,6 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
      * @param count The ticks left before the use is done
      */
     override fun onUsingTick(stack: ItemStack, entityLivingBase: LivingEntity, count: Int) {
-        println("onUsingTick")
         // Server side processing only
         // Make 'count' mutable...
         @Suppress("NAME_SHADOWING")
