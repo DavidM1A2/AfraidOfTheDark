@@ -1,8 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.layout.AbsolutePosition
-import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeSpacing
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import java.util.function.Consumer
 import kotlin.math.max
 
@@ -60,24 +59,21 @@ class ListPane(val expandDirection: ExpandDirection, val scrollBar: VScrollBar? 
 
     private fun calculateMaxOffset() {
         maxOffset = 0.0
-        var calcPadding = this.padding
-        if (calcPadding is RelativeSpacing) calcPadding = calcPadding.toAbsolute(this)
+        val calcPadding = this.padding.getAbsoluteInner(this)
         when (expandDirection) {
             ExpandDirection.UP, ExpandDirection.DOWN -> {
-                maxOffset += calcPadding.vertPx
+                maxOffset += calcPadding.height
                 for (child in getChildren()) {
-                    var calcMargins = child.margins
-                    if (calcMargins is RelativeSpacing) calcMargins = calcMargins.toAbsolute(child)
-                    maxOffset += child.height + calcMargins.vertPx
+                    val calcMargins = child.margins.getAbsoluteOuter(child)
+                    maxOffset += child.height + calcMargins.height
                 }
                 maxOffset = max(maxOffset - height, 0.0)
             }
             ExpandDirection.LEFT, ExpandDirection.RIGHT -> {
-                maxOffset += calcPadding.horizPx
+                maxOffset += calcPadding.width
                 for (child in getChildren()) {
-                    var calcMargins = child.margins
-                    if (calcMargins is RelativeSpacing) calcMargins = calcMargins.toAbsolute(child)
-                    maxOffset += child.width + calcMargins.horizPx
+                    val calcMargins = child.margins.getAbsoluteOuter(child)
+                    maxOffset += child.width + calcMargins.width
                 }
                 maxOffset = max(maxOffset - width, 0.0)
             }
@@ -87,28 +83,27 @@ class ListPane(val expandDirection: ExpandDirection, val scrollBar: VScrollBar? 
     private fun recalculateChildrenOffsets() {
         var nextChildOffset = 0.0
         for (child in getChildren()) {
-            var calcMargins = child.margins
-            if (calcMargins is RelativeSpacing) calcMargins = calcMargins.toAbsolute(child)
+            val calcMargins = child.margins.getAbsoluteOuter(child)
             when (expandDirection) {
                 ExpandDirection.UP -> {
-                    child.offset = AbsolutePosition(0.0, -nextChildOffset).toRelative(this)
-                    child.gravity = GuiGravity.BOTTOM_CENTER
-                    nextChildOffset += child.height + calcMargins.vertPx
+                    child.offset = Position(0.0, -nextChildOffset, false).getRelative(this)
+                    child.gravity = Gravity.BOTTOM_CENTER
+                    nextChildOffset += child.height + calcMargins.height
                 }
                 ExpandDirection.DOWN -> {
-                    child.offset = AbsolutePosition(0.0, nextChildOffset).toRelative(this)
-                    child.gravity = GuiGravity.TOP_CENTER
-                    nextChildOffset += child.height + calcMargins.vertPx
+                    child.offset = Position(0.0, nextChildOffset, false).getRelative(this)
+                    child.gravity = Gravity.TOP_CENTER
+                    nextChildOffset += child.height + calcMargins.height
                 }
                 ExpandDirection.LEFT -> {
-                    child.offset = AbsolutePosition(-nextChildOffset, 0.0).toRelative(this)
-                    child.gravity = GuiGravity.CENTER_RIGHT
-                    nextChildOffset += child.width + calcMargins.horizPx
+                    child.offset = Position(-nextChildOffset, 0.0, false).getRelative(this)
+                    child.gravity = Gravity.CENTER_RIGHT
+                    nextChildOffset += child.width + calcMargins.width
                 }
                 ExpandDirection.RIGHT -> {
-                    child.offset = AbsolutePosition(nextChildOffset, 0.0).toRelative(this)
-                    child.gravity = GuiGravity.CENTER_LEFT
-                    nextChildOffset += child.width + calcMargins.horizPx
+                    child.offset = Position(nextChildOffset, 0.0, false).getRelative(this)
+                    child.gravity = Gravity.CENTER_LEFT
+                    nextChildOffset += child.width + calcMargins.width
                 }
             }
         }
@@ -123,10 +118,10 @@ class ListPane(val expandDirection: ExpandDirection, val scrollBar: VScrollBar? 
         guiOffsetY = guiOffsetY.coerceIn(botBounds, topBounds)
     }
 
-    override fun calcChildrenBounds(width: Double, height: Double) {
+    override fun calcChildrenBounds() {
         recalculateChildrenOffsets()
         calculateMaxOffset()
-        super.calcChildrenBounds(width, height)
+        super.calcChildrenBounds()
         checkOutOfBounds()
     }
 

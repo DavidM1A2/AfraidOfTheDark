@@ -1,16 +1,15 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
-import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import java.awt.Color
 
 /**
  * Class representing a label (single line of text) to be drawn on the GUI
  */
-class LabelComponent(val font: TrueTypeFont, prefSize: Dimensions, gravity: GuiGravity = GuiGravity.TOP_LEFT) : AOTDGuiComponentWithEvents(prefSize = prefSize, gravity = gravity) {
+class LabelComponent(val font: TrueTypeFont, prefSize: Dimensions, gravity: Gravity = Gravity.TOP_LEFT) : AOTDGuiComponentWithEvents(prefSize = prefSize, gravity = gravity) {
 
     var text = ""
         set(text) {

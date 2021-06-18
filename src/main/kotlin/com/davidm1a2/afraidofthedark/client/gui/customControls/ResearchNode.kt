@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.screens.BloodStainedJournalPageScreen
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
@@ -22,7 +22,7 @@ import net.minecraft.client.resources.I18n
 class ResearchNode(prefSize: Dimensions, offset: Position, val research: Research, isCheatSheet: Boolean) : ButtonPane(
     icon = ImagePane("afraidofthedark:textures/gui/journal_tech_tree/research_background.png", ImagePane.DispMode.FIT_TO_PARENT),
     iconHovered = ImagePane("afraidofthedark:textures/gui/journal_tech_tree/research_background_hovered.png", ImagePane.DispMode.FIT_TO_PARENT),
-    gravity = GuiGravity.CENTER,
+    gravity = Gravity.CENTER,
     prefSize = prefSize,
     offset = offset
 ) {

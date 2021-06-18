@@ -56,8 +56,8 @@ class SpellEffectSlot(offset: Position, prefSize: Dimensions, spell: Spell, val 
         }
     }
 
-    override fun calcChildrenBounds(width: Double, height: Double) {
-        super.calcChildrenBounds(width, height)
+    override fun calcChildrenBounds() {
+        super.calcChildrenBounds()
         this.refreshHoverText() // Update hover text whenever the component is updated
     }
 }

@@ -2,14 +2,8 @@ package com.davidm1a2.afraidofthedark.client.gui
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility.minecraft
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility.window
-import com.davidm1a2.afraidofthedark.client.gui.layout.AbsoluteDimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import net.minecraft.client.Minecraft
-import java.awt.Toolkit
-import java.awt.datatransfer.DataFlavor
-import java.awt.datatransfer.StringSelection
-import java.awt.datatransfer.UnsupportedFlavorException
-import java.io.IOException
 import kotlin.math.roundToInt
 
 /**
@@ -75,7 +69,7 @@ object AOTDGuiUtility {
         return realScreenCoordToMC(window.height)
     }
 
-    fun getWindowSizeInMCCoords(): AbsoluteDimensions {
-        return AbsoluteDimensions(getWindowWidthInMCCoords().toDouble(), getWindowHeightInMCCoords().toDouble())
+    fun getWindowSizeInMCCoords(): Dimensions {
+        return Dimensions(getWindowWidthInMCCoords().toDouble(), getWindowHeightInMCCoords().toDouble(), false)
     }
 }

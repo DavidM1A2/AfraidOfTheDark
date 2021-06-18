@@ -2,12 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.AbsoluteDimensions
-import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativePosition
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeSpacing
-import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
@@ -49,11 +44,11 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
 
     init {
         // Create a panel to contain everything
-        val guiPane = StackPane(padding = RelativeSpacing(0.125))
+        val guiPane = StackPane(padding = Spacing(0.125))
 
         // Create a page image to be used as the background
         val journalPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/background.png"), ImagePane.DispMode.FIT_TO_PARENT)
-        journalPane.gravity = GuiGravity.CENTER
+        journalPane.gravity = Gravity.CENTER
         guiPane.add(journalPane)
 
         // Create red colors for text
@@ -61,17 +56,17 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         val titleColor = Color(200, 0, 0)
 
         // Create a title label to contain the research name
-        val titleLabel = LabelComponent(ClientData.getOrCreate(50f), RelativeDimensions(1.0, 0.1), GuiGravity.TOP_CENTER)
+        val titleLabel = LabelComponent(ClientData.getOrCreate(50f), Dimensions(1.0, 0.1), Gravity.TOP_CENTER)
         titleLabel.text = titleText
         titleLabel.textColor = titleColor
         titleLabel.textAlignment = TextAlignment.ALIGN_CENTER
         contentPane.add(titleLabel)
 
         // Create two page numbers, one for the left page and one for the right page
-        leftPageNumber = LabelComponent(ClientData.getOrCreate(32f), RelativeDimensions(0.1, 0.1), GuiGravity.TOP_LEFT)
-        leftPageNumber.offset = RelativePosition(0.05, 0.03)
-        rightPageNumber = LabelComponent(ClientData.getOrCreate(32f), RelativeDimensions(0.1, 0.1), GuiGravity.TOP_RIGHT)
-        rightPageNumber.offset = RelativePosition(-0.05, 0.03)
+        leftPageNumber = LabelComponent(ClientData.getOrCreate(32f), Dimensions(0.1, 0.1), Gravity.TOP_LEFT)
+        leftPageNumber.offset = Position(0.05, 0.03)
+        rightPageNumber = LabelComponent(ClientData.getOrCreate(32f), Dimensions(0.1, 0.1), Gravity.TOP_RIGHT)
+        rightPageNumber.offset = Position(-0.05, 0.03)
         // Align the right page number right so that it fits into the corner
         rightPageNumber.textAlignment = TextAlignment.ALIGN_RIGHT
         // Start the page numbers at 1 and 2
@@ -85,12 +80,12 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         journalPane.add(rightPageNumber)
 
         // Create two pages, one for the left page text and one for the right page text
-        leftPage = StackPane(prefSize = RelativeDimensions(0.5, 1.0), padding = RelativeSpacing(0.08, 0.15, 0.2, 0.05))
-        leftPage.gravity = GuiGravity.TOP_LEFT
+        leftPage = StackPane(prefSize = Dimensions(0.5, 1.0), padding = Spacing(0.08, 0.15, 0.2, 0.05))
+        leftPage.gravity = Gravity.TOP_LEFT
         leftPageText = TextBoxComponent(font = ClientData.getOrCreate(32f))
         leftPage.add(leftPageText)
-        rightPage = StackPane(prefSize = RelativeDimensions(0.5, 1.0), padding = RelativeSpacing(0.08, 0.15, 0.05, 0.2))
-        rightPage.gravity = GuiGravity.TOP_RIGHT
+        rightPage = StackPane(prefSize = Dimensions(0.5, 1.0), padding = Spacing(0.08, 0.15, 0.05, 0.2))
+        rightPage.gravity = Gravity.TOP_RIGHT
         rightPageText = TextBoxComponent(font = ClientData.getOrCreate(32f))
         rightPage.add(rightPageText)
         // Set the text on both pages to red
@@ -106,10 +101,10 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         val bookmarkButton = ButtonPane(
             icon = null,
             iconHovered = bookmarkIcon,
-            prefSize = RelativeDimensions(0.05, 0.1),
-            offset = RelativePosition(-0.036, 0.0)
+            prefSize = Dimensions(0.05, 0.1),
+            offset = Position(-0.036, 0.0)
         )
-        bookmarkButton.gravity = GuiGravity.BOTTOM_CENTER
+        bookmarkButton.gravity = Gravity.BOTTOM_CENTER
         // Set the color to a see-through white
         bookmarkIcon.color = Color(255, 255, 255, 50)
         // When we click the bookmark return to the journal research ui
@@ -123,29 +118,29 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         journalPane.add(bookmarkButton)
 
         // Initialize 4 recipes, two for the left page and two for the right page
-        topLeftRecipe = RecipePane(RelativeDimensions(1.0, 0.5))
-        topLeftRecipe.gravity = GuiGravity.TOP_LEFT
+        topLeftRecipe = RecipePane(Dimensions(1.0, 0.5))
+        topLeftRecipe.gravity = Gravity.TOP_LEFT
         leftPage.add(topLeftRecipe)
-        bottomLeftRecipe = RecipePane(RelativeDimensions(1.0, 0.5))
-        bottomLeftRecipe.gravity = GuiGravity.BOTTOM_LEFT
+        bottomLeftRecipe = RecipePane(Dimensions(1.0, 0.5))
+        bottomLeftRecipe.gravity = Gravity.BOTTOM_LEFT
         leftPage.add(bottomLeftRecipe)
-        topRightRecipe = RecipePane(RelativeDimensions(1.0, 0.5))
-        topRightRecipe.gravity = GuiGravity.TOP_RIGHT
+        topRightRecipe = RecipePane(Dimensions(1.0, 0.5))
+        topRightRecipe.gravity = Gravity.TOP_RIGHT
         rightPage.add(topRightRecipe)
-        bottomRightRecipe = RecipePane(RelativeDimensions(1.0, 0.5))
-        bottomRightRecipe.gravity = GuiGravity.BOTTOM_RIGHT
+        bottomRightRecipe = RecipePane(Dimensions(1.0, 0.5))
+        bottomRightRecipe.gravity = Gravity.BOTTOM_RIGHT
         rightPage.add(bottomRightRecipe)
 
         // Create the forward and backward button to advance and rewind pages
         forwardButton = ButtonPane(
             icon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/forward_button.png")),
             iconHovered = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/forward_button_hovered.png")),
-            prefSize = AbsoluteDimensions(16.0, 16.0)
+            prefSize = Dimensions(16.0, 16.0, false)
         )
         backwardButton = ButtonPane(
             icon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/backward_button.png")),
             iconHovered = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/backward_button_hovered.png")),
-            prefSize = AbsoluteDimensions(16.0, 16.0)
+            prefSize = Dimensions(16.0, 16.0, false)
         )
         // Upon clicking forward then advance the page, if we hover the button darken the color, if we don't hover the button brighten the color
         forwardButton.addMouseListener {
@@ -165,8 +160,8 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
                 }
             }
         }
-        forwardButton.gravity = GuiGravity.BOTTOM_RIGHT
-        backwardButton.gravity = GuiGravity.BOTTOM_LEFT
+        forwardButton.gravity = Gravity.BOTTOM_RIGHT
+        backwardButton.gravity = Gravity.BOTTOM_LEFT
         // Add the buttons to the pane
         journalPane.add(forwardButton)
         journalPane.add(backwardButton)

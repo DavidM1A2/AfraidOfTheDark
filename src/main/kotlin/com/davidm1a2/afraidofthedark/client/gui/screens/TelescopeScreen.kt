@@ -1,11 +1,10 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.client.gui.layout.AbsolutePosition
-import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativePosition
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeSpacing
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.RatioPane
@@ -17,29 +16,30 @@ import com.davidm1a2.afraidofthedark.common.item.telescope.TelescopeBaseItem
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.UpdateWatchedMeteorPacket
 import net.minecraft.util.text.TranslationTextComponent
 import java.awt.Color
+import kotlin.random.Random
 
 /**
  * Gui screen that represents the telescope GUI
  */
 class TelescopeScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.telescope")) {
 
-    private val telescope = ScrollPane(8.0, 6.0, telescopeOffset)
-
     init {
         // Create a panel that will hold all the UI contents
         val layoutPane = RatioPane(1, 1)
-        layoutPane.gravity = GuiGravity.CENTER
-        layoutPane.padding = RelativeSpacing(0.09)
+        layoutPane.gravity = Gravity.CENTER
+        layoutPane.padding = Spacing(0.09)
 
         // Create a frame that will be the edge of the telescope UI
         val telescopeFrame = ImagePane("afraidofthedark:textures/gui/telescope/frame.png", ImagePane.DispMode.FIT_TO_PARENT)
-        telescopeFrame.gravity = GuiGravity.CENTER
+        telescopeFrame.gravity = Gravity.CENTER
 
         // Initialize the background star sky image and center the image
         val telescopeImage = ImagePane(
             "afraidofthedark:textures/gui/telescope/background.png",
             ImagePane.DispMode.STRETCH
         )
+
+        val telescope = ScrollPane(8.0, 6.0, Position(-Random.nextDouble(), -Random.nextDouble()))
         telescope.add(telescopeImage)
 
         // Grab the player's research
@@ -62,8 +62,8 @@ class TelescopeScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
                 val meteorButton = ButtonPane(
                     icon = meteorIcon,
                     iconHovered = meteorIcon,
-                    prefSize = RelativeDimensions(0.009, 0.012),
-                    offset = RelativePosition(random.nextDouble(), random.nextDouble()),
+                    prefSize = Dimensions(0.009, 0.012),
+                    offset = Position(random.nextDouble(), random.nextDouble()),
                     silent = true
                 )
                 meteorIcon.color = Color(255, 255, 255, random.nextInt(64))
@@ -83,7 +83,7 @@ class TelescopeScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         layoutPane.add(telescope)
         contentPane.add(layoutPane)
         contentPane.add(telescopeFrame)
-        contentPane.padding = RelativeSpacing(0.125)
+        contentPane.padding = Spacing(0.125)
     }
 
     /**
@@ -100,16 +100,8 @@ class TelescopeScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         return true
     }
 
-    override fun removed() {
-        telescopeOffset = telescope.getOffset()
-        super.removed()
-    }
-
     companion object {
         // The worst telescope accuracy possible
         private val WORST_ACCURACY = ModItems.TELESCOPE.accuracy
-
-        // The saved offset
-        private var telescopeOffset = AbsolutePosition(0.0, 0.0)
     }
 }

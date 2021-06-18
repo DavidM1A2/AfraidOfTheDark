@@ -16,12 +16,12 @@ import kotlin.math.roundToInt
  * Base class for all GUI components like labels, buttons, etc
  */
 abstract class AOTDGuiComponent(
-        var offset: Position = AbsolutePosition(0.0, 0.0),
-        var prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE, Double.MAX_VALUE),
-        var margins: GuiSpacing = AbsoluteSpacing(),
-        var gravity: GuiGravity = GuiGravity.TOP_LEFT,
-        var hoverTexts: Array<String> = emptyArray(),
-        var color: Color = Color(255, 255, 255, 255)) {
+    var offset: Position = Position(0.0, 0.0),
+    var prefSize: Dimensions = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE),
+    var margins: Spacing = Spacing(),
+    var gravity: Gravity = Gravity.TOP_LEFT,
+    var hoverTexts: Array<String> = emptyArray(),
+    var color: Color = Color(255, 255, 255, 255)) {
 
     open var width = 0
     open var height = 0
@@ -142,8 +142,8 @@ abstract class AOTDGuiComponent(
      * Default behavior takes up maximum allowed space
      */
     open fun negotiateDimensions(width: Double, height: Double) {
-        this.width = if (prefSize is RelativeDimensions) (min(prefSize.width, 1.0) * width).roundToInt() else min(prefSize.width, width).roundToInt()
-        this.height = if (prefSize is RelativeDimensions) (min(prefSize.height, 1.0) * height).roundToInt() else min(prefSize.height, height).roundToInt()
+        this.width = if (prefSize.isRelative) (min(prefSize.width, 1.0) * width).roundToInt() else min(prefSize.width, width).roundToInt()
+        this.height = if (prefSize.isRelative) (min(prefSize.height, 1.0) * height).roundToInt() else min(prefSize.height, height).roundToInt()
         this.inBounds = true    // Reset the inBounds tag and let ancestor nodes check it again
     }
 

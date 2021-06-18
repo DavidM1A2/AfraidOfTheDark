@@ -4,9 +4,9 @@ import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellListItem
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeSpacing
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.HChainPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
@@ -31,7 +31,7 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
     init {
 
         // Place the background panel in the center
-        contentPane.padding = RelativeSpacing(0.1)
+        contentPane.padding = Spacing(0.1)
 
         // Create a magic mirror background image
         val mainGui = ImagePane(
@@ -41,7 +41,7 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
 
         // Create the scroll bar
         val scrollBar = VScrollBar(
-            RelativeDimensions(0.1, 1.0),
+            Dimensions(0.1, 1.0),
             "afraidofthedark:textures/gui/spell_list/scroll_bar.png",
             "afraidofthedark:textures/gui/spell_list/scroll_bar_handle.png",
             "afraidofthedark:textures/gui/spell_list/scroll_bar_handle_hovered.png"
@@ -49,8 +49,8 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
 
         // Create the scroll panel to add spells to, position it centered on the background image
         scrollPanel = ListPane(ListPane.ExpandDirection.DOWN, scrollBar)
-        scrollPanel.gravity = GuiGravity.CENTER
-        scrollPanel.prefSize = RelativeDimensions(0.8, 0.8)
+        scrollPanel.gravity = Gravity.CENTER
+        scrollPanel.prefSize = Dimensions(0.8, 0.8)
         // Add the panel the the background and the scroll bar
         mainGui.add(scrollPanel)
 
@@ -86,9 +86,9 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         btnCreateSpell = ButtonPane(
             icon = ImagePane("afraidofthedark:textures/gui/spell_list/create_spell.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/create_spell_hovered.png"),
-            prefSize = RelativeDimensions(0.2, 0.15)
+            prefSize = Dimensions(0.2, 0.15)
         )
-        btnCreateSpell.margins = RelativeSpacing(0.01, 0.1, 0.0, 0.0)
+        btnCreateSpell.margins = Spacing(0.01, 0.1, 0.0, 0.0)
         btnCreateSpell.setHoverText("Create a new spell")
         btnCreateSpell.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click) {
@@ -123,7 +123,7 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
      */
     private fun addSpell(spell: Spell) {
         // Create a gui spell for this spell
-        val guiSpell = SpellListItem(RelativeDimensions(1.0, 0.20), spell)
+        val guiSpell = SpellListItem(Dimensions(1.0, 0.20), spell)
         // When delete is pressed remove the GUI spell
         guiSpell.setDeleteCallback { removeSpell(guiSpell) }
         // When keybind is pressed update our variable to let us know we're waiting on a keybind, or clear the keybind

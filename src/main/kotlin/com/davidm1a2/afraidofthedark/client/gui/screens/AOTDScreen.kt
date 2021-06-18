@@ -6,7 +6,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableConsumer
 import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableProducer
 import com.davidm1a2.afraidofthedark.client.gui.events.*
-import com.davidm1a2.afraidofthedark.client.gui.layout.AbsolutePosition
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.mojang.blaze3d.platform.GlStateManager
@@ -186,28 +186,29 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
      * @return True to continue processing, false otherwise
      */
     override fun mouseClicked(mouseX: Double, mouseY: Double, mouseButton: Int): Boolean {
-        // Fire the mouse clicked event
-        contentPane.processMouseInput(
-            MouseEvent(
-                contentPane,
-                mouseX.roundToInt(),
-                mouseY.roundToInt(),
-                mouseButton,
-                MouseEvent.EventType.Click
-            )
-        )
 
-        if (dragAndDropEnabled) {
-            val producer = findProducer(contentPane)
-            if (producer != null) {
+        val producer = if (dragAndDropEnabled) findProducer(contentPane) else null
+
+        if (producer != null) {
                 dragAndDropIcon?.let { overlayPane.remove(it) }
                 val icon = producer.getIcon()
                 dragAndDropIcon = icon
                 dragAndDropData = producer.produce()
                 overlayPane.add(icon)
-                icon.offset = AbsolutePosition(mouseX - icon.width/2, mouseY - icon.height/2)
-                invalidate()
-            }
+                overlayPane.invalidate()
+                icon.offset = Position(mouseX - icon.width/2, mouseY - icon.height/2, false)
+                overlayPane.invalidate()
+        } else {
+            // Fire the mouse clicked event
+            contentPane.processMouseInput(
+                MouseEvent(
+                    contentPane,
+                    mouseX.roundToInt(),
+                    mouseY.roundToInt(),
+                    mouseButton,
+                    MouseEvent.EventType.Click
+                )
+            )
         }
 
         return super.mouseClicked(mouseX, mouseY, mouseButton)
@@ -222,22 +223,28 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
      * @return True to continue processing, false otherwise
      */
     override fun mouseReleased(mouseX: Double, mouseY: Double, mouseButton: Int): Boolean {
-        // Fire the release event
-        contentPane.processMouseInput(
-            MouseEvent(
-                contentPane,
-                mouseX.roundToInt(),
-                mouseY.roundToInt(),
-                mouseButton,
-                MouseEvent.EventType.Release
-            )
-        )
 
-        if (dragAndDropEnabled) {
-            val consumers = findConsumers(contentPane)
+        val consumers = if (dragAndDropEnabled) findConsumers(contentPane) else emptyList()
+
+        if (consumers.isNotEmpty()) {
             for (consumer in consumers) {
                 dragAndDropData?.let { consumer.consume(it) }
             }
+            overlayPane.invalidate()
+        } else {
+            // Fire the release event
+            contentPane.processMouseInput(
+                MouseEvent(
+                    contentPane,
+                    mouseX.roundToInt(),
+                    mouseY.roundToInt(),
+                    mouseButton,
+                    MouseEvent.EventType.Release
+                )
+            )
+        }
+
+        if (dragAndDropEnabled) {
             dragAndDropIcon?.let { overlayPane.remove(it) }
             dragAndDropIcon = null
             dragAndDropData = null
@@ -254,11 +261,12 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
     }
 
     override fun mouseDragged(mouseX: Double, mouseY: Double, lastButtonClicked: Int, mouseXTo: Double, mouseYTo: Double): Boolean {
-        contentPane.processMouseDragInput(MouseDragEvent(contentPane, mouseX.roundToInt(), mouseY.roundToInt(), lastButtonClicked))
 
-        if (dragAndDropEnabled) {
-            dragAndDropIcon?.let { it.offset = AbsolutePosition(mouseX - it.width/2, mouseY - it.height/2) }
-            invalidate()
+        if (dragAndDropEnabled && dragAndDropIcon != null) {
+            dragAndDropIcon?.let { it.offset = Position(mouseX - it.width / 2, mouseY - it.height / 2, false) }
+            overlayPane.invalidate()
+        } else {
+            contentPane.processMouseDragInput(MouseDragEvent(contentPane, mouseX.roundToInt(), mouseY.roundToInt(), lastButtonClicked))
         }
 
         return super.mouseDragged(mouseX, mouseY, lastButtonClicked, mouseXTo, mouseYTo)

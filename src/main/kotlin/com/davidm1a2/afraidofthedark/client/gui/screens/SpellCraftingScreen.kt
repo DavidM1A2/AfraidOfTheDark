@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellScroll
 import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellComponentSlot
 import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellTablet
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeSpacing
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.HChainPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.spell.Spell
@@ -32,7 +32,7 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
         // Make an HPane to organize the different parts of the GUI
         val layoutPane = HChainPane(HChainPane.Layout.CLOSE)
         contentPane.add(layoutPane)
-        contentPane.padding = RelativeSpacing(0.1)
+        contentPane.padding = Spacing(0.1)
 
         // Create the left side tablet to hold the current spell settings
         tablet = SpellTablet(spellClone)

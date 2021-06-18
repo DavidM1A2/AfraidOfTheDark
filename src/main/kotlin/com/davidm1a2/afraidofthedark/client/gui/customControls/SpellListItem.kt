@@ -19,7 +19,7 @@ import java.awt.Color
 /**
  * UI component representing a spell in the GUI
  */
-class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize = prefSize, margins = RelativeSpacing(0.0, 0.0, 0.0, 0.0)) {
+class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize = prefSize, margins = Spacing(0.0, 0.0, 0.0, 0.0)) {
 
     private val lblKeybind: LabelComponent
     private var keybindCallback: (() -> Unit) = { }
@@ -32,17 +32,17 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         this.add(background)
 
         // The container for spell name
-        val spellNameContainer = StackPane(RelativeDimensions(0.8, 0.5))
+        val spellNameContainer = StackPane(Dimensions(0.8, 0.5))
 
         // The label holding the actual spell name
-        val lblSpellName = LabelComponent(ClientData.getOrCreate(36f), RelativeDimensions(1.0, 1.0))
+        val lblSpellName = LabelComponent(ClientData.getOrCreate(36f), Dimensions(1.0, 1.0))
         // Set the name label's name and color
         lblSpellName.text = this.spell.name
         lblSpellName.textColor = Color(245, 61, 199)
         lblSpellName.textAlignment = TextAlignment.ALIGN_CENTER
         // Update the hover text of the container and add the spell label to it
         spellNameContainer.setHoverText(lblSpellName.text)
-        spellNameContainer.gravity = GuiGravity.TOP_CENTER
+        spellNameContainer.gravity = Gravity.TOP_CENTER
         spellNameContainer.add(lblSpellName)
         this.add(spellNameContainer)
 
@@ -73,8 +73,8 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
             ButtonPane(
                 icon = ImagePane("afraidofthedark:textures/gui/spell_list/spell_edit.png"),
                 iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/spell_edit_hovered.png"),
-                prefSize = RelativeDimensions(0.145, 0.35),
-                offset = RelativePosition(0.82, 0.52)
+                prefSize = Dimensions(0.145, 0.35),
+                offset = Position(0.82, 0.52)
             )
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)
@@ -93,8 +93,8 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         val btnDelete = ButtonPane(
             icon = ImagePane("afraidofthedark:textures/gui/spell_list/spell_delete.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/spell_delete_hovered.png"),
-            prefSize = RelativeDimensions(0.145, 0.35),
-            offset = RelativePosition(0.035, 0.52)
+            prefSize = Dimensions(0.145, 0.35),
+            offset = Position(0.035, 0.52)
         )
         btnDelete.addMouseListener(clickSound)
         btnDelete.addMouseMoveListener(hoverSound)
@@ -110,9 +110,9 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         this.add(btnDelete)
 
         // Create a button to keybind this spell
-        lblKeybind = LabelComponent(ClientData.getOrCreate(30f), RelativeDimensions(0.6, 0.3))
+        lblKeybind = LabelComponent(ClientData.getOrCreate(30f), Dimensions(0.6, 0.3))
         lblKeybind.textAlignment = TextAlignment.ALIGN_CENTER
-        lblKeybind.offset = RelativePosition(0.2, 0.5)
+        lblKeybind.offset = Position(0.2, 0.5)
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)
         lblKeybind.addMouseListener {

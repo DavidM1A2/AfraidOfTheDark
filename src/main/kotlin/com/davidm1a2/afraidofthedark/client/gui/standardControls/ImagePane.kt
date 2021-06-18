@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
 import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.AbstractGui
@@ -57,10 +56,8 @@ open class ImagePane(
     }
 
     override fun negotiateDimensions(width: Double, height: Double) {
-        val calcPrefWidth = if (prefSize is RelativeDimensions) prefSize.width * width else prefSize.width
-        val calcPrefHeight = if (prefSize is RelativeDimensions) prefSize.height * height else prefSize.height
-        val fitWidth = if (width < calcPrefWidth) width else calcPrefWidth
-        val fitHeight = if (height < calcPrefHeight) height else calcPrefHeight
+        val fitWidth = (if (prefSize.isRelative) prefSize.width * width else prefSize.width).coerceAtMost(width)
+        val fitHeight = (if (prefSize.isRelative) prefSize.height * height else prefSize.height).coerceAtMost(height)
         when (displayMode) {
             DispMode.FIT_TO_TEXTURE -> {
                 val scaleXRatio = (fitWidth / textureWidth).coerceAtMost(1.0)

@@ -10,7 +10,7 @@ import net.minecraftforge.common.crafting.IShapedRecipe
 /**
  * Advanced control that displays an entire crafting recipe
  */
-class RecipePane(prefSize: Dimensions, offset: Position = AbsolutePosition(0.0, 0.0), recipe: IRecipe<*>? = null) :
+class RecipePane(prefSize: Dimensions, offset: Position = Position(0.0, 0.0), recipe: IRecipe<*>? = null) :
     AOTDPane(offset, prefSize) {
     private val craftingGrid: ImagePane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/crafting_grid.png"), ImagePane.DispMode.FIT_TO_PARENT)
     private val guiItemStacks: Array<ItemStackPane>
@@ -24,14 +24,14 @@ class RecipePane(prefSize: Dimensions, offset: Position = AbsolutePosition(0.0, 
         this.guiItemStacks = Array(9)
         {
             ItemStackPane(
-                RelativeDimensions(0.2, 0.33),
-                RelativePosition((it % 3) * 0.22 + 0.07, (it / 3) * 0.3 + 0.06),
+                Dimensions(0.2, 0.33),
+                Position((it % 3) * 0.22 + 0.07, (it / 3) * 0.3 + 0.06),
                 true
             )
         }
 
         // Initialize the output stack
-        output = ItemStackPane(RelativeDimensions(0.2, 0.33), RelativePosition(0.78, 0.35), true)
+        output = ItemStackPane(Dimensions(0.2, 0.33), Position(0.78, 0.35), true)
 
         // Add each stack to the pane to be drawn
         for (guiItemStack in this.guiItemStacks) {

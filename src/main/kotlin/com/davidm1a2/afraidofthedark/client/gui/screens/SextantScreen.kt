@@ -21,37 +21,37 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
     init {
         // Add an image to the background of the sextant texture
         val background = ImagePane("afraidofthedark:textures/gui/telescope/sextant.png", ImagePane.DispMode.FIT_TO_PARENT)
-        background.padding = RelativeSpacing(0.1)
+        background.padding = Spacing(0.1)
 
         // Grab the font for the text fields
         val textFieldFont = ClientData.getOrCreate(45f)
 
         // Initialize fields
-        angle = TextFieldPane(prefSize = RelativeDimensions(0.4, 0.1), font = textFieldFont)
-        latitude = TextFieldPane(prefSize = RelativeDimensions(0.4, 0.1), font = textFieldFont)
-        longitude = TextFieldPane(prefSize = RelativeDimensions(0.4, 0.1), font = textFieldFont)
+        angle = TextFieldPane(prefSize = Dimensions(0.4, 0.1), font = textFieldFont)
+        latitude = TextFieldPane(prefSize = Dimensions(0.4, 0.1), font = textFieldFont)
+        longitude = TextFieldPane(prefSize = Dimensions(0.4, 0.1), font = textFieldFont)
 
         // All fields are white and contain ghost text based on what they represent
         angle.setTextColor(Color(255, 255, 255))
         angle.setGhostText("Angle")
-        angle.offset = RelativePosition(0.1, 0.1)
+        angle.offset = Position(0.1, 0.1)
         background.add(angle)
         latitude.setTextColor(Color(255, 255, 255))
         latitude.setGhostText("Latitude")
-        latitude.offset = RelativePosition(0.1, 0.25)
+        latitude.offset = Position(0.1, 0.25)
         background.add(latitude)
         longitude.setTextColor(Color(255, 255, 255))
         longitude.setGhostText("Longitude")
-        longitude.offset = RelativePosition(0.1, 0.4)
+        longitude.offset = Position(0.1, 0.4)
         background.add(longitude)
 
         // Create a calculate button that performs the math and returns drop location coordinates
         val confirm = ButtonPane(
             icon = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png"),
-            prefSize = RelativeDimensions(0.5, 0.1),
+            prefSize = Dimensions(0.5, 0.1),
             font = ClientData.getOrCreate(40f),
-            gravity = GuiGravity.BOTTOM_CENTER
+            gravity = Gravity.BOTTOM_CENTER
         )
         // Text just says calculate
         confirm.setText("Calculate")
@@ -83,8 +83,8 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
             onClose()
         }
         background.add(confirm)
-        background.gravity = GuiGravity.CENTER
-        contentPane.padding = RelativeSpacing(0.125)
+        background.gravity = Gravity.CENTER
+        contentPane.padding = Spacing(0.125)
         contentPane.add(background)
     }
 

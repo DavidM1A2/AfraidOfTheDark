@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableProducer
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
@@ -32,7 +32,7 @@ class SpellDeliveryMethodIcon(val deliveryMethod: SpellDeliveryMethod) :
 
     override fun getIcon(): ImagePane {
         val ret = ImagePane(deliveryMethod.icon, DispMode.FIT_TO_PARENT)
-        ret.prefSize = RelativeDimensions(0.1, 0.1)
+        ret.prefSize = Dimensions(0.1, 0.1)
         return ret
     }
 }

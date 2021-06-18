@@ -21,20 +21,20 @@ import java.awt.Color
 class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_list_scroll.png", DispMode.FIT_TO_PARENT) {
 
     private val interiorPane: StackPane = StackPane()
-    private val componentScrollBar = VScrollBar(RelativeDimensions(0.05, 1.0))
-    private val propertyScrollBar = VScrollBar(RelativeDimensions(0.05, 1.0))
+    private val componentScrollBar = VScrollBar(Dimensions(0.05, 1.0))
+    private val propertyScrollBar = VScrollBar(Dimensions(0.05, 1.0))
     private val componentList: ListPane = ListPane(ListPane.ExpandDirection.DOWN, componentScrollBar)
     private val propertyList: ListPane = ListPane(ListPane.ExpandDirection.DOWN, propertyScrollBar)
     private val currentPropEditors = mutableListOf<Pair<SpellComponentProperty, TextFieldPane>>()
 
     init {
         // Put everything that isn't the scroll bar into a padded pane
-        interiorPane.padding = RelativeSpacing(0.2)
+        interiorPane.padding = Spacing(0.2)
         this.add(interiorPane)
 
         // Add a scroll bar to the right of the scroll
-        componentScrollBar.gravity = GuiGravity.CENTER_RIGHT
-        propertyScrollBar.gravity = GuiGravity.CENTER_RIGHT
+        componentScrollBar.gravity = Gravity.CENTER_RIGHT
+        propertyScrollBar.gravity = Gravity.CENTER_RIGHT
         this.add(componentScrollBar)
         this.add(propertyScrollBar)
         propertyScrollBar.isVisible = false
@@ -48,7 +48,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
 
         // Create the power source label
         val powerSourceHeading =
-            LabelComponent(ClientData.getOrCreate(42f), RelativeDimensions(1.0, 0.2))
+            LabelComponent(ClientData.getOrCreate(42f), Dimensions(1.0, 0.2))
         powerSourceHeading.textColor = Color(140, 35, 206)
         powerSourceHeading.text = "Power Sources"
         componentList.add(powerSourceHeading)
@@ -59,16 +59,16 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
             if (powerSourceIndex % componentsPerLine == 0) {
                 if (powerSourceHPane != null) componentList.add(powerSourceHPane)
                 powerSourceHPane = HChainPane(HChainPane.Layout.CLOSE)
-                powerSourceHPane.prefSize = RelativeDimensions(1.0, 0.2)
+                powerSourceHPane.prefSize = Dimensions(1.0, 0.2)
             }
             val powerSource = SpellPowerSourceIcon(powerSourceEntry)
-            powerSource.margins = AbsoluteSpacing(2.0)
+            powerSource.margins = Spacing(2.0, false)
             powerSourceHPane?.add(powerSource)
         }
         powerSourceHPane?.let { componentList.add(it) }
 
         // Create the effect label
-        val effectHeading = LabelComponent(ClientData.getOrCreate(42f), RelativeDimensions(1.0, 0.2))
+        val effectHeading = LabelComponent(ClientData.getOrCreate(42f), Dimensions(1.0, 0.2))
         effectHeading.textColor = Color(140, 35, 206)
         effectHeading.text = "Effects"
         componentList.add(effectHeading)
@@ -79,17 +79,17 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
             if (effectIndex % componentsPerLine == 0) {
                 if (effectHPane != null) componentList.add(effectHPane)
                 effectHPane = HChainPane(HChainPane.Layout.CLOSE)
-                effectHPane.prefSize = RelativeDimensions(1.0, 0.2)
+                effectHPane.prefSize = Dimensions(1.0, 0.2)
             }
             val effect = SpellEffectIcon(effectEntry)
-            effect.margins = AbsoluteSpacing(2.0)
+            effect.margins = Spacing(2.0, false)
             effectHPane?.add(effect)
         }
         effectHPane?.let { componentList.add(it) }
 
         // Create the delivery method label
         val deliveryMethodHeading =
-            LabelComponent(ClientData.getOrCreate(42f), RelativeDimensions(1.0, 0.2))
+            LabelComponent(ClientData.getOrCreate(42f), Dimensions(1.0, 0.2))
         deliveryMethodHeading.textColor = Color(140, 35, 206)
         deliveryMethodHeading.text = "Delivery Methods"
         componentList.add(deliveryMethodHeading)
@@ -100,10 +100,10 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
             if (deliveryMethodIndex % componentsPerLine == 0) {
                 if (deliveryMethodHPane != null) componentList.add(deliveryMethodHPane)
                 deliveryMethodHPane = HChainPane(HChainPane.Layout.CLOSE)
-                deliveryMethodHPane.prefSize = RelativeDimensions(1.0, 0.2)
+                deliveryMethodHPane.prefSize = Dimensions(1.0, 0.2)
             }
             val deliveryMethod = SpellDeliveryMethodIcon(deliveryMethodEntry)
-            deliveryMethod.margins = AbsoluteSpacing(2.0)
+            deliveryMethod.margins = Spacing(2.0, false)
             deliveryMethodHPane?.add(deliveryMethod)
         }
         deliveryMethodHPane?.let { componentList.add(it) }
@@ -138,7 +138,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
             val purpleText = Color(140, 35, 206)
 
             // Create a heading label to indicate what is currently being edited
-            val heading = LabelComponent(ClientData.getOrCreate(32f), RelativeDimensions(1.0, 0.2))
+            val heading = LabelComponent(ClientData.getOrCreate(32f), Dimensions(1.0, 0.2))
             heading.textColor = purpleText
             // This cast is required even though IntelliJ doesn't agree
             @Suppress("USELESS_CAST")
@@ -151,7 +151,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
 
             // If there are no editable properties say so with a text box
             if (editableProperties.isEmpty()) {
-                val noPropsLine = TextBoxComponent(AbsoluteDimensions(120.0, 30.0), ClientData.getOrCreate(26f))
+                val noPropsLine = TextBoxComponent(Dimensions(120.0, 30.0, false), ClientData.getOrCreate(26f))
                 noPropsLine.textColor = purpleText
                 noPropsLine.setText("This component has no editable properties.")
                 propertyList.add(noPropsLine)
@@ -159,20 +159,20 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
                 // Go over each editable property and add an editor for it
                 for (editableProp in editableProperties) {
                     // Create a label that states the name of the property
-                    val propertyName = LabelComponent(ClientData.getOrCreate(26f), RelativeDimensions(1.0, 0.1))
+                    val propertyName = LabelComponent(ClientData.getOrCreate(26f), Dimensions(1.0, 0.1))
                     propertyName.textColor = purpleText
                     propertyName.text = "Name: ${editableProp.name}"
                     propertyList.add(propertyName)
 
                     // Create a text box that shows the description of the property
-                    val propertyDescription = TextBoxComponent(AbsoluteDimensions(120.0, 36.0), ClientData.getOrCreate(26f))
+                    val propertyDescription = TextBoxComponent(Dimensions(120.0, 36.0, false), ClientData.getOrCreate(26f))
                     propertyDescription.textColor = purpleText
                     propertyDescription.setText("Description: ${editableProp.description}")
 
                     propertyList.add(propertyDescription)
 
                     // Create a text field that edits the property value
-                    val propertyEditor = TextFieldPane(prefSize = AbsoluteDimensions(120.0, 30.0), font = ClientData.getOrCreate(26f))
+                    val propertyEditor = TextFieldPane(prefSize = Dimensions(120.0, 30.0, false), font = ClientData.getOrCreate(26f))
                     propertyEditor.setTextColor(purpleText)
                     propertyEditor.setText(editableProp.getter(componentInstance))
                     propertyList.add(propertyEditor)
@@ -188,7 +188,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
                 val save = ButtonPane(
                     icon = ImagePane("afraidofthedark:textures/gui/spell_editor/button.png"),
                     iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/button_hovered.png"),
-                    prefSize = AbsoluteDimensions(50.0, 20.0),
+                    prefSize = Dimensions(50.0, 20.0, false),
                     font = ClientData.getOrCreate(32f)
                 )
                 save.setTextAlignment(TextAlignment.ALIGN_CENTER)
@@ -237,7 +237,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
             val cancel = ButtonPane(
                 icon = ImagePane("afraidofthedark:textures/gui/spell_editor/button.png"),
                 iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/button_hovered.png"),
-                prefSize = AbsoluteDimensions(50.0, 20.0),
+                prefSize = Dimensions(50.0, 20.0, false),
                 font = ClientData.getOrCreate(32f)
             )
             cancel.setTextAlignment(TextAlignment.ALIGN_CENTER)

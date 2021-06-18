@@ -1,11 +1,10 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativePosition
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import net.minecraft.util.ResourceLocation
 import java.util.function.Consumer
 
@@ -21,7 +20,7 @@ class VScrollBar @JvmOverloads constructor(
     var value = 0.0
         set(value) {
             field = value.coerceIn(0.0, 1.0)
-            this.handle.offset = RelativePosition(0.0, (field - 0.5) * (0.9))
+            this.handle.offset = Position(0.0, (field - 0.5) * (0.9))
             this.invalidate()
         }
     private val handle: ButtonPane
@@ -39,8 +38,8 @@ class VScrollBar @JvmOverloads constructor(
         this.handle = ButtonPane(
             icon = icon,
             iconHovered = iconHovered,
-            gravity = GuiGravity.CENTER,
-            prefSize = RelativeDimensions(1.0, 0.1),
+            gravity = Gravity.CENTER,
+            prefSize = Dimensions(1.0, 0.1),
             silent = true
         )
         // Add the handle

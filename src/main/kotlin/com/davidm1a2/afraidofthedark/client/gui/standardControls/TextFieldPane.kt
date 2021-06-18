@@ -13,7 +13,7 @@ import java.awt.Color
 /**
  * The GUI text field control to let users enter text
  */
-class TextFieldPane(offset: Position = AbsolutePosition(0.0, 0.0), prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE, Double.MAX_VALUE), font: TrueTypeFont) :
+class TextFieldPane(offset: Position = Position(0.0, 0.0), prefSize: Dimensions = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE), font: TrueTypeFont) :
     AOTDPane(offset, prefSize) {
     private val background: ImagePane
     private val textContainer: StackPane
@@ -31,9 +31,9 @@ class TextFieldPane(offset: Position = AbsolutePosition(0.0, 0.0), prefSize: Dim
         this.background = ImagePane(ResourceLocation("afraidofthedark:textures/gui/text_field_background.png"), ImagePane.DispMode.STRETCH)
 
         // Set the text container bounding box to have scissor enabled and contain the label
-        this.textContainer = StackPane(RelativeDimensions(1.0, 1.0), margins = RelativeSpacing(0.0, 0.0, 0.1, 0.05), scissorEnabled = true)
+        this.textContainer = StackPane(Dimensions(1.0, 1.0), margins = Spacing(0.0, 0.0, 0.1, 0.05), scissorEnabled = true)
         // The text label contains the text field's text
-        this.textLabel = LabelComponent(font, RelativeDimensions(1.0, 1.0))
+        this.textLabel = LabelComponent(font, Dimensions(1.0, 1.0))
         // Make sure the label doesn't shorten the text inside to fit
         this.textLabel.shortenTextToFit = false
 
@@ -206,8 +206,8 @@ class TextFieldPane(offset: Position = AbsolutePosition(0.0, 0.0), prefSize: Dim
         }
     }
 
-    override fun calcChildrenBounds(width: Double, height: Double) {
-        super.calcChildrenBounds(width, height)
+    override fun calcChildrenBounds() {
+        super.calcChildrenBounds()
         updateScroll()  // Update the alignment every UI update
     }
 

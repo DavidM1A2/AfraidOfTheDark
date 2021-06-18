@@ -9,13 +9,13 @@ import org.lwjgl.opengl.GL11
  * Super basic control that just scissors the border and holds gui elements
  */
 open class StackPane (
-        prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE, Double.MAX_VALUE),
-        offset: Position = AbsolutePosition(0.0, 0.0),
-        margins: GuiSpacing = AbsoluteSpacing(),
-        gravity: GuiGravity = GuiGravity.TOP_LEFT,
-        hoverTexts: Array<String> = emptyArray(),
-        padding: GuiSpacing = AbsoluteSpacing(),
-        private val scissorEnabled: Boolean = false) :
+    prefSize: Dimensions = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE),
+    offset: Position = Position(0.0, 0.0),
+    margins: Spacing = Spacing(),
+    gravity: Gravity = Gravity.TOP_LEFT,
+    hoverTexts: Array<String> = emptyArray(),
+    padding: Spacing = Spacing(),
+    private val scissorEnabled: Boolean = false) :
         AOTDPane(offset, prefSize, margins, gravity, hoverTexts, padding) {
 
     /**

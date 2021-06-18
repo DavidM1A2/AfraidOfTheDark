@@ -1,13 +1,25 @@
 package com.davidm1a2.afraidofthedark.client.gui.layout
 
-abstract class Dimensions(val width: Double, val height: Double) {
-    override fun equals(other: Any?): Boolean {
-        return if (other != null && other is Dimensions) other.width == this.width && other.height == this.height else false
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
+
+class Dimensions(val width: Double = 0.0, val height: Double = 0.0, val isRelative: Boolean = true) {
+    fun getAbsoluteInner(reference: AOTDPane) : Dimensions {
+        return if (isRelative) {
+            Dimensions(width * reference.getInternalWidth(), height * reference.getInternalHeight())
+        } else {
+            Dimensions(width, height, false)
+        }
     }
 
-    override fun hashCode(): Int {
-        var result = width.hashCode()
-        result = 31 * result + height.hashCode()
-        return result
+    fun getAbsoluteOuter(reference: AOTDPane) : Dimensions {
+        return if (isRelative) {
+            Dimensions(width * reference.width, height * reference.height)
+        } else {
+            Dimensions(width, height, false)
+        }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return other is Dimensions && other.isRelative == this.isRelative && other.width == this.width && other.height == other.height
     }
 }

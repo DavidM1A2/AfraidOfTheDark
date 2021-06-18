@@ -14,12 +14,12 @@ open class ButtonPane(
     private val icon: ImagePane?,
     private val iconHovered: ImagePane? = icon,
     silent: Boolean = false,
-    margins: GuiSpacing = AbsoluteSpacing(),
-    gravity: GuiGravity = GuiGravity.TOP_LEFT,
+    margins: Spacing = Spacing(),
+    gravity: Gravity = Gravity.TOP_LEFT,
     hoverTexts: Array<String> = emptyArray(),
-    padding: GuiSpacing = AbsoluteSpacing(),
-    prefSize: Dimensions = AbsoluteDimensions(Double.MAX_VALUE, Double.MAX_VALUE),
-    offset: Position = RelativePosition(0.0, 0.0),
+    padding: Spacing = Spacing(),
+    prefSize: Dimensions = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE),
+    offset: Position = Position(0.0, 0.0),
     font: TrueTypeFont? = null
 ) : AOTDPane(offset, prefSize, margins, gravity, hoverTexts, padding) {
 
@@ -31,7 +31,7 @@ open class ButtonPane(
         this.iconHovered?.let { this.add(it) }
         // Create a label to cover the button
         if (font != null) {
-            this.label = LabelComponent(font, RelativeDimensions(1.0, 1.0))
+            this.label = LabelComponent(font, Dimensions(1.0, 1.0))
             this.add(this.label)
         } else {
             this.label = null

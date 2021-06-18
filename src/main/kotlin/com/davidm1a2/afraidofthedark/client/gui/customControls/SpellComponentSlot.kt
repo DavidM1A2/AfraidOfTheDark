@@ -2,10 +2,8 @@ package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.AbsolutePosition
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
@@ -16,8 +14,8 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
  */
 abstract class SpellComponentSlot<T : SpellComponent<T>>(
     slotBackground: String,
-    offset: Position = AbsolutePosition(0.0, 0.0),
-    prefSize: Dimensions = RelativeDimensions(1.0, 1.0),
+    offset: Position = Position(0.0, 0.0),
+    prefSize: Dimensions = Dimensions(1.0, 1.0),
     val spell: Spell
 ) : AOTDPane(offset, prefSize) {
 

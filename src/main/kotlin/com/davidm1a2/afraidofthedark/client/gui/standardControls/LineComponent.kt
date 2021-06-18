@@ -13,16 +13,11 @@ import kotlin.math.sqrt
 /**
  * Class representing a line drawn on a GUI. The provided weight will be scaled to match the size of the window.
  */
-open class LineComponent(lineFrom: Position, lineTo: Position, private val weight: Double, color: Color, gravity: GuiGravity = GuiGravity.CENTER):
-        AOTDGuiComponent(color = color, gravity = gravity) {
+open class LineComponent(lineFrom: Position, lineTo: Position, offset: Position, private val weight: Double, color: Color, gravity: Gravity = Gravity.CENTER):
+        AOTDGuiComponent(color = color, gravity = gravity, offset = offset) {
 
     init {
-        this.prefSize = if (lineFrom is AbsolutePosition && lineTo is AbsolutePosition) lineTo.sub(lineFrom).toDimensions()
-            else if (lineFrom is RelativePosition && lineTo is RelativePosition) lineTo.sub(lineFrom).toDimensions()
-            else AbsoluteDimensions(0.0, 0.0)
-        this.offset = if (lineFrom is AbsolutePosition && lineTo is AbsolutePosition) lineTo.avg(lineFrom)
-            else if (lineFrom is RelativePosition && lineTo is RelativePosition) lineTo.avg(lineFrom)
-            else AbsolutePosition(0.0, 0.0)
+        this.prefSize = lineFrom.toDimension(lineTo)
     }
 
     override fun draw() {

@@ -2,12 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.client.gui.customControls.ResearchConnector
 import com.davidm1a2.afraidofthedark.client.gui.customControls.ResearchNode
-import com.davidm1a2.afraidofthedark.client.gui.layout.AbsolutePosition
-import com.davidm1a2.afraidofthedark.client.gui.layout.GuiGravity
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativePosition
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeSpacing
-import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.RatioPane
@@ -35,9 +30,9 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
         ratioPane.add(researchTreeBase)
         contentPane.add(ratioPane)
         contentPane.add(backgroundBorder)
-        contentPane.padding = RelativeSpacing(0.125)
-        ratioPane.gravity = GuiGravity.CENTER
-        backgroundBorder.gravity = GuiGravity.CENTER
+        contentPane.padding = Spacing(0.125)
+        ratioPane.gravity = Gravity.CENTER
+        backgroundBorder.gravity = Gravity.CENTER
 
         // Add a background image
         researchTreeBase.add(scrollBackground)
@@ -45,7 +40,7 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
         // If this is a cheat sheet add a label on top to make that clear
         if (isCheatSheet) {
             // Put the label on top and set the color to white
-            val lblCheatSheet = LabelComponent(ClientData.getOrCreate(32f), RelativeDimensions(1.0, 0.08))
+            val lblCheatSheet = LabelComponent(ClientData.getOrCreate(32f), Dimensions(1.0, 0.08))
             lblCheatSheet.textAlignment = TextAlignment.ALIGN_CENTER
             lblCheatSheet.textColor = Color(255, 255, 255)
             lblCheatSheet.text = "Cheat sheet - select researches to unlock them"
@@ -67,14 +62,14 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
 
     private fun addConnector(research: Research) {
         val previous = research.preRequisite ?: return
-        val pos = RelativePosition(research.xPosition / TREE_WIDTH, (research.zPosition - 4) / TREE_HEIGHT)
-        val prevPos = RelativePosition(previous.xPosition / TREE_WIDTH, (previous.zPosition - 4) / TREE_HEIGHT)
+        val pos = Position(research.xPosition / TREE_WIDTH, (research.zPosition - 4) / TREE_HEIGHT)
+        val prevPos = Position(previous.xPosition / TREE_WIDTH, (previous.zPosition - 4) / TREE_HEIGHT)
         researchTreeBase.add(ResearchConnector(prevPos, pos, research))
     }
 
     private fun addResearchButton(research: Research) {
-        val pos = RelativePosition(research.xPosition / TREE_WIDTH, (research.zPosition - 4) / TREE_HEIGHT)
-        val dim = RelativeDimensions(RESEARCH_WIDTH, RESEARCH_HEIGHT)
+        val pos = Position(research.xPosition / TREE_WIDTH, (research.zPosition - 4) / TREE_HEIGHT)
+        val dim = Dimensions(RESEARCH_WIDTH, RESEARCH_HEIGHT)
         val researchNode = ResearchNode(dim, pos, research, isCheatSheet)
         researchTreeBase.add(researchNode)
     }
@@ -84,7 +79,7 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
     override fun drawGradientBackground() = true
 
     override fun removed() {
-        scrollOffset = researchTreeBase.getOffset()
+        scrollOffset = researchTreeBase.getCurrentOffset().getRelative(researchTreeBase)
         super.removed()
     }
 
@@ -98,6 +93,6 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
         private const val TREE_HEIGHT = 12.0
 
         // The stored scroll pane offset
-        private var scrollOffset = AbsolutePosition(0.0, 0.0)
+        private var scrollOffset = Position(0.5, 0.5)
     }
 }

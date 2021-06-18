@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.events.*
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import java.awt.Color
@@ -10,12 +9,12 @@ import java.awt.Point
  * A base class for any GUI components that can listen for action events like mouse clicks
  */
 abstract class AOTDGuiComponentWithEvents(
-        offset: Position = AbsolutePosition(0.0, 0.0),
-        prefSize: Dimensions = AbsoluteDimensions(0.0, 0.0),
-        margins: GuiSpacing = AbsoluteSpacing(),
-        gravity: GuiGravity = GuiGravity.TOP_LEFT,
-        hoverTexts: Array<String> = emptyArray(),
-        color: Color = Color(255, 255, 255, 255)) :
+    offset: Position = Position(0.0, 0.0),
+    prefSize: Dimensions = Dimensions(0.0, 0.0),
+    margins: Spacing = Spacing(),
+    gravity: Gravity = Gravity.TOP_LEFT,
+    hoverTexts: Array<String> = emptyArray(),
+    color: Color = Color(255, 255, 255, 255)) :
     AOTDGuiComponent(offset, prefSize, margins, gravity, hoverTexts, color) {
 
     private var mouseListeners = mutableListOf<(MouseEvent) -> Unit>()

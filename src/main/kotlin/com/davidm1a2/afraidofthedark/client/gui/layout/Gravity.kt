@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.layout
 
-enum class GuiGravity {
+enum class Gravity {
     TOP_CENTER,
     TOP_RIGHT,
     CENTER_RIGHT,

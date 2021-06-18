@@ -3,14 +3,13 @@ package com.davidm1a2.afraidofthedark.client.gui.standardControls
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
-import com.davidm1a2.afraidofthedark.client.gui.layout.RelativeDimensions
 import java.awt.Color
 import java.util.*
 
 /**
  * A text box control that will have multiple lines of text like a label
  */
-class TextBoxComponent(prefSize: Dimensions = RelativeDimensions(1.0, 1.0), private val font: TrueTypeFont, val textAlignment: TextAlignment = TextAlignment.ALIGN_LEFT) :
+class TextBoxComponent(prefSize: Dimensions = Dimensions(1.0, 1.0), private val font: TrueTypeFont, val textAlignment: TextAlignment = TextAlignment.ALIGN_LEFT) :
     AOTDGuiComponentWithEvents(prefSize = prefSize) {
     private var textLines = mutableListOf<String>()
     private var text = ""

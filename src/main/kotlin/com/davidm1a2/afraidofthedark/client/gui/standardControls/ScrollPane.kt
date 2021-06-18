@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.AbsolutePosition
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import org.lwjgl.glfw.GLFW
 
 /**
@@ -12,15 +12,15 @@ import org.lwjgl.glfw.GLFW
  * As an example for the ratio constants, a ratio of 2.0 would make the scrollable pane twice the width or height
  * of the actual control, which acts as a viewport.
  */
-open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHeightRatio: Double, private val persistentOffset : AbsolutePosition = AbsolutePosition(0.0, 0.0)) : StackPane(scissorEnabled = true) {
-    // Variables for calculating the GUI offset
+open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHeightRatio: Double, private var persistentOffset : Position = Position(0.0, 0.0)) : StackPane(scissorEnabled = true) {
+
     // The current X and Y gui offsets
     private var originalGuiOffsetX = 0.0
     private var originalGuiOffsetY = 0.0
 
     // The original X and Y position set before dragging
-    private var originalXPosition = 0
-    private var originalYPosition = 0
+    private var originalXPosition = -1
+    private var originalYPosition = -1
 
     // The scaled width and height of the background pane
     var scrollWidth = 0.0
@@ -43,39 +43,49 @@ open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHe
         addMouseDragListener {
             if (it.source.isHovered) {
                 if (it.clickedButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                    guiOffsetX = originalGuiOffsetX + (it.mouseX - originalXPosition)
-                    guiOffsetY = originalGuiOffsetY + (it.mouseY - originalYPosition)
-                    checkOutOfBounds()
-                    this.invalidate()
+                    if (originalXPosition != -1 && originalYPosition != -1) {   // A click must have been detected for a drag to register
+                        guiOffsetX = originalGuiOffsetX + (it.mouseX - originalXPosition)
+                        guiOffsetY = originalGuiOffsetY + (it.mouseY - originalYPosition)
+                        checkOutOfBounds()
+                        this.invalidate()
+                    }
                 }
             }
         }
+    }
+
+    override fun getInternalWidth(): Double {
+        return scrollWidth - padding.getAbsoluteOuter(this).width
+    }
+
+    override fun getInternalHeight(): Double {
+        return scrollHeight - padding.getAbsoluteOuter(this).height
     }
 
     /**
      * We can use this to test if the gui has scrolled out of bounds or not
      */
     open fun checkOutOfBounds() {
+        println(guiOffsetX)
+        println(guiOffsetY)
+        println(width - scrollWidth)
+        println(height - scrollHeight)
         if (this.guiOffsetX < width - scrollWidth) this.guiOffsetX = width - scrollWidth
         if (this.guiOffsetY < height - scrollHeight) this.guiOffsetY = height - scrollHeight
         if (this.guiOffsetX > 0) this.guiOffsetX = 0.0
         if (this.guiOffsetY > 0) this.guiOffsetY = 0.0
     }
 
-    override fun calcChildrenBounds(width: Double, height: Double) {
-        super.calcChildrenBounds(scrollWidth, scrollHeight)
-    }
-
     override fun negotiateDimensions(width: Double, height: Double) {
         super.negotiateDimensions(width, height)
         this.scrollWidth = this.width * scrollWidthRatio
         this.scrollHeight = this.height * scrollHeightRatio
-        guiOffsetX = persistentOffset.x
-        guiOffsetY = persistentOffset.y
+        guiOffsetX = persistentOffset.getAbsolute(this).x
+        guiOffsetY = persistentOffset.getAbsolute(this).y
         checkOutOfBounds()
     }
 
-    fun getOffset() : AbsolutePosition {
-        return AbsolutePosition(guiOffsetX, guiOffsetY)
+    fun getCurrentOffset() : Position {
+        return Position(guiOffsetX, guiOffsetY, false)
     }
 }

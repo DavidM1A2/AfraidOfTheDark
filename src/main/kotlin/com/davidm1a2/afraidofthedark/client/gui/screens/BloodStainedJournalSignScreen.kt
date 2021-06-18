@@ -26,37 +26,37 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
 
     init {
         // Add padding to our root pane
-        contentPane.padding = RelativeSpacing(0.08)
+        contentPane.padding = Spacing(0.08)
 
         // Add a background image to the background panel
         val background = ImagePane(
             ResourceLocation("afraidofthedark:textures/gui/journal_sign/blood_stained_journal.png"),
             ImagePane.DispMode.FIT_TO_PARENT
         )
-        background.gravity = GuiGravity.CENTER
+        background.gravity = Gravity.CENTER
         contentPane.add(background)
 
         this.nameSignField = TextFieldPane(
-            prefSize = RelativeDimensions(0.6, 0.15),
-            offset = RelativePosition(0.0, -0.1),
+            prefSize = Dimensions(0.6, 0.15),
+            offset = Position(0.0, -0.1),
             font = ClientData.getOrCreate(45f)
         )
         this.nameSignField.setTextColor(Color(255, 0, 0))
-        this.nameSignField.gravity = GuiGravity.CENTER
+        this.nameSignField.gravity = Gravity.CENTER
         background.add(this.nameSignField)
 
         // Add the sign button
         val signButton = ButtonPane(
             icon = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png"),
-            prefSize = RelativeDimensions(0.5, 0.1),
-            offset = RelativePosition(0.0, 0.1),
+            prefSize = Dimensions(0.5, 0.1),
+            offset = Position(0.0, 0.1),
             font = ClientData.getOrCreate(55f)
         )
         signButton.setText("Sign")
         signButton.setTextColor(Color(255, 0, 0))
         signButton.setTextAlignment(TextAlignment.ALIGN_CENTER)
-        signButton.gravity = GuiGravity.CENTER
+        signButton.gravity = Gravity.CENTER
 
         // When we click the sign button either start the mod or tell the user they messed up
         signButton.addMouseListener {

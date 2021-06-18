@@ -40,7 +40,7 @@ class SpellTablet(
     init {
 
         // Setup the spell name label
-        spellName = TextFieldPane(RelativePosition(0.2, 0.18), RelativeDimensions(0.5, 0.1), ClientData.getOrCreate(36f))
+        spellName = TextFieldPane(Position(0.2, 0.18), Dimensions(0.5, 0.1), ClientData.getOrCreate(36f))
         spellName.setGhostText("Spell Name")
         // When we type into this slot set the spell name
         spellName.addKeyListener {
@@ -51,31 +51,31 @@ class SpellTablet(
         this.add(spellName)
 
         // Add a scroll bar on the left to scroll through spell stages
-        scrollBar = VScrollBar(RelativeDimensions(0.08, 0.6))
-        scrollBar.offset = RelativePosition(0.05, 0.3)
+        scrollBar = VScrollBar(Dimensions(0.08, 0.6))
+        scrollBar.offset = Position(0.05, 0.3)
         this.add(scrollBar)
 
         // Make the spell stage panel
-        spellStagePanel = StackPane(RelativeDimensions(0.6, 0.6))
-        spellStagePanel.offset = RelativePosition(0.15, 0.3)
+        spellStagePanel = StackPane(Dimensions(0.6, 0.6))
+        spellStagePanel.offset = Position(0.15, 0.3)
         this.add(spellStagePanel)
 
         // Add the background for the spell stages
         spellStageBackground =
             ImagePane("afraidofthedark:textures/gui/spell_editor/spell_stage_panel_background.png", DispMode.STRETCH)
-        spellStageBackground.prefSize = RelativeDimensions(1.0, 1.0)
+        spellStageBackground.prefSize = Dimensions(1.0, 1.0)
         spellStagePanel.add(spellStageBackground)
 
         // Add the spell stage scroll panel
         spellStageList = ListPane(ListPane.ExpandDirection.DOWN, scrollBar)
-        spellStageList.padding = RelativeSpacing(0.02)
+        spellStageList.padding = Spacing(0.02)
         spellStagePanel.add(spellStageList)
 
         // Create add and remove buttons for spell stages
         addButton = ButtonPane(
             icon = ImagePane("afraidofthedark:textures/gui/spell_editor/add.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/add_hovered.png"),
-            prefSize = RelativeDimensions(0.45, 1.0)
+            prefSize = Dimensions(0.45, 1.0)
         )
         addButton.addOnClick {
             val newStage = SpellStage()
@@ -87,7 +87,7 @@ class SpellTablet(
         removeButton = ButtonPane(
             icon = ImagePane("afraidofthedark:textures/gui/spell_editor/delete.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/delete_hovered.png"),
-            prefSize = RelativeDimensions(0.45, 1.0)
+            prefSize = Dimensions(0.45, 1.0)
         )
         removeButton.addOnClick {
             if (spell.spellStages.size > 1) spell.spellStages.removeLast()
@@ -96,7 +96,7 @@ class SpellTablet(
             removeButton.isHovered = false // Button moves, so un-hover it
         }
         buttonLayout = HChainPane()
-        buttonLayout.prefSize = RelativeDimensions(0.25, 0.08)
+        buttonLayout.prefSize = Dimensions(0.25, 0.08)
         buttonLayout.add(addButton)
         buttonLayout.add(removeButton)
         spellStageList.add(buttonLayout)
@@ -106,8 +106,8 @@ class SpellTablet(
             ButtonPane(
                 icon = ImagePane("afraidofthedark:textures/gui/spell_editor/save.png"),
                 iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/save_hovered.png"),
-                prefSize = RelativeDimensions(0.13, 0.1),
-                offset = RelativePosition(0.76, 0.4)
+                prefSize = Dimensions(0.13, 0.1),
+                offset = Position(0.76, 0.4)
             )
         saveButton.setHoverText("Save Spell")
         saveButton.addOnClick {
@@ -129,8 +129,8 @@ class SpellTablet(
             ButtonPane(
                 icon = ImagePane("afraidofthedark:textures/gui/spell_editor/delete.png"),
                 iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/delete_hovered.png"),
-                prefSize = RelativeDimensions(0.13, 0.1),
-                offset = RelativePosition(0.76, 0.52)
+                prefSize = Dimensions(0.13, 0.1),
+                offset = Position(0.76, 0.52)
             )
         closeButton.setHoverText("Exit (Without Saving)")
         closeButton.addOnClick {
@@ -143,8 +143,8 @@ class SpellTablet(
         val helpButton = ButtonPane(
             icon = ImagePane("afraidofthedark:textures/gui/spell_editor/question.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/question_hovered.png"),
-            prefSize = RelativeDimensions(0.13, 0.1),
-            offset = RelativePosition(0.76, 0.64)
+            prefSize = Dimensions(0.13, 0.1),
+            offset = Position(0.76, 0.64)
         )
         helpButton.setHoverText("Help")
         // When pressing help execute our on help runnable
@@ -152,13 +152,13 @@ class SpellTablet(
         this.add(helpButton)
 
         // Create the power source spell slot
-        uiPowerSource = SpellPowerSourceSlot(RelativePosition(0.57, 0.07), RelativeDimensions(0.13, 0.1), spell)
+        uiPowerSource = SpellPowerSourceSlot(Position(0.57, 0.07), Dimensions(0.13, 0.1), spell)
         uiPowerSource.setSpellComponent(spell.powerSource)
         this.add(uiPowerSource)
 
         // Add the spell cost label
-        spellCost = LabelComponent(ClientData.getOrCreate(36f), RelativeDimensions(0.7, 0.13))
-        spellCost.offset = RelativePosition(0.15, 0.87)
+        spellCost = LabelComponent(ClientData.getOrCreate(36f), Dimensions(0.7, 0.13))
+        spellCost.offset = Position(0.15, 0.87)
         this.add(spellCost)
 
         // Update all the gui components from our spell
@@ -223,8 +223,8 @@ class SpellTablet(
         }
     }
 
-    override fun calcChildrenBounds(width: Double, height: Double) {
-        super.calcChildrenBounds(width, height)
+    override fun calcChildrenBounds() {
+        super.calcChildrenBounds()
         // Safe call is necessary here because calcChildrenBounds gets called in the constructor before the label is added
         spellCost?.let { this.refreshCost() }   // Refresh the cost every UI update
     }
