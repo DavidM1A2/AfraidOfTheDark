@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -38,7 +39,7 @@ class ExplosionSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, 
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val world = state.world
         val position = state.position
-        createParticlesAt(1, 3, position, world.dimension.type)
+        createParticlesAt(1, 3, position, world.dimension.type, ModParticles.EXPLOSION)
         world.createExplosion(null, position.x, position.y - 0.01f, position.z, getRadius(instance), Explosion.Mode.BREAK)
     }
 

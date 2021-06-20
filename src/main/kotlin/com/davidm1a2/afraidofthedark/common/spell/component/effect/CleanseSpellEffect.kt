@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -43,7 +44,7 @@ class CleanseSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "c
                 freezeData.sync(entity)
             }
 
-            createParticlesAt(1, 2, Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension)
+            createParticlesAt(1, 2, Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension, ModParticles.HEAL)
         }
     }
 

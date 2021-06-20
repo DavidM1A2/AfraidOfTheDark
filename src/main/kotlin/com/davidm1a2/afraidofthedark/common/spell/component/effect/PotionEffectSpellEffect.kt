@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -91,7 +92,7 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
         val entityHit = state.getEntity()
         if (entityHit != null) {
             if (entityHit is LivingEntity) {
-                createParticlesAt(1, 3, exactPosition, entityHit.dimension)
+                createParticlesAt(1, 3, exactPosition, entityHit.dimension, ModParticles.SPELL_HIT)
                 entityHit.addPotionEffect(EffectInstance(potionType, potionDuration, potionStrength))
             }
         } else {
@@ -103,7 +104,7 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
             aoePotion.setRadiusPerTick(0f)
             aoePotion.duration = potionDuration
             world.addEntity(aoePotion)
-            createParticlesAt(4, 8, exactPosition, world.dimension.type)
+            createParticlesAt(4, 8, exactPosition, world.dimension.type, ModParticles.SPELL_HIT)
         }
     }
 

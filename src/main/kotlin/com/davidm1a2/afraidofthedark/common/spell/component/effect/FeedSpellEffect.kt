@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -48,7 +49,7 @@ class FeedSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "feed
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val entity = state.getEntity()
         if (entity is PlayerEntity) {
-            createParticlesAt(1, 2, state.position, entity.dimension)
+            createParticlesAt(1, 2, state.position, entity.dimension, ModParticles.GROW)
             val foodStats = entity.foodStats
             foodStats.addStats(getHungerValue(instance), getSaturationValue(instance).toFloat())
         }

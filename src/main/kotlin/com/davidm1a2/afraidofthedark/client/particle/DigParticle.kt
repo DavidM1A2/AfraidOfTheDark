@@ -25,12 +25,16 @@ class DigParticle(
     z: Double
 ) : AOTDParticle(world, x, y, z) {
     init {
-        // 0.25 second lifespan
-        maxAge = 5
+        // 0.5 second lifespan
+        maxAge = 10
         // Random outwards motion
         motionX = (rand.nextDouble() - 0.5) * 0.5
-        motionY = (rand.nextDouble() - 0.5) * 0.5
+        motionY = (rand.nextDouble() - 0.5) * 1.0
         motionZ = (rand.nextDouble() - 0.5) * 0.5
+    }
+
+    override fun updateMotionXYZ() {
+        motionY -= 0.08
     }
 
     @OnlyIn(Dist.CLIENT)

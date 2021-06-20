@@ -114,9 +114,7 @@ class TextFieldPane(offset: Position = Position(0.0, 0.0), prefSize: Dimensions 
         // Ensure the text field is focused
         if (this.isFocused) {
             val char = SharedConstants.filterAllowedCharacters(event.char.toString())
-            if (char.isNotBlank()) {
-                this.addText(char)
-            }
+            this.addText(char)
         }
     }
 
@@ -173,7 +171,7 @@ class TextFieldPane(offset: Position = Position(0.0, 0.0), prefSize: Dimensions 
      */
     private fun addText(text: String) {
         // Make sure the text is non-empty
-        if (text.isNotEmpty()) {
+        if (text != "") {
             this.setText(this.getText() + text)
         }
     }

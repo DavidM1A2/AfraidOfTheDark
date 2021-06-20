@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellDeliveryMethods
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellEffects
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
@@ -141,7 +142,7 @@ object SpellEffectOverrideRegister {
                             if (blockState.isAir(world, blockPos)) {
                                 // Create particles at the pre and post teleport position
                                 // Play sound at the pre and post teleport position
-                                AOTDSpellEffect.createParticlesAt(1, 3, teleportPos, spellCaster.dimension)
+                                AOTDSpellEffect.createParticlesAt(1, 3, teleportPos, spellCaster.dimension, ModParticles.ENDER)
                                 world.playSound(
                                     null,
                                     teleportPos.x,
@@ -155,7 +156,7 @@ object SpellEffectOverrideRegister {
 
                                 spellCaster.setPositionAndUpdate(teleportPos.x, teleportPos.y, teleportPos.z)
 
-                                AOTDSpellEffect.createParticlesAt(1, 3, teleportPos, spellCaster.dimension)
+                                AOTDSpellEffect.createParticlesAt(1, 3, teleportPos, spellCaster.dimension, ModParticles.ENDER)
                                 world.playSound(
                                     null,
                                     teleportPos.x,
@@ -224,11 +225,13 @@ object SpellEffectOverrideRegister {
                                             Blocks.ICE.defaultState,
                                             2 or 16
                                         )
-                                        AOTDSpellEffect.createParticlesAt(
+                                        AOTDSpellEffect.createParticlesAround(
                                             1,
                                             3,
                                             location,
-                                            state.world.dimension.type
+                                            state.world.dimension.type,
+                                            ModParticles.FREEZE,
+                                            0.5
                                         )
                                     }
                                 }

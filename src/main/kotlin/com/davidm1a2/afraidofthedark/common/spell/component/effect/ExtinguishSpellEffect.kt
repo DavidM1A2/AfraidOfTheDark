@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -24,13 +25,13 @@ class ExtinguishSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID,
         // If we hit an entity extinguish them
         val entity = state.getEntity()
         if (entity != null) {
-            createParticlesAt(3, 5, Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension)
+            createParticlesAt(3, 5, Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension, ModParticles.FIRE)
             entity.extinguish()
         } else {
             val world: World = state.world
             val position = state.blockPosition
             if (world.getBlockState(position).block is FireBlock) {
-                createParticlesAt(1, 3, state.position, world.dimension.type)
+                createParticlesAt(1, 3, state.position, world.dimension.type, ModParticles.FIRE)
                 world.setBlockState(position, Blocks.AIR.defaultState)
             }
         }

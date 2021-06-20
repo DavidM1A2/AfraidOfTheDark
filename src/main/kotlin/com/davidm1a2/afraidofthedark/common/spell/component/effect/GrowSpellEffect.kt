@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -32,7 +33,7 @@ class GrowSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "grow
 
         // Grob the block at the current position if it's a type 'IGrowable'
         if (blockState.block is IGrowable) {
-            createParticlesAt(1, 3, state.position, world.dimension.type)
+            createParticlesAround(8, 16, state.position, world.dimension.type, ModParticles.GROW, 2.0)
             (blockState.block as IGrowable).grow(world, world.rand, position, blockState)
         }
     }

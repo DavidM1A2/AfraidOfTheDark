@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -59,11 +60,13 @@ class FreezeSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "fr
                 } else {
                     entity.addPotionEffect(EffectInstance(Effects.SLOWNESS, getFreezeDuration(instance), 99))
                 }
+                createParticlesAround(5, 10, entity.positionVector, entity.dimension, ModParticles.FREEZE, 1.0)
             }
         } else {
             val hitBlock = world.getBlockState(blockPos)
             if (hitBlock.block == Blocks.WATER) {
                 world.setBlockState(blockPos, Blocks.ICE.defaultState)
+                createParticlesAround(5, 10, state.position, world.dimension.type, ModParticles.FREEZE, 1.0)
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -9,6 +10,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellCompon
 import net.minecraft.block.Blocks
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.Vec3d
+import net.minecraftforge.fml.common.Mod
 
 /**
  * Effect that sets fire to the hit target
@@ -38,7 +40,7 @@ class BurnSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "burn
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         if (state.getEntity() != null) {
             val entity = state.getEntity()
-            createParticlesAt(3, 5, Vec3d(entity!!.posX, entity.posY, entity.posZ), entity.dimension)
+            createParticlesAt(5, 10, Vec3d(entity!!.posX, entity.posY, entity.posZ), entity.dimension, ModParticles.FIRE)
             entity.setFire(getBurnDuration(instance))
         } else {
             val world = state.world
@@ -47,7 +49,7 @@ class BurnSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "burn
             if (upBlockState.isAir(world, position.up())) {
                 val blockState = world.getBlockState(position)
                 if (!blockState.isAir(world, position)) {
-                    createParticlesAt(1, 3, state.position, world.dimension.type)
+                    createParticlesAround(1, 3, state.position, world.dimension.type, ModParticles.FIRE, 0.5)
                     world.setBlockState(position.up(), Blocks.FIRE.defaultState)
                 }
             }

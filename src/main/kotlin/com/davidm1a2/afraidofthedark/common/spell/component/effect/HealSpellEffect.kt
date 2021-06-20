@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -37,8 +38,9 @@ class HealSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "heal
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val entity = state.getEntity()
         if (entity is LivingEntity && entity !is ArmorStandEntity) {
-            createParticlesAt(1, 3, state.position, entity.dimension)
-            entity.heal(getHealAmount(instance).toFloat())
+            val healAmount = getHealAmount(instance)
+            createParticlesAround(healAmount, 2 * healAmount, state.position, entity.dimension, ModParticles.HEAL, 1.0)
+            entity.heal(healAmount.toFloat())
         }
     }
 
