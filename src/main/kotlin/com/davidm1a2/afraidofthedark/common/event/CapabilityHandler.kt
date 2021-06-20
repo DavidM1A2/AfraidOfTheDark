@@ -44,7 +44,7 @@ class CapabilityHandler {
             )
             event.addCapability(
                 ResourceLocation(Constants.MOD_ID, "structure_miss_counter"),
-                CapabilityProvider(ModCapabilities.STRUCTURE_MISS_COUNTER)
+                CapabilityProvider(ModCapabilities.WORLD_STRUCTURE_MISS_COUNTER)
             )
 
             if (world.dimension.type == ModDimensions.NIGHTMARE_TYPE || world.dimension.type == ModDimensions.VOID_CHEST_TYPE) {

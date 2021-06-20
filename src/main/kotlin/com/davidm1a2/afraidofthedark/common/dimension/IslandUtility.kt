@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.dimension
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getIslandVisitors
-import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.IAOTDIslandData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.IslandData
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
@@ -17,7 +17,7 @@ object IslandUtility {
      * @param islandData The island data to compute position on
      * @return The position in the void chest that this player owns
      */
-    fun getOrAssignPlayerPositionalIndex(world: World, islandData: IAOTDIslandData): Int {
+    fun getOrAssignPlayerPositionalIndex(world: World, islandData: IslandData): Int {
         // -1 means unassigned, we need to compute the index first
         if (islandData.positionalIndex == -1) {
             // Compute this new player's index

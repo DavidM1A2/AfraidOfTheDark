@@ -1,28 +1,38 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
-import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsImpl
+import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.IAOTDPlayerBasics
-import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.*
-import com.davidm1a2.afraidofthedark.common.capabilities.player.research.AOTDPlayerResearchImpl
-import com.davidm1a2.afraidofthedark.common.capabilities.player.research.AOTDPlayerResearchStorage
-import com.davidm1a2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch
-import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.AOTDPlayerSpellManagerImpl
-import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.AOTDPlayerSpellManagerStorage
-import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IAOTDPlayerSpellManager
-import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.*
-import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.AOTDWorldIslandVisitorsImpl
-import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.AOTDWorldIslandVisitorsStorage
-import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IAOTDWorldIslandVisitors
-import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.AOTDWorldSpellStatesImpl
-import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.AOTDWorldSpellStatesStorage
-import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.IAOTDWorldSpellStates
-import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.AOTDWorldStructureCollisionMapImpl
-import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.AOTDWorldStructureCollisionMapStorage
-import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.IAOTDWorldStructureCollisionMap
-import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.IStructureMissCounter
-import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.StructureMissCounter
-import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.StructureMissCounterStorage
+import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.IPlayerNightmareData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.IPlayerVoidChestData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.PlayerNightmareData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.PlayerNightmareDataStorage
+import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.PlayerVoidChestData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.PlayerVoidChestDataStorage
+import com.davidm1a2.afraidofthedark.common.capabilities.player.research.IPlayerResearch
+import com.davidm1a2.afraidofthedark.common.capabilities.player.research.PlayerResearch
+import com.davidm1a2.afraidofthedark.common.capabilities.player.research.PlayerResearchStorage
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IPlayerSpellManager
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.PlayerSpellManager
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.PlayerSpellManagerStorage
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellCharmData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellFreezeData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellCharmData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellCharmDataStorage
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellFreezeData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellFreezeDataStorage
+import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IWorldIslandVisitors
+import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.WorldIslandVisitors
+import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.WorldIslandVisitorsStorage
+import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.IWorldSpellStates
+import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.WorldSpellStates
+import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.WorldSpellStatesStorage
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.IWorldStructureCollisionMap
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.WorldStructureCollisionMap
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.WorldStructureCollisionMapStorage
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.IWorldStructureMissCounter
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.WorldStructureMissCounter
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.WorldStructureMissCounterStorage
 import net.minecraftforge.common.capabilities.CapabilityManager
 
 object CapabilityRegister {
@@ -36,47 +46,47 @@ object CapabilityRegister {
             CapabilityManager.INSTANCE.register(
                 IAOTDPlayerBasics::class.java,
                 AOTDPlayerBasicsStorage()
-            ) { AOTDPlayerBasicsImpl() }
+            ) { AOTDPlayerBasics() }
             CapabilityManager.INSTANCE.register(
-                IAOTDPlayerResearch::class.java,
-                AOTDPlayerResearchStorage()
-            ) { AOTDPlayerResearchImpl() }
+                IPlayerResearch::class.java,
+                PlayerResearchStorage()
+            ) { PlayerResearch() }
             CapabilityManager.INSTANCE.register(
-                IAOTDPlayerVoidChestData::class.java,
-                AOTDPlayerVoidChestDataStorage()
-            ) { AOTDPlayerVoidChestDataImpl() }
+                IPlayerVoidChestData::class.java,
+                PlayerVoidChestDataStorage()
+            ) { PlayerVoidChestData() }
             CapabilityManager.INSTANCE.register(
-                IAOTDPlayerNightmareData::class.java,
-                AOTDPlayerNightmareDataStorage()
-            ) { AOTDPlayerNightmareImpl() }
+                IPlayerNightmareData::class.java,
+                PlayerNightmareDataStorage()
+            ) { PlayerNightmareData() }
             CapabilityManager.INSTANCE.register(
-                IAOTDPlayerSpellManager::class.java,
-                AOTDPlayerSpellManagerStorage()
-            ) { AOTDPlayerSpellManagerImpl() }
+                IPlayerSpellManager::class.java,
+                PlayerSpellManagerStorage()
+            ) { PlayerSpellManager() }
             CapabilityManager.INSTANCE.register(
-                IAOTDPlayerSpellFreezeData::class.java,
-                AOTDPlayerSpellFreezeDataStorage()
-            ) { AOTDPlayerSpellFreezeDataImpl() }
+                IPlayerSpellFreezeData::class.java,
+                PlayerSpellFreezeDataStorage()
+            ) { PlayerSpellFreezeData() }
             CapabilityManager.INSTANCE.register(
-                IAOTDPlayerSpellCharmData::class.java,
-                AOTDPlayerSpellCharmDataStorage()
-            ) { AOTDPlayerSpellCharmDataImpl() }
+                IPlayerSpellCharmData::class.java,
+                PlayerSpellCharmDataStorage()
+            ) { PlayerSpellCharmData() }
             CapabilityManager.INSTANCE.register(
-                IAOTDWorldSpellStates::class.java,
-                AOTDWorldSpellStatesStorage()
-            ) { AOTDWorldSpellStatesImpl() }
+                IWorldSpellStates::class.java,
+                WorldSpellStatesStorage()
+            ) { WorldSpellStates() }
             CapabilityManager.INSTANCE.register(
-                IAOTDWorldIslandVisitors::class.java,
-                AOTDWorldIslandVisitorsStorage()
-            ) { AOTDWorldIslandVisitorsImpl() }
+                IWorldIslandVisitors::class.java,
+                WorldIslandVisitorsStorage()
+            ) { WorldIslandVisitors() }
             CapabilityManager.INSTANCE.register(
-                IAOTDWorldStructureCollisionMap::class.java,
-                AOTDWorldStructureCollisionMapStorage()
-            ) { AOTDWorldStructureCollisionMapImpl() }
+                IWorldStructureCollisionMap::class.java,
+                WorldStructureCollisionMapStorage()
+            ) { WorldStructureCollisionMap() }
             CapabilityManager.INSTANCE.register(
-                IStructureMissCounter::class.java,
-                StructureMissCounterStorage()
-            ) { StructureMissCounter() }
+                IWorldStructureMissCounter::class.java,
+                WorldStructureMissCounterStorage()
+            ) { WorldStructureMissCounter() }
         }
         isInitialized = true
     }
