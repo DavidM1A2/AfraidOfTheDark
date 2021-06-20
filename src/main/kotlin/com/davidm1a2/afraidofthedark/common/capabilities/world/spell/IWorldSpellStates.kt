@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates
+package com.davidm1a2.afraidofthedark.common.capabilities.world.spell
 
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 

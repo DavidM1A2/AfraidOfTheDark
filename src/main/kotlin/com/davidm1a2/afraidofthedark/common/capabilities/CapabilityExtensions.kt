@@ -8,7 +8,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IPlayerSpe
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IWorldIslandVisitors
-import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.IWorldSpellStates
+import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.IWorldSpellStates
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.IWorldStructureCollisionMap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.IWorldStructureMissCounter
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities

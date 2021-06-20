@@ -24,9 +24,9 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IWorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.WorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.WorldIslandVisitorsStorage
-import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.IWorldSpellStates
-import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.WorldSpellStates
-import com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates.WorldSpellStatesStorage
+import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.IWorldSpellStates
+import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.WorldSpellStates
+import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.WorldSpellStatesStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.IWorldStructureCollisionMap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.WorldStructureCollisionMap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.WorldStructureCollisionMapStorage

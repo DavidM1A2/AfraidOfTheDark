@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.capabilities.world.spellStates
+package com.davidm1a2.afraidofthedark.common.capabilities.world.spell
 
 import net.minecraft.nbt.INBT
 import net.minecraft.nbt.ListNBT
