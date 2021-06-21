@@ -1,12 +1,16 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiComponent
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableConsumer
 import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableProducer
-import com.davidm1a2.afraidofthedark.client.gui.events.*
+import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseDragEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseScrollEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiComponent
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.mojang.blaze3d.platform.GlStateManager
@@ -189,15 +193,15 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
 
         val producer = if (dragAndDropEnabled) findProducer(contentPane) else null
 
-        if (producer != null) {
-                dragAndDropIcon?.let { overlayPane.remove(it) }
-                val icon = producer.getIcon()
-                dragAndDropIcon = icon
-                dragAndDropData = producer.produce()
-                overlayPane.add(icon)
-                overlayPane.invalidate()
-                icon.offset = Position(mouseX - icon.width/2, mouseY - icon.height/2, false)
-                overlayPane.invalidate()
+        if (producer != null && mouseButton == 0) {
+            dragAndDropIcon?.let { overlayPane.remove(it) }
+            val icon = producer.getIcon()
+            dragAndDropIcon = icon
+            dragAndDropData = producer.produce()
+            overlayPane.add(icon)
+            overlayPane.invalidate()
+            icon.offset = Position(mouseX - icon.width / 2, mouseY - icon.height / 2, false)
+            overlayPane.invalidate()
         } else {
             // Fire the mouse clicked event
             contentPane.processMouseInput(
