@@ -96,6 +96,7 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
                 if (it.source.isVisible && it.source.isHovered && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
                     // Create a new spell
                     val spell = Spell()
+                    spell.name = "Untitled"
                     // Add the spell
                     spellManager.addOrUpdateSpell(spell)
                     // Add the UI spell
