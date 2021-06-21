@@ -28,8 +28,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.nbt.CompoundNBT
-import net.minecraft.network.datasync.DataSerializers
-import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.util.DamageSource
 import net.minecraft.util.EntityDamageSource
 import net.minecraft.util.SoundEvent
@@ -49,19 +47,13 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
         RunChannel("Run", 60.0f, 32, ChannelMode.LINEAR)
     )
 
+    var canAttackAnyone: Boolean = false
+
     constructor(world: World) : this(ModEntities.WEREWOLF, world)
 
     init {
-        // Ensure this werewolf does not attack anyone yet
-        this.dataManager[CAN_ATTACK_ANYONE] = false
-
         // This werewolf is worth 10xp
         experienceValue = 10
-    }
-
-    override fun registerData() {
-        super.registerData()
-        this.dataManager.register(CAN_ATTACK_ANYONE, false)
     }
 
     override fun registerGoals() {
@@ -257,35 +249,17 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
         return 1.3f
     }
 
-    /**
-     * Sets the flag telling us if the werewolf can attack anyone or just AOTD players
-     *
-     * @param attacksAnyone THe flag
-     */
-    fun setCanAttackAnyone(attacksAnyone: Boolean) {
-        this.dataManager[CAN_ATTACK_ANYONE] = attacksAnyone
-    }
-
-    /**
-     * @return True if the werewolf can attack anyone or false if it can just attack AOTD players
-     */
-    fun canAttackAnyone(): Boolean {
-        return this.dataManager[CAN_ATTACK_ANYONE]
-    }
-
     override fun readAdditional(compound: CompoundNBT) {
         super.readAdditional(compound)
-        this.dataManager[CAN_ATTACK_ANYONE] = compound.getBoolean("can_attack_anyone")
+        this.canAttackAnyone = compound.getBoolean("can_attack_anyone")
     }
 
     override fun writeAdditional(compound: CompoundNBT) {
         super.writeAdditional(compound)
-        compound.putBoolean("can_attack_anyone", this.dataManager[CAN_ATTACK_ANYONE])
+        compound.putBoolean("can_attack_anyone", this.canAttackAnyone)
     }
 
     companion object {
-        private val CAN_ATTACK_ANYONE = EntityDataManager.createKey(WerewolfEntity::class.java, DataSerializers.BOOLEAN)
-
         // Constants defining werewolf parameters
         private const val MOVE_SPEED = .43
         private const val AGRO_RANGE = 16.0

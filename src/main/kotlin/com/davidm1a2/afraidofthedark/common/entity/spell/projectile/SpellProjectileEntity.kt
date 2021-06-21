@@ -15,6 +15,7 @@ import net.minecraft.entity.EntityType
 import net.minecraft.entity.projectile.ProjectileHelper
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.IPacket
+import net.minecraft.network.PacketBuffer
 import net.minecraft.network.datasync.DataSerializers
 import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.util.DamageSource
@@ -28,6 +29,7 @@ import net.minecraft.world.World
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData
 import net.minecraftforge.fml.network.NetworkHooks
 import java.awt.Color
 import java.util.*
@@ -40,10 +42,16 @@ import java.util.*
  * @property shooter The entity that fired the projectile, can be null
  * @property animHandler The animation handler that this entity uses for all animations
  */
-class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, world: World) : Entity(entityType, world),
-    IMCAnimatedModel {
-    private var shooter: Entity? = null
+class SpellProjectileEntity(
+    entityType: EntityType<out SpellProjectileEntity>,
+    world: World
+) : Entity(entityType, world), IMCAnimatedModel, IEntityAdditionalSpawnData {
     private val animHandler = AnimationHandler(SpellProjectileIdleChannel("Idle", 50.0f, 60, ChannelMode.LOOP))
+
+    private var shooter: Entity? = null
+    private var casterEntityId: UUID? = null
+    private var distanceRemainingBlocks: Float = 0f
+    private var ticksInAir: Int = 0
 
     /**
      * Required constructor that sets the world, pos, and velocity
@@ -67,10 +75,10 @@ class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, w
         this.shooter = shooter
         this.dataManager[SPELL] = spell
         this.dataManager[SPELL_INDEX] = spellIndex
-        this.dataManager[CASTER_ENTITY_ID] = Optional.ofNullable(spellCaster?.uniqueID)
+        this.casterEntityId = spellCaster?.uniqueID
         val deliveryInstance = spell.getStage(spellIndex)!!.deliveryInstance!!
         val deliveryMethodProjectile = deliveryInstance.component as ProjectileSpellDeliveryMethod
-        this.dataManager[DISTANCE_REMAINING_BLOCKS] = deliveryMethodProjectile.getRange(deliveryInstance).toFloat()
+        this.distanceRemainingBlocks = deliveryMethodProjectile.getRange(deliveryInstance).toFloat()
 
         // Grab the projectile speed from the delivery method
         val projectileSpeed = deliveryMethodProjectile.getSpeed(deliveryInstance)
@@ -86,12 +94,12 @@ class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, w
         }
     }
 
+    /**
+     * Initialize dataManager. Anything registered here is automatically synced from Server -> Client
+     */
     override fun registerData() {
-        this.dataManager.register(TICKS_IN_AIR, -1)
         this.dataManager.register(SPELL, Spell())
         this.dataManager.register(SPELL_INDEX, 0)
-        this.dataManager.register(DISTANCE_REMAINING_BLOCKS, -1f)
-        this.dataManager.register(CASTER_ENTITY_ID, Optional.empty())
     }
 
     /**
@@ -106,8 +114,7 @@ class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, w
             @Suppress("DEPRECATION")
             if (world.isBlockLoaded(BlockPos(this))) {
                 // We are in the air, so increment our counter
-                val ticksInAir = this.dataManager[TICKS_IN_AIR] + 1
-                this.dataManager[TICKS_IN_AIR] = ticksInAir
+                val ticksInAir = this.ticksInAir + 1
 
                 // Perform a ray case to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
                 // Intellij says 'shooter' should always be non-null, that is not the case....
@@ -123,14 +130,13 @@ class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, w
 
                 // Update distance flown, and kill the entity if it went
                 val distanceFlown = motion.length()
-                val blockDistanceRemaining = this.dataManager[DISTANCE_REMAINING_BLOCKS] - distanceFlown.toFloat()
-                this.dataManager[DISTANCE_REMAINING_BLOCKS] = blockDistanceRemaining
+                this.distanceRemainingBlocks = this.distanceRemainingBlocks - distanceFlown.toFloat()
 
                 val spell = this.dataManager[SPELL]
                 val spellIndex = this.dataManager[SPELL_INDEX]
 
                 // If we're out of distance deliver the spell and kill the projectile
-                if (blockDistanceRemaining <= 0) {
+                if (this.distanceRemainingBlocks <= 0) {
                     val state = DeliveryTransitionStateBuilder()
                         .withSpell(spell)
                         .withStageIndex(spellIndex)
@@ -138,7 +144,7 @@ class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, w
                         .withPosition(this.positionVector)
                         .withBlockPosition(this.position)
                         .withDirection(motion)
-                        .withCasterEntity(this.dataManager[CASTER_ENTITY_ID].map { (world as? ServerWorld)?.getEntityByUuid(it) }.orElse(null))
+                        .withCasterEntity(this.casterEntityId?.let { (world as? ServerWorld)?.getEntityByUuid(it) })
                         .withDeliveryEntity(this)
                         .build()
 
@@ -188,7 +194,7 @@ class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, w
                         .withPosition(result.hitVec)
                         .withBlockPosition(hitPos)
                         .withDirection(motion)
-                        .withCasterEntity(this.dataManager[CASTER_ENTITY_ID].map { (world as? ServerWorld)?.getEntityByUuid(it) }.orElse(null))
+                        .withCasterEntity(this.casterEntityId?.let { (world as? ServerWorld)?.getEntityByUuid(it) })
                         .withDeliveryEntity(this)
                         .build()
 
@@ -200,7 +206,7 @@ class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, w
                         .withSpell(spell)
                         .withStageIndex(spellIndex)
                         .withEntity(result.entity)
-                        .withCasterEntity(this.dataManager[CASTER_ENTITY_ID].map { (world as? ServerWorld)?.getEntityByUuid(it) }.orElse(null))
+                        .withCasterEntity(this.casterEntityId?.let { (world as? ServerWorld)?.getEntityByUuid(it) })
                         .withDeliveryEntity(this)
                         .build()
 
@@ -229,6 +235,7 @@ class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, w
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
     fun getColor(): Color {
         return ModSpellDeliveryMethods.PROJECTILE.getColor(dataManager[SPELL].spellStages[dataManager[SPELL_INDEX]].deliveryInstance!!)
     }
@@ -303,30 +310,41 @@ class SpellProjectileEntity(entityType: EntityType<out SpellProjectileEntity>, w
     }
 
     override fun readAdditional(compound: CompoundNBT) {
-        this.dataManager[TICKS_IN_AIR] = compound.getInt("ticks_in_air")
         this.dataManager[SPELL] = Spell(compound.getCompound("spell"))
         this.dataManager[SPELL_INDEX] = compound.getInt("spell_index")
-        this.dataManager[DISTANCE_REMAINING_BLOCKS] = compound.getFloat("distance_remaining_blocks")
-        this.dataManager[CASTER_ENTITY_ID] = if (compound.contains("caster_entity_id")) {
-            Optional.of(compound.getUniqueId("caster_entity_id"))
+        this.ticksInAir = compound.getInt("ticks_in_air")
+        this.distanceRemainingBlocks = compound.getFloat("distance_remaining_blocks")
+        this.casterEntityId = if (compound.contains("caster_entity_id")) {
+            compound.getUniqueId("caster_entity_id")
         } else {
-            Optional.empty()
+            null
         }
     }
 
     override fun writeAdditional(compound: CompoundNBT) {
-        compound.putInt("ticks_in_air", this.dataManager[TICKS_IN_AIR])
         compound.put("spell", this.dataManager[SPELL].serializeNBT())
         compound.putInt("spell_index", this.dataManager[SPELL_INDEX])
-        compound.putFloat("distance_remaining_blocks", this.dataManager[DISTANCE_REMAINING_BLOCKS])
-        this.dataManager[CASTER_ENTITY_ID].map { compound.putUniqueId("caster_entity_id", it) }
+        compound.putInt("ticks_in_air", this.ticksInAir)
+        compound.putFloat("distance_remaining_blocks", this.distanceRemainingBlocks)
+        this.casterEntityId?.let { compound.putUniqueId("caster_entity_id", it) }
+    }
+
+    /*
+     * Spawn data is sent Server -> Client BEFORE the entity is spawned. We use this to ensure the client knows the spell's color before rendering
+     */
+
+    override fun readSpawnData(additionalData: PacketBuffer) {
+        this.dataManager[SPELL] = Spell(additionalData.readCompoundTag()!!)
+        this.dataManager[SPELL_INDEX] = additionalData.readInt()
+    }
+
+    override fun writeSpawnData(buffer: PacketBuffer) {
+        buffer.writeCompoundTag(this.dataManager[SPELL].serializeNBT())
+        buffer.writeInt(this.dataManager[SPELL_INDEX])
     }
 
     companion object {
-        private val TICKS_IN_AIR = EntityDataManager.createKey(SpellProjectileEntity::class.java, DataSerializers.VARINT)
         private val SPELL = EntityDataManager.createKey(SpellProjectileEntity::class.java, ModDataSerializers.SPELL)
         private val SPELL_INDEX = EntityDataManager.createKey(SpellProjectileEntity::class.java, DataSerializers.VARINT)
-        private val DISTANCE_REMAINING_BLOCKS = EntityDataManager.createKey(SpellProjectileEntity::class.java, DataSerializers.FLOAT)
-        private val CASTER_ENTITY_ID = EntityDataManager.createKey(SpellProjectileEntity::class.java, DataSerializers.OPTIONAL_UNIQUE_ID)
     }
 }

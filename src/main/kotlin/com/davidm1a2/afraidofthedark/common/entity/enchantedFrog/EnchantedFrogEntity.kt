@@ -1,11 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.entity.enchantedFrog
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.constants.ModDataSerializers
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
-import com.davidm1a2.afraidofthedark.common.entity.enaria.EnariaEntity
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.animation.CastChannel
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.animation.HopChannel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
@@ -28,7 +26,6 @@ import net.minecraft.entity.ai.goal.RandomWalkingGoal
 import net.minecraft.entity.ai.goal.SwimGoal
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
-import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.util.DamageSource
 import net.minecraft.util.SoundEvent
 import net.minecraft.util.math.BlockPos
@@ -49,19 +46,12 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
         HopChannel("hop", 120.0f, 80, ChannelMode.LINEAR),
         CastChannel("cast", 120.0f, 60, ChannelMode.LINEAR)
     )
+    var spell = createRandomSpell()
+        private set
 
     init {
         // Set how much XP the frog is worth
         experienceValue = 8
-    }
-
-    /**
-     * Initialize dataManager
-     */
-    override fun registerData() {
-        super.registerData()
-        // Set the spell to a random one
-        this.dataManager.register(SPELL, createRandomSpell())
     }
 
     /**
@@ -162,7 +152,7 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
                 val nearestPlayer = world.getClosestPlayer(this, FOLLOW_RANGE.toDouble())
                 // Cast at the player, and show the cast animation
                 nearestPlayer?.let {
-                    getSpell().attemptToCast(this, it.getEyePosition(1.0f).subtract(this.positionVector).normalize())
+                    spell.attemptToCast(this, it.getEyePosition(1.0f).subtract(this.positionVector).normalize())
                     AfraidOfTheDark.packetHandler.sendToAllAround(AnimationPacket(this, "cast"), this, 50.0)
                 }
 
@@ -222,23 +212,17 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
         return 0.2f
     }
 
-    fun getSpell(): Spell {
-        return this.dataManager[SPELL]
-    }
-
     override fun readAdditional(compound: CompoundNBT) {
         super.readAdditional(compound)
-        this.dataManager[SPELL] = Spell(compound.getCompound("spell"))
+        this.spell = Spell(compound.getCompound("spell"))
     }
 
     override fun writeAdditional(compound: CompoundNBT) {
         super.writeAdditional(compound)
-        compound.put("spell", this.dataManager[SPELL].serializeNBT())
+        compound.put("spell", this.spell.serializeNBT())
     }
 
     companion object {
-        private val SPELL = EntityDataManager.createKey(EnariaEntity::class.java, ModDataSerializers.SPELL)
-
         private const val MIN_TICKS_BETWEEN_CASTS = 15 * 20
         private const val MAX_TICKS_BETWEEN_CASTS = 30 * 20
 

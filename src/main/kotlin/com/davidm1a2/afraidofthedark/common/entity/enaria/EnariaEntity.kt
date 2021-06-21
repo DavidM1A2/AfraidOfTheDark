@@ -23,8 +23,6 @@ import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.network.IPacket
-import net.minecraft.network.datasync.DataSerializers
-import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.util.DamageSource
 import net.minecraft.util.EntityDamageSource
 import net.minecraft.util.math.BlockPos
@@ -52,6 +50,8 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
 
     // Fight data will only be stored server side
     private lateinit var fight: EnariaFight
+    private var lastHit: Int = 0
+    private var spawnerTilePos: BlockPos = BlockPos.ZERO
 
     init {
         // Name of the entity, will be bold and red
@@ -66,19 +66,9 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
      * @param world The world to spawn enaria in
      */
     constructor(world: World, spawnerTilePos: BlockPos) : this(ModEntities.ENARIA, world) {
-        this.dataManager[SPAWNER_TILE_POS] = spawnerTilePos
         if (!world.isRemote) {
             this.fight = EnariaFight(this, spawnerTilePos)
         }
-    }
-
-    /**
-     * Initialize dataManager
-     */
-    override fun registerData() {
-        super.registerData()
-        this.dataManager.register(LAST_HIT, 0)
-        this.dataManager.register(SPAWNER_TILE_POS, BlockPos.ZERO)
     }
 
     /**
@@ -150,9 +140,9 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
         // Server side processing only
         if (!world.isRemote) {
             // Compute the time between this hit and the last hit she received
-            val timeBetweenHits = System.currentTimeMillis() - this.dataManager.get(LAST_HIT)
+            val timeBetweenHits = System.currentTimeMillis() - this.lastHit
             // Update the last hit time
-            this.dataManager.set(LAST_HIT, timeBetweenHits.toInt())
+            this.lastHit = timeBetweenHits.toInt()
 
             // Make amount mutable
             var amount = rawAmount
@@ -195,7 +185,7 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
         super.onDeath(cause)
         if (!world.isRemote) {
             fight.end()
-            val spawnerTileEntity = world.getTileEntity(this.dataManager[SPAWNER_TILE_POS])
+            val spawnerTileEntity = world.getTileEntity(this.spawnerTilePos)
             if (spawnerTileEntity is EnariaSpawnerTileEntity) {
                 spawnerTileEntity.endFight()
             }
@@ -277,27 +267,24 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
 
     override fun readAdditional(compound: CompoundNBT) {
         super.readAdditional(compound)
-        this.dataManager[LAST_HIT] = compound.getInt("last_hit")
-        this.dataManager[SPAWNER_TILE_POS] = NBTUtil.readBlockPos(compound.getCompound("spawner_tile_pos"))
+        this.lastHit = compound.getInt("last_hit")
+        this.spawnerTilePos = NBTUtil.readBlockPos(compound.getCompound("spawner_tile_pos"))
         if (!world.isRemote) {
-            this.fight = EnariaFight(this, this.dataManager[SPAWNER_TILE_POS])
+            this.fight = EnariaFight(this, this.spawnerTilePos)
             this.fight.deserializeNBT(compound.getCompound("fight"))
         }
     }
 
     override fun writeAdditional(compound: CompoundNBT) {
         super.writeAdditional(compound)
-        compound.putInt("last_hit", this.dataManager[LAST_HIT])
-        compound.put("spawner_tile_pos", NBTUtil.writeBlockPos(this.dataManager[SPAWNER_TILE_POS]))
+        compound.putInt("last_hit", this.lastHit)
+        compound.put("spawner_tile_pos", NBTUtil.writeBlockPos(this.spawnerTilePos))
         if (!world.isRemote) {
             compound.put("fight", this.fight.serializeNBT())
         }
     }
 
     companion object {
-        private val LAST_HIT = EntityDataManager.createKey(EnariaEntity::class.java, DataSerializers.VARINT)
-        private val SPAWNER_TILE_POS = EntityDataManager.createKey(EnariaEntity::class.java, DataSerializers.BLOCK_POS)
-
         // Constants for enaria's stats
         private const val MOVE_SPEED = 0.6
         private const val FOLLOW_RANGE = 64.0

@@ -57,7 +57,7 @@ abstract class BoltEntity : ThrowableEntity {
     constructor(entityType: EntityType<out BoltEntity>, thrower: LivingEntity, world: World) : super(entityType, thrower, world)
 
     /**
-     * Register any entity data (eg: if arrow is a crit, etc)
+     * Register any entity data. Anything registered here is automatically synced from Server -> Client
      */
     override fun registerData() {
     }

@@ -81,7 +81,7 @@ class WerewolfTargetLocatorGoal internal constructor(
 
             // Iterate over all players nearby and pick a valid target
             for (entityPlayer in nearbyPlayers) {
-                if (entityPlayer.getBasics().startedAOTD || (goalOwner as WerewolfEntity).canAttackAnyone()) {
+                if (entityPlayer.getBasics().startedAOTD || (goalOwner as WerewolfEntity).canAttackAnyone) {
                     targetEntity = entityPlayer
                     return true
                 }

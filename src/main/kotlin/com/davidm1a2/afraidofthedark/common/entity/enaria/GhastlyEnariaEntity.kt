@@ -31,6 +31,8 @@ import java.util.*
 class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world: World) : FlyingEntity(entityType, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(DanceChannel("dance", 30.0f, 300, ChannelMode.LINEAR))
 
+    private var touchedPlayer: UUID? = null
+
     init {
         // The name of the entity, will be bold and red
         this.customName = StringTextComponent("§c§lGhastly Enaria")
@@ -41,12 +43,11 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
     }
 
     /**
-     * Initialize dataManager
+     * Initialize dataManager. Anything registered here is automatically synced from Server -> Client
      */
     override fun registerData() {
         super.registerData()
         this.dataManager.register(IS_BENIGN, true)
-        this.dataManager.register(TOUCHED_PLAYER, Optional.empty())
     }
 
     /**
@@ -107,7 +108,7 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
                 // Make sure the player is valid and not dead
                 if (entityPlayer != null && entityPlayer.isAlive) {
                     // Don't TP The player from here or we get an exception. Let the GhastlyEnariaTileEntity do that for us
-                    this.dataManager[TOUCHED_PLAYER] = Optional.of(entityPlayer.uniqueID)
+                    this.touchedPlayer = entityPlayer.uniqueID
                 }
             }
         }
@@ -171,12 +172,12 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
         }
     }
 
-    fun getTouchedPlayer(): Optional<UUID> {
-        return this.dataManager[TOUCHED_PLAYER]
+    fun getTouchedPlayer(): UUID? {
+        return this.touchedPlayer
     }
 
     fun clearTouchedPlayer() {
-        this.dataManager[TOUCHED_PLAYER] = Optional.empty()
+        this.touchedPlayer = null
     }
 
     /**
@@ -213,7 +214,6 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
 
     companion object {
         private val IS_BENIGN = EntityDataManager.createKey(GhastlyEnariaEntity::class.java, DataSerializers.BOOLEAN)
-        private val TOUCHED_PLAYER = EntityDataManager.createKey(GhastlyEnariaEntity::class.java, DataSerializers.OPTIONAL_UNIQUE_ID)
 
         // Constants defining enaria parameters
         private const val MOVE_SPEED = 0.005

@@ -5,7 +5,14 @@ import com.davidm1a2.afraidofthedark.client.sound.NightmareChaseMusicSound
 import com.davidm1a2.afraidofthedark.client.sound.NightmareMusicSound
 import com.davidm1a2.afraidofthedark.common.capabilities.getNightmareData
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.*
+import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
+import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
+import com.davidm1a2.afraidofthedark.common.constants.ModEffects
+import com.davidm1a2.afraidofthedark.common.constants.ModEntities
+import com.davidm1a2.afraidofthedark.common.constants.ModItems
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility
 import com.davidm1a2.afraidofthedark.common.dimension.teleport
 import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
@@ -53,9 +60,9 @@ class NightmareHandler {
                     (world as ServerWorld).entities
                         .filter { it?.type == ModEntities.GHASTLY_ENARIA }
                         .map { it as GhastlyEnariaEntity }
-                        .filter { it.getTouchedPlayer().isPresent }
+                        .filter { it.getTouchedPlayer() != null }
                         .forEach {
-                            val player = world.getEntityByUuid(it.getTouchedPlayer().get())
+                            val player = world.getEntityByUuid(it.getTouchedPlayer()!!)
                             if (player != null && player is ServerPlayerEntity) {
                                 // Kill enaria, she's now unloaded (can't use .setDead()) or we get an index out of bounds exception?
                                 it.onKillCommand()

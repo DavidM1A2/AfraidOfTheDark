@@ -20,7 +20,7 @@ class DarknessFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFig
         for (ignored in 0 until numWerewolvesToSpawn) {
             val werewolf = WerewolfEntity(fight.enaria.world)
             werewolf.setPosition(fight.centerPos.x + 0.5, fight.centerPos.y - 3.0, fight.centerPos.z + 0.5)
-            werewolf.setCanAttackAnyone(true)
+            werewolf.canAttackAnyone = true
             fight.enaria.world.addEntity(werewolf)
             werewolfIds.add(werewolf.uniqueID)
         }

@@ -21,8 +21,6 @@ import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal
 import net.minecraft.entity.monster.IMob
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
-import net.minecraft.network.datasync.DataSerializers
-import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.util.DamageSource
 import net.minecraft.world.Difficulty
 import net.minecraft.world.World
@@ -41,6 +39,7 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
         ChargeChannel("Charge", 100.0f, 100, ChannelMode.LINEAR),
         IdleChannel("Idle", 25.0f, 100, ChannelMode.LINEAR)
     )
+    private var playedSpawnAnimation = false
 
     constructor(world: World) : this(ModEntities.SPLINTER_DRONE, world)
 
@@ -49,11 +48,6 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
         experienceValue = 7
         // Update our move helper to fly like a ghast
         moveController = SplinterDroneMovementController(this)
-    }
-
-    override fun registerData() {
-        super.registerData()
-        this.dataManager.register(PLAYED_SPAWN_ANIMATION, false)
     }
 
     /**
@@ -107,13 +101,13 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
 
         // Server side test if the entity has played the spawn animation
         if (!world.isRemote) {
-            if (!this.dataManager[PLAYED_SPAWN_ANIMATION]) {
+            if (!this.playedSpawnAnimation) {
                 // If it hasn't played the spawn animation play it to all nearby players
                 AfraidOfTheDark.packetHandler.sendToAllAround(
                     AnimationPacket(this, "Activate"),
                     PacketDistributor.TargetPoint(posX, posY, posZ, 50.0, dimension)
                 )
-                this.dataManager[PLAYED_SPAWN_ANIMATION] = true
+                this.playedSpawnAnimation = true
             }
         }
 
@@ -168,17 +162,15 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
 
     override fun readAdditional(compound: CompoundNBT) {
         super.readAdditional(compound)
-        this.dataManager[PLAYED_SPAWN_ANIMATION] = compound.getBoolean("played_spawn_animation")
+        this.playedSpawnAnimation = compound.getBoolean("played_spawn_animation")
     }
 
     override fun writeAdditional(compound: CompoundNBT) {
         super.writeAdditional(compound)
-        compound.putBoolean("played_spawn_animation", this.dataManager[PLAYED_SPAWN_ANIMATION])
+        compound.putBoolean("played_spawn_animation", this.playedSpawnAnimation)
     }
 
     companion object {
-        private val PLAYED_SPAWN_ANIMATION = EntityDataManager.createKey(SplinterDroneEntity::class.java, DataSerializers.BOOLEAN)
-
         // Constants used to define splinter drone properties
         private const val MOVE_SPEED = 0.05
         private const val AGRO_RANGE = 30.0

@@ -12,12 +12,14 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.ProjectileHelper
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.IPacket
-import net.minecraft.network.datasync.DataSerializers
-import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
 import net.minecraft.util.DamageSource
-import net.minecraft.util.math.*
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.EntityRayTraceResult
+import net.minecraft.util.math.RayTraceContext
+import net.minecraft.util.math.RayTraceResult
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
@@ -36,6 +38,7 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
     IMCAnimatedModel {
     private var shootingEntity: SplinterDroneEntity? = null
     private val animHandler = AnimationHandler(SpingChannel("Sping", 100.0f, 100, ChannelMode.LINEAR))
+    private var ticksInAir = 0
 
     /**
      * Recommended constructor that sets the projectile in motion given a velocity vector and shooting entity
@@ -74,8 +77,10 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
         )
     }
 
+    /**
+     * Register any entity data. Anything registered here is automatically synced from Server -> Client
+     */
     override fun registerData() {
-        this.dataManager.register(TICKS_IN_AIR, -1)
     }
 
     /**
@@ -95,8 +100,7 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
             @Suppress("DEPRECATION")
             if ((shootingEntity == null || shootingEntity!!.isAlive) && world.isBlockLoaded(BlockPos(this))) {
                 // We are in the air, so increment our counter
-                val ticksInAir = this.dataManager[TICKS_IN_AIR] + 1
-                this.dataManager[TICKS_IN_AIR] = ticksInAir
+                this.ticksInAir = this.ticksInAir + 1
 
                 // Perform a ray cast to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
                 val rayTraceResult = ProjectileHelper.func_221266_a(this, true, ticksInAir >= 25, shootingEntity, RayTraceContext.BlockMode.COLLIDER)
@@ -223,16 +227,14 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
     }
 
     override fun writeAdditional(compound: CompoundNBT) {
-        this.dataManager[TICKS_IN_AIR] = compound.getInt("ticks_in_air")
+        this.ticksInAir = compound.getInt("ticks_in_air")
     }
 
     override fun readAdditional(compound: CompoundNBT) {
-        compound.putInt("ticks_in_air", this.dataManager[TICKS_IN_AIR])
+        compound.putInt("ticks_in_air", this.ticksInAir)
     }
 
     companion object {
-        private val TICKS_IN_AIR = EntityDataManager.createKey(SplinterDroneProjectileEntity::class.java, DataSerializers.VARINT)
-
         // The speed of the projectile
         private const val PROJECTILE_SPEED = 0.5
     }

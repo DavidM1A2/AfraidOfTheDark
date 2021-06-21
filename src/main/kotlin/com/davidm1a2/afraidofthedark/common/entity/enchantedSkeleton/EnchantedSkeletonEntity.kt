@@ -29,8 +29,6 @@ import net.minecraft.entity.monster.MonsterEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundNBT
-import net.minecraft.network.datasync.DataSerializers
-import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
 import net.minecraft.util.DamageSource
@@ -54,19 +52,11 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
         SpawnChannel("Spawn", 20.0f, 40, ChannelMode.LINEAR),
         IdleChannel("Idle", 10.0f, 20, ChannelMode.LOOP)
     )
+    private var playedSpawnAnimation = false
 
     init {
         // Set how much XP the skeleton is worth
         experienceValue = 4
-    }
-
-    /**
-     * Initialize dataManager
-     */
-    override fun registerData() {
-        super.registerData()
-        // Set the spell to a random one
-        this.dataManager.register(PLAYED_SPAWN_ANIMATION, false)
     }
 
     /**
@@ -112,7 +102,7 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
         // If we're server side
         if (!world.isRemote) {
             // If we haven't played the spawn animation yet, play it now
-            if (!dataManager[PLAYED_SPAWN_ANIMATION]) {
+            if (!playedSpawnAnimation) {
                 // Tell clients to show the spawn animation
                 AfraidOfTheDark.packetHandler.sendToAllAround(
                     AnimationPacket(this, "Spawn"),
@@ -124,7 +114,7 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
                 addPotionEffect(EffectInstance(Effects.WEAKNESS, 60, 100))
 
                 // Set our flag
-                dataManager[PLAYED_SPAWN_ANIMATION] = true
+                playedSpawnAnimation = true
             }
         }
 
@@ -253,17 +243,15 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
 
     override fun readAdditional(compound: CompoundNBT) {
         super.readAdditional(compound)
-        this.dataManager[PLAYED_SPAWN_ANIMATION] = compound.getBoolean("played_spawn_animation")
+        this.playedSpawnAnimation = compound.getBoolean("played_spawn_animation")
     }
 
     override fun writeAdditional(compound: CompoundNBT) {
         super.writeAdditional(compound)
-        compound.putBoolean("played_spawn_animation", this.dataManager[PLAYED_SPAWN_ANIMATION])
+        compound.putBoolean("played_spawn_animation", this.playedSpawnAnimation)
     }
 
     companion object {
-        private val PLAYED_SPAWN_ANIMATION = EntityDataManager.createKey(EnchantedSkeletonEntity::class.java, DataSerializers.BOOLEAN)
-
         // Constants defining skeleton parameters
         private const val MOVE_SPEED = 1.0f
         private const val AGRO_RANGE = 16.0f

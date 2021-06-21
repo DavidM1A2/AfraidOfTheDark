@@ -49,7 +49,7 @@ class DebugItem : AOTDItem("debug", Properties().maxStackSize(1), displayInCreat
     override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, entity: Entity): Boolean {
         if (!player.world.isRemote)
             if (entity is EnchantedFrogEntity) {
-                val s = entity.getSpell()
+                val s = entity.spell
                 player.sendMessage(StringTextComponent(s.toString()))
                 logger.info("Type is:\n$s")
             }
