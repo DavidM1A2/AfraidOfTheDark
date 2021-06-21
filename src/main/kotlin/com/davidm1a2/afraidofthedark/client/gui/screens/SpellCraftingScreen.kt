@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
-import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellScroll
 import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellComponentSlot
+import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellScroll
 import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellTablet
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
@@ -62,7 +62,7 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
 
         contentPane.addKeyListener {
             // If the inventory key closes the ui and is pressed open the spell list UI
-            if (tablet.inventoryKeyClosesUI()) { //  && scroll.inventoryKeyClosesUI()
+            if (tablet.inventoryKeyClosesUI() && scroll.inventoryKeyClosesUI()) {
                 if (isInventoryKeybind(it.key, it.scanCode)) {
                     Minecraft.getInstance().displayGuiScreen(SpellListScreen())
                 }
