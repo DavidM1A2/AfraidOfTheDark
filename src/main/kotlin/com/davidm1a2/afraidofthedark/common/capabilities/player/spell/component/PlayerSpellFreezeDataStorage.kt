@@ -33,8 +33,8 @@ class PlayerSpellFreezeDataStorage : IStorage<IPlayerSpellFreezeData> {
             nbt.putDouble(NBT_POSITION + "_y", it.y)
             nbt.putDouble(NBT_POSITION + "_z", it.z)
         }
-        nbt.putFloat(NBT_DIRECTION_YAW, instance.getFreezeYaw())
-        nbt.putFloat(NBT_DIRECTION_PITCH, instance.getFreezePitch())
+        nbt.putFloat(NBT_DIRECTION_YAW, instance.freezeYaw)
+        nbt.putFloat(NBT_DIRECTION_PITCH, instance.freezePitch)
         return nbt
     }
 
@@ -67,10 +67,8 @@ class PlayerSpellFreezeDataStorage : IStorage<IPlayerSpellFreezeData> {
                 )
             }
 
-            instance.setFreezeDirection(
-                nbt.getFloat(NBT_DIRECTION_YAW),
-                nbt.getFloat(NBT_DIRECTION_PITCH)
-            )
+            instance.freezeYaw = nbt.getFloat(NBT_DIRECTION_YAW)
+            instance.freezePitch = nbt.getFloat(NBT_DIRECTION_PITCH)
         } else {
             logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
         }

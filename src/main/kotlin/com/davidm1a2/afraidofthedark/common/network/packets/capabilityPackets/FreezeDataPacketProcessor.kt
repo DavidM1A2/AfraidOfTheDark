@@ -42,7 +42,8 @@ class FreezeDataPacketProcessor : PacketProcessor<FreezeDataPacket> {
             val freezeData = Minecraft.getInstance().player.getSpellFreezeData()
             freezeData.freezeTicks = msg.freezeTicks
             freezeData.freezePosition = msg.position
-            freezeData.setFreezeDirection(msg.yaw, msg.pitch)
+            freezeData.freezePitch = msg.pitch
+            freezeData.freezeYaw = msg.yaw
         }
     }
 }

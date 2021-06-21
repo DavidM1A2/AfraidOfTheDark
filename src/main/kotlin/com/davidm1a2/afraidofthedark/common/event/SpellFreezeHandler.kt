@@ -45,8 +45,8 @@ class SpellFreezeHandler {
                         freezePosition.x,
                         freezePosition.y,
                         freezePosition.z,
-                        playerFreezeData.getFreezeYaw(),
-                        playerFreezeData.getFreezePitch()
+                        playerFreezeData.freezeYaw,
+                        playerFreezeData.freezePitch
                     )
                 }
             }

@@ -56,7 +56,8 @@ class FreezeSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "fr
                     val freezeData = entity.getSpellFreezeData()
                     freezeData.freezeTicks = getFreezeDuration(instance)
                     freezeData.freezePosition = Vec3d(entity.posX, entity.posY, entity.posZ)
-                    freezeData.setFreezeDirection(entity.rotationYaw, entity.rotationPitch)
+                    freezeData.freezeYaw = entity.rotationYaw
+                    freezeData.freezePitch = entity.rotationPitch
                 } else {
                     entity.addPotionEffect(EffectInstance(Effects.SLOWNESS, getFreezeDuration(instance), 99))
                 }

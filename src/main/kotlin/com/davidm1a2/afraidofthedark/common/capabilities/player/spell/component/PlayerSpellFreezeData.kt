@@ -11,14 +11,14 @@ import net.minecraft.util.math.Vec3d
  *
  * @property freezeTicks The number of freeze ticks remaining
  * @property freezePosition The position the player is frozen at
- * @property yaw The yaw direction the player is facing when frozen
- * @property pitch The pitch direction the player is facing when frozen
+ * @property freezePitch The yaw direction the player is facing when frozen
+ * @property freezeYaw The pitch direction the player is facing when frozen
  */
 class PlayerSpellFreezeData : IPlayerSpellFreezeData {
     override var freezeTicks = 0
     override var freezePosition: Vec3d? = null
-    private var yaw = 0f
-    private var pitch = 0f
+    override var freezePitch: Float = 0f
+    override var freezeYaw: Float = 0f
 
     /**
      * Returns true if the player is on server side or false if not
@@ -31,35 +31,6 @@ class PlayerSpellFreezeData : IPlayerSpellFreezeData {
     }
 
     /**
-     * Sets the direction the player was looking when frozen
-     *
-     * @param yaw The yaw of the direction the player is looking
-     * @param pitch The pitch of the direction the player is looking
-     */
-    override fun setFreezeDirection(yaw: Float, pitch: Float) {
-        this.yaw = yaw
-        this.pitch = pitch
-    }
-
-    /**
-     * Gets the yaw of the direction the player is frozen towards
-     *
-     * @return The yaw that the player was looking when frozen
-     */
-    override fun getFreezeYaw(): Float {
-        return yaw
-    }
-
-    /**
-     * Gets the pitch of the direction the player is frozen towards
-     *
-     * @return The pitch that the player was looking when frozen
-     */
-    override fun getFreezePitch(): Float {
-        return pitch
-    }
-
-    /**
      * Synchronizes freeze data between server and client
      *
      * @param entityPlayer The player to sync freeze data to
@@ -68,7 +39,7 @@ class PlayerSpellFreezeData : IPlayerSpellFreezeData {
         // If we are on the server side sync this data to the client side
         if (isServerSide(entityPlayer)) {
             AfraidOfTheDark.packetHandler.sendTo(
-                FreezeDataPacket(freezeTicks, freezePosition, yaw, pitch),
+                FreezeDataPacket(freezeTicks, freezePosition, freezeYaw, freezePitch),
                 entityPlayer as ServerPlayerEntity
             )
         }
