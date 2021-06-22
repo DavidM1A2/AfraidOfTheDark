@@ -1,9 +1,13 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
+import com.davidm1a2.afraidofthedark.client.gui.events.ITextChangeListener
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
+import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import net.minecraft.client.Minecraft
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.SharedConstants
@@ -15,6 +19,7 @@ import java.awt.Color
  */
 class TextFieldPane(offset: Position = Position(0.0, 0.0), prefSize: Dimensions = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE), font: TrueTypeFont) :
     AOTDPane(offset, prefSize) {
+    private val textChangeListeners = mutableListOf<ITextChangeListener>()
     private val background: ImagePane
     private val textContainer: StackPane
     private val textLabel: LabelComponent
@@ -24,7 +29,6 @@ class TextFieldPane(offset: Position = Position(0.0, 0.0), prefSize: Dimensions 
         private set
     var textColor = Color(255, 255, 255)
         private set
-    private var text: String = ""
 
     init {
         // Create our background image
@@ -142,25 +146,36 @@ class TextFieldPane(offset: Position = Position(0.0, 0.0), prefSize: Dimensions 
      * @param text The new text to display, or empty string if ghost text should be down
      */
     fun setText(text: String) {
+        setTextInternal(text)
+    }
+
+    /**
+     * Special version of setText which takes previous text as input. The second parameter is used by
+     * focus handling code to ensure oldText is correctly passed
+     */
+    private fun setTextInternal(rawText: String, oldText: String = getText()) {
         // Make sure that the text contains valid characters
-        @Suppress("NAME_SHADOWING")
-        var text = text
-        text = SharedConstants.filterAllowedCharacters(text)
+        val newText = SharedConstants.filterAllowedCharacters(rawText)
         // Now we test if we should show ghost text or not
         // If the control is focused then we don't show ghost text
         if (isFocused) {
-            textLabel.text = text + "_"
+            textLabel.text = newText + "_"
             textLabel.textColor = textColor
         } else {
             // If the string is empty we show ghost text
-            if (text.isEmpty()) {
+            if (newText.isEmpty()) {
                 textLabel.text = ghostText
                 textLabel.textColor = GHOST_TEXT_COLOR
             } else {
-                textLabel.text = text
+                textLabel.text = newText
                 textLabel.textColor = textColor
             }
         }
+
+        if (newText != oldText) {
+            textChangeListeners.forEach { it.apply(oldText, newText) }
+        }
+
         invalidate()
     }
 
@@ -228,7 +243,7 @@ class TextFieldPane(offset: Position = Position(0.0, 0.0), prefSize: Dimensions 
             // Update our focused variable
             this.isFocused = true
             // Call set text to refresh the text formatting
-            this.setText(currentText)
+            this.setTextInternal(currentText, currentText)
         } else if (wasFocused && !isFocused) {
             // Disable repeat events
             Minecraft.getInstance().keyboardListener.enableRepeatEvents(false)
@@ -239,7 +254,7 @@ class TextFieldPane(offset: Position = Position(0.0, 0.0), prefSize: Dimensions 
             // Update our focused variable
             this.isFocused = false
             // Call set text to refresh the text formatting
-            this.setText(currentText)
+            this.setTextInternal(currentText, currentText)
         }
     }
 
@@ -282,6 +297,10 @@ class TextFieldPane(offset: Position = Position(0.0, 0.0), prefSize: Dimensions 
         if (!isShowingGhostText()) {
             textLabel.textColor = this.textColor
         }
+    }
+
+    fun addTextChangeListener(listener: ITextChangeListener) {
+        textChangeListeners.add(listener)
     }
 
     companion object {
