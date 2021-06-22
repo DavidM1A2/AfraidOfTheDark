@@ -404,8 +404,6 @@
   "message.afraidofthedark.spell.power_source.flask.invalid_msg": "You must have flasks with enough souls in your inventory to cast this spell.",
   "message.afraidofthedark.spell.power_source.alchemy.invalid_msg": "You do not have enough gold in your inventory to cast this spell.",
   "message.afraidofthedark.spell.save_successful": "Spell '%1$s' saved successfully.",
-  "message.afraidofthedark.spell.property_edit_fail": "Property %1$s did not have a valid value - %2$s",
-  "message.afraidofthedark.spell.property_edit_success": "All properties saved successfully.",
   "message.afraidofthedark.insanitys_heights.dont_understand": "§oThe book appears to be empty.",
   "message.afraidofthedark.lens_cutter.wrong_item": "The lens cutter can only make lenses out of glass.",
   "message.afraidofthedark.dont_understand": "§oI don't understand how this works."

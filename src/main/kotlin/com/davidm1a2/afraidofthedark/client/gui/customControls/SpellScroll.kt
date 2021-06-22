@@ -1,17 +1,26 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
-import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.HChainPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ListPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextBoxComponent
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
 import net.minecraft.client.resources.I18n
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.ResourceLocation
 import org.apache.commons.lang3.tuple.Pair
 import java.awt.Color
 
@@ -138,12 +147,29 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
             val purpleText = Color(140, 35, 206)
 
             // Create a heading label to indicate what is currently being edited
-            val heading = LabelComponent(ClientData.getOrCreate(32f), Dimensions(1.0, 0.2))
-            heading.textColor = purpleText
+            val heading = StackPane(Dimensions(1.0, 0.2))
+            val name = LabelComponent(ClientData.getOrCreate(32f), Dimensions(1.0, 1.0))
+            name.textColor = purpleText
             // This cast is required even though IntelliJ doesn't agree
             @Suppress("USELESS_CAST")
             val spellComponent = componentInstance.component as SpellComponent<*>
-            heading.text = "${I18n.format(spellComponent.getUnlocalizedName())} Properties"
+            name.text = "${I18n.format(spellComponent.getUnlocalizedName())} Properties"
+
+            val closeEditor = ButtonPane(
+                ImagePane(ResourceLocation("afraidofthedark:textures/gui/spell_editor/editor_back.png")),
+                ImagePane(ResourceLocation("afraidofthedark:textures/gui/spell_editor/editor_back_hovered.png")),
+                prefSize = Dimensions(16.0, 16.0, false),
+                gravity = Gravity.TOP_RIGHT
+            )
+            closeEditor.addOnClick {
+                if (it.eventType == MouseEvent.EventType.Click && it.clickedButton == 0) {
+                    setEditing(null)
+                }
+            }
+
+            heading.add(name)
+            heading.add(closeEditor)
+
             propertyList.add(heading)
 
             // Grab a list of editable properties
@@ -161,100 +187,39 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
                     // Create a label that states the name of the property
                     val propertyName = LabelComponent(ClientData.getOrCreate(26f), Dimensions(1.0, 0.1))
                     propertyName.textColor = purpleText
-                    propertyName.text = "Name: ${editableProp.name}"
+                    propertyName.text = "${editableProp.name}:"
                     propertyList.add(propertyName)
 
-                    // Create a text box that shows the description of the property
-                    val propertyDescription = TextBoxComponent(Dimensions(120.0, 36.0, false), ClientData.getOrCreate(26f))
-                    propertyDescription.textColor = purpleText
-                    propertyDescription.setText("Description: ${editableProp.description}")
-
-                    propertyList.add(propertyDescription)
-
                     // Create a text field that edits the property value
-                    val propertyEditor = TextFieldPane(prefSize = Dimensions(120.0, 30.0, false), font = ClientData.getOrCreate(26f))
+                    val propertyPane = StackPane(Dimensions(120.0, 30.0, false))
+                    val propertyError = ImagePane("afraidofthedark:textures/gui/spell_editor/property_error.png", DispMode.FIT_TO_TEXTURE)
+                    propertyError.gravity = Gravity.CENTER_RIGHT
+                    propertyError.margins = Spacing(0.0, 0.0, 0.0, 7.0, false)
+                    propertyError.isVisible = false
+
+                    val propertyEditor = TextFieldPane(prefSize = Dimensions(1.0, 1.0), font = ClientData.getOrCreate(26f))
                     propertyEditor.setTextColor(purpleText)
                     propertyEditor.setText(editableProp.getter(componentInstance))
-                    propertyList.add(propertyEditor)
+                    propertyEditor.setHoverText(editableProp.description)
+                    propertyEditor.addTextChangeListener { _, newText ->
+                        try {
+                            editableProp.setter(componentInstance, newText)
+                            propertyError.isVisible = false
+                            propertyEditor.setHoverText(editableProp.description)
+                        } catch (e: InvalidValueException) {
+                            propertyError.isVisible = true
+                            propertyEditor.setHoverText(editableProp.description + "\n§4Error: " + e.message!!)
+                        }
+                    }
+                    propertyPane.add(propertyEditor)
+                    propertyPane.add(propertyError)
+
+                    propertyList.add(propertyPane)
 
                     // Store the editor off for later use
                     this.currentPropEditors.add(Pair.of(editableProp, propertyEditor))
                 }
             }
-
-            // If we have any editable properties show the save button
-            if (editableProperties.isNotEmpty()) {
-                // Add a save button at the bottom if we have any editable properties
-                val save = ButtonPane(
-                    icon = ImagePane("afraidofthedark:textures/gui/spell_editor/button.png"),
-                    iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/button_hovered.png"),
-                    prefSize = Dimensions(50.0, 20.0, false),
-                    font = ClientData.getOrCreate(32f)
-                )
-                save.setTextAlignment(TextAlignment.ALIGN_CENTER)
-                save.setText("Save")
-                save.addOnClick {
-                    // Flag telling us at least one property was invalid
-                    var onePropertyInvalid = false
-                    // Go over all properties and their editors
-                    for (propEditorPair in currentPropEditors) {
-                        // Grab the property and editor
-                        val property = propEditorPair.left
-                        val editor = propEditorPair.right
-                        // Attempt to set the property
-                        try {
-                            property.setter(componentInstance, editor.getText())
-                        }
-                        // If we get an exception tell the player what went wrong
-                        catch (e: InvalidValueException) {
-                            onePropertyInvalid = true
-                            entityPlayer.sendMessage(
-                                TranslationTextComponent("message.afraidofthedark.spell.property_edit_fail", propEditorPair.key.name, e.message)
-                            )
-                        }
-                    }
-
-                    // If no properties were invalid save successfully
-                    if (!onePropertyInvalid) {
-                        entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.property_edit_success"))
-                    }
-
-                    // Clear the editor
-                    setEditing(null)
-                }
-                // When we hover the button play the hover sound
-                save.addMouseMoveListener {
-                    if (it.eventType == MouseMoveEvent.EventType.Enter) {
-                        if (save.isVisible) {
-                            entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.7f, 1.7f)
-                        }
-                    }
-                }
-                propertyList.add(save)
-            }
-
-            // Add a cancel button at the bottom. Center it if we have no edit properties (and no save button!)
-            val cancel = ButtonPane(
-                icon = ImagePane("afraidofthedark:textures/gui/spell_editor/button.png"),
-                iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/button_hovered.png"),
-                prefSize = Dimensions(50.0, 20.0, false),
-                font = ClientData.getOrCreate(32f)
-            )
-            cancel.setTextAlignment(TextAlignment.ALIGN_CENTER)
-            cancel.setText(if (editableProperties.isEmpty()) "Close" else "Cancel")
-            cancel.addOnClick {
-                // Clear the currently edited spell
-                setEditing(null)
-            }
-            // When we hover the button play the hover sound
-            cancel.addMouseMoveListener {
-                if (it.eventType == MouseMoveEvent.EventType.Enter) {
-                    if (cancel.isVisible) {
-                        entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.7f, 1.7f)
-                    }
-                }
-            }
-            propertyList.add(cancel)
         }
         invalidate()
     }
@@ -264,5 +229,9 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
      */
     fun inventoryKeyClosesUI(): Boolean {
         return currentPropEditors.stream().map { it.right }.noneMatch { it.isFocused }
+    }
+
+    fun isEditingProps(): Boolean {
+        return propertyList.isVisible
     }
 }
