@@ -83,7 +83,8 @@ class CharmSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 25.0 + getCharmDuration(instance) * getCharmDuration(instance) * 5.0
+        val charmDuration = getCharmDuration(instance) / 20.0
+        return 25.0 + charmDuration * charmDuration * 5.0
     }
 
     fun setCharmDuration(instance: SpellComponentInstance<SpellEffect>, duration: Int) {
@@ -91,7 +92,7 @@ class CharmSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
     }
 
     /**
-     * The charm duration this effect gives
+     * The charm duration this effect gives in ticks
      *
      * @param instance The instance of the spell effect to grab the charm duration from
      * @return The duration of the charm in ticks
