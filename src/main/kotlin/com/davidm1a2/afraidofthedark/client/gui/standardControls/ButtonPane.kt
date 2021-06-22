@@ -71,6 +71,7 @@ open class ButtonPane(
                 this.isVisible && this.isHovered && this.inBounds) {
                 listener.invoke(it)
             }
+            it.consume()
         }
     }
 
@@ -84,15 +85,5 @@ open class ButtonPane(
 
     fun setTextAlignment(textAlignment: TextAlignment) {
         this.label?.textAlignment = textAlignment
-    }
-
-    override fun processMouseInput(event: MouseEvent) {
-        super.processMouseInput(event)
-        event.consume()
-    }
-
-    override fun processMouseMoveInput(event: MouseMoveEvent) {
-        super.processMouseMoveInput(event)
-        event.consume()
     }
 }
