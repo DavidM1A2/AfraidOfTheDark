@@ -1,11 +1,14 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.player.ClientPlayerEntity
-import net.minecraft.client.gui.AbstractGui
 import net.minecraft.client.gui.FontRenderer
+import net.minecraftforge.fml.client.config.GuiUtils
 import java.awt.Color
 import java.awt.Point
 import java.awt.Rectangle
@@ -50,36 +53,8 @@ abstract class AOTDGuiComponent(
             val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
             // Get the window width and calculate the distance to the edge of the screen
             val windowWidth = AOTDGuiUtility.getWindowWidthInMCCoords()
-            val distToEdge = windowWidth - (mouseX+5)
-            // Apply text wrapping to the hover text
-            val fittedHoverTexts = fitText(distToEdge, hoverTexts)
-            // Find the longest string in the hover texts array
-            val maxHoverTextLength = fittedHoverTexts.map { fontRenderer.getStringWidth(it) }.maxOrNull()
-            // If it exists, draw the text
-            if (maxHoverTextLength != null) {
-
-                // Draw a background rectangle
-                AbstractGui.fill(
-                    mouseX + 2,
-                    mouseY - 2,
-                    mouseX + maxHoverTextLength + 7,
-                    mouseY + fontRenderer.FONT_HEIGHT * fittedHoverTexts.size,
-                    Color(140, 0, 0, 0).hashCode()
-                )
-
-                // For each hover text in the array draw one line at a time
-                for (i in fittedHoverTexts.indices) {
-                    // Grab the hover text to draw
-                    val hoverText = fittedHoverTexts[i]
-                    // Draw the string
-                    fontRenderer.drawStringWithShadow(
-                        hoverText,
-                        (mouseX + 5).toFloat(),
-                        (mouseY + i * fontRenderer.FONT_HEIGHT).toFloat(),
-                        Color(255, 255, 255).hashCode()
-                    )
-                }
-            }
+            val windowHeight = AOTDGuiUtility.getWindowHeightInMCCoords()
+            GuiUtils.drawHoveringText(hoverTexts.toList(), mouseX, mouseY, windowWidth, windowHeight, 200, fontRenderer)
         }
     }
 
