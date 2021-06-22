@@ -72,6 +72,6 @@ class DigSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "dig")
      * @return The cost of dig is 14
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 14.0
+        return 10.0
     }
 }

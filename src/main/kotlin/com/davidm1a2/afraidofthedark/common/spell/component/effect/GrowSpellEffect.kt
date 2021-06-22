@@ -49,6 +49,6 @@ class GrowSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "grow
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 7.0
+        return 15.0
     }
 }

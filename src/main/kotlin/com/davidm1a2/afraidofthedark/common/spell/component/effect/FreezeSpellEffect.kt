@@ -80,7 +80,7 @@ class FreezeSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "fr
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
         val freezeDuration = getFreezeDuration(instance)
-        return 26 + freezeDuration * freezeDuration / 100.0
+        return 25.0 + freezeDuration * freezeDuration * 5.0
     }
 
     fun setFreezeDuration(instance: SpellComponentInstance<SpellEffect>, duration: Int) {

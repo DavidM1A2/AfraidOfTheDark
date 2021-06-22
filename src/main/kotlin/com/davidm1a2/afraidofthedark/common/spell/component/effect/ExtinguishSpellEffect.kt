@@ -44,6 +44,6 @@ class ExtinguishSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID,
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 15.0
+        return 10.0
     }
 }

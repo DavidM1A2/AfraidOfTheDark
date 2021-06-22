@@ -65,7 +65,7 @@ class SmokeScreenSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return getSmokeDensity(instance) / 5.0
+        return 10.0 + getSmokeDensity(instance) / 5.0
     }
 
     /**

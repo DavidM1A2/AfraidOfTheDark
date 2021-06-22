@@ -59,6 +59,6 @@ class ExperienceSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constan
 
     companion object {
         // The number of units each xp supplies
-        private const val UNIT_COST_PER_XP = 5.0
+        private const val UNIT_COST_PER_XP = 1.0
     }
 }

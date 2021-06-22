@@ -62,7 +62,7 @@ class FeedSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "feed
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return getHungerValue(instance) / 2.0 + getSaturationValue(instance) * 2.0
+        return 10.0 + getHungerValue(instance) / 2.0 + getSaturationValue(instance) * 2.0
     }
 
     /**

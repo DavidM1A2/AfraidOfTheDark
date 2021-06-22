@@ -55,7 +55,7 @@ class ExplosionSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, 
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
         val radius = getRadius(instance)
-        return 10.0 + radius * radius * radius
+        return 25.0 + radius * radius * radius
     }
 
     /**

@@ -51,7 +51,7 @@ class HealSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "heal
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return getHealAmount(instance) * 2.0
+        return getHealAmount(instance) * 5.0
     }
 
     fun setHealAmount(instance: SpellComponentInstance<SpellEffect>, amount: Int) {

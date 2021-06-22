@@ -59,6 +59,6 @@ class CleanseSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "c
      * @return The cost of the effect
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 20.0
+        return 25.0
     }
 }

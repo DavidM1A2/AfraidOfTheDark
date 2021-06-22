@@ -83,7 +83,7 @@ class CharmSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 10.0 + getCharmDuration(instance)
+        return 25.0 + getCharmDuration(instance) * getCharmDuration(instance) * 5.0
     }
 
     fun setCharmDuration(instance: SpellComponentInstance<SpellEffect>, duration: Int) {

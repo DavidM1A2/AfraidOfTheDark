@@ -129,7 +129,7 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
      * @return The spell stage multiplier for cost
      */
     override fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        return 1.1
+        return 1.5
     }
 
     fun getSpeed(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {

@@ -33,7 +33,7 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
                 .withGetter { it.data.getDouble(NBT_RADIUS) }
                 .withDefaultValue(3.0)
                 .withMinValue(1.0)
-                .withMaxValue(150.0)
+                .withMaxValue(20.0)
                 .build()
         )
         addEditableProperty(
@@ -217,7 +217,7 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        return 10 + getRadius(instance) * getRadius(instance)
+        return 20 + getRadius(instance) * getRadius(instance) * getRadius(instance)
     }
 
     /**
@@ -226,7 +226,7 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
      * @return The spell stage multiplier for cost
      */
     override fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        return 3.0
+        return 6.0
     }
 
     fun setRadius(instance: SpellComponentInstance<SpellDeliveryMethod>, radius: Double) {

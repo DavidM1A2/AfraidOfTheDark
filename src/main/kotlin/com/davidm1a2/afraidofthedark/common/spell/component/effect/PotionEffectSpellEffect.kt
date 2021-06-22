@@ -115,10 +115,7 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 15 + getPotionDuration(instance) / 5.0 * getPotionStrength(instance) * max(
-            sqrt(getPotionRadius(instance)),
-            1.0f
-        )
+        return 15.0 + getPotionDuration(instance) * getPotionStrength(instance) * max(sqrt(getPotionRadius(instance)), 1.0f)
     }
 
     fun setPotionType(instance: SpellComponentInstance<SpellEffect>, effect: Effect) {

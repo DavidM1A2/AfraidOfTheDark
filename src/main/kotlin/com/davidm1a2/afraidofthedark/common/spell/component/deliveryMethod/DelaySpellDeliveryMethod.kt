@@ -86,7 +86,7 @@ class DelaySpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
      * @return The spell stage multiplier for cost
      */
     override fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        return 1.0
+        return 1.5
     }
 
     /**
