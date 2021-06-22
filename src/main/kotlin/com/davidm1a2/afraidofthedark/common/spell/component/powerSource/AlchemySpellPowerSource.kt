@@ -7,14 +7,17 @@ import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.util.ResourceLocation
 import kotlin.math.ceil
 import kotlin.math.max
+import kotlin.math.roundToInt
 
 /**
- * Class representing the flask of souls source
+ * Class representing the alchemy source
  */
-class FlaskSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "flask")) {
+class AlchemySpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "alchemy")) {
     /**
      * True if the given spell can be cast, false otherwise
      *
@@ -25,26 +28,19 @@ class FlaskSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MO
     override fun canCast(entity: Entity, spell: Spell): Boolean {
         if (entity is PlayerEntity) {
             val inventory = entity.inventory.mainInventory + entity.inventory.offHandInventory
-            var remainingCost = spell.getCost()
+            var goldCount = 0
             for (stack in inventory) {
-                if (stack.item == ModItems.FLASK_OF_SOULS) {
-                    val killsRequired = ModItems.FLASK_OF_SOULS.getKillsRequired(stack)
-                    val kills = ModItems.FLASK_OF_SOULS.getKills(stack)
-                    val soulPower = FlaskOfSoulsItem.FLASK_POWER / killsRequired.toDouble()
-                    val powerAvailable = kills.times(soulPower)
-                    if (remainingCost <= powerAvailable) {
-                        return true
-                    } else {
-                        remainingCost -= powerAvailable
-                    }
+                if (stack.item == Items.GOLD_INGOT) {
+                    goldCount += stack.count
                 }
             }
+            return goldCount * UNIT_COST_PER_GOLD > spell.getCost()
         }
         return false
     }
 
     /**
-     * Consume souls equivalent to the spell cost
+     * Consume gold ingots in accordance with the spell cost
      *
      * @param entity The entity that is casting the spell
      * @param spell        the spell to attempt to cast
@@ -52,23 +48,15 @@ class FlaskSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MO
     override fun consumePowerToCast(entity: Entity, spell: Spell) {
         if (entity is PlayerEntity) {
             val inventory = entity.inventory.mainInventory + entity.inventory.offHandInventory
-            var remainingCost = spell.getCost()
+            var costRemaining = spell.getCost()
             for (stack in inventory) {
-                if (stack.item == ModItems.FLASK_OF_SOULS) {
-                    val killsRequired = ModItems.FLASK_OF_SOULS.getKillsRequired(stack)
-                    val kills = ModItems.FLASK_OF_SOULS.getKills(stack)
-                    val soulPower = FlaskOfSoulsItem.FLASK_POWER / killsRequired.toDouble()
-                    val powerAvailable = kills.times(soulPower)
-                    if (remainingCost <= powerAvailable) {
-                        while (remainingCost > 0.0) {
-                            remainingCost -= soulPower
-                            ModItems.FLASK_OF_SOULS.addKills(stack, -1)
-                        }
-                    } else {
-                        remainingCost -= powerAvailable
-                        ModItems.FLASK_OF_SOULS.setKills(stack, 0)
+                if (stack.item == Items.GOLD_INGOT) {
+                    while (costRemaining > 0.0 && stack.count > 0) {
+                        costRemaining -= UNIT_COST_PER_GOLD
+                        stack.count--
                     }
                 }
+                if (costRemaining <= 0.0) break
             }
         }
     }
@@ -79,7 +67,7 @@ class FlaskSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MO
      * @return A description describing how cost is computed
      */
     override fun getCostDescription(): String {
-        return "A full Flask of Souls provides " + FlaskOfSoulsItem.FLASK_POWER + " spell power"
+        return "Transmute gold ingots into magic essence at a rate of $UNIT_COST_PER_GOLD spell power per ingot"
     }
 
     /**
@@ -88,6 +76,11 @@ class FlaskSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MO
      * @return A string describing why the power source doesn't have enough energy
      */
     override fun getUnlocalizedOutOfPowerMsg(): String {
-        return "message.afraidofthedark.spell.power_source.flask.invalid_msg"
+        return "message.afraidofthedark.spell.power_source.alchemy.invalid_msg"
+    }
+
+    companion object {
+        // The number of units each gold ingot
+        private const val UNIT_COST_PER_GOLD = 5.0
     }
 }

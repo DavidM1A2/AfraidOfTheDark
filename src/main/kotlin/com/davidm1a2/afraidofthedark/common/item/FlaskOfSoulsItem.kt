@@ -216,6 +216,23 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
     }
 
     /**
+     * Sets the souls in the flask
+     *
+     * @param itemStack The item to add kills to
+     * @param kills     The number of kills to add
+     */
+    fun setKills(itemStack: ItemStack, kills: Int) {
+        // Grab the current entity, if this is null ignore the call
+        val spawnedEntity = getSpawnedEntity(itemStack)
+        if (spawnedEntity != null) {
+            // Grab the max kills required to fill the flask
+            val killsRequired = getKillsRequired(itemStack)
+
+            NBTHelper.setInteger(itemStack, NBT_FLASK_KILLS, kills.coerceIn(0, killsRequired))
+        }
+    }
+
+    /**
      * Gets the number of kills on this flask
      *
      * @param itemStack The itemstack to get kills from
