@@ -142,10 +142,10 @@ abstract class AOTDPane (
      * @param event The event to process
      */
     override fun processMouseInput(event: MouseEvent) {
-        // Fire our component's mouse input
-        super.processMouseInput(event)
         // Fire our sub-component's mouse input events
         this.subComponents.forEach { if (it is AOTDGuiComponentWithEvents) it.processMouseInput(event) }
+        // Fire our component's mouse input
+        super.processMouseInput(event)
     }
 
     /**
@@ -154,10 +154,10 @@ abstract class AOTDPane (
      * @param event The event to process
      */
     override fun processMouseMoveInput(event: MouseMoveEvent) {
-        // Fire our component's mouse move input
-        super.processMouseMoveInput(event)
         // Fire our sub-component's mouse move input events
         this.subComponents.forEach { if (it is AOTDGuiComponentWithEvents) it.processMouseMoveInput(event) }
+        // Fire our component's mouse move input
+        super.processMouseMoveInput(event)
     }
 
     /**
@@ -166,10 +166,10 @@ abstract class AOTDPane (
      * @param event The event to process
      */
     override fun processMouseDragInput(event: MouseDragEvent) {
-        // Fire our component's mouse move input
-        super.processMouseDragInput(event)
         // Fire our sub-component's mouse move input events
         this.subComponents.forEach { if (it is AOTDGuiComponentWithEvents) it.processMouseDragInput(event) }
+        // Fire our component's mouse move input
+        super.processMouseDragInput(event)
     }
 
     /**
@@ -178,10 +178,10 @@ abstract class AOTDPane (
      * @param event The event to process
      */
     override fun processMouseScrollInput(event: MouseScrollEvent) {
-        // Fire our component's mouse scroll input
-        super.processMouseScrollInput(event)
         // Fire our sub-component's mouse scroll input events
         this.subComponents.forEach { if (it is AOTDGuiComponentWithEvents) it.processMouseScrollInput(event) }
+        // Fire our component's mouse scroll input
+        super.processMouseScrollInput(event)
     }
 
     /**
@@ -190,10 +190,10 @@ abstract class AOTDPane (
      * @param event The event to process
      */
     override fun processKeyInput(event: KeyEvent) {
-        // Fire our component's key input
-        super.processKeyInput(event)
         // Fire our sub-component's key input events
         this.subComponents.forEach { if (it is AOTDGuiComponentWithEvents) it.processKeyInput(event) }
+        // Fire our component's key input
+        super.processKeyInput(event)
     }
 
     override fun invalidate() {
