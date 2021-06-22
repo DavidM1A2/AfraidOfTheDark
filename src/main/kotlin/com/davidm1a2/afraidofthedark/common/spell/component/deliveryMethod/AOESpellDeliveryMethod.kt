@@ -141,7 +141,8 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
                                         ).normalize()
                                     )
                                     .build(),
-                                effect
+                                effect,
+                                reducedParticles = true
                             )
                         }
                     }

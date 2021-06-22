@@ -82,7 +82,7 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
      * @param state The state that the spell is in
      * @param instance The instance of the effect
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         val exactPosition = state.position
         val potionType = getPotionType(instance)
         val potionStrength = getPotionStrength(instance)
@@ -104,7 +104,7 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
             aoePotion.setRadiusPerTick(0f)
             aoePotion.duration = potionDuration
             world.addEntity(aoePotion)
-            createParticlesAt(4, 8, exactPosition, world.dimension.type, ModParticles.SPELL_HIT)
+            createParticlesAt(2, 6, exactPosition, world.dimension.type, ModParticles.SPELL_HIT)
         }
     }
 

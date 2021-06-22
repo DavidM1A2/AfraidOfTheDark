@@ -37,7 +37,7 @@ class BurnSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "burn
      *
      * @param state The state that the spell is in
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         if (state.getEntity() != null) {
             val entity = state.getEntity()
             createParticlesAt(5, 10, Vec3d(entity!!.posX, entity.posY, entity.posZ), entity.dimension, ModParticles.FIRE)
@@ -49,7 +49,11 @@ class BurnSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "burn
             if (upBlockState.isAir(world, position.up())) {
                 val blockState = world.getBlockState(position)
                 if (!blockState.isAir(world, position)) {
-                    createParticlesAround(1, 3, state.position, world.dimension.type, ModParticles.FIRE, 0.5)
+                    if (reducedParticles) {
+                        createParticlesAround(0, 1, state.position, world.dimension.type, ModParticles.FIRE, 0.5)
+                    } else {
+                        createParticlesAround(2, 4, state.position, world.dimension.type, ModParticles.FIRE, 0.5)
+                    }
                     world.setBlockState(position.up(), Blocks.FIRE.defaultState)
                 }
             }

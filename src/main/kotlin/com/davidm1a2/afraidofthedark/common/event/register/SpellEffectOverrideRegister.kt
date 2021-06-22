@@ -226,8 +226,8 @@ object SpellEffectOverrideRegister {
                                             2 or 16
                                         )
                                         AOTDSpellEffect.createParticlesAround(
+                                            0,
                                             1,
-                                            3,
                                             location,
                                             state.world.dimension.type,
                                             ModParticles.FREEZE,

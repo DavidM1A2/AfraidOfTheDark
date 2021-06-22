@@ -30,14 +30,16 @@ abstract class AOTDSpellEffect(id: ResourceLocation) : SpellEffect(id) {
             // Spawn particles
             val positions = List(Random.nextInt(min, max + 1)) { pos }
 
-            // Send the particle packet
-            AfraidOfTheDark.packetHandler.sendToAllAround(
-                ParticlePacket(
-                    particleType,
-                    positions,
-                    List(positions.size) { Vec3d.ZERO }),
-                PacketDistributor.TargetPoint(pos.x, pos.y, pos.z, 100.0, dimension)
-            )
+            if (positions.isNotEmpty()) {
+                // Send the particle packet
+                AfraidOfTheDark.packetHandler.sendToAllAround(
+                    ParticlePacket(
+                        particleType,
+                        positions,
+                        List(positions.size) { Vec3d.ZERO }),
+                    PacketDistributor.TargetPoint(pos.x, pos.y, pos.z, 100.0, dimension)
+                )
+            }
         }
 
         fun createParticlesAround(min: Int, max: Int, pos: Vec3d, dimension: DimensionType, particleType: AOTDParticleType, maxDistance: Double) {
@@ -50,14 +52,16 @@ abstract class AOTDSpellEffect(id: ResourceLocation) : SpellEffect(id) {
                 )
             }
 
-            // Send the particle packet
-            AfraidOfTheDark.packetHandler.sendToAllAround(
-                ParticlePacket(
-                    particleType,
-                    positions,
-                    List(positions.size) { Vec3d.ZERO }),
-                PacketDistributor.TargetPoint(pos.x, pos.y, pos.z, 100.0, dimension)
-            )
+            if (positions.isNotEmpty()) {
+                // Send the particle packet
+                AfraidOfTheDark.packetHandler.sendToAllAround(
+                    ParticlePacket(
+                        particleType,
+                        positions,
+                        List(positions.size) { Vec3d.ZERO }),
+                    PacketDistributor.TargetPoint(pos.x, pos.y, pos.z, 100.0, dimension)
+                )
+            }
         }
     }
 }

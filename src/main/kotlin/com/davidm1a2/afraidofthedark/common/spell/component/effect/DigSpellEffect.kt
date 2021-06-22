@@ -26,21 +26,27 @@ class DigSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "dig")
      * @param state The state that the spell is in
      * @param instance The instance of the effect
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         val world = state.world
         val entity = state.getEntity()
+        val min = if (reducedParticles) 0 else 5
+        val max = if (reducedParticles) 1 else 10
         if (entity != null) {
             // Digs the block under the entity
             val blockPos = entity.position.down()
             if (canBlockBeDestroyed(world, blockPos)) {
-                createParticlesAt(5, 10, entity.positionVector, entity.dimension, ModParticles.DIG)
+                createParticlesAt(min, max, entity.positionVector, entity.dimension, ModParticles.DIG)
                 world.destroyBlock(blockPos, true)
             }
         } else {
             // Digs the block at the position
             val position = state.blockPosition
             if (canBlockBeDestroyed(world, position)) {
-                createParticlesAt(5, 10, state.position, world.dimension.type, ModParticles.DIG)
+                if (!reducedParticles) {
+                    createParticlesAt(min, max, state.position, world.dimension.type, ModParticles.DIG)
+                } else if (Random.nextDouble() > 0.6) {
+                    createParticlesAt(min, max, state.position, world.dimension.type, ModParticles.DIG)
+                }
                 world.destroyBlock(position, true)
             }
         }

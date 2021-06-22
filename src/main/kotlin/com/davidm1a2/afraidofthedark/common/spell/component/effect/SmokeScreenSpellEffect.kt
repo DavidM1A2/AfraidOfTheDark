@@ -39,7 +39,7 @@ class SmokeScreenSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
      * @param state The state that the spell is in
      * @param instance The instance of the effect
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         val position = state.position
         val positions: MutableList<Vec3d> = ArrayList()
 

@@ -36,10 +36,14 @@ class ExplosionSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, 
      * @param state The state that the spell is in
      * @param instance The instance of the effect
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         val world = state.world
         val position = state.position
-        createParticlesAt(1, 3, position, world.dimension.type, ModParticles.EXPLOSION)
+        if (reducedParticles) {
+            createParticlesAt(0, 2, position, world.dimension.type, ModParticles.EXPLOSION)
+        } else {
+            createParticlesAt(5, 10, position, world.dimension.type, ModParticles.EXPLOSION)
+        }
         world.createExplosion(null, position.x, position.y - 0.01f, position.z, getRadius(instance), Explosion.Mode.BREAK)
     }
 

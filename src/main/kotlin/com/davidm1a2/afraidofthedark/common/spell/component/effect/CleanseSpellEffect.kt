@@ -22,7 +22,7 @@ class CleanseSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "c
      *
      * @param state The state that the spell is in
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         val entity = state.getEntity()
         if (entity != null) {
             // Extinguish the entity
@@ -44,7 +44,11 @@ class CleanseSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "c
                 freezeData.sync(entity)
             }
 
-            createParticlesAt(1, 2, Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension, ModParticles.HEAL)
+            if (reducedParticles) {
+                createParticlesAt(0, 1, Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension, ModParticles.HEAL)
+            } else {
+                createParticlesAt(2, 4, Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension, ModParticles.HEAL)
+            }
         }
     }
 

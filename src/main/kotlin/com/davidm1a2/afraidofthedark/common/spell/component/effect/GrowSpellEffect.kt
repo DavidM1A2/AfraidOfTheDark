@@ -20,7 +20,7 @@ class GrowSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "grow
      * @param state The state that the spell is in
      * @param instance The instance of the effect
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         val world: World = state.world
         var position = state.blockPosition
         var blockState = world.getBlockState(position)
@@ -33,7 +33,11 @@ class GrowSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "grow
 
         // Grob the block at the current position if it's a type 'IGrowable'
         if (blockState.block is IGrowable) {
-            createParticlesAround(8, 16, state.position, world.dimension.type, ModParticles.GROW, 2.0)
+            if (reducedParticles) {
+                createParticlesAround(1, 3, state.position, world.dimension.type, ModParticles.GROW, 2.0)
+            } else {
+                createParticlesAround(8, 16, state.position, world.dimension.type, ModParticles.GROW, 2.0)
+            }
             (blockState.block as IGrowable).grow(world, world.rand, position, blockState)
         }
     }
