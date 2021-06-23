@@ -18,7 +18,6 @@ import net.minecraft.util.text.TranslationTextComponent
 class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.spell_crafting"), true) {
     private val tablet: SpellTablet
     private val scroll: SpellScroll
-    private var selectedComponent: SpellComponentSlot<*>? = null
 
     init {
         // Clone the spell so we don't modify the original

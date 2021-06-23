@@ -5,7 +5,7 @@ import kotlin.math.roundToInt
 /**
  * Basically the same as the FIT_TO_PARENT version of the ImagePane, but without the actual image
  */
-class RatioPane(private val widthRatio: Int, private val heightRatio: Int) : AOTDPane() {
+open class RatioPane(private val widthRatio: Int, private val heightRatio: Int) : AOTDPane() {
 
     override fun negotiateDimensions(width: Double, height: Double) {
         val squareWidth = width/widthRatio

@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 
-class HChainPane(val layout: Layout = Layout.SPREAD) : StackPane() {
+open class HChainPane(val layout: Layout = Layout.SPREAD) : StackPane() {
 
     override fun calcChildrenBounds() {
         // Calculate padding

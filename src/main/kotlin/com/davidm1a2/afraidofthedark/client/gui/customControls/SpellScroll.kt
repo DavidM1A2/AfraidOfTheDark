@@ -4,20 +4,13 @@ import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.HChainPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ListPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextBoxComponent
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
+import com.davidm1a2.afraidofthedark.common.spell.component.property.EnumSpellComponentProperty
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
 import net.minecraft.client.resources.I18n
 import net.minecraft.util.ResourceLocation
@@ -34,7 +27,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
     private val propertyScrollBar = VScrollBar(Dimensions(0.05, 1.0))
     private val componentList: ListPane = ListPane(ListPane.ExpandDirection.DOWN, componentScrollBar)
     private val propertyList: ListPane = ListPane(ListPane.ExpandDirection.DOWN, propertyScrollBar)
-    private val currentPropEditors = mutableListOf<Pair<SpellComponentProperty, TextFieldPane>>()
+    private val currentPropEditors = mutableListOf<Pair<SpellComponentProperty, AOTDPane>>()
 
     init {
         // Put everything that isn't the scroll bar into a padded pane
@@ -177,7 +170,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
 
             // If there are no editable properties say so with a text box
             if (editableProperties.isEmpty()) {
-                val noPropsLine = TextBoxComponent(Dimensions(120.0, 30.0, false), ClientData.getOrCreate(26f))
+                val noPropsLine = TextBoxComponent(Dimensions(1.0, 0.1), ClientData.getOrCreate(26f))
                 noPropsLine.textColor = purpleText
                 noPropsLine.setText("This component has no editable properties.")
                 propertyList.add(noPropsLine)
@@ -190,34 +183,71 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
                     propertyName.text = "${editableProp.name}:"
                     propertyList.add(propertyName)
 
-                    // Create a text field that edits the property value
-                    val propertyPane = StackPane(Dimensions(120.0, 30.0, false))
-                    val propertyError = ImagePane("afraidofthedark:textures/gui/spell_editor/property_error.png", DispMode.FIT_TO_TEXTURE)
-                    propertyError.gravity = Gravity.CENTER_RIGHT
-                    propertyError.margins = Spacing(0.0, 0.0, 0.0, 7.0, false)
-                    propertyError.isVisible = false
+                    if (editableProp is EnumSpellComponentProperty) {
+                        // Create a text field that edits the property value
+                        val propertyPane = StackPane(Dimensions(1.0, 0.1))
+                        val propertyError = ImagePane(
+                            "afraidofthedark:textures/gui/spell_editor/property_error.png",
+                            DispMode.FIT_TO_TEXTURE
+                        )
+                        propertyError.gravity = Gravity.CENTER_RIGHT
+                        propertyError.margins = Spacing(0.0, 0.0, 0.0, 7.0, false)
+                        propertyError.isVisible = false
 
-                    val propertyEditor = TextFieldPane(prefSize = Dimensions(1.0, 1.0), font = ClientData.getOrCreate(26f))
-                    propertyEditor.setTextColor(purpleText)
-                    propertyEditor.setText(editableProp.getter(componentInstance))
-                    propertyEditor.setHoverText(editableProp.description)
-                    propertyEditor.addTextChangeListener { _, newText ->
-                        try {
-                            editableProp.setter(componentInstance, newText)
-                            propertyError.isVisible = false
-                            propertyEditor.setHoverText(editableProp.description)
-                        } catch (e: InvalidValueException) {
-                            propertyError.isVisible = true
-                            propertyEditor.setHoverText(editableProp.description + "\n§4Error: " + e.message!!)
+                        val propertyEditor = DropdownPane(ClientData.getOrCreate(26f), editableProp.values, Integer.parseInt(editableProp.getter(componentInstance)))
+                        propertyEditor.setHoverText(editableProp.description)
+                        propertyEditor.setChangeListener { _, newVal ->
+                            try {
+                                editableProp.setter(componentInstance, editableProp.values[newVal])
+                                propertyError.isVisible = false
+                                propertyEditor.setHoverText(editableProp.description)
+                            } catch (e: InvalidValueException) {
+                                propertyError.isVisible = true
+                                propertyEditor.setHoverText(editableProp.description + "\n§4Error: " + e.message!!)
+                            }
                         }
+                        propertyPane.add(propertyEditor)
+                        propertyPane.add(propertyError)
+
+                        propertyList.add(propertyPane)
+
+                        // Store the editor off for later use
+                        this.currentPropEditors.add(Pair.of(editableProp, propertyEditor))
+
+                    } else {
+                        // Create a text field that edits the property value
+                        val propertyPane = StackPane(Dimensions(1.0, 0.1))
+                        val propertyError = ImagePane(
+                            "afraidofthedark:textures/gui/spell_editor/property_error.png",
+                            DispMode.FIT_TO_TEXTURE
+                        )
+                        propertyError.gravity = Gravity.CENTER_RIGHT
+                        propertyError.margins = Spacing(0.0, 0.0, 0.0, 7.0, false)
+                        propertyError.isVisible = false
+
+                        val propertyEditor =
+                            TextFieldPane(prefSize = Dimensions(1.0, 1.0), font = ClientData.getOrCreate(26f))
+                        propertyEditor.setTextColor(purpleText)
+                        propertyEditor.setText(editableProp.getter(componentInstance))
+                        propertyEditor.setHoverText(editableProp.description)
+                        propertyEditor.addTextChangeListener { _, newText ->
+                            try {
+                                editableProp.setter(componentInstance, newText)
+                                propertyError.isVisible = false
+                                propertyEditor.setHoverText(editableProp.description)
+                            } catch (e: InvalidValueException) {
+                                propertyError.isVisible = true
+                                propertyEditor.setHoverText(editableProp.description + "\n§4Error: " + e.message!!)
+                            }
+                        }
+                        propertyPane.add(propertyEditor)
+                        propertyPane.add(propertyError)
+
+                        propertyList.add(propertyPane)
+
+                        // Store the editor off for later use
+                        this.currentPropEditors.add(Pair.of(editableProp, propertyEditor))
                     }
-                    propertyPane.add(propertyEditor)
-                    propertyPane.add(propertyError)
-
-                    propertyList.add(propertyPane)
-
-                    // Store the editor off for later use
-                    this.currentPropEditors.add(Pair.of(editableProp, propertyEditor))
                 }
             }
         }
@@ -228,7 +258,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
      * @return True if the inventory key should currently close the UI, false otherwise
      */
     fun inventoryKeyClosesUI(): Boolean {
-        return currentPropEditors.stream().map { it.right }.noneMatch { it.isFocused }
+        return currentPropEditors.stream().map { it.right }.noneMatch { it is TextFieldPane && it.isFocused }
     }
 
     fun isEditingProps(): Boolean {

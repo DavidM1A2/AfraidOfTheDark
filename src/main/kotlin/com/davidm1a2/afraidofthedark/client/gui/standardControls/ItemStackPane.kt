@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11
 /**
  * Advanced control that displays an itemstack in a GUI
  */
-class ItemStackPane(
+open class ItemStackPane(
     prefSize: Dimensions,
     offset: Position,
     backgroundHighlight: Boolean = false,

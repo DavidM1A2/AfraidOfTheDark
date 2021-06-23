@@ -38,4 +38,11 @@ object SpellComponentPropertyFactory {
     fun booleanProperty(): BooleanSpellComponentPropertyBuilder {
         return BooleanSpellComponentPropertyBuilder()
     }
+
+    /**
+     * @return A new enum spell component property builder
+     */
+    fun enumProperty(): EnumSpellComponentPropertyBuilder {
+        return EnumSpellComponentPropertyBuilder()
+    }
 }

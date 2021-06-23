@@ -9,6 +9,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.helper.TargetType
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.property.EnumSpellComponentProperty
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.Entity
@@ -37,31 +38,13 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
                 .build()
         )
         addEditableProperty(
-            SpellComponentProperty(
-                "Target Type",
-                "Should be either 'entity' or 'block'. If the target type is 'block' all nearby blocks will be affected, if it is 'entity' all nearby entities will be affected.",
-                { instance, newValue ->
-                    // Check the two valid options first
-                    when {
-                        newValue.equals("entity", ignoreCase = true) -> {
-                            instance.data.putInt(NBT_TARGET_TYPE, TargetType.ENTITY.ordinal)
-                        }
-                        newValue.equals("block", ignoreCase = true) -> {
-                            instance.data.putInt(NBT_TARGET_TYPE, TargetType.BLOCK.ordinal)
-                        }
-                        else -> {
-                            throw InvalidValueException("Invalid value $newValue, should be 'entity' or 'block'")
-                        }
-                    }
-                },
-                {
-                    @Suppress("UNCHECKED_CAST")
-                    if (getTargetType(it as SpellComponentInstance<SpellDeliveryMethod>) == TargetType.ENTITY) "entity" else "block"
-                },
-                {
-                    it.data.putInt(NBT_TARGET_TYPE, TargetType.BLOCK.ordinal)
-                }
-            )
+            SpellComponentPropertyFactory.enumProperty()
+                .withName("Target Type")
+                .withDescription("Should be either 'entity' or 'block'. If the target type is 'block' all nearby blocks will be affected, if it is 'entity' all nearby entities will be affected.")
+                .withSetter { instance, newValue -> instance.data.putInt(NBT_TARGET_TYPE, newValue) }
+                .withGetter { it.data.getInt(NBT_TARGET_TYPE) }
+                .withDefaultValue(-1)
+                .build(listOf("entity", "block"))
         )
     }
 

@@ -9,7 +9,7 @@ import java.awt.Color
 /**
  * Class representing a label (single line of text) to be drawn on the GUI
  */
-class LabelComponent(val font: TrueTypeFont, prefSize: Dimensions, gravity: Gravity = Gravity.TOP_LEFT) : AOTDGuiComponentWithEvents(prefSize = prefSize, gravity = gravity) {
+open class LabelComponent(val font: TrueTypeFont, prefSize: Dimensions, gravity: Gravity = Gravity.TOP_LEFT) : AOTDGuiComponentWithEvents(prefSize = prefSize, gravity = gravity) {
 
     var text = ""
         set(text) {
