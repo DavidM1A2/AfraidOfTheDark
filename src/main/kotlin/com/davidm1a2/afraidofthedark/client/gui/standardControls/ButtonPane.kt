@@ -36,6 +36,7 @@ open class ButtonPane(
         } else {
             this.label = null
         }
+        // Add a hover sound effect
         if (!silent) {
             this.addMouseMoveListener {
                 if (it.eventType == MouseMoveEvent.EventType.Enter) {
@@ -44,6 +45,14 @@ open class ButtonPane(
                         entityPlayer.playSound(ModSounds.BUTTON_HOVER, 0.6f, 1.7f)
                     }
                 }
+            }
+        }
+        // If this button is clicked, consume the event so parents don't get it
+        this.addMouseListener {
+            if (it.eventType == MouseEvent.EventType.Click &&
+                it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON &&
+                this.isVisible && this.isHovered && this.inBounds) {
+                it.consume()
             }
         }
     }
@@ -63,7 +72,7 @@ open class ButtonPane(
         }
     }
 
-    // Adds an onClick listener
+    // Adds an onClick listener that fires whenever the button is left-clicked
     fun addOnClick(listener: (MouseEvent) -> Unit) {
         this.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click &&
@@ -71,7 +80,6 @@ open class ButtonPane(
                 this.isVisible && this.isHovered && this.inBounds) {
                 listener.invoke(it)
             }
-            it.consume()
         }
     }
 
