@@ -42,7 +42,7 @@ object SpellComponentPropertyFactory {
     /**
      * @return A new enum spell component property builder
      */
-    fun enumProperty(): EnumSpellComponentPropertyBuilder {
-        return EnumSpellComponentPropertyBuilder()
+    inline fun <reified T : Enum<T>> enumProperty(): EnumSpellComponentPropertyBuilder<T> {
+        return EnumSpellComponentPropertyBuilder(T::class.java.enumConstants)
     }
 }

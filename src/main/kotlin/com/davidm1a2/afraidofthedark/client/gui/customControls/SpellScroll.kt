@@ -20,7 +20,8 @@ import java.awt.Color
 /**
  * Compliment control to the tablet, allows players to click spell components up
  */
-class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_list_scroll.png", DispMode.FIT_TO_PARENT) {
+class SpellScroll :
+    ImagePane("afraidofthedark:textures/gui/spell_editor/effect_list_scroll.png", DispMode.FIT_TO_PARENT) {
 
     private val interiorPane: StackPane = StackPane()
     private val componentScrollBar = VScrollBar(Dimensions(0.05, 1.0))
@@ -183,7 +184,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
                     propertyName.text = "${editableProp.name}:"
                     propertyList.add(propertyName)
 
-                    if (editableProp is EnumSpellComponentProperty) {
+                    if (editableProp is EnumSpellComponentProperty<*>) {
                         // Create a text field that edits the property value
                         val propertyPane = StackPane(Dimensions(1.0, 0.1))
                         val propertyError = ImagePane(
@@ -194,11 +195,17 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
                         propertyError.margins = Spacing(0.0, 0.0, 0.0, 7.0, false)
                         propertyError.isVisible = false
 
-                        val propertyEditor = DropdownPane(ClientData.getOrCreate(26f), editableProp.values, Integer.parseInt(editableProp.getter(componentInstance)))
+                        val dropdownValues = editableProp.values.map {
+                            it.name.lowercase().replaceFirstChar { char -> char.uppercase() }
+                        }
+                        val selectedIndex = editableProp.values.indexOfFirst {
+                            it.name.equals(editableProp.getter(componentInstance), true)
+                        }
+                        val propertyEditor = DropdownPane(ClientData.getOrCreate(26f), dropdownValues, selectedIndex)
                         propertyEditor.setHoverText(editableProp.description)
                         propertyEditor.setChangeListener { _, newVal ->
                             try {
-                                editableProp.setter(componentInstance, editableProp.values[newVal])
+                                editableProp.setter(componentInstance, editableProp.values[newVal].name)
                                 propertyError.isVisible = false
                                 propertyEditor.setHoverText(editableProp.description)
                             } catch (e: InvalidValueException) {

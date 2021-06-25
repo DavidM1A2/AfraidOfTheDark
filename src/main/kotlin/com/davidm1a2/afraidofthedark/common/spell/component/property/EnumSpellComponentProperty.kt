@@ -13,30 +13,23 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
  * @param setter       The setter to be used when setting this property's value
  * @param defaultValue The default value to use if the input is invalid
  */
-internal class EnumSpellComponentProperty(
+internal class EnumSpellComponentProperty<T : Enum<T>>(
     name: String,
     description: String,
-    setter: (SpellComponentInstance<*>, Int) -> Unit,
-    getter: (SpellComponentInstance<*>) -> Int,
-    val defaultValue: Int,
-    val values: List<String>
+    setter: (SpellComponentInstance<*>, T) -> Unit,
+    getter: (SpellComponentInstance<*>) -> T,
+    private val defaultValue: T,
+    val values: Array<T>
 ) : SpellComponentProperty(
     name,
     description,
     { instance, newValue ->
-        // Ensure the boolean is valid
-        when {
-            values.contains(newValue) -> {
-                setter(instance, values.indexOf(newValue))
-            }
-            else -> {
-                if (defaultValue in values.indices) {
-                    setter(instance, defaultValue)
-                } else {
-                    setter(instance, -1)
-                }
-                throw InvalidValueException("$newValue must in the list of options!")
-            }
+        val enumValue = values.find { it.name.equals(newValue, true) }
+        if (enumValue != null) {
+            setter(instance, enumValue)
+        } else {
+            setter(instance, defaultValue)
+            throw InvalidValueException("$newValue must in the list of options!")
         }
     },
     {

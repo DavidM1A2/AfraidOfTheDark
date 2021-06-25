@@ -7,12 +7,10 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import net.minecraft.util.ResourceLocation
-import java.awt.Image
 import kotlin.math.min
 
-class DropdownPane(val font: TrueTypeFont, val values: List<String>, private val defaultIndex: Int = -1) : StackPane() {
+class DropdownPane(val font: TrueTypeFont, val values: List<String>, defaultIndex: Int = -1) : StackPane() {
     var selectedId = defaultIndex
         private set
     var selectedString = values.getOrElse(defaultIndex) { "" }
@@ -20,9 +18,22 @@ class DropdownPane(val font: TrueTypeFont, val values: List<String>, private val
     var expanded = false
         private set
 
-    private val background = ImagePane(ResourceLocation("afraidofthedark:textures/gui/text_field_background.png"), ImagePane.DispMode.STRETCH)
-    private val downBtn = ButtonPane(ImagePane(ResourceLocation("afraidofthedark:textures/gui/spell_editor/dropdown_down.png"), ImagePane.DispMode.STRETCH))
-    private val upBtn = ButtonPane(ImagePane(ResourceLocation("afraidofthedark:textures/gui/spell_editor/dropdown_up.png"), ImagePane.DispMode.STRETCH))
+    private val background = ImagePane(
+        ResourceLocation("afraidofthedark:textures/gui/text_field_background.png"),
+        ImagePane.DispMode.STRETCH
+    )
+    private val downBtn = ButtonPane(
+        ImagePane(
+            ResourceLocation("afraidofthedark:textures/gui/spell_editor/dropdown_down.png"),
+            ImagePane.DispMode.STRETCH
+        )
+    )
+    private val upBtn = ButtonPane(
+        ImagePane(
+            ResourceLocation("afraidofthedark:textures/gui/spell_editor/dropdown_up.png"),
+            ImagePane.DispMode.STRETCH
+        )
+    )
     private val overlayPane = OverlayPane(this)
     private val mainLabel = LabelComponent(font, Dimensions(1.0, 1.0))
     private val optionsBkg = ImagePane("afraidofthedark:textures/gui/spell_editor/drop_down_background.png")

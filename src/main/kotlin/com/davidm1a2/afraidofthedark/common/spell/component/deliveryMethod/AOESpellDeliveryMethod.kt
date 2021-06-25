@@ -3,14 +3,11 @@ package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
-import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.helper.TargetType
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import com.davidm1a2.afraidofthedark.common.spell.component.property.EnumSpellComponentProperty
-import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
@@ -38,13 +35,13 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
                 .build()
         )
         addEditableProperty(
-            SpellComponentPropertyFactory.enumProperty()
+            SpellComponentPropertyFactory.enumProperty<TargetType>()
                 .withName("Target Type")
                 .withDescription("Should be either 'entity' or 'block'. If the target type is 'block' all nearby blocks will be affected, if it is 'entity' all nearby entities will be affected.")
-                .withSetter { instance, newValue -> instance.data.putInt(NBT_TARGET_TYPE, newValue) }
-                .withGetter { it.data.getInt(NBT_TARGET_TYPE) }
-                .withDefaultValue(-1)
-                .build(listOf("entity", "block"))
+                .withSetter { instance, newValue -> instance.data.putInt(NBT_TARGET_TYPE, newValue.ordinal) }
+                .withGetter { TargetType.values()[it.data.getInt(NBT_TARGET_TYPE)] }
+                .withDefaultValue(TargetType.BLOCK)
+                .build()
         )
     }
 
