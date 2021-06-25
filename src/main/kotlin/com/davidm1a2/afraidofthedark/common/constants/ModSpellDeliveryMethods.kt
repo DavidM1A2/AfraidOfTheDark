@@ -11,6 +11,7 @@ object ModSpellDeliveryMethods {
     val AOE = AOESpellDeliveryMethod()
     val LASER = LaserSpellDeliveryMethod()
     val DELAY = DelaySpellDeliveryMethod()
+    val OFFSET = OffsetSpellDeliveryMethod()
 
     // An array containing a list of spell delivery methods that AOTD adds
     val SPELL_DELIVERY_METHODS = arrayOf(
@@ -18,6 +19,7 @@ object ModSpellDeliveryMethods {
         PROJECTILE,
         AOE,
         LASER,
-        DELAY
+        DELAY,
+        OFFSET
     )
 }
