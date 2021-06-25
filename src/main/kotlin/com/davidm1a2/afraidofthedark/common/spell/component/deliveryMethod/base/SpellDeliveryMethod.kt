@@ -135,7 +135,7 @@ abstract class SpellDeliveryMethod(id: ResourceLocation) :
      * @param previous The previous delivery method type
      * @return The transitioner to use to go from the previous delivery method to this one
      */
-    fun getTransitioner(previous: SpellDeliveryMethod): ISpellDeliveryTransitioner? {
+    private fun getTransitioner(previous: SpellDeliveryMethod): ISpellDeliveryTransitioner? {
         return deliveryCustomTransitioners[previous]
     }
 
@@ -145,7 +145,7 @@ abstract class SpellDeliveryMethod(id: ResourceLocation) :
      * @param effectEntry The effect entry to apply
      * @return The applicator to use to apply this effect
      */
-    fun getApplicator(effectEntry: SpellEffect): ISpellDeliveryEffectApplicator? {
+    private fun getApplicator(effectEntry: SpellEffect): ISpellDeliveryEffectApplicator? {
         return deliveryEffectCustomApplicators[effectEntry]
     }
 }

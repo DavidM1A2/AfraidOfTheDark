@@ -8,7 +8,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueExceptio
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
-import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.util.ResourceLocation
@@ -83,16 +82,6 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
             state.getEntity()
         )
         state.world.addEntity(spellProjectile)
-    }
-
-    /**
-     * Applies a given effect given the spells current state
-     *
-     * @param state  The state of the spell at the current delivery method
-     * @param effect The effect that needs to be applied
-     */
-    override fun defaultEffectProc(state: DeliveryTransitionState, effect: SpellComponentInstance<SpellEffect>) {
-        effect.component.procEffect(state, effect)
     }
 
     /**

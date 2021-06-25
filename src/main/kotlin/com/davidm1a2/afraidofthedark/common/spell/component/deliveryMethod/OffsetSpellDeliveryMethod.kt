@@ -6,7 +6,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionSt
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
-import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
@@ -90,23 +89,6 @@ class OffsetSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Const
             .build()
         procEffects(newState)
         transitionFrom(newState)
-    }
-
-    override fun defaultEffectProc(state: DeliveryTransitionState, effect: SpellComponentInstance<SpellEffect>) {
-        effect.component.procEffect(state, effect)
-    }
-
-    override fun performDefaultTransition(state: DeliveryTransitionState) {
-        val spell = state.spell
-        val spellIndex = state.stageIndex
-
-        // Perform the transition between the next delivery method and the current delivery method
-        spell.getStage(spellIndex + 1)!!.deliveryInstance!!.component.executeDelivery(
-            DeliveryTransitionStateBuilder()
-                .copyOf(state)
-                .withStageIndex(spellIndex + 1)
-                .build()
-        )
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
