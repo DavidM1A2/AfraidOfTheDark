@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "afraidofthedark:sunstone_ore"
+          "name": "afraidofthedark:sunstone_fragment"
         }
       ],
       "conditions": [
