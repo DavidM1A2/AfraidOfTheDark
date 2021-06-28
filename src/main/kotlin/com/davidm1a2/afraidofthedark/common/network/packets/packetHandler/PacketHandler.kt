@@ -18,7 +18,7 @@ import net.minecraftforge.fml.network.PacketDistributor
 class PacketHandler {
     private var nextPacketID = 0
     private val wrapper = NetworkRegistry.newSimpleChannel(
-        ResourceLocation(Constants.MOD_ID, ""),
+        ResourceLocation(Constants.MOD_ID, "main"),
         { PROTOCOL_VERSION },
         { it == PROTOCOL_VERSION },
         { it == PROTOCOL_VERSION }
