@@ -23,11 +23,18 @@ import net.minecraftforge.client.IRenderHandler
  * @param dimensionType The dimension type of this dimension
  */
 class VoidChestDimension(world: World, dimensionType: DimensionType) : Dimension(world, dimensionType) {
+    // TODO: As of 1.14 we can't use ModDimensions.VOID_CHEST_TYPE because this does not get initialized client side
+    // when connecting to a dedicated server. Instead, the server sends us a dummy dimension type which we need to
+    // retrieve via DimensionType.byName(). We don't have this dummy dimension until we actually join the dimension :/
+    private val cachedType: DimensionType by lazy {
+        DimensionType.byName(ModDimensions.VOID_CHEST.registryName!!)!!
+    }
+
     /**
      * @return The dimension type
      */
     override fun getType(): DimensionType {
-        return ModDimensions.VOID_CHEST_TYPE
+        return cachedType
     }
 
     /**

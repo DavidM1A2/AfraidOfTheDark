@@ -28,7 +28,7 @@ class InsanitysHeightsItem : AOTDItem("insanitys_heights", Properties().maxStack
     override fun onItemRightClick(worldIn: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
         val heldItem = player.getHeldItem(hand)
         // Show the player the book if they're in the nightmare
-        if (worldIn.dimension.type == ModDimensions.NIGHTMARE_TYPE) {
+        if (worldIn.dimension.type.modType == ModDimensions.NIGHTMARE) {
             AfraidOfTheDark.proxy.showInsanitysHeightsBook()
         } else {
             if (!worldIn.isRemote) {

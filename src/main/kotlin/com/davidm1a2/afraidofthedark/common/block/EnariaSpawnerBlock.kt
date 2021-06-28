@@ -77,9 +77,9 @@ class EnariaSpawnerBlock : AOTDTileEntityBlock("enaria_spawner", Properties.crea
             else -> throw IllegalStateException("Can't determine the world type for IBlockReader ${world::class.java.simpleName}")
         }
         // In the overworld we spawn a regular enaria, in the nightmare we spawn a ghastly enaria
-        return when (dimType) {
-            DimensionType.OVERWORLD -> EnariaSpawnerTileEntity()
-            ModDimensions.NIGHTMARE_TYPE -> GhastlyEnariaSpawnerTileEntity()
+        return when {
+            dimType == DimensionType.OVERWORLD -> EnariaSpawnerTileEntity()
+            dimType.modType == ModDimensions.NIGHTMARE -> GhastlyEnariaSpawnerTileEntity()
             else -> {
                 LOGGER.warn("BlockEnariaSpawner should not exist in this dimension, defaulting to a NO-OP TileEntity.")
                 null

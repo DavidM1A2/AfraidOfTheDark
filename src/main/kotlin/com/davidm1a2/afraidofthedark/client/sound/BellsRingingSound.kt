@@ -23,7 +23,7 @@ class BellsRingingSound : PlayerFollowingSound(ModSounds.BELLS, SoundCategory.AM
         super.tick()
 
         val entityPlayer = Minecraft.getInstance().player!!
-        if (!entityPlayer.isAlive || entityPlayer.dimension != ModDimensions.NIGHTMARE_TYPE) {
+        if (!entityPlayer.isAlive || entityPlayer.dimension.modType != ModDimensions.NIGHTMARE) {
             donePlaying = true
         }
     }

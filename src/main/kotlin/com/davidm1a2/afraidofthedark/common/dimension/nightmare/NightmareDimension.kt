@@ -24,11 +24,25 @@ import net.minecraftforge.api.distmarker.OnlyIn
  * @param dimensionType The dimension type of this dimension
  */
 class NightmareDimension(world: World, dimensionType: DimensionType) : Dimension(world, dimensionType) {
+    // TODO: As of 1.14 we can't use ModDimensions.NIGHTMARE_TYPE because this does not get initialized client side
+    // when connecting to a dedicated server. Instead, the server sends us a dummy dimension type which we need to
+    // retrieve via DimensionType.byName(). We don't have this dummy dimension until we actually join the dimension :/
+    private val cachedType: DimensionType by lazy {
+        DimensionType.byName(ModDimensions.NIGHTMARE.registryName!!)!!
+    }
+
     init {
         // Register the sky renderer client side
         if (world.isRemote) {
             skyRenderer = NightmareSkyRenderer()
         }
+    }
+
+    /**
+     * @return The dimension type
+     */
+    override fun getType(): DimensionType {
+        return cachedType
     }
 
     /**
@@ -113,13 +127,6 @@ class NightmareDimension(world: World, dimensionType: DimensionType) : Dimension
     @OnlyIn(Dist.CLIENT)
     override fun doesXZShowFog(x: Int, z: Int): Boolean {
         return true
-    }
-
-    /**
-     * @return The dimension type will be 'Nightmare'
-     */
-    override fun getType(): DimensionType {
-        return ModDimensions.NIGHTMARE_TYPE
     }
 
     /**

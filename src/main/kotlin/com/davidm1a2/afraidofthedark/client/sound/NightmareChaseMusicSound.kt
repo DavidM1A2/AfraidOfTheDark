@@ -44,7 +44,7 @@ class NightmareChaseMusicSound : PlayerFollowingSound(ModSounds.NIGHTMARE_CHASE_
 
         val entityPlayer = Minecraft.getInstance().player!!
         // Stop playing the sound if the player is 1) dead 2) not in the nightmare
-        if (!entityPlayer.isAlive || entityPlayer.dimension != ModDimensions.NIGHTMARE_TYPE) {
+        if (!entityPlayer.isAlive || entityPlayer.dimension.modType != ModDimensions.NIGHTMARE) {
             donePlaying = true
         }
     }
