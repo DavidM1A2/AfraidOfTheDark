@@ -23,6 +23,7 @@ import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneEn
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneProjectileEntity
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.WerewolfEntity
 import com.davidm1a2.afraidofthedark.common.event.ResearchOverlayHandler
+import com.davidm1a2.afraidofthedark.common.event.register.ModColorRegister
 import com.davidm1a2.afraidofthedark.common.tileEntity.VoidChestTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.EnariasAltarTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
@@ -37,6 +38,7 @@ import net.minecraft.nbt.StringNBT
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.client.registry.ClientRegistry
 import net.minecraftforge.fml.client.registry.RenderingRegistry
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 
 /**
  * Proxy that is only to be instantiated on the CLIENT side
@@ -47,8 +49,13 @@ class ClientProxy : IProxy {
     override val researchOverlay = ResearchOverlayHandler()
 
     override fun registerHandlers() {
-        MinecraftForge.EVENT_BUS.register(KeyInputEventHandler())
-        MinecraftForge.EVENT_BUS.register(researchOverlay)
+        val forgeBus = MinecraftForge.EVENT_BUS
+        val modBus = FMLJavaModLoadingContext.get().modEventBus
+
+        forgeBus.register(KeyInputEventHandler())
+        forgeBus.register(researchOverlay)
+
+        modBus.register(ModColorRegister())
     }
 
     override fun initializeEntityRenderers() {
