@@ -1,8 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
-import net.minecraft.world.dimension.DimensionType
-import net.minecraftforge.common.DimensionManager
 import net.minecraftforge.common.ModDimension
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.event.world.RegisterDimensionsEvent
@@ -31,12 +29,9 @@ class DimensionRegister {
     @SubscribeEvent
     @Suppress("UNUSED_PARAMETER")
     fun registerDimensions(event: RegisterDimensionsEvent) {
-        val nightmare = ModDimensions.NIGHTMARE
-        ModDimensions.NIGHTMARE_TYPE =
-            DimensionType.byName(nightmare.registryName!!) ?: DimensionManager.registerDimension(nightmare.registryName, nightmare, null, false)
-
-        val voidChest = ModDimensions.VOID_CHEST
-        ModDimensions.VOID_CHEST_TYPE =
-            DimensionType.byName(voidChest.registryName!!) ?: DimensionManager.registerDimension(voidChest.registryName, voidChest, null, false)
+        // There seems to be a bug in 1.14 where this does not get called client side. To avoid this issue, we lazily init
+        // these variables so the client inits them whenever it wants. The server inits them here. TODO: Fix in 1.15
+        ModDimensions.NIGHTMARE_TYPE
+        ModDimensions.VOID_CHEST_TYPE
     }
 }
