@@ -2,12 +2,12 @@ package com.davidm1a2.afraidofthedark.common.crafting
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
+import com.davidm1a2.afraidofthedark.common.constants.ModRecipeSerializers
 import com.davidm1a2.afraidofthedark.common.item.ResearchScrollItem
 import net.minecraft.inventory.CraftingInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.ICraftingRecipe
 import net.minecraft.item.crafting.IRecipeSerializer
-import net.minecraft.item.crafting.SpecialRecipeSerializer
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
 
@@ -126,7 +126,7 @@ class ScrollCombineRecipe : ICraftingRecipe {
     }
 
     override fun getSerializer(): IRecipeSerializer<*> {
-        return SpecialRecipeSerializer { ScrollCombineRecipe() }
+        return ModRecipeSerializers.SCROLL_COMBINE_RECIPE
     }
 
     /**
