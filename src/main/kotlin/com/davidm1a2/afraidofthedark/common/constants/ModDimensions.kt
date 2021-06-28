@@ -14,10 +14,20 @@ object ModDimensions {
 
     // These are initialized later
     val VOID_CHEST_TYPE: DimensionType by lazy {
-        DimensionManager.registerOrGetDimension(VOID_CHEST.registryName, VOID_CHEST, null, false)
+        DimensionType.byName(VOID_CHEST.registryName!!) ?: DimensionManager.registerDimension(
+            VOID_CHEST.registryName,
+            VOID_CHEST,
+            null,
+            false
+        )
     }
     val NIGHTMARE_TYPE: DimensionType by lazy {
-        DimensionManager.registerOrGetDimension(NIGHTMARE.registryName, NIGHTMARE, null, false)
+        DimensionType.byName(NIGHTMARE.registryName!!) ?: DimensionManager.registerDimension(
+            NIGHTMARE.registryName,
+            NIGHTMARE,
+            null,
+            false
+        )
     }
 
     val DIMENSION_LIST = arrayOf(
