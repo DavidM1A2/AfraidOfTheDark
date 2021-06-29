@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell
 
 import com.davidm1a2.afraidofthedark.common.spell.Spell
+import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
 import net.minecraft.entity.player.PlayerEntity
 import java.util.*
 
@@ -92,4 +93,22 @@ interface IPlayerSpellManager {
      * any side. This will only send the spell and keybinding information for a single spell
      */
     fun sync(entityPlayer: PlayerEntity, spell: Spell)
+
+    // Power Source Management
+
+    fun isPowerSourceUnlocked(powerSource: SpellPowerSource): Boolean
+
+    fun unlockPowerSource(powerSource: SpellPowerSource)
+
+    fun getUnlockedPowerSources(): List<SpellPowerSource>
+
+    fun getPowerSourceValue(powerSource: SpellPowerSource): Double
+
+    fun setPowerSourceValue(powerSource: SpellPowerSource, value: Double)
+
+    fun consumePowerSource(powerSource: SpellPowerSource, consumeVal: Double)
+
+    fun chargePowerSource(powerSource: SpellPowerSource, chargeVal: Double)
+
+    fun syncPowerValues(entityPlayer: PlayerEntity)
 }

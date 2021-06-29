@@ -2,14 +2,19 @@ package com.davidm1a2.afraidofthedark.common.capabilities.player.spell
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.ClearSpellsPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.PowerSourceUpdatePacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.SpellPacket
 import com.davidm1a2.afraidofthedark.common.spell.Spell
+import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import org.apache.logging.log4j.LogManager
 import java.util.*
+import kotlin.collections.HashMap
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Default implementation of the AOTD spell manager
@@ -170,6 +175,50 @@ class PlayerSpellManager : IPlayerSpellManager {
      */
     private fun isServerSide(entityPlayer: PlayerEntity): Boolean {
         return !entityPlayer.world.isRemote
+    }
+
+    // Power Source Management
+
+    private val powerSourceValues = HashMap<SpellPowerSource, Double>()
+    private val powerSourceUnlocked = HashMap<SpellPowerSource, Boolean>()
+
+    override fun isPowerSourceUnlocked(powerSource: SpellPowerSource): Boolean {
+        return powerSourceUnlocked.getOrDefault(powerSource, false)
+    }
+
+    override fun unlockPowerSource(powerSource: SpellPowerSource) {
+        powerSourceUnlocked[powerSource] = true
+    }
+
+    override fun getUnlockedPowerSources(): List<SpellPowerSource> {
+        return powerSourceUnlocked.keys.filter { isPowerSourceUnlocked(it) }
+    }
+
+    override fun getPowerSourceValue(powerSource: SpellPowerSource): Double {
+        return powerSourceValues.getOrDefault(powerSource, 0.0)
+    }
+
+    override fun setPowerSourceValue(powerSource: SpellPowerSource, value: Double) {
+        powerSourceValues[powerSource] = value
+    }
+
+    override fun consumePowerSource(powerSource: SpellPowerSource, consumeVal: Double) {
+        val cur = this.getPowerSourceValue(powerSource)
+        setPowerSourceValue(powerSource, max(0.0, cur - consumeVal))
+    }
+
+    override fun chargePowerSource(powerSource: SpellPowerSource, chargeVal: Double) {
+        val cur = this.getPowerSourceValue(powerSource)
+        setPowerSourceValue(powerSource, min(powerSource.getMaxValue(), cur + chargeVal))
+    }
+
+    override fun syncPowerValues(entityPlayer: PlayerEntity) {
+        val updatePacket = PowerSourceUpdatePacket(powerSourceValues, powerSourceUnlocked)
+        if (isServerSide(entityPlayer)) {
+            AfraidOfTheDark.packetHandler.sendTo(updatePacket, entityPlayer as ServerPlayerEntity)
+        } else {
+            AfraidOfTheDark.packetHandler.sendToServer(updatePacket)
+        }
     }
 
     companion object {

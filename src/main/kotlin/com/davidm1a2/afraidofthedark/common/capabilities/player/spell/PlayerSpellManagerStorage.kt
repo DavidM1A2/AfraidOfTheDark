@@ -1,16 +1,16 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell
 
+import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.spell.Spell
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.nbt.INBT
-import net.minecraft.nbt.ListNBT
-import net.minecraft.nbt.NBTUtil
+import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
+import net.minecraft.nbt.*
 import net.minecraft.util.Direction
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.Capability.IStorage
 import net.minecraftforge.common.util.Constants
 import org.apache.logging.log4j.LogManager
 import java.util.*
+import java.util.stream.Collectors
 
 /**
  * Default storage implementation for the AOTD spell manager
@@ -59,6 +59,14 @@ class PlayerSpellManagerStorage : IStorage<IPlayerSpellManager> {
         }
         // Set the spell keybinds into the compound
         compound.put(NBT_KEYBINDS_LIST, keybindingsNBT)
+
+        // Go over each power source value and store it off
+        val powerNBT = CompoundNBT()
+        // Go over every power source that is unlocked
+        for (powerSource in instance.getUnlockedPowerSources()) {
+            powerNBT.put(powerSource.getUnlocalizedName(), DoubleNBT(instance.getPowerSourceValue(powerSource)))
+        }
+        compound.put(NBT_POWER_LIST, powerNBT)
         return compound
     }
 
@@ -106,6 +114,16 @@ class PlayerSpellManagerStorage : IStorage<IPlayerSpellManager> {
                 // Keybind the key to the spell
                 instance.keybindSpell(keybind, idToSpell[spellUUID]!!)
             }
+
+            // Restore the power source values
+            val powerNBT = nbt.getCompound(NBT_POWER_LIST)
+            // Go over each power source
+            for (source in ModRegistries.SPELL_POWER_SOURCES.values) {
+                if (powerNBT.contains(source.getUnlocalizedName())) {
+                    instance.unlockPowerSource(source)
+                    instance.setPowerSourceValue(source, powerNBT.getDouble(source.getUnlocalizedName()))
+                }
+            }
         } else {
             logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
         }
@@ -119,6 +137,9 @@ class PlayerSpellManagerStorage : IStorage<IPlayerSpellManager> {
 
         // The keybinds list
         private const val NBT_KEYBINDS_LIST = "keybinds"
+
+        // The power sources list
+        private const val NBT_POWER_LIST = "power"
 
         // Two NBT fields, one for the keybind value and one for the keybind spell UUID used as a pair
         private const val NBT_KEYBIND = "keybind"

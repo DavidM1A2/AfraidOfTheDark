@@ -48,6 +48,8 @@ abstract class SpellPowerSource(id: ResourceLocation) :
      */
     abstract fun getCostDescription(): String
 
+    abstract fun getMaxValue(): Double
+
     /**
      * @return Gets the unlocalized name of the component
      */
