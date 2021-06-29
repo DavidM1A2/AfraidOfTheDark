@@ -68,6 +68,7 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
     constructor(world: World, spawnerTilePos: BlockPos) : this(ModEntities.ENARIA, world) {
         if (!world.isRemote) {
             this.fight = EnariaFight(this, spawnerTilePos)
+            this.spawnerTilePos = spawnerTilePos
         }
     }
 
