@@ -58,12 +58,10 @@ class ExplosionSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, 
         return 25.0 + radius * radius * radius
     }
 
-    /**
-     * Gets the radius the explosion should have
-     *
-     * @param instance The instance of the spell effect
-     * @return The radius of the explosion
-     */
+    fun setRadius(instance: SpellComponentInstance<SpellEffect>, radius: Float) {
+        instance.data.putFloat(NBT_RADIUS, radius)
+    }
+
     fun getRadius(instance: SpellComponentInstance<SpellEffect>): Float {
         return instance.data.getFloat(NBT_RADIUS)
     }

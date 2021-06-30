@@ -20,7 +20,7 @@ import net.minecraftforge.api.distmarker.OnlyIn
  * @param zSpeed The z speed of the spell cast attack
  */
 @OnlyIn(Dist.CLIENT)
-class EnariaSpellCast2Particle(
+class EnariaFightEventParticle(
     world: World,
     x: Double,
     y: Double,
@@ -61,7 +61,7 @@ class EnariaSpellCast2Particle(
             ySpeed: Double,
             zSpeed: Double
         ): Particle {
-            return EnariaSpellCast2Particle(world, x, y, z, xSpeed, zSpeed).apply {
+            return EnariaFightEventParticle(world, x, y, z, xSpeed, zSpeed).apply {
                 selectSpriteRandomly(spriteSet)
             }
         }

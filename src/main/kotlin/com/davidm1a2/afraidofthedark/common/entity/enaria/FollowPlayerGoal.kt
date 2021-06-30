@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria
 
-import net.minecraft.entity.MobEntity
 import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.player.PlayerEntity
@@ -17,7 +16,7 @@ import net.minecraft.entity.player.PlayerEntity
  * @property ticksUntilNextUpdate The ticks remaining until we check path finding again
  */
 class FollowPlayerGoal(
-    private val entity: MobEntity,
+    private val entity: EnariaEntity,
     private val minRange: Double,
     private val maxRange: Double,
     private val trackRange: Double
@@ -29,6 +28,10 @@ class FollowPlayerGoal(
      * @return True if the following should execute, false otherwise
      */
     override fun shouldExecute(): Boolean {
+        if (!entity.canMove) {
+            return false
+        }
+
         // Grab a list of nearby players
         val players =
             entity.world.getEntitiesWithinAABB(PlayerEntity::class.java, entity.boundingBox.grow(trackRange))
@@ -60,6 +63,10 @@ class FollowPlayerGoal(
      * @return True if the pathing should continue to execute, false otherwise
      */
     override fun shouldContinueExecuting(): Boolean {
+        if (!entity.canMove) {
+            return false
+        }
+
         // If the target is dead
         return if (!target!!.isAlive) {
             false

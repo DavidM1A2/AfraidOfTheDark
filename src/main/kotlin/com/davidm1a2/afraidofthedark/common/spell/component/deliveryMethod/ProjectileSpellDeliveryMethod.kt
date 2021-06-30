@@ -121,6 +121,10 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
         return 1.5
     }
 
+    fun setSpeed(instance: SpellComponentInstance<SpellDeliveryMethod>, speed: Double) {
+        instance.data.putDouble(NBT_SPEED, speed)
+    }
+
     fun getSpeed(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         return instance.data.getDouble(NBT_SPEED)
     }
@@ -131,6 +135,10 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
 
     fun getRange(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         return instance.data.getDouble(NBT_RANGE)
+    }
+
+    fun setColor(instance: SpellComponentInstance<SpellDeliveryMethod>, color: Color) {
+        instance.data.putString(NBT_COLOR, "${color.red} ${color.green} ${color.blue}")
     }
 
     fun getColor(instance: SpellComponentInstance<SpellDeliveryMethod>): Color {

@@ -50,8 +50,9 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
 
     // Fight data will only be stored server side
     private lateinit var fight: EnariaFight
-    private var lastHit: Int = 0
-    private var spawnerTilePos: BlockPos = BlockPos.ZERO
+    private var lastHit = 0
+    private var spawnerTilePos = BlockPos.ZERO
+    var canMove = true
 
     init {
         // Name of the entity, will be bold and red
@@ -289,7 +290,7 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
         // Constants for enaria's stats
         private const val MOVE_SPEED = 0.6
         private const val FOLLOW_RANGE = 64.0
-        private const val MAX_HEALTH = 400.0
+        private const val MAX_HEALTH = 600.0
         private const val ATTACK_DAMAGE = 12.0
         private const val KNOCKBACK_RESISTANCE = 0.5
 

@@ -14,14 +14,16 @@ import net.minecraft.command.arguments.EntityAnchorArgument
 import net.minecraft.potion.Effects
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.SoundEvents
+import java.awt.Color
 
 class EnariaBasicAttacks(private val fight: EnariaFight) {
     private val attacks = listOf(
         this::shootExplosiveProjectile,
-        this::shootFireProjectile,
+        this::shootFireLaser,
         this::shootSlowLaser,
-        this::shootFreezeLaser,
-        this::shootCharmLaser,
+        this::shootFreezeProjectile,
+        this::shootCharmProjectile,
+        this::shootInstantDamageLaser,
         this::useSmokeScreen,
         this::useSelfHeal,
         this::useRandomTeleport
@@ -48,9 +50,9 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
         return true
     }
 
-    private fun shootFireProjectile(): Boolean {
+    private fun shootFireLaser(): Boolean {
         lookAtNearestPlayer()
-        FIRE_PROJECTILE_SPELL.attemptToCast(fight.enaria)
+        FIRE_LASER_SPELL.attemptToCast(fight.enaria)
         return true
     }
 
@@ -60,15 +62,21 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
         return true
     }
 
-    private fun shootFreezeLaser(): Boolean {
+    private fun shootFreezeProjectile(): Boolean {
         lookAtNearestPlayer()
-        FREEZE_LASER_SPELL.attemptToCast(fight.enaria)
+        FREEZE_PROJECTILE_SPELL.attemptToCast(fight.enaria)
         return true
     }
 
-    private fun shootCharmLaser(): Boolean {
+    private fun shootCharmProjectile(): Boolean {
         lookAtNearestPlayer()
-        CHARM_LASER_SPELL.attemptToCast(fight.enaria)
+        CHARM_PROJECTILE_SPELL.attemptToCast(fight.enaria)
+        return true
+    }
+
+    private fun shootInstantDamageLaser(): Boolean {
+        lookAtNearestPlayer()
+        DAMAGE_LASER_SPELL.attemptToCast(fight.enaria)
         return true
     }
 
@@ -133,17 +141,22 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.PROJECTILE).apply {
                     setDefaults()
                     ModSpellDeliveryMethods.PROJECTILE.setRange(this, 100.0)
+                    ModSpellDeliveryMethods.PROJECTILE.setSpeed(this, 1.4)
+                    ModSpellDeliveryMethods.PROJECTILE.setColor(this, Color(140, 0, 0))
                 }
-                effects[0] = SpellEffectInstance(ModSpellEffects.EXPLOSION).apply { setDefaults() }
+                effects[0] = SpellEffectInstance(ModSpellEffects.EXPLOSION).apply {
+                    setDefaults()
+                    ModSpellEffects.EXPLOSION.setRadius(this, 3.5f)
+                }
             })
         }
-        private val FIRE_PROJECTILE_SPELL = Spell().apply {
-            name = "Enaria Fire Projectile Attack"
+        private val FIRE_LASER_SPELL = Spell().apply {
+            name = "Enaria Fire Laser Attack"
             powerSource = SpellPowerSourceInstance(ModSpellPowerSources.CREATIVE).apply { setDefaults() }
             spellStages.add(SpellStage().apply {
-                deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.PROJECTILE).apply {
+                deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.LASER).apply {
                     setDefaults()
-                    ModSpellDeliveryMethods.PROJECTILE.setRange(this, 100.0)
+                    ModSpellDeliveryMethods.LASER.setRange(this, 100.0)
                 }
             })
             spellStages.add(SpellStage().apply {
@@ -170,13 +183,15 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 }
             })
         }
-        private val FREEZE_LASER_SPELL = Spell().apply {
-            name = "Enaria Freeze Laser Attack"
+        private val FREEZE_PROJECTILE_SPELL = Spell().apply {
+            name = "Enaria Freeze Projectile Attack"
             powerSource = SpellPowerSourceInstance(ModSpellPowerSources.CREATIVE).apply { setDefaults() }
             spellStages.add(SpellStage().apply {
-                deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.LASER).apply {
+                deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.PROJECTILE).apply {
                     setDefaults()
-                    ModSpellDeliveryMethods.LASER.setRange(this, 100.0)
+                    ModSpellDeliveryMethods.PROJECTILE.setRange(this, 100.0)
+                    ModSpellDeliveryMethods.PROJECTILE.setSpeed(this, 0.8)
+                    ModSpellDeliveryMethods.PROJECTILE.setColor(this, Color(0, 140, 100))
                 }
                 effects[0] = SpellEffectInstance(ModSpellEffects.FREEZE).apply {
                     setDefaults()
@@ -184,17 +199,35 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 }
             })
         }
-        private val CHARM_LASER_SPELL = Spell().apply {
-            name = "Enaria Charm Laser Attack"
+        private val CHARM_PROJECTILE_SPELL = Spell().apply {
+            name = "Enaria Charm Projectile Attack"
+            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.CREATIVE).apply { setDefaults() }
+            spellStages.add(SpellStage().apply {
+                deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.PROJECTILE).apply {
+                    setDefaults()
+                    ModSpellDeliveryMethods.PROJECTILE.setRange(this, 100.0)
+                    ModSpellDeliveryMethods.PROJECTILE.setSpeed(this, 0.8)
+                    ModSpellDeliveryMethods.PROJECTILE.setColor(this, Color(255, 0, 220))
+                }
+                effects[0] = SpellEffectInstance(ModSpellEffects.CHARM).apply {
+                    setDefaults()
+                    ModSpellEffects.CHARM.setCharmDuration(this, 20 * 5)
+                }
+            })
+        }
+        private val DAMAGE_LASER_SPELL = Spell().apply {
+            name = "Enaria Damage Laser Attack"
             powerSource = SpellPowerSourceInstance(ModSpellPowerSources.CREATIVE).apply { setDefaults() }
             spellStages.add(SpellStage().apply {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.LASER).apply {
                     setDefaults()
                     ModSpellDeliveryMethods.LASER.setRange(this, 100.0)
                 }
-                effects[0] = SpellEffectInstance(ModSpellEffects.CHARM).apply {
+                effects[0] = SpellEffectInstance(ModSpellEffects.POTION_EFFECT).apply {
                     setDefaults()
-                    ModSpellEffects.CHARM.setCharmDuration(this, 20 * 5)
+                    ModSpellEffects.POTION_EFFECT.setPotionType(this, Effects.INSTANT_DAMAGE)
+                    ModSpellEffects.POTION_EFFECT.setPotionStrength(this, 1)
+                    ModSpellEffects.POTION_EFFECT.setPotionDuration(this, 1)
                 }
             })
         }

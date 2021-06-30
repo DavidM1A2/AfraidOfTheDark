@@ -16,6 +16,7 @@ import net.minecraft.entity.item.ItemEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.math.Vec3d
+import java.awt.Color
 import kotlin.random.Random
 
 class GrassSkeletonFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFightEvents.GrassSkeleton) {
@@ -68,10 +69,9 @@ class GrassSkeletonFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, Enar
 
     private fun clearArenaGrass() {
         val world = fight.enaria.world
-        iterateOverRegion(relativeToAbsolutePosition(-30, -1, -3), relativeToAbsolutePosition(30, -1, 79)) {
-            val block = world.getBlockState(it).block
-            if (block == Blocks.GRASS_BLOCK || block == Blocks.DIRT) {
-                world.setBlockState(it, Blocks.AIR.defaultState)
+        iterateOverRegion(relativeToAbsolutePosition(-30, -1, -3), relativeToAbsolutePosition(30, 2, 79)) {
+            if (VALID_BLOCKS_TO_REMOVE.contains(world.getBlockState(it).block)) {
+                world.setBlockState(it, Blocks.AIR.defaultState, 2 or 32)
             }
         }
     }
@@ -111,6 +111,7 @@ class GrassSkeletonFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, Enar
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.PROJECTILE).apply {
                     setDefaults()
                     ModSpellDeliveryMethods.PROJECTILE.setRange(this, 100.0)
+                    ModSpellDeliveryMethods.PROJECTILE.setColor(this, Color(0, 200, 0))
                 }
             })
             spellStages.add(SpellStage().apply {
@@ -126,5 +127,11 @@ class GrassSkeletonFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, Enar
         private const val MAX_EVENT_TIME_SEC = 40
         private const val START_NUMBER_GROW_SPELLS = 20
         private val POSSIBLE_ENCHANTED_SKELE_BONE_COUNTS = listOf(4, 8, 12)
+        private val VALID_BLOCKS_TO_REMOVE = setOf(
+            Blocks.GRASS,
+            Blocks.DIRT,
+            Blocks.TALL_GRASS,
+            Blocks.GRASS_BLOCK
+        )
     }
 }

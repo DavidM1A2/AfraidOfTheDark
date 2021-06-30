@@ -123,8 +123,8 @@ class EnariaFight(
                     // Every 5 ticks show particles
                     if (ticksUntilNextEvent % 5 == 0) {
                         // Make a ring of particles around enaria shooting upward and outward
-                        val particleHeight = ((DELAY_BEFORE_EVENT_START - ticksUntilNextEvent.toDouble()) / DELAY_BEFORE_EVENT_START) * 5
-                        val positions = List(30) { Vec3d(centerPos.x + 0.5, centerPos.y + particleHeight, centerPos.z + 0.5) }
+                        val particleHeight = ((DELAY_BEFORE_EVENT_START - ticksUntilNextEvent.toDouble()) / DELAY_BEFORE_EVENT_START) * 3
+                        val positions = List(30) { Vec3d(centerPos.x + 0.5, centerPos.y + 1.5 + particleHeight, centerPos.z + 0.5) }
                         val speeds = List(positions.size) {
                             Vec3d(
                                 sin(Math.toRadians(360.0 / positions.size * it)) * 0.2,
@@ -133,7 +133,7 @@ class EnariaFight(
                             )
                         }
 
-                        AfraidOfTheDark.packetHandler.sendToAllAround(ParticlePacket(ModParticles.SPELL_CAST3, positions, speeds), enaria, 70.0)
+                        AfraidOfTheDark.packetHandler.sendToAllAround(ParticlePacket(ModParticles.ENARIA_FIGHT_EVENT, positions, speeds), enaria, 70.0)
                     }
                 }
             }
@@ -154,15 +154,19 @@ class EnariaFight(
         if (currentEvent == null) {
             // And we're about to play an event
             if (ticksUntilNextEvent < DELAY_BEFORE_EVENT_START) {
-                // Don't basic attack
+                // Don't basic attack or move
+                enaria.canMove = false
                 return
             }
         }
 
-        // If the current event doesn't allow basic attacks, don't attack
+        // If the current event doesn't allow basic attacks, don't attack or move
         if (currentEvent?.canBasicAttackDuringThis() == false) {
+            enaria.canMove = false
             return
         }
+
+        enaria.canMove = true
 
         // If we're ready for a basic attack, do it
         if (ticksUntilNextAutoAttack <= 0) {
@@ -270,8 +274,8 @@ class EnariaFight(
         private const val NBT_CURRENT_EVENT_NAME = "current_event_id"
         private const val NBT_CURRENT_EVENT_STATE = "current_event_state"
 
-        private const val MIN_TIME_BETWEEN_EVENTS = 20 * 25 // 25 sec
-        private const val MAX_TIME_BETWEEN_EVENTS = 20 * 35 // 35 sec
+        private const val MIN_TIME_BETWEEN_EVENTS = 20 * 5 // 5 sec
+        private const val MAX_TIME_BETWEEN_EVENTS = 20 * 10 // 10 sec
 
         private const val TIME_BETWEEN_AUTO_ATTACKS = 20 * 3 // 3 sec
 

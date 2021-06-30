@@ -1,6 +1,25 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
-import com.davidm1a2.afraidofthedark.client.particle.*
+import com.davidm1a2.afraidofthedark.client.particle.DigParticle
+import com.davidm1a2.afraidofthedark.client.particle.EnariaFightEventParticle
+import com.davidm1a2.afraidofthedark.client.particle.EnariasAltarParticle
+import com.davidm1a2.afraidofthedark.client.particle.EnchantedFrogSpawnParticle
+import com.davidm1a2.afraidofthedark.client.particle.EnderParticle
+import com.davidm1a2.afraidofthedark.client.particle.ExplosionParticle
+import com.davidm1a2.afraidofthedark.client.particle.FireParticle
+import com.davidm1a2.afraidofthedark.client.particle.FlyParticle
+import com.davidm1a2.afraidofthedark.client.particle.FreezeParticle
+import com.davidm1a2.afraidofthedark.client.particle.GrowParticle
+import com.davidm1a2.afraidofthedark.client.particle.HealParticle
+import com.davidm1a2.afraidofthedark.client.particle.PoisonParticle
+import com.davidm1a2.afraidofthedark.client.particle.SmokeScreenParticle
+import com.davidm1a2.afraidofthedark.client.particle.SpellCast2Particle
+import com.davidm1a2.afraidofthedark.client.particle.SpellCast3Particle
+import com.davidm1a2.afraidofthedark.client.particle.SpellCastParticle
+import com.davidm1a2.afraidofthedark.client.particle.SpellHitParticle
+import com.davidm1a2.afraidofthedark.client.particle.SpellLaserParticle
+import com.davidm1a2.afraidofthedark.client.particle.StrengthParticle
+import com.davidm1a2.afraidofthedark.client.particle.WeaknessParticle
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import net.minecraft.client.Minecraft
 import net.minecraft.particles.ParticleType
@@ -30,11 +49,8 @@ class ParticleRegister {
     fun registerParticleFactories(event: ParticleFactoryRegisterEvent) {
         val particleManager = Minecraft.getInstance().particles
 
-        particleManager.registerFactory(ModParticles.ENARIA_BASIC_ATTACK, EnariaBasicAttackParticle::Factory)
         particleManager.registerFactory(ModParticles.ENARIAS_ALTAR, EnariasAltarParticle::Factory)
-        particleManager.registerFactory(ModParticles.ENARIA_SPELL_CAST, EnariaSpellCastParticle::Factory)
-        particleManager.registerFactory(ModParticles.ENARIA_SPELL_CAST_2, EnariaSpellCast2Particle::Factory)
-        particleManager.registerFactory(ModParticles.ENARIA_TELEPORT, EnariaTeleportParticle::Factory)
+        particleManager.registerFactory(ModParticles.ENARIA_FIGHT_EVENT, EnariaFightEventParticle::Factory)
         particleManager.registerFactory(ModParticles.ENCHANTED_FROG_SPAWN, EnchantedFrogSpawnParticle::Factory)
         particleManager.registerFactory(ModParticles.SMOKE_SCREEN, SmokeScreenParticle::Factory)
         particleManager.registerFactory(ModParticles.SPELL_CAST, SpellCastParticle::Factory)
