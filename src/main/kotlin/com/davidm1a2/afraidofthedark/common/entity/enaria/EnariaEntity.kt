@@ -126,8 +126,10 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
         if (!world.isRemote) {
             // Update the boss info HP bar
             bossInfo.percent = this.health / this.maxHealth
-            // Tick the fight
-            fight.tick(ticksExisted)
+            // Tick the fight if enaria is alive. There's an edge case where we tick the fight one too many times after she's dead leading to infinite music :P
+            if (!dead) {
+                fight.tick(ticksExisted)
+            }
         }
     }
 
@@ -290,7 +292,7 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
         // Constants for enaria's stats
         private const val MOVE_SPEED = 0.6
         private const val FOLLOW_RANGE = 64.0
-        private const val MAX_HEALTH = 600.0
+        private const val MAX_HEALTH = 5.0
         private const val ATTACK_DAMAGE = 12.0
         private const val KNOCKBACK_RESISTANCE = 0.5
 
