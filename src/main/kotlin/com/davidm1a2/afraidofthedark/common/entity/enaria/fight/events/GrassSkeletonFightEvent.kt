@@ -28,11 +28,14 @@ class GrassSkeletonFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, Enar
         numberGrowSpellsLeft = START_NUMBER_GROW_SPELLS
 
         val world = fight.enaria.world
-        iterateOverRegion(relativeToAbsolutePosition(-30, -1, -3), relativeToAbsolutePosition(30, -1, 79)) {
+        val cornerOne = relativeToAbsolutePosition(-30, -1, -3)
+        val cornerTwo = relativeToAbsolutePosition(30, -1, 79)
+        iterateOverRegion(cornerOne, cornerTwo) {
             if (world.getBlockState(it).isAir(world, it)) {
                 world.setBlockState(it, Blocks.GRASS_BLOCK.defaultState)
             }
         }
+        spawnEventParticles(List(30) { getRandomVectorBetween(cornerOne, cornerTwo) })
     }
 
     override fun tick() {

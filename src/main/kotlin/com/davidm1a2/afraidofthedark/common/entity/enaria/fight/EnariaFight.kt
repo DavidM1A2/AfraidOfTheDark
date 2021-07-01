@@ -133,7 +133,7 @@ class EnariaFight(
                             )
                         }
 
-                        AfraidOfTheDark.packetHandler.sendToAllAround(ParticlePacket(ModParticles.ENARIA_FIGHT_EVENT, positions, speeds), enaria, 70.0)
+                        AfraidOfTheDark.packetHandler.sendToAllAround(ParticlePacket(ModParticles.ENARIA_FIGHT_EVENT, positions, speeds), enaria, 100.0)
                     }
                 }
             }

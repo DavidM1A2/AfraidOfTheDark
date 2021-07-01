@@ -16,9 +16,11 @@ import net.minecraft.nbt.ListNBT
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.DamageSource
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.common.util.Constants
 import java.util.*
+import kotlin.random.Random
 
 class SummonSentinelsFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFightEvents.SummonSentinels) {
     private val splinterDroneIds = mutableListOf<UUID>()
@@ -31,17 +33,21 @@ class SummonSentinelsFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, En
         enariaCastPosition = fight.enaria.position
 
         // Summon 8 sentinels around the ice
+        val particlePositions = mutableListOf<Vec3d>()
         for (x in -1..1) {
             for (z in -1..1) {
                 if (x != 0 || z != 0) {
                     val splinterDrone = SplinterDroneEntity(fight.enaria.world)
                     val position = fight.enaria.position.add(x * 5, 0, z * 5)
+                    particlePositions.add(Vec3d(position.x + Random.nextDouble(), position.y + Random.nextDouble(), position.z + Random.nextDouble()))
                     splinterDrone.setPosition(position.x + 0.5, position.y.toDouble(), position.z + 0.5)
                     fight.enaria.world.addEntity(splinterDrone)
                     splinterDroneIds.add(splinterDrone.uniqueID)
                 }
             }
         }
+
+        spawnEventParticles(particlePositions)
 
         // Remember Enaria's HP
         enariaStartingHp = fight.enaria.health

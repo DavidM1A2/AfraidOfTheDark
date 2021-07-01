@@ -38,11 +38,15 @@ class WaterFallFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFi
 
     private fun clearArenaWater() {
         val world = fight.enaria.world
-        iterateOverRegion(relativeToAbsolutePosition(-30, 11, -3), relativeToAbsolutePosition(30, 11, 79)) {
+        val cornerOne = relativeToAbsolutePosition(-30, 11, -3)
+        val cornerTwo = relativeToAbsolutePosition(30, 11, 79)
+        iterateOverRegion(cornerOne, cornerTwo) {
             if (world.getBlockState(it).block == Blocks.WATER) {
                 world.setBlockState(it, Blocks.AIR.defaultState)
             }
         }
+
+        spawnEventParticles(List(30) { getRandomVectorBetween(cornerOne, cornerTwo) })
     }
 
     override fun isOver(): Boolean {
