@@ -1,7 +1,11 @@
 package com.davidm1a2.afraidofthedark.common.tileEntity
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.constants.*
+import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
+import com.davidm1a2.afraidofthedark.common.constants.ModEntities
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
+import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity

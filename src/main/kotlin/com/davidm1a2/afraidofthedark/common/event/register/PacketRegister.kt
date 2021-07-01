@@ -3,8 +3,36 @@ package com.davidm1a2.afraidofthedark.common.event.register
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.network.packets.animationPackets.AnimationPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.animationPackets.AnimationPacketProcessor
-import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.*
-import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.*
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.AOTDPlayerBasicsPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.AOTDPlayerBasicsPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.ClearSpellsPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.ClearSpellsPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.FreezeDataPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.FreezeDataPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.ResearchPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.ResearchPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.SelectedWristCrossbowBoltPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.SelectedWristCrossbowBoltPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.SpellPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.SpellPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.StartedAOTDPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.StartedAOTDPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.CooldownSyncPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.CooldownSyncPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.FireWristCrossbowPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.FireWristCrossbowPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.ParticlePacket
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.ParticlePacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.PlayEnariasFightMusicPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.PlayEnariasFightMusicPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.ProcessSextantInputPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.ProcessSextantInputPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.SpellKeyPressPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.SpellKeyPressPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.UpdateWatchedMeteorPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.UpdateWatchedMeteorPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.VoidChestPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.VoidChestPacketProcessor
 
 /**
  * Class that registers all of our mod's packets

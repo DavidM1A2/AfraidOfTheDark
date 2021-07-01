@@ -5,7 +5,11 @@ import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.constants.ModStructures
 import com.davidm1a2.afraidofthedark.common.world.schematic.Schematic
-import net.minecraft.block.*
+import net.minecraft.block.Block
+import net.minecraft.block.BlockState
+import net.minecraft.block.Blocks
+import net.minecraft.block.ChestBlock
+import net.minecraft.block.StairsBlock
 import net.minecraft.entity.EntityType
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.state.properties.ChestType
