@@ -22,6 +22,9 @@ open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHe
     private var originalXPosition = -1
     private var originalYPosition = -1
 
+    // Whether or not the left mouse button is being held
+    private var mouseHeld = false
+
     // The scaled width and height of the background pane
     var scrollWidth = 0.0
     var scrollHeight = 0.0
@@ -36,6 +39,16 @@ open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHe
                         originalYPosition = it.mouseY
                         originalGuiOffsetX = guiOffsetX
                         originalGuiOffsetY = guiOffsetY
+                        mouseHeld = true
+                    }
+                }
+            }
+        }
+        addMouseListener {
+            if (it.source.isHovered) {
+                if (it.eventType == MouseEvent.EventType.Release) {
+                    if (it.clickedButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+                        mouseHeld = false
                     }
                 }
             }
@@ -43,7 +56,7 @@ open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHe
         addMouseDragListener {
             if (it.source.isHovered) {
                 if (it.clickedButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                    if (originalXPosition != -1 && originalYPosition != -1) {   // A click must have been detected for a drag to register
+                    if (mouseHeld) {   // A click must have been detected for a drag to register
                         guiOffsetX = originalGuiOffsetX + (it.mouseX - originalXPosition)
                         guiOffsetY = originalGuiOffsetY + (it.mouseY - originalYPosition)
                         checkOutOfBounds()

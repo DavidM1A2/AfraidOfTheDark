@@ -44,15 +44,7 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
         this.add(researchIcon)
         this.add(questionIcon)
 
-        // Create two node listeners that controls the behavior of this research node
-        this.addMouseMoveListener {
-            if (it.eventType == MouseMoveEvent.EventType.Enter) {
-                // If the node is visible then play the hover sound since we moved our mouse over it
-                if (it.source.isVisible && it.source.inBounds) {
-                    entityPlayer.playSound(ModSounds.BUTTON_HOVER, 0.7f, 1.9f)
-                }
-            }
-        }
+        // Create a node listener that controls the behavior of this research node
         this.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click) {
                 if (it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON && this.isVisible && this.isHovered && this.inBounds) {

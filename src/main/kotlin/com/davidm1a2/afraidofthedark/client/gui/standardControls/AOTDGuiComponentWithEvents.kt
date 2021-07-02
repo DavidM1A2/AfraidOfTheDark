@@ -87,11 +87,6 @@ abstract class AOTDGuiComponentWithEvents(
             return
         }
 
-        // If the event is an enter or exit event, consume the event. This is because an enter and exit event can only happen to a single control at a time
-        if (event.eventType == MouseMoveEvent.EventType.Enter || event.eventType == MouseMoveEvent.EventType.Exit) {
-            event.consume()
-        }
-
         // We set the source to be this component, because we are processing it
         event.source = this
 
