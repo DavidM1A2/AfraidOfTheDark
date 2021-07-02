@@ -3,7 +3,6 @@ package com.davidm1a2.afraidofthedark.client.gui.screens
 import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellListItem
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
@@ -14,7 +13,6 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.ListPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
 import com.davidm1a2.afraidofthedark.client.keybindings.KeybindingUtils
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
-import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import net.minecraft.util.text.TranslationTextComponent
 
@@ -104,12 +102,6 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
                     // Update the GUI
                     this.invalidate()
                 }
-            }
-        }
-        btnCreateSpell.addMouseMoveListener {
-            if (it.eventType == MouseMoveEvent.EventType.Enter) {
-                // Play the button hover when hovering the add button
-                entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.6f, 1.7f)
             }
         }
         scrollPanel.add(btnCreateSpell)

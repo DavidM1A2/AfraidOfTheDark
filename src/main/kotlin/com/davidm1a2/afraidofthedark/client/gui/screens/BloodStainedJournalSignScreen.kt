@@ -1,9 +1,11 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
-import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
+import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
@@ -14,7 +16,6 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.item.JournalItem
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.SoundEvents
 import net.minecraft.util.text.TranslationTextComponent
 import java.awt.Color
 
@@ -62,7 +63,6 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
         signButton.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click) {
                 if (it.source.isHovered && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
-                    entityPlayer.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f)
                     val playerBasics = entityPlayer.getBasics()
                     val playerResearch = entityPlayer.getResearch()
                     if (nameSignField.getText() == entityPlayer.gameProfile.name) {
@@ -108,21 +108,7 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
                 it.consume()
             }
         }
-        // If we hover the sign button play a button hover sound
-        signButton.addMouseMoveListener {
-            if (it.eventType == MouseMoveEvent.EventType.Enter) {
-                entityPlayer.playSound(ModSounds.BUTTON_HOVER, 0.1f, 0.8f)
-            }
-        }
-        // When we type a character play a type sound
-        this.nameSignField.addKeyListener {
-            if (it.eventType == KeyEvent.KeyEventType.Type) {
-                if (nameSignField.isFocused) {
-                    entityPlayer.playSound(ModSounds.KEY_TYPED, 0.4f, 0.8f)
-                    it.consume()
-                }
-            }
-        }
+
         background.add(signButton)
     }
 

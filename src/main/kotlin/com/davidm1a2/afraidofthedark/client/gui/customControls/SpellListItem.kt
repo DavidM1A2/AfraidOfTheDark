@@ -1,8 +1,11 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
+import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.screens.SpellCraftingScreen
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
@@ -10,10 +13,8 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
-import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import net.minecraft.client.Minecraft
-import net.minecraft.util.SoundEvents
 import java.awt.Color
 
 /**
@@ -46,28 +47,6 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         spellNameContainer.add(lblSpellName)
         this.add(spellNameContainer)
 
-        // When we hover any button play hover sound
-        val hoverSound: ((MouseMoveEvent) -> Unit) =
-            {
-                if (it.eventType == MouseMoveEvent.EventType.Enter) {
-                    // Play a hover sound for visible buttons
-                    if (it.source.isVisible && it.source.isHovered) {
-                        entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.7f, 1.9f)
-                    }
-                }
-            }
-
-        // When we click any button play the click sound
-        val clickSound: ((MouseEvent) -> Unit) =
-            {
-                if (it.eventType == MouseEvent.EventType.Click) {
-                    // Play a clicked sound for visible buttons
-                    if (it.source.isVisible && it.source.isHovered) {
-                        entityPlayer.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f)
-                    }
-                }
-            }
-
         // Create a button to edit the spell
         val btnEdit =
             ButtonPane(
@@ -76,8 +55,6 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
                 prefSize = Dimensions(0.145, 0.35),
                 offset = Position(0.82, 0.52)
             )
-        btnEdit.addMouseListener(clickSound)
-        btnEdit.addMouseMoveListener(hoverSound)
         btnEdit.setHoverText("Edit Spell")
         btnEdit.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click) {
@@ -96,8 +73,6 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
             prefSize = Dimensions(0.145, 0.35),
             offset = Position(0.035, 0.52)
         )
-        btnDelete.addMouseListener(clickSound)
-        btnDelete.addMouseMoveListener(hoverSound)
         btnDelete.hoverTexts = arrayOf("Delete Spell", "This cannot be undone")
         btnDelete.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click) {
@@ -113,8 +88,6 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         lblKeybind = LabelComponent(ClientData.getOrCreate(30f), Dimensions(0.6, 0.3))
         lblKeybind.textAlignment = TextAlignment.ALIGN_CENTER
         lblKeybind.offset = Position(0.2, 0.5)
-        btnEdit.addMouseListener(clickSound)
-        btnEdit.addMouseMoveListener(hoverSound)
         lblKeybind.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click) {
                 if (it.source.isHovered && it.source.isVisible && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {

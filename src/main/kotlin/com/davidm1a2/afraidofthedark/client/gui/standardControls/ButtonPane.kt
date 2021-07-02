@@ -1,10 +1,13 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
-import com.davidm1a2.afraidofthedark.common.constants.ModSounds
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
+import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
+import net.minecraft.util.SoundEvents
 import java.awt.Color
 
 /**
@@ -36,22 +39,16 @@ open class ButtonPane(
         } else {
             this.label = null
         }
-        // Add a hover sound effect
-        if (!silent) {
-            this.addMouseMoveListener {
-                if (it.eventType == MouseMoveEvent.EventType.Enter) {
-                    // When hovering the button play the hover sound
-                    if (it.source.isHovered && it.source.isVisible) {
-                        entityPlayer.playSound(ModSounds.BUTTON_HOVER, 0.6f, 1.7f)
-                    }
-                }
-            }
-        }
+
         // If this button is clicked, consume the event so parents don't get it
         this.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click &&
                 it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON &&
-                this.isVisible && this.isHovered && this.inBounds) {
+                this.isVisible && this.isHovered && this.inBounds
+            ) {
+                if (!silent) {
+                    entityPlayer.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f)
+                }
                 it.consume()
             }
         }
@@ -77,7 +74,8 @@ open class ButtonPane(
         this.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click &&
                 it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON &&
-                this.isVisible && this.isHovered && this.inBounds) {
+                this.isVisible && this.isHovered && this.inBounds
+            ) {
                 listener.invoke(it)
             }
         }

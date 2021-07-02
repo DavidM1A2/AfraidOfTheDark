@@ -19,11 +19,8 @@ object ModSounds {
     val JOURNAL_SIGN = create("journal_sign")
     val RESEARCH_UNLOCKED = create("research_unlocked")
     val PAGE_TURN = create("page_turn")
-    val BUTTON_HOVER = create("button_hover")
-    val SPELL_CRAFTING_BUTTON_HOVER = create("spell_crafting_button_hover")
     val BELLS = create("bells")
     val EERIE_ECHOS = create("eerie_echos")
-    val KEY_TYPED = create("key_typed")
     val SPELL_CAST = create("spell_cast")
     val NIGHTMARE_MUSIC = create("nightmare_music")
     val NIGHTMARE_CHASE_MUSIC = create("nightmare_chase_music")
@@ -42,11 +39,8 @@ object ModSounds {
         JOURNAL_SIGN,
         RESEARCH_UNLOCKED,
         PAGE_TURN,
-        BUTTON_HOVER,
-        SPELL_CRAFTING_BUTTON_HOVER,
         BELLS,
         EERIE_ECHOS,
-        KEY_TYPED,
         SPELL_CAST,
         NIGHTMARE_MUSIC,
         NIGHTMARE_CHASE_MUSIC,

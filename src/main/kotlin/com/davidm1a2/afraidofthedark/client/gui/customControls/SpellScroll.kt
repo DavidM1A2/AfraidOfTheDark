@@ -4,7 +4,17 @@ import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.DropdownPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.HChainPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ListPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextBoxComponent
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
@@ -152,8 +162,8 @@ class SpellScroll :
             val closeEditor = ButtonPane(
                 ImagePane(ResourceLocation("afraidofthedark:textures/gui/spell_editor/editor_back.png")),
                 ImagePane(ResourceLocation("afraidofthedark:textures/gui/spell_editor/editor_back_hovered.png")),
-                prefSize = Dimensions(16.0, 16.0, false),
-                gravity = Gravity.TOP_RIGHT
+                gravity = Gravity.TOP_RIGHT,
+                prefSize = Dimensions(16.0, 16.0, false)
             )
             closeEditor.addOnClick {
                 if (it.eventType == MouseEvent.EventType.Click && it.clickedButton == 0) {

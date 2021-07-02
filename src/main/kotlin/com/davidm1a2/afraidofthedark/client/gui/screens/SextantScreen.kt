@@ -53,9 +53,9 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
         val confirm = ButtonPane(
             icon = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png"),
+            gravity = Gravity.BOTTOM_CENTER,
             prefSize = Dimensions(0.5, 0.1),
-            font = ClientData.getOrCreate(40f),
-            gravity = Gravity.BOTTOM_CENTER
+            font = ClientData.getOrCreate(40f)
         )
         // Text just says calculate
         confirm.setText("Calculate")

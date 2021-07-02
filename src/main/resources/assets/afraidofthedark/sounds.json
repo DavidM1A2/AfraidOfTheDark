@@ -117,26 +117,6 @@
     ],
     "subtitle": "Page Turn"
   },
-  "button_hover": {
-    "category": "player",
-    "sounds": [
-      {
-        "name": "afraidofthedark:button_hover",
-        "stream": false
-      }
-    ],
-    "subtitle": "Button Hover"
-  },
-  "spell_crafting_button_hover": {
-    "category": "player",
-    "sounds": [
-      {
-        "name": "afraidofthedark:spell_crafting_button_hover",
-        "stream": false
-      }
-    ],
-    "subtitle": "Spell Crafting Button Hover"
-  },
   "bells": {
     "category": "player",
     "sounds": [
@@ -156,16 +136,6 @@
       }
     ],
     "subtitle": "Eerie Echos"
-  },
-  "key_typed": {
-    "category": "player",
-    "sounds": [
-      {
-        "name": "afraidofthedark:key_typed",
-        "stream": false
-      }
-    ],
-    "subtitle": "Key Typed"
   },
   "spell_cast": {
     "category": "player",
