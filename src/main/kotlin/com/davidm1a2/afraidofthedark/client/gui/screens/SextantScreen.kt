@@ -1,7 +1,11 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
+import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
@@ -27,9 +31,9 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
         val textFieldFont = ClientData.getOrCreate(45f)
 
         // Initialize fields
-        angle = TextFieldPane(prefSize = Dimensions(0.4, 0.1), font = textFieldFont)
-        latitude = TextFieldPane(prefSize = Dimensions(0.4, 0.1), font = textFieldFont)
-        longitude = TextFieldPane(prefSize = Dimensions(0.4, 0.1), font = textFieldFont)
+        angle = TextFieldPane(prefSize = Dimensions(0.4, 0.16), font = textFieldFont)
+        latitude = TextFieldPane(prefSize = Dimensions(0.4, 0.16), font = textFieldFont)
+        longitude = TextFieldPane(prefSize = Dimensions(0.4, 0.16), font = textFieldFont)
 
         // All fields are white and contain ghost text based on what they represent
         angle.setTextColor(Color(255, 255, 255))
@@ -38,11 +42,11 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
         background.add(angle)
         latitude.setTextColor(Color(255, 255, 255))
         latitude.setGhostText("Latitude")
-        latitude.offset = Position(0.1, 0.25)
+        latitude.offset = Position(0.1, 0.3)
         background.add(latitude)
         longitude.setTextColor(Color(255, 255, 255))
         longitude.setGhostText("Longitude")
-        longitude.offset = Position(0.1, 0.4)
+        longitude.offset = Position(0.1, 0.5)
         background.add(longitude)
 
         // Create a calculate button that performs the math and returns drop location coordinates
