@@ -42,10 +42,6 @@ open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHe
                         mouseHeld = true
                     }
                 }
-            }
-        }
-        addMouseListener {
-            if (it.source.isHovered) {
                 if (it.eventType == MouseEvent.EventType.Release) {
                     if (it.clickedButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                         mouseHeld = false
