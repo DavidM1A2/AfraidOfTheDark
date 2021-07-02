@@ -18,7 +18,6 @@ import net.minecraft.util.Hand
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
-import kotlin.math.sqrt
 
 /**
  * Class representing a star metal staff that can do a (fizz e from LoL)
@@ -206,18 +205,16 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
         for (entity in entityList) {
             // If the entity is a player or anything living push it back
             if (entity is PlayerEntity || entity is MobEntity) {
-                // Compute the x,z force vector to push the entity in
-                val motionX = entityPlayer.position.x - entity.position.x.toDouble()
-                val motionZ = entityPlayer.position.z - entity.position.z.toDouble()
-
-                // Compute the magnitude of the force
-                val hypotenuse = sqrt(motionX * motionX + motionZ * motionZ)
+                val direction = entity.positionVector
+                    .subtract(entityPlayer.positionVector)
+                    .normalize()
+                    .scale(KNOCKBACK_STRENGTH)
 
                 // Push the entity away from the player
                 entity.addVelocity(
-                    -motionX * KNOCKBACK_STRENGTH * 0.6 / hypotenuse,
-                    0.1,
-                    -motionZ * KNOCKBACK_STRENGTH * 0.6 / hypotenuse
+                    direction.x,
+                    direction.y,
+                    direction.z
                 )
             }
         }
@@ -244,7 +241,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
     }
 
     override fun canContinueUsing(oldStack: ItemStack, newStack: ItemStack): Boolean {
-        return ItemStack.areItemStacksEqual(oldStack, newStack)
+        return newStack.item == this && isInUse(newStack)
     }
 
     /**
@@ -272,7 +269,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
 
     companion object {
         // The amount of knockback the staff has once dropping out of it
-        private const val KNOCKBACK_STRENGTH = 6.0
+        private const val KNOCKBACK_STRENGTH = 10.0
 
         // The maximum number of ticks a player can be on the troll poll
         private const val MAX_TROLL_POLE_TIME_IN_TICKS = 60
