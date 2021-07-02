@@ -29,8 +29,6 @@ import net.minecraftforge.api.distmarker.OnlyIn
  */
 class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
     AOTDArmorItem(baseName, ModArmorMaterials.STAR_METAL, equipmentSlot, Properties().defaultMaxDamage(0)) {
-    private val percentOfDamageBlocked = 0.95f
-
     /**
      * Gets the resource location path of the texture for the armor when worn by the player
      *
@@ -114,24 +112,34 @@ class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
 
     override fun processDamage(entity: LivingEntity, armorStack: ItemStack, source: DamageSource, amount: Float, slot: EquipmentSlotType): Double {
         // Compute armor properties for players only
-        if (entity is PlayerEntity) {
-            // Ensure the player has the right research
-            if (entity.getResearch().isResearched(ModResearches.STAR_METAL)) {
-                // No damage reduction against true sources
-                if (TRUE_DAMAGE_SOURCES.contains(source)) {
-                    return 0.0
-                }
-            } else {
-                // Armor is useless without research
-                return 0.0
-            }
-        } else {
-            // Armor is useless without research
+        if (entity !is PlayerEntity) {
             return 0.0
         }
 
+        // Ensure the player has the right research
+        if (!entity.getResearch().isResearched(ModResearches.STAR_METAL)) {
+            return 0.0
+        }
+
+        // No damage reduction against true sources
+        if (TRUE_DAMAGE_SOURCES.contains(source)) {
+            return 0.0
+        }
+
+        val protectionRatio = getRatio(slot)
+
+        // Fall damage is heavily reduced
+        if (source == DamageSource.FALL) {
+            return protectionRatio * 0.8
+        }
+
+        // Lava damage is slightly reduced (igneous is better)
+        if (source == DamageSource.LAVA) {
+            return protectionRatio * 0.6
+        }
+
         // Default armor protection if no special set bonus applies
-        return getRatio(slot) * percentOfDamageBlocked
+        return protectionRatio * 0.95
     }
 
     /**
@@ -144,9 +152,9 @@ class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
         // Total protection of each piece
         val totalProtection = 3 + 6 + 8 + 3
         return when (slot) {
-            EquipmentSlotType.HEAD, EquipmentSlotType.FEET -> 3.0 / totalProtection * percentOfDamageBlocked
-            EquipmentSlotType.LEGS -> 6.0 / totalProtection * percentOfDamageBlocked
-            EquipmentSlotType.CHEST -> 8.0 / totalProtection * percentOfDamageBlocked
+            EquipmentSlotType.HEAD, EquipmentSlotType.FEET -> 3.0 / totalProtection
+            EquipmentSlotType.LEGS -> 6.0 / totalProtection
+            EquipmentSlotType.CHEST -> 8.0 / totalProtection
             else -> 0.0
         }
     }
@@ -164,11 +172,9 @@ class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
         // Damage sources that relate to unblockable damage
         private val TRUE_DAMAGE_SOURCES = setOf(
             DamageSource.DROWN,
-            DamageSource.FALL,
             DamageSource.IN_WALL,
             DamageSource.OUT_OF_WORLD,
-            DamageSource.STARVE,
-            DamageSource.LAVA
+            DamageSource.STARVE
         )
     }
 }
