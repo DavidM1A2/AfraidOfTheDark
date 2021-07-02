@@ -8,7 +8,7 @@ import kotlin.math.max
 /**
  * A subclass of ScrollPane that only scrolls in one dimension, can be used with a scroll bar, and expands to fit children
  */
-open class ListPane(val expandDirection: ExpandDirection, val scrollBar: VScrollBar? = null) : ScrollPane(1.0, 1.0) {
+open class ListPane(val expandDirection: ExpandDirection, val scrollBar: VScrollBar? = null, val scrollSpeed: Double = 10.0) : ScrollPane(1.0, 1.0) {
     private var maxOffset = 0.0
 
     init {
@@ -39,10 +39,10 @@ open class ListPane(val expandDirection: ExpandDirection, val scrollBar: VScroll
                 if (it.scrollDistance != 0) {
                     // Move the panel by the distance amount
                     when (expandDirection) {
-                        ExpandDirection.UP -> guiOffsetY += maxOffset * -it.scrollDistance * SCROLL_SPEED
-                        ExpandDirection.DOWN -> guiOffsetY += -maxOffset * -it.scrollDistance * SCROLL_SPEED
-                        ExpandDirection.LEFT -> guiOffsetX += -maxOffset * -it.scrollDistance * SCROLL_SPEED
-                        ExpandDirection.RIGHT -> guiOffsetX += maxOffset * -it.scrollDistance * SCROLL_SPEED
+                        ExpandDirection.UP -> guiOffsetY += -it.scrollDistance * scrollSpeed
+                        ExpandDirection.DOWN -> guiOffsetY += it.scrollDistance * scrollSpeed
+                        ExpandDirection.LEFT -> guiOffsetX += it.scrollDistance * scrollSpeed
+                        ExpandDirection.RIGHT -> guiOffsetX += -it.scrollDistance * scrollSpeed
                     }
                     checkOutOfBounds()
                     scrollBar?.value = when (expandDirection) {
@@ -58,26 +58,27 @@ open class ListPane(val expandDirection: ExpandDirection, val scrollBar: VScroll
     }
 
     private fun calculateMaxOffset() {
-        maxOffset = 0.0
+        var tempMaxOffset = 0.0
         val calcPadding = this.padding.getAbsoluteInner(this)
         when (expandDirection) {
             ExpandDirection.UP, ExpandDirection.DOWN -> {
-                maxOffset += calcPadding.height
+                tempMaxOffset += calcPadding.height
                 for (child in getChildren()) {
                     val calcMargins = child.margins.getAbsoluteOuter(child)
-                    maxOffset += child.height + calcMargins.height
+                    tempMaxOffset += child.height + calcMargins.height
                 }
-                maxOffset = max(maxOffset - height, 0.0)
+                tempMaxOffset = max(tempMaxOffset - height, 0.0)
             }
             ExpandDirection.LEFT, ExpandDirection.RIGHT -> {
-                maxOffset += calcPadding.width
+                tempMaxOffset += calcPadding.width
                 for (child in getChildren()) {
                     val calcMargins = child.margins.getAbsoluteOuter(child)
-                    maxOffset += child.width + calcMargins.width
+                    tempMaxOffset += child.width + calcMargins.width
                 }
-                maxOffset = max(maxOffset - width, 0.0)
+                tempMaxOffset = max(tempMaxOffset - width, 0.0)
             }
         }
+        maxOffset = tempMaxOffset
     }
     
     private fun recalculateChildrenOffsets() {
@@ -121,15 +122,11 @@ open class ListPane(val expandDirection: ExpandDirection, val scrollBar: VScroll
     override fun calcChildrenBounds() {
         recalculateChildrenOffsets()
         calculateMaxOffset()
-        super.calcChildrenBounds()
         checkOutOfBounds()
+        super.calcChildrenBounds()
     }
 
     enum class ExpandDirection {
         UP, DOWN, LEFT, RIGHT
-    }
-
-    companion object {
-        const val SCROLL_SPEED = 0.1
     }
 }

@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
+import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.events.*
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import java.awt.Color
@@ -198,6 +199,7 @@ abstract class AOTDPane (
     }
 
     override fun invalidate() {
+        this.isHovered = this.boundingBox.contains(AOTDGuiUtility.getMouseXInMCCoord(), AOTDGuiUtility.getMouseYInMCCoord())
         calcChildrenBounds()
         getChildren().forEach { it.invalidate() }
         super.invalidate()

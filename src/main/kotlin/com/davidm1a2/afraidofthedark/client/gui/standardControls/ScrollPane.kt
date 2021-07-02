@@ -12,7 +12,7 @@ import org.lwjgl.glfw.GLFW
  * As an example for the ratio constants, a ratio of 2.0 would make the scrollable pane twice the width or height
  * of the actual control, which acts as a viewport.
  */
-open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHeightRatio: Double, private var persistentOffset : Position = Position(0.0, 0.0)) : StackPane(scissorEnabled = true) {
+open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHeightRatio: Double, private var persistentOffset : Position? = null) : StackPane(scissorEnabled = true) {
 
     // The current X and Y gui offsets
     private var originalGuiOffsetX = 0.0
@@ -31,7 +31,7 @@ open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHe
 
     init {
         addMouseListener {
-            if (it.source.isHovered) {
+            if (this.isHovered) {
                 if (it.eventType == MouseEvent.EventType.Click) {
                     if (it.clickedButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                         // Store the original position before dragging when the mouse goes down
@@ -50,7 +50,7 @@ open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHe
             }
         }
         addMouseDragListener {
-            if (it.source.isHovered) {
+            if (this.isHovered) {
                 if (it.clickedButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                     if (mouseHeld) {   // A click must have been detected for a drag to register
                         guiOffsetX = originalGuiOffsetX + (it.mouseX - originalXPosition)
@@ -85,8 +85,15 @@ open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHe
         super.negotiateDimensions(width, height)
         this.scrollWidth = this.width * scrollWidthRatio
         this.scrollHeight = this.height * scrollHeightRatio
-        guiOffsetX = persistentOffset.getAbsolute(this).x
-        guiOffsetY = persistentOffset.getAbsolute(this).y
+    }
+
+    override fun invalidate() {
+        super.invalidate()
+        val tempOffset = persistentOffset
+        if (tempOffset != null) {
+            guiOffsetX = tempOffset.getAbsolute(this).x
+            guiOffsetY = tempOffset.getAbsolute(this).y
+        }
         checkOutOfBounds()
     }
 
