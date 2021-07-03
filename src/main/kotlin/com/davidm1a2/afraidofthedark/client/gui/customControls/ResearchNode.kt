@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
@@ -52,6 +51,7 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
                         if (playerResearch.canResearch(research)) {
                             playerResearch.setResearchAndAlert(research, true, entityPlayer)
                             playerResearch.sync(entityPlayer, false)
+                            refreshHoverTexts()
                         } else if (playerResearch.isResearched(research)) {
                             // Show the research if it's already researched
                             Minecraft.getInstance().displayGuiScreen(
@@ -85,32 +85,14 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
                 }
             }
         }
+        refreshHoverTexts()
     }
 
-    override fun drawOverlay() {
-        super.drawOverlay()
-
-        // If the button intersects the pane it's in then allow for drawing hover text
-        if (this.isVisible && this.inBounds && this.isHovered) {
-            val mouseX = AOTDGuiUtility.getMouseXInMCCoord()
-            val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
-
-            // If the research is researched show the name of the research when hovered
-            if (playerResearch.isResearched(this.research)) {
-                fontRenderer.drawString(I18n.format(research.getUnlocalizedName()), mouseX + 5f, mouseY.toFloat(), 0xFF3399)
-                fontRenderer.drawString(
-                    "${ChatFormatting.ITALIC}${I18n.format(this.research.getUnlocalizedTooltip())}",
-                    mouseX + 7f,
-                    mouseY + 10f,
-                    0xE62E8A
-                )
-            }
-
-            // If the research can be researched show a ? and unknown research when hovered
-            else if (playerResearch.canResearch(this.research)) {
-                fontRenderer.drawString("?", mouseX + 5f, mouseY.toFloat(), 0xFF3399)
-                fontRenderer.drawString("${ChatFormatting.ITALIC}Unknown Research", mouseX + 7f, mouseY + 10f, 0xE62E8A)
-            }
+    private fun refreshHoverTexts() {
+        hoverTexts = if (playerResearch.isResearched(this.research)) {
+            arrayOf(I18n.format(research.getUnlocalizedName()), "${ChatFormatting.ITALIC}${I18n.format(this.research.getUnlocalizedTooltip())}")
+        } else {
+            arrayOf("?", "${ChatFormatting.ITALIC}Unknown Research")
         }
     }
 }
