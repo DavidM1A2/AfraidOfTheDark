@@ -296,6 +296,10 @@ class SpellProjectileEntity(
         return false
     }
 
+    override fun isImmuneToExplosions(): Boolean {
+        return true
+    }
+
     /**
      * Gets the animation handler which makes the projectile spin
      *
