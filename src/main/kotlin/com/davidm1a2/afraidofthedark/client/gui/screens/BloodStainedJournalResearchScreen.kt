@@ -2,7 +2,11 @@ package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.client.gui.customControls.ResearchConnector
 import com.davidm1a2.afraidofthedark.client.gui.customControls.ResearchNode
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
+import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.RatioPane
@@ -93,6 +97,6 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
         private const val TREE_HEIGHT = 12.0
 
         // The stored scroll pane offset
-        private var scrollOffset = Position(0.5, 0.5)
+        private var scrollOffset = Position(-0.25, -0.25)
     }
 }
