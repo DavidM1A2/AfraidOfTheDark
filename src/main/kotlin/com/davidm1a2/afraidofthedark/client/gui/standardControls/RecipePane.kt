@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe
 import net.minecraft.item.crafting.Ingredient
@@ -25,7 +26,7 @@ class RecipePane(prefSize: Dimensions, offset: Position = Position(0.0, 0.0), re
         {
             ItemStackPane(
                 Dimensions(0.2, 0.33),
-                Position((it % 3) * 0.22 + 0.07, (it / 3) * 0.3 + 0.06),
+                Position((it % 3) * 0.22 + 0.055, (it / 3) * 0.3 + 0.045),
                 true
             )
         }
