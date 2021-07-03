@@ -4,22 +4,13 @@ import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.DropdownPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.HChainPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ListPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextBoxComponent
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
+import com.davidm1a2.afraidofthedark.common.spell.component.property.BooleanSpellComponentProperty
 import com.davidm1a2.afraidofthedark.common.spell.component.property.EnumSpellComponentProperty
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
 import net.minecraft.client.resources.I18n
@@ -195,7 +186,7 @@ class SpellScroll :
                     propertyList.add(propertyName)
 
                     if (editableProp is EnumSpellComponentProperty<*>) {
-                        // Create a text field that edits the property value
+                        // Create a dropdown selector that edits the property value
                         val propertyPane = StackPane(Dimensions(1.0, 0.1))
                         val propertyError = ImagePane(
                             "afraidofthedark:textures/gui/spell_editor/property_error.png",
@@ -212,24 +203,59 @@ class SpellScroll :
                             it.name.equals(editableProp.getter(componentInstance), true)
                         }
                         val propertyEditor = DropdownPane(ClientData.getOrCreate(26f), dropdownValues, selectedIndex)
-                        propertyEditor.setHoverText(editableProp.description)
+                        propertyEditor.prefSize = Dimensions(0.8, 1.0)
+                        propertyEditor.gravity = Gravity.CENTER_LEFT
                         propertyEditor.setChangeListener { _, newVal ->
                             try {
                                 editableProp.setter(componentInstance, editableProp.values[newVal].name)
                                 propertyError.isVisible = false
-                                propertyEditor.setHoverText(editableProp.description)
                             } catch (e: InvalidValueException) {
                                 propertyError.isVisible = true
-                                propertyEditor.setHoverText(editableProp.description + "\n§4Error: " + e.message!!)
+                                propertyError.setHoverText(editableProp.description + "\n§4Error: " + e.message!!)
                             }
                         }
+
+                        val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png")).apply {
+                            displayMode = DispMode.FIT_TO_PARENT
+                            gravity = Gravity.CENTER_RIGHT
+                            setHoverText(editableProp.description)
+                        }
+
+                        propertyEditor.add(propertyError)
                         propertyPane.add(propertyEditor)
-                        propertyPane.add(propertyError)
+                        propertyPane.add(infoPane)
 
                         propertyList.add(propertyPane)
 
                         // Store the editor off for later use
                         this.currentPropEditors.add(Pair.of(editableProp, propertyEditor))
+
+                    } else if (editableProp is BooleanSpellComponentProperty) {
+                        // Create a toggle control to represent the property
+                        val propertyPane = StackPane(Dimensions(1.0, 0.1))
+                        val togglePane = TogglePane(
+                            ImagePane("afraidofthedark:textures/gui/toggle_bkg.png"),
+                            toggleIcon = ImagePane("afraidofthedark:textures/gui/checkmark.png")
+                        )
+                        val ratioPane = RatioPane(1, 1)
+                        ratioPane.add(togglePane)
+                        val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png")).apply {
+                            displayMode = DispMode.FIT_TO_PARENT
+                            gravity = Gravity.CENTER_RIGHT
+                            setHoverText(editableProp.description)
+                        }
+                        propertyPane.add(ratioPane)
+                        propertyPane.add(infoPane)
+
+                        togglePane.toggled = editableProp.getter(componentInstance).toBoolean()
+                        togglePane.setToggleListener { newVal ->
+                            editableProp.setter(componentInstance, newVal.toString())
+                        }
+
+                        propertyList.add(propertyPane)
+
+                        // Store the editor off for later use
+                        this.currentPropEditors.add(Pair.of(editableProp, togglePane))
 
                     } else {
                         // Create a text field that edits the property value
@@ -243,22 +269,28 @@ class SpellScroll :
                         propertyError.isVisible = false
 
                         val propertyEditor =
-                            TextFieldPane(prefSize = Dimensions(1.0, 1.0), font = ClientData.getOrCreate(26f))
+                            TextFieldPane(prefSize = Dimensions(0.8, 1.0), font = ClientData.getOrCreate(26f))
                         propertyEditor.setTextColor(purpleText)
                         propertyEditor.setText(editableProp.getter(componentInstance))
-                        propertyEditor.setHoverText(editableProp.description)
                         propertyEditor.addTextChangeListener { _, newText ->
                             try {
                                 editableProp.setter(componentInstance, newText)
                                 propertyError.isVisible = false
-                                propertyEditor.setHoverText(editableProp.description)
                             } catch (e: InvalidValueException) {
                                 propertyError.isVisible = true
-                                propertyEditor.setHoverText(editableProp.description + "\n§4Error: " + e.message!!)
+                                propertyError.setHoverText(editableProp.description + "\n§4Error: " + e.message!!)
                             }
                         }
+
+                        val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png")).apply {
+                            displayMode = DispMode.FIT_TO_PARENT
+                            gravity = Gravity.CENTER_RIGHT
+                            setHoverText(editableProp.description)
+                        }
+
+                        propertyEditor.add(propertyError)
                         propertyPane.add(propertyEditor)
-                        propertyPane.add(propertyError)
+                        propertyPane.add(infoPane)
 
                         propertyList.add(propertyPane)
 
