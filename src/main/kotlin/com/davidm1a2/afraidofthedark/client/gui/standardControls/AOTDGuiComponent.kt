@@ -47,7 +47,7 @@ abstract class AOTDGuiComponent(
      */
     open fun drawOverlay() {
         // Make sure the control is visible and hovered
-        if (this.isVisible && this.inBounds && this.isHovered) {
+        if (this.isVisible && this.inBounds && this.isHovered && hoverTexts.isNotEmpty()) {
             // Grab the mouse X and Y coordinates to draw at
             val mouseX = AOTDGuiUtility.getMouseXInMCCoord()
             val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
