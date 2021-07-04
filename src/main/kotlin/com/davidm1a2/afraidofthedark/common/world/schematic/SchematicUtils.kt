@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.world.schematic
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
+import net.minecraft.entity.EntityType
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.CompressedStreamTools
 import net.minecraft.nbt.IntArrayNBT
@@ -218,6 +219,32 @@ object SchematicUtils {
             if (tileEntity != null) {
                 tileEntity.read(tileEntityCompound)
                 tileEntity.pos = tileEntityPosition
+            }
+        }
+
+        // Get the list of entities inside this schematic
+        val entities = schematic.getEntities()
+
+        // Iterate over each entity
+        for (i in 0 until entities.size) {
+            // Grab the compound that represents this entity
+            val entityCompound = entities.getCompound(i)
+            // Instantiate the entity object from the compound
+            val entityOpt = EntityType.loadEntityUnchecked(entityCompound, world.world)
+
+            // If the entity is valid, continue...
+            if (entityOpt.isPresent) {
+                val entity = entityOpt.get()
+                // Update the UUID to be random so that it does not conflict with other entities from the same schematic
+                entity.setUniqueId(UUID.randomUUID())
+
+                // Get the X, Y, and Z coordinates of this entity if instantiated inside the world
+                val newX = position.x + entity.posX
+                val newY = position.y + entity.posY
+                val newZ = position.z + entity.posX
+
+                entity.setPosition(newX, newY, newZ)
+                world.addEntity(entity)
             }
         }
     }
