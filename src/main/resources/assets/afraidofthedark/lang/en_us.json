@@ -369,7 +369,7 @@
   "message.afraidofthedark.void_chest.no_edit_access": "§oI can't edit the access of this chest",
   "message.afraidofthedark.void_chest.no_access": "§oI can't access this chest",
   "message.afraidofthedark.command.help.header": "Afraid of the Dark commands:",
-  "message.afraidofthedark.command.help.help": "/aotd help - Shows this page",
+  "message.afraidofthedark.command.help.help": "/aotd help - Shows this page\n/aotd debug - Mod developer tools, don't use to avoid corrupting your world",
   "message.afraidofthedark.dimension.nightmare.no_spawn": "An error occoured when computing a re-spawn position upon returning to your dimension later so the teleport can't happen. Try finding a more open place to enter the portal/chest at!",
   "message.afraidofthedark.dimension.void_chest.no_spawn": "An error occoured when computing a re-spawn position upon returning to your dimension later so the teleport can't happen. Try finding a more open place to enter the portal/chest at!",
   "message.afraidofthedark.flask_of_souls.on_cooldown": "Flask is on cooldown (%1$ss)!",

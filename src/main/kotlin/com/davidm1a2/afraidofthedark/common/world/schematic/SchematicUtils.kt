@@ -2,19 +2,27 @@ package com.davidm1a2.afraidofthedark.common.world.schematic
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.block.BlockState
-import net.minecraft.nbt.*
+import net.minecraft.block.Blocks
+import net.minecraft.nbt.CompoundNBT
+import net.minecraft.nbt.CompressedStreamTools
+import net.minecraft.nbt.IntArrayNBT
+import net.minecraft.nbt.ListNBT
+import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.exception.ExceptionUtils
 import org.apache.logging.log4j.LogManager
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.*
 
 /**
  * Collection of utility methods used to debug, not used in actual play
  */
-object SchematicDebugUtils {
+object SchematicUtils {
     private val logger = LogManager.getLogger()
 
     fun setBlock(schematic: Schematic, x: Int, y: Int, z: Int, block: BlockState) {
@@ -153,6 +161,111 @@ object SchematicDebugUtils {
             }
         } catch (e: IOException) {
             System.err.println("Could not write schematic .meta file:\n${ExceptionUtils.getStackTrace(e)}")
+        }
+    }
+
+    fun placeRawSchematic(schematic: Schematic, world: World, position: BlockPos) {
+        val blocks = schematic.getBlocks()
+        val width = schematic.getWidth()
+        val height = schematic.getHeight()
+        val length = schematic.getLength()
+
+        val posX = 0
+        val posY = 0
+        val posZ = 0
+        val endX = width.toInt()
+        val endY = height.toInt()
+        val endZ = length.toInt()
+
+        // Iterate over the Y axis first since that's the format that schematics use
+        for (y in posY until endY) {
+            // Get the y index which we can use to index into the blocks array
+            val indexY = (y - posY) * length * width
+
+            // Iterate over the Z axis second
+            for (z in posZ until endZ) {
+                // Get the z index which we can use to index into the blocks array
+                val indexZ = (z - posZ) * width
+
+                // Iterate over the X axis last
+                for (x in posX until endX) {
+                    // Get the x index which we can use to index into the blocks array
+                    val indexX = x - posX
+
+                    // Compute the index into our blocks array
+                    val index = indexY + indexZ + indexX
+
+                    // Grab the reference to the next block to place
+                    val nextToPlace = blocks[index]
+
+                    // If the block in the schematic is air then ignore it
+                    world.setBlockState(position.add(x, y, z), nextToPlace)
+                }
+            }
+        }
+
+        // Get the list of tile entities inside this schematic
+        val tileEntities = schematic.getTileEntities()
+        // Iterate over each tile entity
+        for (i in 0 until tileEntities.size) {
+            // Grab the compound that represents this tile entity
+            val tileEntityCompound = tileEntities.getCompound(i)
+            val tileEntityPosition = position.add(tileEntityCompound.getInt("x"), tileEntityCompound.getInt("y"), tileEntityCompound.getInt("z"))
+
+            // If the chunk pos was not given or we are in the correct chunk spawn the entity in
+            val tileEntity = world.getTileEntity(tileEntityPosition)
+
+            if (tileEntity != null) {
+                tileEntity.read(tileEntityCompound)
+                tileEntity.pos = tileEntityPosition
+            }
+        }
+    }
+
+    fun updateStructureVoids(world: World, position: BlockPos, add: Boolean = true) {
+        val blocksToUpdate = mutableSetOf<BlockPos>()
+        val queue = LinkedList<BlockPos>()
+
+        queue.add(position)
+
+        val shouldUpdate: (BlockState, BlockPos) -> Boolean = if (add) {
+            { state, pos ->
+                state.isAir(world, pos)
+            }
+        } else {
+            { state, _ ->
+                state.block == Blocks.STRUCTURE_VOID
+            }
+        }
+
+        while (queue.isNotEmpty() && blocksToUpdate.size < 1000000) {
+            val pos = queue.pop()
+            if (!blocksToUpdate.contains(pos)) {
+                val blockState = world.getBlockState(pos)
+                if (shouldUpdate(blockState, pos)) {
+                    blocksToUpdate.add(pos)
+                    queue.add(pos.up())
+                    queue.add(pos.down())
+                    queue.add(pos.north())
+                    queue.add(pos.south())
+                    queue.add(pos.east())
+                    queue.add(pos.west())
+                }
+            }
+        }
+
+        if (blocksToUpdate.size < 1000000) {
+            if (add) {
+                blocksToUpdate.forEach {
+                    world.setBlockState(it, Blocks.STRUCTURE_VOID.defaultState)
+                }
+            } else {
+                blocksToUpdate.forEach {
+                    world.setBlockState(it, Blocks.AIR.defaultState)
+                }
+            }
+        } else {
+            logger.error("OVERFLOW")
         }
     }
 }

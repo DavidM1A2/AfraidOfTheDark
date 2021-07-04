@@ -1,16 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
-import com.davidm1a2.afraidofthedark.common.world.structure.base.SchematicStructurePiece
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.math.ChunkPos
-import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.util.text.StringTextComponent
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
@@ -28,20 +24,6 @@ class DebugItem : AOTDItem("debug", Properties().maxStackSize(1), displayInCreat
     override fun onItemRightClick(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
         if (worldIn.isRemote) {
         } else {
-            SchematicStructurePiece(
-                playerIn.posX.toInt(),
-                playerIn.posY.toInt(),
-                playerIn.posZ.toInt(),
-                playerIn.rng,
-                ModSchematics.ENARIA_LAIR,
-                facing = playerIn.horizontalFacing
-            )
-                .addComponentParts(
-                    worldIn,
-                    playerIn.rng,
-                    MutableBoundingBox.createProper(-10000, -10000, -10000, 10000, 10000, 10000),
-                    ChunkPos(playerIn.position)
-                )
         }
         return super.onItemRightClick(worldIn, playerIn, handIn)
     }

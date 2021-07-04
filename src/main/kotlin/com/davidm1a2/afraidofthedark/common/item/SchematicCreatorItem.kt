@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.item
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.world.schematic.CachedSchematic
-import com.davidm1a2.afraidofthedark.common.world.schematic.SchematicDebugUtils
+import com.davidm1a2.afraidofthedark.common.world.schematic.SchematicUtils
 import net.minecraft.block.Blocks
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.PlayerEntity
@@ -152,7 +152,7 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().maxStack
             return ""
         }
 
-        SchematicDebugUtils.writeToFile(schematic, File("./aotd_schematics/$schematicName.schematic"))
+        SchematicUtils.writeToFile(schematic, File("./aotd_schematics/$schematicName.schematic"))
         return schematicName
     }
 
