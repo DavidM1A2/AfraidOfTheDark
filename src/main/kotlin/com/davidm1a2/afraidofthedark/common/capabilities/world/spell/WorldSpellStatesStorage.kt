@@ -4,7 +4,7 @@ import net.minecraft.nbt.INBT
 import net.minecraft.nbt.ListNBT
 import net.minecraft.util.Direction
 import net.minecraftforge.common.capabilities.Capability
-import org.apache.commons.logging.LogFactory
+import org.apache.logging.log4j.LogManager
 
 /**
  * Default storage implementation for AOTD spell states
@@ -31,6 +31,6 @@ class WorldSpellStatesStorage : Capability.IStorage<IWorldSpellStates> {
     }
 
     companion object {
-        private val LOG = LogFactory.getLog(WorldSpellStatesStorage::class.java)
+        private val LOG = LogManager.getLogger()
     }
 }

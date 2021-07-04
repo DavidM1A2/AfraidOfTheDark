@@ -8,7 +8,7 @@ import net.minecraft.util.Direction
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.registries.ForgeRegistries
-import org.apache.commons.logging.LogFactory
+import org.apache.logging.log4j.LogManager
 
 /**
  * Default storage implementation for structure miss counters
@@ -42,7 +42,7 @@ class WorldStructureMissCounterStorage : Capability.IStorage<IWorldStructureMiss
     }
 
     companion object {
-        private val LOG = LogFactory.getLog(WorldStructureMissCounterStorage::class.java)
+        private val LOG = LogManager.getLogger()
 
         private const val NBT_NAME = "name"
         private const val NBT_COUNT = "count"
