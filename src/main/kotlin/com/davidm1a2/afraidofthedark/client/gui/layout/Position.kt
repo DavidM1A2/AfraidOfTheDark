@@ -19,7 +19,13 @@ class Position(val x: Double = 0.0, val y: Double = 0.0, val isRelative: Boolean
         return if (isRelative) {
             Position(x, y, true)
         } else {
-            Position(x / reference.getInternalWidth(), y / reference.getInternalHeight(), true)
+            val internalWidth = reference.getInternalWidth()
+            val internalHeight = reference.getInternalHeight()
+            Position(
+                if (internalWidth == 0.0) 0.0 else x / reference.getInternalWidth(),
+                if (internalHeight == 0.0) 0.0 else y / reference.getInternalHeight(),
+                true
+            )
         }
     }
 

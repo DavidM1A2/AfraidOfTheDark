@@ -83,8 +83,8 @@ class TextBoxComponent(prefSize: Dimensions = Dimensions(1.0, 1.0), private val 
     }
 
     override fun invalidate() {
-        this.setText(text)
         super.invalidate()
+        this.setText(text)
     }
 
     /**

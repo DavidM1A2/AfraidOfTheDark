@@ -47,17 +47,14 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
 
     open fun invalidate() {
         val windowSize = AOTDGuiUtility.getWindowSizeInMCCoords()
-        // Only redraw screen if the new dimensions are valid
-        if (windowSize.width > 0 && windowSize.height > 0) {
-            // Record dimensions so we can tell when they change
-            this.contentPane.prefSize = windowSize
-            // Fit panes to the screen
-            this.contentPane.negotiateDimensions(windowSize.width, windowSize.height)
-            // Resize any children to fit the new dimensions
-            this.contentPane.invalidate()
-            // Check that the overlay pane is still attached
-            if (contentPane.getChildren().contains(dndPane).not()) contentPane.add(dndPane)
-        }
+        // Record dimensions so we can tell when they change
+        this.contentPane.prefSize = windowSize
+        // Fit panes to the screen
+        this.contentPane.negotiateDimensions(windowSize.width, windowSize.height)
+        // Resize any children to fit the new dimensions
+        this.contentPane.invalidate()
+        // Check that the overlay pane is still attached
+        if (contentPane.getChildren().contains(dndPane).not()) contentPane.add(dndPane)
 
         // Send the mouse position to the updated pane
         this.contentPane.processMouseMoveInput(MouseMoveEvent(

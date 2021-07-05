@@ -24,10 +24,10 @@ open class ListPane(val expandDirection: ExpandDirection, val scrollBar: VScroll
         this.addMouseDragListener {
             if (scrollBar != null && maxOffset != 0.0) {
                 scrollBar.value = when (expandDirection) {
-                    ExpandDirection.UP -> guiOffsetY / maxOffset
-                    ExpandDirection.DOWN -> guiOffsetY / -maxOffset
-                    ExpandDirection.LEFT -> guiOffsetX / -maxOffset
-                    ExpandDirection.RIGHT -> guiOffsetX / maxOffset
+                    ExpandDirection.UP -> if (maxOffset == 0.0) 0.0 else guiOffsetY / maxOffset
+                    ExpandDirection.DOWN -> if (maxOffset == 0.0) 0.0 else guiOffsetY / -maxOffset
+                    ExpandDirection.LEFT -> if (maxOffset == 0.0) 0.0 else guiOffsetX / -maxOffset
+                    ExpandDirection.RIGHT -> if (maxOffset == 0.0) 0.0 else guiOffsetX / maxOffset
                 }
             }
         }
