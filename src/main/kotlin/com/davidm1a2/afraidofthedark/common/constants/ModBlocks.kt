@@ -86,6 +86,11 @@ object ModBlocks {
     val SACRED_MANGROVE_FENCE_GATE = SacredMangroveFenceGateBlock()
     val SACRED_MANGROVE_DOOR = SacredMangroveDoorBlock()
 
+    val ELDRITCH_STONE = EldritchStoneBlock()
+    val ELDRITCH_STONE_SLAB = EldritchStoneSlabBlock()
+    val ELDRITCH_STONE_STAIRS = EldritchStoneStairsBlock()
+    val ELDRITCH_STONE_WALL = EldritchStoneWallBlock()
+
     val METEOR = MeteorBlock()
     val ASTRAL_SILVER_ORE = AstralSilverOreBlock()
     val SUNSTONE_ORE = SunstoneOreBlock()
@@ -94,10 +99,6 @@ object ModBlocks {
     val GNOMISH_METAL_STRUT = GnomishMetalStrutBlock()
     val GNOMISH_METAL_PLATE = GnomishMetalPlateBlock()
     val GLOW_STALK = GlowStalkBlock()
-    val ELDRITCH_STONE = EldritchStoneBlock()
-    val ELDRITCH_STONE_SLAB = EldritchStoneSlabBlock()
-    val ELDRITCH_STONE_STAIRS = EldritchStoneStairsBlock()
-    val ELDRITCH_STONE_WALL = EldritchStoneWallBlock()
     val ELDRITCH_OBSIDIAN = EldritchObsidianBlock()
     val AMORPHOUS_ELDRITCH_METAL = AmorphousEldritchMetalBlock()
     val VOID_CHEST = VoidChestBlock()
@@ -139,12 +140,12 @@ object ModBlocks {
         SACRED_MANGROVE_FENCE,
         SACRED_MANGROVE_FENCE_GATE,
         SACRED_MANGROVE_DOOR,
-        METEOR,
-        ASTRAL_SILVER_ORE,
         ELDRITCH_STONE,
         ELDRITCH_STONE_SLAB,
         ELDRITCH_STONE_STAIRS,
         ELDRITCH_STONE_WALL,
+        METEOR,
+        ASTRAL_SILVER_ORE,
         ELDRITCH_OBSIDIAN,
         AMORPHOUS_ELDRITCH_METAL,
         VOID_CHEST,

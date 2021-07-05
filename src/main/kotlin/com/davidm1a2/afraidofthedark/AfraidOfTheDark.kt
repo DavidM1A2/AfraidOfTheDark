@@ -4,8 +4,40 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark.Companion.packetHandler
 import com.davidm1a2.afraidofthedark.common.command.AOTDCommands
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModConfigHolder
-import com.davidm1a2.afraidofthedark.common.event.*
-import com.davidm1a2.afraidofthedark.common.event.register.*
+import com.davidm1a2.afraidofthedark.common.event.ArmorHandler
+import com.davidm1a2.afraidofthedark.common.event.CapabilityHandler
+import com.davidm1a2.afraidofthedark.common.event.ConfigurationHandler
+import com.davidm1a2.afraidofthedark.common.event.FlaskOfSoulsHandler
+import com.davidm1a2.afraidofthedark.common.event.NightmareHandler
+import com.davidm1a2.afraidofthedark.common.event.SpellCharmHandler
+import com.davidm1a2.afraidofthedark.common.event.SpellFreezeHandler
+import com.davidm1a2.afraidofthedark.common.event.SpellStateHandler
+import com.davidm1a2.afraidofthedark.common.event.VoidChestHandler
+import com.davidm1a2.afraidofthedark.common.event.register.BiomeRegister
+import com.davidm1a2.afraidofthedark.common.event.register.BlockRegister
+import com.davidm1a2.afraidofthedark.common.event.register.BoltEntryRegister
+import com.davidm1a2.afraidofthedark.common.event.register.CapabilityRegister
+import com.davidm1a2.afraidofthedark.common.event.register.DataSerializerRegister
+import com.davidm1a2.afraidofthedark.common.event.register.DimensionRegister
+import com.davidm1a2.afraidofthedark.common.event.register.EffectRegister
+import com.davidm1a2.afraidofthedark.common.event.register.EntityRegister
+import com.davidm1a2.afraidofthedark.common.event.register.FlammableRegister
+import com.davidm1a2.afraidofthedark.common.event.register.FurnaceFuelRegister
+import com.davidm1a2.afraidofthedark.common.event.register.ItemRegister
+import com.davidm1a2.afraidofthedark.common.event.register.MeteorEntryRegister
+import com.davidm1a2.afraidofthedark.common.event.register.PacketRegister
+import com.davidm1a2.afraidofthedark.common.event.register.ParticleRegister
+import com.davidm1a2.afraidofthedark.common.event.register.RecipeSerializerRegister
+import com.davidm1a2.afraidofthedark.common.event.register.RegistryRegister
+import com.davidm1a2.afraidofthedark.common.event.register.ResearchRegister
+import com.davidm1a2.afraidofthedark.common.event.register.SoundRegister
+import com.davidm1a2.afraidofthedark.common.event.register.SpellDeliveryMethodRegister
+import com.davidm1a2.afraidofthedark.common.event.register.SpellEffectOverrideRegister
+import com.davidm1a2.afraidofthedark.common.event.register.SpellEffectRegister
+import com.davidm1a2.afraidofthedark.common.event.register.SpellPowerSourceRegister
+import com.davidm1a2.afraidofthedark.common.event.register.StructureRegister
+import com.davidm1a2.afraidofthedark.common.event.register.TeleportQueue
+import com.davidm1a2.afraidofthedark.common.event.register.TileEntityRegister
 import com.davidm1a2.afraidofthedark.common.network.packets.packetHandler.PacketHandler
 import com.davidm1a2.afraidofthedark.proxy.ClientProxy
 import com.davidm1a2.afraidofthedark.proxy.IProxy
@@ -88,6 +120,7 @@ class AfraidOfTheDark {
     @SubscribeEvent
     @Suppress("UNUSED_PARAMETER")
     fun commonSetupEvent(event: FMLCommonSetupEvent) {
+        FlammableRegister.register()
         CapabilityRegister.register()
         PacketRegister.initialize()
         EntityRegister.registerSpawnPlacements()
