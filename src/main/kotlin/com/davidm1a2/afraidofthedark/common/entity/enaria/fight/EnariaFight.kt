@@ -41,7 +41,7 @@ class EnariaFight(
         enaria.world.getBlockState(position)[HorizontalFaceBlock.HORIZONTAL_FACING].toRotation()
     }
     val centerPos: BlockPos by lazy {
-        relativeToAbsolutePosition(0, 3, 38)
+        relativeToAbsolutePosition(0, 2, 38)
     }
     private val arenaBoundingBox: AxisAlignedBB by lazy {
         val arenaNegCorner = relativeToAbsolutePosition(-30, -2, -3)
