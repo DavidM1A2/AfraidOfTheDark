@@ -303,7 +303,7 @@
   "delivery_method.afraidofthedark.aoe": "AOE",
   "delivery_method.afraidofthedark.laser": "Laser",
   "delivery_method.afraidofthedark.delay": "Delay",
-  "delivery_method.afraidofthedark.offset": "Offset",
+  "delivery_method.afraidofthedark.rotate": "Rotate",
   "_comment": "Screen names",
   "screen.afraidofthedark.blood_stained_journal_page": "Blood Stained Journal Page",
   "screen.afraidofthedark.blood_stained_journal_research": "Blood Stained Journal Research",
