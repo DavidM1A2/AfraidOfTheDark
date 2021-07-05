@@ -22,7 +22,7 @@ import net.minecraft.util.text.TranslationTextComponent
  * Class containing all AOTD related commands
  */
 object AOTDCommands {
-    private val DEVELOPERS = setOf("David_M1A2", "namcap623")
+    private val DEVELOPERS = setOf("David_M1A2", "namcap623", "Rheapr")
 
     /**
      * Registers Afraid of the Dark commands into the dispatcher
