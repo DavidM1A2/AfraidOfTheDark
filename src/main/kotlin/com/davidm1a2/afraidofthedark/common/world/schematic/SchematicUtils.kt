@@ -212,14 +212,14 @@ object SchematicUtils {
             // Grab the compound that represents this tile entity
             val tileEntityCompound = tileEntities.getCompound(i)
             val tileEntityPosition = position.add(tileEntityCompound.getInt("x"), tileEntityCompound.getInt("y"), tileEntityCompound.getInt("z"))
-
-            // If the chunk pos was not given or we are in the correct chunk spawn the entity in
-            val tileEntity = world.getTileEntity(tileEntityPosition)
-
-            if (tileEntity != null) {
-                tileEntity.read(tileEntityCompound)
-                tileEntity.pos = tileEntityPosition
+            // Clone the NBT, then update the x, y, and z positions to be world absolute
+            val newTileEntityCompound = tileEntityCompound.copy().apply {
+                putInt("x", tileEntityPosition.x)
+                putInt("y", tileEntityPosition.y)
+                putInt("z", tileEntityPosition.z)
             }
+
+            world.getTileEntity(tileEntityPosition)?.read(newTileEntityCompound)
         }
 
         // Get the list of entities inside this schematic

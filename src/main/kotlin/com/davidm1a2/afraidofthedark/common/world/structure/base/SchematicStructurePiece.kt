@@ -218,9 +218,14 @@ class SchematicStructurePiece : StructurePiece {
                 val tileEntity = world.getTileEntity(tileEntityPosition)
 
                 if (tileEntity != null) {
-                    tileEntity.read(tileEntityCompound)
+                    val newTileEntityCompound = tileEntityCompound.copy().apply {
+                        putInt("x", tileEntityPosition.x)
+                        putInt("y", tileEntityPosition.y)
+                        putInt("z", tileEntityPosition.z)
+                    }
 
-                    tileEntity.pos = tileEntityPosition
+                    tileEntity.read(newTileEntityCompound)
+
                     if (mirror != Mirror.NONE) {
                         tileEntity.mirror(mirror)
                     }
