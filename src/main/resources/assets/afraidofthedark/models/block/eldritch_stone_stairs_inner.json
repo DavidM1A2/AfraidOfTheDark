@@ -1,0 +1,8 @@
+{
+  "parent": "block/inner_stairs",
+  "textures": {
+    "bottom": "afraidofthedark:block/eldritch_stone",
+    "top": "afraidofthedark:block/eldritch_stone",
+    "side": "afraidofthedark:block/eldritch_stone"
+  }
+}

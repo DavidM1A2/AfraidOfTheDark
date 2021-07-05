@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "afraidofthedark:block/eldritch_stone_slab_top"
+    },
+    "type=bottom": {
+      "model": "afraidofthedark:block/eldritch_stone_slab"
+    },
+    "type=double": {
+      "model": "afraidofthedark:block/eldritch_stone"
+    }
+  }
+}

@@ -1,21 +1,16 @@
 {
   "type": "afraidofthedark:research_required_shaped_recipe",
   "pattern": [
-    "sss",
-    "ses",
     "sss"
   ],
   "key": {
     "s": {
-      "item": "minecraft:stone"
-    },
-    "e": {
-      "item": "afraidofthedark:eldritch_metal_ingot"
+      "item": "afraidofthedark:eldritch_stone"
     }
   },
   "result": {
-    "item": "afraidofthedark:eldritch_stone",
-    "count": 8
+    "item": "afraidofthedark:eldritch_stone_slab",
+    "count": 6
   },
   "required_research": "afraidofthedark:eldritch_decoration"
 }
