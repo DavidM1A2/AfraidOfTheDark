@@ -51,14 +51,14 @@ object AOTDGuiUtility {
      * @return Returns the mouse's X current position in MC coordinates
      */
     fun getMouseXInMCCoord(): Int {
-        return minecraft.mouseHelper.mouseX.roundToInt() * this.window.scaledWidth / window.width
+        return if (window.width == 0) 0 else minecraft.mouseHelper.mouseX.roundToInt() * this.window.scaledWidth / window.width
     }
 
     /**
      * @return Returns the mouse's Y current position in MC coordinates
      */
     fun getMouseYInMCCoord(): Int {
-        return minecraft.mouseHelper.mouseY.roundToInt() * this.window.scaledHeight / window.height
+        return if (window.height == 0) 0 else minecraft.mouseHelper.mouseY.roundToInt() * this.window.scaledHeight / window.height
     }
 
     fun getWindowWidthInMCCoords(): Int {
