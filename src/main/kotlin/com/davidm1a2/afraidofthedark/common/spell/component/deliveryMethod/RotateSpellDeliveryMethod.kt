@@ -47,10 +47,7 @@ class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Const
         val forwardBackwardDir = state.direction
         val leftRightDir = forwardBackwardDir.crossProduct(Vec3d(0.0, 1.0, 0.0)).normalize()
         val upDownDir = forwardBackwardDir.crossProduct(leftRightDir).normalize()
-        val yawRotatedDir = forwardBackwardDir.rotateAround(upDownDir, yaw)
-
-        val yawRotatedLeftRightDir = yawRotatedDir.crossProduct(Vec3d(0.0, 1.0, 0.0)).normalize()
-        val finalDir = yawRotatedDir.rotateAround(yawRotatedLeftRightDir, pitch)
+        val finalDir = forwardBackwardDir.rotateAround(upDownDir, yaw).rotateAround(leftRightDir, pitch)
 
         val newState = DeliveryTransitionStateBuilder()
             .withSpell(state.spell)
@@ -89,7 +86,6 @@ class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Const
         private fun Vec3d.rotateAround(axis: Vec3d, radians: Double): Vec3d {
             // Use the Rodrigues formula to construct a rotation matrix around "axis" "radians" amount
             // https://math.stackexchange.com/questions/2741515/rotation-around-a-vector
-            val identity3dMatrix = Matrix3d().apply { setIdentity() }
             val basisMatrix = Matrix3d(
                 0.0, -axis.z, axis.y,
                 axis.z, 0.0, -axis.x,
@@ -103,7 +99,8 @@ class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Const
                 mul(basisMatrix.cloneSafe())
                 mul(1 - cos(radians))
             }
-            val rotationMatrix = identity3dMatrix.apply {
+            val rotationMatrix = Matrix3d().apply {
+                setIdentity()
                 add(termTwo)
                 add(termThree)
             }
