@@ -16,7 +16,7 @@ object ModKeybindings {
 
     // Public keybinding variables used to access the key states
     val ROLL_WITH_CLOAK_OF_AGILITY = KeyBinding(ROLL_CLOAK_OF_AGILITY_NAME, GLFW.GLFW_KEY_G, CATEGORY_NAME)
-    val FIRE_WRIST_CROSSBOW = KeyBinding(FIRE_WRIST_CROSSBOW_NAME, GLFW.GLFW_KEY_F, CATEGORY_NAME)
+    val FIRE_WRIST_CROSSBOW = KeyBinding(FIRE_WRIST_CROSSBOW_NAME, GLFW.GLFW_KEY_R, CATEGORY_NAME)
 
     // A list of mod keybindings
     val KEY_BINDING_LIST = arrayOf(
