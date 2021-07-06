@@ -24,6 +24,7 @@ import com.davidm1a2.afraidofthedark.common.block.SunstoneOreBlock
 import com.davidm1a2.afraidofthedark.common.block.VoidChestBlock
 import com.davidm1a2.afraidofthedark.common.block.VoidChestPortalBlock
 import com.davidm1a2.afraidofthedark.common.block.gravewood.GravewoodBlock
+import com.davidm1a2.afraidofthedark.common.block.gravewood.GravewoodButtonBlock
 import com.davidm1a2.afraidofthedark.common.block.gravewood.GravewoodDoorBlock
 import com.davidm1a2.afraidofthedark.common.block.gravewood.GravewoodFenceBlock
 import com.davidm1a2.afraidofthedark.common.block.gravewood.GravewoodFenceGateBlock
@@ -33,6 +34,7 @@ import com.davidm1a2.afraidofthedark.common.block.gravewood.GravewoodSaplingBloc
 import com.davidm1a2.afraidofthedark.common.block.gravewood.GravewoodSlabBlock
 import com.davidm1a2.afraidofthedark.common.block.gravewood.GravewoodStairsBlock
 import com.davidm1a2.afraidofthedark.common.block.mangrove.MangroveBlock
+import com.davidm1a2.afraidofthedark.common.block.mangrove.MangroveButtonBlock
 import com.davidm1a2.afraidofthedark.common.block.mangrove.MangroveDoorBlock
 import com.davidm1a2.afraidofthedark.common.block.mangrove.MangroveFenceBlock
 import com.davidm1a2.afraidofthedark.common.block.mangrove.MangroveFenceGateBlock
@@ -42,6 +44,7 @@ import com.davidm1a2.afraidofthedark.common.block.mangrove.MangroveSaplingBlock
 import com.davidm1a2.afraidofthedark.common.block.mangrove.MangroveSlabBlock
 import com.davidm1a2.afraidofthedark.common.block.mangrove.MangroveStairsBlock
 import com.davidm1a2.afraidofthedark.common.block.sacred_mangrove.SacredMangroveBlock
+import com.davidm1a2.afraidofthedark.common.block.sacred_mangrove.SacredMangroveButtonBlock
 import com.davidm1a2.afraidofthedark.common.block.sacred_mangrove.SacredMangroveDoorBlock
 import com.davidm1a2.afraidofthedark.common.block.sacred_mangrove.SacredMangroveFenceBlock
 import com.davidm1a2.afraidofthedark.common.block.sacred_mangrove.SacredMangroveFenceGateBlock
@@ -65,6 +68,7 @@ object ModBlocks {
     val GRAVEWOOD_FENCE = GravewoodFenceBlock()
     val GRAVEWOOD_FENCE_GATE = GravewoodFenceGateBlock()
     val GRAVEWOOD_DOOR = GravewoodDoorBlock()
+    val GRAVEWOOD_BUTTON = GravewoodButtonBlock()
 
     val MANGROVE = MangroveBlock()
     val MANGROVE_PLANKS = MangrovePlanksBlock()
@@ -75,6 +79,7 @@ object ModBlocks {
     val MANGROVE_FENCE = MangroveFenceBlock()
     val MANGROVE_FENCE_GATE = MangroveFenceGateBlock()
     val MANGROVE_DOOR = MangroveDoorBlock()
+    val MANGROVE_BUTTON = MangroveButtonBlock()
 
     val SACRED_MANGROVE = SacredMangroveBlock()
     val SACRED_MANGROVE_PLANKS = SacredMangrovePlanksBlock()
@@ -85,6 +90,7 @@ object ModBlocks {
     val SACRED_MANGROVE_FENCE = SacredMangroveFenceBlock()
     val SACRED_MANGROVE_FENCE_GATE = SacredMangroveFenceGateBlock()
     val SACRED_MANGROVE_DOOR = SacredMangroveDoorBlock()
+    val SACRED_MANGROVE_BUTTON = SacredMangroveButtonBlock()
 
     val ELDRITCH_STONE = EldritchStoneBlock()
     val ELDRITCH_STONE_SLAB = EldritchStoneSlabBlock()
@@ -122,6 +128,7 @@ object ModBlocks {
         GRAVEWOOD_FENCE,
         GRAVEWOOD_FENCE_GATE,
         GRAVEWOOD_DOOR,
+        GRAVEWOOD_BUTTON,
         MANGROVE,
         MANGROVE_PLANKS,
         MANGROVE_SAPLING,
@@ -131,6 +138,7 @@ object ModBlocks {
         MANGROVE_FENCE,
         MANGROVE_FENCE_GATE,
         MANGROVE_DOOR,
+        MANGROVE_BUTTON,
         SACRED_MANGROVE,
         SACRED_MANGROVE_PLANKS,
         SACRED_MANGROVE_SAPLING,
@@ -140,6 +148,7 @@ object ModBlocks {
         SACRED_MANGROVE_FENCE,
         SACRED_MANGROVE_FENCE_GATE,
         SACRED_MANGROVE_DOOR,
+        SACRED_MANGROVE_BUTTON,
         ELDRITCH_STONE,
         ELDRITCH_STONE_SLAB,
         ELDRITCH_STONE_STAIRS,

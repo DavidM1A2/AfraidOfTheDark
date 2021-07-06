@@ -1,0 +1,6 @@
+{
+    "parent": "block/button_inventory",
+    "textures": {
+        "texture": "afraidofthedark:block/sacred_mangrove_planks"
+    }
+}

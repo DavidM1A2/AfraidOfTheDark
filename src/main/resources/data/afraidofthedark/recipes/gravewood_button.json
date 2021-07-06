@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "result": {
+    "item": "afraidofthedark:gravewood_button",
+    "count": 1
+  },
+  "ingredients": [
+    {
+      "item": "afraidofthedark:gravewood_planks"
+    }
+  ]
+}
