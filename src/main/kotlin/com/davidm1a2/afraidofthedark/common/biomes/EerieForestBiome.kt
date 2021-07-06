@@ -10,7 +10,11 @@ import net.minecraft.world.biome.DefaultBiomeFeatures
 import net.minecraft.world.gen.GenerationStage
 import net.minecraft.world.gen.GenerationStage.Carving
 import net.minecraft.world.gen.carver.WorldCarver
-import net.minecraft.world.gen.feature.*
+import net.minecraft.world.gen.feature.Feature
+import net.minecraft.world.gen.feature.GrassFeatureConfig
+import net.minecraft.world.gen.feature.IFeatureConfig
+import net.minecraft.world.gen.feature.ProbabilityConfig
+import net.minecraft.world.gen.feature.TreeFeature
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig
 import net.minecraft.world.gen.placement.FrequencyConfig
 import net.minecraft.world.gen.placement.Placement
@@ -67,7 +71,7 @@ class EerieForestBiome : AOTDBiome(
         )
 
         // Werewolves
-        addSpawn(EntityClassification.MONSTER, SpawnListEntry(ModEntities.WEREWOLF, 25, 1, 4))
+        addSpawn(EntityClassification.MONSTER, SpawnListEntry(ModEntities.WEREWOLF, 75, 1, 4))
     }
 
     /**
