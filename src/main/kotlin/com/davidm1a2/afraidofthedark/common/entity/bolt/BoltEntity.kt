@@ -3,8 +3,9 @@ package com.davidm1a2.afraidofthedark.common.entity.bolt
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.projectile.ThrowableEntity
+import net.minecraft.entity.projectile.AbstractArrowEntity
 import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
 import net.minecraft.network.IPacket
 import net.minecraft.util.DamageSource
 import net.minecraft.util.math.EntityRayTraceResult
@@ -21,7 +22,7 @@ import net.minecraftforge.fml.network.NetworkHooks
  * @property chanceToDropHitEntity The chance that the bolt will drop its item after hitting an entity
  * @property chanceToDropHitGround The chance that the bolt will drop its item after hitting the ground
  */
-abstract class BoltEntity : ThrowableEntity {
+abstract class BoltEntity : AbstractArrowEntity {
     abstract val damageSourceProducer: (PlayerEntity) -> DamageSource
     abstract val drop: Item
     open val damage: Int = 6
@@ -57,41 +58,40 @@ abstract class BoltEntity : ThrowableEntity {
     constructor(entityType: EntityType<out BoltEntity>, thrower: LivingEntity, world: World) : super(entityType, thrower, world)
 
     /**
-     * Register any entity data. Anything registered here is automatically synced from Server -> Client
-     */
-    override fun registerData() {
-    }
-
-    /**
      * Called when the bolt hits something
      *
      * @param result The object containing hit information
      */
-    override fun onImpact(result: RayTraceResult) {
+    override fun onHit(result: RayTraceResult) {
+        super.onHit(result)
+
         // Server side processing only
         if (!world.isRemote) {
             // Test if we hit an entity or the ground
             if (result.type == RayTraceResult.Type.ENTITY) {
                 val entityHit = (result as EntityRayTraceResult).entity
                 // Test if the shooter of the bolt is a player
-                if (thrower is PlayerEntity) {
-                    entityHit.attackEntityFrom(damageSourceProducer(thrower as PlayerEntity), damage.toFloat())
+                if (shooter is PlayerEntity) {
+                    entityHit.attackEntityFrom(damageSourceProducer(shooter as PlayerEntity), damage.toFloat())
                 }
 
-                // If the random chance succeeds, drop the bolt item
-                if (Math.random() < chanceToDropHitEntity) {
-                    entityHit.entityDropItem(drop, 1)
+                if (Math.random() >= chanceToDropHitEntity) {
+                    remove()
                 }
             } else {
-                // If the random chance succeeds, drop the bolt item
-                if (Math.random() < chanceToDropHitGround) {
-                    entityDropItem(drop, 1)
+                if (Math.random() >= chanceToDropHitGround) {
+                    remove()
                 }
             }
         }
+    }
 
-        // Kill the bolt on server and client side after impact
-        remove()
+    override fun func_213868_a(result: EntityRayTraceResult) {
+        // Called when an entity is hit, no op since we do that calculation in onHit()
+    }
+
+    override fun getArrowStack(): ItemStack {
+        return ItemStack(drop)
     }
 
     override fun createSpawnPacket(): IPacket<*> {

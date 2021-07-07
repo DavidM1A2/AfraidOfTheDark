@@ -10,6 +10,7 @@ import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.projectile.AbstractArrowEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.ActionResultType
@@ -158,8 +159,13 @@ class CrossbowItem : AOTDItem("crossbow", Properties().maxStackSize(1)) {
 
         // Instantiate bolt!
         val bolt = getCurrentBoltType(itemStack).boltEntityFactory(world, entityPlayer)
+        bolt.pickupStatus = if (entityPlayer.isCreative) {
+            AbstractArrowEntity.PickupStatus.DISALLOWED
+        } else {
+            AbstractArrowEntity.PickupStatus.ALLOWED
+        }
         // Aim and fire the bolt
-        bolt.shoot(entityPlayer, entityPlayer.rotationPitch, entityPlayer.rotationYaw, 0f, 3f, 0f)
+        bolt.shoot(entityPlayer, entityPlayer.rotationPitch, entityPlayer.rotationYaw, 0f, 5f, 0f)
         world.addEntity(bolt)
     }
 

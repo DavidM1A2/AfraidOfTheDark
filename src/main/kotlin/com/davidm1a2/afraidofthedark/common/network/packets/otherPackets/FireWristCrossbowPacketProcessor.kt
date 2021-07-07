@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.network.packets.otherPackets
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.network.packets.packetHandler.PacketProcessor
+import net.minecraft.entity.projectile.AbstractArrowEntity
 import net.minecraft.network.PacketBuffer
 import net.minecraft.util.SoundCategory
 import net.minecraftforge.fml.network.NetworkDirection
@@ -39,9 +40,14 @@ class FireWristCrossbowPacketProcessor : PacketProcessor<FireWristCrossbowPacket
 
                 // Instantiate bolt!
                 val bolt = msg.selectedBolt.boltEntityFactory(world, player)
+                bolt.pickupStatus = if (player.isCreative) {
+                    AbstractArrowEntity.PickupStatus.DISALLOWED
+                } else {
+                    AbstractArrowEntity.PickupStatus.ALLOWED
+                }
 
                 // Aim and fire the bolt
-                bolt.shoot(player, player.rotationPitch, player.rotationYaw, 0f, 3f, 0f)
+                bolt.shoot(player, player.rotationPitch, player.rotationYaw, 0f, 5f, 0f)
                 world.addEntity(bolt)
             }
         }

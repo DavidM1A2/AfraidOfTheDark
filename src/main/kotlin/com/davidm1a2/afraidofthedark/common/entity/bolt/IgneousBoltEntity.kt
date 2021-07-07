@@ -56,8 +56,8 @@ class IgneousBoltEntity : BoltEntity {
      *
      * @param result The object containing hit information
      */
-    override fun onImpact(result: RayTraceResult) {
-        super.onImpact(result)
+    override fun onHit(result: RayTraceResult) {
+        super.onHit(result)
         // On top of doing damage this bolt lights the entity hit on fire
         if (result.type == RayTraceResult.Type.ENTITY) {
             (result as EntityRayTraceResult).entity.setFire(10)
