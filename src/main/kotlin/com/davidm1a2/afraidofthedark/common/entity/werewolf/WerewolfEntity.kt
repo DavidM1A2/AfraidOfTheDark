@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.entity.werewolf
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
@@ -146,18 +147,20 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
      * @return True if the attack went through, false otherwise
      */
     override fun attackEntityFrom(damageSource: DamageSource, damage: Float): Boolean {
-        // If the damage was 'silver_damage' then we can apply it, otherwise we just do 1 'generic' damage
+        // If the werewolf takes damage from a player that has not started the mod, agro them
+        if (damageSource is EntityDamageSource) {
+            val player = damageSource.getTrueSource()
+            if (player is PlayerEntity) {
+                if (!player.getBasics().startedAOTD) {
+                    canAttackAnyone = true
+                }
+            }
+        }
+
+        // If the damage was 'silver_damage' then we can apply it, otherwise we just do 1 'generic' damage. Out of world damage is caused by /kill
         return when (damageSource.damageType) {
-            ModDamageSources.SILVER_DAMAGE -> {
-                super.attackEntityFrom(damageSource, damage)
-            }
-            // Out of world damage is caused by /kill
-            DamageSource.OUT_OF_WORLD.damageType -> {
-                super.attackEntityFrom(damageSource, damage)
-            }
-            else -> {
-                super.attackEntityFrom(DamageSource.GENERIC, 1f)
-            }
+            ModDamageSources.SILVER_DAMAGE, DamageSource.OUT_OF_WORLD.damageType -> super.attackEntityFrom(damageSource, damage)
+            else -> super.attackEntityFrom(DamageSource.GENERIC, 1f)
         }
     }
 
