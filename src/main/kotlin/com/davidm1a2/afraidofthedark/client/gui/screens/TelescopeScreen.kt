@@ -39,7 +39,7 @@ class TelescopeScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
             ImagePane.DispMode.STRETCH
         )
 
-        val telescope = ScrollPane(8.0, 6.0, Position(-Random.nextDouble(), -Random.nextDouble()))
+        val telescope = ScrollPane(8.0, 6.0, Position(Random.nextDouble(1.0 / 8.0 - 1.0, 0.0), Random.nextDouble(1.0 / 6.0 - 1.0, 0.0)))
         telescope.add(telescopeImage)
 
         // Grab the player's research
