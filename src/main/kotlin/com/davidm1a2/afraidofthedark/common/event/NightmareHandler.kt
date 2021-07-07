@@ -5,7 +5,14 @@ import com.davidm1a2.afraidofthedark.client.sound.NightmareChaseMusicSound
 import com.davidm1a2.afraidofthedark.client.sound.NightmareMusicSound
 import com.davidm1a2.afraidofthedark.common.capabilities.getNightmareData
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.*
+import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
+import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
+import com.davidm1a2.afraidofthedark.common.constants.ModEffects
+import com.davidm1a2.afraidofthedark.common.constants.ModEntities
+import com.davidm1a2.afraidofthedark.common.constants.ModItems
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility
 import com.davidm1a2.afraidofthedark.common.dimension.teleport
 import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
@@ -197,7 +204,7 @@ class NightmareHandler {
             val entity = event.entity
 
             // Test if the player is going to the nightmare
-            if (event.world.dimension.type.modType == ModDimensions.NIGHTMARE && entity is PlayerEntity) {
+            if (event.world.dimension.type.modType == ModDimensions.NIGHTMARE && entity == Minecraft.getInstance().player) {
                 // We need one more check to see if the player's dimension id is nightmare. This is a workaround because
                 // when teleporting this callback will get fired twice since the player teleports once for
                 // the teleport, once to be spawned into the world
