@@ -66,7 +66,7 @@ class GhastlyEnariaPlayerChaseGoal(private val enaria: GhastlyEnariaEntity) : Go
             enaria.faceEntity(targetPlayer!!, 360f, 360f)
 
             // If the player can see enaria, add slowness 4 to the player
-            if (targetPlayer!!.canEntityBeSeen(enaria)) {
+            if (!enaria.isBenign() && targetPlayer!!.canEntityBeSeen(enaria)) {
                 targetPlayer!!.addPotionEffect(EffectInstance(Effects.SLOWNESS, 60, 4, false, false))
             }
         }
