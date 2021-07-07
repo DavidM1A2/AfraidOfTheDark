@@ -11,7 +11,11 @@ import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.util.*
+import net.minecraft.util.ActionResult
+import net.minecraft.util.ActionResultType
+import net.minecraft.util.Hand
+import net.minecraft.util.ResourceLocation
+import net.minecraft.util.SoundCategory
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
@@ -156,10 +160,6 @@ class CrossbowItem : AOTDItem("crossbow", Properties().maxStackSize(1)) {
         val bolt = getCurrentBoltType(itemStack).boltEntityFactory(world, entityPlayer)
         // Aim and fire the bolt
         bolt.shoot(entityPlayer, entityPlayer.rotationPitch, entityPlayer.rotationYaw, 0f, 3f, 0f)
-        // Push the bolt slightly forward so it does not collide with the player
-        bolt.posX = bolt.posX + bolt.motion.x
-        bolt.posY = bolt.posY + bolt.motion.y
-        bolt.posZ = bolt.posZ + bolt.motion.z
         world.addEntity(bolt)
     }
 

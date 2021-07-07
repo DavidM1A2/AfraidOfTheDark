@@ -42,11 +42,6 @@ class FireWristCrossbowPacketProcessor : PacketProcessor<FireWristCrossbowPacket
 
                 // Aim and fire the bolt
                 bolt.shoot(player, player.rotationPitch, player.rotationYaw, 0f, 3f, 0f)
-
-                // Push the bolt slightly forward so it does not collide with the player
-                bolt.posX = bolt.posX + bolt.motion.x * 0.4
-                bolt.posY = bolt.posY + bolt.motion.y * 0.4
-                bolt.posZ = bolt.posZ + bolt.motion.z * 0.4
                 world.addEntity(bolt)
             }
         }
