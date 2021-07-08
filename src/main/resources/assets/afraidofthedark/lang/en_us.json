@@ -413,5 +413,6 @@
   "message.afraidofthedark.spell.save_successful": "Spell '%1$s' saved successfully.",
   "message.afraidofthedark.insanitys_heights.dont_understand": "§oThe book appears to be empty.",
   "message.afraidofthedark.lens_cutter.wrong_item": "The lens cutter can only make lenses out of glass.",
-  "message.afraidofthedark.dont_understand": "§oI don't understand how this works."
+  "message.afraidofthedark.dont_understand": "§oI don't understand how this works.",
+  "message.afraidofthedark.nightmare.enderchest": "The ender chest appears to be empty here."
 }
