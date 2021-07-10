@@ -51,6 +51,7 @@ class EnariaFight(
 
     // Utility variables
     private val basicAttacks = EnariaBasicAttacks(this)
+    private val nextEvents: Queue<EnariaFightEvents> = LinkedList()
 
     // Variables which control the fight state. Save these to NBT
 
@@ -115,7 +116,11 @@ class EnariaFight(
                 }
                 // Case 2: Event is starting now
                 ticksUntilNextEvent == 0 -> {
-                    currentEvent = EnariaFightEvents.values().random().build(this)
+                    // Pick a random event from our remaining events. If it's empty, refill it
+                    if (nextEvents.isEmpty()) {
+                        nextEvents.addAll(EnariaFightEvents.values().apply { shuffle() })
+                    }
+                    currentEvent = nextEvents.remove().build(this)
                     currentEvent!!.start()
                 }
                 // Case 3: Event is about to start, enaria is in position, show particles
@@ -179,7 +184,7 @@ class EnariaFight(
         val world = enaria.world
 
         // Clear the area in the center of the arena if a player has placed blocks there
-        world.setBlockState(centerPos, ModBlocks.GNOMISH_METAL_PLATE.defaultState)
+        world.setBlockState(centerPos, ModBlocks.ELDRITCH_STONE.defaultState)
         for (x in -1..1) {
             for (y in 1..5) {
                 for (z in -1..1) {
