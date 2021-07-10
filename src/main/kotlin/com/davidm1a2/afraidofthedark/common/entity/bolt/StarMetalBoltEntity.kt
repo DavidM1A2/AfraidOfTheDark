@@ -20,7 +20,7 @@ import net.minecraft.world.World
 class StarMetalBoltEntity : BoltEntity {
     override val damageSourceProducer: (PlayerEntity) -> DamageSource = { ModDamageSources.getSilverDamage(it) }
     override val drop = ModItems.STAR_METAL_BOLT
-    override val damage = 18
+    override val damage = 20
     override val chanceToDropHitEntity = 0.5
     override val chanceToDropHitGround = 0.95
 

@@ -22,7 +22,7 @@ import net.minecraft.world.World
 class IgneousBoltEntity : BoltEntity {
     override val damageSourceProducer: (PlayerEntity) -> DamageSource = { ModDamageSources.getSilverDamage(it) }
     override val drop = ModItems.IGNEOUS_BOLT
-    override val damage = 18
+    override val damage = 22
     override val chanceToDropHitEntity = 0.4
     override val chanceToDropHitGround = 0.8
 
