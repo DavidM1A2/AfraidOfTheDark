@@ -222,7 +222,7 @@ object SpellEffectOverrideRegister {
                                     if (blockState.isAir(world, blockLocation)) {
                                         world.setBlockState(
                                             blockLocation,
-                                            Blocks.ICE.defaultState,
+                                            Blocks.PACKED_ICE.defaultState,
                                             2 or 16
                                         )
                                         AOTDSpellEffect.createParticlesAround(
