@@ -111,9 +111,7 @@ class IgneousSwordItem : AOTDChargeableSwordItem(
             )
 
             // Set each entity living on fire
-            surroundingEntities
-                .filterIsInstance<MobEntity>()
-                .forEach { it.setFire(20) }
+            surroundingEntities.filter { it is MobEntity || it is PlayerEntity }.forEach { it.setFire(20) }
 
             // True, the effect was procd
             return true
