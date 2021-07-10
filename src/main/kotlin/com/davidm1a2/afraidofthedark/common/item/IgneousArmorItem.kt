@@ -139,10 +139,10 @@ class IgneousArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
 
         // Fall damage is slightly reduced (star metal is better)
         if (source == DamageSource.FALL) {
-            return protectionRatio * 0.6
+            return protectionRatio * 0.7
         }
 
-        return protectionRatio * 0.97f
+        return protectionRatio * 0.96f
     }
 
     /**
@@ -164,7 +164,7 @@ class IgneousArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
 
     companion object {
         // How much strength the armor knocks back enemies that attack you. It's roughly the number of blocks to push
-        private const val KNOCKBACK_STRENGTH = 1.5
+        private const val KNOCKBACK_STRENGTH = 0.6
 
         // Damage sources that relate to fire damage
         private val FIRE_SOURCES = setOf(DamageSource.IN_FIRE, DamageSource.ON_FIRE)

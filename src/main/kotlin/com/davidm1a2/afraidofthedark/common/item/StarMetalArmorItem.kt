@@ -135,7 +135,7 @@ class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
 
         // Lava damage is slightly reduced (igneous is better)
         if (source == DamageSource.LAVA) {
-            return protectionRatio * 0.6
+            return protectionRatio * 0.8
         }
 
         // Default armor protection if no special set bonus applies
