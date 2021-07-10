@@ -269,7 +269,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
 
     companion object {
         // The amount of knockback the staff has once dropping out of it
-        private const val KNOCKBACK_STRENGTH = 10.0
+        private const val KNOCKBACK_STRENGTH = 4.0
 
         // The maximum number of ticks a player can be on the troll poll
         private const val MAX_TROLL_POLE_TIME_IN_TICKS = 60
