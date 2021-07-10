@@ -22,21 +22,24 @@ class WaterFallFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFi
 
     override fun forceStop() {
         ticksUntilEnd = 0
-        clearArenaWater()
+        clearArenaSourceWater()
     }
 
     override fun tick() {
         ticksUntilEnd = ticksUntilEnd - 1
 
         if (ticksUntilEnd == 0) {
-            clearArenaWater()
+            clearArenaSourceWater()
         }
         if (ticksUntilEnd < 0) {
             ticksUntilWaterGone = ticksUntilWaterGone - 1
+            if (ticksUntilWaterGone == 0) {
+                clearAllArenaWater()
+            }
         }
     }
 
-    private fun clearArenaWater() {
+    private fun clearArenaSourceWater() {
         val world = fight.enaria.world
         val cornerOne = relativeToAbsolutePosition(-30, 11, -3)
         val cornerTwo = relativeToAbsolutePosition(30, 11, 79)
@@ -47,6 +50,17 @@ class WaterFallFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFi
         }
 
         spawnEventParticles(List(30) { getRandomVectorBetween(cornerOne, cornerTwo) })
+    }
+
+    private fun clearAllArenaWater() {
+        val world = fight.enaria.world
+        val cornerOne = relativeToAbsolutePosition(-30, -1, -3)
+        val cornerTwo = relativeToAbsolutePosition(30, 11, 79)
+        iterateOverRegion(cornerOne, cornerTwo) {
+            if (world.getBlockState(it).block == Blocks.WATER) {
+                world.setBlockState(it, Blocks.AIR.defaultState)
+            }
+        }
     }
 
     override fun isOver(): Boolean {
