@@ -22,7 +22,7 @@ abstract class AOTDSharedCooldownItem(
      */
     override fun setOnCooldown(itemStack: ItemStack, entityPlayer: PlayerEntity) {
         // For all items in the player's inventory that are of the same item set them on cooldown as well
-        for (newStack in entityPlayer.inventory.mainInventory) {
+        for (newStack in entityPlayer.inventory.mainInventory + entityPlayer.inventory.offHandInventory) {
             if (itemStack.item == newStack.item) {
                 super.setOnCooldown(newStack, entityPlayer)
             }

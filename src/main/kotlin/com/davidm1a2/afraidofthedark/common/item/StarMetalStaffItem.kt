@@ -36,8 +36,8 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
     override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean) {
         // Check if the entity is a player
         if (entity is PlayerEntity) {
-            // If the item isn't selected ensure the player isn't invincible
-            if (!isSelected) {
+            // If the item isn't selected or the active item isn't in the offhand ensure the player isn't invincible
+            if (!isSelected && !(entity.activeHand == Hand.OFF_HAND && entity.activeItemStack == stack)) {
                 // If a star metal staff is not selected make sure the player can take damage
                 if (!entity.isCreative && entity.abilities.disableDamage && isInUse(stack)) {
                     entity.abilities.disableDamage = false
