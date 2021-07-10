@@ -12,6 +12,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.network.play.server.SEntityVelocityPacket
+import net.minecraft.network.play.server.SPlayerPositionLookPacket
 import net.minecraft.util.ActionResult
 import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
@@ -125,10 +126,25 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
                     entityLivingBase.fallDistance = 0.0f
                 }
 
+                // On the 4th tick store the player's position
+                if (count == 4) {
+                    NBTHelper.setDouble(stack, NBT_X_POSITION, entityLivingBase.posX)
+                    NBTHelper.setDouble(stack, NBT_Y_POSITION, entityLivingBase.posY)
+                    NBTHelper.setDouble(stack, NBT_Z_POSITION, entityLivingBase.posZ)
+                }
+
                 // On the 5th tick and after freeze the entity's position
                 if (count >= 5) {
-                    (entityLivingBase as ServerPlayerEntity).connection.sendPacket(
-                        SEntityVelocityPacket(entityLivingBase.getEntityId(), Vec3d(0.0, 0.0, 0.0))
+                    val x = NBTHelper.getDouble(stack, NBT_X_POSITION)!!
+                    val y = NBTHelper.getDouble(stack, NBT_Y_POSITION)!!
+                    val z = NBTHelper.getDouble(stack, NBT_Z_POSITION)!!
+                    (entityLivingBase as ServerPlayerEntity).connection.setPlayerLocation(
+                        x,
+                        y,
+                        z,
+                        entityLivingBase.rotationYaw,
+                        entityLivingBase.rotationPitch,
+                        setOf(SPlayerPositionLookPacket.Flags.X_ROT, SPlayerPositionLookPacket.Flags.Y_ROT)
                     )
                 }
             }
@@ -276,5 +292,8 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
 
         // NBT constants
         private const val NBT_IN_USE = "in_use"
+        private const val NBT_X_POSITION = "x_position"
+        private const val NBT_Y_POSITION = "y_position"
+        private const val NBT_Z_POSITION = "z_position"
     }
 }
