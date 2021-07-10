@@ -103,7 +103,6 @@ class GnomishCityStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: In
                                         facing = facing
                                     )
                                 )
-                                facing = facing.rotateY()
                                 stairwellTop = stairwellTop + stairwell.getHeight() - 1
                             }
 
