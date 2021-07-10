@@ -25,7 +25,7 @@ class ExplosionSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, 
                 .withGetter { it.data.getFloat(NBT_RADIUS) }
                 .withDefaultValue(2.0f)
                 .withMinValue(1.0f)
-                .withMaxValue(100.0f)
+                .withMaxValue(50.0f)
                 .build()
         )
     }
