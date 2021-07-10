@@ -35,7 +35,7 @@ apply {
 
 configurations["compile"].extendsFrom(configurations.create("shade"))
 
-version = "1.14.4-1.5.0"
+version = "1.15.2-1.6.0"
 group = "com.davidm1a2.afraidofthedark"
 project.setProperty("archivesBaseName", "afraidofthedark")
 
@@ -44,7 +44,7 @@ tasks.withType<KotlinCompile> {
 }
 
 configure<UserDevExtension> {
-    mappings("snapshot", "20190719-1.14.3")
+    mappings("snapshot", "20200514-1.15.1")
 
     runs.create("client") {
         workingDirectory(project.file("run"))
@@ -73,7 +73,7 @@ dependencies {
     shade("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", findProperty("kotlin_version").toString())
 
     val minecraft = configurations["minecraft"]
-    minecraft("net.minecraftforge", "forge", "1.14.4-28.2.23")
+    minecraft("net.minecraftforge", "forge", "1.15.2-31.2.0")
 }
 
 tasks.withType<Jar> {
