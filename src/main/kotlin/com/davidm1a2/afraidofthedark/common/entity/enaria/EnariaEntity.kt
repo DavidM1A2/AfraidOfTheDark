@@ -292,7 +292,7 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
         // Constants for enaria's stats
         private const val MOVE_SPEED = 0.6
         private const val FOLLOW_RANGE = 64.0
-        private const val MAX_HEALTH = 700.0
+        private const val MAX_HEALTH = 1000.0
         private const val ATTACK_DAMAGE = 12.0
         private const val KNOCKBACK_RESISTANCE = 0.5
 
