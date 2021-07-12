@@ -7,7 +7,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
-import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.ActivateActivate
+import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.ActivateChannel
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.ChargeChannel
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.IdleChannel
 import com.davidm1a2.afraidofthedark.common.network.packets.animationPackets.AnimationPacket
@@ -35,7 +35,7 @@ import net.minecraftforge.fml.network.PacketDistributor
  */
 class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world: World) : FlyingEntity(entityType, world), IMob, IMCAnimatedModel {
     private val animHandler = AnimationHandler(
-        ActivateActivate("Activate", 25.0f, 100, ChannelMode.LINEAR),
+        ActivateChannel("Activate", 25.0f, 100, ChannelMode.LINEAR),
         ChargeChannel("Charge", 100.0f, 100, ChannelMode.LINEAR),
         IdleChannel("Idle", 25.0f, 100, ChannelMode.LINEAR)
     )

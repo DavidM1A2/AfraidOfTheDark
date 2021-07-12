@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.animation
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Channel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.KeyFrame
-import javax.vecmath.Quat4f
-import javax.vecmath.Vector3f
+import net.minecraft.client.renderer.Quaternion
+import net.minecraft.client.renderer.Vector3f
 
 
 /**
@@ -25,25 +25,25 @@ class CastChannel internal constructor(name: String, fps: Float, totalFrames: In
      */
     override fun initializeAllFrames() {
         val frame0 = KeyFrame()
-        frame0.modelRotations["frogLLeg"] = Quat4f(
+        frame0.modelRotations["frogLLeg"] = Quaternion(
             0.27059805f,
             0.27059805f,
             0.65328145f,
             0.65328145f
         )
-        frame0.modelRotations["frogMouth"] = Quat4f(
+        frame0.modelRotations["frogMouth"] = Quaternion(
             -0.08715574f,
             0.0f,
             0.0f,
             0.9961947f
         )
-        frame0.modelRotations["frogRLeg"] = Quat4f(
+        frame0.modelRotations["frogRLeg"] = Quaternion(
             0.0f,
             -0.38268346f,
             0.0f,
             0.9238795f
         )
-        frame0.modelRotations["frogHead"] = Quat4f(
+        frame0.modelRotations["frogHead"] = Quaternion(
             0.6427876f,
             0.0f,
             0.0f,
@@ -56,26 +56,26 @@ class CastChannel internal constructor(name: String, fps: Float, totalFrames: In
         keyFrames[0] = frame0
 
         val frame20 = KeyFrame()
-        frame20.modelRotations["frogMouth"] = Quat4f(
+        frame20.modelRotations["frogMouth"] = Quaternion(
             0.043619387f,
             0.0f,
             0.0f,
             0.99904823f
         )
-        frame20.modelRotations["frogHead"] = Quat4f(0.5f, 0.0f, 0.0f, 0.8660254f)
+        frame20.modelRotations["frogHead"] = Quaternion(0.5f, 0.0f, 0.0f, 0.8660254f)
         frame20.modelTranslations["frogMouth"] = Vector3f(-4.0f, 0.0f, 3.0f)
         frame20.modelTranslations["frogHead"] = Vector3f(-4.0f, 5.0f, 2.0f)
         keyFrames[20] = frame20
 
         val frame40 = KeyFrame()
-        frame40.modelRotations["frogLLeg"] = Quat4f(
+        frame40.modelRotations["frogLLeg"] = Quaternion(
             0.35355338f,
             0.35355338f,
             0.6123724f,
             0.6123724f
         )
-        frame40.modelRotations["frogRLeg"] = Quat4f(0.0f, -0.5f, 0.0f, 0.8660254f)
-        frame40.modelRotations["frogHead"] = Quat4f(
+        frame40.modelRotations["frogRLeg"] = Quaternion(0.0f, -0.5f, 0.0f, 0.8660254f)
+        frame40.modelRotations["frogHead"] = Quaternion(
             0.42261827f,
             0.0f,
             0.0f,
@@ -87,25 +87,25 @@ class CastChannel internal constructor(name: String, fps: Float, totalFrames: In
         keyFrames[40] = frame40
 
         val frame59 = KeyFrame()
-        frame59.modelRotations["frogLLeg"] = Quat4f(
+        frame59.modelRotations["frogLLeg"] = Quaternion(
             0.27059805f,
             0.27059805f,
             0.65328145f,
             0.65328145f
         )
-        frame59.modelRotations["frogMouth"] = Quat4f(
+        frame59.modelRotations["frogMouth"] = Quaternion(
             -0.08715574f,
             0.0f,
             0.0f,
             0.9961947f
         )
-        frame59.modelRotations["frogRLeg"] = Quat4f(
+        frame59.modelRotations["frogRLeg"] = Quaternion(
             0.0f,
             -0.38268346f,
             0.0f,
             0.9238795f
         )
-        frame59.modelRotations["frogHead"] = Quat4f(
+        frame59.modelRotations["frogHead"] = Quaternion(
             0.6427876f,
             0.0f,
             0.0f,

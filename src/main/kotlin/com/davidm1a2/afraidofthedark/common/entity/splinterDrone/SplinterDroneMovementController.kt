@@ -49,7 +49,7 @@ class SplinterDroneMovementController(splinterDrone: SplinterDroneEntity) : Move
             // Move the bounding box in the direction of movement
             droneBoundingBox = droneBoundingBox.offset(direction)
             // Test if the entity would fit
-            if (!mob.world.isCollisionBoxesEmpty(mob, droneBoundingBox)) {
+            if (!mob.world.hasNoCollisions(mob, droneBoundingBox)) {
                 // False, there is no path
                 return false
             }

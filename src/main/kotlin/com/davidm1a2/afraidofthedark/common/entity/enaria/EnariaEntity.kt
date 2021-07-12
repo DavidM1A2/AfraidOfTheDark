@@ -30,8 +30,8 @@ import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.StringTextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.BossInfo
-import net.minecraft.world.ServerBossInfo
 import net.minecraft.world.World
+import net.minecraft.world.server.ServerBossInfo
 import net.minecraftforge.fml.network.NetworkHooks
 import kotlin.math.min
 

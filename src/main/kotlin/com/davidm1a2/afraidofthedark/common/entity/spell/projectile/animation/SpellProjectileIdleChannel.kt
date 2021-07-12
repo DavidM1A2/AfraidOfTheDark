@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.common.entity.spell.projectile.animation
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Channel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.KeyFrame
-import javax.vecmath.Quat4f
-import javax.vecmath.Vector3f
+import net.minecraft.client.renderer.Quaternion
+import net.minecraft.client.renderer.Vector3f
 
 /**
  * Idle animation used by the projectile in flight
@@ -24,19 +24,19 @@ class SpellProjectileIdleChannel internal constructor(name: String, fps: Float, 
      */
     override fun initializeAllFrames() {
         val frame0 = KeyFrame()
-        frame0.modelRotations["Center"] = Quat4f(0.19001609f, 0.14813289f, -0.31068635f, 0.91946965f)
+        frame0.modelRotations["Center"] = Quaternion(0.19001609f, 0.14813289f, -0.31068635f, 0.91946965f)
         frame0.modelTranslations["Center"] = Vector3f(0.0f, 0.0f, 0.0f)
         keyFrames[0] = frame0
         val frame17 = KeyFrame()
-        frame17.modelRotations["Center"] = Quat4f(0.7796292f, 0.61504066f, 0.11790937f, -7.956326E-4f)
+        frame17.modelRotations["Center"] = Quaternion(0.7796292f, 0.61504066f, 0.11790937f, -7.956326E-4f)
         frame17.modelTranslations["Center"] = Vector3f(0.0f, 0.0f, 0.0f)
         keyFrames[17] = frame17
         val frame39 = KeyFrame()
-        frame39.modelRotations["Center"] = Quat4f(-0.5435533f, 0.589524f, -0.5917744f, -0.0825492f)
+        frame39.modelRotations["Center"] = Quaternion(-0.5435533f, 0.589524f, -0.5917744f, -0.0825492f)
         frame39.modelTranslations["Center"] = Vector3f(0.0f, 0.0f, 0.0f)
         keyFrames[39] = frame39
         val frame59 = KeyFrame()
-        frame59.modelRotations["Center"] = Quat4f(0.4235078f, -0.40492296f, 0.3203981f, 0.74432755f)
+        frame59.modelRotations["Center"] = Quaternion(0.4235078f, -0.40492296f, 0.3203981f, 0.74432755f)
         frame59.modelTranslations["Center"] = Vector3f(0.0f, 0.0f, 0.0f)
         keyFrames[59] = frame59
     }

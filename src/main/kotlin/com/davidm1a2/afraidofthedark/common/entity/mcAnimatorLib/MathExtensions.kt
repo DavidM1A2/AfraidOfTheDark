@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib
 
 import net.minecraft.client.renderer.Quaternion
+import net.minecraft.client.renderer.Vector3f
 import kotlin.math.acos
 import kotlin.math.sin
 
@@ -57,4 +58,10 @@ fun Quaternion.slerp(q1: Quaternion, q2: Quaternion, t: Float): Quaternion {
 
     // Return the interpolated quaternion
     return this
+}
+
+fun Vector3f.interpolate(otherVec: Vector3f, percent: Float) {
+    this.x = (1 - percent) * this.x + percent * otherVec.x
+    this.y = (1 - percent) * this.y + percent * otherVec.y
+    this.z = (1 - percent) * this.z + percent * otherVec.z
 }

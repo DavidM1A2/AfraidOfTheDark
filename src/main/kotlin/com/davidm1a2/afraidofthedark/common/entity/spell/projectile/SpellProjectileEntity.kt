@@ -118,7 +118,7 @@ class SpellProjectileEntity(
 
                 // Perform a ray case to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
                 // Intellij says 'shooter' should always be non-null, that is not the case....
-                val rayTraceResult = ProjectileHelper.func_221266_a(this, true, ticksInAir >= 25, shooter, RayTraceContext.BlockMode.COLLIDER)
+                val rayTraceResult = ProjectileHelper.rayTrace(this, true, ticksInAir >= 25, shooter, RayTraceContext.BlockMode.COLLIDER)
 
                 // If the ray trace hit something, perform the hit effect
                 if (rayTraceResult.type != RayTraceResult.Type.MISS) {
@@ -274,16 +274,6 @@ class SpellProjectileEntity(
      */
     override fun getBrightness(): Float {
         return 1.0f
-    }
-
-    /**
-     * Not sure exactly what this does, but the fireball uses this code too so I copied the value over
-     *
-     * @return The same value as EntityFireball
-     */
-    @OnlyIn(Dist.CLIENT)
-    override fun getBrightnessForRender(): Int {
-        return 15728880
     }
 
     /**

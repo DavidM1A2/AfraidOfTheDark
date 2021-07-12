@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation
 
-import javax.vecmath.Quat4f
-import javax.vecmath.Vector3f
+import net.minecraft.client.renderer.Quaternion
+import net.minecraft.client.renderer.Vector3f
 
 /**
  * Class was provided by the MC animator library
@@ -10,7 +10,7 @@ import javax.vecmath.Vector3f
  * @property modelTranslations A map of part name to position
  */
 class KeyFrame {
-    internal var modelRotations: MutableMap<String, Quat4f> = mutableMapOf()
+    internal var modelRotations: MutableMap<String, Quaternion> = mutableMapOf()
     internal var modelTranslations: MutableMap<String, Vector3f> = mutableMapOf()
 
     /**

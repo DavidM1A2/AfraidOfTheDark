@@ -7,7 +7,6 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.DamageSource
 import net.minecraft.util.math.EntityRayTraceResult
-import net.minecraft.util.math.RayTraceResult
 import net.minecraft.world.World
 
 /**
@@ -56,11 +55,8 @@ class IgneousBoltEntity : BoltEntity {
      *
      * @param result The object containing hit information
      */
-    override fun onHit(result: RayTraceResult) {
-        super.onHit(result)
+    override fun onEntityHit(result: EntityRayTraceResult) {
         // On top of doing damage this bolt lights the entity hit on fire
-        if (result.type == RayTraceResult.Type.ENTITY) {
-            (result as EntityRayTraceResult).entity.setFire(10)
-        }
+        result.entity.setFire(10)
     }
 }

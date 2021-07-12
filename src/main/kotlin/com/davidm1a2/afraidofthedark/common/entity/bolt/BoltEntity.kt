@@ -86,7 +86,7 @@ abstract class BoltEntity : AbstractArrowEntity {
         }
     }
 
-    override fun func_213868_a(result: EntityRayTraceResult) {
+    override fun onEntityHit(result: EntityRayTraceResult) {
         // Called when an entity is hit, no op since we do that calculation in onHit()
     }
 

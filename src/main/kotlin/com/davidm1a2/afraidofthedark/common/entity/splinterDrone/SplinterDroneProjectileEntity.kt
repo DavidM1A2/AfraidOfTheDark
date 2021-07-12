@@ -21,8 +21,6 @@ import net.minecraft.util.math.RayTraceContext
 import net.minecraft.util.math.RayTraceResult
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.fml.network.NetworkHooks
 import kotlin.math.sqrt
 
@@ -103,7 +101,7 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
                 this.ticksInAir = this.ticksInAir + 1
 
                 // Perform a ray cast to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
-                val rayTraceResult = ProjectileHelper.func_221266_a(this, true, ticksInAir >= 25, shootingEntity, RayTraceContext.BlockMode.COLLIDER)
+                val rayTraceResult = ProjectileHelper.rayTrace(this, true, ticksInAir >= 25, shootingEntity, RayTraceContext.BlockMode.COLLIDER)
 
                 if (rayTraceResult.type != RayTraceResult.Type.MISS) {
                     onImpact(rayTraceResult)
@@ -191,16 +189,6 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
      */
     override fun getBrightness(): Float {
         return 1.0f
-    }
-
-    /**
-     * Not sure exactly what this does, but the fireball uses this code too so I copied the value over
-     *
-     * @return The same value as EntityFireball
-     */
-    @OnlyIn(Dist.CLIENT)
-    override fun getBrightnessForRender(): Int {
-        return 15728880
     }
 
     /**

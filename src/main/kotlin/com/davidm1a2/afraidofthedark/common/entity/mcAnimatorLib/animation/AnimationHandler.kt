@@ -1,13 +1,14 @@
 package com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation
 
 import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRenderer
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.interpolate
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.slerp
 import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.Quaternion
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.fml.LogicalSide
 import net.minecraftforge.fml.common.thread.EffectiveSide
-import javax.vecmath.Quat4f
-import javax.vecmath.Vector3f
 
 /**
  * Constructor takes in all available animation channels
@@ -22,7 +23,7 @@ class AnimationHandler(vararg animChannels: Channel) {
     private val animCurrentChannels = mutableSetOf<Channel>()
     private val animPrevTime = mutableMapOf<String, Long>()
     private val animCurrentFrame = mutableMapOf<String, Float>()
-    private val availableAnimChannels = animChannels.map { it.name to it }.toMap()
+    private val availableAnimChannels = animChannels.associateBy { it.name }
 
     /**
      * Performs one "tick" of the animation
@@ -165,31 +166,31 @@ class AnimationHandler(vararg animChannels: Channel) {
                     slerpProgress = slerpProgress.coerceIn(0f, 1f)
 
                     if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame == null && nextRotationKeyFramePosition != 0) {
-                        val currentQuat = Quat4f()
+                        val currentQuat = Quaternion(0f, 0f, 0f, 0f)
                         currentQuat.slerp(
-                            box.defaultRotation!!,
+                            box.defaultRotation,
                             nextRotationKeyFrame!!.modelRotations[boxName]!!,
                             slerpProgress
                         )
-                        box.rotationMatrix.setAndReturn(currentQuat).transposeAndReturn()
+                        box.rotation.set(currentQuat.x, currentQuat.y, currentQuat.z, currentQuat.w)
                         anyRotationApplied = true
                     } else if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame != null && nextRotationKeyFramePosition != 0) {
-                        val currentQuat = Quat4f()
+                        val currentQuat = Quaternion(0f, 0f, 0f, 0f)
                         currentQuat.slerp(
                             prevRotationKeyFrame.modelRotations[boxName]!!,
                             nextRotationKeyFrame!!.modelRotations[boxName]!!,
                             slerpProgress
                         )
-                        box.rotationMatrix.setAndReturn(currentQuat).transposeAndReturn()
+                        box.rotation.set(currentQuat.x, currentQuat.y, currentQuat.z, currentQuat.w)
                         anyRotationApplied = true
                     } else if (prevRotationKeyFramePosition != 0 && nextRotationKeyFramePosition != 0) {
-                        val currentQuat = Quat4f()
+                        val currentQuat = Quaternion(0f, 0f, 0f, 0f)
                         currentQuat.slerp(
                             prevRotationKeyFrame!!.modelRotations[boxName]!!,
                             nextRotationKeyFrame!!.modelRotations[boxName]!!,
                             slerpProgress
                         )
-                        box.rotationMatrix.setAndReturn(currentQuat).transposeAndReturn()
+                        box.rotation.set(currentQuat.x, currentQuat.y, currentQuat.z, currentQuat.w)
                         anyRotationApplied = true
                     }
 
@@ -209,22 +210,22 @@ class AnimationHandler(vararg animChannels: Channel) {
 
                     if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame == null && nextTranslationsKeyFramePosition != 0) {
                         val startPosition = box.getRotationPointAsVector()
-                        val endPosition = nextTranslationKeyFrame!!.modelTranslations[boxName]
-                        val currentPosition = Vector3f(startPosition)
+                        val endPosition = nextTranslationKeyFrame!!.modelTranslations[boxName]!!
+                        val currentPosition = startPosition.copy()
                         currentPosition.interpolate(endPosition, lerpProgress)
                         box.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z)
                         anyTranslationApplied = true
                     } else if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame != null && nextTranslationsKeyFramePosition != 0) {
-                        val startPosition = prevTranslationKeyFrame.modelTranslations[boxName]
-                        val endPosition = nextTranslationKeyFrame!!.modelTranslations[boxName]
-                        val currentPosition = Vector3f(startPosition)
+                        val startPosition = prevTranslationKeyFrame.modelTranslations[boxName]!!
+                        val endPosition = nextTranslationKeyFrame!!.modelTranslations[boxName]!!
+                        val currentPosition = startPosition.copy()
                         currentPosition.interpolate(endPosition, lerpProgress)
                         box.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z)
                         anyTranslationApplied = true
                     } else if (prevTranslationsKeyFramePosition != 0 && nextTranslationsKeyFramePosition != 0) {
-                        val startPosition = prevTranslationKeyFrame!!.modelTranslations[boxName]
-                        val endPosition = nextTranslationKeyFrame!!.modelTranslations[boxName]
-                        val currentPosition = Vector3f(startPosition)
+                        val startPosition = prevTranslationKeyFrame!!.modelTranslations[boxName]!!
+                        val endPosition = nextTranslationKeyFrame!!.modelTranslations[boxName]!!
+                        val currentPosition = startPosition.copy()
                         currentPosition.interpolate(endPosition, lerpProgress)
                         box.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z)
                         anyTranslationApplied = true
