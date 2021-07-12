@@ -33,12 +33,12 @@ internal class BoundingBoxNode(
     }
 
     fun writeToList(nbtTagList: ListNBT) {
-        nbtTagList.add(IntNBT(aabb.minX))
-        nbtTagList.add(IntNBT(aabb.minY))
-        nbtTagList.add(IntNBT(aabb.minY))
-        nbtTagList.add(IntNBT(aabb.maxX))
-        nbtTagList.add(IntNBT(aabb.maxY))
-        nbtTagList.add(IntNBT(aabb.maxZ))
+        nbtTagList.add(IntNBT.valueOf(aabb.minX))
+        nbtTagList.add(IntNBT.valueOf(aabb.minY))
+        nbtTagList.add(IntNBT.valueOf(aabb.minY))
+        nbtTagList.add(IntNBT.valueOf(aabb.maxX))
+        nbtTagList.add(IntNBT.valueOf(aabb.maxY))
+        nbtTagList.add(IntNBT.valueOf(aabb.maxZ))
     }
 
     companion object {

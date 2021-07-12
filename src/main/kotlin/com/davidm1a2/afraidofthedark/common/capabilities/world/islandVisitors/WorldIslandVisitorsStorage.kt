@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager
  */
 class WorldIslandVisitorsStorage : Capability.IStorage<IWorldIslandVisitors> {
     override fun writeNBT(capability: Capability<IWorldIslandVisitors>, instance: IWorldIslandVisitors, side: Direction?): INBT {
-        return IntNBT(instance.getNumberOfVisitors())
+        return IntNBT.valueOf(instance.getNumberOfVisitors())
     }
 
     override fun readNBT(capability: Capability<IWorldIslandVisitors>, instance: IWorldIslandVisitors, side: Direction?, nbt: INBT) {
