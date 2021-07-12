@@ -5,18 +5,16 @@ import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import net.minecraft.block.Blocks
 import net.minecraft.entity.EntityClassification
-import net.minecraft.util.math.BlockPos
 import net.minecraft.world.biome.DefaultBiomeFeatures
 import net.minecraft.world.gen.GenerationStage
 import net.minecraft.world.gen.GenerationStage.Carving
+import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider
 import net.minecraft.world.gen.carver.WorldCarver
 import net.minecraft.world.gen.feature.Feature
-import net.minecraft.world.gen.feature.GrassFeatureConfig
-import net.minecraft.world.gen.feature.IFeatureConfig
 import net.minecraft.world.gen.feature.ProbabilityConfig
-import net.minecraft.world.gen.feature.TreeFeature
+import net.minecraft.world.gen.feature.TreeFeatureConfig
+import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig
-import net.minecraft.world.gen.placement.FrequencyConfig
 import net.minecraft.world.gen.placement.Placement
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig
@@ -51,36 +49,31 @@ class EerieForestBiome : AOTDBiome(
         // Gravewood trees
         addFeature(
             GenerationStage.Decoration.VEGETAL_DECORATION,
-            createDecoratedFeature(
-                TreeFeature({ IFeatureConfig.NO_FEATURE_CONFIG }, true, 5, ModBlocks.GRAVEWOOD.defaultState, ModBlocks.GRAVEWOOD_LEAVES.defaultState, false),
-                IFeatureConfig.NO_FEATURE_CONFIG,
-                Placement.COUNT_EXTRA_HEIGHTMAP,
-                AtSurfaceWithExtraConfig(10, 0.3f, 5)
-            )
+            Feature.NORMAL_TREE
+                .withConfiguration(
+                    TreeFeatureConfig.Builder(
+                        SimpleBlockStateProvider(ModBlocks.GRAVEWOOD.defaultState),
+                        SimpleBlockStateProvider(ModBlocks.GRAVEWOOD_LEAVES.defaultState),
+                        BlobFoliagePlacer(2, 0)
+                    )
+                        .baseHeight(5)
+                        .heightRandA(2)
+                        .foliageHeight(3)
+                        .ignoreVines()
+                        .setSapling(ModBlocks.GRAVEWOOD_SAPLING)
+                        .build()
+                )
+                .withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(AtSurfaceWithExtraConfig(10, 0.3f, 5)))
         )
 
         // Tall grass
-        addFeature(
-            GenerationStage.Decoration.VEGETAL_DECORATION,
-            createDecoratedFeature(
-                Feature.GRASS,
-                GrassFeatureConfig(Blocks.GRASS.defaultState),
-                Placement.COUNT_HEIGHTMAP_DOUBLE,
-                FrequencyConfig(4)
-            )
-        )
+        DefaultBiomeFeatures.addTallGrass(this)
 
         // Werewolves
         addSpawn(EntityClassification.MONSTER, SpawnListEntry(ModEntities.WEREWOLF, 75, 1, 4))
     }
 
-    /**
-     * Use a brown grass color
-     *
-     * @param blockPos The position of the grass block
-     * @return The new grass color
-     */
-    override fun getGrassColor(blockPos: BlockPos): Int {
+    override fun getGrassColor(xPos: Double, zPos: Double): Int {
         // hash code converts from color object to 32-bit integer, then get rid of the alpha parameter
         return Color(83, 56, 6).hashCode()
     }
