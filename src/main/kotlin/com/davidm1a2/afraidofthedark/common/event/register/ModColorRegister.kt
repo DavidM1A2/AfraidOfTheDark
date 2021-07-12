@@ -8,7 +8,7 @@ import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.FoliageColors
-import net.minecraft.world.IEnviromentBlockReader
+import net.minecraft.world.ILightReader
 import net.minecraft.world.biome.BiomeColors
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
@@ -35,7 +35,7 @@ class ModColorRegister {
 
         // Register a block color handler so that leaf blocks are colored properly when placed
         blockColors.register(
-            IBlockColor { _: BlockState, blockAccess: IEnviromentBlockReader?, pos: BlockPos?, _: Int ->
+            IBlockColor { _: BlockState, blockAccess: ILightReader?, pos: BlockPos?, _: Int ->
                 // Make sure we were passed valid parameters
                 return@IBlockColor if (blockAccess != null && pos != null) {
                     BiomeColors.getFoliageColor(blockAccess, pos)

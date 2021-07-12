@@ -32,7 +32,7 @@ class EntityRegister {
                 ModEntities.WEREWOLF,
                 EntitySpawnPlacementRegistry.PlacementType.ON_GROUND,
                 Heightmap.Type.WORLD_SURFACE,
-                MonsterEntity::func_223325_c
+                MonsterEntity::canMonsterSpawnInLight
             )
         }
     }

@@ -76,7 +76,7 @@ class SpellFreezeHandler {
                 input.rightKeyDown = false
                 input.moveStrafe = 0f
                 input.moveForward = 0f
-                input.sneak = false
+                input.sneaking = false
             }
         }
     }
