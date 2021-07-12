@@ -9,7 +9,11 @@ import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseScrollEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiComponent
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.OverlayPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.mojang.blaze3d.platform.GlStateManager
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.player.ClientPlayerEntity
@@ -25,7 +29,7 @@ import kotlin.math.roundToInt
 abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: Boolean = false) : Screen(name) {
     // Don't cache these in a companion object, they can change!
     val entityPlayer: ClientPlayerEntity
-        get() = Minecraft.getInstance().player
+        get() = Minecraft.getInstance().player!!
 
     val contentPane = StackPane(AOTDGuiUtility.getWindowSizeInMCCoords())
     private val dndPane = OverlayPane(null)

@@ -105,7 +105,7 @@ class ResearchAchievedOverlay : AbstractGui() {
             blit(i, j, 96, 202, 160, 32)
             mc.fontRenderer.drawString(I18n.format("researchbanner.title"), i + 10f, j + 5f, -256)
             mc.fontRenderer.drawString(researchDescription!!, i + 10f, j + 18f, -1)
-            RenderHelper.enableGUIStandardItemLighting()
+            RenderHelper.enableStandardItemLighting()
             GlStateManager.disableLighting()
             GlStateManager.enableRescaleNormal()
             GlStateManager.enableColorMaterial()

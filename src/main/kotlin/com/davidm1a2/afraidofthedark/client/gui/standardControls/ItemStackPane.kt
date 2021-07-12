@@ -47,7 +47,7 @@ open class ItemStackPane(
             super.draw()
 
             // Enable item lighting
-            RenderHelper.enableGUIStandardItemLighting()
+            RenderHelper.enableStandardItemLighting()
             // Push a matrix before rendering the item, this code is taken from the inventory class
             GL11.glPushMatrix()
 

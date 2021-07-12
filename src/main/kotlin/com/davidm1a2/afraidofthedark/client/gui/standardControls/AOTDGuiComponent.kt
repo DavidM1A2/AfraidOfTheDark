@@ -8,7 +8,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.player.ClientPlayerEntity
 import net.minecraft.client.gui.FontRenderer
-import net.minecraftforge.fml.client.config.GuiUtils
+import net.minecraftforge.fml.client.gui.GuiUtils
 import java.awt.Color
 import java.awt.Point
 import java.awt.Rectangle
@@ -156,6 +156,6 @@ abstract class AOTDGuiComponent(
     companion object {
         val fontRenderer: FontRenderer = Minecraft.getInstance().fontRenderer
         val entityPlayer: ClientPlayerEntity
-            get() = Minecraft.getInstance().player
+            get() = Minecraft.getInstance().player!!
     }
 }

@@ -3,7 +3,6 @@ package com.davidm1a2.afraidofthedark.client.gui.fontLibrary
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.mojang.blaze3d.platform.GlStateManager
-import com.mojang.datafixers.kinds.Const
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GLAllocation
 import net.minecraft.client.renderer.Tessellator
@@ -11,13 +10,21 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.apache.logging.log4j.LogManager
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
-import java.awt.*
+import java.awt.Color
+import java.awt.Font
+import java.awt.FontMetrics
+import java.awt.Graphics2D
+import java.awt.RenderingHints
 import java.awt.image.BufferedImage
 import java.awt.image.DataBufferByte
 import java.awt.image.DataBufferInt
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import kotlin.math.*
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.pow
+import kotlin.math.roundToInt
 import kotlin.system.exitProcess
 
 /**
@@ -318,16 +325,16 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
         // Add the 4 vertices that are used to draw the glyph. These must be done in this order
         bufferBuilder.pos(drawX.toDouble(), (drawY + drawHeight).toDouble(), 0.0)
-            .tex((srcX / textureWidth).toDouble(), ((srcY + srcHeight) / textureHeight).toDouble())
+            .tex(srcX / textureWidth, (srcY + srcHeight) / textureHeight)
             .endVertex()
         bufferBuilder.pos((drawX + drawWidth).toDouble(), (drawY + drawHeight).toDouble(), 0.0)
-            .tex(((srcX + srcWidth) / textureWidth).toDouble(), ((srcY + srcHeight) / textureHeight).toDouble())
+            .tex((srcX + srcWidth) / textureWidth, (srcY + srcHeight) / textureHeight)
             .endVertex()
         bufferBuilder.pos((drawX + drawWidth).toDouble(), drawY.toDouble(), 0.0)
-            .tex(((srcX + srcWidth) / textureWidth).toDouble(), (srcY / textureHeight).toDouble())
+            .tex((srcX + srcWidth) / textureWidth, srcY / textureHeight)
             .endVertex()
         bufferBuilder.pos(drawX.toDouble(), drawY.toDouble(), 0.0)
-            .tex((srcX / textureWidth).toDouble(), (srcY / textureHeight).toDouble())
+            .tex(srcX / textureWidth, srcY / textureHeight)
             .endVertex()
     }
 
@@ -424,7 +431,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 GlStateManager.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST)
                 GlStateManager.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST)
 
-                GlStateManager.texEnv(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE.toFloat())
+                GlStateManager.texEnv(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE)
 
                 GlStateManager.pixelStore(GL11.GL_UNPACK_ROW_LENGTH, 0)
                 GlStateManager.pixelStore(GL11.GL_UNPACK_SKIP_ROWS, 0)
