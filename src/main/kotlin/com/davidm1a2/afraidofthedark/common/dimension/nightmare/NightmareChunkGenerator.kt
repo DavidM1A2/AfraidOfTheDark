@@ -4,9 +4,14 @@ import net.minecraft.entity.EntityClassification
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IWorld
 import net.minecraft.world.biome.Biome.SpawnListEntry
+import net.minecraft.world.biome.BiomeManager
 import net.minecraft.world.biome.provider.BiomeProvider
 import net.minecraft.world.chunk.IChunk
-import net.minecraft.world.gen.*
+import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.GenerationSettings
+import net.minecraft.world.gen.GenerationStage
+import net.minecraft.world.gen.Heightmap
+import net.minecraft.world.gen.WorldGenRegion
 import net.minecraft.world.server.ServerWorld
 
 /**
@@ -18,7 +23,8 @@ import net.minecraft.world.server.ServerWorld
  */
 class NightmareChunkGenerator(world: IWorld, biomeProvider: BiomeProvider, settings: GenerationSettings) :
     ChunkGenerator<GenerationSettings>(world, biomeProvider, settings) {
-    override fun carve(chunk: IChunk, stage: GenerationStage.Carving) {
+    // fun carve()
+    override fun func_225550_a_(biomeManager: BiomeManager, chunk: IChunk, stage: GenerationStage.Carving) {
         // Do nothing, there's nothing to carve out of void
     }
 
@@ -33,11 +39,9 @@ class NightmareChunkGenerator(world: IWorld, biomeProvider: BiomeProvider, setti
 
     override fun makeBase(world: IWorld, chunk: IChunk) {
         // chunk.createHeightMap()
-        chunk.func_217303_b(Heightmap.Type.WORLD_SURFACE_WG)
-        chunk.func_217303_b(Heightmap.Type.OCEAN_FLOOR_WG)
     }
 
-    override fun generateSurface(chunk: IChunk) {
+    override fun generateSurface(region: WorldGenRegion, chunk: IChunk) {
     }
 
     override fun func_222529_a(chunkX: Int, chunkZ: Int, heightmap: Heightmap.Type): Int {

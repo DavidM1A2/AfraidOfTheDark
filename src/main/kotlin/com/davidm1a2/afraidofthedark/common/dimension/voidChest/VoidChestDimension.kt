@@ -22,12 +22,25 @@ import net.minecraftforge.client.IRenderHandler
  * @param world The world for this dimension
  * @param dimensionType The dimension type of this dimension
  */
-class VoidChestDimension(world: World, dimensionType: DimensionType) : Dimension(world, dimensionType) {
+class VoidChestDimension(world: World, dimensionType: DimensionType) : Dimension(world, dimensionType, 0.0f) {
     // TODO: As of 1.14 we can't use ModDimensions.VOID_CHEST_TYPE because this does not get initialized client side
     // when connecting to a dedicated server. Instead, the server sends us a dummy dimension type which we need to
     // retrieve via DimensionType.byName(). We don't have this dummy dimension until we actually join the dimension :/
     private val cachedType: DimensionType by lazy {
         DimensionType.byName(ModDimensions.VOID_CHEST.registryName!!)!!
+    }
+
+    init {
+        // Register the sky renderer client side
+        if (this.world.isRemote) {
+            skyRenderer = VoidChestSkyRenderer()
+        }
+
+        // Create the light brightness table so that everything is somewhat lit
+        for (i in 0..15) {
+            val f1 = 1.0f - i / 15.0f
+            lightBrightnessTable[i] = (1.0f - f1) / (f1 * 3.0f + 1.0f)
+        }
     }
 
     /**
@@ -43,7 +56,7 @@ class VoidChestDimension(world: World, dimensionType: DimensionType) : Dimension
      * @return A new nightmare chunk generator
      */
     override fun createChunkGenerator(): ChunkGenerator<*> {
-        val biomeProvider = SingleBiomeProvider(SingleBiomeProviderSettings().setBiome(ModBiomes.VOID_CHEST))
+        val biomeProvider = SingleBiomeProvider(SingleBiomeProviderSettings(this.world.worldInfo).setBiome(ModBiomes.VOID_CHEST))
         return VoidChestChunkGenerator(world, biomeProvider, VoidChestGenerationSettings())
     }
 
@@ -57,17 +70,6 @@ class VoidChestDimension(world: World, dimensionType: DimensionType) : Dimension
     @OnlyIn(Dist.CLIENT)
     override fun doesXZShowFog(x: Int, z: Int): Boolean {
         return false
-    }
-
-    /**
-     * Gets the brightness of the stars in the world from 0 to 1
-     *
-     * @param partialTicks ignored
-     * @return The star brightness
-     */
-    @OnlyIn(Dist.CLIENT)
-    override fun getStarBrightness(partialTicks: Float): Float {
-        return 1f
     }
 
     /**
@@ -136,17 +138,6 @@ class VoidChestDimension(world: World, dimensionType: DimensionType) : Dimension
     override fun findSpawn(x: Int, z: Int, checkValid: Boolean): BlockPos {
         // Spawn players at 255, they'll get teleported right after
         return BlockPos(x, 255, z)
-    }
-
-    /**
-     * Creates a light brightness table that
-     */
-    override fun generateLightBrightnessTable() {
-        // Create the light brightness table so that everything is somewhat lit
-        for (i in 0..15) {
-            val f1 = 1.0f - i / 15.0f
-            lightBrightnessTable[i] = (1.0f - f1) / (f1 * 3.0f + 1.0f)
-        }
     }
 
     /**

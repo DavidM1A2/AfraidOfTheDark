@@ -23,7 +23,7 @@ import net.minecraftforge.api.distmarker.OnlyIn
  * @param world The world for this dimension
  * @param dimensionType The dimension type of this dimension
  */
-class NightmareDimension(world: World, dimensionType: DimensionType) : Dimension(world, dimensionType) {
+class NightmareDimension(world: World, dimensionType: DimensionType) : Dimension(world, dimensionType, 0.0f) {
     // TODO: As of 1.14 we can't use ModDimensions.NIGHTMARE_TYPE because this does not get initialized client side
     // when connecting to a dedicated server. Instead, the server sends us a dummy dimension type which we need to
     // retrieve via DimensionType.byName(). We don't have this dummy dimension until we actually join the dimension :/
@@ -36,6 +36,9 @@ class NightmareDimension(world: World, dimensionType: DimensionType) : Dimension
         if (world.isRemote) {
             skyRenderer = NightmareSkyRenderer()
         }
+
+        // Make the brightest light 60% of what it would be in the overworld
+        lightBrightnessTable.forEachIndexed { index, value -> lightBrightnessTable[index] = value * 0.6f }
     }
 
     /**
@@ -104,17 +107,8 @@ class NightmareDimension(world: World, dimensionType: DimensionType) : Dimension
      * @return A new nightmare chunk generator
      */
     override fun createChunkGenerator(): ChunkGenerator<*> {
-        val biomeProvider = SingleBiomeProvider(SingleBiomeProviderSettings().setBiome(ModBiomes.NIGHTMARE))
+        val biomeProvider = SingleBiomeProvider(SingleBiomeProviderSettings(this.world.worldInfo).setBiome(ModBiomes.NIGHTMARE))
         return NightmareChunkGenerator(world, biomeProvider, NightmareGenerationSettings())
-    }
-
-    /**
-     * Creates the map of light level to brightness
-     */
-    override fun generateLightBrightnessTable() {
-        super.generateLightBrightnessTable()
-        // Make the brightest light 60% of what it would be in the overworld
-        lightBrightnessTable.forEachIndexed { index, value -> lightBrightnessTable[index] = value * 0.6f }
     }
 
     /**
@@ -192,14 +186,6 @@ class NightmareDimension(world: World, dimensionType: DimensionType) : Dimension
      */
     override fun canDoRainSnowIce(chunk: Chunk): Boolean {
         return false
-    }
-
-    /**
-     * @param partialTicks ignored
-     * @return We don't have a sun, so return 0
-     */
-    override fun getSunBrightness(partialTicks: Float): Float {
-        return 0f
     }
 
     /**
