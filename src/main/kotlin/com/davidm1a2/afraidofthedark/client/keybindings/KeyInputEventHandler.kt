@@ -54,7 +54,7 @@ class KeyInputEventHandler {
             // Grab the currently held bind
             val keybindingPressed = KeybindingUtils.getCurrentlyHeldKeybind(event.key, event.scanCode)
             // If that keybind exists then tell the server to fire the spell
-            if (Minecraft.getInstance().player.getSpellManager().keybindExists(keybindingPressed)) {
+            if (Minecraft.getInstance().player!!.getSpellManager().keybindExists(keybindingPressed)) {
                 AfraidOfTheDark.packetHandler.sendToServer(SpellKeyPressPacket(keybindingPressed))
             }
         }
@@ -65,7 +65,7 @@ class KeyInputEventHandler {
      */
     private fun fireWristCrossbow() {
         // Grab a player reference
-        val entityPlayer = Minecraft.getInstance().player
+        val entityPlayer = Minecraft.getInstance().player!!
 
         // Grab the player's bolt of choice
         val playerBasics = entityPlayer.getBasics()
@@ -138,7 +138,7 @@ class KeyInputEventHandler {
      */
     private fun rollWithCloakOfAgility() {
         // Grab a player reference
-        val entityPlayer = Minecraft.getInstance().player
+        val entityPlayer = Minecraft.getInstance().player!!
 
         // Test if the player has the correct research
         if (entityPlayer.getResearch().isResearched(ModResearches.CLOAK_OF_AGILITY)) {
