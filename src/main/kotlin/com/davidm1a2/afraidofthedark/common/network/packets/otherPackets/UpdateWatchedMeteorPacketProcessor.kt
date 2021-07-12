@@ -43,7 +43,7 @@ class UpdateWatchedMeteorPacketProcessor : PacketProcessor<UpdateWatchedMeteorPa
     override fun process(msg: UpdateWatchedMeteorPacket, ctx: NetworkEvent.Context) {
         if (ctx.direction == NetworkDirection.PLAY_TO_CLIENT) {
             // Update the player's watched meteor
-            Minecraft.getInstance().player.getBasics().setWatchedMeteor(msg.meteorEntry, msg.accuracy, msg.dropAngle, msg.latitude, msg.longitude)
+            Minecraft.getInstance().player!!.getBasics().setWatchedMeteor(msg.meteorEntry, msg.accuracy, msg.dropAngle, msg.latitude, msg.longitude)
         } else if (ctx.direction == NetworkDirection.PLAY_TO_SERVER) {
             val player = ctx.sender!!
             // Randomize the meteor drop angle, latitude, and longitude

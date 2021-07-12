@@ -21,7 +21,7 @@ class StartedAOTDPacketProcessor : PacketProcessor<StartedAOTDPacket> {
 
     override fun process(msg: StartedAOTDPacket, ctx: NetworkEvent.Context) {
         if (ctx.direction == NetworkDirection.PLAY_TO_CLIENT) {
-            Minecraft.getInstance().player.getBasics().startedAOTD = msg.startedAOTD
+            Minecraft.getInstance().player!!.getBasics().startedAOTD = msg.startedAOTD
         } else if (ctx.direction == NetworkDirection.PLAY_TO_SERVER) {
             ctx.sender!!.getBasics().startedAOTD = msg.startedAOTD
         }

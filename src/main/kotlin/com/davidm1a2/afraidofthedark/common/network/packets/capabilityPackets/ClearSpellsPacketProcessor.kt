@@ -20,7 +20,7 @@ class ClearSpellsPacketProcessor : PacketProcessor<ClearSpellsPacket> {
 
     override fun process(msg: ClearSpellsPacket, ctx: NetworkEvent.Context) {
         if (ctx.direction == NetworkDirection.PLAY_TO_CLIENT) {
-            Minecraft.getInstance().player.getSpellManager().clearSpells()
+            Minecraft.getInstance().player!!.getSpellManager().clearSpells()
         } else if (ctx.direction == NetworkDirection.PLAY_TO_SERVER) {
             ctx.sender!!.getSpellManager().clearSpells()
         }

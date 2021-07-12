@@ -36,7 +36,7 @@ class SpellPacketProcessor : PacketProcessor<SpellPacket> {
 
     override fun process(msg: SpellPacket, ctx: NetworkEvent.Context) {
         val spellManager = when (ctx.direction) {
-            NetworkDirection.PLAY_TO_CLIENT -> Minecraft.getInstance().player.getSpellManager()
+            NetworkDirection.PLAY_TO_CLIENT -> Minecraft.getInstance().player!!.getSpellManager()
             NetworkDirection.PLAY_TO_SERVER -> ctx.sender!!.getSpellManager()
             else -> null
         }

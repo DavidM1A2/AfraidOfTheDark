@@ -23,7 +23,7 @@ class AOTDPlayerBasicsPacketProcessor : PacketProcessor<AOTDPlayerBasicsPacket> 
     override fun process(msg: AOTDPlayerBasicsPacket, ctx: NetworkEvent.Context) {
         if (ctx.direction == NetworkDirection.PLAY_TO_CLIENT) {
             // Grab the current player's capabilities
-            val playerBasics = Minecraft.getInstance().player.getBasics()
+            val playerBasics = Minecraft.getInstance().player!!.getBasics()
 
             // Read the new capabilities into the player's data
             ModCapabilities.PLAYER_BASICS.storage.readNBT(ModCapabilities.PLAYER_BASICS, playerBasics, null, msg.data)

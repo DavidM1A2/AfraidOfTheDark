@@ -33,7 +33,7 @@ class VoidChestPacketProcessor : EntityPacketProcessor<VoidChestPacket>() {
 
     override fun process(msg: VoidChestPacket, ctx: NetworkEvent.Context) {
         if (ctx.direction == NetworkDirection.PLAY_TO_CLIENT) {
-            val player = Minecraft.getInstance().player
+            val player = Minecraft.getInstance().player!!
             // The player that opened the chest
             val chestOpener = player.world.getPlayerByUuid(msg.entityUUID)
             if (chestOpener != null) {

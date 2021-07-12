@@ -57,7 +57,7 @@ class ParticlePacketProcessor : PacketProcessor<ParticlePacket> {
             val speeds = msg.speeds
 
             // Go over each position and speed and spawn a particle for it
-            val player = Minecraft.getInstance().player
+            val player = Minecraft.getInstance().player!!
             for (i in positions.indices) {
                 val position = positions[i]
                 val speed = speeds[i]

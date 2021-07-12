@@ -39,7 +39,7 @@ class FreezeDataPacketProcessor : PacketProcessor<FreezeDataPacket> {
 
     override fun process(msg: FreezeDataPacket, ctx: NetworkEvent.Context) {
         if (ctx.direction == NetworkDirection.PLAY_TO_CLIENT) {
-            val freezeData = Minecraft.getInstance().player.getSpellFreezeData()
+            val freezeData = Minecraft.getInstance().player!!.getSpellFreezeData()
             freezeData.freezeTicks = msg.freezeTicks
             freezeData.freezePosition = msg.position
             freezeData.freezePitch = msg.pitch

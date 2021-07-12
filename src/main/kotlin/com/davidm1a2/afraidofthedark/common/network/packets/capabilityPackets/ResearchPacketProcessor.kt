@@ -44,7 +44,7 @@ class ResearchPacketProcessor : PacketProcessor<ResearchPacket> {
 
     override fun process(msg: ResearchPacket, ctx: NetworkEvent.Context) {
         if (ctx.direction == NetworkDirection.PLAY_TO_CLIENT) {
-            val player = Minecraft.getInstance().player
+            val player = Minecraft.getInstance().player!!
 
             // Grab the player's current research, we must use Minecraft.getMinecraft().player because the player passed to use might be null
             val playerResearch = player.getResearch()
