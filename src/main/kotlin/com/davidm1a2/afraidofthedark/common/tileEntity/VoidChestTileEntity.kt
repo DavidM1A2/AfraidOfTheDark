@@ -14,6 +14,7 @@ import net.minecraft.item.NameTagItem
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.ListNBT
 import net.minecraft.nbt.LongNBT
+import net.minecraft.tileentity.IChestLid
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.SoundEvents
 import net.minecraft.util.math.Vec3d
@@ -37,7 +38,7 @@ import kotlin.math.sqrt
  * @property playerToSend The current player that has opened the chest and will be sent soon
  * @property lastInteraction The last time (using system time) that the void chest was right clicked/interacted with
  */
-class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST) {
+class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), IChestLid {
     var lidAngle = 0f
         private set
     var previousLidAngle = 0f
