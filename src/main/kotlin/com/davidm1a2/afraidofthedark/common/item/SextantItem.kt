@@ -9,7 +9,6 @@ import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
-import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
@@ -43,6 +42,6 @@ class SextantItem : AOTDItem("sextant", Properties().maxStackSize(1)) {
                 player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
-        return ActionResult.newResult(ActionResultType.SUCCESS, itemStack)
+        return ActionResult.resultSuccess(itemStack)
     }
 }

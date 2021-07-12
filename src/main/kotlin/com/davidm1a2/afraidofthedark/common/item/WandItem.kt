@@ -12,7 +12,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.ActionResult
-import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
@@ -98,7 +97,7 @@ class WandItem : AOTDItem("wand", Properties().maxStackSize(1)) {
         }
 
         // Fail the result so that
-        return ActionResult(ActionResultType.FAIL, heldItem)
+        return ActionResult.resultFail(heldItem)
     }
 
     /**

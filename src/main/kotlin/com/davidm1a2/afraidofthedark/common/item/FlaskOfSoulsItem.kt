@@ -13,7 +13,6 @@ import net.minecraft.entity.EntityType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
-import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockRayTraceResult
@@ -75,7 +74,7 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
                 player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
-        return ActionResult.newResult(ActionResultType.SUCCESS, itemStack)
+        return ActionResult.resultSuccess(itemStack)
     }
 
     /**

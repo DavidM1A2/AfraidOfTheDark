@@ -10,7 +10,6 @@ import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
-import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
@@ -73,7 +72,7 @@ abstract class TelescopeBaseItem(val accuracy: Int, name: String) : AOTDItem(nam
                 Minecraft.getInstance().displayGuiScreen(TelescopeScreen())
             }
         }
-        return ActionResult.newResult(ActionResultType.SUCCESS, itemStack)
+        return ActionResult.resultSuccess(itemStack)
     }
 
     /**

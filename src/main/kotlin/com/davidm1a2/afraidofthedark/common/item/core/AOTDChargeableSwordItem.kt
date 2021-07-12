@@ -9,7 +9,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.IItemTier
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
-import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
@@ -117,7 +116,7 @@ abstract class AOTDChargeableSwordItem(
         }
 
         // Fail to avoid the move animation on item use
-        return ActionResult.newResult(ActionResultType.FAIL, swordStack)
+        return ActionResult.resultFail(swordStack)
     }
 
     /**

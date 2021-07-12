@@ -13,7 +13,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.AbstractArrowEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
-import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.SoundCategory
@@ -100,7 +99,7 @@ class CrossbowItem : AOTDItem("crossbow", Properties().maxStackSize(1)) {
         }
 
         // We have to "fail" the action so that the bow doesn't play the item use animation and bounce
-        return ActionResult.newResult(ActionResultType.FAIL, itemStack)
+        return ActionResult.resultFail(itemStack)
     }
 
     /**

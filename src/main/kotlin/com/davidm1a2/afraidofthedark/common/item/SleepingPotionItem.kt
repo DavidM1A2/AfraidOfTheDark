@@ -9,7 +9,6 @@ import net.minecraft.item.Items
 import net.minecraft.item.UseAction
 import net.minecraft.potion.EffectInstance
 import net.minecraft.util.ActionResult
-import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
@@ -62,7 +61,7 @@ class SleepingPotionItem : AOTDItem("sleeping_potion", Properties()) {
      */
     override fun onItemRightClick(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
         player.activeHand = hand
-        return ActionResult.newResult(ActionResultType.SUCCESS, player.getHeldItem(hand))
+        return ActionResult.resultSuccess(player.getHeldItem(hand))
     }
 
     /**

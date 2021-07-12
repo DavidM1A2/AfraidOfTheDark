@@ -6,7 +6,6 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
-import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
@@ -35,6 +34,6 @@ class InsanitysHeightsItem : AOTDItem("insanitys_heights", Properties().maxStack
                 player.sendMessage(TranslationTextComponent("message.afraidofthedark.insanitys_heights.dont_understand"))
             }
         }
-        return ActionResult.newResult(ActionResultType.SUCCESS, heldItem)
+        return ActionResult.resultSuccess(heldItem)
     }
 }

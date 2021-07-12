@@ -14,7 +14,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.network.play.server.SEntityVelocityPacket
 import net.minecraft.network.play.server.SPlayerPositionLookPacket
 import net.minecraft.util.ActionResult
-import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.text.TranslationTextComponent
@@ -86,13 +85,13 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
                 player.activeHand = hand
 
                 // We're good to go, return success
-                return ActionResult.newResult(ActionResultType.SUCCESS, heldItem)
+                return ActionResult.resultSuccess(heldItem)
             } else {
                 // If the staff is on cooldown say that
                 if (!world.isRemote) {
                     player.sendMessage(TranslationTextComponent("message.afraidofthedark.star_metal_staff.on_cooldown", cooldownRemainingInSeconds(heldItem)))
                 }
-                return ActionResult.newResult(ActionResultType.FAIL, heldItem)
+                return ActionResult.resultFail(heldItem)
             }
         } else {
             // If the player has the wrong research print an error
@@ -100,7 +99,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
                 player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
-        return ActionResult.newResult(ActionResultType.PASS, heldItem)
+        return ActionResult.resultPass(heldItem)
     }
 
     /**

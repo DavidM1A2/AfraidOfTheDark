@@ -14,7 +14,6 @@ import net.minecraft.nbt.DoubleNBT
 import net.minecraft.nbt.ListNBT
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.ActionResult
-import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
@@ -82,7 +81,7 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().maxStack
             }
         }
 
-        return ActionResult.newResult(ActionResultType.SUCCESS, mainhandItem)
+        return ActionResult.resultSuccess(mainhandItem)
     }
 
     /**
@@ -165,9 +164,9 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().maxStack
     private fun relativizeEntityPos(nbt: CompoundNBT, baseCorner: BlockPos) {
         val absolutePos = nbt.get("Pos") as ListNBT
         nbt.put("Pos", ListNBT().apply {
-            add(DoubleNBT(absolutePos.getDouble(0) - baseCorner.x))
-            add(DoubleNBT(absolutePos.getDouble(1) - baseCorner.y))
-            add(DoubleNBT(absolutePos.getDouble(2) - baseCorner.z))
+            add(DoubleNBT.valueOf(absolutePos.getDouble(0) - baseCorner.x))
+            add(DoubleNBT.valueOf(absolutePos.getDouble(1) - baseCorner.y))
+            add(DoubleNBT.valueOf(absolutePos.getDouble(2) - baseCorner.z))
         })
     }
 

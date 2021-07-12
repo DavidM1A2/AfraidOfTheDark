@@ -11,7 +11,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
-import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.util.NonNullList
 import net.minecraft.util.text.ITextComponent
@@ -78,7 +77,7 @@ class JournalItem : AOTDItem("journal", Properties().maxStackSize(1)) {
         }
 
         // Return success because the journal processed the right click successfully
-        return ActionResult.newResult(ActionResultType.SUCCESS, heldItemStack)
+        return ActionResult.resultSuccess(heldItemStack)
     }
 
     fun isCheatSheet(itemStack: ItemStack): Boolean {
