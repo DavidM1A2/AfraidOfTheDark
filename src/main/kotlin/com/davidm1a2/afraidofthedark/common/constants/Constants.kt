@@ -27,10 +27,6 @@ object Constants {
         }
     }
 
-    // The base size of all GUIs
-    const val BASE_GUI_WIDTH = 640
-    const val BASE_GUI_HEIGHT = 360
-
     // The reference UI square size used for any calculations that need it
     const val REFERENCE_SIZE = 480f
 
