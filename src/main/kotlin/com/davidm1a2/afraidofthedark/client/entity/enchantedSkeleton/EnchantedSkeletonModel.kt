@@ -3,11 +3,10 @@ package com.davidm1a2.afraidofthedark.client.entity.enchantedSkeleton
 import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRenderer
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSkeletonEntity
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.setAndReturn
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.transposeAndReturn
+import com.mojang.blaze3d.matrix.MatrixStack
+import com.mojang.blaze3d.vertex.IVertexBuilder
+import net.minecraft.client.renderer.Quaternion
 import net.minecraft.client.renderer.entity.model.EntityModel
-import javax.vecmath.Matrix4f
-import javax.vecmath.Quat4f
 
 /**
  * Model class that defines the enchanted skeleton model
@@ -26,93 +25,90 @@ class EnchantedSkeletonModel internal constructor() : EntityModel<EnchantedSkele
         textureWidth = 64
         textureHeight = 32
 
-        body = MCAModelRenderer(this, "body", 16, 16)
+        body = MCAModelRenderer(this, 16, 16)
         body.mirror = false
-        body.addBox(-4.0f, -12.0f, -2.0f, 8, 12, 4)
+        body.addBox(-4.0f, -12.0f, -2.0f, 8f, 12f, 4f)
         body.setInitialRotationPoint(0.0f, 2.0f, 2.0f)
-        body.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
+        body.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         body.setTextureSize(64, 32)
-        parts[body.boxName] = body
+        parts["body"] = body
 
-        val head = MCAModelRenderer(this, "head", 0, 0)
+        val head = MCAModelRenderer(this, 0, 0)
         head.mirror = false
-        head.addBox(-4.0f, 0.0f, -4.0f, 8, 8, 8)
+        head.addBox(-4.0f, 0.0f, -4.0f, 8f, 8f, 8f)
         head.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        head.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
+        head.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         head.setTextureSize(64, 32)
-        parts[head.boxName] = head
+        parts["head"] = head
         body.addChild(head)
 
-        val rightarm = MCAModelRenderer(this, "rightarm", 40, 16)
+        val rightarm = MCAModelRenderer(this, 40, 16)
         rightarm.mirror = false
-        rightarm.addBox(-2.0f, -10.0f, -1.0f, 2, 12, 2)
+        rightarm.addBox(-2.0f, -10.0f, -1.0f, 2f, 12f, 2f)
         rightarm.setInitialRotationPoint(-4.0f, -2.0f, 0.0f)
-        rightarm.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
+        rightarm.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         rightarm.setTextureSize(64, 32)
-        parts[rightarm.boxName] = rightarm
+        parts["rightarm"] = rightarm
         body.addChild(rightarm)
 
-        val leftarm = MCAModelRenderer(this, "leftarm", 40, 16)
+        val leftarm = MCAModelRenderer(this, 40, 16)
         leftarm.mirror = false
-        leftarm.addBox(0.0f, -10.0f, -1.0f, 2, 12, 2)
+        leftarm.addBox(0.0f, -10.0f, -1.0f, 2f, 12f, 2f)
         leftarm.setInitialRotationPoint(4.0f, -2.0f, 0.0f)
-        leftarm.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
+        leftarm.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         leftarm.setTextureSize(64, 32)
-        parts[leftarm.boxName] = leftarm
+        parts["leftarm"] = leftarm
         body.addChild(leftarm)
 
-        val rightleg = MCAModelRenderer(this, "rightleg", 0, 16)
+        val rightleg = MCAModelRenderer(this, 0, 16)
         rightleg.mirror = false
-        rightleg.addBox(-1.0f, -12.0f, -1.0f, 2, 12, 2)
+        rightleg.addBox(-1.0f, -12.0f, -1.0f, 2f, 12f, 2f)
         rightleg.setInitialRotationPoint(-2.0f, -12.0f, 0.0f)
-        rightleg.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
+        rightleg.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         rightleg.setTextureSize(64, 32)
-        parts[rightleg.boxName] = rightleg
+        parts["rightleg"] = rightleg
         body.addChild(rightleg)
 
-        val leftleg = MCAModelRenderer(this, "leftleg", 0, 16)
+        val leftleg = MCAModelRenderer(this, 0, 16)
         leftleg.mirror = false
-        leftleg.addBox(-1.0f, -12.0f, -1.0f, 2, 12, 2)
+        leftleg.addBox(-1.0f, -12.0f, -1.0f, 2f, 12f, 2f)
         leftleg.setInitialRotationPoint(2.0f, -12.0f, 0.0f)
-        leftleg.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
+        leftleg.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         leftleg.setTextureSize(64, 32)
-        parts[leftleg.boxName] = leftleg
+        parts["leftleg"] = leftleg
         body.addChild(leftleg)
 
-        val heart = MCAModelRenderer(this, "heart", 48, 4)
+        val heart = MCAModelRenderer(this, 48, 4)
         heart.mirror = false
-        heart.addBox(-1.5f, -2.0f, -1.0f, 3, 3, 2)
+        heart.addBox(-1.5f, -2.0f, -1.0f, 3f, 3f, 2f)
         heart.setInitialRotationPoint(0.0f, -3.0f, 0.0f)
-        heart.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
+        heart.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         heart.setTextureSize(64, 32)
-        parts[heart.boxName] = heart
+        parts["heart"] = heart
         body.addChild(heart)
     }
 
-    /**
-     * Called every game tick to render the skeleton model
-     *
-     * @param entityIn        The entity to render, this must be an enchanted skeleton
-     * @param limbSwing       ignored, used only by default MC
-     * @param limbSwingAmount ignored, used only by default MC
-     * @param ageInTicks      ignored, used only by default MC
-     * @param netHeadYaw      ignored, used only by default MC
-     * @param headPitch       ignored, used only by default MC
-     * @param scale           The scale to render the model at
-     */
     override fun render(
-        entityIn: EnchantedSkeletonEntity,
+        matrixStack: MatrixStack,
+        vertexBuilder: IVertexBuilder,
+        packedLight: Int,
+        packedOverlay: Int,
+        red: Float,
+        green: Float,
+        blue: Float,
+        alpha: Float
+    ) {
+        body.render(matrixStack, vertexBuilder, packedLight, packedOverlay, red, green, blue, alpha)
+    }
+
+    override fun setRotationAngles(
+        entity: EnchantedSkeletonEntity,
         limbSwing: Float,
         limbSwingAmount: Float,
         ageInTicks: Float,
         netHeadYaw: Float,
-        headPitch: Float,
-        scale: Float
+        headPitch: Float
     ) {
-        // Perform the animation
-        (entityIn as IMCAnimatedModel).getAnimationHandler().performAnimationInModel(parts)
-
-        // Render the model in its current state
-        body.render(scale)
+        (entity as IMCAnimatedModel).getAnimationHandler().performAnimationInModel(parts)
     }
 }

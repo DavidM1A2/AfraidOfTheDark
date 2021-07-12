@@ -1,11 +1,16 @@
 package com.davidm1a2.afraidofthedark.client.entity.bolt
 
 import com.davidm1a2.afraidofthedark.common.entity.bolt.BoltEntity
-import com.mojang.blaze3d.platform.GlStateManager
-import net.minecraft.client.renderer.Tessellator
+import com.mojang.blaze3d.matrix.MatrixStack
+import com.mojang.blaze3d.vertex.IVertexBuilder
+import net.minecraft.client.renderer.IRenderTypeBuffer
+import net.minecraft.client.renderer.Matrix3f
+import net.minecraft.client.renderer.Matrix4f
+import net.minecraft.client.renderer.RenderType
+import net.minecraft.client.renderer.Vector3f
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererManager
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats
+import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.MathHelper
 
@@ -19,75 +24,71 @@ import net.minecraft.util.math.MathHelper
 abstract class BoltRenderer<T : BoltEntity>(renderManager: EntityRendererManager) : EntityRenderer<T>(renderManager) {
     internal abstract val boltTexture: ResourceLocation
 
-    /**
-     * Renders the bolt, all code here is copied from EntitySnowball
-     *
-     * @param entity       The entity to render
-     * @param x            The X position to render at
-     * @param y            The Y position to render at
-     * @param z            The Z position to render at
-     * @param entityYaw    The yaw of the entity to render
-     * @param partialTicks Partial ticks between the last and next tick
-     */
-    override fun doRender(entity: T, x: Double, y: Double, z: Double, entityYaw: Float, partialTicks: Float) {
+    override fun render(entity: T, entityYaw: Float, partialTicks: Float, matrixStack: MatrixStack, iRenderTypeBuffer: IRenderTypeBuffer, packedLightIn: Int) {
         ///
-        /// Code copied from ArrowRender
+        /// Copied from "ArrowRenderer" and adapted for bolts
         ///
 
-        bindEntityTexture(entity)
-        GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f)
-        GlStateManager.pushMatrix()
-        GlStateManager.disableLighting()
-        GlStateManager.translatef(x.toFloat(), y.toFloat(), z.toFloat())
-        GlStateManager.rotatef(MathHelper.lerp(partialTicks, entity.prevRotationYaw, entity.rotationYaw) - 90.0f, 0.0f, 1.0f, 0.0f)
-        GlStateManager.rotatef(MathHelper.lerp(partialTicks, entity.prevRotationPitch, entity.rotationPitch), 0.0f, 0.0f, 1.0f)
-        val tessellator = Tessellator.getInstance()
-        val bufferbuilder = tessellator.buffer
-        GlStateManager.enableRescaleNormal()
+        matrixStack.push()
+        matrixStack.rotate(Vector3f.YP.rotationDegrees(MathHelper.lerp(partialTicks, entity.prevRotationYaw, entity.rotationYaw) - 90.0f))
+        matrixStack.rotate(Vector3f.ZP.rotationDegrees(MathHelper.lerp(partialTicks, entity.prevRotationPitch, entity.rotationPitch)))
 
-        GlStateManager.rotatef(45.0f, 1.0f, 0.0f, 0.0f)
-        GlStateManager.scalef(0.05625f, 0.05625f, 0.05625f)
-        GlStateManager.translatef(-4.0f, 0.0f, 0.0f)
-        if (renderOutlines) {
-            GlStateManager.enableColorMaterial()
-            GlStateManager.setupSolidRenderingTextureCombine(getTeamColor(entity))
+        val arrowShakeRemaining = entity.arrowShake.toFloat() - partialTicks
+        if (arrowShakeRemaining > 0.0f) {
+            val currentRotation = -MathHelper.sin(arrowShakeRemaining * 3.0f) * arrowShakeRemaining
+            matrixStack.rotate(Vector3f.ZP.rotationDegrees(currentRotation))
         }
 
-        GlStateManager.normal3f(0.05625f, 0.0f, 0.0f)
-        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX)
-        bufferbuilder.pos(-7.0, -2.0, -2.0).tex(0.0, 0.15625).endVertex()
-        bufferbuilder.pos(-7.0, -2.0, 2.0).tex(0.15625, 0.15625).endVertex()
-        bufferbuilder.pos(-7.0, 2.0, 2.0).tex(0.15625, 0.3125).endVertex()
-        bufferbuilder.pos(-7.0, 2.0, -2.0).tex(0.0, 0.3125).endVertex()
-        tessellator.draw()
-        GlStateManager.normal3f(-0.05625f, 0.0f, 0.0f)
-        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX)
-        bufferbuilder.pos(-7.0, 2.0, -2.0).tex(0.0, 0.15625).endVertex()
-        bufferbuilder.pos(-7.0, 2.0, 2.0).tex(0.15625, 0.15625).endVertex()
-        bufferbuilder.pos(-7.0, -2.0, 2.0).tex(0.15625, 0.3125).endVertex()
-        bufferbuilder.pos(-7.0, -2.0, -2.0).tex(0.0, 0.3125).endVertex()
-        tessellator.draw()
+        matrixStack.rotate(Vector3f.XP.rotationDegrees(45.0f))
+        matrixStack.scale(0.05625f, 0.05625f, 0.05625f)
+        matrixStack.translate(-4.0, 0.0, 0.0)
+        val buffer = iRenderTypeBuffer.getBuffer(RenderType.getEntityCutout(getEntityTexture(entity)))
+        val rotationMatrix = matrixStack.last.matrix
+        val normalMatrix = matrixStack.last.normal
 
-        for (j in 0..3) {
-            GlStateManager.rotatef(90.0f, 1.0f, 0.0f, 0.0f)
-            GlStateManager.normal3f(0.0f, 0.0f, 0.05625f)
-            bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX)
-            bufferbuilder.pos(-8.0, -2.0, 0.0).tex(0.0, 0.0).endVertex()
-            bufferbuilder.pos(8.0, -2.0, 0.0).tex(0.5, 0.0).endVertex()
-            bufferbuilder.pos(8.0, 2.0, 0.0).tex(0.5, 0.15625).endVertex()
-            bufferbuilder.pos(-8.0, 2.0, 0.0).tex(0.0, 0.15625).endVertex()
-            tessellator.draw()
+        drawVertex(rotationMatrix, normalMatrix, buffer, -7, -2, -2, 0.0f, 0.15625f, -1, 0, 0, packedLightIn)
+        drawVertex(rotationMatrix, normalMatrix, buffer, -7, -2, 2, 0.15625f, 0.15625f, -1, 0, 0, packedLightIn)
+        drawVertex(rotationMatrix, normalMatrix, buffer, -7, 2, 2, 0.15625f, 0.3125f, -1, 0, 0, packedLightIn)
+        drawVertex(rotationMatrix, normalMatrix, buffer, -7, 2, -2, 0.0f, 0.3125f, -1, 0, 0, packedLightIn)
+        drawVertex(rotationMatrix, normalMatrix, buffer, -7, 2, -2, 0.0f, 0.15625f, 1, 0, 0, packedLightIn)
+        drawVertex(rotationMatrix, normalMatrix, buffer, -7, 2, 2, 0.15625f, 0.15625f, 1, 0, 0, packedLightIn)
+        drawVertex(rotationMatrix, normalMatrix, buffer, -7, -2, 2, 0.15625f, 0.3125f, 1, 0, 0, packedLightIn)
+        drawVertex(rotationMatrix, normalMatrix, buffer, -7, -2, -2, 0.0f, 0.3125f, 1, 0, 0, packedLightIn)
+
+        for (ignored in 0..3) {
+            matrixStack.rotate(Vector3f.XP.rotationDegrees(90.0f))
+            drawVertex(rotationMatrix, normalMatrix, buffer, -8, -2, 0, 0.0f, 0.0f, 0, 1, 0, packedLightIn)
+            drawVertex(rotationMatrix, normalMatrix, buffer, 8, -2, 0, 0.5f, 0.0f, 0, 1, 0, packedLightIn)
+            drawVertex(rotationMatrix, normalMatrix, buffer, 8, 2, 0, 0.5f, 0.15625f, 0, 1, 0, packedLightIn)
+            drawVertex(rotationMatrix, normalMatrix, buffer, -8, 2, 0, 0.0f, 0.15625f, 0, 1, 0, packedLightIn)
         }
 
-        if (renderOutlines) {
-            GlStateManager.tearDownSolidRenderingTextureCombine()
-            GlStateManager.disableColorMaterial()
-        }
+        matrixStack.pop()
+        super.render(entity, entityYaw, partialTicks, matrixStack, iRenderTypeBuffer, packedLightIn)
+    }
 
-        GlStateManager.disableRescaleNormal()
-        GlStateManager.enableLighting()
-        GlStateManager.popMatrix()
-        super.doRender(entity, x, y, z, entityYaw, partialTicks)
+    private fun drawVertex(
+        rotationMatrix: Matrix4f,
+        normalMatrix: Matrix3f,
+        vertexBuilder: IVertexBuilder,
+        x: Int,
+        y: Int,
+        z: Int,
+        u: Float,
+        v: Float,
+        normalX: Int,
+        normalZ: Int,
+        normalY: Int,
+        packedLightIn: Int
+    ) {
+        vertexBuilder
+            .pos(rotationMatrix, x.toFloat(), y.toFloat(), z.toFloat())
+            .color(255, 255, 255, 255)
+            .tex(u, v)
+            .overlay(OverlayTexture.NO_OVERLAY)
+            .lightmap(packedLightIn)
+            .normal(normalMatrix, normalX.toFloat(), normalY.toFloat(), normalZ.toFloat())
+            .endVertex()
     }
 
     /**

@@ -2,21 +2,15 @@ package com.davidm1a2.afraidofthedark.client.entity.enaria
 
 import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRenderer
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.setAndReturn
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.transposeAndReturn
+import com.mojang.blaze3d.matrix.MatrixStack
+import com.mojang.blaze3d.vertex.IVertexBuilder
+import net.minecraft.client.renderer.Quaternion
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.model.EntityModel
 import net.minecraft.entity.Entity
-import javax.vecmath.Matrix4f
-import javax.vecmath.Quat4f
+import net.minecraft.util.ResourceLocation
 
-/**
- * Model for the enaria and ghastly enaria entity
- *
- * @constructor initializes the model parts, this is created from MCAnimator
- * @property parts A map of part name to part
- * @property body The different parts of the model
- */
-class EnariaModel<T : Entity> internal constructor() : EntityModel<T>() {
+class EnariaModel<T : Entity> internal constructor(renderTypeFactory: (ResourceLocation) -> RenderType) : EntityModel<T>(renderTypeFactory) {
     private val parts = mutableMapOf<String, MCAModelRenderer>()
     private val body: MCAModelRenderer
 
@@ -24,84 +18,74 @@ class EnariaModel<T : Entity> internal constructor() : EntityModel<T>() {
         textureWidth = 64
         textureHeight = 64
 
-        body = MCAModelRenderer(this, "body", 0, 16)
+        body = MCAModelRenderer(this, 0, 16)
         body.mirror = false
-        body.addBox(-4.0f, -12.0f, -2.0f, 8, 12, 4)
+        body.addBox(-4.0f, -12.0f, -2.0f, 8f, 12f, 4f)
         body.setInitialRotationPoint(0.0f, 2.0f, 2.0f)
-        body.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
+        body.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         body.setTextureSize(64, 64)
-        parts[body.boxName] = body
+        parts["body"] = body
 
-        val rightarm = MCAModelRenderer(this, "rightarm", 41, 16)
+        val rightarm = MCAModelRenderer(this, 41, 16)
         rightarm.mirror = false
-        rightarm.addBox(-3.0f, -10.0f, -2.0f, 3, 12, 4)
+        rightarm.addBox(-3.0f, -10.0f, -2.0f, 3f, 12f, 4f)
         rightarm.setInitialRotationPoint(-4.0f, -2.0f, 0.0f)
-        rightarm.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
+        rightarm.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         rightarm.setTextureSize(64, 64)
-        parts[rightarm.boxName] = rightarm
+        parts["rightarm"] = rightarm
         body.addChild(rightarm)
 
-        val leftarm = MCAModelRenderer(this, "leftarm", 25, 16)
+        val leftarm = MCAModelRenderer(this, 25, 16)
         leftarm.mirror = false
-        leftarm.addBox(0.0f, -10.0f, -2.0f, 3, 12, 4)
+        leftarm.addBox(0.0f, -10.0f, -2.0f, 3f, 12f, 4f)
         leftarm.setInitialRotationPoint(4.0f, -2.0f, 0.0f)
-        leftarm.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
+        leftarm.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         leftarm.setTextureSize(64, 64)
-        parts[leftarm.boxName] = leftarm
+        parts["leftarm"] = leftarm
         body.addChild(leftarm)
 
-        val rightleg = MCAModelRenderer(this, "rightleg", 16, 32)
+        val rightleg = MCAModelRenderer(this, 16, 32)
         rightleg.mirror = false
-        rightleg.addBox(-2.0f, -12.0f, -2.0f, 4, 12, 4)
+        rightleg.addBox(-2.0f, -12.0f, -2.0f, 4f, 12f, 4f)
         rightleg.setInitialRotationPoint(-2.0f, -12.0f, 0.0f)
-        rightleg.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
+        rightleg.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         rightleg.setTextureSize(64, 64)
-        parts[rightleg.boxName] = rightleg
+        parts["rightleg"] = rightleg
         body.addChild(rightleg)
 
-        val leftleg = MCAModelRenderer(this, "leftleg", 0, 32)
+        val leftleg = MCAModelRenderer(this, 0, 32)
         leftleg.mirror = false
-        leftleg.addBox(-2.0f, -12.0f, -2.0f, 4, 12, 4)
+        leftleg.addBox(-2.0f, -12.0f, -2.0f, 4f, 12f, 4f)
         leftleg.setInitialRotationPoint(2.0f, -12.0f, 0.0f)
-        leftleg.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
+        leftleg.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         leftleg.setTextureSize(64, 64)
-        parts[leftleg.boxName] = leftleg
+        parts["leftleg"] = leftleg
         body.addChild(leftleg)
 
-        val head = MCAModelRenderer(this, "head", 0, 0)
+        val head = MCAModelRenderer(this, 0, 0)
         head.mirror = false
-        head.addBox(-4.0f, 0.0f, -4.0f, 8, 8, 8)
+        head.addBox(-4.0f, 0.0f, -4.0f, 8f, 8f, 8f)
         head.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        head.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
+        head.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         head.setTextureSize(64, 64)
-        parts[head.boxName] = head
+        parts["head"] = head
         body.addChild(head)
     }
 
-    /**
-     * Called every game tick to render the enaria model
-     *
-     * @param entityIn        The entity to render, this must be an enaria entity
-     * @param limbSwing       ignored, used only by default MC
-     * @param limbSwingAmount ignored, used only by default MC
-     * @param ageInTicks      ignored, used only by default MC
-     * @param netHeadYaw      ignored, used only by default MC
-     * @param headPitch       ignored, used only by default MC
-     * @param scale           The scale to render the model at
-     */
     override fun render(
-        entityIn: T,
-        limbSwing: Float,
-        limbSwingAmount: Float,
-        ageInTicks: Float,
-        netHeadYaw: Float,
-        headPitch: Float,
-        scale: Float
+        matrixStack: MatrixStack,
+        vertexBuilder: IVertexBuilder,
+        packedLight: Int,
+        packedOverlay: Int,
+        red: Float,
+        green: Float,
+        blue: Float,
+        alpha: Float
     ) {
-        // Perform the animation
-        (entityIn as IMCAnimatedModel).getAnimationHandler().performAnimationInModel(parts)
+        body.render(matrixStack, vertexBuilder, packedLight, packedOverlay, red, green, blue, alpha)
+    }
 
-        // Render the model in its current state
-        body.render(scale)
+    override fun setRotationAngles(entity: T, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float) {
+        (entity as IMCAnimatedModel).getAnimationHandler().performAnimationInModel(parts)
     }
 }

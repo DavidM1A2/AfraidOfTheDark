@@ -1,9 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation
 
 import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRenderer
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.setAndReturn
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.slerp
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.transposeAndReturn
 import net.minecraft.client.Minecraft
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
@@ -170,7 +167,7 @@ class AnimationHandler(vararg animChannels: Channel) {
                     if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame == null && nextRotationKeyFramePosition != 0) {
                         val currentQuat = Quat4f()
                         currentQuat.slerp(
-                            box.defaultRotationAsQuat4f!!,
+                            box.defaultRotation!!,
                             nextRotationKeyFrame!!.modelRotations[boxName]!!,
                             slerpProgress
                         )
@@ -240,7 +237,7 @@ class AnimationHandler(vararg animChannels: Channel) {
 
             // Set the initial values for each box if necessary
             if (!anyRotationApplied && !anyCustomAnimationRunning) {
-                box.resetRotationMatrix()
+                box.resetRotationQuaternion()
             }
             if (!anyTranslationApplied && !anyCustomAnimationRunning) {
                 box.resetRotationPoint()

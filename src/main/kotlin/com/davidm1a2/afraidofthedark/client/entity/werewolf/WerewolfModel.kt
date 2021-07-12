@@ -2,12 +2,11 @@ package com.davidm1a2.afraidofthedark.client.entity.werewolf
 
 import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRenderer
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.setAndReturn
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.transposeAndReturn
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.WerewolfEntity
+import com.mojang.blaze3d.matrix.MatrixStack
+import com.mojang.blaze3d.vertex.IVertexBuilder
+import net.minecraft.client.renderer.Quaternion
 import net.minecraft.client.renderer.entity.model.EntityModel
-import javax.vecmath.Matrix4f
-import javax.vecmath.Quat4f
 
 /**
  * Class representing the model of a werewolf
@@ -26,291 +25,183 @@ class WerewolfModel internal constructor() : EntityModel<WerewolfEntity>() {
         textureWidth = 128
         textureHeight = 128
 
-        bodyUpper = MCAModelRenderer(this, "BodyUpper", 47, 1)
+        bodyUpper = MCAModelRenderer(this, 47, 1)
         bodyUpper.mirror = false
-        bodyUpper.addBox(-5.0f, -5.0f, 0.0f, 10, 10, 11)
+        bodyUpper.addBox(-5.0f, -5.0f, 0.0f, 10f, 10f, 11f)
         bodyUpper.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        bodyUpper.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
+        bodyUpper.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         bodyUpper.setTextureSize(128, 128)
-        parts[bodyUpper.boxName] = bodyUpper
+        parts["BodyUpper"] = bodyUpper
 
-        val bodyLower = MCAModelRenderer(this, "BodyLower", 0, 0)
+        val bodyLower = MCAModelRenderer(this, 0, 0)
         bodyLower.mirror = false
-        bodyLower.addBox(-4.0f, -4.0f, -14.0f, 8, 8, 14)
+        bodyLower.addBox(-4.0f, -4.0f, -14.0f, 8f, 8f, 14f)
         bodyLower.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        bodyLower.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
+        bodyLower.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         bodyLower.setTextureSize(128, 128)
-        parts[bodyLower.boxName] = bodyLower
+        parts["BodyLower"] = bodyLower
         bodyUpper.addChild(bodyLower)
 
-        val head = MCAModelRenderer(this, "Head", 0, 51)
+        val head = MCAModelRenderer(this, 0, 51)
         head.mirror = false
-        head.addBox(-3.0f, -4.0f, 0.0f, 6, 7, 8)
+        head.addBox(-3.0f, -4.0f, 0.0f, 6f, 7f, 8f)
         head.setInitialRotationPoint(0.0f, 3.0f, 10.0f)
-        head.setInitialRotationMatrix(
-            Matrix4f().setAndReturn(Quat4f(0.0784591f, 0.0f, 0.0f, 0.9969173f)).transposeAndReturn()
-        )
+        head.setInitialRotationQuaternion(Quaternion(0.0784591f, 0.0f, 0.0f, 0.9969173f))
         head.setTextureSize(128, 128)
-        parts[head.boxName] = head
+        parts["Head"] = head
         bodyUpper.addChild(head)
 
-        val rightFrontLeg = MCAModelRenderer(this, "RightFrontLeg", 0, 24)
+        val rightFrontLeg = MCAModelRenderer(this, 0, 24)
         rightFrontLeg.mirror = false
-        rightFrontLeg.addBox(-1.5f, -7.0f, -1.5f, 3, 7, 3)
+        rightFrontLeg.addBox(-1.5f, -7.0f, -1.5f, 3f, 7f, 3f)
         rightFrontLeg.setInitialRotationPoint(-4.5f, -4.0f, 9.0f)
-        rightFrontLeg.setInitialRotationMatrix(
-            Matrix4f().setAndReturn(
-                Quat4f(
-                    0.17364818f,
-                    0.0f,
-                    0.0f,
-                    0.9848077f
-                )
-            ).transposeAndReturn()
-        )
+        rightFrontLeg.setInitialRotationQuaternion(Quaternion(0.17364818f, 0.0f, 0.0f, 0.9848077f))
         rightFrontLeg.setTextureSize(128, 128)
-        parts[rightFrontLeg.boxName] = rightFrontLeg
+        parts["RightFrontLeg"] = rightFrontLeg
         bodyUpper.addChild(rightFrontLeg)
 
-        val leftFrontLeg = MCAModelRenderer(this, "LeftFrontLeg", 0, 24)
+        val leftFrontLeg = MCAModelRenderer(this, 0, 24)
         leftFrontLeg.mirror = false
-        leftFrontLeg.addBox(-1.5f, -7.0f, -1.5f, 3, 7, 3)
+        leftFrontLeg.addBox(-1.5f, -7.0f, -1.5f, 3f, 7f, 3f)
         leftFrontLeg.setInitialRotationPoint(4.5f, -4.0f, 9.0f)
-        leftFrontLeg.setInitialRotationMatrix(
-            Matrix4f().setAndReturn(
-                Quat4f(
-                    0.17364818f,
-                    0.0f,
-                    0.0f,
-                    0.9848077f
-                )
-            ).transposeAndReturn()
-        )
+        leftFrontLeg.setInitialRotationQuaternion(Quaternion(0.17364818f, 0.0f, 0.0f, 0.9848077f))
         leftFrontLeg.setTextureSize(128, 128)
-        parts[leftFrontLeg.boxName] = leftFrontLeg
+        parts["LeftFrontLeg"] = leftFrontLeg
         bodyUpper.addChild(leftFrontLeg)
 
-        val tail = MCAModelRenderer(this, "Tail", 58, 33)
+        val tail = MCAModelRenderer(this, 58, 33)
         tail.mirror = false
-        tail.addBox(-1.0f, -1.0f, -14.0f, 3, 3, 15)
+        tail.addBox(-1.0f, -1.0f, -14.0f, 3f, 3f, 15f)
         tail.setInitialRotationPoint(0.0f, 2.0f, -14.0f)
-        tail.setInitialRotationMatrix(
-            Matrix4f().setAndReturn(Quat4f(0.08715574f, 0.0f, 0.0f, 0.9961947f)).transposeAndReturn()
-        )
+        tail.setInitialRotationQuaternion(Quaternion(0.08715574f, 0.0f, 0.0f, 0.9961947f))
         tail.setTextureSize(128, 128)
-        parts[tail.boxName] = tail
+        parts["Tail"] = tail
         bodyLower.addChild(tail)
 
-        val leftBackLeg = MCAModelRenderer(this, "LeftBackLeg", 0, 36)
+        val leftBackLeg = MCAModelRenderer(this, 0, 36)
         leftBackLeg.mirror = false
-        leftBackLeg.addBox(-2.0f, -5.0f, -2.0f, 4, 6, 4)
+        leftBackLeg.addBox(-2.0f, -5.0f, -2.0f, 4f, 6f, 4f)
         leftBackLeg.setInitialRotationPoint(3.0f, -3.5f, -11.0f)
-        leftBackLeg.setInitialRotationMatrix(
-            Matrix4f().setAndReturn(
-                Quat4f(
-                    -0.25881904f,
-                    0.0f,
-                    0.0f,
-                    0.9659258f
-                )
-            ).transposeAndReturn()
-        )
+        leftBackLeg.setInitialRotationQuaternion(Quaternion(0.25881904f, 0.0f, 0.0f, 0.9659258f))
         leftBackLeg.setTextureSize(128, 128)
-        parts[leftBackLeg.boxName] = leftBackLeg
+        parts["LeftBackLeg"] = leftBackLeg
         bodyLower.addChild(leftBackLeg)
 
-        val rightBackLeg = MCAModelRenderer(this, "RightBackLeg", 0, 36)
+        val rightBackLeg = MCAModelRenderer(this, 0, 36)
         rightBackLeg.mirror = false
-        rightBackLeg.addBox(-2.0f, -5.0f, -2.0f, 4, 6, 4)
+        rightBackLeg.addBox(-2.0f, -5.0f, -2.0f, 4f, 6f, 4f)
         rightBackLeg.setInitialRotationPoint(-3.0f, -3.5f, -11.0f)
-        rightBackLeg.setInitialRotationMatrix(
-            Matrix4f().setAndReturn(
-                Quat4f(
-                    -0.25881904f,
-                    0.0f,
-                    0.0f,
-                    0.9659258f
-                )
-            ).transposeAndReturn()
-        )
+        rightBackLeg.setInitialRotationQuaternion(Quaternion(-0.25881904f, 0.0f, 0.0f, 0.9659258f))
         rightBackLeg.setTextureSize(128, 128)
-        parts[rightBackLeg.boxName] = rightBackLeg
+        parts["RightBackLeg"] = rightBackLeg
         bodyLower.addChild(rightBackLeg)
 
-        val snoutUpper = MCAModelRenderer(this, "SnoutUpper", 34, 58)
+        val snoutUpper = MCAModelRenderer(this, 34, 58)
         snoutUpper.mirror = false
-        snoutUpper.addBox(-2.0f, 0.0f, -1.0f, 4, 2, 6)
+        snoutUpper.addBox(-2.0f, 0.0f, -1.0f, 4f, 2f, 6f)
         snoutUpper.setInitialRotationPoint(0.0f, -1.0f, 8.0f)
-        snoutUpper.setInitialRotationMatrix(
-            Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn()
-        )
+        snoutUpper.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         snoutUpper.setTextureSize(128, 128)
-        parts[snoutUpper.boxName] = snoutUpper
+        parts["SnoutUpper"] = snoutUpper
         head.addChild(snoutUpper)
 
-        val snoutLower = MCAModelRenderer(this, "SnoutLower", 58, 59)
+        val snoutLower = MCAModelRenderer(this, 58, 59)
         snoutLower.mirror = false
-        snoutLower.addBox(-2.0f, -2.0f, -1.0f, 4, 2, 5)
+        snoutLower.addBox(-2.0f, -2.0f, -1.0f, 4f, 2f, 5f)
         snoutLower.setInitialRotationPoint(0.0f, -1.0f, 8.0f)
-        snoutLower.setInitialRotationMatrix(
-            Matrix4f().setAndReturn(Quat4f(0.17364818f, 0.0f, 0.0f, 0.9848077f)).transposeAndReturn()
-        )
+        snoutLower.setInitialRotationQuaternion(Quaternion(0.17364818f, 0.0f, 0.0f, 0.9848077f))
         snoutLower.setTextureSize(128, 128)
-        parts[snoutLower.boxName] = snoutLower
+        parts["SnoutLower"] = snoutLower
         head.addChild(snoutLower)
 
-        val rightEar = MCAModelRenderer(this, "RightEar", 0, 0)
+        val rightEar = MCAModelRenderer(this, 0, 0)
         rightEar.mirror = false
-        rightEar.addBox(-1.0f, 0.0f, 0.0f, 2, 2, 1)
+        rightEar.addBox(-1.0f, 0.0f, 0.0f, 2f, 2f, 1f)
         rightEar.setInitialRotationPoint(-2.0f, 3.0f, 1.0f)
-        rightEar.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
+        rightEar.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         rightEar.setTextureSize(128, 128)
-        parts[rightEar.boxName] = rightEar
+        parts["RightEar"] = rightEar
         head.addChild(rightEar)
 
-        val leftEar = MCAModelRenderer(this, "LeftEar", 0, 0)
+        val leftEar = MCAModelRenderer(this, 0, 0)
         leftEar.mirror = false
-        leftEar.addBox(-1.0f, 0.0f, 0.0f, 2, 2, 1)
+        leftEar.addBox(-1.0f, 0.0f, 0.0f, 2f, 2f, 1f)
         leftEar.setInitialRotationPoint(2.0f, 3.0f, 1.0f)
-        leftEar.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
+        leftEar.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         leftEar.setTextureSize(128, 128)
-        parts[leftEar.boxName] = leftEar
+        parts["LeftEar"] = leftEar
         head.addChild(leftEar)
 
-        val rightFrontFoot = MCAModelRenderer(this, "RightFrontFoot", 19, 24)
+        val rightFrontFoot = MCAModelRenderer(this, 19, 24)
         rightFrontFoot.mirror = false
-        rightFrontFoot.addBox(-1.5f, -6.0f, -1.0f, 3, 7, 3)
+        rightFrontFoot.addBox(-1.5f, -6.0f, -1.0f, 3f, 7f, 3f)
         rightFrontFoot.setInitialRotationPoint(0.0f, -7.0f, 0.0f)
-        rightFrontFoot.setInitialRotationMatrix(
-            Matrix4f().setAndReturn(
-                Quat4f(
-                    -0.25881904f,
-                    0.0f,
-                    0.0f,
-                    0.9659258f
-                )
-            ).transposeAndReturn()
-        )
+        rightFrontFoot.setInitialRotationQuaternion(Quaternion(-0.25881904f, 0.0f, 0.0f, 0.9659258f))
         rightFrontFoot.setTextureSize(128, 128)
-        parts[rightFrontFoot.boxName] = rightFrontFoot
+        parts["RightFrontFoot"] = rightFrontFoot
         rightFrontLeg.addChild(rightFrontFoot)
 
-        val lefttFrontFoot = MCAModelRenderer(this, "LefttFrontFoot", 19, 24)
+        val lefttFrontFoot = MCAModelRenderer(this, 19, 24)
         lefttFrontFoot.mirror = false
-        lefttFrontFoot.addBox(-1.5f, -6.0f, -1.0f, 3, 7, 3)
+        lefttFrontFoot.addBox(-1.5f, -6.0f, -1.0f, 3f, 7f, 3f)
         lefttFrontFoot.setInitialRotationPoint(0.0f, -7.0f, 0.0f)
-        lefttFrontFoot.setInitialRotationMatrix(
-            Matrix4f().setAndReturn(
-                Quat4f(
-                    -0.25881904f,
-                    0.0f,
-                    0.0f,
-                    0.9659258f
-                )
-            ).transposeAndReturn()
-        )
+        lefttFrontFoot.setInitialRotationQuaternion(Quaternion(-0.25881904f, 0.0f, 0.0f, 0.9659258f))
         lefttFrontFoot.setTextureSize(128, 128)
-        parts[lefttFrontFoot.boxName] = lefttFrontFoot
+        parts["LefttFrontFoot"] = lefttFrontFoot
         leftFrontLeg.addChild(lefttFrontFoot)
 
-        val leftBackLowerLeg = MCAModelRenderer(this, "LeftBackLowerLeg", 19, 37)
+        val leftBackLowerLeg = MCAModelRenderer(this, 19, 37)
         leftBackLowerLeg.mirror = false
-        leftBackLowerLeg.addBox(-2.0f, -4.5f, -1.5f, 3, 6, 3)
+        leftBackLowerLeg.addBox(-2.0f, -4.5f, -1.5f, 3f, 6f, 3f)
         leftBackLowerLeg.setInitialRotationPoint(0.5f, -5.0f, 0.0f)
-        leftBackLowerLeg.setInitialRotationMatrix(
-            Matrix4f().setAndReturn(
-                Quat4f(
-                    0.47715878f,
-                    0.0f,
-                    0.0f,
-                    0.8788171f
-                )
-            ).transposeAndReturn()
-        )
+        leftBackLowerLeg.setInitialRotationQuaternion(Quaternion(0.47715878f, 0.0f, 0.0f, 0.8788171f))
         leftBackLowerLeg.setTextureSize(128, 128)
-        parts[leftBackLowerLeg.boxName] = leftBackLowerLeg
+        parts["LeftBackLowerLeg"] = leftBackLowerLeg
         leftBackLeg.addChild(leftBackLowerLeg)
 
-        val rightBackLowerLeg = MCAModelRenderer(this, "RightBackLowerLeg", 19, 37)
+        val rightBackLowerLeg = MCAModelRenderer(this, 19, 37)
         rightBackLowerLeg.mirror = false
-        rightBackLowerLeg.addBox(-2.0f, -4.5f, -1.5f, 3, 6, 3)
+        rightBackLowerLeg.addBox(-2.0f, -4.5f, -1.5f, 3f, 6f, 3f)
         rightBackLowerLeg.setInitialRotationPoint(0.5f, -5.0f, 0.0f)
-        rightBackLowerLeg.setInitialRotationMatrix(
-            Matrix4f().setAndReturn(
-                Quat4f(
-                    0.47715878f,
-                    0.0f,
-                    0.0f,
-                    0.8788171f
-                )
-            ).transposeAndReturn()
-        )
+        rightBackLowerLeg.setInitialRotationQuaternion(Quaternion(0.47715878f, 0.0f, 0.0f, 0.8788171f))
         rightBackLowerLeg.setTextureSize(128, 128)
-        parts[rightBackLowerLeg.boxName] = rightBackLowerLeg
+        parts["RightBackLowerLeg"] = rightBackLowerLeg
         rightBackLeg.addChild(rightBackLowerLeg)
 
-        val leftBackFoot = MCAModelRenderer(this, "LeftBackFoot", 35, 38)
+        val leftBackFoot = MCAModelRenderer(this, 35, 38)
         leftBackFoot.mirror = false
-        leftBackFoot.addBox(-1.0f, -5.0f, -1.5f, 3, 5, 3)
+        leftBackFoot.addBox(-1.0f, -5.0f, -1.5f, 3f, 5f, 3f)
         leftBackFoot.setInitialRotationPoint(-1.0f, -4.0f, 0.0f)
-        leftBackFoot.setInitialRotationMatrix(
-            Matrix4f().setAndReturn(
-                Quat4f(
-                    -0.2079117f,
-                    0.0f,
-                    0.0f,
-                    0.9781476f
-                )
-            ).transposeAndReturn()
-        )
+        leftBackFoot.setInitialRotationQuaternion(Quaternion(-0.2079117f, 0.0f, 0.0f, 0.9781476f))
         leftBackFoot.setTextureSize(128, 128)
-        parts[leftBackFoot.boxName] = leftBackFoot
+        parts["LeftBackFoot"] = leftBackFoot
         leftBackLowerLeg.addChild(leftBackFoot)
 
-        val rightBackFoot = MCAModelRenderer(this, "RightBackFoot", 35, 38)
+        val rightBackFoot = MCAModelRenderer(this, 35, 38)
         rightBackFoot.mirror = false
-        rightBackFoot.addBox(-1.0f, -5.0f, -1.5f, 3, 5, 3)
+        rightBackFoot.addBox(-1.0f, -5.0f, -1.5f, 3f, 5f, 3f)
         rightBackFoot.setInitialRotationPoint(-1.0f, -4.0f, 0.0f)
-        rightBackFoot.setInitialRotationMatrix(
-            Matrix4f().setAndReturn(
-                Quat4f(
-                    -0.2079117f,
-                    0.0f,
-                    0.0f,
-                    0.9781476f
-                )
-            ).transposeAndReturn()
-        )
+        rightBackFoot.setInitialRotationQuaternion(Quaternion(-0.2079117f, 0.0f, 0.0f, 0.9781476f))
         rightBackFoot.setTextureSize(128, 128)
-        parts[rightBackFoot.boxName] = rightBackFoot
+        parts["RightBackFoot"] = rightBackFoot
         rightBackLowerLeg.addChild(rightBackFoot)
 
     }
 
-    /**
-     * Called every game tick to render the werewolf model
-     *
-     * @param entityIn        The entity to render, this must be an enchanted skeleton
-     * @param limbSwing       ignored, used only by default MC
-     * @param limbSwingAmount ignored, used only by default MC
-     * @param ageInTicks      ignored, used only by default MC
-     * @param netHeadYaw      ignored, used only by default MC
-     * @param headPitch       ignored, used only by default MC
-     * @param scale           The scale to render the model at
-     */
     override fun render(
-        entityIn: WerewolfEntity,
-        limbSwing: Float,
-        limbSwingAmount: Float,
-        ageInTicks: Float,
-        netHeadYaw: Float,
-        headPitch: Float,
-        scale: Float
+        matrixStack: MatrixStack,
+        vertexBuilder: IVertexBuilder,
+        packedLight: Int,
+        packedOverlay: Int,
+        red: Float,
+        green: Float,
+        blue: Float,
+        alpha: Float
     ) {
-        // Perform the animation
-        (entityIn as IMCAnimatedModel).getAnimationHandler().performAnimationInModel(parts)
+        bodyUpper.render(matrixStack, vertexBuilder, packedLight, packedOverlay, red, green, blue, alpha)
+    }
 
-        // Render the model in its current state
-        bodyUpper.render(scale)
+    override fun setRotationAngles(entity: WerewolfEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float) {
+        (entity as IMCAnimatedModel).getAnimationHandler().performAnimationInModel(parts)
     }
 }

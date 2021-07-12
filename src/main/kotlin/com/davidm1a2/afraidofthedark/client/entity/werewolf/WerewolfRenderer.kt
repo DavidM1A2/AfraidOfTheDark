@@ -1,10 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.entity.werewolf
 
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.WerewolfEntity
+import com.mojang.blaze3d.matrix.MatrixStack
+import net.minecraft.client.renderer.IRenderTypeBuffer
+import net.minecraft.client.renderer.Quaternion
 import net.minecraft.client.renderer.entity.EntityRendererManager
 import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.util.ResourceLocation
-import org.lwjgl.opengl.GL11
 
 /**
  * Renderer class for the werewolf entity
@@ -13,42 +15,23 @@ import org.lwjgl.opengl.GL11
  * @param renderManager The render manager to pass down
  */
 class WerewolfRenderer(renderManager: EntityRendererManager) : MobRenderer<WerewolfEntity, WerewolfModel>(renderManager, WEREWOLF_MODEL, MODEL_SHADOW_SIZE) {
-    /**
-     * Renders the entity at a given position, yaw, and partial ticks parameter
-     *
-     * @param entity       The entity to render
-     * @param posX         The X position of the entity to render at
-     * @param posY         The Y position of the entity to render at
-     * @param posZ         The Z position of the entity to render at
-     * @param entityYaw    The yaw of the entity to render
-     * @param partialTicks The partial ticks that have gone by since the last frame
-     */
-    override fun doRender(
-        entity: WerewolfEntity,
-        posX: Double,
-        posY: Double,
-        posZ: Double,
-        entityYaw: Float,
-        partialTicks: Float
-    ) {
-        GL11.glPushMatrix()
-        GL11.glDisable(GL11.GL_CULL_FACE)
-        entity.getAnimationHandler().update()
-        super.doRender(entity, posX, posY, posZ, entityYaw, partialTicks)
-        GL11.glEnable(GL11.GL_CULL_FACE)
-        GL11.glPopMatrix()
+    override fun preRenderCallback(werewolf: WerewolfEntity, matrixStack: MatrixStack, partialTicks: Float) {
+        matrixStack.rotate(Quaternion(180f, 0f, 1f, 0f))
+        matrixStack.rotate(Quaternion(180f, 0f, 0f, 1f))
+        matrixStack.translate(0.0, MODEL_HEIGHT, 0.0)
     }
 
-    /**
-     * Before rendering the entity transform the rendering openGL state
-     *
-     * @param entityliving    The entity to render
-     * @param partialTickTime The partial ticks that have gone by since the last frame
-     */
-    override fun preRenderCallback(entityliving: WerewolfEntity, partialTickTime: Float) {
-        GL11.glRotatef(180f, 0f, 1f, 0f)
-        GL11.glRotatef(180f, 0f, 0f, 1f)
-        GL11.glTranslatef(0f, MODEL_HEIGHT, 0f)
+    override fun render(
+        werewolf: WerewolfEntity,
+        entityYaw: Float,
+        partialTicks: Float,
+        matrixStack: MatrixStack,
+        renderTypeBuffer: IRenderTypeBuffer,
+        packedLight: Int
+    ) {
+        werewolf.getAnimationHandler().update()
+
+        super.render(werewolf, entityYaw, partialTicks, matrixStack, renderTypeBuffer, packedLight)
     }
 
     /**
@@ -69,7 +52,7 @@ class WerewolfRenderer(renderManager: EntityRendererManager) : MobRenderer<Werew
         private val WEREWOLF_MODEL = WerewolfModel()
 
         // The height of the werewolf model
-        private const val MODEL_HEIGHT = 2.5f
+        private const val MODEL_HEIGHT = 2.5
 
         // The size of the shadow of the model
         private const val MODEL_SHADOW_SIZE = 0.6f
