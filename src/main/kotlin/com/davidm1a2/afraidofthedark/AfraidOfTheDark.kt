@@ -115,6 +115,7 @@ class AfraidOfTheDark {
     fun clientSetupEvent(event: FMLClientSetupEvent) {
         proxy.initializeEntityRenderers()
         proxy.initializeTileEntityRenderers()
+        proxy.initializeBlockRenderTypes()
     }
 
     @SubscribeEvent

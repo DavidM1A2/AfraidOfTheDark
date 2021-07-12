@@ -13,6 +13,7 @@ import com.davidm1a2.afraidofthedark.client.keybindings.KeyInputEventHandler
 import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings
 import com.davidm1a2.afraidofthedark.client.tileEntity.TileEntityVoidChestRenderer
 import com.davidm1a2.afraidofthedark.client.tileEntity.enariasAltar.TileEntityEnariasAltarRenderer
+import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.entity.bolt.*
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EnariaEntity
 import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
@@ -30,6 +31,8 @@ import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screen.ReadBookScreen
 import net.minecraft.client.gui.screen.ReadBookScreen.WrittenBookInfo
+import net.minecraft.client.renderer.RenderType
+import net.minecraft.client.renderer.RenderTypeLookup
 import net.minecraft.client.resources.I18n
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -89,6 +92,13 @@ class ClientProxy : IProxy {
         // A hint book itemstack used purely to open the book GUI, it's never actually given to the player
         val hintBook = createHintBook()
         Minecraft.getInstance().displayGuiScreen(ReadBookScreen(WrittenBookInfo(hintBook)))
+    }
+
+    override fun initializeBlockRenderTypes() {
+        RenderTypeLookup.setRenderLayer(ModBlocks.AMORPHOUS_ELDRITCH_METAL, RenderType.getTranslucent())
+        RenderTypeLookup.setRenderLayer(ModBlocks.VOID_CHEST_PORTAL, RenderType.getTranslucent())
+        RenderTypeLookup.setRenderLayer(ModBlocks.ENARIAS_ALTAR, RenderType.getCutout())
+        RenderTypeLookup.setRenderLayer(ModBlocks.IMBUED_CACTUS, RenderType.getCutout())
     }
 
     private fun createHintBook(): ItemStack {

@@ -27,4 +27,8 @@ class ServerProxy : IProxy {
     override fun showInsanitysHeightsBook() {
         // Not used
     }
+
+    override fun initializeBlockRenderTypes() {
+        // Not used
+    }
 }

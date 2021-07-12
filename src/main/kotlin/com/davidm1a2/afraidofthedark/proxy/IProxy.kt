@@ -35,4 +35,9 @@ interface IProxy {
      * Opens the "Insanity's Heights" book on the client side, does nothing server side
      */
     fun showInsanitysHeightsBook()
+
+    /**
+     * Tells forge what render types special blocks should use
+     */
+    fun initializeBlockRenderTypes()
 }

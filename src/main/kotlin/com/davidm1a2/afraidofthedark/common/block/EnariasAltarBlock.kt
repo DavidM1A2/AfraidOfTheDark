@@ -10,7 +10,7 @@ import net.minecraft.block.material.Material
 import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.BlockRenderLayer
+import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.BlockRayTraceResult
@@ -36,7 +36,7 @@ class EnariasAltarBlock : AOTDTileEntityBlock(
         playerIn: PlayerEntity,
         hand: Hand,
         hit: BlockRayTraceResult
-    ): Boolean {
+    ): ActionResultType {
         // Grab the player's research
         val playerResearch = playerIn.getResearch()
 
@@ -57,11 +57,7 @@ class EnariasAltarBlock : AOTDTileEntityBlock(
                 Minecraft.getInstance().displayGuiScreen(SpellListScreen())
             }
         }
-        return true
-    }
-
-    override fun getRenderLayer(): BlockRenderLayer {
-        return BlockRenderLayer.CUTOUT
+        return ActionResultType.SUCCESS
     }
 
     override fun createTileEntity(state: BlockState, world: IBlockReader): TileEntity {

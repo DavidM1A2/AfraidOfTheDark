@@ -13,6 +13,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItemUseContext
 import net.minecraft.state.StateContainer
 import net.minecraft.tileentity.TileEntity
+import net.minecraft.util.ActionResultType
 import net.minecraft.util.Direction
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
@@ -22,8 +23,6 @@ import net.minecraft.util.math.shapes.VoxelShape
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.IBlockReader
 import net.minecraft.world.World
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.common.ToolType
 
 /**
@@ -48,11 +47,6 @@ class VoidChestBlock : AOTDTileEntityBlock(
         return ToolType.PICKAXE
     }
 
-    @OnlyIn(Dist.CLIENT)
-    override fun hasCustomBreakingProgress(state: BlockState): Boolean {
-        return true
-    }
-
     override fun getRenderType(state: BlockState): BlockRenderType {
         return BlockRenderType.ENTITYBLOCK_ANIMATED
     }
@@ -73,7 +67,7 @@ class VoidChestBlock : AOTDTileEntityBlock(
         playerIn: PlayerEntity,
         hand: Hand,
         result: BlockRayTraceResult
-    ): Boolean {
+    ): ActionResultType {
         // Test if the tile entity at this position is a void chest (it should be!)
         val tileEntity = worldIn.getTileEntity(pos)
         if (tileEntity is VoidChestTileEntity) {
@@ -85,7 +79,7 @@ class VoidChestBlock : AOTDTileEntityBlock(
                 playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.dont_understand"))
             }
         }
-        return true
+        return ActionResultType.SUCCESS
     }
 
     override fun fillStateContainer(builder: StateContainer.Builder<Block, BlockState>) {

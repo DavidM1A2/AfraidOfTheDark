@@ -10,11 +10,8 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.material.Material
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraft.util.BlockRenderLayer
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Class that defines a void chest portal block
@@ -63,10 +60,5 @@ class VoidChestPortalBlock : AOTDBlock(
                 }
             }
         }
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    override fun getRenderLayer(): BlockRenderLayer {
-        return BlockRenderLayer.TRANSLUCENT
     }
 }

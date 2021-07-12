@@ -12,6 +12,7 @@ import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.math.BlockPos
@@ -36,7 +37,7 @@ class LensCutterBlock : AOTDBlock(
         playerIn: PlayerEntity,
         hand: Hand,
         result: BlockRayTraceResult
-    ): Boolean {
+    ): ActionResultType {
         // Server side processing only
         if (!worldIn.isRemote) {
             // Unlock optics if possible
@@ -62,6 +63,6 @@ class LensCutterBlock : AOTDBlock(
             }
         }
 
-        return true
+        return ActionResultType.SUCCESS
     }
 }

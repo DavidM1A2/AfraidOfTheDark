@@ -3,7 +3,6 @@ package com.davidm1a2.afraidofthedark.common.block
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlock
 import net.minecraft.block.BlockState
 import net.minecraft.block.material.Material
-import net.minecraft.util.BlockRenderLayer
 import net.minecraftforge.common.ToolType
 
 /**
@@ -24,9 +23,5 @@ class AmorphousEldritchMetalBlock : AOTDBlock(
 
     override fun getHarvestTool(state: BlockState): ToolType {
         return ToolType.PICKAXE
-    }
-
-    override fun getRenderLayer(): BlockRenderLayer {
-        return BlockRenderLayer.TRANSLUCENT
     }
 }

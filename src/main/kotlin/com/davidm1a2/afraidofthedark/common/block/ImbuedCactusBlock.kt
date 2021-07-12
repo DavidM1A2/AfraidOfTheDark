@@ -12,7 +12,6 @@ import net.minecraft.entity.item.ItemEntity
 import net.minecraft.pathfinding.PathType
 import net.minecraft.state.IntegerProperty
 import net.minecraft.state.StateContainer
-import net.minecraft.util.BlockRenderLayer
 import net.minecraft.util.DamageSource
 import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
@@ -22,6 +21,7 @@ import net.minecraft.world.IBlockReader
 import net.minecraft.world.IWorld
 import net.minecraft.world.IWorldReader
 import net.minecraft.world.World
+import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.common.IPlantable
 import net.minecraftforge.common.PlantType
 import java.util.*
@@ -42,7 +42,7 @@ class ImbuedCactusBlock : AOTDBlock(
         defaultState = this.stateContainer.baseState.with(AGE, 0)
     }
 
-    override fun tick(state: BlockState, world: World, pos: BlockPos, rand: Random) {
+    override fun tick(state: BlockState, world: ServerWorld, pos: BlockPos, rand: Random) {
         if (!world.isAreaLoaded(pos, 1)) {
             return // Forge: prevent growing cactus from loading unloaded chunks with block update
         }
@@ -92,10 +92,6 @@ class ImbuedCactusBlock : AOTDBlock(
         return CACTUS_SHAPE
     }
 
-    override fun isSolid(state: BlockState): Boolean {
-        return true
-    }
-
     override fun updatePostPlacement(
         state: BlockState,
         facing: Direction,
@@ -137,10 +133,6 @@ class ImbuedCactusBlock : AOTDBlock(
         if (entity !is ItemEntity || entity.item.item != ModItems.DESERT_FRUIT) {
             entity.attackEntityFrom(DamageSource.CACTUS, 2.0f)
         }
-    }
-
-    override fun getRenderLayer(): BlockRenderLayer {
-        return BlockRenderLayer.CUTOUT
     }
 
     override fun fillStateContainer(builder: StateContainer.Builder<Block, BlockState>) {

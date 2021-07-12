@@ -18,7 +18,6 @@ import net.minecraft.util.Rotation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockReader
 import net.minecraft.world.IWorld
-import net.minecraft.world.Region
 import net.minecraft.world.World
 import net.minecraft.world.dimension.DimensionType
 import net.minecraftforge.common.ToolType
@@ -73,7 +72,6 @@ class EnariaSpawnerBlock : AOTDTileEntityBlock("enaria_spawner", Properties.crea
     override fun createTileEntity(state: BlockState, world: IBlockReader): TileEntity? {
         val dimType = when (world) {
             is World -> world.dimension.type
-            is Region -> world.dimension.type
             else -> throw IllegalStateException("Can't determine the world type for IBlockReader ${world::class.java.simpleName}")
         }
         // In the overworld we spawn a regular enaria, in the nightmare we spawn a ghastly enaria
