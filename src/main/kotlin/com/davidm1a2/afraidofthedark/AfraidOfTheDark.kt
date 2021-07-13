@@ -21,6 +21,7 @@ import com.davidm1a2.afraidofthedark.common.event.register.DataSerializerRegiste
 import com.davidm1a2.afraidofthedark.common.event.register.DimensionRegister
 import com.davidm1a2.afraidofthedark.common.event.register.EffectRegister
 import com.davidm1a2.afraidofthedark.common.event.register.EntityRegister
+import com.davidm1a2.afraidofthedark.common.event.register.FeatureRegister
 import com.davidm1a2.afraidofthedark.common.event.register.FlammableRegister
 import com.davidm1a2.afraidofthedark.common.event.register.FurnaceFuelRegister
 import com.davidm1a2.afraidofthedark.common.event.register.ItemRegister
@@ -35,7 +36,6 @@ import com.davidm1a2.afraidofthedark.common.event.register.SpellDeliveryMethodRe
 import com.davidm1a2.afraidofthedark.common.event.register.SpellEffectOverrideRegister
 import com.davidm1a2.afraidofthedark.common.event.register.SpellEffectRegister
 import com.davidm1a2.afraidofthedark.common.event.register.SpellPowerSourceRegister
-import com.davidm1a2.afraidofthedark.common.event.register.StructureRegister
 import com.davidm1a2.afraidofthedark.common.event.register.TeleportQueue
 import com.davidm1a2.afraidofthedark.common.event.register.TileEntityRegister
 import com.davidm1a2.afraidofthedark.common.network.packets.packetHandler.PacketHandler
@@ -98,7 +98,7 @@ class AfraidOfTheDark {
         modBus.register(BoltEntryRegister())
         modBus.register(MeteorEntryRegister())
         modBus.register(ParticleRegister())
-        modBus.register(StructureRegister())
+        modBus.register(FeatureRegister())
         modBus.register(dimensionRegister)
         modBus.register(ConfigurationHandler())
         modBus.register(this)

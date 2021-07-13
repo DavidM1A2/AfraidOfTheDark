@@ -13,13 +13,15 @@ import com.davidm1a2.afraidofthedark.common.world.structure.voidchestbox.VoidChe
 import com.davidm1a2.afraidofthedark.common.world.structure.voidchestbox.VoidChestBoxStructurePiece
 import com.davidm1a2.afraidofthedark.common.world.structure.voidchestportal.VoidChestPortalStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.witchhut.WitchHutStructure
+import com.davidm1a2.afraidofthedark.common.world.tree.feature.MangroveTreeFeature
+import com.davidm1a2.afraidofthedark.common.world.tree.feature.SacredMangroveTreeFeature
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.gen.feature.structure.IStructurePieceType
 
 /**
- * A list of structures to be registered
+ * A list of features to be registered
  */
-object ModStructures {
+object ModFeatures {
     val CRYPT = CryptStructure()
     val WITCH_HUT = WitchHutStructure()
     val VOID_CHEST = VoidChestStructure()
@@ -31,7 +33,10 @@ object ModStructures {
     val GNOMISH_CITY = GnomishCityStructure()
     val DESERT_OASIS = DesertOasisStructure()
 
-    val STRUCTURES = arrayOf(
+    val MANGROVE_TREE = MangroveTreeFeature()
+    val SACRED_MANGROVE_TREE = SacredMangroveTreeFeature()
+
+    val FEATURES = arrayOf(
         CRYPT,
         WITCH_HUT,
         VOID_CHEST,
@@ -41,7 +46,9 @@ object ModStructures {
         VOID_CHEST_PORTAL,
         NIGHTMARE_ISLAND,
         GNOMISH_CITY,
-        DESERT_OASIS
+        DESERT_OASIS,
+        MANGROVE_TREE,
+        SACRED_MANGROVE_TREE
     )
 
     val SCHEMATIC_STRUCTURE_PIECE = IStructurePieceType { _, nbt -> SchematicStructurePiece(nbt) }

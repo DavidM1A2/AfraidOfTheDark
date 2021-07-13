@@ -31,8 +31,8 @@ class VoidChestPortalStructure : AOTDStructure<IFeatureConfig>({ IFeatureConfig.
     }
 
     override fun getStartFactory(): IStartFactory {
-        return IStartFactory { structure, chunkX, chunkZ, biome, mutableBoundingBox, reference, seed ->
-            VoidChestPortalStructureStart(structure, chunkX, chunkZ, biome, mutableBoundingBox, reference, seed)
+        return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
+            VoidChestPortalStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
         }
     }
 

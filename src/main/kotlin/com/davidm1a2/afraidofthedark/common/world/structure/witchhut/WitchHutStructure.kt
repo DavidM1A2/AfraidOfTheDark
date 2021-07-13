@@ -34,8 +34,8 @@ class WitchHutStructure : AOTDStructure<MultiplierConfig>({ MultiplierConfig.des
     }
 
     override fun getStartFactory(): IStartFactory {
-        return IStartFactory { structure, chunkX, chunkZ, biome, mutableBoundingBox, reference, seed ->
-            WitchHutStructureStart(structure, chunkX, chunkZ, biome, mutableBoundingBox, reference, seed)
+        return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
+            WitchHutStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
         }
     }
 

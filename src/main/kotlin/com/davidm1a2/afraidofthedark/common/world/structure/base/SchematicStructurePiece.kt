@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.world.structure.base
 
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
+import com.davidm1a2.afraidofthedark.common.constants.ModFeatures
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import com.davidm1a2.afraidofthedark.common.constants.ModStructures
 import com.davidm1a2.afraidofthedark.common.world.schematic.Schematic
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -22,6 +22,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.world.IWorld
+import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.StructurePiece
 import java.util.*
 
@@ -63,7 +64,7 @@ class SchematicStructurePiece : StructurePiece {
         ).map { it to this::fixStairState }.toTypedArray()
     )
 
-    constructor(nbt: CompoundNBT) : super(ModStructures.SCHEMATIC_STRUCTURE_PIECE, nbt) {
+    constructor(nbt: CompoundNBT) : super(ModFeatures.SCHEMATIC_STRUCTURE_PIECE, nbt) {
         val schematicName = nbt.getString(NBT_SCHEMATIC_NAME)
         this.schematic = ModSchematics.NAME_TO_SCHEMATIC[schematicName] ?: throw IllegalStateException("Schematic $schematicName was not found")
         if (nbt.contains(NBT_LOOT_TABLE_NAME)) {
@@ -82,7 +83,7 @@ class SchematicStructurePiece : StructurePiece {
         schematic: Schematic,
         lootTable: LootTable? = null,
         facing: Direction? = null
-    ) : super(ModStructures.SCHEMATIC_STRUCTURE_PIECE, 0) {
+    ) : super(ModFeatures.SCHEMATIC_STRUCTURE_PIECE, 0) {
         this.schematic = schematic
         this.lootTable = lootTable
 
@@ -136,7 +137,13 @@ class SchematicStructurePiece : StructurePiece {
         this.lootTable?.let { tagCompound.putString(NBT_LOOT_TABLE_NAME, it.name) }
     }
 
-    override fun addComponentParts(world: IWorld, random: Random, structureBoundingBox: MutableBoundingBox, chunkPos: ChunkPos): Boolean {
+    override fun create(
+        world: IWorld,
+        chunkGenerator: ChunkGenerator<*>,
+        random: Random,
+        structureBoundingBox: MutableBoundingBox,
+        chunkPos: ChunkPos
+    ): Boolean {
         generateBlocks(world, structureBoundingBox)
         generateTileEntities(world, random, structureBoundingBox)
         generateEntities(world, structureBoundingBox)

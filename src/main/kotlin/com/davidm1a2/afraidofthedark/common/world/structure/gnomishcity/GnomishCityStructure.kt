@@ -49,8 +49,8 @@ class GnomishCityStructure : AOTDStructure<NoFeatureConfig>({ IFeatureConfig.NO_
     }
 
     override fun getStartFactory(): IStartFactory {
-        return IStartFactory { structure, chunkX, chunkZ, biome, mutableBoundingBox, reference, seed ->
-            GnomishCityStructureStart(structure, chunkX, chunkZ, biome, mutableBoundingBox, reference, seed)
+        return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
+            GnomishCityStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
         }
     }
 

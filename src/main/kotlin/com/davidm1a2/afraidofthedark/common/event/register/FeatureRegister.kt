@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
-import com.davidm1a2.afraidofthedark.common.constants.ModStructures
+import com.davidm1a2.afraidofthedark.common.constants.ModFeatures
+import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.gen.feature.Feature
 import net.minecraftforge.event.RegistryEvent
@@ -8,9 +9,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.registries.ForgeRegistries
 
 /**
- * Class used to register our structures into the game
+ * Class used to register our features into the game
  */
-class StructureRegister {
+class FeatureRegister {
     /**
      * Called by forge to register any of our items
      *
@@ -20,14 +21,14 @@ class StructureRegister {
     fun registerItems(event: RegistryEvent.Register<Feature<*>>) {
         val registry = event.registry
 
-        ModStructures.STRUCTURE_PIECES.forEach {
+        ModFeatures.STRUCTURE_PIECES.forEach {
             Registry.register(Registry.STRUCTURE_PIECE, it.first.toString(), it.second)
         }
 
-        registry.registerAll(*ModStructures.STRUCTURES)
+        registry.registerAll(*ModFeatures.FEATURES)
 
         ForgeRegistries.BIOMES.forEach {
-            ModStructures.STRUCTURES.forEach { structure -> structure.setupStructureIn(it) }
+            ModFeatures.FEATURES.filterIsInstance<AOTDStructure<*>>().forEach { structure -> structure.setupStructureIn(it) }
         }
     }
 }

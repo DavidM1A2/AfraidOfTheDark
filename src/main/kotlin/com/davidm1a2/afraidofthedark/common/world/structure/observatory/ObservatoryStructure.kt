@@ -33,8 +33,8 @@ class ObservatoryStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deseri
     }
 
     override fun getStartFactory(): IStartFactory {
-        return IStartFactory { structure, chunkX, chunkZ, biome, mutableBoundingBox, reference, seed ->
-            ObservatoryStructureStart(structure, chunkX, chunkZ, biome, mutableBoundingBox, reference, seed)
+        return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
+            ObservatoryStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
         }
     }
 

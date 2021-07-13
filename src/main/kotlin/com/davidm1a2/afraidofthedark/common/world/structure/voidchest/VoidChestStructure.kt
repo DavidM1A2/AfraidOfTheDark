@@ -30,8 +30,8 @@ class VoidChestStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deserial
     }
 
     override fun getStartFactory(): IStartFactory {
-        return IStartFactory { structure, chunkX, chunkZ, biome, mutableBoundingBox, reference, seed ->
-            VoidChestStructureStart(structure, chunkX, chunkZ, biome, mutableBoundingBox, reference, seed)
+        return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
+            VoidChestStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
         }
     }
 

@@ -15,12 +15,11 @@ class NightmareIslandStructureStart(
     structure: Structure<*>,
     chunkX: Int,
     chunkZ: Int,
-    biomeIn: Biome,
     boundsIn: MutableBoundingBox,
     referenceIn: Int,
     seed: Long
 ) :
-    StructureStart(structure, chunkX, chunkZ, biomeIn, boundsIn, referenceIn, seed) {
+    StructureStart(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
 
     override fun init(generator: ChunkGenerator<*>, templateManagerIn: TemplateManager, centerChunkX: Int, centerChunkZ: Int, biomeIn: Biome) {
         val startX = chunkPosX * 16

@@ -17,8 +17,8 @@ import java.util.*
 import kotlin.math.max
 import kotlin.math.min
 
-class DarkForestStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: Int, biomeIn: Biome, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
-    StructureStart(structure, chunkX, chunkZ, biomeIn, boundsIn, referenceIn, seed) {
+class DarkForestStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: Int, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
+    StructureStart(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
 
     override fun init(generator: ChunkGenerator<*>, templateManagerIn: TemplateManager, centerChunkX: Int, centerChunkZ: Int, biomeIn: Biome) {
         val bedHouseWidth = ModSchematics.BED_HOUSE.getWidth()

@@ -10,7 +10,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import com.davidm1a2.afraidofthedark.common.world.raytrace.NullableEntityRayTraceContext
 import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.AxisAlignedBB
@@ -67,8 +66,7 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
 
         // Perform a ray trace, this will not hit blocks
         val hitLiquids = if (hitLiquids(state.getCurrentStage().deliveryInstance!!)) RayTraceContext.FluidMode.ANY else RayTraceContext.FluidMode.NONE
-        val rayTraceContext = NullableEntityRayTraceContext(startPos, endPos, RayTraceContext.BlockMode.COLLIDER, hitLiquids, entity)
-        val rayTraceResult = world.rayTraceBlocks(rayTraceContext)
+        val rayTraceResult = world.rayTraceBlocks(RayTraceContext(startPos, endPos, RayTraceContext.BlockMode.COLLIDER, hitLiquids, entity))
 
         // Compute the hit vector
         var hitPos = rayTraceResult.hitVec

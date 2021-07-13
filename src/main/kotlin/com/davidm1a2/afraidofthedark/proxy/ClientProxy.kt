@@ -1,6 +1,10 @@
 package com.davidm1a2.afraidofthedark.proxy
 
-import com.davidm1a2.afraidofthedark.client.entity.bolt.*
+import com.davidm1a2.afraidofthedark.client.entity.bolt.IgneousBoltRenderer
+import com.davidm1a2.afraidofthedark.client.entity.bolt.IronBoltRenderer
+import com.davidm1a2.afraidofthedark.client.entity.bolt.SilverBoltRenderer
+import com.davidm1a2.afraidofthedark.client.entity.bolt.StarMetalBoltRenderer
+import com.davidm1a2.afraidofthedark.client.entity.bolt.WoodenBoltRenderer
 import com.davidm1a2.afraidofthedark.client.entity.enaria.EnariaRenderer
 import com.davidm1a2.afraidofthedark.client.entity.enaria.GhastlyEnariaRenderer
 import com.davidm1a2.afraidofthedark.client.entity.enchantedFrog.EnchantedFrogRenderer
@@ -14,19 +18,10 @@ import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings
 import com.davidm1a2.afraidofthedark.client.tileEntity.TileEntityVoidChestRenderer
 import com.davidm1a2.afraidofthedark.client.tileEntity.enariasAltar.TileEntityEnariasAltarRenderer
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import com.davidm1a2.afraidofthedark.common.entity.bolt.*
-import com.davidm1a2.afraidofthedark.common.entity.enaria.EnariaEntity
-import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
-import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
-import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSkeletonEntity
-import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.SpellProjectileEntity
-import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneEntity
-import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneProjectileEntity
-import com.davidm1a2.afraidofthedark.common.entity.werewolf.WerewolfEntity
+import com.davidm1a2.afraidofthedark.common.constants.ModEntities
+import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.event.ResearchOverlayHandler
 import com.davidm1a2.afraidofthedark.common.event.register.ModColorRegister
-import com.davidm1a2.afraidofthedark.common.tileEntity.VoidChestTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.EnariasAltarTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screen.ReadBookScreen
@@ -63,25 +58,25 @@ class ClientProxy : IProxy {
 
     override fun initializeEntityRenderers() {
         // Register all of our renderers
-        RenderingRegistry.registerEntityRenderingHandler(EnchantedSkeletonEntity::class.java) { EnchantedSkeletonRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(WerewolfEntity::class.java) { WerewolfRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(GhastlyEnariaEntity::class.java) { GhastlyEnariaRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(SplinterDroneEntity::class.java) { SplinterDroneRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(SplinterDroneProjectileEntity::class.java) { SplinterDroneProjectileRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(EnariaEntity::class.java) { EnariaRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(WoodenBoltEntity::class.java) { WoodenBoltRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(IronBoltEntity::class.java) { IronBoltRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(SilverBoltEntity::class.java) { SilverBoltRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(IgneousBoltEntity::class.java) { IgneousBoltRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(StarMetalBoltEntity::class.java) { StarMetalBoltRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(SpellProjectileEntity::class.java) { SpellProjectileRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(EnchantedFrogEntity::class.java) { EnchantedFrogRenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.ENCHANTED_SKELETON) { EnchantedSkeletonRenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.WEREWOLF) { WerewolfRenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.GHASTLY_ENARIA) { GhastlyEnariaRenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPLINTER_DRONE) { SplinterDroneRenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPLINTER_DRONE_PROJECTILE) { SplinterDroneProjectileRenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.ENARIA) { EnariaRenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.WOODEN_BOLT) { WoodenBoltRenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.IRON_BOLT) { IronBoltRenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.SILVER_BOLT) { SilverBoltRenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.IGNEOUS_BOLT) { IgneousBoltRenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.STAR_METAL_BOLT) { StarMetalBoltRenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_PROJECTILE) { SpellProjectileRenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.ENCHANTED_FROG) { EnchantedFrogRenderer(it) }
     }
 
     override fun initializeTileEntityRenderers() {
         // Tell MC to render our special tile entities with the special renderer
-        ClientRegistry.bindTileEntitySpecialRenderer(VoidChestTileEntity::class.java, TileEntityVoidChestRenderer())
-        ClientRegistry.bindTileEntitySpecialRenderer(EnariasAltarTileEntity::class.java, TileEntityEnariasAltarRenderer())
+        ClientRegistry.bindTileEntityRenderer(ModTileEntities.VOID_CHEST) { TileEntityVoidChestRenderer(it) }
+        ClientRegistry.bindTileEntityRenderer(ModTileEntities.ENARIAS_ALTAR) { TileEntityEnariasAltarRenderer(it) }
     }
 
     override fun registerKeyBindings() {
@@ -114,7 +109,7 @@ class ClientProxy : IProxy {
         val pages = ListNBT()
         val bookText = I18n.format("nightmarebook.text").split(";;")
         bookText.forEach {
-            pages.add(StringNBT(it))
+            pages.add(StringNBT.valueOf(it))
         }
         return pages
     }

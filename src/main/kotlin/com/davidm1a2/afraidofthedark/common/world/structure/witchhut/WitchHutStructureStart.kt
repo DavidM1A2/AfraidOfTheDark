@@ -11,8 +11,8 @@ import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraft.world.gen.feature.structure.StructureStart
 import net.minecraft.world.gen.feature.template.TemplateManager
 
-class WitchHutStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: Int, biomeIn: Biome, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
-    StructureStart(structure, chunkX, chunkZ, biomeIn, boundsIn, referenceIn, seed) {
+class WitchHutStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: Int, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
+    StructureStart(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
 
     override fun init(generator: ChunkGenerator<*>, templateManagerIn: TemplateManager, centerChunkX: Int, centerChunkZ: Int, biomeIn: Biome) {
         val xPos = centerChunkX * 16
