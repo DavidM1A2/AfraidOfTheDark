@@ -50,6 +50,10 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
     private var playerToSend: PlayerEntity? = null
     private var lastInteraction: Long = 0
 
+    override fun getLidAngle(partialTicks: Float): Float {
+        return this.lidAngle
+    }
+
     /**
      * Called every game tick to update the tile entity
      */
@@ -260,8 +264,8 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
         val friendNBT = ListNBT()
         // For each friend append two new NBTLongs, one for most sig bits and one for least sig bits
         friends.forEach {
-            friendNBT.add(LongNBT(it.leastSignificantBits))
-            friendNBT.add(LongNBT(it.mostSignificantBits))
+            friendNBT.add(LongNBT.valueOf(it.leastSignificantBits))
+            friendNBT.add(LongNBT.valueOf(it.mostSignificantBits))
         }
 
         // Set the friends NBT to be this array
