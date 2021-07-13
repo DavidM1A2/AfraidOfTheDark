@@ -10,7 +10,7 @@ import java.util.*
 
 class SacredMangroveTreeFeature : TreeFeature({ TreeFeatureConfig.func_227338_a_(it) }) {
     init {
-        setRegistryName(Constants.MOD_ID, "mangrove_tree")
+        setRegistryName(Constants.MOD_ID, "sacred_mangrove_tree")
     }
 
     override fun place(
