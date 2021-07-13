@@ -7,9 +7,9 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
+import com.davidm1a2.afraidofthedark.common.utility.Matrix3d
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.Vec3d
-import javax.vecmath.Matrix3d
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -92,31 +92,17 @@ class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Const
                 -axis.y, axis.x, 0.0
             )
 
-            val termTwo = basisMatrix.cloneSafe().apply {
-                mul(sin(radians))
-            }
-            val termThree = basisMatrix.cloneSafe().apply {
-                mul(basisMatrix.cloneSafe())
-                mul(1 - cos(radians))
-            }
-            val rotationMatrix = Matrix3d().apply {
-                setIdentity()
-                add(termTwo)
-                add(termThree)
-            }
+            val termTwo = basisMatrix.clone()
+                .mul(sin(radians))
+            val termThree = basisMatrix.clone()
+                .mul(basisMatrix.clone())
+                .mul(1 - cos(radians))
+            val rotationMatrix = Matrix3d()
+                .setIdentity()
+                .add(termTwo)
+                .add(termThree)
+
             return rotationMatrix.mul(this)
-        }
-
-        private fun Matrix3d.cloneSafe(): Matrix3d {
-            return this.clone() as Matrix3d
-        }
-
-        private fun Matrix3d.mul(vec: Vec3d): Vec3d {
-            return Vec3d(
-                m00 * vec.x + m01 * vec.y + m02 * vec.z,
-                m10 * vec.x + m11 * vec.y + m12 * vec.z,
-                m20 * vec.x + m21 * vec.y + m22 * vec.z,
-            )
         }
     }
 }

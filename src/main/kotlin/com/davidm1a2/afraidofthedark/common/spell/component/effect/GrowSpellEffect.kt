@@ -8,7 +8,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpel
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import net.minecraft.block.IGrowable
 import net.minecraft.util.ResourceLocation
-import net.minecraft.world.World
 
 /**
  * Spell effect that causes growable blocks to grow
@@ -21,7 +20,7 @@ class GrowSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "grow
      * @param instance The instance of the effect
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
-        val world: World = state.world
+        val world = state.world
         var position = state.blockPosition
         var blockState = world.getBlockState(position)
 
