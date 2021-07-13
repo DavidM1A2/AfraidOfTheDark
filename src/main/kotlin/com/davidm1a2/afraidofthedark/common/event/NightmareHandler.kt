@@ -470,8 +470,9 @@ class NightmareHandler {
                     Direction.NORTH
                 )
 
-                enariasAltar.addComponentParts(
+                enariasAltar.create(
                     nightmareWorld,
+                    nightmareWorld.chunkProvider.chunkGenerator,
                     // Random isn't used
                     throwawayRandom,
                     MutableBoundingBox(
