@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.world.tree.feature
 
+import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.world.gen.IWorldGenerationReader
@@ -8,6 +9,10 @@ import net.minecraft.world.gen.feature.TreeFeatureConfig
 import java.util.*
 
 class SacredMangroveTreeFeature : TreeFeature({ TreeFeatureConfig.func_227338_a_(it) }) {
+    init {
+        setRegistryName(Constants.MOD_ID, "mangrove_tree")
+    }
+
     override fun place(
         world: IWorldGenerationReader,
         random: Random,

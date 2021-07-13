@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.world.tree.feature
 
+import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MutableBoundingBox
@@ -10,6 +11,10 @@ import java.util.*
 import kotlin.math.sqrt
 
 class MangroveTreeFeature : AbstractTreeFeature<TreeFeatureConfig>({ TreeFeatureConfig.func_227338_a_(it) }) {
+    init {
+        setRegistryName(Constants.MOD_ID, "mangrove_tree")
+    }
+
     override fun place(
         world: IWorldGenerationReader,
         random: Random,
