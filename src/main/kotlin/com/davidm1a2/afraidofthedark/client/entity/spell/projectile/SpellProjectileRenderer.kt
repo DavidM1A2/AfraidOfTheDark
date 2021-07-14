@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererManager
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.math.Vec3d
 
 /**
  * Renderer class for the spell projectile entity
@@ -25,8 +26,8 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
         packedLight: Int
     ) {
         spellProjectile.getAnimationHandler().update()
-
         val rgb = spellProjectile.getColor()
+        SPELL_PROJECTILE_MODEL.setRotationAngles(spellProjectile, 0f, 0f, 0f, 0f, 0f)
         SPELL_PROJECTILE_MODEL.render(
             matrixStack,
             renderTypeBuffer.getBuffer(RENDER_TYPE),
@@ -37,6 +38,10 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
             rgb.blue / 255f,
             1.0f
         )
+    }
+
+    override fun getRenderOffset(entity: SpellProjectileEntity, partialTicks: Float): Vec3d {
+        return Vec3d(0.0, 0.2, 0.0)
     }
 
     override fun getEntityTexture(entity: SpellProjectileEntity): ResourceLocation {

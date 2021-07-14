@@ -92,7 +92,6 @@ class ClientProxy : IProxy {
     override fun initializeBlockRenderTypes() {
         RenderTypeLookup.setRenderLayer(ModBlocks.AMORPHOUS_ELDRITCH_METAL, RenderType.getTranslucent())
         RenderTypeLookup.setRenderLayer(ModBlocks.VOID_CHEST_PORTAL, RenderType.getTranslucent())
-        RenderTypeLookup.setRenderLayer(ModBlocks.ENARIAS_ALTAR, RenderType.getCutout())
         RenderTypeLookup.setRenderLayer(ModBlocks.IMBUED_CACTUS, RenderType.getCutout())
     }
 
