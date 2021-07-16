@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.EnariasAltarTileEntity
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.material.Material
 import net.minecraft.client.Minecraft
@@ -14,6 +15,8 @@ import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.BlockRayTraceResult
+import net.minecraft.util.math.shapes.ISelectionContext
+import net.minecraft.util.math.shapes.VoxelShape
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.IBlockReader
 import net.minecraft.world.World
@@ -62,5 +65,14 @@ class EnariasAltarBlock : AOTDTileEntityBlock(
 
     override fun createTileEntity(state: BlockState, world: IBlockReader): TileEntity {
         return EnariasAltarTileEntity()
+    }
+
+    override fun getShape(state: BlockState, world: IBlockReader, blockPos: BlockPos, context: ISelectionContext): VoxelShape {
+        return ENARIAS_ALTAR_SHAPE
+    }
+
+    companion object {
+        // For some reason, MC decides to render sides of blocks based on the shape. If the hitbox is not a full cube, we render sides. Make this "almost" a full cube
+        private val ENARIAS_ALTAR_SHAPE = Block.makeCuboidShape(0.001, 0.0, 0.001, 15.999, 15.999, 15.999)
     }
 }

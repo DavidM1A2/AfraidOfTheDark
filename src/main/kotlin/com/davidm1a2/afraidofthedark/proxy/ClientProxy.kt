@@ -93,6 +93,7 @@ class ClientProxy : IProxy {
         RenderTypeLookup.setRenderLayer(ModBlocks.AMORPHOUS_ELDRITCH_METAL, RenderType.getTranslucent())
         RenderTypeLookup.setRenderLayer(ModBlocks.VOID_CHEST_PORTAL, RenderType.getTranslucent())
         RenderTypeLookup.setRenderLayer(ModBlocks.IMBUED_CACTUS, RenderType.getCutout())
+        RenderTypeLookup.setRenderLayer(ModBlocks.IMBUED_CACTUS_BLOSSOM, RenderType.getCutout())
     }
 
     private fun createHintBook(): ItemStack {
