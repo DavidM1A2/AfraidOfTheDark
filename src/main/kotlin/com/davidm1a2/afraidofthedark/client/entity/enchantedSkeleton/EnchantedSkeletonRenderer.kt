@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.client.entity.enchantedSkeleton
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSkeletonEntity
 import com.mojang.blaze3d.matrix.MatrixStack
 import net.minecraft.client.renderer.IRenderTypeBuffer
-import net.minecraft.client.renderer.Quaternion
+import net.minecraft.client.renderer.Vector3f
 import net.minecraft.client.renderer.entity.EntityRendererManager
 import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.util.ResourceLocation
@@ -17,8 +17,8 @@ import net.minecraft.util.ResourceLocation
 class EnchantedSkeletonRenderer(renderManager: EntityRendererManager) :
     MobRenderer<EnchantedSkeletonEntity, EnchantedSkeletonModel>(renderManager, ENCHANTED_SKELETON_MODEL, MODEL_SHADOW_SIZE) {
     override fun preRenderCallback(enchantedSkeleton: EnchantedSkeletonEntity, matrixStack: MatrixStack, partialTicks: Float) {
-        matrixStack.rotate(Quaternion(180f, 0f, 1f, 0f))
-        matrixStack.rotate(Quaternion(180f, 0f, 0f, 1f))
+        matrixStack.rotate(Vector3f.YP.rotationDegrees(180f))
+        matrixStack.rotate(Vector3f.ZP.rotationDegrees(180f))
         matrixStack.translate(0.0, MODEL_HEIGHT, 0.0)
     }
 
