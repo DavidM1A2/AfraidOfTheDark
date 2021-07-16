@@ -82,7 +82,7 @@ class WerewolfModel internal constructor() : EntityModel<WerewolfEntity>() {
         leftBackLeg.mirror = false
         leftBackLeg.addBox(-2.0f, -5.0f, -2.0f, 4f, 6f, 4f)
         leftBackLeg.setInitialRotationPoint(3.0f, -3.5f, -11.0f)
-        leftBackLeg.setInitialRotationQuaternion(Quaternion(0.25881904f, 0.0f, 0.0f, 0.9659258f))
+        leftBackLeg.setInitialRotationQuaternion(Quaternion(-0.25881904f, 0.0f, 0.0f, 0.9659258f))
         leftBackLeg.setTextureSize(128, 128)
         parts["LeftBackLeg"] = leftBackLeg
         bodyLower.addChild(leftBackLeg)
