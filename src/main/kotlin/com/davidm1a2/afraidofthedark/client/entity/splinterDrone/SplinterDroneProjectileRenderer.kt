@@ -26,6 +26,7 @@ class SplinterDroneProjectileRenderer(renderManager: EntityRendererManager) :
         packedLight: Int
     ) {
         splinterDroneProjectile.getAnimationHandler().update()
+        SPLINTER_DRONE_PROJECTILE_MODEL.setRotationAngles(splinterDroneProjectile, 0f, 0f, 0f, 0f, 0f)
 
         SPLINTER_DRONE_PROJECTILE_MODEL.render(
             matrixStack,
