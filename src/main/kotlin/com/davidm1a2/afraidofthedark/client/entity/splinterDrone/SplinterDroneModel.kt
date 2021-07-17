@@ -22,6 +22,9 @@ class SplinterDroneModel internal constructor() : EntityModel<SplinterDroneEntit
     init {
         // Auto-generated from the MCAnimator software
 
+        textureWidth = 64
+        textureHeight = 64
+
         body = MCAModelRenderer(this, 18, 0)
         body.mirror = false
         body.addBox(-4.0f, -12.0f, -4.0f, 8f, 24f, 8f)
