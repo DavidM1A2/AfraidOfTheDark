@@ -9,7 +9,6 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IWorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.IWorldSpellStates
-import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.IWorldStructureCollisionMap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.IWorldStructureMissCounter
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.CapabilityInject
@@ -62,11 +61,6 @@ object ModCapabilities {
     @JvmStatic
     @CapabilityInject(IWorldIslandVisitors::class)
     lateinit var WORLD_ISLAND_VISITORS: Capability<IWorldIslandVisitors>
-
-    // Capability that worlds get which allows them to compute structure collisions
-    @JvmStatic
-    @CapabilityInject(IWorldStructureCollisionMap::class)
-    lateinit var WORLD_STRUCTURE_COLLISION_MAP: Capability<IWorldStructureCollisionMap>
 
     // Capability that worlds get which allows them to get structure miss counters
     @JvmStatic

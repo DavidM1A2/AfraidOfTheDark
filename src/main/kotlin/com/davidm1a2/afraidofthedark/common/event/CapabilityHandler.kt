@@ -39,10 +39,6 @@ class CapabilityHandler {
                 CapabilityProvider(ModCapabilities.WORLD_SPELL_STATES)
             )
             event.addCapability(
-                ResourceLocation(Constants.MOD_ID, "structure_collision_map"),
-                CapabilityProvider(ModCapabilities.WORLD_STRUCTURE_COLLISION_MAP)
-            )
-            event.addCapability(
                 ResourceLocation(Constants.MOD_ID, "structure_miss_counter"),
                 CapabilityProvider(ModCapabilities.WORLD_STRUCTURE_MISS_COUNTER)
             )

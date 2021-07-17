@@ -27,9 +27,6 @@ import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.Wo
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.IWorldSpellStates
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.WorldSpellStates
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.WorldSpellStatesStorage
-import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.IWorldStructureCollisionMap
-import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.WorldStructureCollisionMap
-import com.davidm1a2.afraidofthedark.common.capabilities.world.structureCollisionMap.WorldStructureCollisionMapStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.IWorldStructureMissCounter
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.WorldStructureMissCounter
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.WorldStructureMissCounterStorage
@@ -79,10 +76,6 @@ object CapabilityRegister {
                 IWorldIslandVisitors::class.java,
                 WorldIslandVisitorsStorage()
             ) { WorldIslandVisitors() }
-            CapabilityManager.INSTANCE.register(
-                IWorldStructureCollisionMap::class.java,
-                WorldStructureCollisionMapStorage()
-            ) { WorldStructureCollisionMap() }
             CapabilityManager.INSTANCE.register(
                 IWorldStructureMissCounter::class.java,
                 WorldStructureMissCounterStorage()

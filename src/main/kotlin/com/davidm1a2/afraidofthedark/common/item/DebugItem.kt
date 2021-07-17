@@ -24,6 +24,7 @@ class DebugItem : AOTDItem("debug", Properties().maxStackSize(1), displayInCreat
     override fun onItemRightClick(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
         if (worldIn.isRemote) {
         } else {
+            playerIn.sendMessage(StringTextComponent(worldIn.biomeManager.getBiome(playerIn.position).registryName.toString()))
         }
         return super.onItemRightClick(worldIn, playerIn, handIn)
     }

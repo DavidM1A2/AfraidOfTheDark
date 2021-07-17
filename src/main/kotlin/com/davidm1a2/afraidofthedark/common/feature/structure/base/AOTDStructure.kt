@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.feature.structure.base
 
-import com.davidm1a2.afraidofthedark.common.capabilities.getStructureCollisionMap
 import com.davidm1a2.afraidofthedark.common.capabilities.getStructureMissCounter
 import com.davidm1a2.afraidofthedark.common.feature.structure.WorldHeightmap
 import com.mojang.datafixers.Dynamic
@@ -15,7 +14,6 @@ import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.GenerationStage
 import net.minecraft.world.gen.feature.IFeatureConfig
 import net.minecraft.world.gen.feature.structure.Structure
-import net.minecraft.world.gen.feature.structure.StructureStart
 import net.minecraft.world.gen.placement.IPlacementConfig
 import net.minecraft.world.gen.placement.Placement
 import net.minecraft.world.server.ServerWorld
@@ -71,15 +69,7 @@ abstract class AOTDStructure<T : IFeatureConfig>(configFactory: (Dynamic<*>) -> 
         return if (hasStartAt(world, chunkGenerator, random, currentCount, xPos, zPos)) {
             val structureStart = startFactory.create(this, centerChunkX, centerChunkZ, MutableBoundingBox.getNewBoundingBox(), 0, chunkGenerator.seed)
             structureStart.init(chunkGenerator, (world as ServerWorld).saveHandler.structureTemplateManager, centerChunkX, centerChunkZ, biome)
-            return if (checksCollision) {
-                doesNotCollide(world, structureStart).also {
-                    if (it) {
-                        structureMissCounter.reset(this)
-                    }
-                }
-            } else {
-                true
-            }
+            true
         } else {
             false
         }
@@ -93,18 +83,6 @@ abstract class AOTDStructure<T : IFeatureConfig>(configFactory: (Dynamic<*>) -> 
             GenerationStage.Decoration.TOP_LAYER_MODIFICATION, // Top_Layer_Modification happens last so it has the highest priority
             this.withConfiguration(config).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG))
         )
-    }
-
-    private fun doesNotCollide(worldIn: World, expectedStart: StructureStart): Boolean {
-        val collisionMap = worldIn.getStructureCollisionMap()
-        synchronized(collisionMap) {
-            return if (!collisionMap.isStructureBlocked(expectedStart)) {
-                collisionMap.insertStructure(expectedStart)
-                true
-            } else {
-                false
-            }
-        }
     }
 
     internal fun getEdgeHeights(
