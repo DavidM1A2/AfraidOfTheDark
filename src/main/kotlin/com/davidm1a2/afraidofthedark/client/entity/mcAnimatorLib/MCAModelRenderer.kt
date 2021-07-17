@@ -16,7 +16,7 @@ import kotlin.math.asin
 import kotlin.math.atan2
 
 class MCAModelRenderer(
-    private val model: Model,
+    model: Model,
     private var textureOffsetX: Int,
     private var textureOffsetY: Int
 ) : ModelRenderer(0, 0, 0, 0) {
@@ -28,6 +28,11 @@ class MCAModelRenderer(
     private var defaultRotationPointZ = 0f
     private val cubeList: ObjectList<ModelBox> = ObjectArrayList()
     private val childModels: ObjectList<MCAModelRenderer> = ObjectArrayList()
+
+    val rotation: Quaternion = Quaternion.ONE.copy()
+    private val prevRotation: Quaternion = Quaternion.ONE.copy()
+    var defaultRotation: Quaternion = Quaternion.ONE.copy()
+        private set
 
     override fun copyModelAngles(modelRendererIn: ModelRenderer) {
         this.rotateAngleX = modelRendererIn.rotateAngleX
@@ -109,11 +114,6 @@ class MCAModelRenderer(
         }
     }
 
-    val rotation: Quaternion = Quaternion.ONE.copy()
-    private val prevRotation: Quaternion = Quaternion.ONE.copy()
-    var defaultRotation: Quaternion = Quaternion.ONE.copy()
-        private set
-
     override fun translateRotate(matrixStack: MatrixStack) {
         if (rotation != prevRotation) {
             // See: https://automaticaddison.com/how-to-convert-a-quaternion-into-euler-angles-in-python/
@@ -160,17 +160,26 @@ class MCAModelRenderer(
             for (quad in modelBox.quads) {
                 val vector3f = quad!!.normal.copy()
                 vector3f.transform(matrix3f)
-                val f = vector3f.x
-                val f1 = vector3f.y
-                val f2 = vector3f.z
                 for (i in 0..3) {
                     val vert = quad.vertexPositions[i]
-                    val f3 = vert.position.x / 16.0f
-                    val f4 = vert.position.y / 16.0f
-                    val f5 = vert.position.z / 16.0f
-                    val vector4f = Vector4f(f3, f4, f5, 1.0f)
+                    val vector4f = Vector4f(vert.position.x / 16.0f, vert.position.y / 16.0f, vert.position.z / 16.0f, 1.0f)
                     vector4f.transform(matrix4f)
-                    bufferIn.addVertex(vector4f.x, vector4f.y, vector4f.z, red, green, blue, alpha, vert.textureU, vert.textureV, packedOverlayIn, packedLightIn, f, f1, f2)
+                    bufferIn.addVertex(
+                        vector4f.x,
+                        vector4f.y,
+                        vector4f.z,
+                        red,
+                        green,
+                        blue,
+                        alpha,
+                        vert.textureU,
+                        vert.textureV,
+                        packedOverlayIn,
+                        packedLightIn,
+                        vector3f.x,
+                        vector3f.y,
+                        vector3f.z
+                    )
                 }
             }
         }
@@ -331,7 +340,7 @@ class MCAModelRenderer(
 
     @OnlyIn(Dist.CLIENT)
     internal class PositionTextureVertex(val position: Vector3f, val textureU: Float, val textureV: Float) {
-        constructor(x: Float, y: Float, z: Float, texU: Float, texV: Float) : this(Vector3f(x, y, z), texU, texV) {}
+        constructor(x: Float, y: Float, z: Float, texU: Float, texV: Float) : this(Vector3f(x, y, z), texU, texV)
 
         fun setTextureUV(texU: Float, texV: Float): PositionTextureVertex {
             return PositionTextureVertex(position, texU, texV)
