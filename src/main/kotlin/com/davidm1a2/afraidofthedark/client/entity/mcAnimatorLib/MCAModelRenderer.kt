@@ -10,12 +10,15 @@ import kotlin.math.atan2
 
 class MCAModelRenderer(
     model: Model,
-    xTextureOffset: Int,
-    yTextureOffset: Int
+    private val xTextureOffset: Int,
+    private val yTextureOffset: Int
 ) : ModelRenderer(model, xTextureOffset, yTextureOffset) {
+
     private var defaultRotationPointX = 0f
     private var defaultRotationPointY = 0f
     private var defaultRotationPointZ = 0f
+
+    private val boxQueue: MutableList<Runnable> = mutableListOf()
 
     val rotation: Quaternion = Quaternion.ONE.copy()
     private val prevRotation: Quaternion = Quaternion.ONE.copy()
@@ -63,5 +66,20 @@ class MCAModelRenderer(
 
     fun getRotationPointAsVector(): Vector3f {
         return Vector3f(rotationPointX, rotationPointY, rotationPointZ)
+    }
+
+    override fun setTextureSize(textureWidthIn: Int, textureHeightIn: Int): ModelRenderer {
+        setTextureOffset(textureWidthIn - xTextureOffset, textureHeightIn - yTextureOffset)
+        val ret = super.setTextureSize(-textureWidthIn, -textureHeightIn)
+        boxQueue?.forEach { it.run() }
+        boxQueue?.clear()
+        return ret
+    }
+
+    override fun addBox(x: Float, y: Float, z: Float, width: Float, height: Float, depth: Float): ModelRenderer {
+        boxQueue.add {
+            super.addBox(x + width, y + height, z + depth, -width, -height, -depth)
+        }
+        return this
     }
 }
