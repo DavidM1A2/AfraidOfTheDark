@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.ModFeatures
-import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
+import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.gen.feature.Feature
 import net.minecraftforge.event.RegistryEvent

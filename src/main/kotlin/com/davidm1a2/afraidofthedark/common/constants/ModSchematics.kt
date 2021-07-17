@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.common.world.schematic.Schematic
-import com.davidm1a2.afraidofthedark.common.world.schematic.SchematicBuilder
+import com.davidm1a2.afraidofthedark.common.schematic.Schematic
+import com.davidm1a2.afraidofthedark.common.schematic.SchematicBuilder
 import net.minecraft.util.ResourceLocation
 
 /**

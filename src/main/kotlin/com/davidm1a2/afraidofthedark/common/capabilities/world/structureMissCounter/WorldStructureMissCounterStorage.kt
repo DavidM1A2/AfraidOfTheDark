@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter
 
-import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
+import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.INBT
 import net.minecraft.nbt.ListNBT

@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.command
 
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import com.davidm1a2.afraidofthedark.common.world.schematic.Schematic
-import com.davidm1a2.afraidofthedark.common.world.schematic.SchematicUtils
+import com.davidm1a2.afraidofthedark.common.schematic.Schematic
+import com.davidm1a2.afraidofthedark.common.schematic.SchematicUtils
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.StringArgumentType.getString
