@@ -27,9 +27,9 @@ import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.Wo
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.IWorldSpellStates
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.WorldSpellStates
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.WorldSpellStatesStorage
-import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.IWorldStructureMissCounter
-import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.WorldStructureMissCounter
-import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.WorldStructureMissCounterStorage
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.IWorldMasterChunkMap
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.WorldMasterChunkMap
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.WorldMasterChunkMapStorage
 import net.minecraftforge.common.capabilities.CapabilityManager
 
 object CapabilityRegister {
@@ -77,9 +77,9 @@ object CapabilityRegister {
                 WorldIslandVisitorsStorage()
             ) { WorldIslandVisitors() }
             CapabilityManager.INSTANCE.register(
-                IWorldStructureMissCounter::class.java,
-                WorldStructureMissCounterStorage()
-            ) { WorldStructureMissCounter() }
+                IWorldMasterChunkMap::class.java,
+                WorldMasterChunkMapStorage()
+            ) { WorldMasterChunkMap() }
         }
         isInitialized = true
     }

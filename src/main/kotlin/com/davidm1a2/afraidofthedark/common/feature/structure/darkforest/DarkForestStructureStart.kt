@@ -29,7 +29,7 @@ class DarkForestStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: Int
 
         val posX = chunkPosX * 16
         val posZ = chunkPosZ * 16
-        val posY = darkForest.getEdgeHeights(posX, posZ, generator, world, bedHouseWidth.toInt(), bedHouseLength.toInt()).minOrNull()!! - 1
+        val posY = darkForest.getEdgeHeights(posX, posZ, generator, bedHouseWidth.toInt(), bedHouseLength.toInt()).minOrNull()!! - 1
 
         val width = darkForest.getWidth()
         val length = darkForest.getLength()

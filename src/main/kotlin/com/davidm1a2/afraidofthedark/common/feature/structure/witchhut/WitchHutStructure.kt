@@ -39,7 +39,7 @@ class WitchHutStructure : AOTDStructure<MultiplierConfig>({ MultiplierConfig.des
         }
     }
 
-    override fun hasStartAt(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
+    override fun canBeGenerated(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
         val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, chunkGen).map { it.multiplier }.minOrNull() ?: 0
         // chance = witchHutMultiplier * biomeMultiplier * CHANCE_QUARTIC_COEFFICIENT * missCount^4
         val chance = ModCommonConfiguration.witchHutMultiplier * biomeMultiplier * (CHANCE_QUARTIC_COEFFICIENT * missCount).powOptimized(4)
@@ -47,7 +47,7 @@ class WitchHutStructure : AOTDStructure<MultiplierConfig>({ MultiplierConfig.des
             return false
         }
 
-        val heights = getEdgeHeights(xPos, zPos, chunkGen, worldIn)
+        val heights = getEdgeHeights(xPos, zPos, chunkGen)
         val maxHeight = heights.maxOrNull()!!
         val minHeight = heights.minOrNull()!!
         if (maxHeight - minHeight > 3) {

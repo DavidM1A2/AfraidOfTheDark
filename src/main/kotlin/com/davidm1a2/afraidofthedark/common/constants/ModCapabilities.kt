@@ -9,7 +9,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IWorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.IWorldSpellStates
-import com.davidm1a2.afraidofthedark.common.capabilities.world.structureMissCounter.IWorldStructureMissCounter
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.IWorldMasterChunkMap
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.CapabilityInject
 
@@ -62,8 +62,8 @@ object ModCapabilities {
     @CapabilityInject(IWorldIslandVisitors::class)
     lateinit var WORLD_ISLAND_VISITORS: Capability<IWorldIslandVisitors>
 
-    // Capability that worlds get which allows them to get structure miss counters
+    // Capability that the overwold gets containing a list of master chunks
     @JvmStatic
-    @CapabilityInject(IWorldStructureMissCounter::class)
-    lateinit var WORLD_STRUCTURE_MISS_COUNTER: Capability<IWorldStructureMissCounter>
+    @CapabilityInject(IWorldMasterChunkMap::class)
+    lateinit var WORLD_MASTER_CHUNK_MAP: Capability<IWorldMasterChunkMap>
 }

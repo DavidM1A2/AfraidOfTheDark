@@ -54,7 +54,7 @@ class GnomishCityStructure : AOTDStructure<NoFeatureConfig>({ IFeatureConfig.NO_
         }
     }
 
-    override fun hasStartAt(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
+    override fun canBeGenerated(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
         // chance = gnomishCityFrequency * CHANCE_QUARTIC_COEFFICIENT * missCount^4
         val chance = ModCommonConfiguration.gnomishCityFrequency * (CHANCE_QUARTIC_COEFFICIENT * missCount).powOptimized(4)
         if (random.nextDouble() >= chance) {

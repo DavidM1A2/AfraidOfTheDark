@@ -59,7 +59,7 @@ class DarkForestStructure : AOTDStructure<MultiplierConfig>({ MultiplierConfig.d
         }
     }
 
-    override fun hasStartAt(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
+    override fun canBeGenerated(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
         val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, chunkGen).map { it.multiplier }.minOrNull()!!
         // chance = darkForestMultiplier * biomeMultiplier * CHANCE_QUARTIC_COEFFICIENT * missCount^4
         val chance = ModCommonConfiguration.darkForestMultiplier * biomeMultiplier * (CHANCE_QUARTIC_COEFFICIENT * missCount).powOptimized(4)
@@ -67,7 +67,7 @@ class DarkForestStructure : AOTDStructure<MultiplierConfig>({ MultiplierConfig.d
             return false
         }
 
-        val heights = getEdgeHeights(xPos, zPos, chunkGen, worldIn, bedHouseWidth, bedHouseLength)
+        val heights = getEdgeHeights(xPos, zPos, chunkGen, bedHouseWidth, bedHouseLength)
         val maxHeight = heights.maxOrNull()!!
         val minHeight = heights.minOrNull()!!
         if (maxHeight - minHeight > 8) {

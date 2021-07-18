@@ -35,7 +35,7 @@ class VoidChestStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deserial
         }
     }
 
-    override fun hasStartAt(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
+    override fun canBeGenerated(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
         val isNotSupported = getInteriorConfigEstimate(xPos, zPos, chunkGen).any { !it.supported }
         if (isNotSupported) {
             return false
@@ -47,7 +47,7 @@ class VoidChestStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deserial
             return false
         }
 
-        val heights = getEdgeHeights(xPos, zPos, chunkGen, worldIn)
+        val heights = getEdgeHeights(xPos, zPos, chunkGen)
         val maxHeight = heights.maxOrNull()!!
         val minHeight = heights.minOrNull()!!
         if (maxHeight - minHeight > 8) {

@@ -37,7 +37,7 @@ class NightmareIslandStructure : AOTDStructure<IFeatureConfig>({ IFeatureConfig.
         }
     }
 
-    override fun hasStartAt(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
+    override fun canBeGenerated(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
         val xStart = xPos
         val xEnd = xStart + 15
         val amountOverMultipleOf1000 = xEnd % 1000

@@ -38,7 +38,7 @@ class ObservatoryStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deseri
         }
     }
 
-    override fun hasStartAt(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
+    override fun canBeGenerated(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
         val isNotSupported = getInteriorConfigEstimate(xPos, zPos, chunkGen).any { !it.supported }
         if (isNotSupported) {
             return false
@@ -50,7 +50,7 @@ class ObservatoryStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deseri
             return false
         }
 
-        val heights = getEdgeHeights(xPos, zPos, chunkGen, worldIn)
+        val heights = getEdgeHeights(xPos, zPos, chunkGen)
         val maxHeight = heights.maxOrNull()!!
         val minHeight = heights.minOrNull()!!
         // If there's more than 3 blocks between the top and bottom block it's an invalid place for an observatory because it's not 'flat' enough

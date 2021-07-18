@@ -38,7 +38,7 @@ class DesertOasisStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deseri
         }
     }
 
-    override fun hasStartAt(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
+    override fun canBeGenerated(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
         val numValidTiles = getInteriorConfigEstimate(xPos, zPos, chunkGen).count { it.supported }
         // 66% desert tiles required (there's 9 checked, so 6+ must be valid)
         if (numValidTiles < 6) {

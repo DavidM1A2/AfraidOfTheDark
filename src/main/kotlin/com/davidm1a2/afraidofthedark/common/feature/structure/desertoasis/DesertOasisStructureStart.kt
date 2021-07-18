@@ -4,7 +4,6 @@ import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.SchematicStructurePiece
-import com.davidm1a2.afraidofthedark.common.feature.structure.base.getWorld
 import com.davidm1a2.afraidofthedark.common.schematic.Schematic
 import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
@@ -21,7 +20,7 @@ class DesertOasisStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: In
 
     override fun init(generator: ChunkGenerator<*>, templateManagerIn: TemplateManager, centerChunkX: Int, centerChunkZ: Int, biomeIn: Biome) {
         val cornerPosX = chunkPosX * 16 - ModSchematics.DESERT_OASIS.getWidth() / 2
-        val cornerPosY = (structure as AOTDStructure<*>).getEdgeHeights(chunkPosX * 16, chunkPosZ * 16, generator, generator.getWorld())
+        val cornerPosY = (structure as AOTDStructure<*>).getEdgeHeights(chunkPosX * 16, chunkPosZ * 16, generator)
             .average()
             .roundToInt()
             .minus(18)

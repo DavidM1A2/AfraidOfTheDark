@@ -1,5 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.item
 
+import com.davidm1a2.afraidofthedark.common.capabilities.chunk.StructureGridSize
+import com.davidm1a2.afraidofthedark.common.capabilities.getMasterChunkMap
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import net.minecraft.entity.Entity
@@ -7,6 +9,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.text.StringTextComponent
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
@@ -24,7 +27,14 @@ class DebugItem : AOTDItem("debug", Properties().maxStackSize(1), displayInCreat
     override fun onItemRightClick(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
         if (worldIn.isRemote) {
         } else {
-            playerIn.sendMessage(StringTextComponent(worldIn.biomeManager.getBiome(playerIn.position).registryName.toString()))
+            playerIn.sendMessage(StringTextComponent("Master chunk is: ${worldIn.getMasterChunkMap().getMasterChunkFor(ChunkPos(playerIn.position))}"))
+            playerIn.sendMessage(
+                StringTextComponent(
+                    "Grid square: ${
+                        StructureGridSize.values().map { it.toGridPos(ChunkPos(playerIn.position)) }.joinToString(separator = ", ")
+                    }"
+                )
+            )
         }
         return super.onItemRightClick(worldIn, playerIn, handIn)
     }
