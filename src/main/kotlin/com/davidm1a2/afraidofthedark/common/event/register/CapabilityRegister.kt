@@ -27,9 +27,9 @@ import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.Wo
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.IWorldSpellStates
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.WorldSpellStates
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.WorldSpellStatesStorage
-import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.IWorldMasterChunkMap
-import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.WorldMasterChunkMap
-import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.WorldMasterChunkMapStorage
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.IWorldStructureMapper
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.WorldStructureMapper
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.WorldStructureMapperStorage
 import net.minecraftforge.common.capabilities.CapabilityManager
 
 object CapabilityRegister {
@@ -77,9 +77,9 @@ object CapabilityRegister {
                 WorldIslandVisitorsStorage()
             ) { WorldIslandVisitors() }
             CapabilityManager.INSTANCE.register(
-                IWorldMasterChunkMap::class.java,
-                WorldMasterChunkMapStorage()
-            ) { WorldMasterChunkMap() }
+                IWorldStructureMapper::class.java,
+                WorldStructureMapperStorage()
+            ) { WorldStructureMapper() }
         }
         isInitialized = true
     }

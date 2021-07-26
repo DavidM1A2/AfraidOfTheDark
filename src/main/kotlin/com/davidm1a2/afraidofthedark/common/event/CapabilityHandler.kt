@@ -39,8 +39,8 @@ class CapabilityHandler {
                 CapabilityProvider(ModCapabilities.WORLD_SPELL_STATES)
             )
             event.addCapability(
-                ResourceLocation(Constants.MOD_ID, "master_chunk_map"),
-                CapabilityProvider(ModCapabilities.WORLD_MASTER_CHUNK_MAP)
+                ResourceLocation(Constants.MOD_ID, "structure_mapper"),
+                CapabilityProvider(ModCapabilities.WORLD_STRUCTURE_MAPPER)
             )
 
             if (world.dimension.type == ModDimensions.NIGHTMARE_TYPE || world.dimension.type == ModDimensions.VOID_CHEST_TYPE) {

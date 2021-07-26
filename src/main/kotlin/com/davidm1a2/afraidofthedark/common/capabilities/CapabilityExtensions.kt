@@ -9,7 +9,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IWorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.IWorldSpellStates
-import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.IWorldMasterChunkMap
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.IWorldStructureMapper
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.world.World
@@ -97,8 +97,8 @@ fun World.getIslandVisitors(): IWorldIslandVisitors {
     }
 }
 
-fun World.getMasterChunkMap(): IWorldMasterChunkMap {
-    return this.getCapability(ModCapabilities.WORLD_MASTER_CHUNK_MAP).orElseThrow {
-        IllegalStateException("Could not get world's master chunk map data")
+fun World.getStructureMapper(): IWorldStructureMapper {
+    return this.getCapability(ModCapabilities.WORLD_STRUCTURE_MAPPER).orElseThrow {
+        IllegalStateException("Could not get world's structure mapper data")
     }
 }
