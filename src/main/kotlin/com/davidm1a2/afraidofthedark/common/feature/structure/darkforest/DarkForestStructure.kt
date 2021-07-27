@@ -6,8 +6,8 @@ import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.MultiplierConfig
-import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
+import net.minecraft.world.biome.BiomeManager
 import net.minecraft.world.biome.Biomes
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
@@ -59,10 +59,9 @@ class DarkForestStructure : AOTDStructure<MultiplierConfig>({ MultiplierConfig.d
         }
     }
 
-    override fun canBeGenerated(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
-        val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, chunkGen).map { it.multiplier }.minOrNull()!!
-        // chance = darkForestMultiplier * biomeMultiplier * CHANCE_QUARTIC_COEFFICIENT * missCount^4
-        val chance = ModCommonConfiguration.darkForestMultiplier * biomeMultiplier * (CHANCE_QUARTIC_COEFFICIENT * missCount).powOptimized(4)
+    override fun canFitAt(chunkGen: ChunkGenerator<*>, biomeManager: BiomeManager, random: Random, xPos: Int, zPos: Int): Boolean {
+        val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, chunkGen, biomeManager).map { it.multiplier }.minOrNull()!!
+        val chance = getOneInNChunksChance(300) * ModCommonConfiguration.darkForestMultiplier * biomeMultiplier
         if (random.nextDouble() >= chance) {
             return false
         }
@@ -77,9 +76,6 @@ class DarkForestStructure : AOTDStructure<MultiplierConfig>({ MultiplierConfig.d
     }
 
     companion object {
-        // 4th root of 0.000000000000001
-        private const val CHANCE_QUARTIC_COEFFICIENT = 0.0001778279
-
         // A set of compatible biomes
         private val COMPATIBLE_HOUSE_BIOMES = setOf(
             Biomes.SAVANNA,

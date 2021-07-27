@@ -11,7 +11,6 @@ import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraftforge.common.util.INBTSerializable
 import kotlin.math.min
-import kotlin.math.pow
 
 class StructureMap : INBTSerializable<CompoundNBT> {
     private var root: StructureMapNode? = null
@@ -29,8 +28,17 @@ class StructureMap : INBTSerializable<CompoundNBT> {
         var currentGridNode: StructureMapNode? = root
 
         do {
-            if (currentGridNode!!.getStructure() == structure) {
-                return currentGridNode.getStructurePos()
+            if (currentGridNode!!.hasStructure()) {
+                // If the structure in the current node 1. Matches our structure and 2. Matches the center chunk position, return the position
+                if (currentGridNode.getStructure() == structure) {
+                    val structurePos = currentGridNode.getStructurePos()!!
+                    val structureChunkPos = ChunkPos(structurePos)
+                    if (structureChunkPos == chunkPos) {
+                        return structurePos
+                    }
+                }
+
+                return null
             }
 
             // Find the next quadrant
@@ -80,9 +88,9 @@ class StructureMap : INBTSerializable<CompoundNBT> {
             root!!
         } else {
             // Plan the next child based on which quadrant it is in
-            val relativeGridChunkPos = gridSize.toRelativeGridPos(chunkPos)
-            val currentXQuadrant = Math.floorMod(relativeGridChunkPos.x, 2)
-            val currentZQuadrant = Math.floorMod(relativeGridChunkPos.z, 2)
+            val relativeGridPos = gridSize.toRelativeGridPos(chunkPos)
+            val currentXQuadrant = Math.floorMod(relativeGridPos.x, 2)
+            val currentZQuadrant = Math.floorMod(relativeGridPos.z, 2)
 
             when {
                 currentXQuadrant == 0 && currentZQuadrant == 0 -> {
@@ -129,12 +137,13 @@ class StructureMap : INBTSerializable<CompoundNBT> {
         chunkGenerator: ChunkGenerator<*>,
         gridSize: StructureGridSize
     ) {
-        val absoluteGridChunkPos = gridSize.toAbsoluteGridPos(chunkPos)
         val random = SharedSeedRandom()
-        random.setLargeFeatureSeed(chunkGenerator.seed, absoluteGridChunkPos.x, absoluteGridChunkPos.z)
+        random.setLargeFeatureSeed(chunkGenerator.seed, chunkPos.x, chunkPos.z)
 
-        val centerXPos = absoluteGridChunkPos.xStart + gridSize.blockSize / 2
-        val centerZPos = absoluteGridChunkPos.zStart + gridSize.blockSize / 2
+        val gridPos = gridSize.toAbsoluteGridPos(chunkPos)
+        val cornerChunkPos = gridPos.getStartCornerChunk()
+        val centerXPos = cornerChunkPos.xStart + gridSize.blockSize / 2
+        val centerZPos = cornerChunkPos.zStart + gridSize.blockSize / 2
 
         val possibleStructures = GRID_SIZE_TO_STRUCTURES[gridSize]!!.shuffled(random)
         for (structure in possibleStructures) {
@@ -143,7 +152,7 @@ class StructureMap : INBTSerializable<CompoundNBT> {
             val gridSizeBlocks = gridSize.blockSize
             val wiggleRoom = gridSizeBlocks - structureSize
 
-            val numPlacementAttempts = 4.0.pow(gridSize.ordinal).toInt()
+            val numPlacementAttempts = 4.0.powOptimized(gridSize.ordinal).toInt()
             for (i in 0 until numPlacementAttempts) {
                 val xPosOffset = random.nextInt(wiggleRoom) - wiggleRoom / 2
                 val zPosOffset = random.nextInt(wiggleRoom) - wiggleRoom / 2
@@ -200,6 +209,18 @@ class StructureMap : INBTSerializable<CompoundNBT> {
             } while (currentGridSize != null)
 
             toReturn
+        }
+
+        private fun Double.powOptimized(n: Int): Double {
+            if (n == 0) {
+                return 1.0
+            }
+
+            var result = this
+            for (ignored in 0 until n - 1) {
+                result = result * this
+            }
+            return result
         }
     }
 }

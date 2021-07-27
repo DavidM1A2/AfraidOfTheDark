@@ -4,7 +4,6 @@ import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.INBT
 import net.minecraft.nbt.ListNBT
 import net.minecraft.util.Direction
-import net.minecraft.util.math.ChunkPos
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.util.Constants
 import org.apache.logging.log4j.LogManager
@@ -34,9 +33,9 @@ class WorldStructureMapperStorage : Capability.IStorage<IWorldStructureMapper> {
             // Read structure maps
             val structureMapCoords = nbt.getIntArray(NBT_STRUCTURE_MAP_COORDS_NBT)
             val structureMapData = nbt.getList(NBT_STRUCTURE_MAP_DATA_NBT, Constants.NBT.TAG_COMPOUND)
-            val structureMaps = mutableListOf<Pair<ChunkPos, StructureMap>>()
+            val structureMaps = mutableListOf<Pair<StructureGridPos, StructureMap>>()
             for (i in structureMapCoords.indices step 2) {
-                val chunkPos = ChunkPos(structureMapCoords[i], structureMapCoords[i + 1])
+                val chunkPos = StructureGridPos(structureMapCoords[i], structureMapCoords[i + 1], StructureGridSize.LARGEST_GRID_SIZE)
                 val structureMap = StructureMap().apply { deserializeNBT(structureMapData.getCompound(i / 2)) }
                 structureMaps.add(chunkPos to structureMap)
             }

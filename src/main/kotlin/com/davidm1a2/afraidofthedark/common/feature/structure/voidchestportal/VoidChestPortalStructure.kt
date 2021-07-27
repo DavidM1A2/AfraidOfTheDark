@@ -4,8 +4,8 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
-import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
+import net.minecraft.world.biome.BiomeManager
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.IFeatureConfig
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
@@ -36,11 +36,23 @@ class VoidChestPortalStructure : AOTDStructure<IFeatureConfig>({ IFeatureConfig.
         }
     }
 
-    override fun canBeGenerated(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
-        val xStart = xPos
+    override fun canFitAt(chunkGen: ChunkGenerator<*>, biomeManager: BiomeManager, random: Random, xPos: Int, zPos: Int): Boolean {
+        // no-op, this is only for structures generated via our AOTD quadtree structure mapper
+        return false
+    }
+
+    override fun canBeGenerated(
+        biomeManager: BiomeManager,
+        chunkGenerator: ChunkGenerator<*>,
+        random: Random,
+        centerChunkX: Int,
+        centerChunkZ: Int,
+        biome: Biome
+    ): Boolean {
+        val xStart = centerChunkX * 16
         val xEnd = xStart + 15
         val amountOverMultipleOf1000 = xEnd % 1000
 
-        return zPos == 0 && xStart >= 0 && amountOverMultipleOf1000 >= 16 && amountOverMultipleOf1000 < 32
+        return centerChunkZ * 16 == 0 && xStart >= 0 && amountOverMultipleOf1000 >= 16 && amountOverMultipleOf1000 < 32
     }
 }

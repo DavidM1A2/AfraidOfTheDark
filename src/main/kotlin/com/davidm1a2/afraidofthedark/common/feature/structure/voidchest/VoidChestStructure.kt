@@ -5,8 +5,8 @@ import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.BooleanConfig
-import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
+import net.minecraft.world.biome.BiomeManager
 import net.minecraft.world.biome.Biomes
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
@@ -35,14 +35,13 @@ class VoidChestStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deserial
         }
     }
 
-    override fun canBeGenerated(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
-        val isNotSupported = getInteriorConfigEstimate(xPos, zPos, chunkGen).any { !it.supported }
+    override fun canFitAt(chunkGen: ChunkGenerator<*>, biomeManager: BiomeManager, random: Random, xPos: Int, zPos: Int): Boolean {
+        val isNotSupported = getInteriorConfigEstimate(xPos, zPos, chunkGen, biomeManager).any { !it.supported }
         if (isNotSupported) {
             return false
         }
 
-        // chance = voidChestMultiplier * CHANCE_QUARTIC_COEFFICIENT * missCount^4
-        val chance = ModCommonConfiguration.voidChestMultiplier * (CHANCE_QUARTIC_COEFFICIENT * missCount).powOptimized(4)
+        val chance = getOneInNChunksChance(100) * ModCommonConfiguration.voidChestMultiplier
         if (random.nextDouble() >= chance) {
             return false
         }
@@ -57,9 +56,6 @@ class VoidChestStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deserial
     }
 
     companion object {
-        // 4th root of 0.00000000000009
-        private const val CHANCE_QUARTIC_COEFFICIENT = 0.0005477226
-
         // A set of compatible biomes
         private val COMPATIBLE_BIOMES = setOf(
             Biomes.SNOWY_BEACH,

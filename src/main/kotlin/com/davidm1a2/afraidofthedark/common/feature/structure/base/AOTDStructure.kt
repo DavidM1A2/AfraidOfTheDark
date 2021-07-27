@@ -1,13 +1,14 @@
 package com.davidm1a2.afraidofthedark.common.feature.structure.base
 
-import com.davidm1a2.afraidofthedark.common.feature.structure.WorldHeightmap
+import com.davidm1a2.afraidofthedark.common.capabilities.getStructureMapper
 import com.mojang.datafixers.Dynamic
-import net.minecraft.util.SharedSeedRandom
-import net.minecraft.world.World
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.biome.BiomeManager
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.GenerationStage
+import net.minecraft.world.gen.Heightmap
 import net.minecraft.world.gen.feature.IFeatureConfig
 import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraft.world.gen.placement.IPlacementConfig
@@ -32,6 +33,29 @@ abstract class AOTDStructure<T : IFeatureConfig>(configFactory: (Dynamic<*>) -> 
 
     abstract override fun getStructureName(): String
 
+    /**
+     * Returns true if the structure would logically fit at a given x, z position. This simply considers biomes and heightmap, and nothing else
+     * like structure collisions.
+     *
+     * @param chunkGen The chunk generator used to access heightmap and world info
+     * @param biomeManager The biome manager used to access biome info
+     * @param random A pre-seeded RNG object using the chunk coordinates
+     * @param xPos The x position of the center of the structure
+     * @param zPos The z position of the center of the structure
+     * @return true if the structure would fit at a given location, false otherwise
+     */
+    abstract fun canFitAt(chunkGen: ChunkGenerator<*>, biomeManager: BiomeManager, random: Random, xPos: Int, zPos: Int): Boolean
+
+    /**
+     * Returns true if a structure will be generated in a given chunk
+     *
+     * @param biomeManager The biome manager used to access biome info
+     * @param chunkGenerator The chunk generator used to access heightmap and world info
+     * @param random A pre-seeded RNG object using the chunk coordinates
+     * @param centerChunkX The x position of the chunk that the structure could be in
+     * @param centerChunkZ The z position of the chunk that the structure could be in
+     * @param biome The biome in the center of the chunk
+     */
     override fun canBeGenerated(
         biomeManager: BiomeManager,
         chunkGenerator: ChunkGenerator<*>,
@@ -40,16 +64,16 @@ abstract class AOTDStructure<T : IFeatureConfig>(configFactory: (Dynamic<*>) -> 
         centerChunkZ: Int,
         biome: Biome
     ): Boolean {
-        (random as SharedSeedRandom).setLargeFeatureSeed(chunkGenerator.seed, centerChunkX, centerChunkZ)
-
-        val xPos = centerChunkX * 16
-        val zPos = centerChunkZ * 16
         val world = chunkGenerator.getWorld()
+        val chunkPos = ChunkPos(centerChunkX, centerChunkZ)
+        val structureMapper = world.getStructureMapper()
+        synchronized(structureMapper) {
+            val structureMap = structureMapper.getStructureMapFor(chunkPos)
 
-        return canBeGenerated(world, chunkGenerator, random, 0, xPos, zPos)
+            structureMap.planStructuresIn(chunkPos, biomeManager, chunkGenerator)
+            return structureMap.getStructureCenterIn(chunkPos, this) != null
+        }
     }
-
-    abstract fun canBeGenerated(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean
 
     fun addToBiome(biome: Biome, config: T) {
         biome.addStructure(this.withConfiguration(config))
@@ -66,17 +90,16 @@ abstract class AOTDStructure<T : IFeatureConfig>(configFactory: (Dynamic<*>) -> 
         width: Int = getWidth(),
         length: Int = getLength()
     ): Sequence<Int> {
-        val world = chunkGen.getWorld()
         return sequence {
-            yield(WorldHeightmap.getHeight(x - width / 2, z - length / 2, world, chunkGen))
-            yield(WorldHeightmap.getHeight(x + width / 2, z - length / 2, world, chunkGen))
-            yield(WorldHeightmap.getHeight(x - width / 2, z + length / 2, world, chunkGen))
-            yield(WorldHeightmap.getHeight(x + width / 2, z + length / 2, world, chunkGen))
-            yield(WorldHeightmap.getHeight(x, z - length / 2, world, chunkGen))
-            yield(WorldHeightmap.getHeight(x, z + length / 2, world, chunkGen))
-            yield(WorldHeightmap.getHeight(x - width / 2, z, world, chunkGen))
-            yield(WorldHeightmap.getHeight(x + width / 2, z, world, chunkGen))
-            yield(WorldHeightmap.getHeight(x, z, world, chunkGen))
+            yield(chunkGen.func_222532_b(x - width / 2, z - length / 2, Heightmap.Type.WORLD_SURFACE_WG))
+            yield(chunkGen.func_222532_b(x + width / 2, z - length / 2, Heightmap.Type.WORLD_SURFACE_WG))
+            yield(chunkGen.func_222532_b(x - width / 2, z + length / 2, Heightmap.Type.WORLD_SURFACE_WG))
+            yield(chunkGen.func_222532_b(x + width / 2, z + length / 2, Heightmap.Type.WORLD_SURFACE_WG))
+            yield(chunkGen.func_222532_b(x, z - length / 2, Heightmap.Type.WORLD_SURFACE_WG))
+            yield(chunkGen.func_222532_b(x, z + length / 2, Heightmap.Type.WORLD_SURFACE_WG))
+            yield(chunkGen.func_222532_b(x - width / 2, z, Heightmap.Type.WORLD_SURFACE_WG))
+            yield(chunkGen.func_222532_b(x + width / 2, z, Heightmap.Type.WORLD_SURFACE_WG))
+            yield(chunkGen.func_222532_b(x, z, Heightmap.Type.WORLD_SURFACE_WG))
         }
     }
 
@@ -84,16 +107,15 @@ abstract class AOTDStructure<T : IFeatureConfig>(configFactory: (Dynamic<*>) -> 
         x: Int,
         z: Int,
         chunkGen: ChunkGenerator<*>,
+        biomeManager: BiomeManager,
         width: Int = getWidth(),
         length: Int = getLength(),
         stepNum: Int = 1
     ): Sequence<T> {
-        val biomeProvider = chunkGen.biomeProvider
         return sequence {
             for (xPos in x until x + width step stepNum) {
                 for (zPos in z until z + length step stepNum) {
-                    val biome = biomeProvider.getNoiseBiome(xPos, 0, zPos)
-                    yield(chunkGen.getStructureConfig(biome, this@AOTDStructure))
+                    yield(chunkGen.getStructureConfig(biomeManager.getBiome(BlockPos(xPos, 0, zPos)), this@AOTDStructure))
                 }
             }
         }.filterNotNull()
@@ -103,28 +125,24 @@ abstract class AOTDStructure<T : IFeatureConfig>(configFactory: (Dynamic<*>) -> 
         x: Int,
         z: Int,
         chunkGen: ChunkGenerator<*>,
+        biomeManager: BiomeManager,
         width: Int = getWidth(),
         length: Int = getLength()
     ): Sequence<T> {
-        val biomeProvider = chunkGen.biomeProvider
         return sequence {
-            yield(chunkGen.getStructureConfig(biomeProvider.getNoiseBiome(x - width / 2, 0, z - length / 2), this@AOTDStructure))
-            yield(chunkGen.getStructureConfig(biomeProvider.getNoiseBiome(x + width / 2, 0, z - length / 2), this@AOTDStructure))
-            yield(chunkGen.getStructureConfig(biomeProvider.getNoiseBiome(x - width / 2, 0, z + length / 2), this@AOTDStructure))
-            yield(chunkGen.getStructureConfig(biomeProvider.getNoiseBiome(x + width / 2, 0, z + length / 2), this@AOTDStructure))
-            yield(chunkGen.getStructureConfig(biomeProvider.getNoiseBiome(x, 0, z - length / 2), this@AOTDStructure))
-            yield(chunkGen.getStructureConfig(biomeProvider.getNoiseBiome(x, 0, z + length / 2), this@AOTDStructure))
-            yield(chunkGen.getStructureConfig(biomeProvider.getNoiseBiome(x - width / 2, 0, z), this@AOTDStructure))
-            yield(chunkGen.getStructureConfig(biomeProvider.getNoiseBiome(x + width / 2, 0, z), this@AOTDStructure))
-            yield(chunkGen.getStructureConfig(biomeProvider.getNoiseBiome(x, 0, z), this@AOTDStructure))
+            yield(chunkGen.getStructureConfig(biomeManager.getBiome(BlockPos(x - width / 2, 0, z - length / 2)), this@AOTDStructure))
+            yield(chunkGen.getStructureConfig(biomeManager.getBiome(BlockPos(x + width / 2, 0, z - length / 2)), this@AOTDStructure))
+            yield(chunkGen.getStructureConfig(biomeManager.getBiome(BlockPos(x - width / 2, 0, z + length / 2)), this@AOTDStructure))
+            yield(chunkGen.getStructureConfig(biomeManager.getBiome(BlockPos(x + width / 2, 0, z + length / 2)), this@AOTDStructure))
+            yield(chunkGen.getStructureConfig(biomeManager.getBiome(BlockPos(x, 0, z - length / 2)), this@AOTDStructure))
+            yield(chunkGen.getStructureConfig(biomeManager.getBiome(BlockPos(x, 0, z + length / 2)), this@AOTDStructure))
+            yield(chunkGen.getStructureConfig(biomeManager.getBiome(BlockPos(x - width / 2, 0, z)), this@AOTDStructure))
+            yield(chunkGen.getStructureConfig(biomeManager.getBiome(BlockPos(x + width / 2, 0, z)), this@AOTDStructure))
+            yield(chunkGen.getStructureConfig(biomeManager.getBiome(BlockPos(x, 0, z)), this@AOTDStructure))
         }.filterNotNull()
     }
 
-    protected fun Double.powOptimized(n: Int): Double {
-        var result = this
-        for (ignored in 0 until n - 1) {
-            result = result * this
-        }
-        return result
+    protected fun getOneInNChunksChance(n: Int): Double {
+        return 1.0 / n
     }
 }

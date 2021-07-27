@@ -5,8 +5,8 @@ import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.BooleanConfig
-import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
+import net.minecraft.world.biome.BiomeManager
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
@@ -38,15 +38,14 @@ class DesertOasisStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deseri
         }
     }
 
-    override fun canBeGenerated(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
-        val numValidTiles = getInteriorConfigEstimate(xPos, zPos, chunkGen).count { it.supported }
+    override fun canFitAt(chunkGen: ChunkGenerator<*>, biomeManager: BiomeManager, random: Random, xPos: Int, zPos: Int): Boolean {
+        val numValidTiles = getInteriorConfigEstimate(xPos, zPos, chunkGen, biomeManager).count { it.supported }
         // 66% desert tiles required (there's 9 checked, so 6+ must be valid)
         if (numValidTiles < 6) {
             return false
         }
 
-        // chance = desertOasisMultiplier * CHANCE_QUARTIC_COEFFICIENT * missCount^4
-        val chance = ModCommonConfiguration.desertOasisMultiplier * (CHANCE_QUARTIC_COEFFICIENT * missCount).powOptimized(4)
+        val chance = getOneInNChunksChance(250) * ModCommonConfiguration.desertOasisMultiplier
         if (random.nextDouble() >= chance) {
             return false
         }
@@ -54,9 +53,6 @@ class DesertOasisStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deseri
     }
 
     companion object {
-        // 4th root of 0.0000000000000005
-        private const val CHANCE_QUARTIC_COEFFICIENT = 0.0001495349
-
         private val VALID_BIOME_CATEGORIES = setOf(
             Biome.Category.DESERT,
             Biome.Category.RIVER

@@ -5,6 +5,6 @@ import net.minecraft.util.math.ChunkPos
 interface IWorldStructureMapper {
     fun getStructureMapFor(chunkPos: ChunkPos): StructureMap
 
-    fun setStructureMaps(structureMaps: List<Pair<ChunkPos, StructureMap>>)
-    fun getStructureMaps(): List<Pair<ChunkPos, StructureMap>>
+    fun setStructureMaps(structureMaps: List<Pair<StructureGridPos, StructureMap>>)
+    fun getStructureMaps(): List<Pair<StructureGridPos, StructureMap>>
 }

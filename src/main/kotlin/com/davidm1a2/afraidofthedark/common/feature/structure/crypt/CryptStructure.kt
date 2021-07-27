@@ -6,8 +6,8 @@ import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.MultiplierConfig
-import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
+import net.minecraft.world.biome.BiomeManager
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
@@ -43,10 +43,9 @@ class CryptStructure : AOTDStructure<MultiplierConfig>({ MultiplierConfig.deseri
         }
     }
 
-    override fun canBeGenerated(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
-        val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, chunkGen).map { it.multiplier }.minOrNull() ?: 0
-        // chance = cryptMultiplier * biomeMultiplier * CHANCE_QUARTIC_COEFFICIENT * missCount^4
-        val chance = ModCommonConfiguration.cryptMultiplier * biomeMultiplier * (CHANCE_QUARTIC_COEFFICIENT * missCount).powOptimized(4)
+    override fun canFitAt(chunkGen: ChunkGenerator<*>, biomeManager: BiomeManager, random: Random, xPos: Int, zPos: Int): Boolean {
+        val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, chunkGen, biomeManager).map { it.multiplier }.minOrNull() ?: 0
+        val chance = getOneInNChunksChance(1) * ModCommonConfiguration.cryptMultiplier * biomeMultiplier
         if (random.nextDouble() >= chance) {
             return false
         }
@@ -61,8 +60,6 @@ class CryptStructure : AOTDStructure<MultiplierConfig>({ MultiplierConfig.deseri
     }
 
     companion object {
-        // 4th root of 0.00000000000003
-        private const val CHANCE_QUARTIC_COEFFICIENT = 0.0004161791
         private val INCOMPATIBLE_BIOMES = setOf(
             Biome.Category.BEACH,
             Biome.Category.EXTREME_HILLS,

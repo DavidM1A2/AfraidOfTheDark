@@ -4,8 +4,8 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
-import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
+import net.minecraft.world.biome.BiomeManager
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.IFeatureConfig
 import net.minecraft.world.gen.feature.NoFeatureConfig
@@ -54,9 +54,8 @@ class GnomishCityStructure : AOTDStructure<NoFeatureConfig>({ IFeatureConfig.NO_
         }
     }
 
-    override fun canBeGenerated(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
-        // chance = gnomishCityFrequency * CHANCE_QUARTIC_COEFFICIENT * missCount^4
-        val chance = ModCommonConfiguration.gnomishCityFrequency * (CHANCE_QUARTIC_COEFFICIENT * missCount).powOptimized(4)
+    override fun canFitAt(chunkGen: ChunkGenerator<*>, biomeManager: BiomeManager, random: Random, xPos: Int, zPos: Int): Boolean {
+        val chance = getOneInNChunksChance(1000) * ModCommonConfiguration.gnomishCityFrequency
         if (random.nextDouble() >= chance) {
             return false
         }
@@ -65,9 +64,6 @@ class GnomishCityStructure : AOTDStructure<NoFeatureConfig>({ IFeatureConfig.NO_
     }
 
     companion object {
-        // 4th root of 0.0000000000000001
-        private const val CHANCE_QUARTIC_COEFFICIENT = 0.0001
-
         private val VALID_BIOME_CATEGORIES = listOf(
             Biome.Category.TAIGA,
             Biome.Category.EXTREME_HILLS,

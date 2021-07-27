@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.capabilities.chunk.StructureGridSize
-import com.davidm1a2.afraidofthedark.common.capabilities.getMasterChunkMap
+import com.davidm1a2.afraidofthedark.common.capabilities.getStructureMapper
+import com.davidm1a2.afraidofthedark.common.constants.ModFeatures
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import net.minecraft.entity.Entity
@@ -27,14 +27,12 @@ class DebugItem : AOTDItem("debug", Properties().maxStackSize(1), displayInCreat
     override fun onItemRightClick(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
         if (worldIn.isRemote) {
         } else {
-            playerIn.sendMessage(StringTextComponent("Master chunk is: ${worldIn.getMasterChunkMap().getMasterChunkFor(ChunkPos(playerIn.position))}"))
-            playerIn.sendMessage(
-                StringTextComponent(
-                    "Grid square: ${
-                        StructureGridSize.values().map { it.toGridPos(ChunkPos(playerIn.position)) }.joinToString(separator = ", ")
-                    }"
-                )
-            )
+            val mapper = worldIn.getStructureMapper()
+            synchronized(mapper) {
+                val nap = mapper.getStructureMapFor(ChunkPos(playerIn.position))
+                val center = nap.getStructureCenterIn(ChunkPos(playerIn.position), ModFeatures.CRYPT)
+                playerIn.sendMessage(StringTextComponent("Center is at $center"))
+            }
         }
         return super.onItemRightClick(worldIn, playerIn, handIn)
     }

@@ -11,7 +11,7 @@ enum class StructureGridSize(val blockSize: Int, val nextSizeDown: StructureGrid
 
     val chunkSize = blockSize / 16
 
-    fun toAbsoluteGridPos(chunkPos: ChunkPos): ChunkPos {
+    fun toAbsoluteGridPos(chunkPos: ChunkPos): StructureGridPos {
         val xChunkPos = if (chunkPos.x < 0) {
             chunkPos.x - chunkSize + 1
         } else {
@@ -24,13 +24,13 @@ enum class StructureGridSize(val blockSize: Int, val nextSizeDown: StructureGrid
             chunkPos.z
         }
 
-        return ChunkPos(xChunkPos / chunkSize, zChunkPos / chunkSize)
+        return StructureGridPos(xChunkPos / chunkSize, zChunkPos / chunkSize, this)
     }
 
-    fun toRelativeGridPos(chunkPos: ChunkPos): ChunkPos {
-        val absolute = toAbsoluteGridPos(chunkPos)
+    fun toRelativeGridPos(chunkPos: ChunkPos): StructureGridPos {
+        val absoluteGridPos = toAbsoluteGridPos(chunkPos)
         val maxChunkSize = LARGEST_GRID_SIZE.chunkSize / chunkSize
-        return ChunkPos(Math.floorMod(absolute.x, maxChunkSize), Math.floorMod(absolute.z, maxChunkSize))
+        return StructureGridPos(Math.floorMod(absoluteGridPos.x, maxChunkSize), Math.floorMod(absoluteGridPos.z, maxChunkSize), this)
     }
 
     companion object {

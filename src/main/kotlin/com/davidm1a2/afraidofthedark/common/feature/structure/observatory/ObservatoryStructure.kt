@@ -5,8 +5,8 @@ import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.BooleanConfig
-import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
+import net.minecraft.world.biome.BiomeManager
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
@@ -38,14 +38,13 @@ class ObservatoryStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deseri
         }
     }
 
-    override fun canBeGenerated(worldIn: World, chunkGen: ChunkGenerator<*>, random: Random, missCount: Int, xPos: Int, zPos: Int): Boolean {
-        val isNotSupported = getInteriorConfigEstimate(xPos, zPos, chunkGen).any { !it.supported }
+    override fun canFitAt(chunkGen: ChunkGenerator<*>, biomeManager: BiomeManager, random: Random, xPos: Int, zPos: Int): Boolean {
+        val isNotSupported = getInteriorConfigEstimate(xPos, zPos, chunkGen, biomeManager).any { !it.supported }
         if (isNotSupported) {
             return false
         }
 
-        // chance = observatoryMultiplier * biomeMultiplier * CHANCE_QUARTIC_COEFFICIENT * missCount^4
-        val chance = ModCommonConfiguration.observatoryMultiplier * (CHANCE_QUARTIC_COEFFICIENT * missCount).powOptimized(4)
+        val chance = getOneInNChunksChance(50) * ModCommonConfiguration.observatoryMultiplier
         if (random.nextDouble() >= chance) {
             return false
         }
@@ -59,10 +58,5 @@ class ObservatoryStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deseri
             return false
         }
         return true
-    }
-
-    companion object {
-        // 4th root of 0.0000000000001
-        private const val CHANCE_QUARTIC_COEFFICIENT = 0.0005623413
     }
 }

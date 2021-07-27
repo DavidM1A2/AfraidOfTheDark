@@ -2,32 +2,27 @@ package com.davidm1a2.afraidofthedark.common.feature.structure.gnomishcity
 
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import com.davidm1a2.afraidofthedark.common.feature.structure.WorldHeightmap
+import com.davidm1a2.afraidofthedark.common.feature.structure.AOTDStructureStart
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.SchematicStructurePiece
-import com.davidm1a2.afraidofthedark.common.feature.structure.base.getWorld
 import net.minecraft.util.Direction
 import net.minecraft.util.math.MutableBoundingBox
-import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.Heightmap
 import net.minecraft.world.gen.feature.structure.Structure
-import net.minecraft.world.gen.feature.structure.StructureStart
-import net.minecraft.world.gen.feature.template.TemplateManager
 import kotlin.math.min
 
 class GnomishCityStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: Int, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
-    StructureStart(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
+    AOTDStructureStart(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
 
-    override fun init(generator: ChunkGenerator<*>, templateManagerIn: TemplateManager, centerChunkX: Int, centerChunkZ: Int, biomeIn: Biome) {
+    override fun init(generator: ChunkGenerator<*>, xPos: Int, zPos: Int) {
         val gnomishCity = structure as AOTDStructure<*>
         val width = gnomishCity.getWidth()
         val length = gnomishCity.getLength()
 
-        val cornerPosX = chunkPosX * 16 - width / 2
+        val cornerPosX = xPos - width / 2
         val cornerPosY = 5
-        val cornerPosZ = chunkPosZ * 16 - length / 2
-
-        val world = generator.getWorld()
+        val cornerPosZ = zPos - length / 2
 
         // Compute the stairs from surface to level 1, can be a random room
         val stairSurfaceTo1 = rand.nextInt(9)
@@ -84,11 +79,19 @@ class GnomishCityStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: In
                             val stairwell = ModSchematics.STAIRWELL
 
                             val groundHeight = listOf(
-                                WorldHeightmap.getHeight(stairwellX, stairwellZ, world, generator),
-                                WorldHeightmap.getHeight(stairwellX + stairwell.getWidth() - 1, stairwellZ, world, generator),
-                                WorldHeightmap.getHeight(stairwellX, stairwellZ + stairwell.getLength() - 1, world, generator),
-                                WorldHeightmap.getHeight(stairwellX + stairwell.getWidth() - 1, stairwellZ + stairwell.getLength() - 1, world, generator),
-                                WorldHeightmap.getHeight(stairwellX + stairwell.getWidth() / 2, stairwellZ + stairwell.getLength() / 2, world, generator)
+                                generator.func_222532_b(stairwellX, stairwellZ, Heightmap.Type.WORLD_SURFACE_WG),
+                                generator.func_222532_b(stairwellX + stairwell.getWidth() - 1, stairwellZ, Heightmap.Type.WORLD_SURFACE_WG),
+                                generator.func_222532_b(stairwellX, stairwellZ + stairwell.getLength() - 1, Heightmap.Type.WORLD_SURFACE_WG),
+                                generator.func_222532_b(
+                                    stairwellX + stairwell.getWidth() - 1,
+                                    stairwellZ + stairwell.getLength() - 1,
+                                    Heightmap.Type.WORLD_SURFACE_WG
+                                ),
+                                generator.func_222532_b(
+                                    stairwellX + stairwell.getWidth() / 2,
+                                    stairwellZ + stairwell.getLength() / 2,
+                                    Heightmap.Type.WORLD_SURFACE_WG
+                                )
                             ).maxOrNull()!!
 
                             var stairwellTop = stairwellY

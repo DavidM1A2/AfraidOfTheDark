@@ -2,30 +2,28 @@ package com.davidm1a2.afraidofthedark.common.feature.structure.desertoasis
 
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.common.feature.structure.AOTDStructureStart
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.SchematicStructurePiece
 import com.davidm1a2.afraidofthedark.common.schematic.Schematic
 import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MutableBoundingBox
-import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure
-import net.minecraft.world.gen.feature.structure.StructureStart
-import net.minecraft.world.gen.feature.template.TemplateManager
 import kotlin.math.roundToInt
 
 class DesertOasisStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: Int, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
-    StructureStart(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
+    AOTDStructureStart(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
 
-    override fun init(generator: ChunkGenerator<*>, templateManagerIn: TemplateManager, centerChunkX: Int, centerChunkZ: Int, biomeIn: Biome) {
-        val cornerPosX = chunkPosX * 16 - ModSchematics.DESERT_OASIS.getWidth() / 2
-        val cornerPosY = (structure as AOTDStructure<*>).getEdgeHeights(chunkPosX * 16, chunkPosZ * 16, generator)
+    override fun init(generator: ChunkGenerator<*>, xPos: Int, zPos: Int) {
+        val cornerPosX = xPos - ModSchematics.DESERT_OASIS.getWidth() / 2
+        val cornerPosY = (structure as AOTDStructure<*>).getEdgeHeights(xPos, zPos, generator)
             .average()
             .roundToInt()
             .minus(18)
             .coerceIn(0, 255)
-        val cornerPosZ = chunkPosZ * 16 - ModSchematics.DESERT_OASIS.getLength() / 2
+        val cornerPosZ = zPos - ModSchematics.DESERT_OASIS.getLength() / 2
 
         this.components.add(
             SchematicStructurePiece(
