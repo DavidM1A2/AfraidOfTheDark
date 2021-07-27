@@ -44,7 +44,7 @@ class ObservatoryStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deseri
             return false
         }
 
-        val chance = getOneInNChunksChance(50) * ModCommonConfiguration.observatoryMultiplier
+        val chance = getOneInNValidChunks(50) * ModCommonConfiguration.observatoryMultiplier
         if (random.nextDouble() >= chance) {
             return false
         }

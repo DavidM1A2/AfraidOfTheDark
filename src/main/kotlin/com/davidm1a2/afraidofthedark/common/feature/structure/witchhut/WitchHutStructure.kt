@@ -41,7 +41,8 @@ class WitchHutStructure : AOTDStructure<MultiplierConfig>({ MultiplierConfig.des
 
     override fun canFitAt(chunkGen: ChunkGenerator<*>, biomeManager: BiomeManager, random: Random, xPos: Int, zPos: Int): Boolean {
         val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, chunkGen, biomeManager).map { it.multiplier }.minOrNull() ?: 0
-        if (random.nextDouble() >= getOneInNChunksChance(100) * ModCommonConfiguration.witchHutMultiplier * biomeMultiplier) {
+        val chance = getOneInNValidChunks(50) * ModCommonConfiguration.witchHutMultiplier * biomeMultiplier
+        if (random.nextDouble() >= chance) {
             return false
         }
 

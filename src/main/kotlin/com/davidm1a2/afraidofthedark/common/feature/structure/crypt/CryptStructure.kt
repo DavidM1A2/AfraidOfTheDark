@@ -45,7 +45,7 @@ class CryptStructure : AOTDStructure<MultiplierConfig>({ MultiplierConfig.deseri
 
     override fun canFitAt(chunkGen: ChunkGenerator<*>, biomeManager: BiomeManager, random: Random, xPos: Int, zPos: Int): Boolean {
         val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, chunkGen, biomeManager).map { it.multiplier }.minOrNull() ?: 0
-        val chance = getOneInNChunksChance(1) * ModCommonConfiguration.cryptMultiplier * biomeMultiplier
+        val chance = getOneInNValidChunks(350) * ModCommonConfiguration.cryptMultiplier * biomeMultiplier
         if (random.nextDouble() >= chance) {
             return false
         }

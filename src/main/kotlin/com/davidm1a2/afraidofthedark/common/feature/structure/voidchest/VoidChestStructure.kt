@@ -41,7 +41,7 @@ class VoidChestStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deserial
             return false
         }
 
-        val chance = getOneInNChunksChance(100) * ModCommonConfiguration.voidChestMultiplier
+        val chance = getOneInNValidChunks(100) * ModCommonConfiguration.voidChestMultiplier
         if (random.nextDouble() >= chance) {
             return false
         }

@@ -61,7 +61,7 @@ class DarkForestStructure : AOTDStructure<MultiplierConfig>({ MultiplierConfig.d
 
     override fun canFitAt(chunkGen: ChunkGenerator<*>, biomeManager: BiomeManager, random: Random, xPos: Int, zPos: Int): Boolean {
         val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, chunkGen, biomeManager).map { it.multiplier }.minOrNull()!!
-        val chance = getOneInNChunksChance(300) * ModCommonConfiguration.darkForestMultiplier * biomeMultiplier
+        val chance = getOneInNValidChunks(40) * ModCommonConfiguration.darkForestMultiplier * biomeMultiplier
         if (random.nextDouble() >= chance) {
             return false
         }

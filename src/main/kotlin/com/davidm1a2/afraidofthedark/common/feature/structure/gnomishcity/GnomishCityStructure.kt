@@ -55,7 +55,7 @@ class GnomishCityStructure : AOTDStructure<NoFeatureConfig>({ IFeatureConfig.NO_
     }
 
     override fun canFitAt(chunkGen: ChunkGenerator<*>, biomeManager: BiomeManager, random: Random, xPos: Int, zPos: Int): Boolean {
-        val chance = getOneInNChunksChance(1000) * ModCommonConfiguration.gnomishCityFrequency
+        val chance = getOneInNValidChunks(3500) * ModCommonConfiguration.gnomishCityFrequency
         if (random.nextDouble() >= chance) {
             return false
         }

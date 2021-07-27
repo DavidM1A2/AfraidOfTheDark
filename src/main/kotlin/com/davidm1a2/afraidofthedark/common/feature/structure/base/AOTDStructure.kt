@@ -142,7 +142,7 @@ abstract class AOTDStructure<T : IFeatureConfig>(configFactory: (Dynamic<*>) -> 
         }.filterNotNull()
     }
 
-    protected fun getOneInNChunksChance(n: Int): Double {
+    protected fun getOneInNValidChunks(n: Int): Double {
         return 1.0 / n
     }
 }

@@ -45,7 +45,7 @@ class DesertOasisStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deseri
             return false
         }
 
-        val chance = getOneInNChunksChance(250) * ModCommonConfiguration.desertOasisMultiplier
+        val chance = getOneInNValidChunks(200) * ModCommonConfiguration.desertOasisMultiplier
         if (random.nextDouble() >= chance) {
             return false
         }
