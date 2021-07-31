@@ -13,6 +13,7 @@ import net.minecraftforge.common.util.INBTSerializable
 import kotlin.math.min
 
 class StructureMap : INBTSerializable<CompoundNBT> {
+    private val random = SharedSeedRandom()
     private var root: StructureMapNode? = null
 
     /**
@@ -137,10 +138,8 @@ class StructureMap : INBTSerializable<CompoundNBT> {
         chunkGenerator: ChunkGenerator<*>,
         gridSize: StructureGridSize
     ) {
-        val random = SharedSeedRandom()
-        random.setLargeFeatureSeed(chunkGenerator.seed, chunkPos.x, chunkPos.z)
-
         val gridPos = gridSize.toAbsoluteGridPos(chunkPos)
+        random.setLargeFeatureSeed(chunkGenerator.seed, gridPos.x, gridPos.z)
         val cornerChunkPos = gridPos.getStartCornerChunk()
         val centerXPos = cornerChunkPos.xStart + gridSize.blockSize / 2
         val centerZPos = cornerChunkPos.zStart + gridSize.blockSize / 2
