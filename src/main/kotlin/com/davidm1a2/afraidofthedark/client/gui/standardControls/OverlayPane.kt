@@ -1,14 +1,14 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
-import com.mojang.blaze3d.platform.GlStateManager
+import com.mojang.blaze3d.systems.RenderSystem
 import java.awt.Point
 import java.awt.Rectangle
 
 open class OverlayPane(private val parent: AOTDPane?) : StackPane() {
 
     override fun drawOverlay() {
-        GlStateManager.disableLighting()
+        RenderSystem.disableLighting()
         for (child in getChildren()) {
             child.draw()    // Draw children's content as an overlay
         }

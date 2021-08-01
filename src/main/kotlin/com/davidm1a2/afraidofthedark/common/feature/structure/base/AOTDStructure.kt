@@ -75,7 +75,7 @@ abstract class AOTDStructure<T : IFeatureConfig>(configFactory: (Dynamic<*>) -> 
         }
     }
 
-    fun addToBiome(biome: Biome, config: T) {
+    protected fun addToBiome(biome: Biome, config: T) {
         biome.addStructure(this.withConfiguration(config))
         biome.addFeature(
             GenerationStage.Decoration.TOP_LAYER_MODIFICATION, // Top_Layer_Modification happens last so it has the highest priority

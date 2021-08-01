@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.mojang.blaze3d.platform.GlStateManager
+import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.AbstractGui
 import net.minecraft.util.ResourceLocation
@@ -32,11 +32,11 @@ open class ImagePane(
      */
     override fun draw() {
         if (this.isVisible) {
-            GlStateManager.pushMatrix()
+            RenderSystem.pushMatrix()
             // Enable alpha blending
-            GlStateManager.enableBlend()
+            RenderSystem.enableBlend()
             // Set the color
-            GlStateManager.color4f(
+            RenderSystem.color4f(
                 this.color.red / 255f,
                 this.color.green / 255f,
                 this.color.blue / 255f,
@@ -48,7 +48,7 @@ open class ImagePane(
             if (textureHeight > -1 && textureWidth > -1) {
                 AbstractGui.blit(x, y, u, v, width, height, width, height)
             }
-            GlStateManager.popMatrix()
+            RenderSystem.popMatrix()
 
             // Draw the any children
             super.draw()

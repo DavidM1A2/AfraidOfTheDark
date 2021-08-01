@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
-import com.mojang.blaze3d.platform.GlStateManager
+import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.AbstractGui
 import net.minecraft.client.renderer.RenderHelper
@@ -42,20 +42,20 @@ class ResearchAchievedOverlay : AbstractGui() {
      * Function provided by MC's achievement window to setup the viewport, copied and unmodified
      */
     private fun updateResearchAchievedWindowScale() {
-        GlStateManager.viewport(0, 0, mc.mainWindow.width, mc.mainWindow.height)
-        GlStateManager.matrixMode(5889)
-        GlStateManager.loadIdentity()
-        GlStateManager.matrixMode(5888)
-        GlStateManager.loadIdentity()
+        RenderSystem.viewport(0, 0, mc.mainWindow.width, mc.mainWindow.height)
+        RenderSystem.matrixMode(5889)
+        RenderSystem.loadIdentity()
+        RenderSystem.matrixMode(5888)
+        RenderSystem.loadIdentity()
         width = mc.mainWindow.scaledWidth
         height = mc.mainWindow.scaledHeight
-        GlStateManager.clear(256, Minecraft.IS_RUNNING_ON_MAC)
-        GlStateManager.matrixMode(5889)
-        GlStateManager.loadIdentity()
-        GlStateManager.ortho(0.0, width.toDouble(), height.toDouble(), 0.0, 1000.0, 3000.0)
-        GlStateManager.matrixMode(5888)
-        GlStateManager.loadIdentity()
-        GlStateManager.translatef(0.0f, 0.0f, -2000.0f)
+        RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC)
+        RenderSystem.matrixMode(5889)
+        RenderSystem.loadIdentity()
+        RenderSystem.ortho(0.0, width.toDouble(), height.toDouble(), 0.0, 1000.0, 3000.0)
+        RenderSystem.matrixMode(5888)
+        RenderSystem.loadIdentity()
+        RenderSystem.translatef(0.0f, 0.0f, -2000.0f)
     }
 
     /**
@@ -72,47 +72,46 @@ class ResearchAchievedOverlay : AbstractGui() {
             notificationTime = System.currentTimeMillis()
         }
 
-        // After this everything is copied from the default MC achievement class
         if (notificationTime != 0L && Minecraft.getInstance().player != null) {
-            val d0 = (System.currentTimeMillis() - notificationTime) / 6000.0
-            if (d0 < 0.0 || d0 > 1.0) {
+            val percentFinished = (System.currentTimeMillis() - notificationTime) / 6000.0
+            if (percentFinished < 0.0 || percentFinished > 1.0) {
                 notificationTime = 0L
                 return
             }
 
             updateResearchAchievedWindowScale()
-            GlStateManager.disableDepthTest()
-            GlStateManager.depthMask(false)
+            RenderSystem.disableDepthTest()
+            RenderSystem.depthMask(false)
 
-            var d1 = d0 * 2.0
-            if (d1 > 1.0) {
-                d1 = 2.0 - d1
+            var currentOffset = percentFinished * 2.0
+            if (currentOffset > 1.0) {
+                currentOffset = 2.0 - currentOffset
             }
-            d1 *= 4.0
-            d1 = 1.0 - d1
-            if (d1 < 0.0) {
-                d1 = 0.0
+            currentOffset *= 4.0
+            currentOffset = 1.0 - currentOffset
+            if (currentOffset < 0.0) {
+                currentOffset = 0.0
             }
-            d1 = d1 * d1 * d1 * d1
+            currentOffset = currentOffset * currentOffset * currentOffset * currentOffset
 
-            val i = width - 160
-            val j = 0 - (d1 * 36.0).toInt()
+            val x = width - 160
+            val y = 0 - (currentOffset * 36.0).toInt()
 
-            GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f)
+            RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f)
             GL11.glEnable(GL11.GL_TEXTURE_2D)
             mc.textureManager.bindTexture(ACHIEVEMENT_BACKGROUND)
-            GlStateManager.disableLighting()
-            blit(i, j, 96, 202, 160, 32)
-            mc.fontRenderer.drawString(I18n.format("researchbanner.title"), i + 10f, j + 5f, -256)
-            mc.fontRenderer.drawString(researchDescription!!, i + 10f, j + 18f, -1)
+            RenderSystem.disableLighting()
+            blit(x, y, 0f, 0f, 160, 32, 160, 32)
+            mc.fontRenderer.drawString(I18n.format("researchbanner.title"), x + 10f, y + 5f, -256)
+            mc.fontRenderer.drawString(researchDescription!!, x + 10f, y + 18f, -1)
             RenderHelper.enableStandardItemLighting()
-            GlStateManager.disableLighting()
-            GlStateManager.enableRescaleNormal()
-            GlStateManager.enableColorMaterial()
-            GlStateManager.enableLighting()
-            GlStateManager.disableLighting()
-            GlStateManager.depthMask(true)
-            GlStateManager.enableDepthTest()
+            RenderSystem.disableLighting()
+            RenderSystem.enableRescaleNormal()
+            RenderSystem.enableColorMaterial()
+            RenderSystem.enableLighting()
+            RenderSystem.disableLighting()
+            RenderSystem.depthMask(true)
+            RenderSystem.enableDepthTest()
         }
     }
 

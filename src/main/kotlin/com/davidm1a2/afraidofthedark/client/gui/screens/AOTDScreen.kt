@@ -14,7 +14,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.OverlayPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
-import com.mojang.blaze3d.platform.GlStateManager
+import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.player.ClientPlayerEntity
 import net.minecraft.client.gui.screen.Screen
@@ -33,8 +33,8 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
 
     val contentPane = StackPane(AOTDGuiUtility.getWindowSizeInMCCoords())
     private val dndPane = OverlayPane(null)
-    private var dragAndDropIcon : ImagePane? = null
-    private var dragAndDropData : Any? = null
+    private var dragAndDropIcon: ImagePane? = null
+    private var dragAndDropData: Any? = null
     private var prevMouseX = 0
     private var prevMouseY = 0
 
@@ -61,11 +61,13 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
         if (contentPane.getChildren().contains(dndPane).not()) contentPane.add(dndPane)
 
         // Send the mouse position to the updated pane
-        this.contentPane.processMouseMoveInput(MouseMoveEvent(
-            contentPane,
-            AOTDGuiUtility.getMouseXInMCCoord(),
-            AOTDGuiUtility.getMouseYInMCCoord(),
-            MouseMoveEvent.EventType.Move)
+        this.contentPane.processMouseMoveInput(
+            MouseMoveEvent(
+                contentPane,
+                AOTDGuiUtility.getMouseXInMCCoord(),
+                AOTDGuiUtility.getMouseYInMCCoord(),
+                MouseMoveEvent.EventType.Move
+            )
         )
     }
 
@@ -78,7 +80,7 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
      */
     override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
         // Enable blend so we can draw opacity
-        GlStateManager.enableBlend()
+        RenderSystem.enableBlend()
         // If we want a gradient background draw that background
         if (this.drawGradientBackground()) {
             this.renderBackground()
@@ -94,7 +96,7 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
         // Call the super method
         super.render(mouseX, mouseY, partialTicks)
         // Disable blend now that we drew the UI
-        GlStateManager.disableBlend()
+        RenderSystem.disableBlend()
     }
 
     /**
@@ -273,7 +275,7 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
         return super.mouseDragged(mouseX, mouseY, lastButtonClicked, mouseXTo, mouseYTo)
     }
 
-    private fun findProducer(cur: AOTDGuiComponent) : DraggableProducer<*>? {
+    private fun findProducer(cur: AOTDGuiComponent): DraggableProducer<*>? {
         if (cur is AOTDPane) {
             for (child in cur.getChildren()) {
                 val res = findProducer(child)
@@ -283,7 +285,7 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
         return if (cur is DraggableProducer<*> && cur.inBounds && cur.isVisible && cur.isHovered) cur else null
     }
 
-    private fun findConsumers(cur: AOTDGuiComponent) : List<DraggableConsumer<*>> {
+    private fun findConsumers(cur: AOTDGuiComponent): List<DraggableConsumer<*>> {
         val ret = ArrayList<DraggableConsumer<*>>()
         if (cur is DraggableConsumer<*> && cur.inBounds && cur.isVisible && cur.isHovered) ret.add(cur)
         if (cur is AOTDPane) {
