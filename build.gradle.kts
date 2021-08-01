@@ -19,7 +19,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("net.minecraftforge.gradle", "ForgeGradle", "4.+") {
+        classpath("net.minecraftforge.gradle", "ForgeGradle", "5.1.+") {
             isChanging = true
         }
         classpath("org.jetbrains.kotlin", "kotlin-gradle-plugin", findProperty("kotlin_version").toString())
@@ -35,7 +35,7 @@ apply {
 
 configurations["compile"].extendsFrom(configurations.create("shade"))
 
-version = "1.15.2-1.6.0"
+version = "1.16.5-1.7.0"
 group = "com.davidm1a2.afraidofthedark"
 project.setProperty("archivesBaseName", "afraidofthedark")
 
@@ -44,7 +44,7 @@ tasks.withType<KotlinCompile> {
 }
 
 configure<UserDevExtension> {
-    mappings("snapshot", "20200514-1.15.1")
+    mappings("official", "1.16.5")
 
     runs.create("client") {
         workingDirectory(project.file("run"))
@@ -73,7 +73,7 @@ dependencies {
     shade("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", findProperty("kotlin_version").toString())
 
     val minecraft = configurations["minecraft"]
-    minecraft("net.minecraftforge", "forge", "1.15.2-31.2.50")
+    minecraft("net.minecraftforge", "forge", "1.16.5-36.2.0")
 }
 
 tasks.withType<Jar> {
