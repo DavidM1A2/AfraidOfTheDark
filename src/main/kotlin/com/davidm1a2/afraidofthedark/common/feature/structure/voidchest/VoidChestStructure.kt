@@ -36,13 +36,13 @@ class VoidChestStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deserial
     }
 
     override fun canFitAt(chunkGen: ChunkGenerator<*>, biomeManager: BiomeManager, random: Random, xPos: Int, zPos: Int): Boolean {
-        val isNotSupported = getInteriorConfigEstimate(xPos, zPos, chunkGen, biomeManager).any { !it.supported }
-        if (isNotSupported) {
+        val chance = getOneInNValidChunks(100) * ModCommonConfiguration.voidChestMultiplier
+        if (random.nextDouble() >= chance) {
             return false
         }
 
-        val chance = getOneInNValidChunks(100) * ModCommonConfiguration.voidChestMultiplier
-        if (random.nextDouble() >= chance) {
+        val isNotSupported = getInteriorConfigEstimate(xPos, zPos, chunkGen, biomeManager).any { !it.supported }
+        if (isNotSupported) {
             return false
         }
 
