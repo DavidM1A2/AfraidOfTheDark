@@ -33,7 +33,7 @@ apply {
     plugin("kotlin")
 }
 
-configurations["compile"].extendsFrom(configurations.create("shade"))
+configurations["implementation"].extendsFrom(configurations.create("shade"))
 
 version = "1.16.5-1.7.0"
 group = "com.davidm1a2.afraidofthedark"
