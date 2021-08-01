@@ -46,7 +46,7 @@ class GhastlyEnariaRenderer(renderManager: EntityRendererManager) :
         private val ENARIA_TEXTURE = ResourceLocation(Constants.MOD_ID, "textures/entity/enaria.png")
 
         // The model to render
-        private val ENARIA_MODEL = EnariaModel<GhastlyEnariaEntity>(RenderType::getEntityTranslucent)
+        private val ENARIA_MODEL = EnariaModel<GhastlyEnariaEntity>(true, RenderType::getEntityTranslucent)
 
         // The height of the model to render at
         private const val MODEL_HEIGHT = 2.8

@@ -10,7 +10,8 @@ import net.minecraft.client.renderer.entity.model.EntityModel
 import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
 
-class EnariaModel<T : Entity> internal constructor(renderTypeFactory: (ResourceLocation) -> RenderType) : EntityModel<T>(renderTypeFactory) {
+class EnariaModel<T : Entity> internal constructor(private val isTransparent: Boolean, renderTypeFactory: (ResourceLocation) -> RenderType) :
+    EntityModel<T>(renderTypeFactory) {
     private val parts = mutableMapOf<String, MCAModelRenderer>()
     private val body: MCAModelRenderer
 
@@ -82,7 +83,13 @@ class EnariaModel<T : Entity> internal constructor(renderTypeFactory: (ResourceL
         blue: Float,
         alpha: Float
     ) {
-        body.render(matrixStack, vertexBuilder, packedLight, packedOverlay, red, green, blue, alpha)
+        body.render(
+            matrixStack, vertexBuilder, packedLight, packedOverlay, red, green, blue, if (isTransparent) {
+                0.3f
+            } else {
+                1.0f
+            }
+        )
     }
 
     override fun setRotationAngles(entity: T, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float) {

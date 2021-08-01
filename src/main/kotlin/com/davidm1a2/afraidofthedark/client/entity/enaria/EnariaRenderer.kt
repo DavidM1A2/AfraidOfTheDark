@@ -45,7 +45,7 @@ class EnariaRenderer(renderManager: EntityRendererManager) : MobRenderer<EnariaE
         private val ENARIA_TEXTURE = ResourceLocation(Constants.MOD_ID, "textures/entity/enaria.png")
 
         // The model to render
-        private val ENARIA_MODEL = EnariaModel<EnariaEntity>(RenderType::getEntityCutoutNoCull)
+        private val ENARIA_MODEL = EnariaModel<EnariaEntity>(false, RenderType::getEntityCutoutNoCull)
 
         // The height of the model to render at
         private const val MODEL_HEIGHT = 2.8
