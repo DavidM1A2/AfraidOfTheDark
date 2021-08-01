@@ -2,25 +2,22 @@ package com.davidm1a2.afraidofthedark.client.dimension
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.mojang.blaze3d.matrix.MatrixStack
-import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.client.renderer.Tessellator
-import net.minecraft.client.renderer.Vector3f
 import net.minecraft.client.renderer.WorldVertexBufferUploader
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.math.vector.Vector3f
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
-import net.minecraftforge.client.SkyRenderHandler
-import org.lwjgl.opengl.GL11
+import net.minecraftforge.client.ISkyRenderHandler
 
 /**
  * Class that renders the void chest 'sky' texture
  */
-class VoidChestSkyRenderer : SkyRenderHandler {
+class VoidChestSkyRenderer : ISkyRenderHandler {
     @OnlyIn(Dist.CLIENT)
     override fun render(ticks: Int, partialTicks: Float, matrixStack: MatrixStack, world: ClientWorld, mc: Minecraft) {
         ///
@@ -30,59 +27,54 @@ class VoidChestSkyRenderer : SkyRenderHandler {
         RenderSystem.disableFog()
         RenderSystem.disableAlphaTest()
         RenderSystem.enableBlend()
-        RenderSystem.blendFuncSeparate(
-            GlStateManager.SourceFactor.SRC_ALPHA,
-            GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
-            GlStateManager.SourceFactor.ONE,
-            GlStateManager.DestFactor.ZERO
-        )
-        RenderHelper.disableStandardItemLighting()
+        RenderSystem.defaultBlendFunc()
+        RenderSystem.disableTexture()
         RenderSystem.depthMask(false)
         val tessellator = Tessellator.getInstance()
-        val bufferBuilder = tessellator.buffer
+        val bufferBuilder = tessellator.builder
 
         for (i in 0..5) {
-            matrixStack.push()
+            matrixStack.pushPose()
 
             when (i) {
                 1 -> {
-                    mc.textureManager.bindTexture(VOID_CHEST_SKY_SIDE_2)
-                    matrixStack.rotate(Vector3f.XP.rotationDegrees(90.0f))
+                    mc.textureManager.bind(VOID_CHEST_SKY_SIDE_2)
+                    matrixStack.mulPose(Vector3f.XP.rotationDegrees(90.0f))
                 }
                 2 -> {
-                    mc.textureManager.bindTexture(VOID_CHEST_SKY_SIDE_4)
-                    matrixStack.rotate(Vector3f.XP.rotationDegrees(-90.0f))
+                    mc.textureManager.bind(VOID_CHEST_SKY_SIDE_4)
+                    matrixStack.mulPose(Vector3f.XP.rotationDegrees(-90.0f))
                 }
                 3 -> {
-                    mc.textureManager.bindTexture(VOID_CHEST_SKY_TOP)
-                    matrixStack.rotate(Vector3f.XP.rotationDegrees(180.0f))
+                    mc.textureManager.bind(VOID_CHEST_SKY_TOP)
+                    matrixStack.mulPose(Vector3f.XP.rotationDegrees(180.0f))
                 }
                 4 -> {
-                    mc.textureManager.bindTexture(VOID_CHEST_SKY_SIDE_3)
-                    matrixStack.rotate(Vector3f.ZP.rotationDegrees(90.0f))
+                    mc.textureManager.bind(VOID_CHEST_SKY_SIDE_3)
+                    matrixStack.mulPose(Vector3f.ZP.rotationDegrees(90.0f))
                 }
                 5 -> {
-                    mc.textureManager.bindTexture(VOID_CHEST_SKY_SIDE_1)
-                    matrixStack.rotate(Vector3f.ZP.rotationDegrees(-90.0f))
+                    mc.textureManager.bind(VOID_CHEST_SKY_SIDE_1)
+                    matrixStack.mulPose(Vector3f.ZP.rotationDegrees(-90.0f))
                 }
-                else -> mc.textureManager.bindTexture(VOID_CHEST_SKY_BOTTOM)
+                else -> mc.textureManager.bind(VOID_CHEST_SKY_BOTTOM)
             }
 
-            val matrix = matrixStack.last.matrix
+            val matrix = matrixStack.last().pose()
             bufferBuilder.begin(7, DefaultVertexFormats.POSITION_TEX)
-            bufferBuilder.pos(matrix, -100.0f, -100.0f, -100.0f).tex(0.0f, 0.0f).endVertex()
-            bufferBuilder.pos(matrix, -100.0f, -100.0f, 100.0f).tex(0.0f, 1.0f).endVertex()
-            bufferBuilder.pos(matrix, 100.0f, -100.0f, 100.0f).tex(1.0f, 1.0f).endVertex()
-            bufferBuilder.pos(matrix, 100.0f, -100.0f, -100.0f).tex(1.0f, 0.0f).endVertex()
-            bufferBuilder.finishDrawing()
-            WorldVertexBufferUploader.draw(bufferBuilder)
+            bufferBuilder.vertex(matrix, -100.0f, -100.0f, -100.0f).uv(0.0f, 0.0f).endVertex()
+            bufferBuilder.vertex(matrix, -100.0f, -100.0f, 100.0f).uv(0.0f, 1.0f).endVertex()
+            bufferBuilder.vertex(matrix, 100.0f, -100.0f, 100.0f).uv(1.0f, 1.0f).endVertex()
+            bufferBuilder.vertex(matrix, 100.0f, -100.0f, -100.0f).uv(1.0f, 0.0f).endVertex()
+            bufferBuilder.end()
+            WorldVertexBufferUploader.end(bufferBuilder)
 
-            matrixStack.pop()
+            matrixStack.popPose()
         }
 
+        RenderSystem.enableTexture()
         RenderSystem.depthMask(true)
-        GL11.glEnable(GL11.GL_TEXTURE_2D)
-        RenderSystem.enableAlphaTest()
+        RenderSystem.disableFog()
     }
 
     companion object {
