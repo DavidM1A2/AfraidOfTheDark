@@ -173,7 +173,6 @@ class KeyInputEventHandler {
                                 motionDirection.z * ROLL_VELOCITY
                             )
 
-                            // Return
                             return
                         } else {
                             entityPlayer.sendMessage(
