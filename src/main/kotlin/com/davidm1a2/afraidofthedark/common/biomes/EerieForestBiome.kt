@@ -69,8 +69,8 @@ class EerieForestBiome : AOTDBiome(
         // Tall grass
         DefaultBiomeFeatures.addTallGrass(this)
 
-        // Werewolves
-        addSpawn(EntityClassification.MONSTER, SpawnListEntry(ModEntities.WEREWOLF, 75, 1, 4))
+        // Werewolves (roughly the same chance as other monsters)
+        addSpawn(EntityClassification.MONSTER, SpawnListEntry(ModEntities.WEREWOLF, 100, 1, 4))
     }
 
     override fun getGrassColor(xPos: Double, zPos: Double): Int {
