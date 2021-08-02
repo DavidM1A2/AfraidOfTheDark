@@ -5,9 +5,9 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedMode
 import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.SpellProjectileEntity
 import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.vertex.IVertexBuilder
-import net.minecraft.client.renderer.Quaternion
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.model.EntityModel
+import net.minecraft.util.math.vector.Quaternion
 
 /**
  * Class representing the spell projectile entity model
@@ -16,22 +16,22 @@ import net.minecraft.client.renderer.entity.model.EntityModel
  * @property parts A map of part name to part
  * @property center The different parts of the model
  */
-class SpellProjectileModel internal constructor() : EntityModel<SpellProjectileEntity>(RenderType::getEntityTranslucent) {
+class SpellProjectileModel internal constructor() : EntityModel<SpellProjectileEntity>(RenderType::entityTranslucent) {
     private var parts = mutableMapOf<String, MCAModelRenderer>()
     private val center: MCAModelRenderer
 
     init {
         // Auto-generated from the MCAnimator software
 
-        textureWidth = 32
-        textureHeight = 32
+        texWidth = 32
+        texHeight = 32
 
         center = MCAModelRenderer(this, 0, 10)
         center.mirror = false
         center.addBox(-3.0f, -3.0f, -3.0f, 6f, 6f, 6f)
         center.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
         center.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        center.setTextureSize(32, 32)
+        center.setTexSize(32, 32)
         parts["Center"] = center
 
         val one = MCAModelRenderer(this, 0, 0)
@@ -39,7 +39,7 @@ class SpellProjectileModel internal constructor() : EntityModel<SpellProjectileE
         one.addBox(-2.0f, -2.0f, 0.0f, 4f, 4f, 4f)
         one.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
         one.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        one.setTextureSize(32, 32)
+        one.setTexSize(32, 32)
         parts["one"] = one
         center.addChild(one)
 
@@ -48,7 +48,7 @@ class SpellProjectileModel internal constructor() : EntityModel<SpellProjectileE
         two.addBox(0.0f, -2.0f, -2.0f, 4f, 4f, 4f)
         two.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
         two.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        two.setTextureSize(32, 32)
+        two.setTexSize(32, 32)
         parts["two"] = two
         center.addChild(two)
 
@@ -57,7 +57,7 @@ class SpellProjectileModel internal constructor() : EntityModel<SpellProjectileE
         three.addBox(-2.0f, -2.0f, -4.0f, 4f, 4f, 4f)
         three.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
         three.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        three.setTextureSize(32, 32)
+        three.setTexSize(32, 32)
         parts["three"] = three
         center.addChild(three)
 
@@ -66,7 +66,7 @@ class SpellProjectileModel internal constructor() : EntityModel<SpellProjectileE
         four.addBox(-4.0f, -2.0f, -2.0f, 4f, 4f, 4f)
         four.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
         four.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        four.setTextureSize(32, 32)
+        four.setTexSize(32, 32)
         parts["four"] = four
         center.addChild(four)
 
@@ -75,7 +75,7 @@ class SpellProjectileModel internal constructor() : EntityModel<SpellProjectileE
         five.addBox(-2.0f, -4.0f, -2.0f, 4f, 4f, 4f)
         five.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
         five.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        five.setTextureSize(32, 32)
+        five.setTexSize(32, 32)
         parts["five"] = five
         center.addChild(five)
 
@@ -84,12 +84,12 @@ class SpellProjectileModel internal constructor() : EntityModel<SpellProjectileE
         six.addBox(-2.0f, 0.0f, -2.0f, 4f, 4f, 4f)
         six.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
         six.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        six.setTextureSize(32, 32)
+        six.setTexSize(32, 32)
         parts["six"] = six
         center.addChild(six)
     }
 
-    override fun render(
+    override fun renderToBuffer(
         matrixStack: MatrixStack,
         vertexBuilder: IVertexBuilder,
         packedLight: Int,
@@ -102,7 +102,7 @@ class SpellProjectileModel internal constructor() : EntityModel<SpellProjectileE
         center.render(matrixStack, vertexBuilder, packedLight, packedOverlay, red, green, blue, alpha)
     }
 
-    override fun setRotationAngles(
+    override fun setupAnim(
         entity: SpellProjectileEntity,
         limbSwing: Float,
         limbSwingAmount: Float,

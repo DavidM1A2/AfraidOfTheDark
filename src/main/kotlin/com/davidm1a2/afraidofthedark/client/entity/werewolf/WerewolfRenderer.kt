@@ -3,10 +3,10 @@ package com.davidm1a2.afraidofthedark.client.entity.werewolf
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.WerewolfEntity
 import com.mojang.blaze3d.matrix.MatrixStack
 import net.minecraft.client.renderer.IRenderTypeBuffer
-import net.minecraft.client.renderer.Vector3f
 import net.minecraft.client.renderer.entity.EntityRendererManager
 import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.math.vector.Vector3f
 
 /**
  * Renderer class for the werewolf entity
@@ -15,9 +15,9 @@ import net.minecraft.util.ResourceLocation
  * @param renderManager The render manager to pass down
  */
 class WerewolfRenderer(renderManager: EntityRendererManager) : MobRenderer<WerewolfEntity, WerewolfModel>(renderManager, WEREWOLF_MODEL, MODEL_SHADOW_SIZE) {
-    override fun preRenderCallback(werewolf: WerewolfEntity, matrixStack: MatrixStack, partialTicks: Float) {
-        matrixStack.rotate(Vector3f.YP.rotationDegrees(180f))
-        matrixStack.rotate(Vector3f.ZP.rotationDegrees(180f))
+    override fun setupRotations(werewolf: WerewolfEntity, matrixStack: MatrixStack, bob: Float, yOffset: Float, partialTicks: Float) {
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(180f))
+        matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180f))
         matrixStack.translate(0.0, MODEL_HEIGHT, 0.0)
     }
 
@@ -40,7 +40,7 @@ class WerewolfRenderer(renderManager: EntityRendererManager) : MobRenderer<Werew
      * @param entity The entity to get the texture for
      * @return The texture to use for this entity
      */
-    override fun getEntityTexture(entity: WerewolfEntity): ResourceLocation {
+    override fun getTextureLocation(entity: WerewolfEntity): ResourceLocation {
         return WEREWOLF_TEXTURE
     }
 

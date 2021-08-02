@@ -26,9 +26,9 @@ class SplinterDroneProjectileRenderer(renderManager: EntityRendererManager) :
         packedLight: Int
     ) {
         splinterDroneProjectile.getAnimationHandler().update()
-        SPLINTER_DRONE_PROJECTILE_MODEL.setRotationAngles(splinterDroneProjectile, 0f, 0f, 0f, 0f, 0f)
+        SPLINTER_DRONE_PROJECTILE_MODEL.setupAnim(splinterDroneProjectile, 0f, 0f, 0f, 0f, 0f)
 
-        SPLINTER_DRONE_PROJECTILE_MODEL.render(
+        SPLINTER_DRONE_PROJECTILE_MODEL.renderToBuffer(
             matrixStack,
             renderTypeBuffer.getBuffer(RENDER_TYPE),
             packedLight,
@@ -40,7 +40,7 @@ class SplinterDroneProjectileRenderer(renderManager: EntityRendererManager) :
         )
     }
 
-    override fun getEntityTexture(entity: SplinterDroneProjectileEntity): ResourceLocation {
+    override fun getTextureLocation(entity: SplinterDroneProjectileEntity): ResourceLocation {
         return SPLINTER_DRONE_PROJECTILE_TEXTURE
     }
 
@@ -52,6 +52,6 @@ class SplinterDroneProjectileRenderer(renderManager: EntityRendererManager) :
         // The splinter drone projectile model
         private val SPLINTER_DRONE_PROJECTILE_MODEL = SplinterDroneProjectileModel()
 
-        private val RENDER_TYPE = RenderType.getEntityCutoutNoCull(SPLINTER_DRONE_PROJECTILE_TEXTURE)
+        private val RENDER_TYPE = RenderType.entityCutoutNoCull(SPLINTER_DRONE_PROJECTILE_TEXTURE)
     }
 }

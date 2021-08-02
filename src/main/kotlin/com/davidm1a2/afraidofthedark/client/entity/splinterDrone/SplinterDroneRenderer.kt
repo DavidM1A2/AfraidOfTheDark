@@ -3,10 +3,10 @@ package com.davidm1a2.afraidofthedark.client.entity.splinterDrone
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneEntity
 import com.mojang.blaze3d.matrix.MatrixStack
 import net.minecraft.client.renderer.IRenderTypeBuffer
-import net.minecraft.client.renderer.Vector3f
 import net.minecraft.client.renderer.entity.EntityRendererManager
 import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.math.vector.Vector3f
 
 /**
  * Renderer class for the splinter drone entity
@@ -16,9 +16,9 @@ import net.minecraft.util.ResourceLocation
  */
 class SplinterDroneRenderer(renderManager: EntityRendererManager) :
     MobRenderer<SplinterDroneEntity, SplinterDroneModel>(renderManager, SPLINTER_DRONE_MODEL, MODEL_SHADOW_SIZE) {
-    override fun preRenderCallback(splinterDrone: SplinterDroneEntity, matrixStack: MatrixStack, partialTicks: Float) {
-        matrixStack.rotate(Vector3f.YP.rotationDegrees(180f))
-        matrixStack.rotate(Vector3f.ZP.rotationDegrees(180f))
+    override fun setupRotations(splinterDrone: SplinterDroneEntity, matrixStack: MatrixStack, bob: Float, yOffset: Float, partialTicks: Float) {
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(180f))
+        matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180f))
         matrixStack.translate(0.0, MODEL_HEIGHT, 0.0)
     }
 
@@ -35,7 +35,7 @@ class SplinterDroneRenderer(renderManager: EntityRendererManager) :
         super.render(splinterDrone, entityYaw, partialTicks, matrixStack, renderTypeBuffer, packedLight)
     }
 
-    override fun getEntityTexture(entity: SplinterDroneEntity): ResourceLocation {
+    override fun getTextureLocation(entity: SplinterDroneEntity): ResourceLocation {
         return SPLINTER_DRONE_TEXTURE
     }
 

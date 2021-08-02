@@ -4,11 +4,11 @@ import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRendere
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.vertex.IVertexBuilder
-import net.minecraft.client.renderer.Quaternion
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.model.EntityModel
 import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.math.vector.Quaternion
 
 class EnariaModel<T : Entity> internal constructor(private val isTransparent: Boolean, renderTypeFactory: (ResourceLocation) -> RenderType) :
     EntityModel<T>(renderTypeFactory) {
@@ -16,15 +16,15 @@ class EnariaModel<T : Entity> internal constructor(private val isTransparent: Bo
     private val body: MCAModelRenderer
 
     init {
-        textureWidth = 64
-        textureHeight = 64
+        texWidth = 64
+        texHeight = 64
 
         body = MCAModelRenderer(this, 0, 16)
         body.mirror = false
         body.addBox(-4.0f, -12.0f, -2.0f, 8f, 12f, 4f)
         body.setInitialRotationPoint(0.0f, 2.0f, 2.0f)
         body.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        body.setTextureSize(64, 64)
+        body.setTexSize(64, 64)
         parts["body"] = body
 
         val rightarm = MCAModelRenderer(this, 41, 16)
@@ -32,7 +32,7 @@ class EnariaModel<T : Entity> internal constructor(private val isTransparent: Bo
         rightarm.addBox(-3.0f, -10.0f, -2.0f, 3f, 12f, 4f)
         rightarm.setInitialRotationPoint(-4.0f, -2.0f, 0.0f)
         rightarm.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        rightarm.setTextureSize(64, 64)
+        rightarm.setTexSize(64, 64)
         parts["rightarm"] = rightarm
         body.addChild(rightarm)
 
@@ -41,7 +41,7 @@ class EnariaModel<T : Entity> internal constructor(private val isTransparent: Bo
         leftarm.addBox(0.0f, -10.0f, -2.0f, 3f, 12f, 4f)
         leftarm.setInitialRotationPoint(4.0f, -2.0f, 0.0f)
         leftarm.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        leftarm.setTextureSize(64, 64)
+        leftarm.setTexSize(64, 64)
         parts["leftarm"] = leftarm
         body.addChild(leftarm)
 
@@ -50,7 +50,7 @@ class EnariaModel<T : Entity> internal constructor(private val isTransparent: Bo
         rightleg.addBox(-2.0f, -12.0f, -2.0f, 4f, 12f, 4f)
         rightleg.setInitialRotationPoint(-2.0f, -12.0f, 0.0f)
         rightleg.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        rightleg.setTextureSize(64, 64)
+        rightleg.setTexSize(64, 64)
         parts["rightleg"] = rightleg
         body.addChild(rightleg)
 
@@ -59,7 +59,7 @@ class EnariaModel<T : Entity> internal constructor(private val isTransparent: Bo
         leftleg.addBox(-2.0f, -12.0f, -2.0f, 4f, 12f, 4f)
         leftleg.setInitialRotationPoint(2.0f, -12.0f, 0.0f)
         leftleg.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        leftleg.setTextureSize(64, 64)
+        leftleg.setTexSize(64, 64)
         parts["leftleg"] = leftleg
         body.addChild(leftleg)
 
@@ -68,12 +68,12 @@ class EnariaModel<T : Entity> internal constructor(private val isTransparent: Bo
         head.addBox(-4.0f, 0.0f, -4.0f, 8f, 8f, 8f)
         head.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
         head.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        head.setTextureSize(64, 64)
+        head.setTexSize(64, 64)
         parts["head"] = head
         body.addChild(head)
     }
 
-    override fun render(
+    override fun renderToBuffer(
         matrixStack: MatrixStack,
         vertexBuilder: IVertexBuilder,
         packedLight: Int,
@@ -92,7 +92,7 @@ class EnariaModel<T : Entity> internal constructor(private val isTransparent: Bo
         )
     }
 
-    override fun setRotationAngles(entity: T, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float) {
+    override fun setupAnim(entity: T, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float) {
         (entity as IMCAnimatedModel).getAnimationHandler().performAnimationInModel(parts)
     }
 }

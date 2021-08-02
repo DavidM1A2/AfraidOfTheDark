@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererManager
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 
 /**
  * Renderer class for the spell projectile entity
@@ -27,8 +27,8 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
     ) {
         spellProjectile.getAnimationHandler().update()
         val rgb = spellProjectile.getColor()
-        SPELL_PROJECTILE_MODEL.setRotationAngles(spellProjectile, 0f, 0f, 0f, 0f, 0f)
-        SPELL_PROJECTILE_MODEL.render(
+        SPELL_PROJECTILE_MODEL.setupAnim(spellProjectile, 0f, 0f, 0f, 0f, 0f)
+        SPELL_PROJECTILE_MODEL.renderToBuffer(
             matrixStack,
             renderTypeBuffer.getBuffer(RENDER_TYPE),
             packedLight,
@@ -40,11 +40,11 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
         )
     }
 
-    override fun getRenderOffset(entity: SpellProjectileEntity, partialTicks: Float): Vec3d {
-        return Vec3d(0.0, 0.2, 0.0)
+    override fun getRenderOffset(entity: SpellProjectileEntity, partialTicks: Float): Vector3d {
+        return Vector3d(0.0, 0.2, 0.0)
     }
 
-    override fun getEntityTexture(entity: SpellProjectileEntity): ResourceLocation {
+    override fun getTextureLocation(entity: SpellProjectileEntity): ResourceLocation {
         return SPELL_PROJECTILE_TEXTURE
     }
 
@@ -55,6 +55,6 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
         // The spell projectile model
         private val SPELL_PROJECTILE_MODEL = SpellProjectileModel()
 
-        private val RENDER_TYPE = RenderType.getEntityCutoutNoCull(SPELL_PROJECTILE_TEXTURE)
+        private val RENDER_TYPE = RenderType.entityCutoutNoCull(SPELL_PROJECTILE_TEXTURE)
     }
 }

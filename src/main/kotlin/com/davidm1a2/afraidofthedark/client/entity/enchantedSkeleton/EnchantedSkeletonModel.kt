@@ -5,8 +5,8 @@ import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSk
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.vertex.IVertexBuilder
-import net.minecraft.client.renderer.Quaternion
 import net.minecraft.client.renderer.entity.model.EntityModel
+import net.minecraft.util.math.vector.Quaternion
 
 /**
  * Model class that defines the enchanted skeleton model
@@ -22,15 +22,15 @@ class EnchantedSkeletonModel internal constructor() : EntityModel<EnchantedSkele
     init {
         // Auto-generated from the MCAnimator software
 
-        textureWidth = 64
-        textureHeight = 32
+        texWidth = 64
+        texHeight = 32
 
         body = MCAModelRenderer(this, 16, 16)
         body.mirror = false
         body.addBox(-4.0f, -12.0f, -2.0f, 8f, 12f, 4f)
         body.setInitialRotationPoint(0.0f, 2.0f, 2.0f)
         body.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        body.setTextureSize(64, 32)
+        body.setTexSize(64, 32)
         parts["body"] = body
 
         val head = MCAModelRenderer(this, 0, 0)
@@ -38,7 +38,7 @@ class EnchantedSkeletonModel internal constructor() : EntityModel<EnchantedSkele
         head.addBox(-4.0f, 0.0f, -4.0f, 8f, 8f, 8f)
         head.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
         head.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        head.setTextureSize(64, 32)
+        head.setTexSize(64, 32)
         parts["head"] = head
         body.addChild(head)
 
@@ -47,7 +47,7 @@ class EnchantedSkeletonModel internal constructor() : EntityModel<EnchantedSkele
         rightarm.addBox(-2.0f, -10.0f, -1.0f, 2f, 12f, 2f)
         rightarm.setInitialRotationPoint(-4.0f, -2.0f, 0.0f)
         rightarm.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        rightarm.setTextureSize(64, 32)
+        rightarm.setTexSize(64, 32)
         parts["rightarm"] = rightarm
         body.addChild(rightarm)
 
@@ -56,7 +56,7 @@ class EnchantedSkeletonModel internal constructor() : EntityModel<EnchantedSkele
         leftarm.addBox(0.0f, -10.0f, -1.0f, 2f, 12f, 2f)
         leftarm.setInitialRotationPoint(4.0f, -2.0f, 0.0f)
         leftarm.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        leftarm.setTextureSize(64, 32)
+        leftarm.setTexSize(64, 32)
         parts["leftarm"] = leftarm
         body.addChild(leftarm)
 
@@ -65,7 +65,7 @@ class EnchantedSkeletonModel internal constructor() : EntityModel<EnchantedSkele
         rightleg.addBox(-1.0f, -12.0f, -1.0f, 2f, 12f, 2f)
         rightleg.setInitialRotationPoint(-2.0f, -12.0f, 0.0f)
         rightleg.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        rightleg.setTextureSize(64, 32)
+        rightleg.setTexSize(64, 32)
         parts["rightleg"] = rightleg
         body.addChild(rightleg)
 
@@ -74,7 +74,7 @@ class EnchantedSkeletonModel internal constructor() : EntityModel<EnchantedSkele
         leftleg.addBox(-1.0f, -12.0f, -1.0f, 2f, 12f, 2f)
         leftleg.setInitialRotationPoint(2.0f, -12.0f, 0.0f)
         leftleg.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        leftleg.setTextureSize(64, 32)
+        leftleg.setTexSize(64, 32)
         parts["leftleg"] = leftleg
         body.addChild(leftleg)
 
@@ -83,12 +83,12 @@ class EnchantedSkeletonModel internal constructor() : EntityModel<EnchantedSkele
         heart.addBox(-1.5f, -2.0f, -1.0f, 3f, 3f, 2f)
         heart.setInitialRotationPoint(0.0f, -3.0f, 0.0f)
         heart.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        heart.setTextureSize(64, 32)
+        heart.setTexSize(64, 32)
         parts["heart"] = heart
         body.addChild(heart)
     }
 
-    override fun render(
+    override fun renderToBuffer(
         matrixStack: MatrixStack,
         vertexBuilder: IVertexBuilder,
         packedLight: Int,
@@ -101,7 +101,7 @@ class EnchantedSkeletonModel internal constructor() : EntityModel<EnchantedSkele
         body.render(matrixStack, vertexBuilder, packedLight, packedOverlay, red, green, blue, alpha)
     }
 
-    override fun setRotationAngles(
+    override fun setupAnim(
         entity: EnchantedSkeletonEntity,
         limbSwing: Float,
         limbSwingAmount: Float,

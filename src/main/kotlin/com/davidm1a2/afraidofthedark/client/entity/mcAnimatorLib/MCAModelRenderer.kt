@@ -4,12 +4,12 @@ import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.vertex.IVertexBuilder
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
 import it.unimi.dsi.fastutil.objects.ObjectList
-import net.minecraft.client.renderer.Quaternion
-import net.minecraft.client.renderer.Vector3f
-import net.minecraft.client.renderer.Vector4f
 import net.minecraft.client.renderer.model.Model
 import net.minecraft.client.renderer.model.ModelRenderer
 import net.minecraft.util.Direction
+import net.minecraft.util.math.vector.Quaternion
+import net.minecraft.util.math.vector.Vector3f
+import net.minecraft.util.math.vector.Vector4f
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import kotlin.math.asin
@@ -21,8 +21,8 @@ class MCAModelRenderer(
     private var textureOffsetY: Int
 ) : ModelRenderer(0, 0, 0, 0) {
 
-    private var textureWidth = model.textureWidth.toFloat()
-    private var textureHeight = model.textureHeight.toFloat()
+    private var textureWidth = model.texWidth.toFloat()
+    private var textureHeight = model.texHeight.toFloat()
     private var defaultRotationPointX = 0f
     private var defaultRotationPointY = 0f
     private var defaultRotationPointZ = 0f
@@ -34,13 +34,13 @@ class MCAModelRenderer(
     var defaultRotation: Quaternion = Quaternion.ONE.copy()
         private set
 
-    override fun copyModelAngles(modelRendererIn: ModelRenderer) {
-        this.rotateAngleX = modelRendererIn.rotateAngleX
-        this.rotateAngleY = modelRendererIn.rotateAngleY
-        this.rotateAngleZ = modelRendererIn.rotateAngleZ
-        this.rotationPointX = modelRendererIn.rotationPointX
-        this.rotationPointY = modelRendererIn.rotationPointY
-        this.rotationPointZ = modelRendererIn.rotationPointZ
+    override fun copyFrom(modelRenderer: ModelRenderer) {
+        xRot = modelRenderer.xRot
+        yRot = modelRenderer.yRot
+        zRot = modelRenderer.zRot
+        x = modelRenderer.x
+        y = modelRenderer.y
+        z = modelRenderer.z
     }
 
     /**
@@ -50,14 +50,25 @@ class MCAModelRenderer(
         if (renderer is MCAModelRenderer) this.childModels.add(renderer)
     }
 
-    override fun setTextureOffset(x: Int, y: Int): MCAModelRenderer {
+    override fun texOffs(x: Int, y: Int): MCAModelRenderer {
         this.textureOffsetX = x
         this.textureOffsetY = y
         return this
     }
 
-    override fun addBox(partName: String?, x: Float, y: Float, z: Float, width: Int, height: Int, depth: Int, delta: Float, texX: Int, texY: Int): MCAModelRenderer {
-        setTextureOffset(texX, texY)
+    override fun addBox(
+        partName: String?,
+        x: Float,
+        y: Float,
+        z: Float,
+        width: Int,
+        height: Int,
+        depth: Int,
+        delta: Float,
+        texX: Int,
+        texY: Int
+    ): MCAModelRenderer {
+        texOffs(texX, texY)
         this.addBox(this.textureOffsetX, this.textureOffsetY, x, y, z, width.toFloat(), height.toFloat(), depth.toFloat(), delta, delta, delta, this.mirror)
         return this
     }
@@ -84,53 +95,75 @@ class MCAModelRenderer(
         this.addBox(this.textureOffsetX, this.textureOffsetY, x, y, z, width, height, depth, delta, delta, delta, mirrorIn)
     }
 
-    private fun addBox(texOffX: Int, texOffY: Int, x: Float, y: Float, z: Float, width: Float, height: Float, depth: Float, deltaX: Float, deltaY: Float, deltaZ: Float, mirrorIn: Boolean) {
+    private fun addBox(
+        texOffX: Int,
+        texOffY: Int,
+        x: Float,
+        y: Float,
+        z: Float,
+        width: Float,
+        height: Float,
+        depth: Float,
+        deltaX: Float,
+        deltaY: Float,
+        deltaZ: Float,
+        mirrorIn: Boolean
+    ) {
         this.cubeList.add(
             ModelBox(texOffX, texOffY, x, y, z, width, height, depth, deltaX, deltaY, deltaZ, mirrorIn, this.textureWidth, this.textureHeight)
         )
-    }
-
-    override fun setRotationPoint(rotationPointXIn: Float, rotationPointYIn: Float, rotationPointZIn: Float) {
-        this.rotationPointX = rotationPointXIn
-        this.rotationPointY = rotationPointYIn
-        this.rotationPointZ = rotationPointZIn
     }
 
     override fun render(matrixStackIn: MatrixStack, bufferIn: IVertexBuilder, packedLightIn: Int, packedOverlayIn: Int) {
         this.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, 1.0f, 1.0f, 1.0f, 1.0f)
     }
 
-    override fun render(matrixStackIn: MatrixStack, bufferIn: IVertexBuilder, packedLightIn: Int, packedOverlayIn: Int, red: Float, green: Float, blue: Float, alpha: Float) {
-        if (this.showModel) {
+    override fun render(
+        matrixStackIn: MatrixStack,
+        bufferIn: IVertexBuilder,
+        packedLightIn: Int,
+        packedOverlayIn: Int,
+        red: Float,
+        green: Float,
+        blue: Float,
+        alpha: Float
+    ) {
+        if (this.visible) {
             if (!this.cubeList.isEmpty() || !this.childModels.isEmpty()) {
-                matrixStackIn.push()
-                translateRotate(matrixStackIn)
-                doRender(matrixStackIn.last, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha)
+                matrixStackIn.pushPose()
+                translateAndRotate(matrixStackIn)
+                compile(matrixStackIn.last(), bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha)
                 for (modelrenderer in this.childModels) {
                     modelrenderer.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha)
                 }
-                matrixStackIn.pop()
+                matrixStackIn.popPose()
             }
         }
     }
 
-    override fun translateRotate(matrixStack: MatrixStack) {
+    override fun translateAndRotate(matrixStack: MatrixStack) {
         if (rotation != prevRotation) {
             // See: https://automaticaddison.com/how-to-convert-a-quaternion-into-euler-angles-in-python/
-            val term0 = 2.0f * (rotation.w * rotation.x + rotation.y * rotation.z)
-            val term1 = 1.0f - 2.0f * (rotation.x * rotation.x + rotation.y * rotation.y)
-            rotateAngleX = atan2(term0, term1)
+            val term0 = 2.0f * (rotation.r() * rotation.i() + rotation.j() * rotation.k())
+            val term1 = 1.0f - 2.0f * (rotation.i() * rotation.i() + rotation.j() * rotation.j())
+            xRot = atan2(term0, term1)
 
-            val term2 = (2.0f * (rotation.w * rotation.y - rotation.z * rotation.x)).coerceIn(-1.0f, 1.0f)
-            rotateAngleY = asin(term2)
+            val term2 = (2.0f * (rotation.r() * rotation.j() - rotation.k() * rotation.i())).coerceIn(-1.0f, 1.0f)
+            yRot = asin(term2)
 
-            val term3 = 2.0f * (rotation.w * rotation.z + rotation.x * rotation.y)
-            val term4 = 1.0f - 2.0f * (rotation.y * rotation.y + rotation.z * rotation.z)
-            rotateAngleZ = atan2(term3, term4)
+            val term3 = 2.0f * (rotation.r() * rotation.k() + rotation.i() * rotation.j())
+            val term4 = 1.0f - 2.0f * (rotation.j() * rotation.j() + rotation.k() * rotation.k())
+            zRot = atan2(term3, term4)
 
-            prevRotation.set(rotation.x, rotation.y, rotation.z, rotation.w)
+            prevRotation.set(rotation.i(), rotation.j(), rotation.k(), rotation.r())
         }
-        super.translateRotate(matrixStack)
+        super.translateAndRotate(matrixStack)
+    }
+
+    fun setRotationPoint(rotationPointX: Float, rotationPointY: Float, rotationPointZ: Float) {
+        this.xRot = rotationPointX
+        this.yRot = rotationPointY
+        this.zRot = rotationPointZ
     }
 
     fun setInitialRotationPoint(x: Float, y: Float, z: Float) {
@@ -142,7 +175,7 @@ class MCAModelRenderer(
 
     fun setInitialRotationQuaternion(quaternion: Quaternion) {
         this.defaultRotation = quaternion
-        this.rotation.set(quaternion.x, quaternion.y, quaternion.z, quaternion.w)
+        this.rotation.set(quaternion.i(), quaternion.j(), quaternion.k(), quaternion.r())
     }
 
     fun resetRotationPoint() {
@@ -150,24 +183,33 @@ class MCAModelRenderer(
     }
 
     fun resetRotationQuaternion() {
-        this.rotation.set(defaultRotation.x, defaultRotation.y, defaultRotation.z, defaultRotation.w)
+        this.rotation.set(defaultRotation.i(), defaultRotation.j(), defaultRotation.k(), defaultRotation.r())
     }
 
-    private fun doRender(matrixEntryIn: MatrixStack.Entry, bufferIn: IVertexBuilder, packedLightIn: Int, packedOverlayIn: Int, red: Float, green: Float, blue: Float, alpha: Float) {
-        val matrix4f = matrixEntryIn.matrix
-        val matrix3f = matrixEntryIn.normal
+    private fun compile(
+        matrixEntryIn: MatrixStack.Entry,
+        bufferIn: IVertexBuilder,
+        packedLightIn: Int,
+        packedOverlayIn: Int,
+        red: Float,
+        green: Float,
+        blue: Float,
+        alpha: Float
+    ) {
+        val matrix4f = matrixEntryIn.pose()
+        val matrix3f = matrixEntryIn.normal()
         for (modelBox in this.cubeList) {
             for (quad in modelBox.quads) {
                 val vector3f = quad!!.normal.copy()
                 vector3f.transform(matrix3f)
                 for (i in 0..3) {
                     val vert = quad.vertexPositions[i]
-                    val vector4f = Vector4f(vert.position.x / 16.0f, vert.position.y / 16.0f, vert.position.z / 16.0f, 1.0f)
+                    val vector4f = Vector4f(vert.position.x() / 16.0f, vert.position.y() / 16.0f, vert.position.z() / 16.0f, 1.0f)
                     vector4f.transform(matrix4f)
-                    bufferIn.addVertex(
-                        vector4f.x,
-                        vector4f.y,
-                        vector4f.z,
+                    bufferIn.vertex(
+                        vector4f.x(),
+                        vector4f.y(),
+                        vector4f.z(),
                         red,
                         green,
                         blue,
@@ -176,9 +218,9 @@ class MCAModelRenderer(
                         vert.textureV,
                         packedOverlayIn,
                         packedLightIn,
-                        vector3f.x,
-                        vector3f.y,
-                        vector3f.z
+                        vector3f.x(),
+                        vector3f.y(),
+                        vector3f.z()
                     )
                 }
             }
@@ -188,18 +230,33 @@ class MCAModelRenderer(
     /**
      * Returns the model renderer with the new texture parameters.
      */
-    override fun setTextureSize(textureWidthIn: Int, textureHeightIn: Int): MCAModelRenderer {
-        this.textureWidth = textureWidthIn.toFloat()
-        this.textureHeight = textureHeightIn.toFloat()
+    override fun setTexSize(textureWidth: Int, textureHeight: Int): MCAModelRenderer {
+        this.textureWidth = textureWidth.toFloat()
+        this.textureHeight = textureHeight.toFloat()
         return this
     }
 
     fun getRotationPointAsVector(): Vector3f {
-        return Vector3f(rotationPointX, rotationPointY, rotationPointZ)
+        return Vector3f(xRot, yRot, zRot)
     }
 
     @OnlyIn(Dist.CLIENT)
-    class ModelBox(texOffX: Int, texOffY: Int, private var x: Float, private var y: Float, private var z: Float, width: Float, height: Float, depth: Float, deltaX: Float, deltaY: Float, deltaZ: Float, mirorIn: Boolean, texWidth: Float, texHeight: Float) {
+    class ModelBox(
+        texOffX: Int,
+        texOffY: Int,
+        private var x: Float,
+        private var y: Float,
+        private var z: Float,
+        width: Float,
+        height: Float,
+        depth: Float,
+        deltaX: Float,
+        deltaY: Float,
+        deltaZ: Float,
+        mirorIn: Boolean,
+        texWidth: Float,
+        texHeight: Float
+    ) {
         internal val quads: Array<TexturedQuad?>
         private val posX1: Float
         private val posY1: Float
@@ -376,7 +433,7 @@ class MCAModelRenderer(
                     vertexPositions[i - 1 - j] = vert
                 }
             }
-            normal = directionIn.toVector3f()
+            normal = directionIn.step()
             if (mirrorIn) {
                 normal.mul(-1.0f, 1.0f, 1.0f)
             }

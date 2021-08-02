@@ -5,8 +5,8 @@ import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEn
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.vertex.IVertexBuilder
-import net.minecraft.client.renderer.Quaternion
 import net.minecraft.client.renderer.entity.model.EntityModel
+import net.minecraft.util.math.vector.Quaternion
 
 
 /**
@@ -23,15 +23,15 @@ class EnchantedFrogModel internal constructor() : EntityModel<EnchantedFrogEntit
     init {
         // Auto-generated from the MCAnimator software
 
-        textureWidth = 32
-        textureHeight = 32
+        texWidth = 32
+        texHeight = 32
 
         frogBody = MCAModelRenderer(this, 0, 0)
         frogBody.mirror = false
         frogBody.addBox(-4.0f, 0.0f, -3.0f, 8f, 5f, 6f)
         frogBody.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
         frogBody.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        frogBody.setTextureSize(32, 32)
+        frogBody.setTexSize(32, 32)
         parts["frogBody"] = frogBody
 
         val frogLLeg = MCAModelRenderer(this, 0, 11)
@@ -39,7 +39,7 @@ class EnchantedFrogModel internal constructor() : EntityModel<EnchantedFrogEntit
         frogLLeg.addBox(0.0f, 0.0f, 0.0f, 2f, 2f, 5f)
         frogLLeg.setInitialRotationPoint(4.0f, 0.0f, -3.0f)
         frogLLeg.setInitialRotationQuaternion(Quaternion(0.27059805f, 0.27059805f, 0.65328145f, 0.65328145f))
-        frogLLeg.setTextureSize(32, 32)
+        frogLLeg.setTexSize(32, 32)
         parts["frogLLeg"] = frogLLeg
         frogBody.addChild(frogLLeg)
 
@@ -48,7 +48,7 @@ class EnchantedFrogModel internal constructor() : EntityModel<EnchantedFrogEntit
         frogRLeg.addBox(0.0f, 0.0f, 0.0f, 2f, 2f, 5f)
         frogRLeg.setInitialRotationPoint(-4.0f, 0.0f, -3.0f)
         frogRLeg.setInitialRotationQuaternion(Quaternion(0.0f, -0.38268346f, 0.0f, 0.9238795f))
-        frogRLeg.setTextureSize(32, 32)
+        frogRLeg.setTexSize(32, 32)
         parts["frogRLeg"] = frogRLeg
         frogBody.addChild(frogRLeg)
 
@@ -57,7 +57,7 @@ class EnchantedFrogModel internal constructor() : EntityModel<EnchantedFrogEntit
         frogMouth.addBox(0.0f, 0.0f, 0.0f, 8f, 2f, 5f)
         frogMouth.setInitialRotationPoint(-4.0f, 0.0f, 3.0f)
         frogMouth.setInitialRotationQuaternion(Quaternion(-0.08715574f, 0.0f, 0.0f, 0.9961947f))
-        frogMouth.setTextureSize(32, 32)
+        frogMouth.setTexSize(32, 32)
         parts["frogMouth"] = frogMouth
         frogBody.addChild(frogMouth)
 
@@ -66,12 +66,12 @@ class EnchantedFrogModel internal constructor() : EntityModel<EnchantedFrogEntit
         frogHead.addBox(0.0f, 0.0f, 0.0f, 8f, 5f, 3f)
         frogHead.setInitialRotationPoint(-4.0f, 5.0f, 2.0f)
         frogHead.setInitialRotationQuaternion(Quaternion(0.6427876f, 0.0f, 0.0f, 0.76604444f))
-        frogHead.setTextureSize(32, 32)
+        frogHead.setTexSize(32, 32)
         parts["frogHead"] = frogHead
         frogBody.addChild(frogHead)
     }
 
-    override fun render(
+    override fun renderToBuffer(
         matrixStack: MatrixStack,
         vertexBuilder: IVertexBuilder,
         packedLight: Int,
@@ -84,7 +84,7 @@ class EnchantedFrogModel internal constructor() : EntityModel<EnchantedFrogEntit
         frogBody.render(matrixStack, vertexBuilder, packedLight, packedOverlay, red, green, blue, alpha)
     }
 
-    override fun setRotationAngles(
+    override fun setupAnim(
         entity: EnchantedFrogEntity,
         limbSwing: Float,
         limbSwingAmount: Float,
