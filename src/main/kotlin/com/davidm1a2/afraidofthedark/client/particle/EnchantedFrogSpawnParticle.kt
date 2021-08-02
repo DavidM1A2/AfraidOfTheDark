@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.client.particle
 import net.minecraft.client.particle.IAnimatedSprite
 import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
+import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
-import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
@@ -19,7 +19,7 @@ import net.minecraftforge.api.distmarker.OnlyIn
  */
 @OnlyIn(Dist.CLIENT)
 class EnchantedFrogSpawnParticle(
-    world: World,
+    world: ClientWorld,
     x: Double,
     y: Double,
     z: Double,
@@ -28,13 +28,13 @@ class EnchantedFrogSpawnParticle(
 ) : AOTDParticle(world, x, y, z) {
     init {
         // 2 second lifespan
-        maxAge = 40
+        lifetime = 40
         // Scale is random
-        particleScale = rand.nextFloat() * 0.5f + 0.5f
+        scale(random.nextFloat() * 0.5f + 0.5f)
         // Slow up motion
-        motionX = xSpeed
-        motionY = 0.01
-        motionZ = zSpeed
+        xd = xSpeed
+        yd = 0.01
+        zd = zSpeed
     }
 
     /**
@@ -42,16 +42,16 @@ class EnchantedFrogSpawnParticle(
      */
     override fun tick() {
         super.tick()
-        setAlphaF((maxAge - age).toFloat() / maxAge.toFloat())
-        motionX = motionX * 0.7
-        motionZ = motionZ * 0.7
+        alpha = (lifetime - age).toFloat() / lifetime.toFloat()
+        xd = xd * 0.7
+        zd = zd * 0.7
     }
 
     @OnlyIn(Dist.CLIENT)
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
-        override fun makeParticle(
+        override fun createParticle(
             particle: BasicParticleType,
-            world: World,
+            world: ClientWorld,
             x: Double,
             y: Double,
             z: Double,
@@ -60,7 +60,7 @@ class EnchantedFrogSpawnParticle(
             zSpeed: Double
         ): Particle {
             return EnchantedFrogSpawnParticle(world, x, y, z, xSpeed, zSpeed).apply {
-                selectSpriteRandomly(spriteSet)
+                pickSprite(spriteSet)
             }
         }
     }

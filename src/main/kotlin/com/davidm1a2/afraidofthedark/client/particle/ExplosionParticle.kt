@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.client.particle
 import net.minecraft.client.particle.IAnimatedSprite
 import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
+import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
-import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
@@ -19,25 +19,25 @@ import net.minecraftforge.api.distmarker.OnlyIn
  */
 @OnlyIn(Dist.CLIENT)
 class ExplosionParticle(
-    world: World,
+    world: ClientWorld,
     x: Double,
     y: Double,
     z: Double
 ) : AOTDParticle(world, x, y, z) {
     init {
         // 1 second lifespan
-        maxAge = 20
+        lifetime = 20
         // Random motion
-        motionX = (rand.nextFloat() - 0.5) * 0.5
-        motionY = (rand.nextFloat() - 0.5) * 0.5
-        motionZ = (rand.nextFloat() - 0.5) * 0.5
+        xd = (random.nextFloat() - 0.5) * 0.5
+        yd = (random.nextFloat() - 0.5) * 0.5
+        zd = (random.nextFloat() - 0.5) * 0.5
     }
 
     @OnlyIn(Dist.CLIENT)
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
-        override fun makeParticle(
+        override fun createParticle(
             particle: BasicParticleType,
-            world: World,
+            world: ClientWorld,
             x: Double,
             y: Double,
             z: Double,
@@ -46,7 +46,7 @@ class ExplosionParticle(
             zSpeed: Double
         ): Particle {
             return ExplosionParticle(world, x, y, z).apply {
-                selectSpriteRandomly(spriteSet)
+                pickSprite(spriteSet)
             }
         }
     }

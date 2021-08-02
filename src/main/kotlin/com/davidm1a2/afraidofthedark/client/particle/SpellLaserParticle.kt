@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.client.particle
 import net.minecraft.client.particle.IAnimatedSprite
 import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
+import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
-import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
@@ -19,19 +19,19 @@ import net.minecraftforge.api.distmarker.OnlyIn
  */
 @OnlyIn(Dist.CLIENT)
 class SpellLaserParticle(
-    world: World,
+    world: ClientWorld,
     x: Double,
     y: Double,
     z: Double
 ) : AOTDParticle(world, x, y, z) {
     init {
         // 1 second lifespan
-        maxAge = 20
+        lifetime = 20
 
         // No motion
-        motionX = 0.0
-        motionY = 0.0
-        motionZ = 0.0
+        xd = 0.0
+        yd = 0.0
+        zd = 0.0
     }
 
     /**
@@ -39,14 +39,14 @@ class SpellLaserParticle(
      */
     override fun updateMotionXYZ() {
         // Set scale to be based on time alive
-        particleScale = (maxAge - age) / maxAge.toFloat() * 0.1f + 0.001f
+        scale((lifetime - age) / lifetime.toFloat() * 0.1f + 0.001f)
     }
 
     @OnlyIn(Dist.CLIENT)
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
-        override fun makeParticle(
+        override fun createParticle(
             particle: BasicParticleType,
-            world: World,
+            world: ClientWorld,
             x: Double,
             y: Double,
             z: Double,
@@ -55,7 +55,7 @@ class SpellLaserParticle(
             zSpeed: Double
         ): Particle {
             return SpellLaserParticle(world, x, y, z).apply {
-                selectSpriteRandomly(spriteSet)
+                pickSprite(spriteSet)
             }
         }
     }

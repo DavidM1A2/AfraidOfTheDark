@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.client.particle
 
 import net.minecraft.client.particle.IParticleRenderType
 import net.minecraft.client.particle.SpriteTexturedParticle
-import net.minecraft.world.World
+import net.minecraft.client.world.ClientWorld
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
@@ -20,7 +20,7 @@ import net.minecraftforge.api.distmarker.OnlyIn
  */
 @OnlyIn(Dist.CLIENT)
 abstract class AOTDParticle(
-    world: World,
+    world: ClientWorld,
     x: Double,
     y: Double,
     z: Double,
@@ -37,25 +37,25 @@ abstract class AOTDParticle(
      */
     override fun tick() {
         // Update the previous positions to be the current position
-        prevPosX = posX
-        prevPosY = posY
-        prevPosZ = posZ
+        xo = x
+        yo = y
+        zo = z
 
         // If the particle is too old kill it off
-        if (age++ >= maxAge) {
-            setExpired()
+        if (age++ >= lifetime) {
+            remove()
         }
 
         // Update the x,y,z motion
         updateMotionXYZ()
 
         // Move the particle based on motion
-        move(motionX, motionY, motionZ)
+        move(xd, yd, zd)
 
         // If the particle is on the ground reduce the motion quickly
         if (onGround) {
-            motionX *= 0.7
-            motionZ *= 0.7
+            xd *= 0.7
+            zd *= 0.7
         }
     }
 

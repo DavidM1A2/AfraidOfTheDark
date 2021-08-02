@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.client.particle
 import net.minecraft.client.particle.IAnimatedSprite
 import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
+import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
-import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
@@ -19,19 +19,19 @@ import net.minecraftforge.api.distmarker.OnlyIn
  */
 @OnlyIn(Dist.CLIENT)
 class EnariasAltarParticle(
-    world: World,
+    world: ClientWorld,
     x: Double,
     y: Double,
     z: Double
 ) : AOTDParticle(world, x, y, z) {
     init {
         // 2-3 second lifespan
-        maxAge = rand.nextInt(20) + 40
-        particleScale = 0.2f
+        lifetime = random.nextInt(20) + 40
+        scale(0.2f)
 
-        motionX = 0.0
-        motionY = 0.01
-        motionZ = 0.0
+        xd = 0.0
+        yd = 0.01
+        zd = 0.0
     }
 
     /**
@@ -39,16 +39,16 @@ class EnariasAltarParticle(
      */
     override fun updateMotionXYZ() {
         // Slowly increase y motion
-        motionY = motionY * 1.02
+        yd = yd * 1.02
         // Slowly make the particle fade
-        particleAlpha = (maxAge - age) / maxAge.toFloat()
+        alpha = (lifetime - age) / lifetime.toFloat()
     }
 
     @OnlyIn(Dist.CLIENT)
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
-        override fun makeParticle(
+        override fun createParticle(
             particle: BasicParticleType,
-            world: World,
+            world: ClientWorld,
             x: Double,
             y: Double,
             z: Double,
@@ -57,7 +57,7 @@ class EnariasAltarParticle(
             zSpeed: Double
         ): Particle {
             return EnariasAltarParticle(world, x, y, z).apply {
-                selectSpriteRandomly(spriteSet)
+                pickSprite(spriteSet)
             }
         }
     }

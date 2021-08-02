@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.client.particle
 import net.minecraft.client.particle.IAnimatedSprite
 import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
+import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
-import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
@@ -19,27 +19,27 @@ import net.minecraftforge.api.distmarker.OnlyIn
  */
 @OnlyIn(Dist.CLIENT)
 class SpellCast2Particle(
-    world: World,
+    world: ClientWorld,
     x: Double,
     y: Double,
     z: Double
 ) : AOTDParticle(world, x, y, z) {
     init {
         // 0.5-1.5 second lifespan
-        maxAge = rand.nextInt(10) + 30
+        lifetime = random.nextInt(10) + 30
         // Make the particles noticable
-        particleScale = 0.5f + rand.nextFloat() * 0.5f
+        scale(0.5f + random.nextFloat() * 0.5f)
         // Random motion
-        motionX = (rand.nextFloat() - 0.5) * 0.2
-        motionY = rand.nextFloat() * 0.1
-        motionZ = (rand.nextFloat() - 0.5) * 0.2
+        xd = (random.nextFloat() - 0.5) * 0.2
+        yd = random.nextFloat() * 0.1
+        zd = (random.nextFloat() - 0.5) * 0.2
     }
 
     @OnlyIn(Dist.CLIENT)
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
-        override fun makeParticle(
+        override fun createParticle(
             particle: BasicParticleType,
-            world: World,
+            world: ClientWorld,
             x: Double,
             y: Double,
             z: Double,
@@ -48,7 +48,7 @@ class SpellCast2Particle(
             zSpeed: Double
         ): Particle {
             return SpellCast2Particle(world, x, y, z).apply {
-                selectSpriteRandomly(spriteSet)
+                pickSprite(spriteSet)
             }
         }
     }

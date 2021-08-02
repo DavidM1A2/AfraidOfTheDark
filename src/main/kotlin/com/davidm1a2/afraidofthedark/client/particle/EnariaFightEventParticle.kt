@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.client.particle
 import net.minecraft.client.particle.IAnimatedSprite
 import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
+import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
-import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
@@ -21,7 +21,7 @@ import net.minecraftforge.api.distmarker.OnlyIn
  */
 @OnlyIn(Dist.CLIENT)
 class EnariaFightEventParticle(
-    world: World,
+    world: ClientWorld,
     x: Double,
     y: Double,
     z: Double,
@@ -30,15 +30,15 @@ class EnariaFightEventParticle(
 ) : AOTDParticle(world, x, y, z, xSpeed, 0.0, zSpeed) {
     init {
         // 2-3 second lifespan
-        maxAge = rand.nextInt(20) + 40
+        lifetime = random.nextInt(20) + 40
 
         // Make the particles huge when she casts a spell
-        particleScale = 0.4f
+        scale(0.4f)
 
         // speed will be the same as motion for this particle
-        motionX = xSpeed
-        motionY = 0.0
-        motionZ = zSpeed
+        xd = xSpeed
+        yd = 0.0
+        zd = zSpeed
     }
 
     /**
@@ -46,14 +46,14 @@ class EnariaFightEventParticle(
      */
     override fun updateMotionXYZ() {
         // Slowly increase y motion
-        motionY = motionY - 0.02
+        yd = yd - 0.02
     }
 
     @OnlyIn(Dist.CLIENT)
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
-        override fun makeParticle(
+        override fun createParticle(
             particle: BasicParticleType,
-            world: World,
+            world: ClientWorld,
             x: Double,
             y: Double,
             z: Double,
@@ -62,7 +62,7 @@ class EnariaFightEventParticle(
             zSpeed: Double
         ): Particle {
             return EnariaFightEventParticle(world, x, y, z, xSpeed, zSpeed).apply {
-                selectSpriteRandomly(spriteSet)
+                pickSprite(spriteSet)
             }
         }
     }

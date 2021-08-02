@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.client.particle
 import net.minecraft.client.particle.IAnimatedSprite
 import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
+import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
-import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
@@ -19,31 +19,31 @@ import net.minecraftforge.api.distmarker.OnlyIn
  */
 @OnlyIn(Dist.CLIENT)
 class FireParticle(
-    world: World,
+    world: ClientWorld,
     x: Double,
     y: Double,
     z: Double
 ) : AOTDParticle(world, x, y, z) {
     init {
         // 1-1.5 second lifespan
-        maxAge = 20 + rand.nextInt(10)
+        lifetime = 20 + random.nextInt(10)
         // Drift Upwards
-        motionX = (rand.nextDouble() - 0.5) * 0.3
-        motionY = rand.nextDouble() * 0.3
-        motionZ = (rand.nextDouble() - 0.5) * 0.3
+        xd = (random.nextDouble() - 0.5) * 0.3
+        yd = random.nextDouble() * 0.3
+        zd = (random.nextDouble() - 0.5) * 0.3
     }
 
     override fun updateMotionXYZ() {
-        motionX *= 0.9
-        motionY *= 0.95
-        motionZ *= 0.9
+        xd *= 0.9
+        yd *= 0.95
+        zd *= 0.9
     }
 
     @OnlyIn(Dist.CLIENT)
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
-        override fun makeParticle(
+        override fun createParticle(
             particle: BasicParticleType,
-            world: World,
+            world: ClientWorld,
             x: Double,
             y: Double,
             z: Double,
@@ -52,7 +52,7 @@ class FireParticle(
             zSpeed: Double
         ): Particle {
             return FireParticle(world, x, y, z).apply {
-                selectSpriteRandomly(spriteSet)
+                pickSprite(spriteSet)
             }
         }
     }

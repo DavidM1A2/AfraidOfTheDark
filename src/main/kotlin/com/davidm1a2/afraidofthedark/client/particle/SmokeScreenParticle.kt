@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.client.particle
 import net.minecraft.client.particle.IAnimatedSprite
 import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
+import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
-import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
@@ -19,25 +19,25 @@ import net.minecraftforge.api.distmarker.OnlyIn
  */
 @OnlyIn(Dist.CLIENT)
 class SmokeScreenParticle(
-    world: World,
+    world: ClientWorld,
     x: Double,
     y: Double,
     z: Double
 ) : AOTDParticle(world, x, y, z, 0.0, 0.0, 0.0) {
     init {
         // 10-20 second lifespan
-        maxAge = rand.nextInt(200) + 200
+        lifetime = random.nextInt(200) + 200
 
         // Blinding size teleport particles
-        particleScale = 1f + rand.nextFloat() * 2f
+        scale(1f + random.nextFloat() * 2f)
 
         // Particle moves outwards
-        motionX = rand.nextFloat() * 0.07
-        motionX = if (rand.nextBoolean()) -motionX - 0.07 else motionX + 0.07
-        motionY = rand.nextFloat() * 0.07
-        motionY = if (rand.nextBoolean()) -motionY - 0.07 else motionY + 0.07
-        motionZ = rand.nextFloat() * 0.07
-        motionZ = if (rand.nextBoolean()) -motionZ - 0.07 else motionZ + 0.07
+        xd = random.nextFloat() * 0.07
+        xd = if (random.nextBoolean()) -xd - 0.07 else xd + 0.07
+        yd = random.nextFloat() * 0.07
+        yd = if (random.nextBoolean()) -yd - 0.07 else yd + 0.07
+        zd = random.nextFloat() * 0.07
+        zd = if (random.nextBoolean()) -zd - 0.07 else zd + 0.07
     }
 
     /**
@@ -45,16 +45,16 @@ class SmokeScreenParticle(
      */
     override fun updateMotionXYZ() {
         // Slowly reduce motion
-        motionX = motionX * 0.95
-        motionY = motionY * 0.95
-        motionZ = motionZ * 0.95
+        xd = xd * 0.95
+        yd = yd * 0.95
+        zd = zd * 0.95
     }
 
     @OnlyIn(Dist.CLIENT)
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
-        override fun makeParticle(
+        override fun createParticle(
             particle: BasicParticleType,
-            world: World,
+            world: ClientWorld,
             x: Double,
             y: Double,
             z: Double,
@@ -63,7 +63,7 @@ class SmokeScreenParticle(
             zSpeed: Double
         ): Particle {
             return SmokeScreenParticle(world, x, y, z).apply {
-                selectSpriteRandomly(spriteSet)
+                pickSprite(spriteSet)
             }
         }
     }

@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.client.particle
 import net.minecraft.client.particle.IAnimatedSprite
 import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
+import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
-import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
@@ -19,29 +19,29 @@ import net.minecraftforge.api.distmarker.OnlyIn
  */
 @OnlyIn(Dist.CLIENT)
 class DigParticle(
-    world: World,
+    world: ClientWorld,
     x: Double,
     y: Double,
     z: Double
 ) : AOTDParticle(world, x, y, z) {
     init {
         // 0.5 second lifespan
-        maxAge = 10
+        lifetime = 10
         // Random outwards motion
-        motionX = (rand.nextDouble() - 0.5) * 0.5
-        motionY = (rand.nextDouble() - 0.5) * 1.0
-        motionZ = (rand.nextDouble() - 0.5) * 0.5
+        xd = (random.nextDouble() - 0.5) * 0.5
+        yd = (random.nextDouble() - 0.5) * 1.0
+        zd = (random.nextDouble() - 0.5) * 0.5
     }
 
     override fun updateMotionXYZ() {
-        motionY -= 0.08
+        yd -= 0.08
     }
 
     @OnlyIn(Dist.CLIENT)
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
-        override fun makeParticle(
+        override fun createParticle(
             particle: BasicParticleType,
-            world: World,
+            world: ClientWorld,
             x: Double,
             y: Double,
             z: Double,
@@ -50,7 +50,7 @@ class DigParticle(
             zSpeed: Double
         ): Particle {
             return DigParticle(world, x, y, z).apply {
-                selectSpriteRandomly(spriteSet)
+                pickSprite(spriteSet)
             }
         }
     }

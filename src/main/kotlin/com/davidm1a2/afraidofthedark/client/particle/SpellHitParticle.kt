@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.client.particle
 import net.minecraft.client.particle.IAnimatedSprite
 import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
+import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
-import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
@@ -19,22 +19,22 @@ import net.minecraftforge.api.distmarker.OnlyIn
  */
 @OnlyIn(Dist.CLIENT)
 class SpellHitParticle(
-    world: World,
+    world: ClientWorld,
     x: Double,
     y: Double,
     z: Double
 ) : AOTDParticle(world, x, y, z) {
     init {
         // 0.5-1.5 second lifespan
-        maxAge = rand.nextInt(30) + 10
+        lifetime = random.nextInt(30) + 10
 
         // Make the particles noticable
-        particleScale = 0.5f + rand.nextFloat() * 2
+        scale(0.5f + random.nextFloat() * 2)
 
         // Random motion
-        motionX = (rand.nextFloat() - 0.5) * 0.05
-        motionY = rand.nextFloat() * 0.02
-        motionZ = (rand.nextFloat() - 0.5) * 0.05
+        xd = (random.nextFloat() - 0.5) * 0.05
+        yd = random.nextFloat() * 0.02
+        zd = (random.nextFloat() - 0.5) * 0.05
     }
 
     /**
@@ -42,14 +42,14 @@ class SpellHitParticle(
      */
     override fun updateMotionXYZ() {
         // Slowly make the particle fade
-        particleAlpha = (maxAge - age) / maxAge.toFloat()
+        alpha = (lifetime - age) / lifetime.toFloat()
     }
 
     @OnlyIn(Dist.CLIENT)
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
-        override fun makeParticle(
+        override fun createParticle(
             particle: BasicParticleType,
-            world: World,
+            world: ClientWorld,
             x: Double,
             y: Double,
             z: Double,
@@ -58,7 +58,7 @@ class SpellHitParticle(
             zSpeed: Double
         ): Particle {
             return SpellHitParticle(world, x, y, z).apply {
-                selectSpriteRandomly(spriteSet)
+                pickSprite(spriteSet)
             }
         }
     }
