@@ -20,7 +20,7 @@ class SpellDeliveryMethodIcon(val deliveryMethod: SpellDeliveryMethod) :
         val componentInstance = SpellComponentInstance(deliveryMethod)
         componentInstance.setDefaults()
         this.hoverTexts = arrayOf(
-            I18n.format(deliveryMethod.getUnlocalizedName()),
+            I18n.get(deliveryMethod.getUnlocalizedName()),
             "Cost Multiplier: %.1f".format(deliveryMethod.getStageCostMultiplier(componentInstance)),
             "Cost: %.1f".format(deliveryMethod.getCost(componentInstance))
         )

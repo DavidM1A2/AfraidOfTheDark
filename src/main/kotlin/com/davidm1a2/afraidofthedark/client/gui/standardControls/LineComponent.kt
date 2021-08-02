@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
@@ -21,7 +22,7 @@ open class LineComponent(lineFrom: Position, lineTo: Position, offset: Position,
         this.prefSize = lineFrom.toDimension(lineTo)
     }
 
-    override fun draw() {
+    override fun draw(matrixStack: MatrixStack) {
         if (this.isVisible) {
             RenderSystem.pushMatrix()
             RenderSystem.enableBlend()
@@ -34,7 +35,7 @@ open class LineComponent(lineFrom: Position, lineTo: Position, offset: Position,
             )
 
             val tes = Tessellator.getInstance()
-            val bufferBuffer = tes.buffer
+            val bufferBuffer = tes.builder
 
             bufferBuffer.begin(7, DefaultVertexFormats.POSITION)
             val deltaX = width.toDouble()
@@ -60,11 +61,11 @@ open class LineComponent(lineFrom: Position, lineTo: Position, offset: Position,
             val x4 = x + (newX / 2)
             val y4 = y + (newY / 2)
 
-            bufferBuffer.pos(x1, y1, 0.0).endVertex()
-            bufferBuffer.pos(x2, y2, 0.0).endVertex()
-            bufferBuffer.pos(x3, y3, 0.0).endVertex()
-            bufferBuffer.pos(x4, y4, 0.0).endVertex()
-            tes.draw()
+            bufferBuffer.vertex(x1, y1, 0.0).endVertex()
+            bufferBuffer.vertex(x2, y2, 0.0).endVertex()
+            bufferBuffer.vertex(x3, y3, 0.0).endVertex()
+            bufferBuffer.vertex(x4, y4, 0.0).endVertex()
+            tes.end()
 
             RenderSystem.enableTexture()
             RenderSystem.disableBlend()

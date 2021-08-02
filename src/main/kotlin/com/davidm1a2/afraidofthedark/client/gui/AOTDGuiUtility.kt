@@ -15,7 +15,7 @@ import kotlin.math.roundToInt
  */
 object AOTDGuiUtility {
     private val minecraft = Minecraft.getInstance()
-    private val window = minecraft.mainWindow
+    private val window = minecraft.window
 
     /**
      * Converts a coordinate from minecraft resolution to screen resolution
@@ -24,7 +24,7 @@ object AOTDGuiUtility {
      * @return The coordinate of the UI element on the real screen
      */
     fun mcToRealScreenCoord(mcCoord: Int): Int {
-        return mcCoord * this.window.calcGuiScale(minecraft.gameSettings.guiScale, minecraft.forceUnicodeFont)
+        return mcCoord * this.window.calculateScale(minecraft.options.guiScale, minecraft.isEnforceUnicode)
     }
 
     /**
@@ -34,7 +34,7 @@ object AOTDGuiUtility {
      * @return The coordinate of the UI element on the MC coordinate system
      */
     fun realScreenCoordToMC(realScreenCoord: Int): Int {
-        return realScreenCoord / this.window.calcGuiScale(minecraft.gameSettings.guiScale, minecraft.forceUnicodeFont)
+        return realScreenCoord / this.window.calculateScale(minecraft.options.guiScale, minecraft.isEnforceUnicode)
     }
 
     /**
@@ -51,14 +51,14 @@ object AOTDGuiUtility {
      * @return Returns the mouse's X current position in MC coordinates
      */
     fun getMouseXInMCCoord(): Int {
-        return if (window.width == 0) 0 else minecraft.mouseHelper.mouseX.roundToInt() * this.window.scaledWidth / window.width
+        return if (window.width == 0) 0 else minecraft.mouseHandler.xpos().roundToInt() * this.window.guiScaledWidth / window.width
     }
 
     /**
      * @return Returns the mouse's Y current position in MC coordinates
      */
     fun getMouseYInMCCoord(): Int {
-        return if (window.height == 0) 0 else minecraft.mouseHelper.mouseY.roundToInt() * this.window.scaledHeight / window.height
+        return if (window.height == 0) 0 else minecraft.mouseHandler.ypos().roundToInt() * this.window.guiScaledHeight / window.height
     }
 
     fun getWindowWidthInMCCoords(): Int {

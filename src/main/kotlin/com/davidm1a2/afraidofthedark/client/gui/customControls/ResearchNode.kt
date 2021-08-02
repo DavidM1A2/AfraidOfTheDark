@@ -9,9 +9,9 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
-import com.mojang.realmsclient.gui.ChatFormatting
 import net.minecraft.client.Minecraft
 import net.minecraft.client.resources.I18n
+import net.minecraft.util.text.TextFormatting
 
 /**
  * Button that represents a research in the research GUI
@@ -54,10 +54,10 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
                             refreshHoverTexts()
                         } else if (playerResearch.isResearched(research)) {
                             // Show the research if it's already researched
-                            Minecraft.getInstance().displayGuiScreen(
+                            Minecraft.getInstance().setScreen(
                                 BloodStainedJournalPageScreen(
-                                    I18n.format(research.getUnlocalizedText()),
-                                    I18n.format(research.getUnlocalizedName()),
+                                    I18n.get(research.getUnlocalizedText()),
+                                    I18n.get(research.getUnlocalizedName()),
                                     research.researchedRecipes
                                 )
                             )
@@ -65,17 +65,17 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
                     } else {
                         // If this isn't a cheat sheet open the research page
                         if (playerResearch.isResearched(research)) {
-                            Minecraft.getInstance().displayGuiScreen(
+                            Minecraft.getInstance().setScreen(
                                 BloodStainedJournalPageScreen(
-                                    I18n.format(research.getUnlocalizedText()),
-                                    I18n.format(research.getUnlocalizedName()),
+                                    I18n.get(research.getUnlocalizedText()),
+                                    I18n.get(research.getUnlocalizedName()),
                                     research.researchedRecipes
                                 )
                             )
                         } else if (research.preRequisite != null && playerResearch.isResearched(research.preRequisite)) {   // Pre-Page UI
-                            Minecraft.getInstance().displayGuiScreen(
+                            Minecraft.getInstance().setScreen(
                                 BloodStainedJournalPageScreen(
-                                    I18n.format(research.getUnlocalizedPreText()),
+                                    I18n.get(research.getUnlocalizedPreText()),
                                     "???",
                                     research.preResearchedRecipes
                                 )
@@ -90,9 +90,9 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
 
     private fun refreshHoverTexts() {
         hoverTexts = if (playerResearch.isResearched(this.research)) {
-            arrayOf(I18n.format(research.getUnlocalizedName()), "${ChatFormatting.ITALIC}${I18n.format(this.research.getUnlocalizedTooltip())}")
+            arrayOf(I18n.get(research.getUnlocalizedName()), "${TextFormatting.ITALIC}${I18n.get(this.research.getUnlocalizedTooltip())}")
         } else {
-            arrayOf("?", "${ChatFormatting.ITALIC}Unknown Research")
+            arrayOf("?", "${TextFormatting.ITALIC}Unknown Research")
         }
     }
 }

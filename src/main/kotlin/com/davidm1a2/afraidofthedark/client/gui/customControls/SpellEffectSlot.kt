@@ -38,7 +38,7 @@ class SpellEffectSlot(offset: Position, prefSize: Dimensions, spell: Spell, val 
         if (componentType != null) {
             val componentInstance = this.getComponentInstance()!!
             this.hoverTexts = arrayOf(
-                "Effect (${I18n.format(componentType.getUnlocalizedName())})",
+                "Effect (${I18n.get(componentType.getUnlocalizedName())})",
                 "Cost: %.1f".format(componentType.getCost(componentInstance))
             )
         } else {

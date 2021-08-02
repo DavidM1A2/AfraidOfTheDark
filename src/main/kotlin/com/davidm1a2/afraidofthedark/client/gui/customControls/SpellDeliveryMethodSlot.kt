@@ -32,7 +32,7 @@ class SpellDeliveryMethodSlot(offset: Position, prefSize: Dimensions, spell: Spe
         if (componentType != null) {
             val componentInstance = this.getComponentInstance()!!
             this.hoverTexts = arrayOf(
-                "Delivery Method (${I18n.format(componentType.getUnlocalizedName())})",
+                "Delivery Method (${I18n.get(componentType.getUnlocalizedName())})",
                 "Cost Multiplier: %.1f".format(componentType.getStageCostMultiplier(componentInstance)),
                 "Cost: %.1f".format(componentType.getCost(componentInstance))
             )

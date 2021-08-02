@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
-import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellComponentSlot
 import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellScroll
 import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellTablet
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
@@ -67,7 +66,7 @@ class SpellCraftingScreen(spell: Spell) : AOTDScreen(TranslationTextComponent("s
                         if (scroll.isEditingProps()) {
                             scroll.setEditing(null)
                         } else {
-                            Minecraft.getInstance().displayGuiScreen(SpellListScreen())
+                            Minecraft.getInstance().setScreen(SpellListScreen())
                         }
                     }
                 }

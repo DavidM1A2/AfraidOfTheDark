@@ -225,9 +225,9 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
     private fun calcGuiScale(): Float {
         val minecraft = Minecraft.getInstance()
-        val min = min(minecraft.mainWindow.width, minecraft.mainWindow.height)
+        val min = min(minecraft.window.width, minecraft.window.height)
         val refSize = Constants.REFERENCE_SIZE  // Our reference screen size is 480p (ie. text will look like gui scale 1 at 480p)
-        return Constants.TEXT_SCALE_FACTOR * min / refSize / minecraft.mainWindow.calcGuiScale(minecraft.gameSettings.guiScale, minecraft.forceUnicodeFont)
+        return Constants.TEXT_SCALE_FACTOR * min / refSize / minecraft.window.calculateScale(minecraft.options.guiScale, minecraft.isEnforceUnicode)
     }
 
     /**
@@ -267,7 +267,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         // Bind our custom texture sheet
         RenderSystem.bindTexture(fontTextureID)
         val tessellator = Tessellator.getInstance()
-        val bufferBuilder = tessellator.buffer
+        val bufferBuilder = tessellator.builder
         bufferBuilder.begin(7, DefaultVertexFormats.POSITION_TEX)
         RenderSystem.color4f(rgba.red / 255f, rgba.green / 255f, rgba.blue / 255f, rgba.alpha / 255f)
         for (line in stringToDraw.split("\n")) {
@@ -298,7 +298,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
             drawY += height
         }
         // Finally draw the screen now that all the glyphs are in place
-        tessellator.draw()
+        tessellator.end()
     }
 
     /**
@@ -321,20 +321,20 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         val srcWidth = abs(srcX2 - srcX)
         val srcHeight = abs(srcY2 - srcY)
         // Grab the tessellator instance and buffer builder
-        val bufferBuilder = Tessellator.getInstance().buffer
+        val bufferBuilder = Tessellator.getInstance().builder
 
         // Add the 4 vertices that are used to draw the glyph. These must be done in this order
-        bufferBuilder.pos(drawX.toDouble(), (drawY + drawHeight).toDouble(), 0.0)
-            .tex(srcX / textureWidth, (srcY + srcHeight) / textureHeight)
+        bufferBuilder.vertex(drawX.toDouble(), (drawY + drawHeight).toDouble(), 0.0)
+            .uv(srcX / textureWidth, (srcY + srcHeight) / textureHeight)
             .endVertex()
-        bufferBuilder.pos((drawX + drawWidth).toDouble(), (drawY + drawHeight).toDouble(), 0.0)
-            .tex((srcX + srcWidth) / textureWidth, (srcY + srcHeight) / textureHeight)
+        bufferBuilder.vertex((drawX + drawWidth).toDouble(), (drawY + drawHeight).toDouble(), 0.0)
+            .uv((srcX + srcWidth) / textureWidth, (srcY + srcHeight) / textureHeight)
             .endVertex()
-        bufferBuilder.pos((drawX + drawWidth).toDouble(), drawY.toDouble(), 0.0)
-            .tex((srcX + srcWidth) / textureWidth, srcY / textureHeight)
+        bufferBuilder.vertex((drawX + drawWidth).toDouble(), drawY.toDouble(), 0.0)
+            .uv((srcX + srcWidth) / textureWidth, srcY / textureHeight)
             .endVertex()
-        bufferBuilder.pos(drawX.toDouble(), drawY.toDouble(), 0.0)
-            .tex(srcX / textureWidth, srcY / textureHeight)
+        bufferBuilder.vertex(drawX.toDouble(), drawY.toDouble(), 0.0)
+            .uv(srcX / textureWidth, srcY / textureHeight)
             .endVertex()
     }
 
@@ -418,7 +418,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
                 // Not very familiar with OpenGl here, but create an int buffer and generate the texture from the byte buffer
 
-                val textureBuffer = GLAllocation.createDirectByteBuffer(4).asIntBuffer()
+                val textureBuffer = GLAllocation.createByteBuffer(4).asIntBuffer()
                 GL11.glGenTextures(textureBuffer)
 
                 val textureId = textureBuffer.get(0)

@@ -2,11 +2,11 @@ package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.mojang.blaze3d.matrix.MatrixStack
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
-import org.lwjgl.opengl.GL11
 
 /**
  * Advanced control that displays an itemstack in a GUI
@@ -15,8 +15,9 @@ open class ItemStackPane(
     prefSize: Dimensions,
     offset: Position,
     backgroundHighlight: Boolean = false,
-    var itemStack: ItemStack = ItemStack.EMPTY) :
-        AOTDPane(offset, prefSize) {
+    var itemStack: ItemStack = ItemStack.EMPTY
+) :
+    AOTDPane(offset, prefSize) {
 
     private val highlight: ImagePane?
 
@@ -35,7 +36,7 @@ open class ItemStackPane(
     /**
      * Render the itemstack
      */
-    override fun draw() {
+    override fun draw(matrixStack: MatrixStack) {
         // Ensure the control is visible
         if (this.isVisible) {
             // Test if we need to toggle the visibility of the highlit background
@@ -44,52 +45,47 @@ open class ItemStackPane(
                 highlight.isVisible = this.isHovered && !this.itemStack.isEmpty
             }
 
-            super.draw()
+            super.draw(matrixStack)
 
             // Enable item lighting
-            RenderHelper.enableStandardItemLighting()
+            RenderHelper.setupForFlatItems()
             // Push a matrix before rendering the item, this code is taken from the inventory class
-            GL11.glPushMatrix()
+            matrixStack.pushPose()
 
             // Grab the render item to draw items
             val renderItem = Minecraft.getInstance().itemRenderer
-            // Set Z level to 100 like in default MC code
-            renderItem.zLevel = 100.0f
             // Ensure we have an itemstack to draw
             if (!itemStack.isEmpty) {
                 // Grab the font renderer for the item
-                val font = itemStack.item.getFontRenderer(itemStack) ?: Minecraft.getInstance().fontRenderer
+                val font = itemStack.item.getFontRenderer(itemStack) ?: Minecraft.getInstance().font
                 // Attempt to at least center the item because we can't scale them
                 val calcX = x + this.width / 2 - 10
                 val calcY = y + this.height / 2 - 10
                 // Render the itemstack into the GUI
-                renderItem.renderItemAndEffectIntoGUI(itemStack, calcX, calcY)
-                // Render the itemstack count overlay into the GUI
-                renderItem.renderItemOverlayIntoGUI(font, itemStack, calcX, calcY, null)
-                // Set Z level to 0 like in default MC code
-                renderItem.zLevel = 0.0f
+                renderItem.renderGuiItem(itemStack, calcX, calcY)
             }
 
             // Pop the matrix and disable the item lighting
-            GL11.glPopMatrix()
-            RenderHelper.disableStandardItemLighting()
+            matrixStack.popPose()
+            RenderHelper.setupFor3DItems()
         }
     }
 
     /**
      * Draws the overlay that displays the highlit background and item name
      */
-    override fun drawOverlay() {
+    override fun drawOverlay(matrixStack: MatrixStack) {
         // Ensure the control is visible and we have an overlay to draw
         if (this.isVisible && highlight != null) {
             // Ensure the stack is hovered and the interior items are not null
             if (this.isHovered && !this.itemStack.isEmpty) {
                 // Show the item name and count
-                fontRenderer.drawStringWithShadow(
-                        "${itemStack.displayName.formattedText} x${itemStack.count}",
-                        x.toFloat(),
-                        (y - 5).toFloat(),
-                        -0x1
+                fontRenderer.drawShadow(
+                    matrixStack,
+                    "${itemStack.displayName.string} x${itemStack.count}",
+                    x.toFloat(),
+                    (y - 5).toFloat(),
+                    -0x1
                 )
             }
         }

@@ -1,27 +1,32 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
+import com.mojang.blaze3d.matrix.MatrixStack
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
 
 /**
  * Super basic control that just scissors the border and holds gui elements
  */
-open class StackPane (
+open class StackPane(
     prefSize: Dimensions = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE),
     offset: Position = Position(0.0, 0.0),
     margins: Spacing = Spacing(),
     gravity: Gravity = Gravity.TOP_LEFT,
     hoverTexts: Array<String> = emptyArray(),
     padding: Spacing = Spacing(),
-    private val scissorEnabled: Boolean = false) :
-        AOTDPane(offset, prefSize, margins, gravity, hoverTexts, padding) {
+    private val scissorEnabled: Boolean = false
+) :
+    AOTDPane(offset, prefSize, margins, gravity, hoverTexts, padding) {
 
     /**
      * A panel can only be drawn inside of a box that may be scissored
      */
-    override fun draw() {
+    override fun draw(matrixStack: MatrixStack) {
         // If scissor is enabled we use glScissor to force all drawing to happen inside of a box
         if (scissorEnabled) {
             // Compute the OpenGL X and Y screen coordinates to scissor
@@ -63,7 +68,7 @@ open class StackPane (
         }
 
         // Draw all sub-components
-        super.draw()
+        super.draw(matrixStack)
 
         // If scissor was enabled disable it
         if (scissorEnabled) {

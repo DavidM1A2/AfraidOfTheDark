@@ -23,7 +23,7 @@ class SpellPowerSourceSlot(offset: Position, prefSize: Dimensions, spell: Spell)
         val componentType = this.getComponentType()
         if (componentType != null) {
             this.hoverTexts = arrayOf(
-                "Power Source (${I18n.format(componentType.getUnlocalizedName())})",
+                "Power Source (${I18n.get(componentType.getUnlocalizedName())})",
                 "Cost Meaning: ${componentType.getCostDescription()}"
             )
         } else {

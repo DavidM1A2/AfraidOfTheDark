@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
+import com.mojang.blaze3d.matrix.MatrixStack
 import net.minecraft.client.Minecraft
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.SharedConstants
@@ -71,9 +72,9 @@ class TextFieldPane(offset: Position = Position(0.0, 0.0), prefSize: Dimensions 
     /**
      * Only draw the text field if visible
      */
-    override fun draw() {
+    override fun draw(matrixStack: MatrixStack) {
         if (this.isVisible) {
-            super.draw()
+            super.draw(matrixStack)
         }
     }
 
@@ -87,16 +88,16 @@ class TextFieldPane(offset: Position = Position(0.0, 0.0), prefSize: Dimensions 
             // CTRL + C
             else if (event.hasModifier(KeyEvent.Modifier.CONTROL) && event.key == GLFW.GLFW_KEY_C) {
                 // Update the clipboard string
-                Minecraft.getInstance().keyboardListener.clipboardString = this.getText()
+                Minecraft.getInstance().keyboardHandler.clipboard = this.getText()
             }
             // Ctrl + V
             else if (event.hasModifier(KeyEvent.Modifier.CONTROL) && event.key == GLFW.GLFW_KEY_V) {
                 this.setText("")
-                this.addText(SharedConstants.filterAllowedCharacters(Minecraft.getInstance().keyboardListener.clipboardString))
+                this.addText(SharedConstants.filterText(Minecraft.getInstance().keyboardHandler.clipboard))
             }
             // CTRL + X
             else if (event.hasModifier(KeyEvent.Modifier.CONTROL) && event.key == GLFW.GLFW_KEY_X) {
-                Minecraft.getInstance().keyboardListener.clipboardString = this.getText()
+                Minecraft.getInstance().keyboardHandler.clipboard = this.getText()
                 this.setText("")
             }
             // Regular key typed
@@ -117,7 +118,7 @@ class TextFieldPane(offset: Position = Position(0.0, 0.0), prefSize: Dimensions 
     private fun keyTyped(event: KeyEvent) {
         // Ensure the text field is focused
         if (this.isFocused) {
-            val char = SharedConstants.filterAllowedCharacters(event.char.toString())
+            val char = SharedConstants.filterText(event.char.toString())
             this.addText(char)
         }
     }
@@ -155,7 +156,7 @@ class TextFieldPane(offset: Position = Position(0.0, 0.0), prefSize: Dimensions 
      */
     private fun setTextInternal(rawText: String, oldText: String = getText()) {
         // Make sure that the text contains valid characters
-        val newText = SharedConstants.filterAllowedCharacters(rawText)
+        val newText = SharedConstants.filterText(rawText)
         // Now we test if we should show ghost text or not
         // If the control is focused then we don't show ghost text
         if (isFocused) {
@@ -235,7 +236,7 @@ class TextFieldPane(offset: Position = Position(0.0, 0.0), prefSize: Dimensions 
         // If we were not focused and now are focused update the text
         if (!wasFocused && isFocused) {
             // Enable repeat events so we can type multiple characters in the box by holding them
-            Minecraft.getInstance().keyboardListener.enableRepeatEvents(true)
+            Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true)
             // Set the background to be tinted
             background.color = FOCUSED_COLOR_TINT
             // Get the current text
@@ -246,7 +247,7 @@ class TextFieldPane(offset: Position = Position(0.0, 0.0), prefSize: Dimensions 
             this.setTextInternal(currentText, currentText)
         } else if (wasFocused && !isFocused) {
             // Disable repeat events
-            Minecraft.getInstance().keyboardListener.enableRepeatEvents(false)
+            Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(false)
             // Set the background to be untinted
             background.color = BASE_COLOR_TINT
             // Get the current text

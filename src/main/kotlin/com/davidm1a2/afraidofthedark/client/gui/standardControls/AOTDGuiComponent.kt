@@ -5,9 +5,11 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
+import com.mojang.blaze3d.matrix.MatrixStack
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.player.ClientPlayerEntity
 import net.minecraft.client.gui.FontRenderer
+import net.minecraft.util.text.StringTextComponent
 import net.minecraftforge.fml.client.gui.GuiUtils
 import java.awt.Color
 import java.awt.Point
@@ -23,9 +25,10 @@ abstract class AOTDGuiComponent(
     var prefSize: Dimensions = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE),
     var margins: Spacing = Spacing(),
     var gravity: Gravity = Gravity.TOP_LEFT,
+    // TODO: Use ITextComponent instead of raw strings
     var hoverTexts: Array<String> = emptyArray(),
-    var color: Color = Color(255, 255, 255, 255)) {
-
+    var color: Color = Color(255, 255, 255, 255)
+) {
     open var width = 0
     open var height = 0
     open var x = 0
@@ -40,12 +43,12 @@ abstract class AOTDGuiComponent(
     /**
      * Draw function that gets called every frame. This needs to be overridden to draw custom controls
      */
-    open fun draw() {}
+    open fun draw(matrixStack: MatrixStack) {}
 
     /**
      * Draws the hover text that appears when we mouse over the control
      */
-    open fun drawOverlay() {
+    open fun drawOverlay(matrixStack: MatrixStack) {
         // Make sure the control is visible and hovered
         if (this.isVisible && this.inBounds && this.isHovered && hoverTexts.isNotEmpty()) {
             // Grab the mouse X and Y coordinates to draw at
@@ -54,7 +57,16 @@ abstract class AOTDGuiComponent(
             // Get the window width and calculate the distance to the edge of the screen
             val windowWidth = AOTDGuiUtility.getWindowWidthInMCCoords()
             val windowHeight = AOTDGuiUtility.getWindowHeightInMCCoords()
-            GuiUtils.drawHoveringText(hoverTexts.toList(), mouseX, mouseY, windowWidth, windowHeight, 200, fontRenderer)
+            GuiUtils.drawHoveringText(
+                matrixStack,
+                hoverTexts.toList().map { StringTextComponent(it) },
+                mouseX,
+                mouseY,
+                windowWidth,
+                windowHeight,
+                200,
+                fontRenderer
+            )
         }
     }
 
@@ -71,10 +83,10 @@ abstract class AOTDGuiComponent(
             while (line.isNotEmpty()) {
                 lastBreak = breakIndex
                 // Find the next break
-                breakIndex = line.indexOf(' ', lastBreak+1)
+                breakIndex = line.indexOf(' ', lastBreak + 1)
                 // Determine width of the string up to the break
                 // If there's no break, we use the full width of the string
-                w = fontRenderer.getStringWidth(line.substring(0, if (breakIndex == -1) line.length else breakIndex))
+                w = fontRenderer.width(line.substring(0, if (breakIndex == -1) line.length else breakIndex))
 
                 if (breakIndex == -1 || w > width) { // No breaks left OR break is after the max width
                     when {
@@ -84,11 +96,11 @@ abstract class AOTDGuiComponent(
                         }
                         lastBreak != -1 -> {  // If the previous line break exists (last break before max width)
                             ret += line.substring(0, lastBreak)
-                            line = line.substring(lastBreak+1)
+                            line = line.substring(lastBreak + 1)
                         }
                         breakIndex != -1 -> { // If a break exists, but after the max width
                             ret += line.substring(0, breakIndex)
-                            line = line.substring(breakIndex+1)
+                            line = line.substring(breakIndex + 1)
                         }
                         else -> {    // Line is too long, but no break exists
                             ret += line
@@ -154,7 +166,7 @@ abstract class AOTDGuiComponent(
     open fun invalidate() {}
 
     companion object {
-        val fontRenderer: FontRenderer = Minecraft.getInstance().fontRenderer
+        val fontRenderer: FontRenderer = Minecraft.getInstance().font
         val entityPlayer: ClientPlayerEntity
             get() = Minecraft.getInstance().player!!
     }

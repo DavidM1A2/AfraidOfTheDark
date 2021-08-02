@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.mojang.blaze3d.matrix.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe
 import net.minecraft.item.crafting.Ingredient
@@ -13,7 +14,8 @@ import net.minecraftforge.common.crafting.IShapedRecipe
  */
 class RecipePane(prefSize: Dimensions, offset: Position = Position(0.0, 0.0), recipe: IRecipe<*>? = null) :
     AOTDPane(offset, prefSize) {
-    private val craftingGrid: ImagePane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/crafting_grid.png"), ImagePane.DispMode.FIT_TO_PARENT)
+    private val craftingGrid: ImagePane =
+        ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/crafting_grid.png"), ImagePane.DispMode.FIT_TO_PARENT)
     private val guiItemStacks: Array<ItemStackPane>
     private val output: ItemStackPane
 
@@ -47,10 +49,10 @@ class RecipePane(prefSize: Dimensions, offset: Position = Position(0.0, 0.0), re
     /**
      * Called to draw the control, just draws all of its children
      */
-    override fun draw() {
+    override fun draw(matrixStack: MatrixStack) {
         // If we have no output itemstack we can't draw the recipe
         if (this.isVisible && !this.output.itemStack.isEmpty) {
-            super.draw()
+            super.draw(matrixStack)
         }
     }
 
@@ -87,7 +89,7 @@ class RecipePane(prefSize: Dimensions, offset: Position = Position(0.0, 0.0), re
                     val ingredient = recipe.ingredients[i + j * width]
                     // If the ingredient is non-empty show it
                     if (ingredient !== Ingredient.EMPTY) {
-                        this.guiItemStacks[i + j * 3].itemStack = ingredient.matchingStacks[0]
+                        this.guiItemStacks[i + j * 3].itemStack = ingredient.items[0]
                     }
                 }
             }
@@ -98,12 +100,12 @@ class RecipePane(prefSize: Dimensions, offset: Position = Position(0.0, 0.0), re
                 val ingredient = recipe.ingredients[i]
                 // If the ingredient is non-empty show it
                 if (ingredient != Ingredient.EMPTY) {
-                    this.guiItemStacks[i].itemStack = ingredient.matchingStacks[0]
+                    this.guiItemStacks[i].itemStack = ingredient.items[0]
                 }
             }
         }
 
         // Update the output itemstack
-        this.output.itemStack = recipe.recipeOutput
+        this.output.itemStack = recipe.resultItem
     }
 }

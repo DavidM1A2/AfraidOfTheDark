@@ -14,6 +14,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.OverlayPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
+import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.player.ClientPlayerEntity
@@ -71,30 +72,23 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
         )
     }
 
-    /**
-     * Most important method that draws the GUI screen, here we ask our content pane to draw itself
-     *
-     * @param mouseX       The current mouse's X position
-     * @param mouseY       The current mouse's Y position
-     * @param partialTicks How much time has happened since the last tick, ignored
-     */
-    override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun render(matrixStack: MatrixStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
         // Enable blend so we can draw opacity
         RenderSystem.enableBlend()
         // If we want a gradient background draw that background
         if (this.drawGradientBackground()) {
-            this.renderBackground()
+            this.renderBackground(matrixStack)
         }
         // Do lazy updates only when the screen has changed size
         if (contentPane.prefSize != AOTDGuiUtility.getWindowSizeInMCCoords()) {
             this.invalidate()
         }
         // Draw the content pane
-        this.contentPane.draw()
+        this.contentPane.draw(matrixStack)
         // Draw the overlay on top of the content pane
-        this.contentPane.drawOverlay()
+        this.contentPane.drawOverlay(matrixStack)
         // Call the super method
-        super.render(mouseX, mouseY, partialTicks)
+        super.render(matrixStack, mouseX, mouseY, partialTicks)
         // Disable blend now that we drew the UI
         RenderSystem.disableBlend()
     }
@@ -322,8 +316,8 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
      * @return True if the inventory keybind is pressed, false otherwise
      */
     internal fun isInventoryKeybind(key: Int, scanCode: Int): Boolean {
-        return key == GLFW.GLFW_KEY_ESCAPE || Minecraft.getInstance().gameSettings.keyBindInventory.isActiveAndMatches(
-            InputMappings.getInputByCode(
+        return key == GLFW.GLFW_KEY_ESCAPE || Minecraft.getInstance().options.keyInventory.isActiveAndMatches(
+            InputMappings.getKey(
                 key,
                 scanCode
             )

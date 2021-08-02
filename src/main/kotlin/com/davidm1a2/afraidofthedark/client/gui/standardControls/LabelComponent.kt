@@ -1,15 +1,17 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
-import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
+import com.mojang.blaze3d.matrix.MatrixStack
 import java.awt.Color
 
 /**
  * Class representing a label (single line of text) to be drawn on the GUI
  */
-open class LabelComponent(val font: TrueTypeFont, prefSize: Dimensions, gravity: Gravity = Gravity.TOP_LEFT) : AOTDGuiComponentWithEvents(prefSize = prefSize, gravity = gravity) {
+open class LabelComponent(val font: TrueTypeFont, prefSize: Dimensions, gravity: Gravity = Gravity.TOP_LEFT) :
+    AOTDGuiComponentWithEvents(prefSize = prefSize, gravity = gravity) {
 
     var text = ""
         set(text) {
@@ -25,7 +27,7 @@ open class LabelComponent(val font: TrueTypeFont, prefSize: Dimensions, gravity:
     /**
      * Draw function that gets called every frame. Draw the text
      */
-    override fun draw() {
+    override fun draw(matrixStack: MatrixStack) {
         // If the label is visible, draw it
         if (this.isVisible && this.inBounds) {
             // Compute the x and y positions of the text

@@ -1,8 +1,16 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
-import com.davidm1a2.afraidofthedark.client.gui.events.*
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
+import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseDragEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseScrollEvent
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
+import com.mojang.blaze3d.matrix.MatrixStack
 import java.awt.Color
 import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.math.roundToInt
@@ -10,14 +18,15 @@ import kotlin.math.roundToInt
 /**
  * Base class for all GUI containers. Containers are gui components that are made up of other components inside
  */
-abstract class AOTDPane (
+abstract class AOTDPane(
     offset: Position = Position(0.0, 0.0),
     prefSize: Dimensions = Dimensions(1.0, 1.0),
     margins: Spacing = Spacing(),
     gravity: Gravity = Gravity.TOP_LEFT,
     hoverTexts: Array<String> = emptyArray(),
     var padding: Spacing = Spacing(),
-    color: Color = Color(255, 255, 255, 255)) :
+    color: Color = Color(255, 255, 255, 255)
+) :
     AOTDGuiComponentWithEvents(offset, prefSize, margins, gravity, hoverTexts, color) {
 
     // Panes can have children
@@ -82,12 +91,12 @@ abstract class AOTDPane (
             // Calculate position
             val gravityXOffset = when (child.gravity) {
                 Gravity.TOP_LEFT, Gravity.CENTER_LEFT, Gravity.BOTTOM_LEFT -> calcMargins.left
-                Gravity.TOP_CENTER, Gravity.CENTER, Gravity.BOTTOM_CENTER -> internalWidth/2 - (child.width + calcMargins.width)/2 + calcMargins.left
+                Gravity.TOP_CENTER, Gravity.CENTER, Gravity.BOTTOM_CENTER -> internalWidth / 2 - (child.width + calcMargins.width) / 2 + calcMargins.left
                 Gravity.TOP_RIGHT, Gravity.CENTER_RIGHT, Gravity.BOTTOM_RIGHT -> internalWidth - child.width - calcMargins.right
             }
             val gravityYOffset = when (child.gravity) {
                 Gravity.TOP_LEFT, Gravity.TOP_CENTER, Gravity.TOP_RIGHT -> calcMargins.top
-                Gravity.CENTER_LEFT, Gravity.CENTER, Gravity.CENTER_RIGHT -> internalHeight/2 - (child.height + calcMargins.height)/2 + calcMargins.top
+                Gravity.CENTER_LEFT, Gravity.CENTER, Gravity.CENTER_RIGHT -> internalHeight / 2 - (child.height + calcMargins.height) / 2 + calcMargins.top
                 Gravity.BOTTOM_LEFT, Gravity.BOTTOM_CENTER, Gravity.BOTTOM_RIGHT -> internalHeight - child.height - calcMargins.bot
             }
             val offset = child.offset.getAbsolute(this)
@@ -121,21 +130,21 @@ abstract class AOTDPane (
     /**
      * Draw function that gets called every frame. We want to draw all sub-components, so do that here
      */
-    override fun draw() {
+    override fun draw(matrixStack: MatrixStack) {
         // Draw our component
-        super.draw()
+        super.draw(matrixStack)
         // Then draw children
-        this.subComponents.forEach { it.draw() }
+        this.subComponents.forEach { it.draw(matrixStack) }
     }
 
     /**
      * Draws the hover text that appears when we mouse over the control, also draws all sub-child hover text
      */
-    override fun drawOverlay() {
+    override fun drawOverlay(matrixStack: MatrixStack) {
         // Draw our component's hover text
-        super.drawOverlay()
+        super.drawOverlay(matrixStack)
         // Draw our children's hover text
-        this.subComponents.forEach { it.drawOverlay() }
+        this.subComponents.forEach { it.drawOverlay(matrixStack) }
     }
 
     /**

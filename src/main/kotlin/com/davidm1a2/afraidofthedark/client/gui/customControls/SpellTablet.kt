@@ -1,9 +1,18 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.screens.SpellListScreen
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.HChainPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ListPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.spell.Spell
@@ -32,10 +41,10 @@ class SpellTablet(
     private val buttonLayout: HChainPane
     var onHelp: (() -> Unit)? = null
     var componentEditCallback: ((SpellComponentSlot<*>) -> Unit)? = null
-    set(value) {
-        field = value
-        uiSpellStages.forEach { it.componentEditCallback = field }
-    }
+        set(value) {
+            field = value
+            uiSpellStages.forEach { it.componentEditCallback = field }
+        }
 
     init {
 
@@ -120,7 +129,7 @@ class SpellTablet(
             // Sync the spell server side
             spellManager.sync(entityPlayer, spellClone)
             // Tell the player the save was successful
-            entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.save_successful", spellClone.name))
+            entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.save_successful", spellClone.name), entityPlayer.uuid)
         }
         this.add(saveButton)
 
@@ -135,7 +144,7 @@ class SpellTablet(
         closeButton.setHoverText("Exit (Without Saving)")
         closeButton.addOnClick {
             // Open the list gui without saving
-            Minecraft.getInstance().displayGuiScreen(SpellListScreen())
+            Minecraft.getInstance().setScreen(SpellListScreen())
         }
         this.add(closeButton)
 

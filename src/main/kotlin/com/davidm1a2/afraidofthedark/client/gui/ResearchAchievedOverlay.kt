@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.AbstractGui
@@ -42,14 +43,14 @@ class ResearchAchievedOverlay : AbstractGui() {
      * Function provided by MC's achievement window to setup the viewport, copied and unmodified
      */
     private fun updateResearchAchievedWindowScale() {
-        RenderSystem.viewport(0, 0, mc.mainWindow.width, mc.mainWindow.height)
+        RenderSystem.viewport(0, 0, mc.window.width, mc.window.height)
         RenderSystem.matrixMode(5889)
         RenderSystem.loadIdentity()
         RenderSystem.matrixMode(5888)
         RenderSystem.loadIdentity()
-        width = mc.mainWindow.scaledWidth
-        height = mc.mainWindow.scaledHeight
-        RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC)
+        width = mc.window.guiScaledWidth
+        height = mc.window.guiScaledHeight
+        RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX)
         RenderSystem.matrixMode(5889)
         RenderSystem.loadIdentity()
         RenderSystem.ortho(0.0, width.toDouble(), height.toDouble(), 0.0, 1000.0, 3000.0)
@@ -61,13 +62,13 @@ class ResearchAchievedOverlay : AbstractGui() {
     /**
      * Function provided by MC's achievement window to setup the window, copied and slightly modified to work with a queue of researches to show
      */
-    fun updateResearchAchievedWindow() {
+    fun updateResearchAchievedWindow(matrixStack: MatrixStack) {
         // If there is no notification showing and the queue has another research to display display the next research
         if (notificationTime == 0L && !toDisplay.isEmpty()) {
             // The research to display
             val research = toDisplay.pop()
             // The new research description
-            researchDescription = I18n.format(research.getUnlocalizedName())
+            researchDescription = I18n.get(research.getUnlocalizedName())
             // Update the notification time to be the current system time
             notificationTime = System.currentTimeMillis()
         }
@@ -99,12 +100,12 @@ class ResearchAchievedOverlay : AbstractGui() {
 
             RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f)
             GL11.glEnable(GL11.GL_TEXTURE_2D)
-            mc.textureManager.bindTexture(ACHIEVEMENT_BACKGROUND)
+            mc.textureManager.bind(ACHIEVEMENT_BACKGROUND)
             RenderSystem.disableLighting()
-            blit(x, y, 0f, 0f, 160, 32, 160, 32)
-            mc.fontRenderer.drawString(I18n.format("researchbanner.title"), x + 10f, y + 5f, -256)
-            mc.fontRenderer.drawString(researchDescription!!, x + 10f, y + 18f, -1)
-            RenderHelper.enableStandardItemLighting()
+            blit(matrixStack, x, y, 0f, 0f, 160, 32, 160, 32)
+            mc.font.draw(matrixStack, I18n.get("researchbanner.title"), x + 10f, y + 5f, -256)
+            mc.font.draw(matrixStack, researchDescription!!, x + 10f, y + 18f, -1)
+            RenderHelper.setupFor3DItems()
             RenderSystem.disableLighting()
             RenderSystem.enableRescaleNormal()
             RenderSystem.enableColorMaterial()

@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
+import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.AbstractGui
@@ -20,7 +21,7 @@ open class ImagePane(
     var textureHeight: Double
 
     init {
-        Minecraft.getInstance().textureManager.bindTexture(imageTexture)
+        Minecraft.getInstance().textureManager.bind(imageTexture)
         textureWidth = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH).toDouble()
         textureHeight = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_HEIGHT).toDouble()
     }
@@ -30,9 +31,9 @@ open class ImagePane(
     /**
      * Draws the GUI image given the width and height
      */
-    override fun draw() {
+    override fun draw(matrixStack: MatrixStack) {
         if (this.isVisible) {
-            RenderSystem.pushMatrix()
+            matrixStack.pushPose()
             // Enable alpha blending
             RenderSystem.enableBlend()
             // Set the color
@@ -43,15 +44,15 @@ open class ImagePane(
                 this.color.alpha / 255f
             )
             // Bind the texture to render
-            Minecraft.getInstance().textureManager.bindTexture(this.imageTexture)
+            Minecraft.getInstance().textureManager.bind(this.imageTexture)
             // Check for invalid texture dimensions
             if (textureHeight > -1 && textureWidth > -1) {
-                AbstractGui.blit(x, y, u, v, width, height, width, height)
+                AbstractGui.blit(matrixStack, x, y, u, v, width, height, width, height)
             }
-            RenderSystem.popMatrix()
+            matrixStack.popPose()
 
             // Draw the any children
-            super.draw()
+            super.draw(matrixStack)
         }
     }
 

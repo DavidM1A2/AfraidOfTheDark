@@ -2,7 +2,11 @@ package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
+import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
@@ -27,7 +31,7 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
     AOTDScreen(TranslationTextComponent("screen.afraidofthedark.blood_stained_journal_page")) {
     private val completeText: String = text
     private val textOnEachPage: MutableList<String> = mutableListOf()
-    private val researchRecipes: List<IRecipe<*>> = entityPlayer.world.recipeManager.recipes.filter { relatedItemRecipes.contains(it.recipeOutput.item) }
+    private val researchRecipes: List<IRecipe<*>> = entityPlayer.level.recipeManager.recipes.filter { relatedItemRecipes.contains(it.resultItem.item) }
     private val leftPage: StackPane
     private val rightPage: StackPane
     private val leftPageText: TextBoxComponent
@@ -196,13 +200,13 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
     }
 
     private fun returnToResearchScreen() {
-        val mainhandItem = entityPlayer.heldItemMainhand
+        val mainhandItem = entityPlayer.mainHandItem
         val isCheatSheet = if (mainhandItem.item == ModItems.JOURNAL) {
             ModItems.JOURNAL.isCheatSheet(mainhandItem)
         } else {
-            ModItems.JOURNAL.isCheatSheet(entityPlayer.heldItemOffhand)
+            ModItems.JOURNAL.isCheatSheet(entityPlayer.mainHandItem)
         }
-        Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchScreen(isCheatSheet))
+        Minecraft.getInstance().setScreen(BloodStainedJournalResearchScreen(isCheatSheet))
     }
 
     /**

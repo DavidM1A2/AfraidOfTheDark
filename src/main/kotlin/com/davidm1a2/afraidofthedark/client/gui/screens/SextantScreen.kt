@@ -69,7 +69,7 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
             val longitudeText = longitude.getText()
             // If any of the fields are empty print a message
             if (dropAngleText.isEmpty() || latitudeText.isEmpty() || longitudeText.isEmpty()) {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.sextant.process.field_empty"))
+                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.sextant.process.field_empty"), entityPlayer.uuid)
             }
 
             // If any field is invalid send the player an error, otherwise send the info to the server
@@ -82,7 +82,7 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
                     )
                 )
             } catch (e: NumberFormatException) {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.sextant.process.invalid_vals"))
+                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.sextant.process.invalid_vals"), entityPlayer.uuid)
             }
             onClose()
         }

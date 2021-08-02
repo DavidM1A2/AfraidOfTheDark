@@ -82,8 +82,8 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
                             playerResearch.sync(entityPlayer, false)
 
                             // Set the journal to have a new owner name
-                            val mainHand = entityPlayer.heldItemMainhand
-                            val offHand = entityPlayer.heldItemOffhand
+                            val mainHand = entityPlayer.mainHandItem
+                            val offHand = entityPlayer.mainHandItem
                             // We must check both off hand and main hand since the journal could be in either hand
                             if (mainHand.item is JournalItem) {
                                 (mainHand.item as JournalItem).setOwner(mainHand, entityPlayer.gameProfile.name)
@@ -93,13 +93,13 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
 
                             // Play the sign animation and chat message
                             entityPlayer.playSound(ModSounds.JOURNAL_SIGN, 4.0F, 1.0F)
-                            entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.journal.sign.successful"))
+                            entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.journal.sign.successful"), entityPlayer.uuid)
                         }
                     } else {
                         // Test if the user has not yet started AOTD
                         if (!playerBasics.startedAOTD) {
                             // If he has not started then print out a message that the name was wrong
-                            entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.journal.sign.unsuccessful"))
+                            entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.journal.sign.unsuccessful"), entityPlayer.uuid)
                             onClose()
                         }
                     }

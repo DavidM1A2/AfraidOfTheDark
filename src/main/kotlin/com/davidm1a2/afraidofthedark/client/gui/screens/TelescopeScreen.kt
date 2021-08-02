@@ -51,7 +51,7 @@ class TelescopeScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         // clicked and the packet to update research from the server hasn't arrived yet
         if (possibleMeteors.isNotEmpty()) {
             // Grab a random object to place meteors
-            val random = entityPlayer.rng
+            val random = entityPlayer.random
             // Create a random number of meteors to generate
             val numberOfMeteors = 1 + random.nextInt(5)
             // Create one button for each meteor
@@ -69,7 +69,7 @@ class TelescopeScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
                 meteorIcon.color = Color(255, 255, 255, random.nextInt(64))
                 // Add a listener
                 meteorButton.addOnClick {
-                    val telescopeItem = entityPlayer.heldItemMainhand.item as? TelescopeBaseItem ?: entityPlayer.heldItemOffhand.item as? TelescopeBaseItem
+                    val telescopeItem = entityPlayer.mainHandItem.item as? TelescopeBaseItem ?: entityPlayer.offhandItem.item as? TelescopeBaseItem
                     val accuracy = telescopeItem?.accuracy ?: WORST_ACCURACY
                     // Tell the server we're watching a new meteor. It will update our capability NBT data for us
                     AfraidOfTheDark.packetHandler.sendToServer(UpdateWatchedMeteorPacket(meteorType, accuracy))

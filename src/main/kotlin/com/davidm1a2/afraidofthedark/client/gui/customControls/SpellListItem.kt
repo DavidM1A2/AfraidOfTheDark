@@ -60,7 +60,7 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
             if (it.eventType == MouseEvent.EventType.Click) {
                 if (it.source.isHovered && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
                     // Open the spell edit GUI
-                    Minecraft.getInstance().displayGuiScreen(SpellCraftingScreen(spell))
+                    Minecraft.getInstance().setScreen(SpellCraftingScreen(spell))
                 }
             }
         }

@@ -7,6 +7,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
+import com.mojang.blaze3d.matrix.MatrixStack
 import net.minecraft.util.SoundEvents
 import java.awt.Color
 
@@ -54,9 +55,9 @@ open class ButtonPane(
         }
     }
 
-    override fun draw() {
+    override fun draw(matrixStack: MatrixStack) {
         if (this.isVisible) {
-            super.draw()
+            super.draw(matrixStack)
             if (iconHovered != null && icon != null) {
                 if (this.isHovered) {   // Always end with setting the visibility to true just in case the two icons are the same
                     icon.isVisible = false

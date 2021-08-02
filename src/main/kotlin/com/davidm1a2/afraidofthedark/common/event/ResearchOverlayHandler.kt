@@ -18,13 +18,13 @@ class ResearchOverlayHandler {
     /**
      * Called every tick client side to draw the overlay
      *
-     * @param event ignored
+     * @param event Chat event
      */
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     @Suppress("UNUSED_PARAMETER")
     fun onRenderGameOverlayEventChat(event: Chat) {
-        researchAchievedOverlay.updateResearchAchievedWindow()
+        researchAchievedOverlay.updateResearchAchievedWindow(event.matrixStack)
     }
 
     /**
