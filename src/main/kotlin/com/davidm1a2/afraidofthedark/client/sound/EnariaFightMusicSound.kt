@@ -12,7 +12,7 @@ import net.minecraft.util.SoundCategory
 class EnariaFightMusicSound(private val enariaId: Int) : PlayerFollowingSound(ModSounds.ENARIA_FIGHT_MUSIC, SoundCategory.PLAYERS) {
     init {
         // This sound loops
-        repeat = true
-        repeatDelay = 0
+        looping = true
+        delay = 0
     }
 }

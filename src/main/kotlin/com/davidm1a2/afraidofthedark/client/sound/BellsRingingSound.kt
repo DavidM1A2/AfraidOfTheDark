@@ -13,7 +13,7 @@ import net.minecraft.util.SoundCategory
 class BellsRingingSound : PlayerFollowingSound(ModSounds.BELLS, SoundCategory.AMBIENT) {
     init {
         // This sound loops
-        repeat = true
+        looping = true
     }
 
     /**
@@ -23,8 +23,8 @@ class BellsRingingSound : PlayerFollowingSound(ModSounds.BELLS, SoundCategory.AM
         super.tick()
 
         val entityPlayer = Minecraft.getInstance().player!!
-        if (!entityPlayer.isAlive || entityPlayer.dimension.modType != ModDimensions.NIGHTMARE) {
-            donePlaying = true
+        if (!entityPlayer.isAlive || entityPlayer.level.dimensionType() != ModDimensions.NIGHTMARE_TYPE) {
+            stop()
         }
     }
 
@@ -33,7 +33,7 @@ class BellsRingingSound : PlayerFollowingSound(ModSounds.BELLS, SoundCategory.AM
      *
      * @return The delay between sound plays
      */
-    override fun getRepeatDelay(): Int {
+    override fun getDelay(): Int {
         // Wait a minute (60 seconds * 20 ticks / second)
         return 60 * 20
     }

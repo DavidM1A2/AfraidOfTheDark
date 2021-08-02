@@ -19,7 +19,7 @@ import net.minecraftforge.api.distmarker.OnlyIn
 abstract class PlayerFollowingSound internal constructor(soundEvent: SoundEvent, soundCategory: SoundCategory) : TickableSound(soundEvent, soundCategory) {
     init {
         // The sound is ambient
-        attenuationType = AttenuationType.NONE
+        attenuation = AttenuationType.NONE
     }
 
     /**
@@ -27,8 +27,8 @@ abstract class PlayerFollowingSound internal constructor(soundEvent: SoundEvent,
      */
     override fun tick() {
         val entityPlayer = Minecraft.getInstance().player!!
-        x = entityPlayer.posX.toFloat()
-        y = entityPlayer.posY.toFloat()
-        z = entityPlayer.posZ.toFloat()
+        x = entityPlayer.x
+        y = entityPlayer.y
+        z = entityPlayer.z
     }
 }

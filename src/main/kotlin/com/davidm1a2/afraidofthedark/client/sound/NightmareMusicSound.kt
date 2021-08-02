@@ -17,8 +17,9 @@ import net.minecraft.util.SoundCategory
 class NightmareMusicSound : PlayerFollowingSound(ModSounds.NIGHTMARE_MUSIC, SoundCategory.AMBIENT) {
     init {
         // This sound loops
-        repeat = true
+        looping = true
         volume = 0.6f
+        delay = 0
     }
 
     /**
@@ -28,12 +29,12 @@ class NightmareMusicSound : PlayerFollowingSound(ModSounds.NIGHTMARE_MUSIC, Soun
      * @param handler The sound handler
      * @return What the super method returns
      */
-    override fun createAccessor(handler: SoundHandler): SoundEventAccessor? {
+    override fun resolve(handler: SoundHandler): SoundEventAccessor? {
         val entityPlayer = Minecraft.getInstance().player!!
         if (entityPlayer.getResearch().isResearched(ModResearches.ENARIA)) {
-            donePlaying = true
+            stop()
         }
-        return super.createAccessor(handler)
+        return super.resolve(handler)
     }
 
     /**
@@ -44,18 +45,8 @@ class NightmareMusicSound : PlayerFollowingSound(ModSounds.NIGHTMARE_MUSIC, Soun
 
         val entityPlayer = Minecraft.getInstance().player!!
         // Stop playing the sound if the player is 1) dead 2) not in the nightmare
-        if (!entityPlayer.isAlive || entityPlayer.dimension.modType != ModDimensions.NIGHTMARE) {
-            donePlaying = true
+        if (!entityPlayer.isAlive || entityPlayer.level.dimensionType() != ModDimensions.NIGHTMARE_TYPE) {
+            stop()
         }
-    }
-
-    /**
-     * Gets the repeat delay for the sound at 0 seconds to loop
-     *
-     * @return The delay between sound plays
-     */
-    override fun getRepeatDelay(): Int {
-        // Wait 0 seconds
-        return 0
     }
 }
