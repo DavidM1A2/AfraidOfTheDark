@@ -28,31 +28,32 @@ class TileEntityEnariasAltarRenderer(tileEntityRendererDispatcher: TileEntityRen
         ENARIAS_ALTAR_MODEL.performAnimations(te)
         te.getAnimationHandler().update()
 
-        matrixStack.push()
+        matrixStack.pushPose()
         matrixStack.translate(0.5, 0.0, 0.5)
-        val world = renderDispatcher.world
+        val world = renderer.level
         val realLight = if (world != null) {
-            LightTexture.packLight(getLightAround(world, LightType.BLOCK, te.pos), getLightAround(world, LightType.SKY, te.pos))
+            LightTexture.pack(getLightAround(world, LightType.BLOCK, te.blockPos), getLightAround(world, LightType.SKY, te.blockPos))
         } else {
             packedLight
         }
-        ENARIAS_ALTAR_MODEL.render(matrixStack, renderTypeBuffer.getBuffer(RENDER_TYPE), realLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f)
-        matrixStack.pop()
+        ENARIAS_ALTAR_MODEL.renderToBuffer(matrixStack, renderTypeBuffer.getBuffer(RENDER_TYPE), realLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f)
+        matrixStack.popPose()
     }
 
     private fun getLightAround(world: World, lightType: LightType, pos: BlockPos): Int {
+        val lightListener = world.lightEngine.getLayerListener(lightType)
         return maxOf(
-            world.getLightFor(lightType, pos.up()),
-            world.getLightFor(lightType, pos.north()),
-            world.getLightFor(lightType, pos.south()),
-            world.getLightFor(lightType, pos.east()),
-            world.getLightFor(lightType, pos.west())
+            lightListener.getLightValue(pos.above()),
+            lightListener.getLightValue(pos.north()),
+            lightListener.getLightValue(pos.south()),
+            lightListener.getLightValue(pos.east()),
+            lightListener.getLightValue(pos.west())
         )
     }
 
     companion object {
         private val ENARIAS_ALTAR_MODEL = TileEntityEnariasAltarModel()
         private val ENARIAS_ALTAR_TEXTURE = ResourceLocation("afraidofthedark:textures/block/enarias_altar_te.png")
-        private val RENDER_TYPE = ENARIAS_ALTAR_MODEL.getRenderType(ENARIAS_ALTAR_TEXTURE)
+        private val RENDER_TYPE = ENARIAS_ALTAR_MODEL.renderType(ENARIAS_ALTAR_TEXTURE)
     }
 }

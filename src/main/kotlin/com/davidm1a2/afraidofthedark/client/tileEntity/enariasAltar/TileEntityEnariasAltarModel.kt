@@ -4,9 +4,9 @@ import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRendere
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.vertex.IVertexBuilder
-import net.minecraft.client.renderer.Quaternion
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.model.Model
+import net.minecraft.util.math.vector.Quaternion
 
 
 /**
@@ -16,20 +16,20 @@ import net.minecraft.client.renderer.model.Model
  * @property parts A map of part name to part
  * @property altar The different parts of the model
  */
-class TileEntityEnariasAltarModel internal constructor() : Model(RenderType::getEntityCutoutNoCull) {
+class TileEntityEnariasAltarModel internal constructor() : Model(RenderType::entityCutoutNoCull) {
     private val parts = mutableMapOf<String, MCAModelRenderer>()
     private val altar: MCAModelRenderer
 
     init {
-        textureWidth = 64
-        textureHeight = 64
+        texWidth = 64
+        texHeight = 64
 
         altar = MCAModelRenderer(this, 0, 0)
         altar.mirror = false
         altar.addBox(-8.0f, 0.0f, -8.0f, 16f, 4f, 16f)
         altar.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
         altar.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        altar.setTextureSize(64, 64)
+        altar.setTexSize(64, 64)
         parts["Altar"] = altar
 
         val spike1 = MCAModelRenderer(this, 48, 51)
@@ -37,7 +37,7 @@ class TileEntityEnariasAltarModel internal constructor() : Model(RenderType::get
         spike1.addBox(2.5f, 0.0f, 2.5f, 1f, 1f, 1f)
         spike1.setInitialRotationPoint(0.0f, 6.5f, 0.0f)
         spike1.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        spike1.setTextureSize(64, 64)
+        spike1.setTexSize(64, 64)
         parts["spike1"] = spike1
         altar.addChild(spike1)
 
@@ -46,7 +46,7 @@ class TileEntityEnariasAltarModel internal constructor() : Model(RenderType::get
         spike2.addBox(-3.5f, 0.0f, 2.5f, 1f, 1f, 1f)
         spike2.setInitialRotationPoint(0.0f, 7.0f, 0.0f)
         spike2.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        spike2.setTextureSize(64, 64)
+        spike2.setTexSize(64, 64)
         parts["spike2"] = spike2
         altar.addChild(spike2)
 
@@ -55,7 +55,7 @@ class TileEntityEnariasAltarModel internal constructor() : Model(RenderType::get
         spike3.addBox(-3.5f, 0.0f, -3.5f, 1f, 1f, 1f)
         spike3.setInitialRotationPoint(0.0f, 7.0f, 0.0f)
         spike3.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        spike3.setTextureSize(64, 64)
+        spike3.setTexSize(64, 64)
         parts["spike3"] = spike3
         altar.addChild(spike3)
 
@@ -64,7 +64,7 @@ class TileEntityEnariasAltarModel internal constructor() : Model(RenderType::get
         spike4.addBox(2.5f, 0.0f, -3.5f, 1f, 1f, 1f)
         spike4.setInitialRotationPoint(0.0f, 6.5f, 0.0f)
         spike4.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        spike4.setTextureSize(64, 64)
+        spike4.setTexSize(64, 64)
         parts["spike4"] = spike4
         altar.addChild(spike4)
 
@@ -73,7 +73,7 @@ class TileEntityEnariasAltarModel internal constructor() : Model(RenderType::get
         layer1.addBox(-7.5f, 0.0f, -7.5f, 15f, 1f, 15f)
         layer1.setInitialRotationPoint(0.0f, 4.0f, 0.0f)
         layer1.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        layer1.setTextureSize(64, 64)
+        layer1.setTexSize(64, 64)
         parts["layer1"] = layer1
         altar.addChild(layer1)
 
@@ -82,7 +82,7 @@ class TileEntityEnariasAltarModel internal constructor() : Model(RenderType::get
         layer2.addBox(-7.0f, 0.0f, -7.0f, 14f, 1f, 14f)
         layer2.setInitialRotationPoint(0.0f, 5.0f, 0.0f)
         layer2.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        layer2.setTextureSize(64, 64)
+        layer2.setTexSize(64, 64)
         parts["layer2"] = layer2
         altar.addChild(layer2)
 
@@ -91,7 +91,7 @@ class TileEntityEnariasAltarModel internal constructor() : Model(RenderType::get
         layer3.addBox(-6.0f, 0.0f, -6.0f, 12f, 1f, 12f)
         layer3.setInitialRotationPoint(0.0f, 5.5f, 0.0f)
         layer3.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        layer3.setTextureSize(64, 64)
+        layer3.setTexSize(64, 64)
         parts["layer3"] = layer3
         altar.addChild(layer3)
 
@@ -100,7 +100,7 @@ class TileEntityEnariasAltarModel internal constructor() : Model(RenderType::get
         crystal.addBox(-0.5f, 0.0f, -0.5f, 1f, 7f, 1f)
         crystal.setInitialRotationPoint(0.0f, 9.0f, 0.0f)
         crystal.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        crystal.setTextureSize(64, 64)
+        crystal.setTexSize(64, 64)
         parts["crystal"] = crystal
         altar.addChild(crystal)
 
@@ -109,12 +109,12 @@ class TileEntityEnariasAltarModel internal constructor() : Model(RenderType::get
         crystalBig.addBox(-1.0f, 0.0f, -1.0f, 2f, 5f, 2f)
         crystalBig.setInitialRotationPoint(0.0f, 1.0f, 0.0f)
         crystalBig.setInitialRotationQuaternion(Quaternion(0.0f, 0.38268346f, 0.0f, 0.9238795f))
-        crystalBig.setTextureSize(64, 64)
+        crystalBig.setTexSize(64, 64)
         parts["crystalBig"] = crystalBig
         crystal.addChild(crystalBig)
     }
 
-    override fun render(
+    override fun renderToBuffer(
         matrixStack: MatrixStack,
         vertexBuilder: IVertexBuilder,
         packedLight: Int,
