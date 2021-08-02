@@ -45,7 +45,7 @@ object KeybindingUtils {
         // Go over all unbindable key codes and test if they're down
         for (unbindableKeyCode in UNBINDABLE_KEYS) {
             // If they are down then append the key to the string
-            if (GLFW.glfwGetKey(Minecraft.getInstance().mainWindow.handle, unbindableKeyCode) == GLFW.GLFW_PRESS) {
+            if (GLFW.glfwGetKey(Minecraft.getInstance().window.window, unbindableKeyCode) == GLFW.GLFW_PRESS) {
                 // Append the key and a + symbol
                 keybindString.append(UNBINDABLE_KEY_NAMES[unbindableKeyCode]!!.uppercase()).append("+")
             }
