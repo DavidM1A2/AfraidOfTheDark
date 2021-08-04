@@ -8,4 +8,4 @@ import net.minecraft.block.material.Material
  *
  * @constructor just sets the name of the block
  */
-class SacredMangroveLeavesBlock : AOTDLeavesBlock("sacred_mangrove_leaves", Properties.create(Material.LEAVES))
+class SacredMangroveLeavesBlock : AOTDLeavesBlock("sacred_mangrove_leaves", Properties.of(Material.LEAVES))

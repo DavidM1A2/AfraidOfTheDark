@@ -2,25 +2,23 @@ package com.davidm1a2.afraidofthedark.common.feature.tree
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.MutableBoundingBox
-import net.minecraft.world.gen.IWorldGenerationReader
-import net.minecraft.world.gen.feature.TreeFeature
-import net.minecraft.world.gen.feature.TreeFeatureConfig
+import net.minecraft.world.ISeedReader
+import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.feature.BaseTreeFeatureConfig
+import net.minecraft.world.gen.feature.Feature
 import java.util.*
 
-class SacredMangroveTreeFeature : TreeFeature({ TreeFeatureConfig.func_227338_a_(it) }) {
+class SacredMangroveTreeFeature : Feature<BaseTreeFeatureConfig>(BaseTreeFeatureConfig.CODEC) {
     init {
         setRegistryName(Constants.MOD_ID, "sacred_mangrove_tree")
     }
 
     override fun place(
-        world: IWorldGenerationReader,
+        world: ISeedReader,
+        chunkGenerator: ChunkGenerator,
         random: Random,
-        pos: BlockPos,
-        logPositions: MutableSet<BlockPos>,
-        leafPositions: MutableSet<BlockPos>,
-        boundingBox: MutableBoundingBox,
-        config: TreeFeatureConfig
+        blockPos: BlockPos,
+        ignored: BaseTreeFeatureConfig
     ): Boolean {
         // Create a trunk, it's always 5 blocks tall
         for (yOffset in 0 until TREE_HEIGHT) {

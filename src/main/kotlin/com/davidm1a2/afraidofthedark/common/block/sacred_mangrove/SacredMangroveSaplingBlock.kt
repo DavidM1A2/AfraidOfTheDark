@@ -10,5 +10,5 @@ import net.minecraft.block.material.Material
  */
 class SacredMangroveSaplingBlock : AOTDSaplingBlock(
     "sacred_mangrove_sapling",
-    SacredMangroveTree(), Properties.create(Material.LEAVES)
+    SacredMangroveTree(), Properties.of(Material.LEAVES)
 )

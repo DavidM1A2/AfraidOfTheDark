@@ -8,4 +8,4 @@ import net.minecraft.block.material.Material
  *
  * @constructor initializes the sapling with a name
  */
-class MangroveSaplingBlock : AOTDSaplingBlock("mangrove_sapling", MangroveTree(), Properties.create(Material.LEAVES))
+class MangroveSaplingBlock : AOTDSaplingBlock("mangrove_sapling", MangroveTree(), Properties.of(Material.LEAVES))

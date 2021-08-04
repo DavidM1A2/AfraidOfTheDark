@@ -11,7 +11,7 @@ import net.minecraft.block.material.Material
  */
 class GravewoodPlanksBlock : AOTDBlock(
     "gravewood_planks",
-    Properties.create(Material.WOOD)
-        .hardnessAndResistance(2.0f)
+    Properties.of(Material.WOOD)
+        .strength(2.0f)
         .sound(SoundType.WOOD)
 )

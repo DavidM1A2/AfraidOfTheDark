@@ -5,5 +5,5 @@ import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 
 class EldritchStoneSlabBlock : AOTDSlabBlock(
     "eldritch_stone_slab",
-    Properties.from(ModBlocks.ELDRITCH_STONE)
+    Properties.copy(ModBlocks.ELDRITCH_STONE)
 )

@@ -10,5 +10,5 @@ import net.minecraft.block.material.Material
  */
 class GravewoodSaplingBlock : AOTDSaplingBlock(
     "gravewood_sapling",
-    GravewoodTree(), Properties.create(Material.LEAVES)
+    GravewoodTree(), Properties.of(Material.LEAVES)
 )

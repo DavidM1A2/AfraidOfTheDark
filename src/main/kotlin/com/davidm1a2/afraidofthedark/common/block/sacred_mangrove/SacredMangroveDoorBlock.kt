@@ -9,4 +9,4 @@ import net.minecraft.block.material.Material
  *
  * @constructor just sets the registry and unlocalized name
  */
-class SacredMangroveDoorBlock : AOTDDoorBlock("sacred_mangrove_door", Properties.create(Material.WOOD, ModBlocks.SACRED_MANGROVE.materialColor))
+class SacredMangroveDoorBlock : AOTDDoorBlock("sacred_mangrove_door", Properties.of(Material.WOOD, ModBlocks.SACRED_MANGROVE.defaultMaterialColor()))

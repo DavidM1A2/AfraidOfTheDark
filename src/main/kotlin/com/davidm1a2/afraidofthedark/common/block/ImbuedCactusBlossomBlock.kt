@@ -15,18 +15,18 @@ import net.minecraftforge.common.PlantType
 
 class ImbuedCactusBlossomBlock : AOTDBushBlock(
     "imbued_cactus_blossom",
-    Properties.create(Material.PLANTS, MaterialColor.WOOD)
-        .doesNotBlockMovement()
-        .hardnessAndResistance(0.0f)
-        .sound(SoundType.PLANT)
+    Properties.of(Material.PLANT, MaterialColor.WOOD)
+        .noCollission()
+        .strength(0.0f)
+        .sound(SoundType.CROP)
 ) {
-    override fun isValidPosition(state: BlockState, world: IWorldReader, blockPos: BlockPos): Boolean {
-        val blockOn = world.getBlockState(blockPos.down())
+    override fun canSurvive(state: BlockState, world: IWorldReader, blockPos: BlockPos): Boolean {
+        val blockOn = world.getBlockState(blockPos.below())
         @Suppress("DEPRECATION")
-        return super.isValidPosition(state, world, blockPos) && blockOn.block == ModBlocks.IMBUED_CACTUS
+        return super.canSurvive(state, world, blockPos) && blockOn.block == ModBlocks.IMBUED_CACTUS
     }
 
-    override fun isValidGround(state: BlockState, world: IBlockReader, blockPos: BlockPos): Boolean {
+    override fun mayPlaceOn(state: BlockState, world: IBlockReader, blockPos: BlockPos): Boolean {
         return state.block == ModBlocks.IMBUED_CACTUS
     }
 
@@ -35,10 +35,10 @@ class ImbuedCactusBlossomBlock : AOTDBushBlock(
     }
 
     override fun getPlantType(world: IBlockReader, pos: BlockPos): PlantType {
-        return PlantType.Desert
+        return PlantType.DESERT
     }
 
     companion object {
-        private val IMBUED_CACTUS_BLOSSOM_SHAPE = makeCuboidShape(3.0, 0.0, 3.0, 12.0, 16.0, 12.0)
+        private val IMBUED_CACTUS_BLOSSOM_SHAPE = box(3.0, 0.0, 3.0, 12.0, 16.0, 12.0)
     }
 }

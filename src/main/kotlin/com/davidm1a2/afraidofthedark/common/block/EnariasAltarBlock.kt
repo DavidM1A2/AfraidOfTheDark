@@ -28,11 +28,11 @@ import net.minecraft.world.World
  */
 class EnariasAltarBlock : AOTDTileEntityBlock(
     "enarias_altar",
-    Properties.create(Material.PORTAL)
-        .lightValue(1)
-        .hardnessAndResistance(50.0f, 1200.0f)
+    Properties.of(Material.PORTAL)
+        .lightLevel { 1 }
+        .strength(50.0f, 1200.0f)
 ) {
-    override fun onBlockActivated(
+    override fun use(
         state: BlockState,
         worldIn: World,
         pos: BlockPos,
@@ -44,7 +44,7 @@ class EnariasAltarBlock : AOTDTileEntityBlock(
         val playerResearch = playerIn.getResearch()
 
         // Server side processing research
-        if (!worldIn.isRemote) {
+        if (!worldIn.isClientSide) {
             // If the player can research enaria's secret do so
             if (playerResearch.canResearch(ModResearches.ENARIAS_SECRET)) {
                 playerResearch.setResearch(ModResearches.ENARIAS_SECRET, true)
@@ -52,18 +52,18 @@ class EnariasAltarBlock : AOTDTileEntityBlock(
             }
 
             if (!playerResearch.isResearched(ModResearches.ENARIAS_SECRET)) {
-                playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.enarias_altar.no_research"))
+                playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.enarias_altar.no_research"), playerIn.uuid)
             }
         } else {
             // If the player has the right research show the gui
             if (playerResearch.isResearched(ModResearches.ENARIAS_SECRET)) {
-                Minecraft.getInstance().displayGuiScreen(SpellListScreen())
+                Minecraft.getInstance().setScreen(SpellListScreen())
             }
         }
         return ActionResultType.SUCCESS
     }
 
-    override fun createTileEntity(state: BlockState, world: IBlockReader): TileEntity {
+    override fun newBlockEntity(world: IBlockReader): TileEntity {
         return EnariasAltarTileEntity()
     }
 
@@ -73,6 +73,6 @@ class EnariasAltarBlock : AOTDTileEntityBlock(
 
     companion object {
         // For some reason, MC decides to render sides of blocks based on the shape. If the hitbox is not a full cube, we render sides. Make this "almost" a full cube
-        private val ENARIAS_ALTAR_SHAPE = Block.makeCuboidShape(0.001, 0.0, 0.001, 15.999, 15.999, 15.999)
+        private val ENARIAS_ALTAR_SHAPE = Block.box(0.001, 0.0, 0.001, 15.999, 15.999, 15.999)
     }
 }

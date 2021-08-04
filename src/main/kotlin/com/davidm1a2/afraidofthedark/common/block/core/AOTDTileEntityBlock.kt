@@ -18,12 +18,7 @@ abstract class AOTDTileEntityBlock(name: String, properties: Properties) : Conta
         setRegistryName(Constants.MOD_ID, name)
     }
 
-    abstract override fun createTileEntity(state: BlockState, world: IBlockReader): TileEntity?
-
-    /**
-     * Deprecated, use createTileEntity() instead
-     */
-    override fun createNewTileEntity(worldIn: IBlockReader): TileEntity? {
-        return null
+    override fun createTileEntity(state: BlockState, world: IBlockReader): TileEntity? {
+        return newBlockEntity(world)
     }
 }

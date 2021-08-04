@@ -9,4 +9,4 @@ import net.minecraft.block.material.Material
  *
  * @constructor sets the name and material
  */
-class GravewoodFenceGateBlock : AOTDFenceGateBlock("gravewood_fence_gate", Properties.create(Material.WOOD, ModBlocks.GRAVEWOOD.materialColor))
+class GravewoodFenceGateBlock : AOTDFenceGateBlock("gravewood_fence_gate", Properties.of(Material.WOOD, ModBlocks.GRAVEWOOD.defaultMaterialColor()))

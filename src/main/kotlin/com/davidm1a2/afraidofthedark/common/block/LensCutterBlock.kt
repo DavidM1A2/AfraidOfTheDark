@@ -26,11 +26,11 @@ import kotlin.random.Random
  */
 class LensCutterBlock : AOTDBlock(
     "lens_cutter",
-    Properties.create(Material.IRON)
-        .hardnessAndResistance(5.0F, 6.0F)
+    Properties.of(Material.METAL)
+        .strength(5.0F, 6.0F)
         .sound(SoundType.METAL)
 ) {
-    override fun onBlockActivated(
+    override fun use(
         state: BlockState,
         worldIn: World,
         pos: BlockPos,
@@ -39,7 +39,7 @@ class LensCutterBlock : AOTDBlock(
         result: BlockRayTraceResult
     ): ActionResultType {
         // Server side processing only
-        if (!worldIn.isRemote) {
+        if (!worldIn.isClientSide) {
             // Unlock optics if possible
             val research = playerIn.getResearch()
             if (research.canResearch(ModResearches.OPTICS)) {
@@ -49,17 +49,17 @@ class LensCutterBlock : AOTDBlock(
 
             // Check if the player has the research to use the block
             if (research.isResearched(ModResearches.OPTICS)) {
-                val heldItem = playerIn.getHeldItem(hand)
+                val heldItem = playerIn.getItemInHand(hand)
                 // If they're holding glass reduce the stack size by one and add a lens item
                 if (heldItem.item == Blocks.GLASS.asItem()) {
                     heldItem.shrink(1)
                     worldIn.playSound(null, pos, ModSounds.LENS_CUTTER, SoundCategory.BLOCKS, 0.5f, Random.nextDouble(0.8, 1.2).toFloat())
-                    playerIn.addItemStackToInventory(ItemStack(ModItems.LENS))
+                    playerIn.addItem(ItemStack(ModItems.LENS))
                 } else {
-                    playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.lens_cutter.wrong_item"))
+                    playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.lens_cutter.wrong_item"), playerIn.uuid)
                 }
             } else {
-                playerIn.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+                playerIn.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND), playerIn.uuid)
             }
         }
 

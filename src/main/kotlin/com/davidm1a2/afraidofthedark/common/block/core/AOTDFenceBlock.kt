@@ -13,7 +13,7 @@ import net.minecraft.block.SoundType
  * @param properties The properties of this block
  */
 abstract class AOTDFenceBlock(baseName: String, properties: Properties) : FenceBlock(properties.apply {
-    hardnessAndResistance(2.0f, 3.0f)
+    strength(2.0f, 3.0f)
     sound(SoundType.WOOD)
 }), AOTDShowBlockCreative {
     init {

@@ -11,7 +11,7 @@ import net.minecraft.block.material.Material
  */
 class MangrovePlanksBlock : AOTDBlock(
     "mangrove_planks",
-    Properties.create(Material.WOOD)
-        .hardnessAndResistance(2.0f)
+    Properties.of(Material.WOOD)
+        .strength(2.0f)
         .sound(SoundType.WOOD)
 )

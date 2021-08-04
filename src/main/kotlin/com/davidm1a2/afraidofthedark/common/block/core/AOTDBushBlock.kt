@@ -12,8 +12,8 @@ import net.minecraft.block.SoundType
  * @param properties The properties of this block
  */
 abstract class AOTDBushBlock(baseName: String, properties: Properties) : BushBlock(properties.apply {
-    hardnessAndResistance(0f)
-    sound(SoundType.PLANT)
+    instabreak()
+    sound(SoundType.CROP)
 }), AOTDShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)

@@ -12,9 +12,9 @@ import net.minecraft.block.SoundType
  * @param properties The properties of this block
  */
 abstract class AOTDLeavesBlock(baseName: String, properties: Properties) : LeavesBlock(properties.apply {
-    hardnessAndResistance(0.2f)
-    tickRandomly()
-    sound(SoundType.PLANT)
+    strength(0.2f)
+    randomTicks()
+    sound(SoundType.GRASS)
 }), AOTDShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)

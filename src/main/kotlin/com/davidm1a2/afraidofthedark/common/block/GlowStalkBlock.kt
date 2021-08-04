@@ -10,7 +10,7 @@ import net.minecraft.block.material.Material
  */
 class GlowStalkBlock : AOTDBlock(
     "glow_stalk",
-    Properties.create(Material.EARTH)
-        .lightValue(1)
-        .hardnessAndResistance(1.0f, 4.0f)
+    Properties.of(Material.STONE)
+        .lightLevel { 1 }
+        .strength(1.0f, 4.0f)
 )

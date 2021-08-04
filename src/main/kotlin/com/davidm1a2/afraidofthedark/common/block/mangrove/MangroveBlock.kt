@@ -9,4 +9,4 @@ import net.minecraft.block.material.MaterialColor
  *
  * @constructor passes on the name
  */
-class MangroveBlock : AOTDLogBlock("mangrove", MaterialColor.WOOD, Properties.create(Material.WOOD, MaterialColor.WOOD))
+class MangroveBlock : AOTDLogBlock("mangrove", Properties.of(Material.WOOD, MaterialColor.WOOD))

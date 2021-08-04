@@ -8,4 +8,4 @@ import net.minecraft.block.material.Material
  *
  * @constructor just sets the name of the block
  */
-class GravewoodLeavesBlock : AOTDLeavesBlock("gravewood_leaves", Properties.create(Material.LEAVES))
+class GravewoodLeavesBlock : AOTDLeavesBlock("gravewood_leaves", Properties.of(Material.LEAVES))

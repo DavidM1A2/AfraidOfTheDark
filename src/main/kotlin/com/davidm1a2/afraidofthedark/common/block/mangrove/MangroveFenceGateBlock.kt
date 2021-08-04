@@ -9,4 +9,4 @@ import net.minecraft.block.material.Material
  *
  * @constructor sets the name and material
  */
-class MangroveFenceGateBlock : AOTDFenceGateBlock("mangrove_fence_gate", Properties.create(Material.WOOD, ModBlocks.MANGROVE.materialColor))
+class MangroveFenceGateBlock : AOTDFenceGateBlock("mangrove_fence_gate", Properties.of(Material.WOOD, ModBlocks.MANGROVE.defaultMaterialColor()))

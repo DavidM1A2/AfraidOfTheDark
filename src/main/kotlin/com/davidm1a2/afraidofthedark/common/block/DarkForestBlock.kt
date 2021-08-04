@@ -16,26 +16,20 @@ import net.minecraftforge.common.ToolType
  */
 class DarkForestBlock : AOTDTileEntityBlock(
     "dark_forest",
-    Properties.create(Material.ROCK)
-        .hardnessAndResistance(10.0f, 50.0f)
+    Properties.of(Material.STONE)
+        .strength(10.0f, 50.0f)
+        .harvestLevel(3)
+        .harvestTool(ToolType.PICKAXE)
 ) {
     override fun displayInCreative(): Boolean {
         return false
     }
 
-    override fun getHarvestLevel(state: BlockState): Int {
-        return 3
-    }
-
-    override fun getHarvestTool(state: BlockState): ToolType {
-        return ToolType.PICKAXE
-    }
-
-    override fun getRenderType(state: BlockState): BlockRenderType {
+    override fun getRenderShape(state: BlockState): BlockRenderType {
         return BlockRenderType.MODEL
     }
 
-    override fun createTileEntity(state: BlockState, world: IBlockReader): TileEntity {
+    override fun newBlockEntity(world: IBlockReader): TileEntity {
         return DarkForestTileEntity()
     }
 }

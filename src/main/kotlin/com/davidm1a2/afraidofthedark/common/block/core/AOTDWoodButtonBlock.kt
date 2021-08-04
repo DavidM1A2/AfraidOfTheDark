@@ -5,8 +5,8 @@ import net.minecraft.block.WoodButtonBlock
 
 abstract class AOTDWoodButtonBlock(baseName: String, properties: Properties) : WoodButtonBlock(
     properties.apply {
-        doesNotBlockMovement()
-        hardnessAndResistance(0.5f)
+        noCollission()
+        strength(0.5f)
     }
 ), AOTDShowBlockCreative {
     init {

@@ -32,22 +32,16 @@ import net.minecraftforge.common.ToolType
  */
 class VoidChestBlock : AOTDTileEntityBlock(
     "void_chest",
-    Properties.create(Material.ROCK)
-        .hardnessAndResistance(4.0f, 50.0f)
+    Properties.of(Material.STONE)
+        .strength(4.0f, 50.0f)
+        .harvestLevel(2)
+        .harvestTool(ToolType.PICKAXE)
 ) {
     init {
-        this.defaultState = stateContainer.baseState.with(FACING_PROPERTY, Direction.NORTH)
+        registerDefaultState(stateDefinition.any().setValue(FACING_PROPERTY, Direction.NORTH))
     }
 
-    override fun getHarvestLevel(state: BlockState): Int {
-        return 2
-    }
-
-    override fun getHarvestTool(state: BlockState): ToolType {
-        return ToolType.PICKAXE
-    }
-
-    override fun getRenderType(state: BlockState): BlockRenderType {
+    override fun getRenderShape(state: BlockState): BlockRenderType {
         return BlockRenderType.ENTITYBLOCK_ANIMATED
     }
 
@@ -57,10 +51,10 @@ class VoidChestBlock : AOTDTileEntityBlock(
 
     override fun getStateForPlacement(context: BlockItemUseContext): BlockState? {
         // Face the block depending on the placer's horizontal facing
-        return this.defaultState.with(FACING_PROPERTY, context.placementHorizontalFacing.opposite)
+        return this.defaultBlockState().setValue(FACING_PROPERTY, context.horizontalDirection.opposite)
     }
 
-    override fun onBlockActivated(
+    override fun use(
         state: BlockState,
         worldIn: World,
         pos: BlockPos,
@@ -69,32 +63,32 @@ class VoidChestBlock : AOTDTileEntityBlock(
         result: BlockRayTraceResult
     ): ActionResultType {
         // Test if the tile entity at this position is a void chest (it should be!)
-        val tileEntity = worldIn.getTileEntity(pos)
+        val tileEntity = worldIn.getBlockEntity(pos)
         if (tileEntity is VoidChestTileEntity) {
             // Ensure the player can interact with the chest
             if (playerIn.getResearch().isResearched(ModResearches.VOID_CHEST)) {
                 // Let the player interact with the chest
                 tileEntity.interact(playerIn)
-            } else if (!worldIn.isRemote) {
-                playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.dont_understand"))
+            } else if (!worldIn.isClientSide) {
+                playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.dont_understand"), playerIn.uuid)
             }
         }
         return ActionResultType.SUCCESS
     }
 
-    override fun fillStateContainer(builder: StateContainer.Builder<Block, BlockState>) {
+    override fun createBlockStateDefinition(builder: StateContainer.Builder<Block, BlockState>) {
         builder.add(FACING_PROPERTY)
     }
 
-    override fun createTileEntity(state: BlockState, world: IBlockReader): TileEntity {
+    override fun newBlockEntity(world: IBlockReader): TileEntity {
         return VoidChestTileEntity()
     }
 
     companion object {
         // The facing property of the void chest which tells it which way to open/close
-        private val FACING_PROPERTY = HorizontalBlock.HORIZONTAL_FACING
+        private val FACING_PROPERTY = HorizontalBlock.FACING
 
         // The hitbox of the chest is smaller than usual
-        private val VOID_CHEST_SHAPE = Block.makeCuboidShape(1.0, 0.0, 1.0, 15.0, 14.0, 15.0)
+        private val VOID_CHEST_SHAPE = Block.box(1.0, 0.0, 1.0, 15.0, 14.0, 15.0)
     }
 }

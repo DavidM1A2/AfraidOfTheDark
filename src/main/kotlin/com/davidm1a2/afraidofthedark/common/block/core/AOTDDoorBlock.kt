@@ -12,7 +12,7 @@ import net.minecraft.block.SoundType
  * @param properties The properties of this block
  */
 abstract class AOTDDoorBlock(baseName: String, properties: Properties) : DoorBlock(properties.apply {
-    hardnessAndResistance(3.0f)
+    strength(3.0f)
     sound(SoundType.WOOD)
 }), AOTDShowBlockCreative {
     init {

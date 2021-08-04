@@ -14,10 +14,10 @@ import net.minecraft.block.trees.Tree
  * @param properties The properties of the block
  */
 abstract class AOTDSaplingBlock(baseName: String, tree: Tree, properties: Properties) : SaplingBlock(tree, properties.apply {
-    doesNotBlockMovement()
-    tickRandomly()
-    hardnessAndResistance(0f)
-    sound(SoundType.PLANT)
+    noCollission()
+    randomTicks()
+    instabreak()
+    sound(SoundType.GRASS)
 }), AOTDShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)

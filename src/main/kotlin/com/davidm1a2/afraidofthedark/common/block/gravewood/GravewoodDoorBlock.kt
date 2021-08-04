@@ -9,4 +9,4 @@ import net.minecraft.block.material.Material
  *
  * @constructor just sets the registry name
  */
-class GravewoodDoorBlock : AOTDDoorBlock("gravewood_door", Properties.create(Material.WOOD, ModBlocks.GRAVEWOOD.materialColor))
+class GravewoodDoorBlock : AOTDDoorBlock("gravewood_door", Properties.of(Material.WOOD, ModBlocks.GRAVEWOOD.defaultMaterialColor()))

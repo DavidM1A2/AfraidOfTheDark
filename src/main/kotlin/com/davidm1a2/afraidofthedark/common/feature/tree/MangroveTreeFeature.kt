@@ -4,25 +4,25 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MutableBoundingBox
+import net.minecraft.world.ISeedReader
+import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.IWorldGenerationReader
-import net.minecraft.world.gen.feature.AbstractTreeFeature
-import net.minecraft.world.gen.feature.TreeFeatureConfig
+import net.minecraft.world.gen.feature.BaseTreeFeatureConfig
+import net.minecraft.world.gen.feature.Feature
 import java.util.*
 import kotlin.math.sqrt
 
-class MangroveTreeFeature : AbstractTreeFeature<TreeFeatureConfig>({ TreeFeatureConfig.func_227338_a_(it) }) {
+class MangroveTreeFeature : Feature<BaseTreeFeatureConfig>(BaseTreeFeatureConfig.CODEC) {
     init {
         setRegistryName(Constants.MOD_ID, "mangrove_tree")
     }
 
     override fun place(
-        world: IWorldGenerationReader,
+        world: ISeedReader,
+        chunkGenerator: ChunkGenerator,
         random: Random,
-        pos: BlockPos,
-        logPositions: MutableSet<BlockPos>,
-        leafPositions: MutableSet<BlockPos>,
-        boundingBox: MutableBoundingBox,
-        config: TreeFeatureConfig
+        blockPos: BlockPos,
+        ignored: BaseTreeFeatureConfig
     ): Boolean {
         // Generate the trunk and root blocks
         val topOfTrunk = generateBase(world, pos, random, logPositions, boundingBox, config)
@@ -37,8 +37,7 @@ class MangroveTreeFeature : AbstractTreeFeature<TreeFeatureConfig>({ TreeFeature
         pos: BlockPos,
         random: Random,
         logPositions: MutableSet<BlockPos>,
-        boundingBox: MutableBoundingBox,
-        config: TreeFeatureConfig
+        boundingBox: MutableBoundingBox
     ): BlockPos {
         // The height to reach before the trunk starts is between 4 and 7 blocks
         val heightBeforeTrunk = random.nextInt(4) + 4

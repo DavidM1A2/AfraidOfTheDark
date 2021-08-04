@@ -11,7 +11,7 @@ import net.minecraft.block.material.Material
  */
 class MangroveSlabBlock : AOTDSlabBlock(
     "mangrove_slab",
-    Properties.create(Material.WOOD)
-        .hardnessAndResistance(2.0f, 3.0f)
+    Properties.of(Material.WOOD)
+        .strength(2.0f, 3.0f)
         .sound(SoundType.WOOD)
 )

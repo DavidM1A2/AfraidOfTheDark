@@ -9,4 +9,4 @@ import net.minecraft.block.material.MaterialColor
  *
  * @constructor just sets the registry and unlocalized name
  */
-class GravewoodBlock : AOTDLogBlock("gravewood", MaterialColor.WOOD, Properties.create(Material.WOOD, MaterialColor.WOOD))
+class GravewoodBlock : AOTDLogBlock("gravewood", Properties.of(Material.WOOD, MaterialColor.WOOD))
