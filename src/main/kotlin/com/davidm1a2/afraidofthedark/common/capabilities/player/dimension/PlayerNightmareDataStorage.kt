@@ -4,8 +4,9 @@ import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.INBT
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.Direction
+import net.minecraft.util.RegistryKey
 import net.minecraft.util.ResourceLocation
-import net.minecraft.world.dimension.DimensionType
+import net.minecraft.util.registry.Registry
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.Capability.IStorage
 import net.minecraftforge.common.util.Constants
@@ -33,7 +34,7 @@ class PlayerNightmareDataStorage : IStorage<IPlayerNightmareData> {
         compound.putInt(NBT_POSITIONAL_INDEX, instance.positionalIndex)
         instance.preTeleportPlayerInventory?.let { compound.put(NBT_PRE_TELEPORT_INVENTORY, it) }
         instance.preTeleportPosition?.let { compound.put(NBT_PRE_TELEPORT_POSITION, NBTUtil.writeBlockPos(it)) }
-        instance.preTeleportDimension?.let { compound.putString(NBT_PRE_TELEPORT_DIMENSION, DimensionType.getKey(it).toString()) }
+        instance.preTeleportDimension?.let { compound.putString(NBT_PRE_TELEPORT_DIMENSION, it.registryName.toString()) }
         return compound
     }
 
@@ -72,7 +73,7 @@ class PlayerNightmareDataStorage : IStorage<IPlayerNightmareData> {
             }
 
             if (nbt.contains(NBT_PRE_TELEPORT_DIMENSION)) {
-                instance.preTeleportDimension = DimensionType.byName(ResourceLocation(nbt.getString(NBT_PRE_TELEPORT_DIMENSION)))
+                instance.preTeleportDimension = RegistryKey.create(Registry.DIMENSION_REGISTRY, ResourceLocation(nbt.getString(NBT_PRE_TELEPORT_DIMENSION)))
             } else {
                 instance.preTeleportDimension = null
             }

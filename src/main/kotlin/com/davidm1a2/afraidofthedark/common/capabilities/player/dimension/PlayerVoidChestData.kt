@@ -1,7 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.dimension
 
+import net.minecraft.util.RegistryKey
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.dimension.DimensionType
+import net.minecraft.world.World
 
 /**
  * Default implementation of the AOTD player void chest capability
@@ -15,5 +16,5 @@ class PlayerVoidChestData : IPlayerVoidChestData {
     override var positionalIndex = -1
     override var friendsIndex = -1
     override var preTeleportPosition: BlockPos? = null
-    override var preTeleportDimension: DimensionType? = null
+    override var preTeleportDimension: RegistryKey<World>? = null
 }

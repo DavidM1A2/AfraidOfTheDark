@@ -28,7 +28,7 @@ class PlayerSpellCharmDataStorage : IStorage<IPlayerSpellCharmData> {
         // Create a compound to write
         val nbt = CompoundNBT()
         nbt.putInt(NBT_CHARM_TICKS, instance.charmTicks)
-        instance.charmingEntityId?.let { nbt.put(NBT_CHARMING_ENTITY, NBTUtil.writeUniqueId(it)) }
+        instance.charmingEntityId?.let { nbt.put(NBT_CHARMING_ENTITY, NBTUtil.createUUID(it)) }
         return nbt
     }
 
@@ -51,7 +51,7 @@ class PlayerSpellCharmDataStorage : IStorage<IPlayerSpellCharmData> {
             instance.charmTicks = nbt.getInt(NBT_CHARM_TICKS)
 
             if (nbt.contains(NBT_CHARMING_ENTITY)) {
-                instance.charmingEntityId = NBTUtil.readUniqueId(nbt.getCompound(NBT_CHARMING_ENTITY))
+                instance.charmingEntityId = NBTUtil.loadUUID(nbt.getCompound(NBT_CHARMING_ENTITY))
             } else {
                 instance.charmingEntityId = null
             }

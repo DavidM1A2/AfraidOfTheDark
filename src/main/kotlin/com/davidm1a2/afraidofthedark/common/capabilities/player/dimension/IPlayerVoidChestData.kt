@@ -1,7 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.dimension
 
+import net.minecraft.util.RegistryKey
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.dimension.DimensionType
+import net.minecraft.world.World
 
 /**
  * An interface that is a base for AOTD player void chest data capabilities. This specific capability is only used server side!
@@ -15,6 +16,6 @@ import net.minecraft.world.dimension.DimensionType
 interface IPlayerVoidChestData : IslandData {
     override var positionalIndex: Int
     var preTeleportPosition: BlockPos?
-    var preTeleportDimension: DimensionType?
+    var preTeleportDimension: RegistryKey<World>?
     var friendsIndex: Int
 }

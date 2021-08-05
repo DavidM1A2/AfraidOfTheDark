@@ -29,7 +29,7 @@ class PlayerResearch : IPlayerResearch {
      * @return true if the player is on server side or false if not
      */
     private fun isServerSide(entityPlayer: PlayerEntity): Boolean {
-        return !entityPlayer.world.isRemote
+        return !entityPlayer.level.isClientSide
     }
 
     /**
@@ -73,7 +73,7 @@ class PlayerResearch : IPlayerResearch {
         setResearch(research, researched)
         if (!isServerSide(entityPlayer)) {
             // Play the achievement sound and display the research
-            Minecraft.getInstance().soundHandler.play(ResearchUnlockedSound())
+            Minecraft.getInstance().soundManager.play(ResearchUnlockedSound())
             AfraidOfTheDark.proxy.researchOverlay!!.displayResearch(research)
         }
     }

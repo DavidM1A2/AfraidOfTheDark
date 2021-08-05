@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component
 
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 
 /**
  * An interface that stores data that lets us freeze the player
@@ -11,7 +11,7 @@ import net.minecraft.util.math.Vec3d
  */
 interface IPlayerSpellFreezeData {
     var freezeTicks: Int
-    var freezePosition: Vec3d?
+    var freezePosition: Vector3d?
     var freezePitch: Float
     var freezeYaw: Float
 

@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.INBT
 import net.minecraft.util.Direction
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.Capability.IStorage
 import org.apache.logging.log4j.LogManager
@@ -60,7 +60,7 @@ class PlayerSpellFreezeDataStorage : IStorage<IPlayerSpellFreezeData> {
                 nbt.contains(NBT_POSITION + "_y") &&
                 nbt.contains(NBT_POSITION + "_z")
             ) {
-                instance.freezePosition = Vec3d(
+                instance.freezePosition = Vector3d(
                     nbt.getDouble(NBT_POSITION + "_x"),
                     nbt.getDouble(NBT_POSITION + "_y"),
                     nbt.getDouble(NBT_POSITION + "_z")

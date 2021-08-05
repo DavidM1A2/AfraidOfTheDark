@@ -69,14 +69,14 @@ class StructureMap : INBTSerializable<CompoundNBT> {
      * @param biomeManager The biome manager used to test if a structure fits at this position
      * @param chunkGenerator The chunk generator used to test if a structure fits at this position
      */
-    fun planStructuresIn(chunkPos: ChunkPos, biomeManager: BiomeManager, chunkGenerator: ChunkGenerator<*>) {
+    fun planStructuresIn(chunkPos: ChunkPos, biomeManager: BiomeManager, chunkGenerator: ChunkGenerator) {
         planStructuresIn(chunkPos, biomeManager, chunkGenerator, null, StructureGridSize.LARGEST_GRID_SIZE)
     }
 
     private fun planStructuresIn(
         chunkPos: ChunkPos,
         biomeManager: BiomeManager,
-        chunkGenerator: ChunkGenerator<*>,
+        chunkGenerator: ChunkGenerator,
         previousNode: StructureMapNode?,
         gridSize: StructureGridSize
     ) {
@@ -135,14 +135,15 @@ class StructureMap : INBTSerializable<CompoundNBT> {
         node: StructureMapNode,
         chunkPos: ChunkPos,
         biomeManager: BiomeManager,
-        chunkGenerator: ChunkGenerator<*>,
+        chunkGenerator: ChunkGenerator,
         gridSize: StructureGridSize
     ) {
         val gridPos = gridSize.toAbsoluteGridPos(chunkPos)
-        random.setLargeFeatureSeed(chunkGenerator.seed, gridPos.x, gridPos.z)
+        // TODO: SEED?
+        random.setLargeFeatureSeed(0, gridPos.x, gridPos.z)
         val cornerChunkPos = gridPos.getStartCornerChunk()
-        val centerXPos = cornerChunkPos.xStart + gridSize.blockSize / 2
-        val centerZPos = cornerChunkPos.zStart + gridSize.blockSize / 2
+        val centerXPos = cornerChunkPos.minBlockX + gridSize.blockSize / 2
+        val centerZPos = cornerChunkPos.minBlockZ + gridSize.blockSize / 2
 
         val possibleStructures = GRID_SIZE_TO_STRUCTURES[gridSize]!!.shuffled(random)
         for (structure in possibleStructures) {
@@ -197,9 +198,9 @@ class StructureMap : INBTSerializable<CompoundNBT> {
             do {
                 toReturn[currentGridSize!!] = structures.filter {
                     when {
-                        previousGridSize == null -> it.size > currentGridSize!!.nextSizeDown!!.chunkSize
-                        currentGridSize!!.nextSizeDown == null -> it.size <= currentGridSize!!.chunkSize
-                        else -> it.size > currentGridSize!!.nextSizeDown!!.chunkSize && it.size <= currentGridSize!!.chunkSize
+                        previousGridSize == null -> it.getSize() > currentGridSize!!.nextSizeDown!!.chunkSize
+                        currentGridSize!!.nextSizeDown == null -> it.getSize() <= currentGridSize!!.chunkSize
+                        else -> it.getSize() > currentGridSize!!.nextSizeDown!!.chunkSize && it.getSize() <= currentGridSize!!.chunkSize
                     }
                 }
 

@@ -10,7 +10,6 @@ import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.Capability.IStorage
 import net.minecraftforge.common.util.Constants
 import org.apache.logging.log4j.LogManager
-import java.util.*
 
 /**
  * Default storage implementation for the AOTD spell manager
@@ -52,7 +51,7 @@ class PlayerSpellManagerStorage : IStorage<IPlayerSpellManager> {
             if (keybinding != null) {
                 // Store the spell UUID, keybind pair
                 val keybindCompound = CompoundNBT()
-                keybindCompound.put(NBT_KEYBIND_SPELL_UUID, NBTUtil.writeUniqueId(spell.id))
+                keybindCompound.put(NBT_KEYBIND_SPELL_UUID, NBTUtil.createUUID(spell.id))
                 keybindCompound.putString(NBT_KEYBIND, keybinding)
                 keybindingsNBT.add(keybindCompound)
             }
@@ -90,9 +89,7 @@ class PlayerSpellManagerStorage : IStorage<IPlayerSpellManager> {
                 instance.addOrUpdateSpell(spell)
             }
             // A utility temp map of uuid -> spell for use in determining keybinds in O(1) for extra memory usage
-            val idToSpell: Map<UUID, Spell> = instance.getSpells()
-                .map { it.id to it }
-                .toMap()
+            val idToSpell = instance.getSpells().associateBy { it.id }
 
             // Restore the keybindings
             val keybindingsNBT = nbt.getList(NBT_KEYBINDS_LIST, Constants.NBT.TAG_COMPOUND)
@@ -101,7 +98,7 @@ class PlayerSpellManagerStorage : IStorage<IPlayerSpellManager> {
                 // Grab the compound for the keybinding
                 val keybindingNBT = keybindingsNBT.getCompound(i)
                 // Grab the key and spell UUID
-                val spellUUID = NBTUtil.readUniqueId(keybindingNBT.getCompound(NBT_KEYBIND_SPELL_UUID))
+                val spellUUID = NBTUtil.loadUUID(keybindingNBT.getCompound(NBT_KEYBIND_SPELL_UUID))
                 val keybind = keybindingNBT.getString(NBT_KEYBIND)
                 // Keybind the key to the spell
                 instance.keybindSpell(keybind, idToSpell[spellUUID]!!)

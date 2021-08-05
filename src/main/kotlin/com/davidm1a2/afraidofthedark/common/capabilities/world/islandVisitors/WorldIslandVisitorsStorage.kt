@@ -16,7 +16,7 @@ class WorldIslandVisitorsStorage : Capability.IStorage<IWorldIslandVisitors> {
 
     override fun readNBT(capability: Capability<IWorldIslandVisitors>, instance: IWorldIslandVisitors, side: Direction?, nbt: INBT) {
         if (nbt is IntNBT) {
-            instance.setNumberOfVisitors(nbt.int)
+            instance.setNumberOfVisitors(nbt.asInt)
         } else {
             LOG.error("Attempted to deserialize an NBTBase that was not an IntNBT")
         }

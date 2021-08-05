@@ -1,8 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.dimension
 
 import net.minecraft.nbt.ListNBT
+import net.minecraft.util.RegistryKey
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.dimension.DimensionType
+import net.minecraft.world.World
 
 /**
  * Default implementation of the AOTD player nightmare capability
@@ -16,5 +17,5 @@ class PlayerNightmareData : IPlayerNightmareData {
     override var positionalIndex = -1
     override var preTeleportPlayerInventory: ListNBT? = null
     override var preTeleportPosition: BlockPos? = null
-    override var preTeleportDimension: DimensionType? = null
+    override var preTeleportDimension: RegistryKey<World>? = null
 }

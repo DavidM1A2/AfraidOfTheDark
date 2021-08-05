@@ -36,7 +36,7 @@ class AOTDPlayerBasics : IAOTDPlayerBasics {
      * @return true if the player is on server side or false if not
      */
     private fun isServerSide(entityPlayer: PlayerEntity): Boolean {
-        return !entityPlayer.world.isRemote
+        return !entityPlayer.level.isClientSide
     }
 
     /**

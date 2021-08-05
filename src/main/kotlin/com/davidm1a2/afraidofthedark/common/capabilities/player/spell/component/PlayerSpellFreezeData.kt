@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.FreezeDataPacket
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 
 /**
  * Default implementation of the AOTD spell freeze data class
@@ -16,7 +16,7 @@ import net.minecraft.util.math.Vec3d
  */
 class PlayerSpellFreezeData : IPlayerSpellFreezeData {
     override var freezeTicks = 0
-    override var freezePosition: Vec3d? = null
+    override var freezePosition: Vector3d? = null
     override var freezePitch: Float = 0f
     override var freezeYaw: Float = 0f
 
@@ -27,7 +27,7 @@ class PlayerSpellFreezeData : IPlayerSpellFreezeData {
      * @return true if the player is on server side or false if not
      */
     private fun isServerSide(entityPlayer: PlayerEntity): Boolean {
-        return !entityPlayer.world.isRemote
+        return !entityPlayer.level.isClientSide
     }
 
     /**
