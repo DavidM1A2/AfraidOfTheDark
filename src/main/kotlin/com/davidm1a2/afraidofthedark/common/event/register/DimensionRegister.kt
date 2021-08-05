@@ -1,52 +1,35 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
-import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
-import net.minecraft.world.dimension.DimensionType
-import net.minecraftforge.common.DimensionManager
-import net.minecraftforge.common.ModDimension
-import net.minecraftforge.event.RegistryEvent
-import net.minecraftforge.event.world.RegisterDimensionsEvent
-import net.minecraftforge.eventbus.api.SubscribeEvent
+import com.davidm1a2.afraidofthedark.client.dimension.NightmareRenderInfo
+import com.davidm1a2.afraidofthedark.client.dimension.VoidChestRenderInfo
+import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.dimension.NightmareChunkGenerator
+import com.davidm1a2.afraidofthedark.common.dimension.VoidChestChunkGenerator
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap
+import net.minecraft.client.world.DimensionRenderInfo
+import net.minecraft.util.ResourceLocation
+import net.minecraft.util.registry.Registry
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper
 
 /**
  * Class that registers all AOTD dimensions into the game
  */
-class DimensionRegister {
-    /**
-     * Called by forge to register any of our mod dimension references
-     *
-     * @param event The event to register to
-     */
-    @SubscribeEvent
-    fun registerModDimensions(event: RegistryEvent.Register<ModDimension>) {
-        event.registry.registerAll(*ModDimensions.DIMENSION_LIST)
+object DimensionRegister {
+    @OnlyIn(Dist.CLIENT)
+    fun registerRenderInfos() {
+        val effects = ObfuscationReflectionHelper.getPrivateValue<Object2ObjectMap<ResourceLocation, DimensionRenderInfo>, DimensionRenderInfo>(
+            DimensionRenderInfo::class.java,
+            null,
+            "field_239208_a_"
+        ) ?: throw IllegalStateException("Field 'EFFECTS' could not be reflected out of DimensionRenderInfo")
+        effects[ResourceLocation(Constants.MOD_ID, "nightmare_effects")] = NightmareRenderInfo()
+        effects[ResourceLocation(Constants.MOD_ID, "void_chest_effects")] = VoidChestRenderInfo()
     }
 
-    /**
-     * Called by forge to register any of our mod dimensions. This is required since dimensions
-     * are are created in 2 parts
-     *
-     * @param event The event to register to
-     */
-    @SubscribeEvent
-    @Suppress("UNUSED_PARAMETER")
-    fun registerDimensions(event: RegisterDimensionsEvent) {
-        val nightmare = ModDimensions.NIGHTMARE
-        ModDimensions.NIGHTMARE_TYPE =
-            DimensionType.byName(nightmare.registryName!!) ?: DimensionManager.registerDimension(
-                nightmare.registryName,
-                nightmare,
-                null,
-                false
-            )
-
-        val voidChest = ModDimensions.VOID_CHEST
-        ModDimensions.VOID_CHEST_TYPE =
-            DimensionType.byName(voidChest.registryName!!) ?: DimensionManager.registerDimension(
-                voidChest.registryName,
-                voidChest,
-                null,
-                false
-            )
+    fun registerChunkGenerators() {
+        Registry.register(Registry.CHUNK_GENERATOR, ResourceLocation(Constants.MOD_ID, "nightmare_generator"), NightmareChunkGenerator.CODEC)
+        Registry.register(Registry.CHUNK_GENERATOR, ResourceLocation(Constants.MOD_ID, "void_chest_generator"), VoidChestChunkGenerator.CODEC)
     }
 }

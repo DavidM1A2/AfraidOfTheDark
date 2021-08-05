@@ -86,20 +86,20 @@ class ClientProxy : IProxy {
     override fun showInsanitysHeightsBook() {
         // A hint book itemstack used purely to open the book GUI, it's never actually given to the player
         val hintBook = createHintBook()
-        Minecraft.getInstance().displayGuiScreen(ReadBookScreen(WrittenBookInfo(hintBook)))
+        Minecraft.getInstance().setScreen(ReadBookScreen(WrittenBookInfo(hintBook)))
     }
 
     override fun initializeBlockRenderTypes() {
-        RenderTypeLookup.setRenderLayer(ModBlocks.AMORPHOUS_ELDRITCH_METAL, RenderType.getTranslucent())
-        RenderTypeLookup.setRenderLayer(ModBlocks.VOID_CHEST_PORTAL, RenderType.getTranslucent())
-        RenderTypeLookup.setRenderLayer(ModBlocks.IMBUED_CACTUS, RenderType.getCutout())
-        RenderTypeLookup.setRenderLayer(ModBlocks.IMBUED_CACTUS_BLOSSOM, RenderType.getCutout())
+        RenderTypeLookup.setRenderLayer(ModBlocks.AMORPHOUS_ELDRITCH_METAL, RenderType.translucent())
+        RenderTypeLookup.setRenderLayer(ModBlocks.VOID_CHEST_PORTAL, RenderType.translucent())
+        RenderTypeLookup.setRenderLayer(ModBlocks.IMBUED_CACTUS, RenderType.cutout())
+        RenderTypeLookup.setRenderLayer(ModBlocks.IMBUED_CACTUS_BLOSSOM, RenderType.cutout())
     }
 
     private fun createHintBook(): ItemStack {
         val toReturn = ItemStack(Items.WRITTEN_BOOK, 1)
-        NBTHelper.setString(toReturn, "title", I18n.format("nightmarebook.title"))
-        NBTHelper.setString(toReturn, "author", I18n.format("nightmarebook.author"))
+        NBTHelper.setString(toReturn, "title", I18n.get("nightmarebook.title"))
+        NBTHelper.setString(toReturn, "author", I18n.get("nightmarebook.author"))
         NBTHelper.setBoolean(toReturn, "resolved", true)
         toReturn.tag!!.put("pages", createPages())
         return toReturn
@@ -107,7 +107,7 @@ class ClientProxy : IProxy {
 
     private fun createPages(): ListNBT {
         val pages = ListNBT()
-        val bookText = I18n.format("nightmarebook.text").split(";;")
+        val bookText = I18n.get("nightmarebook.text").split(";;")
         bookText.forEach {
             pages.add(StringNBT.valueOf(it))
         }

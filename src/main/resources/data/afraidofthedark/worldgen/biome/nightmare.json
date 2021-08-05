@@ -11,6 +11,7 @@
   "effects": {
     "water_color": 16711680,
     "water_fog_color": 9961472,
+    "fog_color": 5308416,
     "grass_color_modifier": "none"
   },
   "surface_builder": "minecraft:nope",

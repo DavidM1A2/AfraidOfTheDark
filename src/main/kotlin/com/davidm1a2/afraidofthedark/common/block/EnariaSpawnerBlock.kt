@@ -1,6 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
+import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
+import com.davidm1a2.afraidofthedark.common.tileEntity.EnariaSpawnerTileEntity
+import com.davidm1a2.afraidofthedark.common.tileEntity.GhastlyEnariaSpawnerTileEntity
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -69,10 +72,9 @@ class EnariaSpawnerBlock : AOTDTileEntityBlock(
             else -> throw IllegalStateException("Can't determine the world type for IBlockReader ${world::class.java.simpleName}")
         }
         // In the overworld we spawn a regular enaria, in the nightmare we spawn a ghastly enaria
-        return when {
-            // TODO: Dimension
-            //dimType == DimensionType.OVERWORLD -> EnariaSpawnerTileEntity()
-            //dimType.modType == ModDimensions.NIGHTMARE -> GhastlyEnariaSpawnerTileEntity()
+        return when (dimType) {
+            World.OVERWORLD -> EnariaSpawnerTileEntity()
+            ModDimensions.NIGHTMARE_WORLD -> GhastlyEnariaSpawnerTileEntity()
             else -> {
                 LOGGER.warn("BlockEnariaSpawner should not exist in this dimension, defaulting to a NO-OP TileEntity.")
                 null

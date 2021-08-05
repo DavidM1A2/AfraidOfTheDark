@@ -67,9 +67,6 @@ class AfraidOfTheDark {
         val modBus = FMLJavaModLoadingContext.get().modEventBus
         val context = ModLoadingContext.get()
 
-        val dimensionRegister = DimensionRegister()
-
-        forgeBus.register(dimensionRegister)
         forgeBus.register(CapabilityHandler())
         forgeBus.register(FlaskOfSoulsHandler())
         forgeBus.register(NightmareHandler())
@@ -99,7 +96,6 @@ class AfraidOfTheDark {
         modBus.register(MeteorEntryRegister())
         modBus.register(ParticleRegister())
         modBus.register(FeatureRegister())
-        modBus.register(dimensionRegister)
         modBus.register(ConfigurationHandler())
         modBus.register(this)
 
@@ -116,6 +112,7 @@ class AfraidOfTheDark {
         proxy.initializeEntityRenderers()
         proxy.initializeTileEntityRenderers()
         proxy.initializeBlockRenderTypes()
+        DimensionRegister.registerRenderInfos()
     }
 
     @SubscribeEvent
@@ -126,6 +123,7 @@ class AfraidOfTheDark {
         PacketRegister.initialize()
         EntityRegister.registerSpawnPlacements()
         DataSerializerRegister.register()
+        DimensionRegister.registerChunkGenerators()
     }
 
     /**

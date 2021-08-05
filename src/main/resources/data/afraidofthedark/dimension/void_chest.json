@@ -1,0 +1,14 @@
+{
+  "type": "afraidofthedark:void_chest_type",
+  "generator": {
+    "type": "afraidofthedark:void_chest_generator",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "afraidofthedark:void_chest"
+    },
+    "settings": {
+      "structures": {
+      }
+    }
+  }
+}

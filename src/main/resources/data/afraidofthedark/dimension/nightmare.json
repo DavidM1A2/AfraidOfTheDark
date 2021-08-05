@@ -1,0 +1,14 @@
+{
+  "type": "afraidofthedark:nightmare_type",
+  "generator": {
+    "type": "afraidofthedark:nightmare_generator",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "afraidofthedark:nightmare"
+    },
+    "settings": {
+      "structures": {
+      }
+    }
+  }
+}

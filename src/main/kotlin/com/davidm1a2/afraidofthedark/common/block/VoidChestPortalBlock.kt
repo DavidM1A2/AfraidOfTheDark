@@ -3,6 +3,9 @@ package com.davidm1a2.afraidofthedark.common.block
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlock
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.capabilities.getVoidChestData
+import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.dimension.teleport
 import net.minecraft.block.BlockState
 import net.minecraft.block.material.Material
 import net.minecraft.entity.Entity
@@ -37,9 +40,7 @@ class VoidChestPortalBlock : AOTDBlock(
                 val playerVoidChestData = entity.getVoidChestData()
 
                 // If the player is in the void chest send them to their stored dimension
-                // TODO: Dimension
-                /*
-                if (world.dimension().type == ModDimensions.VOID_CHEST_TYPE) {
+                if (world.dimension() == ModDimensions.VOID_CHEST_WORLD) {
                     // Send the player to their previously stored dimension
                     entity.teleport(playerVoidChestData.preTeleportDimension!!)
                 } else {
@@ -54,10 +55,9 @@ class VoidChestPortalBlock : AOTDBlock(
                     if (playerResearch.isResearched(ModResearches.VOID_CHEST)) {
                         // Make sure no friends index is set since the portal can only send to the player's dimension
                         playerVoidChestData.friendsIndex = -1
-                        entity.teleport(ModDimensions.VOID_CHEST_TYPE)
+                        entity.teleport(ModDimensions.VOID_CHEST_WORLD)
                     }
                 }
-                 */
             }
         }
     }

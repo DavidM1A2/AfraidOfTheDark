@@ -64,14 +64,14 @@ object IslandUtility {
         val bottomBlock = world.getBlockState(blockPos)
         val bottomBlockMaterial = bottomBlock.material
         // If the material is solid and blocks movement it's valid
-        return if (bottomBlockMaterial.isSolid && bottomBlockMaterial.blocksMovement() && bottomBlock.block != ModBlocks.VOID_CHEST_PORTAL) {
+        return if (bottomBlockMaterial.isSolid && bottomBlockMaterial.blocksMotion() && bottomBlock.block != ModBlocks.VOID_CHEST_PORTAL) {
             // Ensure the two blocks above are air
-            val blockUpOne = world.getBlockState(blockPos.up())
-            val blockUpTwo = world.getBlockState(blockPos.up(2))
+            val blockUpOne = world.getBlockState(blockPos.above())
+            val blockUpTwo = world.getBlockState(blockPos.above(2))
             return blockUpOne.block != ModBlocks.VOID_CHEST_PORTAL &&
                     blockUpTwo.block != ModBlocks.VOID_CHEST_PORTAL &&
-                    !blockUpOne.material.blocksMovement() &&
-                    !blockUpTwo.material.blocksMovement()
+                    !blockUpOne.material.blocksMotion() &&
+                    !blockUpTwo.material.blocksMotion()
         } else false
     }
 }
