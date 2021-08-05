@@ -51,7 +51,6 @@ import net.minecraftforge.fml.config.ModConfig
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 import java.util.function.Supplier
 
@@ -78,6 +77,7 @@ class AfraidOfTheDark {
         forgeBus.register(FurnaceFuelRegister())
         forgeBus.register(teleportQueue)
         forgeBus.register(this)
+        forgeBus.register(AOTDCommands())
 
         modBus.register(RegistryRegister())
         modBus.register(BlockRegister())
@@ -138,17 +138,6 @@ class AfraidOfTheDark {
         SpellEffectOverrideRegister.initialize()
         // Only used by the developer to create .schematic.meta files
         // SchematicDebugUtils.createSchematicMetaFiles()
-    }
-
-    /**
-     * Called when the server gets initialized
-     *
-     * @param event Register commands when the server starts
-     */
-    @SubscribeEvent
-    fun serverStartingEvent(event: FMLServerStartingEvent) {
-        // Register mod commands
-        AOTDCommands.register(event.commandDispatcher)
     }
 
     companion object {

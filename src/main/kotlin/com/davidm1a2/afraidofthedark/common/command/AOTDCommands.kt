@@ -4,7 +4,6 @@ import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.schematic.Schematic
 import com.davidm1a2.afraidofthedark.common.schematic.SchematicUtils
 import com.mojang.brigadier.Command
-import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.StringArgumentType.getString
 import com.mojang.brigadier.arguments.StringArgumentType.word
 import com.mojang.brigadier.builder.ArgumentBuilder
@@ -17,18 +16,19 @@ import net.minecraft.command.ISuggestionProvider
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.text.StringTextComponent
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraftforge.event.RegisterCommandsEvent
+import net.minecraftforge.eventbus.api.SubscribeEvent
 
 /**
  * Class containing all AOTD related commands
  */
-object AOTDCommands {
-    private val DEVELOPERS = setOf("David_M1A2", "namcap623", "Rheapr")
-
+class AOTDCommands {
     /**
      * Registers Afraid of the Dark commands into the dispatcher
      */
-    fun register(dispatcher: CommandDispatcher<CommandSource>) {
-        dispatcher.register(
+    @SubscribeEvent
+    fun register(event: RegisterCommandsEvent) {
+        event.dispatcher.register(
             literal<CommandSource>("aotd")
                 .then(literal<CommandSource>("help").executesDefault {
                     printHelp(it.source)
@@ -37,8 +37,9 @@ object AOTDCommands {
                     literal<CommandSource>("debug")
                         .then(
                             literal<CommandSource>("generateRaw")
-                                .then(argument<CommandSource, String>("schematic", word())
-                                    .suggests { _, builder -> ISuggestionProvider.suggest(ModSchematics.LIST.map { it.getName() }, builder) }
+                                .then(
+                                    argument<CommandSource, String>("schematic", word())
+                                        .suggests { _, builder -> ISuggestionProvider.suggest(ModSchematics.LIST.map { it.getName() }, builder) }
                                     .executesDefault { generateSchematic(it.source, ModSchematics.NAME_TO_SCHEMATIC[getString(it, "schematic")], false) })
                         )
                         .then(
@@ -66,55 +67,59 @@ object AOTDCommands {
     }
 
     private fun printHelp(sender: CommandSource) {
-        sender.sendFeedback(TranslationTextComponent("message.afraidofthedark.command.help.header"), false)
-        sender.sendFeedback(TranslationTextComponent("message.afraidofthedark.command.help.help"), false)
+        sender.sendSuccess(TranslationTextComponent("message.afraidofthedark.command.help.header"), false)
+        sender.sendSuccess(TranslationTextComponent("message.afraidofthedark.command.help.help"), false)
     }
 
     private fun generateSchematic(sender: CommandSource, schematic: Schematic?, includeCornerMarkers: Boolean) {
         val entity = sender.entity
-        val world = sender.world
+        val world = sender.level
 
         if (!canExecuteDebugCommands(sender)) {
             return
         }
 
         if (schematic == null) {
-            sender.sendFeedback(StringTextComponent("Schematic was not found"), false)
+            sender.sendFailure(StringTextComponent("Schematic was not found"))
             return
         }
 
-        SchematicUtils.placeRawSchematic(schematic, world, entity!!.position)
+        SchematicUtils.placeRawSchematic(schematic, world, entity!!.blockPosition())
         if (includeCornerMarkers) {
-            val db = Blocks.DIAMOND_BLOCK.defaultState
-            world.setBlockState(entity.position, db)
-            world.setBlockState(entity.position.add(schematic.getWidth() - 1, schematic.getHeight() - 1, schematic.getLength() - 1), db)
+            val db = Blocks.DIAMOND_BLOCK.defaultBlockState()
+            world.setBlock(entity.blockPosition(), db, 4)
+            world.setBlock(entity.blockPosition().offset(schematic.getWidth() - 1, schematic.getHeight() - 1, schematic.getLength() - 1), db, 4)
         }
     }
 
     private fun updateStructureVoids(sender: CommandSource, makeVoids: Boolean) {
         val entity = sender.entity
-        val world = sender.world
+        val world = sender.level
 
         if (!canExecuteDebugCommands(sender)) {
             return
         }
 
-        SchematicUtils.updateStructureVoids(world, entity!!.position, makeVoids)
+        SchematicUtils.updateStructureVoids(world, entity!!.blockPosition(), makeVoids)
     }
 
     private fun canExecuteDebugCommands(sender: CommandSource): Boolean {
         val entity = sender.entity
 
         if (entity == null) {
-            sender.sendFeedback(StringTextComponent("Command sender entity cannot be null"), false)
+            sender.sendFailure(StringTextComponent("Command sender entity cannot be null"))
             return false
         }
 
         if (entity !is PlayerEntity || !DEVELOPERS.contains(entity.gameProfile.name)) {
-            sender.sendFeedback(StringTextComponent("Debug commands can only be used by developers"), false)
+            sender.sendFailure(StringTextComponent("Debug commands can only be used by developers"))
             return false
         }
 
         return true
+    }
+
+    companion object {
+        private val DEVELOPERS = setOf("David_M1A2", "namcap623", "Rheapr")
     }
 }
