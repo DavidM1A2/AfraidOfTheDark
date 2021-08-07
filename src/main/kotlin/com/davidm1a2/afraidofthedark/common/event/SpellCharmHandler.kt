@@ -33,12 +33,12 @@ class SpellCharmHandler {
 
                     // Force the player to look at the entity
                     val charmingEntityId = playerCharmData.charmingEntityId
-                    val charmingEntity = (event.player.world as? ServerWorld)?.getEntityByUuid(charmingEntityId!!)
+                    val charmingEntity = (event.player.level as? ServerWorld)?.getEntity(charmingEntityId!!)
 
                     // If the player is non-null set the player's facing
                     if (charmingEntity != null) {
                         // A player cant charm themselves
-                        if (entityPlayer.uniqueID != charmingEntityId) {
+                        if (entityPlayer.uuid != charmingEntityId) {
                             // Set the player's look to be at the charming entity
                             (entityPlayer as ServerPlayerEntity).lookAt(EntityAnchorArgument.Type.EYES, charmingEntity, EntityAnchorArgument.Type.EYES)
                         }

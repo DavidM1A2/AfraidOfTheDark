@@ -22,7 +22,7 @@ class FlaskOfSoulsHandler {
     @SubscribeEvent
     fun onItemCraftedEvent(event: PlayerEvent.ItemCraftedEvent) {
         // Server side processing only
-        if (!event.player.world.isRemote) {
+        if (!event.player.level.isClientSide) {
             // Test if the item crafted was a flask of souls
             if (event.crafting.item is FlaskOfSoulsItem) {
                 // Grab the player's research
@@ -45,14 +45,14 @@ class FlaskOfSoulsHandler {
     @SubscribeEvent
     fun onLivingDeathEvent(event: LivingDeathEvent) {
         // Ensure a player killed the entity. Make sure the entity is an entity living
-        if (event.source.trueSource is PlayerEntity && event.entity is LivingEntity) {
+        if (event.source.entity is PlayerEntity && event.entity is LivingEntity) {
             // Grab the killer player
-            val entityPlayer = event.source.trueSource as PlayerEntity
+            val entityPlayer = event.source.entity as PlayerEntity
 
             // Ensure the player has the right research
             if (entityPlayer.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS)) {
                 // Grab the player's inventory
-                val inventory = entityPlayer.inventory.mainInventory + entityPlayer.inventory.offHandInventory
+                val inventory = entityPlayer.inventory.items + entityPlayer.inventory.offhand
                 val entityID = EntityType.getKey(event.entity.type)
 
                 // Iterate over the player's inventory and look for flasks. If we find one test if we have a flask for the killed entity

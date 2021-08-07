@@ -15,7 +15,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.SoundEvents
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import kotlin.math.ceil
 import kotlin.math.sqrt
 import kotlin.random.Random
@@ -69,14 +69,14 @@ object SpellEffectOverrideRegister {
                             val randomZ = Random.nextDouble(radius * 2) - radius
 
                             // Grab the blockpos
-                            val aoePos = basePos.add(randomX, randomY, randomZ)
+                            val aoePos = basePos.offset(randomX, randomY, randomZ)
 
                             // Test to see if the block is within the radius
-                            if (aoePos.distanceSq(basePos) < radius * radius) {
+                            if (aoePos.distSqr(basePos) < radius * radius) {
                                 // Apply the effect at the position
                                 effect.component.procEffect(
                                     transitionBuilder.withPosition(
-                                        Vec3d(
+                                        Vector3d(
                                             aoePos.x.toDouble(),
                                             aoePos.y.toDouble(),
                                             aoePos.z.toDouble()
@@ -85,7 +85,7 @@ object SpellEffectOverrideRegister {
                                         .withBlockPosition(aoePos)
                                         // Random direction, AOE has no direction
                                         .withDirection(
-                                            Vec3d(
+                                            Vector3d(
                                                 Math.random() - 0.5,
                                                 Math.random() - 0.5,
                                                 Math.random() - 0.5
@@ -142,27 +142,27 @@ object SpellEffectOverrideRegister {
                             if (blockState.isAir(world, blockPos)) {
                                 // Create particles at the pre and post teleport position
                                 // Play sound at the pre and post teleport position
-                                AOTDSpellEffect.createParticlesAt(1, 3, teleportPos, spellCaster.dimension, ModParticles.ENDER)
+                                AOTDSpellEffect.createParticlesAt(1, 3, teleportPos, spellCaster.level.dimension(), ModParticles.ENDER)
                                 world.playSound(
                                     null,
                                     teleportPos.x,
                                     teleportPos.y,
                                     teleportPos.z,
-                                    SoundEvents.ENTITY_ENDERMAN_TELEPORT,
+                                    SoundEvents.ENDERMAN_TELEPORT,
                                     SoundCategory.PLAYERS,
                                     2.5f,
                                     1.0f
                                 )
 
-                                spellCaster.setPositionAndUpdate(teleportPos.x, teleportPos.y, teleportPos.z)
+                                spellCaster.moveTo(teleportPos.x, teleportPos.y, teleportPos.z)
 
-                                AOTDSpellEffect.createParticlesAt(1, 3, teleportPos, spellCaster.dimension, ModParticles.ENDER)
+                                AOTDSpellEffect.createParticlesAt(1, 3, teleportPos, spellCaster.level.dimension(), ModParticles.ENDER)
                                 world.playSound(
                                     null,
                                     teleportPos.x,
                                     teleportPos.y,
                                     teleportPos.z,
-                                    SoundEvents.ENTITY_ENDERMAN_TELEPORT,
+                                    SoundEvents.ENDERMAN_TELEPORT,
                                     SoundCategory.PLAYERS,
                                     2.5f,
                                     1.0f
@@ -210,7 +210,7 @@ object SpellEffectOverrideRegister {
                         for (y in -blockRadius until blockRadius + 1) {
                             for (z in -blockRadius until blockRadius + 1) {
                                 // Grab the block position at the xyz position
-                                val blockLocation = centerBlockPosition.add(x, y, z)
+                                val blockLocation = centerBlockPosition.offset(x, y, z)
                                 val location = centerPosition.add(x.toDouble(), y.toDouble(), z.toDouble())
 
                                 // Get the distance from the center to the location
@@ -219,17 +219,17 @@ object SpellEffectOverrideRegister {
                                 if (distance < radius + threshhold && distance > radius - threshhold) {
                                     // If the block is air replace it with ice
                                     val blockState = world.getBlockState(blockLocation)
-                                    if (blockState.isAir(world, blockLocation)) {
-                                        world.setBlockState(
+                                    if (world.isEmptyBlock(blockLocation)) {
+                                        world.setBlock(
                                             blockLocation,
-                                            Blocks.PACKED_ICE.defaultState,
+                                            Blocks.PACKED_ICE.defaultBlockState(),
                                             2 or 16
                                         )
                                         AOTDSpellEffect.createParticlesAround(
                                             0,
                                             1,
                                             location,
-                                            state.world.dimension.type,
+                                            state.world.dimension(),
                                             ModParticles.FREEZE,
                                             0.5
                                         )

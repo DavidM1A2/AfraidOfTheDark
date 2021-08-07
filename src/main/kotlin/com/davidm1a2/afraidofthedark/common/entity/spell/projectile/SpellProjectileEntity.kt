@@ -86,7 +86,7 @@ class SpellProjectileEntity(
         this.deltaMovement = velocity.normalize().scale(projectileSpeed)
 
         // Position the entity at the center of the shooter moved slightly in the dir of fire
-        setPos(position.x + this.deltaMovement.x, position.y + this.deltaMovement.y, position.z + this.deltaMovement.z)
+        moveTo(position.x + this.deltaMovement.x, position.y + this.deltaMovement.y, position.z + this.deltaMovement.z)
 
         this.shooter?.let {
             setRot(it.xRot, it.yRot)
@@ -129,7 +129,7 @@ class SpellProjectileEntity(
                 }
 
                 // Continue flying in the direction of motion, update the position
-                setPos(x + deltaMovement.x, y + deltaMovement.y, z + deltaMovement.z)
+                moveTo(x + deltaMovement.x, y + deltaMovement.y, z + deltaMovement.z)
 
                 // Update distance flown, and kill the entity if it went
                 val distanceFlown = deltaMovement.length()

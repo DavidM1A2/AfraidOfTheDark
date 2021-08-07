@@ -13,7 +13,6 @@ import com.davidm1a2.afraidofthedark.common.event.SpellCharmHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellFreezeHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellStateHandler
 import com.davidm1a2.afraidofthedark.common.event.VoidChestHandler
-import com.davidm1a2.afraidofthedark.common.event.register.BiomeRegister
 import com.davidm1a2.afraidofthedark.common.event.register.BlockRegister
 import com.davidm1a2.afraidofthedark.common.event.register.BoltEntryRegister
 import com.davidm1a2.afraidofthedark.common.event.register.CapabilityRegister
@@ -22,7 +21,6 @@ import com.davidm1a2.afraidofthedark.common.event.register.DimensionRegister
 import com.davidm1a2.afraidofthedark.common.event.register.EffectRegister
 import com.davidm1a2.afraidofthedark.common.event.register.EntityRegister
 import com.davidm1a2.afraidofthedark.common.event.register.FeatureRegister
-import com.davidm1a2.afraidofthedark.common.event.register.FlammableRegister
 import com.davidm1a2.afraidofthedark.common.event.register.FurnaceFuelRegister
 import com.davidm1a2.afraidofthedark.common.event.register.ItemRegister
 import com.davidm1a2.afraidofthedark.common.event.register.MeteorEntryRegister
@@ -85,7 +83,6 @@ class AfraidOfTheDark {
         modBus.register(ItemRegister())
         modBus.register(EffectRegister())
         modBus.register(EntityRegister())
-        modBus.register(BiomeRegister())
         modBus.register(SoundRegister())
         modBus.register(RecipeSerializerRegister())
         modBus.register(SpellPowerSourceRegister())
@@ -118,7 +115,6 @@ class AfraidOfTheDark {
     @SubscribeEvent
     @Suppress("UNUSED_PARAMETER")
     fun commonSetupEvent(event: FMLCommonSetupEvent) {
-        FlammableRegister.register()
         CapabilityRegister.register()
         PacketRegister.initialize()
         EntityRegister.registerSpawnPlacements()

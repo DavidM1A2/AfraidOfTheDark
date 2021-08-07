@@ -33,7 +33,7 @@ class CapabilityHandler {
     fun onAttachCapabilitiesWorld(event: AttachCapabilitiesEvent<World>) {
         val world = event.getObject()
         // Some capabilities only exist server side
-        if (!world.isRemote) {
+        if (!world.isClientSide) {
             event.addCapability(
                 ResourceLocation(Constants.MOD_ID, "spell_states"),
                 CapabilityProvider(ModCapabilities.WORLD_SPELL_STATES)
@@ -43,7 +43,7 @@ class CapabilityHandler {
                 CapabilityProvider(ModCapabilities.WORLD_STRUCTURE_MAPPER)
             )
 
-            if (world.dimension.type == ModDimensions.NIGHTMARE_TYPE || world.dimension.type == ModDimensions.VOID_CHEST_TYPE) {
+            if (world.dimension() == ModDimensions.NIGHTMARE_WORLD || world.dimension() == ModDimensions.VOID_CHEST_WORLD) {
                 event.addCapability(
                     ResourceLocation(Constants.MOD_ID, "island_visitors"),
                     CapabilityProvider(ModCapabilities.WORLD_ISLAND_VISITORS)
@@ -103,7 +103,7 @@ class CapabilityHandler {
         if (event.entity is PlayerEntity) {
             val entityPlayer = event.entity as PlayerEntity
             // The server will have correct data, the client needs new data
-            if (!event.world.isRemote) {
+            if (!event.world.isClientSide) {
                 entityPlayer.getBasics().syncAll(entityPlayer)
                 entityPlayer.getResearch().sync(entityPlayer, false)
                 // Dont sync PLAYER_VOID_CHEST_DATA because it's server side only storage!

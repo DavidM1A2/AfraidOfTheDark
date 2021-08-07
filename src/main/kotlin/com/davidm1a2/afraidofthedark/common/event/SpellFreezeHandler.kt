@@ -41,7 +41,7 @@ class SpellFreezeHandler {
                     val freezePosition = playerFreezeData.freezePosition!!
 
                     // Freeze the player's location
-                    (entityPlayer as ServerPlayerEntity).connection.setPlayerLocation(
+                    (entityPlayer as ServerPlayerEntity).connection.teleport(
                         freezePosition.x,
                         freezePosition.y,
                         freezePosition.z,
@@ -69,14 +69,14 @@ class SpellFreezeHandler {
             // If the player is frozen block all movement
             if (playerFreezeData.freezeTicks > 0) {
                 val input = event.movementInput
-                input.backKeyDown = false
-                input.forwardKeyDown = false
-                input.jump = false
-                input.leftKeyDown = false
-                input.rightKeyDown = false
-                input.moveStrafe = 0f
-                input.moveForward = 0f
-                input.sneaking = false
+                input.down = false
+                input.up = false
+                input.jumping = false
+                input.left = false
+                input.right = false
+                input.leftImpulse = 0f
+                input.forwardImpulse = 0f
+                input.shiftKeyDown = false
             }
         }
     }

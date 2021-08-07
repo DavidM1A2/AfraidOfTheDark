@@ -56,8 +56,7 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
         this.shootingEntity = shootingEntity
 
         // Position the entity at the center of the drone
-        setPos(shootingEntity.x, shootingEntity.y + shootingEntity.eyeHeight, shootingEntity.z)
-        setRot(shootingEntity.yRot, shootingEntity.xRot)
+        moveTo(shootingEntity.x, shootingEntity.y + shootingEntity.eyeHeight, shootingEntity.z, shootingEntity.yRot, shootingEntity.xRot)
 
         val velocityMagnitude = sqrt(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity)
         // Update the acceleration vector by normalizing it and multiplying by speed
@@ -107,7 +106,7 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
                 }
 
                 // Continue flying in the direction of motion, update the position
-                setPos(x + deltaMovement.x, y + deltaMovement.y, z + deltaMovement.z)
+                moveTo(x + deltaMovement.x, y + deltaMovement.y, z + deltaMovement.z)
             } else {
                 remove()
             }

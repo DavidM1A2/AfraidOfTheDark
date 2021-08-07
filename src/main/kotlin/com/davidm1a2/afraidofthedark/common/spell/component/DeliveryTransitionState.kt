@@ -8,6 +8,7 @@ import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 import net.minecraft.world.dimension.DimensionType
 import net.minecraft.world.server.ServerWorld
@@ -34,9 +35,9 @@ class DeliveryTransitionState {
     private val lazyWorld: Lazy<ServerWorld>
     val world: ServerWorld
         get() = lazyWorld.value
-    val position: Vec3d
+    val position: Vector3d
     val blockPosition: BlockPos
-    val direction: Vec3d
+    val direction: Vector3d
     private val casterEntityId: UUID?
     private val entityId: UUID?
     private val deliveryEntityId: UUID?

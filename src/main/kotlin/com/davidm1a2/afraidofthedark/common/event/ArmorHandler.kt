@@ -17,15 +17,15 @@ class ArmorHandler {
     @SubscribeEvent
     fun onLivingHurtEvent(event: LivingHurtEvent) {
         // Server side processing only
-        if (!event.entity.world.isRemote) {
+        if (!event.entity.level.isClientSide) {
             val entity = event.entityLiving
-            val armor = entity.armorInventoryList.toList()
+            val armor = entity.armorSlots.toList()
             // Only process armor with 4 pieces (helm, chest, legging, boot)
             if (armor.size == 4) {
-                val percentDamageBlocked = armor.sumByDouble {
+                val percentDamageBlocked = armor.sumOf {
                     val armorItem = it.item
                     if (armorItem is AOTDArmorItem) {
-                        armorItem.processDamage(event.entityLiving, it, event.source, event.amount, MobEntity.getSlotForItemStack(it))
+                        armorItem.processDamage(event.entityLiving, it, event.source, event.amount, MobEntity.getEquipmentSlotForItem(it))
                     } else {
                         0.0
                     }

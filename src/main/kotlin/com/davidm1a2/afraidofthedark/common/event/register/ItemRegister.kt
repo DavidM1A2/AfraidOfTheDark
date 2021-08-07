@@ -29,7 +29,7 @@ class ItemRegister {
         for (block in ModBlocks.BLOCK_LIST) {
             val properties = Item.Properties()
             if (block !is AOTDShowBlockCreative || block.displayInCreative()) {
-                properties.group(Constants.AOTD_CREATIVE_TAB)
+                properties.tab(Constants.AOTD_CREATIVE_TAB)
             }
             registry.register(BlockItem(block, properties).setRegistryName(block.registryName))
         }

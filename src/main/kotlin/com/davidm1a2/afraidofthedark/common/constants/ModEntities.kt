@@ -16,6 +16,8 @@ import com.davidm1a2.afraidofthedark.common.entity.werewolf.WerewolfEntity
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityClassification
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.ai.attributes.AttributeModifierMap
 
 /**
  * A static class containing all of our entity references for us
@@ -147,7 +149,7 @@ object ModEntities {
         STAR_METAL_BOLT
     )
 
-    val ENTITY_ATTRIBUTES = arrayOf(
+    val ENTITY_ATTRIBUTES: Array<Pair<EntityType<out LivingEntity>, AttributeModifierMap>> = arrayOf(
         ENARIA to EnariaEntity.buildAttributeModifiers().build(),
         GHASTLY_ENARIA to GhastlyEnariaEntity.buildAttributeModifiers().build(),
         ENCHANTED_FROG to EnchantedFrogEntity.buildAttributeModifiers().build(),
