@@ -200,7 +200,7 @@ object SchematicUtils {
                     val nextToPlace = blocks[index]
 
                     // If the block in the schematic is air then ignore it
-                    world.setBlockState(position.add(x, y, z), nextToPlace)
+                    world.setBlockAndUpdate(position.offset(x, y, z), nextToPlace)
                 }
             }
         }
@@ -211,7 +211,7 @@ object SchematicUtils {
         for (i in 0 until tileEntities.size) {
             // Grab the compound that represents this tile entity
             val tileEntityCompound = tileEntities.getCompound(i)
-            val tileEntityPosition = position.add(tileEntityCompound.getInt("x"), tileEntityCompound.getInt("y"), tileEntityCompound.getInt("z"))
+            val tileEntityPosition = position.offset(tileEntityCompound.getInt("x"), tileEntityCompound.getInt("y"), tileEntityCompound.getInt("z"))
             // Clone the NBT, then update the x, y, and z positions to be world absolute
             val newTileEntityCompound = tileEntityCompound.copy().apply {
                 putInt("x", tileEntityPosition.x)
@@ -219,7 +219,8 @@ object SchematicUtils {
                 putInt("z", tileEntityPosition.z)
             }
 
-            world.getTileEntity(tileEntityPosition)?.read(newTileEntityCompound)
+            val blockState = getBlock(schematic, tileEntityPosition.x, tileEntityPosition.y, tileEntityPosition.z)
+            world.getBlockEntity(tileEntityPosition)?.load(blockState, newTileEntityCompound)
         }
 
         // Get the list of entities inside this schematic
@@ -230,21 +231,21 @@ object SchematicUtils {
             // Grab the compound that represents this entity
             val entityCompound = entities.getCompound(i)
             // Instantiate the entity object from the compound
-            val entityOpt = EntityType.loadEntityUnchecked(entityCompound, world.world)
+            val entityOpt = EntityType.create(entityCompound, world)
 
             // If the entity is valid, continue...
             if (entityOpt.isPresent) {
                 val entity = entityOpt.get()
                 // Update the UUID to be random so that it does not conflict with other entities from the same schematic
-                entity.setUniqueId(UUID.randomUUID())
+                entity.uuid = UUID.randomUUID()
 
                 // Get the X, Y, and Z coordinates of this entity if instantiated inside the world
-                val newX = position.x + entity.posX
-                val newY = position.y + entity.posY
-                val newZ = position.z + entity.posX
+                val newX = position.x + entity.x
+                val newY = position.y + entity.y
+                val newZ = position.z + entity.z
 
-                entity.setPosition(newX, newY, newZ)
-                world.addEntity(entity)
+                entity.setPos(newX, newY, newZ)
+                world.addFreshEntity(entity)
             }
         }
     }
@@ -271,8 +272,8 @@ object SchematicUtils {
                 val blockState = world.getBlockState(pos)
                 if (shouldUpdate(blockState, pos)) {
                     blocksToUpdate.add(pos)
-                    queue.add(pos.up())
-                    queue.add(pos.down())
+                    queue.add(pos.above())
+                    queue.add(pos.below())
                     queue.add(pos.north())
                     queue.add(pos.south())
                     queue.add(pos.east())
@@ -284,11 +285,11 @@ object SchematicUtils {
         if (blocksToUpdate.size < 1000000) {
             if (add) {
                 blocksToUpdate.forEach {
-                    world.setBlockState(it, Blocks.STRUCTURE_VOID.defaultState)
+                    world.setBlockAndUpdate(it, Blocks.STRUCTURE_VOID.defaultBlockState())
                 }
             } else {
                 blocksToUpdate.forEach {
-                    world.setBlockState(it, Blocks.AIR.defaultState)
+                    world.setBlockAndUpdate(it, Blocks.AIR.defaultBlockState())
                 }
             }
         } else {
