@@ -6,11 +6,13 @@ import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDPerItemCooldownItem
+import com.davidm1a2.afraidofthedark.common.item.core.IHasModelProperties
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.IItemPropertyGetter
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -29,11 +31,11 @@ import kotlin.random.Random
  *
  * @constructor sets the item name
  */
-class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties()) {
-    init {
-        addPropertyOverride(ResourceLocation(Constants.MOD_ID, "complete")) { stack, _, _ ->
+class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties()), IHasModelProperties {
+    override fun getProperties(): List<Pair<ResourceLocation, IItemPropertyGetter>> {
+        return listOf(ResourceLocation(Constants.MOD_ID, "complete") to IItemPropertyGetter { stack, _, _ ->
             if (isComplete(stack)) 1f else 0f
-        }
+        })
     }
 
     /**
@@ -44,37 +46,33 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
      * @param hand   The hand holding the item
      * @return The result of the right click
      */
-    override fun onItemRightClick(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
         // Grab the held item
-        val itemStack = player.getHeldItem(hand)
+        val itemStack = player.getItemInHand(hand)
 
         // Server side processing only
-        if (!world.isRemote) {
+        if (!world.isClientSide) {
             // Ensure the player has the right research
             if (player.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS)) {
                 // Ray trace where the player is looking
-                val rayTraceResult: RayTraceResult? = rayTrace(world, player, RayTraceContext.FluidMode.NONE)
+                val rayTraceResult: RayTraceResult? = getPlayerPOVHitResult(world, player, RayTraceContext.FluidMode.NONE)
 
                 // Test if we hit a block, Intellij is wrong here, ray trace CAN be null!!!
                 if (rayTraceResult != null && rayTraceResult.type == RayTraceResult.Type.BLOCK && rayTraceResult is BlockRayTraceResult) {
-                    val hitPos = rayTraceResult.pos
-                    val hitFace = rayTraceResult.face
-                    val spawnPos = hitPos.offset(hitFace)
+                    val hitPos = rayTraceResult.blockPos
+                    val hitFace = rayTraceResult.direction
+                    val spawnPos = hitPos.relative(hitFace)
                     // Test if the block right clicked is modifiable
-                    if (world.isBlockModifiable(player, hitPos) && player.canPlayerEdit(hitPos, hitFace, itemStack)) {
+                    if (world.mayInteract(player, hitPos) && player.mayUseItemAt(hitPos, hitFace, itemStack)) {
                         // If the entity was selected to spawn inside a liquid spawn it inside a liquid
-                        if (!world.getBlockState(hitPos).isSolid) {
-                            spawnEntity(world, hitPos.x + 0.5, hitPos.y + 0.5, hitPos.z + 0.5, itemStack, player)
-                        } else {
-                            spawnEntity(world, spawnPos.x + 0.5, spawnPos.y + 0.5, spawnPos.z + 0.5, itemStack, player)
-                        }
+                        spawnEntity(world, spawnPos.x + 0.5, spawnPos.y + 0.5, spawnPos.z + 0.5, itemStack, player)
                     }
                 }
             } else {
-                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND), player.uuid)
             }
         }
-        return ActionResult.resultSuccess(itemStack)
+        return ActionResult.success(itemStack)
     }
 
     /**
@@ -89,7 +87,7 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
      */
     private fun spawnEntity(world: World, x: Double, y: Double, z: Double, itemStack: ItemStack, entityPlayer: PlayerEntity) {
         // Server side processing only
-        if (!world.isRemote) {
+        if (!world.isClientSide) {
             // Flask has enough charges to be used
             if (getKills(itemStack) >= KILLS_PER_SPAWN) {
                 // The flask is not on cooldown
@@ -100,11 +98,11 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
                     // Ensure it's not null, this should always be true
                     if (entityToSpawnID != null) {
                         // Create the entity from the ID
-                        val entity = EntityType.byKey(entityToSpawnID.toString()).map { it.create(world) }.orElse(null)
+                        val entity = EntityType.byString(entityToSpawnID.toString()).map { it.create(world) }.orElse(null)
                         // If the entity is non-null spawn it
                         if (entity != null) {
-                            entity.setLocationAndAngles(x, y, z, Random.nextDouble(0.0, 360.0).toFloat(), 0.0f)
-                            world.addEntity(entity)
+                            entity.moveTo(x, y, z, Random.nextDouble(0.0, 360.0).toFloat(), 0.0f)
+                            world.addFreshEntity(entity)
                             setOnCooldown(itemStack, entityPlayer)
                             addKills(itemStack, -KILLS_PER_SPAWN)
                         } else {
@@ -113,11 +111,12 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
                     }
                 } else {
                     entityPlayer.sendMessage(
-                        TranslationTextComponent("message.afraidofthedark.flask_of_souls.on_cooldown", cooldownRemainingInSeconds(itemStack))
+                        TranslationTextComponent("message.afraidofthedark.flask_of_souls.on_cooldown", cooldownRemainingInSeconds(itemStack)),
+                        entityPlayer.uuid
                     )
                 }
             } else {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.flask_of_souls.incomplete"))
+                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.flask_of_souls.incomplete"), entityPlayer.uuid)
             }
         }
     }
@@ -133,7 +132,7 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
         return if (getSpawnedEntity(stack) == null) {
             1.0
         } else {
-            1.0 - getKills(stack)/getKillsRequired(stack).toDouble()
+            1.0 - getKills(stack) / getKillsRequired(stack).toDouble()
         }
     }
 
@@ -155,7 +154,7 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
      * @param tooltip The tooltip to add to
      * @param flag  True if the advanced tooltip is set on, false otherwise
      */
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         // If the player has the right research then show them flask stats
         if (player != null && player.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS)) {
@@ -166,17 +165,17 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
                 tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.flask_of_souls.empty.line3"))
             } else {
                 tooltip.add(
-                        TranslationTextComponent(
-                                "tooltip.afraidofthedark.flask_of_souls.incomplete.line1",
-                                TranslationTextComponent(EntityType.byKey(getSpawnedEntity(stack)!!.toString()).get().translationKey)
-                        )
+                    TranslationTextComponent(
+                        "tooltip.afraidofthedark.flask_of_souls.incomplete.line1",
+                        EntityType.byString(getSpawnedEntity(stack)!!.toString()).get().description
+                    )
                 )
                 tooltip.add(
-                        TranslationTextComponent(
-                                "tooltip.afraidofthedark.flask_of_souls.incomplete.line2",
-                                getKills(stack),
-                                getKillsRequired(stack)
-                        )
+                    TranslationTextComponent(
+                        "tooltip.afraidofthedark.flask_of_souls.incomplete.line2",
+                        getKills(stack),
+                        getKillsRequired(stack)
+                    )
                 )
             }
         } else {

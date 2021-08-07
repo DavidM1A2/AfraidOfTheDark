@@ -110,6 +110,7 @@ class AfraidOfTheDark {
         proxy.initializeTileEntityRenderers()
         proxy.initializeBlockRenderTypes()
         DimensionRegister.registerRenderInfos()
+        ItemRegister.registerItemModelProperties()
     }
 
     @SubscribeEvent

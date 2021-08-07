@@ -49,7 +49,7 @@ class StarMetalKhopeshItem : AOTDChargeableSwordItem(
         // If star metal is researched allow the sword to function
         if (player.getResearch().isResearched(ModResearches.STAR_METAL)) {
             // Ensure the clicked entity was non-null
-            target.attackEntityFrom(getSilverDamage(player), attackDamage)
+            target.hurt(getSilverDamage(player), damage)
         } else {
             return true
         }
@@ -65,7 +65,7 @@ class StarMetalKhopeshItem : AOTDChargeableSwordItem(
      * @param tooltip The tooltip to return
      * @param flag True if advanced tooltips are on, false otherwise
      */
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL)) {
             tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
@@ -85,33 +85,33 @@ class StarMetalKhopeshItem : AOTDChargeableSwordItem(
      * @return True if the charge attack went off, false otherwise
      */
     override fun performChargeAttack(itemStack: ItemStack, world: World, entityPlayer: PlayerEntity): Boolean {
-        val nearbyEntities = world.getEntitiesWithinAABBExcludingEntity(
+        val nearbyEntities = world.getEntities(
             entityPlayer,
-            entityPlayer.boundingBox.grow(HIT_RANGE.toDouble())
+            entityPlayer.boundingBox.inflate(HIT_RANGE.toDouble())
         )
         // Iterate over all entities within 5 blocks of the player
         for (entity in nearbyEntities) {
             // Only knock back living entities
             if (entity is PlayerEntity || entity is MobEntity) {
                 // Compute the vector from player to entity
-                val motionX = entityPlayer.position.x - entity.position.x.toDouble()
-                val motionZ = entityPlayer.position.z - entity.position.z.toDouble()
+                val motionX = entityPlayer.x - entity.x
+                val motionZ = entityPlayer.z - entity.z
 
                 // Compute the magnitude of the distance vector
                 val hypotenuse = sqrt(motionX * motionX + motionZ * motionZ)
 
                 // Compute the strength we knock back with
                 val knockbackStrength =
-                    EnchantmentHelper.getEnchantmentLevel(Enchantments.KNOCKBACK, itemStack) + 2.toDouble()
+                    EnchantmentHelper.getEnchantmentLevel(Enchantments.KNOCKBACK, entityPlayer) + 2.toDouble()
 
                 // Compute the damage we hit with based on sharpness
-                val sharpnessDamage = EnchantmentHelper.getEnchantmentLevel(Enchantments.SHARPNESS, itemStack)
+                val sharpnessDamage = EnchantmentHelper.getEnchantmentLevel(Enchantments.SHARPNESS, entityPlayer)
                 // Attack the entity with player damage and move them back
-                entity.attackEntityFrom(
-                    DamageSource.causePlayerDamage(entityPlayer),
-                    attackDamage + 4.0f + sharpnessDamage * 1.5f
+                entity.hurt(
+                    DamageSource.playerAttack(entityPlayer),
+                    damage + 4.0f + sharpnessDamage * 1.5f
                 )
-                entity.addVelocity(
+                entity.push(
                     -motionX * knockbackStrength * 0.6 / hypotenuse,
                     0.1,
                     -motionZ * knockbackStrength * 0.6 / hypotenuse
@@ -139,7 +139,7 @@ class StarMetalKhopeshItem : AOTDChargeableSwordItem(
             // Reduce the ticks remaining by one
             decrementSpinTicks(stack)
             // Spin the entity/player
-            entity.rotationYaw = entity.rotationYaw + DEGREES_PER_TICK
+            entity.yRot = entity.yRot + DEGREES_PER_TICK
         }
     }
 

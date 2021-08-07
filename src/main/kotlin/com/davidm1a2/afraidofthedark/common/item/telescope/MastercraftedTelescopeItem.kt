@@ -23,7 +23,7 @@ class MastercraftedTelescopeItem : TelescopeBaseItem(5, "mastercrafted_telescope
      */
     override fun inventoryTick(stack: ItemStack, worldIn: World, entityIn: Entity, itemSlot: Int, isSelected: Boolean) {
         // Every 1 second check if this item is in a player's inventory, if so unlock the research
-        if (!worldIn.isRemote && entityIn.ticksExisted % 20 == 0) {
+        if (!worldIn.isClientSide && entityIn.tickCount % 20 == 0) {
             if (entityIn is PlayerEntity) {
                 val research = entityIn.getResearch()
                 if (research.canResearch(ModResearches.ELVOVRAS)) {

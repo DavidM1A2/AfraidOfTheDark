@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.MobEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.IItemPropertyGetter
 import net.minecraft.item.IItemTier
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
@@ -32,15 +33,17 @@ abstract class AOTDChargeableSwordItem(
     displayInCreative: Boolean = true
 ) : AOTDSwordItem(baseName, toolMaterial, damageAmplifier, attackSpeed, properties.apply {
     // This is required to make the sword unbreakable
-    defaultMaxDamage(0)
-}, displayInCreative) {
+    defaultDurability(0)
+}, displayInCreative), IHasModelProperties {
     protected var percentChargePerAttack = 5.0
 
-    init {
-        // Emit a charged = 1 property when charged, 0 otherwise
-        addPropertyOverride(ResourceLocation(Constants.MOD_ID, "charged")) { stack: ItemStack, _: World?, _: LivingEntity? ->
-            if (isFullyCharged(stack)) 1f else 0f
-        }
+    override fun getProperties(): List<Pair<ResourceLocation, IItemPropertyGetter>> {
+        return listOf(
+            // Emit a charged = 1 property when charged, 0 otherwise
+            ResourceLocation(Constants.MOD_ID, "charged") to IItemPropertyGetter { stack: ItemStack, _: World?, _: LivingEntity? ->
+                if (isFullyCharged(stack)) 1f else 0f
+            }
+        )
     }
 
     override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, target: Entity): Boolean {
@@ -59,7 +62,7 @@ abstract class AOTDChargeableSwordItem(
      * @param attacker The attacker that initiated the attack
      * @return True to let the attack happen, false otherwise
      */
-    override fun hitEntity(stack: ItemStack, target: LivingEntity, attacker: LivingEntity): Boolean {
+    override fun hurtEnemy(stack: ItemStack, target: LivingEntity, attacker: LivingEntity): Boolean {
         return true
     }
 
@@ -72,13 +75,6 @@ abstract class AOTDChargeableSwordItem(
      */
     override fun getDurabilityForDisplay(stack: ItemStack): Double {
         return 1.0 - getCharge(stack) / 100.0
-    }
-
-    /**
-     * @return False, chargable swords don't take damage
-     */
-    override fun isDamageable(): Boolean {
-        return false
     }
 
     /**
@@ -99,10 +95,10 @@ abstract class AOTDChargeableSwordItem(
      * @param handIn   The hand the right click was triggered from
      * @return Success if the sword fired its ability, pass otherwise
      */
-    override fun onItemRightClick(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
-        val swordStack = playerIn.getHeldItem(handIn)
+    override fun use(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
+        val swordStack = playerIn.getItemInHand(handIn)
         // Server side processing only
-        if (!worldIn.isRemote) {
+        if (!worldIn.isClientSide) {
             // Test if the sword is charged
             if (isFullyCharged(swordStack)) {
                 // Perform the attack, if it succeeds clear the charge
@@ -111,12 +107,12 @@ abstract class AOTDChargeableSwordItem(
                     addCharge(swordStack, -100.0)
                 }
             } else {
-                playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.chargable_sword.not_enough_energy"))
+                playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.chargable_sword.not_enough_energy"), playerIn.uuid)
             }
         }
 
         // Fail to avoid the move animation on item use
-        return ActionResult.resultFail(swordStack)
+        return ActionResult.fail(swordStack)
     }
 
     /**

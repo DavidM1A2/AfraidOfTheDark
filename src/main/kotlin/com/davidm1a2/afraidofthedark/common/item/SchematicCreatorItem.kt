@@ -32,7 +32,7 @@ import kotlin.math.min
  *
  * @constructor sets up item properties
  */
-class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().maxStackSize(1), displayInCreative = false) {
+class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().stacksTo(1), displayInCreative = false) {
     /**
      * Called when the user right clicks with the journal. We show the research UI if they have started the mod
      *
@@ -44,44 +44,47 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().maxStack
      * Pass    = The call succeeded, but more calls can be made farther down the call stack.
      * Fail    = The call has failed to do what was intended and should stop here.
      */
-    override fun onItemRightClick(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
-        val mainhandItem = player.heldItemMainhand
+    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+        val mainhandItem = player.mainHandItem
 
         // Server side processing only
-        if (!world.isRemote) {
+        if (!world.isClientSide) {
             // If the offhand item is a diamond save
-            if (player.heldItemOffhand.item == Items.DIAMOND) {
+            if (player.offhandItem.item == Items.DIAMOND) {
                 // Ensure pos1 and pos2 are set
                 if (NBTHelper.hasTag(mainhandItem, NBT_POS_1) && NBTHelper.hasTag(mainhandItem, NBT_POS_2)) {
                     val schematicName = saveStructure(
                         world,
                         NBTUtil.readBlockPos(NBTHelper.getCompound(mainhandItem, NBT_POS_1)!!),
                         NBTUtil.readBlockPos(NBTHelper.getCompound(mainhandItem, NBT_POS_2)!!),
-                        mainhandItem.displayName.formattedText
+                        mainhandItem.displayName.string
                     )
 
                     // If the name is empty it means the name is invalid
                     if (schematicName.isNotEmpty()) {
-                        player.sendMessage(StringTextComponent("Schematic '$schematicName' saved successfully"))
+                        player.sendMessage(StringTextComponent("Schematic '$schematicName' saved successfully"), player.uuid)
                     } else {
-                        player.sendMessage(StringTextComponent("Schematic '${mainhandItem.displayName}' has an invalid name (No ., \\, /, or space)"))
+                        player.sendMessage(
+                            StringTextComponent("Schematic '${mainhandItem.displayName}' has an invalid name (No ., \\, /, or space)"),
+                            player.uuid
+                        )
                     }
                 } else {
-                    player.sendMessage(StringTextComponent("Please set pos1 and pos2 before saving"))
+                    player.sendMessage(StringTextComponent("Please set pos1 and pos2 before saving"), player.uuid)
                 }
             } else {
                 // If the player is sneaking, set pos2, otherwise set pos 1
-                if (player.isSneaking) {
-                    NBTHelper.setCompound(mainhandItem, NBT_POS_2, NBTUtil.writeBlockPos(player.position.down()))
-                    player.sendMessage(StringTextComponent("Pos2 set: " + player.position.down().toString()))
+                if (player.isCrouching) {
+                    NBTHelper.setCompound(mainhandItem, NBT_POS_2, NBTUtil.writeBlockPos(player.blockPosition().below()))
+                    player.sendMessage(StringTextComponent("Pos2 set: " + player.blockPosition().below().toString()), player.uuid)
                 } else {
-                    NBTHelper.setCompound(mainhandItem, NBT_POS_1, NBTUtil.writeBlockPos(player.position.down()))
-                    player.sendMessage(StringTextComponent("Pos1 set: " + player.position.down().toString()))
+                    NBTHelper.setCompound(mainhandItem, NBT_POS_1, NBTUtil.writeBlockPos(player.blockPosition().below()))
+                    player.sendMessage(StringTextComponent("Pos1 set: " + player.blockPosition().below()), player.uuid)
                 }
             }
         }
 
-        return ActionResult.resultSuccess(mainhandItem)
+        return ActionResult.success(mainhandItem)
     }
 
     /**
@@ -102,7 +105,7 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().maxStack
         val length = largePos.z - smallPos.z + 1
 
         // Get all entities in the schematic, write them to NBT and save them
-        val entities = world.getEntitiesInAABBexcluding(null, AxisAlignedBB(smallPos, largePos), null)
+        val entities = world.getEntities(null, AxisAlignedBB(smallPos, largePos), null)
         val nbtEntites = ListNBT()
         entities.forEach {
             nbtEntites.add(it.serializeNBT().apply {
@@ -111,7 +114,7 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().maxStack
         }
 
         val nbtTileEntities = ListNBT()
-        val blocks = Array(width * height * length) { Blocks.AIR.defaultState }
+        val blocks = Array(width * height * length) { Blocks.AIR.defaultBlockState() }
 
         var index = 0
         // Go over each x,y,z coordinate
@@ -121,7 +124,7 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().maxStack
                     val pos = BlockPos(x, y, z)
                     // Save the block, the metadata, and the tile entity if it exists
                     blocks[index] = world.getBlockState(pos)
-                    world.getTileEntity(pos)?.let {
+                    world.getBlockEntity(pos)?.let {
                         nbtTileEntities.add(it.serializeNBT().apply {
                             relativizeTileEntityPos(this, smallPos)
                         })
@@ -192,7 +195,7 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().maxStack
      * @param flag  If the advanced details is on or off
      */
     @OnlyIn(Dist.CLIENT)
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         tooltip.add(StringTextComponent("Note: This item is for mod developer use only"))
         tooltip.add(StringTextComponent("Pos1: " + (NBTHelper.getCompound(stack, NBT_POS_1)?.let { NBTUtil.readBlockPos(it).toString() } ?: "None")))
         tooltip.add(StringTextComponent("Pos2: " + (NBTHelper.getCompound(stack, NBT_POS_2)?.let { NBTUtil.readBlockPos(it).toString() } ?: "None")))

@@ -23,10 +23,10 @@ class AstralSilverSwordItem : AOTDSwordItem("astral_silver_sword", ModToolMateri
      * @param entity The entity that was hit
      * @return True to cancel the interaction, false otherwise
      */
-    override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, entity: Entity): Boolean {
+    override fun hurtEnemy(stack: ItemStack, player: PlayerEntity, entity: Entity): Boolean {
         // If the player has researched astral silver then do silver damage
         if (player.getResearch().isResearched(ModResearches.ASTRAL_SILVER)) {
-            entity.attackEntityFrom(getSilverDamage(player), attackDamage)
+            entity.hurt(getSilverDamage(player), damage)
         } else {
             return true
         }

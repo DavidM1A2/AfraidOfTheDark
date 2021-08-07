@@ -33,7 +33,7 @@ class BladeOfExhumationItem : AOTDSwordItem(
      */
     override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, entity: Entity): Boolean {
         // If the sword is about to break cancel the interaction and don't let it break!
-        if (stack.damage == stack.maxDamage - 1) {
+        if (stack.damageValue == stack.maxDamage - 1) {
             return true
         }
 
@@ -42,14 +42,14 @@ class BladeOfExhumationItem : AOTDSwordItem(
             // 1 shot kill the skeleton
             if (player.getResearch().isResearched(ModResearches.BLADE_OF_EXHUMATION)) {
                 // 1 shot the skeleton
-                entity.attackEntityFrom(DamageSource.causePlayerDamage(player), Float.MAX_VALUE)
-                stack.damageItem(1, player) {}
+                entity.hurt(DamageSource.playerAttack(player), Float.MAX_VALUE)
+                stack.hurtAndBreak(1, player) {}
             }
         }
 
         // If this hit sets the durability of the sword to 1 then play a break sound
-        if (stack.damage == stack.maxDamage - 2) {
-            player.playSound(SoundEvents.BLOCK_METAL_BREAK, 0.8f, 0.8f + player.world.rand.nextFloat() * 0.4f)
+        if (stack.damageValue == stack.maxDamage - 2) {
+            player.playSound(SoundEvents.METAL_BREAK, 0.8f, 0.8f + player.level.random.nextFloat() * 0.4f)
         }
 
         // Otherwise continue the hit interaction

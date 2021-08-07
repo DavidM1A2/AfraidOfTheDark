@@ -29,12 +29,12 @@ class TelescopeItem : TelescopeBaseItem(130, "telescope") {
      * @param hand   The hand the telescope is in
      * @return The result of the right click
      */
-    override fun onItemRightClick(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
         // Grab the itemstack the player is holding
-        val itemStack = player.getHeldItem(hand)
+        val itemStack = player.getItemInHand(hand)
 
         // Test if the player is high enough to use the telescope
-        val highEnough = player.position.y > 128
+        val highEnough = player.y > 128
 
         // Grab the player's research
         val playerResearch = player.getResearch()
@@ -42,7 +42,7 @@ class TelescopeItem : TelescopeBaseItem(130, "telescope") {
         // The research required
         val research = getRequiredResearch()
 
-        if (!world.isRemote) {
+        if (!world.isClientSide) {
             // If the player can research the research research it
             if (playerResearch.canResearch(ModResearches.ASTRONOMY_1) && highEnough) {
                 playerResearch.setResearch(ModResearches.ASTRONOMY_1, true)
@@ -53,21 +53,21 @@ class TelescopeItem : TelescopeBaseItem(130, "telescope") {
             if (playerResearch.isResearched(research) || playerResearch.canResearch(research)) {
                 // Tell the player that they need to be higher to see through the clouds
                 if (!highEnough) {
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.telescope.not_high_enough"))
+                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.telescope.not_high_enough"), player.uuid)
                 }
             } else {
-                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND), player.uuid)
             }
         }
 
         // Also allow showing the gui if the player can research the telescope research
-        if (world.isRemote && highEnough) {
+        if (world.isClientSide && highEnough) {
             if (playerResearch.isResearched(research) || playerResearch.canResearch(research)) {
-                Minecraft.getInstance().displayGuiScreen(TelescopeScreen())
+                Minecraft.getInstance().setScreen(TelescopeScreen())
             }
         }
 
-        return ActionResult.resultSuccess(itemStack)
+        return ActionResult.success(itemStack)
     }
 
     /**
@@ -88,13 +88,13 @@ class TelescopeItem : TelescopeBaseItem(130, "telescope") {
      * @param flag  True if the advanced tooltip is set on, false otherwise
      */
     @OnlyIn(Dist.CLIENT)
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         // Show the tooltip if the pre-req is researched
         if (Minecraft.getInstance().player?.getResearch()?.isResearched(getRequiredResearch().preRequisite!!) == true) {
             tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.telescope.directions"))
             tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.telescope.accuracy", accuracy))
         } else {
-            super.addInformation(stack, world, tooltip, flag)
+            super.appendHoverText(stack, world, tooltip, flag)
         }
     }
 }

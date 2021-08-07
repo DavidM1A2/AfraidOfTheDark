@@ -30,8 +30,8 @@ class ResearchScrollItem : AOTDItem("research_scroll", Properties()) {
      * @param group The creative tab to get sub-items for
      * @param items The sub-items
      */
-    override fun fillItemGroup(group: ItemGroup, items: NonNullList<ItemStack>) {
-        if (isInGroup(group)) {
+    override fun fillItemCategory(group: ItemGroup, items: NonNullList<ItemStack>) {
+        if (allowdedIn(group)) {
             // Add one itemstack for each research
             for (research in ModRegistries.RESEARCH) {
                 val itemStack = ItemStack(this, 1)
@@ -49,12 +49,12 @@ class ResearchScrollItem : AOTDItem("research_scroll", Properties()) {
      * @param hand   The hand the item is held in
      * @return The action result of the right click
      */
-    override fun onItemRightClick(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
         // Grab the itemstack that represents the scroll
-        val itemStack = player.getHeldItem(hand)
+        val itemStack = player.getItemInHand(hand)
 
         // Server side processing only
-        if (!world.isRemote) {
+        if (!world.isClientSide) {
             // Grab the player's research
             val playerResearch = player.getResearch()
 
@@ -72,24 +72,24 @@ class ResearchScrollItem : AOTDItem("research_scroll", Properties()) {
                         playerResearch.setResearch(scrollResearch, true)
                         playerResearch.sync(player, true)
                     } else {
-                        player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.incomplete"))
+                        player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.incomplete"), player.uuid)
                     }
                 }
                 // If the player does not yet have the research then state that they need additional research first
                 else if (!playerResearch.isResearched(scrollResearch)) {
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.cant_understand"))
+                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.cant_understand"), player.uuid)
                 }
                 // If the player does have the research tell them
                 else {
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.already_researched"))
+                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.already_researched"), player.uuid)
                 }
             }
             // No valid research detected
             else {
-                player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.corrupt"))
+                player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.corrupt"), player.uuid)
             }
         }
-        return super.onItemRightClick(world, player, hand)
+        return super.use(world, player, hand)
     }
 
     /**
@@ -100,7 +100,7 @@ class ResearchScrollItem : AOTDItem("research_scroll", Properties()) {
      * @param tooltip The tooltip of the research
      * @param flag  If the advanced details is on or off
      */
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val scrollResearch = getScrollResearch(stack)
         if (scrollResearch != null) {
             if (isPart(stack)) {
@@ -116,7 +116,7 @@ class ResearchScrollItem : AOTDItem("research_scroll", Properties()) {
                 tooltip.add(
                     TranslationTextComponent(
                         "tooltip.afraidofthedark.research_scroll.complete",
-                        I18n.format(scrollResearch.getUnlocalizedName())
+                        I18n.get(scrollResearch.getUnlocalizedName())
                     )
                 )
             }

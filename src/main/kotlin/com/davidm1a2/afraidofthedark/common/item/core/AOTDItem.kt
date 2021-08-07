@@ -16,7 +16,7 @@ abstract class AOTDItem(
     displayInCreative: Boolean = true
 ) : Item(properties.apply {
     if (displayInCreative) {
-        group(Constants.AOTD_CREATIVE_TAB)
+        tab(Constants.AOTD_CREATIVE_TAB)
     }
 }) {
     init {

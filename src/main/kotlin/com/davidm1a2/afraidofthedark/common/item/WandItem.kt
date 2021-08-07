@@ -25,7 +25,7 @@ import java.util.*
  *
  * @constructor sets up item properties
  */
-class WandItem : AOTDItem("wand", Properties().maxStackSize(1)) {
+class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
     /**
      * Called when the item is right clicked with a hand
      *
@@ -34,14 +34,14 @@ class WandItem : AOTDItem("wand", Properties().maxStackSize(1)) {
      * @param hand   The hand the item is in
      * @return The result of the right click
      */
-    override fun onItemRightClick(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
         // Grab the held itemstack
-        val heldItem = player.getHeldItem(hand)
+        val heldItem = player.getItemInHand(hand)
         // Grab the player's spell manager
         val spellManager = player.getSpellManager()
 
         // If the player is sneaking switch spells, otherwise cast the spell
-        if (player.isSneaking) {
+        if (player.isCrouching) {
             // If the item has no spell ID yet grab the player's first spell id and bind it
             if (!hasSpellId(heldItem)) {
                 // Set the spell id to the first player's spell
@@ -64,12 +64,13 @@ class WandItem : AOTDItem("wand", Properties().maxStackSize(1)) {
                         val next = spells[currentSpellIndex + 1]
                         setSpellId(heldItem, next.id)
                         // Send the message server side
-                        if (!world.isRemote) {
+                        if (!world.isClientSide) {
                             player.sendMessage(
                                 TranslationTextComponent(
                                     "message.afraidofthedark:wand.spell_set",
                                     next.name
-                                )
+                                ),
+                                player.uuid
                             )
                         }
                     } else {
@@ -79,7 +80,7 @@ class WandItem : AOTDItem("wand", Properties().maxStackSize(1)) {
             }
         } else {
             // Server side processing only
-            if (!world.isRemote) {
+            if (!world.isClientSide) {
                 // Grab the spell that's on the item
                 val spellId = getSpellId(heldItem)
                 if (spellId != null) {
@@ -88,16 +89,16 @@ class WandItem : AOTDItem("wand", Properties().maxStackSize(1)) {
                     if (toCast != null) {
                         toCast.attemptToCast(player)
                     } else {
-                        player.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.invalid_spell"))
+                        player.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.invalid_spell"), player.uuid)
                     }
                 } else {
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.no_bound_spell"))
+                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.no_bound_spell"), player.uuid)
                 }
             }
         }
 
         // Fail the result so that
-        return ActionResult.resultFail(heldItem)
+        return ActionResult.fail(heldItem)
     }
 
     /**
@@ -115,16 +116,16 @@ class WandItem : AOTDItem("wand", Properties().maxStackSize(1)) {
             val first = spellManager.getSpells()[0]
 
             // Server side sending only, tell the player the spell was updated
-            if (!entityPlayer.world.isRemote) {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.spell_set", first.name))
+            if (!entityPlayer.level.isClientSide) {
+                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.spell_set", first.name), entityPlayer.uuid)
             }
 
             // Set the NBT spell ID
             setSpellId(itemStack, first.id)
         } else {
             // Server side sending only, tell the player he/she has no spells to bind to the wand yet
-            if (!entityPlayer.world.isRemote) {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.no_spells"))
+            if (!entityPlayer.level.isClientSide) {
+                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.no_spells"), entityPlayer.uuid)
             }
         }
     }
@@ -146,7 +147,7 @@ class WandItem : AOTDItem("wand", Properties().maxStackSize(1)) {
      * @param spellId   The new spell id to USE
      */
     private fun setSpellId(itemStack: ItemStack, spellId: UUID) {
-        NBTHelper.setCompound(itemStack, NBT_SPELL_ID, NBTUtil.writeUniqueId(spellId))
+        NBTHelper.setIntArray(itemStack, NBT_SPELL_ID, NBTUtil.createUUID(spellId).asIntArray)
     }
 
     /**
@@ -157,7 +158,7 @@ class WandItem : AOTDItem("wand", Properties().maxStackSize(1)) {
      */
     private fun getSpellId(itemStack: ItemStack): UUID? {
         val uuidNBT = NBTHelper.getCompound(itemStack, NBT_SPELL_ID)
-        return uuidNBT?.let { NBTUtil.readUniqueId(it) }
+        return uuidNBT?.let { NBTUtil.loadUUID(it) }
     }
 
     /**
@@ -169,7 +170,7 @@ class WandItem : AOTDItem("wand", Properties().maxStackSize(1)) {
      * @param flag  The flag telling us if we should show advanced or normal tooltips
      */
     @OnlyIn(Dist.CLIENT)
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
 
         // Need to test if player is null during client init

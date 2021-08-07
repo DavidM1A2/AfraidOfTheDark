@@ -26,14 +26,14 @@ class CloakOfAgilityItem : AOTDSharedCooldownItem("cloak_of_agility", Properties
      * @param tooltip The tooltip to add to
      * @param flag  True if the advanced flag is set or false otherwise
      */
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         // If the player has the research show them what key is used to roll, otherwise tell them they don't know how to use the cloak
         if (player != null && player.getResearch().isResearched(ModResearches.CLOAK_OF_AGILITY)) {
             tooltip.add(
                 TranslationTextComponent(
                     "tooltip.afraidofthedark.cloak_of_agility.line1",
-                    ROLL_WITH_CLOAK_OF_AGILITY.localizedName
+                    ROLL_WITH_CLOAK_OF_AGILITY.translatedKeyMessage
                 )
             )
             tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.cloak_of_agility.line2"))

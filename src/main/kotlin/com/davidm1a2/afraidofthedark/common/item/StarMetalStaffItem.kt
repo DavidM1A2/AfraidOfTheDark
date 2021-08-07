@@ -15,7 +15,7 @@ import net.minecraft.network.play.server.SEntityVelocityPacket
 import net.minecraft.network.play.server.SPlayerPositionLookPacket
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 
@@ -37,10 +37,10 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
         // Check if the entity is a player
         if (entity is PlayerEntity) {
             // If the item isn't selected or the active item isn't in the offhand ensure the player isn't invincible
-            if (!isSelected && !(entity.activeHand == Hand.OFF_HAND && entity.activeItemStack == stack)) {
+            if (!isSelected && !(entity.usedItemHand == Hand.OFF_HAND && entity.useItem == stack)) {
                 // If a star metal staff is not selected make sure the player can take damage
-                if (!entity.isCreative && entity.abilities.disableDamage && isInUse(stack)) {
-                    entity.abilities.disableDamage = false
+                if (!entity.isCreative && entity.abilities.invulnerable && isInUse(stack)) {
+                    entity.abilities.invulnerable = false
                     setInUse(stack, false)
                 }
             }
@@ -55,9 +55,9 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
      * @param hand   The hand that the staff is being held in
      * @return Success if the staff went off, pass if not
      */
-    override fun onItemRightClick(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
         // Get the item that the player was holding
-        val heldItem = player.getHeldItem(hand)
+        val heldItem = player.getItemInHand(hand)
 
         // Verify the player has the star metal research
         if (player.getResearch().isResearched(ModResearches.STAR_METAL)) {
@@ -65,13 +65,13 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
             if (!isOnCooldown(heldItem)) {
                 // Make the player invincible
                 if (!player.isCreative) {
-                    player.abilities.disableDamage = true
+                    player.abilities.invulnerable = true
                 }
 
                 // Set the player's velocity to 0 with a 0.5 vertical velocity
-                if (!world.isRemote) {
-                    (player as ServerPlayerEntity).connection.sendPacket(
-                        SEntityVelocityPacket(player.getEntityId(), Vec3d(0.0, 0.5, 0.0))
+                if (!world.isClientSide) {
+                    (player as ServerPlayerEntity).connection.send(
+                        SEntityVelocityPacket(player.id, Vector3d(0.0, 0.5, 0.0))
                     )
                 }
 
@@ -82,24 +82,27 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
                 setInUse(heldItem, true)
 
                 // Set the player's active hand to the one that was right clicked with
-                player.activeHand = hand
+                player.startUsingItem(hand)
 
                 // We're good to go, return success
-                return ActionResult.resultSuccess(heldItem)
+                return ActionResult.success(heldItem)
             } else {
                 // If the staff is on cooldown say that
-                if (!world.isRemote) {
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.star_metal_staff.on_cooldown", cooldownRemainingInSeconds(heldItem)))
+                if (!world.isClientSide) {
+                    player.sendMessage(
+                        TranslationTextComponent("message.afraidofthedark.star_metal_staff.on_cooldown", cooldownRemainingInSeconds(heldItem)),
+                        player.uuid
+                    )
                 }
-                return ActionResult.resultFail(heldItem)
+                return ActionResult.fail(heldItem)
             }
         } else {
             // If the player has the wrong research print an error
-            if (!world.isRemote) {
-                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+            if (!world.isClientSide) {
+                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND), player.uuid)
             }
         }
-        return ActionResult.resultPass(heldItem)
+        return ActionResult.pass(heldItem)
     }
 
     /**
@@ -114,7 +117,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
         // Make 'count' mutable...
         @Suppress("NAME_SHADOWING")
         var count = count
-        if (!entityLivingBase.world.isRemote) {
+        if (!entityLivingBase.level.isClientSide) {
             // Ensure the entity using the item is a player
             if (entityLivingBase is PlayerEntity) {
                 // Figure out how many ticks the item has been in use
@@ -127,9 +130,9 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
 
                 // On the 4th tick store the player's position
                 if (count == 4) {
-                    NBTHelper.setDouble(stack, NBT_X_POSITION, entityLivingBase.posX)
-                    NBTHelper.setDouble(stack, NBT_Y_POSITION, entityLivingBase.posY)
-                    NBTHelper.setDouble(stack, NBT_Z_POSITION, entityLivingBase.posZ)
+                    NBTHelper.setDouble(stack, NBT_X_POSITION, entityLivingBase.x)
+                    NBTHelper.setDouble(stack, NBT_Y_POSITION, entityLivingBase.y)
+                    NBTHelper.setDouble(stack, NBT_Z_POSITION, entityLivingBase.z)
                 }
 
                 // On the 5th tick and after freeze the entity's position
@@ -137,12 +140,12 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
                     val x = NBTHelper.getDouble(stack, NBT_X_POSITION)!!
                     val y = NBTHelper.getDouble(stack, NBT_Y_POSITION)!!
                     val z = NBTHelper.getDouble(stack, NBT_Z_POSITION)!!
-                    (entityLivingBase as ServerPlayerEntity).connection.setPlayerLocation(
+                    (entityLivingBase as ServerPlayerEntity).connection.teleport(
                         x,
                         y,
                         z,
-                        entityLivingBase.rotationYaw,
-                        entityLivingBase.rotationPitch,
+                        entityLivingBase.yRot,
+                        entityLivingBase.xRot,
                         setOf(SPlayerPositionLookPacket.Flags.X_ROT, SPlayerPositionLookPacket.Flags.Y_ROT)
                     )
                 }
@@ -158,7 +161,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
      * @param entityLiving The entity holding the item
      * @return The itemstack to return after the current stack was used
      */
-    override fun onItemUseFinish(stack: ItemStack, world: World, entityLiving: LivingEntity): ItemStack {
+    override fun finishUsingItem(stack: ItemStack, world: World, entityLiving: LivingEntity): ItemStack {
         // Update the item NBT so it's not in use
         setInUse(stack, false)
 
@@ -166,14 +169,14 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
         if (entityLiving is PlayerEntity) {
             // If the player is not creative let them take damage again
             if (!entityLiving.isCreative) {
-                entityLiving.abilities.disableDamage = false
+                entityLiving.abilities.invulnerable = false
             }
             // Perform the knockback
-            if (!entityLiving.world.isRemote) {
+            if (!entityLiving.level.isClientSide) {
                 performKnockback(world, entityLiving)
             }
         }
-        return super.onItemUseFinish(stack, world, entityLiving)
+        return super.finishUsingItem(stack, world, entityLiving)
     }
 
     /**
@@ -184,7 +187,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
      * @param entityLiving The entity that was using the staff
      * @param timeLeft The ticks left before the use would've been complete
      */
-    override fun onPlayerStoppedUsing(stack: ItemStack, world: World, entityLiving: LivingEntity, timeLeft: Int) {
+    override fun releaseUsing(stack: ItemStack, world: World, entityLiving: LivingEntity, timeLeft: Int) {
         // Update the item NBT so it's not in use
         setInUse(stack, false)
 
@@ -192,13 +195,13 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
         if (entityLiving is PlayerEntity) {
             // If the player is not in creative let them take damage again
             if (!entityLiving.isCreative) {
-                entityLiving.abilities.disableDamage = false
+                entityLiving.abilities.invulnerable = false
             }
 
             // If less than 5 ticks were left on the use still perform the knockback
             if (timeLeft < 5) {
                 // Server side processing only
-                if (!world.isRemote) {
+                if (!world.isClientSide) {
                     performKnockback(world, entityLiving)
                 }
             }
@@ -213,20 +216,19 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
      */
     private fun performKnockback(world: World, entityPlayer: PlayerEntity) {
         // Grab all entities around the player
-        val entityList =
-            world.getEntitiesWithinAABBExcludingEntity(entityPlayer, entityPlayer.boundingBox.grow(10.0))
+        val entityList = world.getEntities(entityPlayer, entityPlayer.boundingBox.inflate(10.0))
 
         // Go over all nearby entities
         for (entity in entityList) {
             // If the entity is a player or anything living push it back
             if (entity is PlayerEntity || entity is MobEntity) {
-                val direction = entity.positionVector
-                    .subtract(entityPlayer.positionVector)
+                val direction = entity.position()
+                    .subtract(entityPlayer.position())
                     .normalize()
                     .scale(KNOCKBACK_STRENGTH)
 
                 // Push the entity away from the player
-                entity.addVelocity(
+                entity.push(
                     direction.x,
                     direction.y,
                     direction.z

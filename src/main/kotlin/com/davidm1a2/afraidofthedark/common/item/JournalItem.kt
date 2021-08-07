@@ -22,7 +22,7 @@ import net.minecraft.world.World
  *
  * @constructor sets up item properties
  */
-class JournalItem : AOTDItem("journal", Properties().maxStackSize(1)) {
+class JournalItem : AOTDItem("journal", Properties().stacksTo(1)) {
     /**
      * Called when the user right clicks with the journal. We show the research UI if they have started the mod
      *
@@ -34,8 +34,8 @@ class JournalItem : AOTDItem("journal", Properties().maxStackSize(1)) {
      * Pass    = The call succeeded, but more calls can be made farther down the call stack.
      * Fail    = The call has failed to do what was intended and should stop here.
      */
-    override fun onItemRightClick(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
-        val heldItemStack = player.getHeldItem(hand)
+    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+        val heldItemStack = player.getItemInHand(hand)
 
         // If the journal does not have an owner yet...
         if (!NBTHelper.hasTag(heldItemStack, NBT_OWNER)) {
@@ -45,12 +45,12 @@ class JournalItem : AOTDItem("journal", Properties().maxStackSize(1)) {
                 setOwner(heldItemStack, player.gameProfile.name)
 
                 // Show the journal UI
-                if (world.isRemote) {
-                    Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchScreen(isCheatSheet(heldItemStack)))
+                if (world.isClientSide) {
+                    Minecraft.getInstance().setScreen(BloodStainedJournalResearchScreen(isCheatSheet(heldItemStack)))
                 }
             } else {
-                if (world.isRemote) {
-                    Minecraft.getInstance().displayGuiScreen(BloodStainedJournalSignScreen())
+                if (world.isClientSide) {
+                    Minecraft.getInstance().setScreen(BloodStainedJournalSignScreen())
                 }
             }
         }
@@ -58,26 +58,26 @@ class JournalItem : AOTDItem("journal", Properties().maxStackSize(1)) {
         else if (player.gameProfile.name == NBTHelper.getString(heldItemStack, NBT_OWNER)) {
             // If the player has started AOTD show the journal UI
             if (player.getBasics().startedAOTD) {
-                if (world.isRemote) {
-                    Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchScreen(isCheatSheet(heldItemStack)))
+                if (world.isClientSide) {
+                    Minecraft.getInstance().setScreen(BloodStainedJournalResearchScreen(isCheatSheet(heldItemStack)))
                 }
             }
             // If the player has not started AOTD show the sign UI and clear the owner
             else {
-                if (world.isRemote) {
-                    Minecraft.getInstance().displayGuiScreen(BloodStainedJournalSignScreen())
+                if (world.isClientSide) {
+                    Minecraft.getInstance().setScreen(BloodStainedJournalSignScreen())
                 }
                 setOwner(heldItemStack, null)
             }
         } else {
             // Send chat messages on server side only
-            if (!world.isRemote) {
-                player.sendMessage(TranslationTextComponent("message.afraidofthedark.journal.cant_comprehend"))
+            if (!world.isClientSide) {
+                player.sendMessage(TranslationTextComponent("message.afraidofthedark.journal.cant_comprehend"), player.uuid)
             }
         }
 
         // Return success because the journal processed the right click successfully
-        return ActionResult.resultSuccess(heldItemStack)
+        return ActionResult.success(heldItemStack)
     }
 
     fun isCheatSheet(itemStack: ItemStack): Boolean {
@@ -104,9 +104,9 @@ class JournalItem : AOTDItem("journal", Properties().maxStackSize(1)) {
      * @param group The creative tab that we can add items to if we want, we don't use this
      * @param items A list of items (one cheatsheet, and one regular journal)
      */
-    override fun fillItemGroup(group: ItemGroup, items: NonNullList<ItemStack>) {
+    override fun fillItemCategory(group: ItemGroup, items: NonNullList<ItemStack>) {
         // Ensure that the item is in the creative tab first...
-        if (isInGroup(group)) {
+        if (allowdedIn(group)) {
             // Two item stacks one standard and one cheatsheet journal
             val standardJournal = ItemStack(this)
             val cheatsheetJournal = ItemStack(this)
@@ -129,7 +129,7 @@ class JournalItem : AOTDItem("journal", Properties().maxStackSize(1)) {
      * @param tooltip The tooltip that we need to fill out
      * @param flag  The flag telling us if we should show advanced or normal tooltips
      */
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         // If the stack has an owner tag, show who owns the stack, otherwise show that the journal is not bound
         if (NBTHelper.hasTag(stack, NBT_OWNER)) {
             tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.journal.bound", NBTHelper.getString(stack, NBT_OWNER)))

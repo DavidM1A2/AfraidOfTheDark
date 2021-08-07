@@ -27,11 +27,11 @@ class EnchantedSkeletonBoneItem : AOTDItem("enchanted_skeleton_bone", Properties
      */
     override fun onEntityItemUpdate(itemStack: ItemStack, entityItem: ItemEntity): Boolean {
         // To avoid server performance loss only check every "UPDATE TIME IN TICKS" ticks and ensure we're on server side
-        if (!entityItem.world.isRemote && entityItem.ticksExisted % UPDATE_TIME_IN_TICKS == 0) {
+        if (!entityItem.level.isClientSide && entityItem.tickCount % UPDATE_TIME_IN_TICKS == 0) {
             // Get a list of items on the ground around this one
-            val surroundingItems = entityItem.world.getEntitiesWithinAABB(
+            val surroundingItems = entityItem.level.getEntitiesOfClass(
                 ItemEntity::class.java,
-                entityItem.boundingBox.grow(COMBINE_RADIUS.toDouble())
+                entityItem.boundingBox.inflate(COMBINE_RADIUS.toDouble())
             )
 
             // Keep a count of the number of bones on the ground
@@ -41,7 +41,7 @@ class EnchantedSkeletonBoneItem : AOTDItem("enchanted_skeleton_bone", Properties
             // Iterate over surrounding item stacks to find ones that also have bones
             for (otherItem in surroundingItems) {
                 // Test if the item has bones and is on the ground
-                if (otherItem.item.item is EnchantedSkeletonBoneItem && otherItem.onGround) {
+                if (otherItem.item.item is EnchantedSkeletonBoneItem && otherItem.isOnGround) {
                     // Add the stack
                     surroundingBones.add(otherItem)
                     // Increment our bone count
@@ -54,30 +54,30 @@ class EnchantedSkeletonBoneItem : AOTDItem("enchanted_skeleton_bone", Properties
                 // Compute the number of skeletons to spawn and the number of bones that will remain after
                 val numberOfSkeletonsToSpawn = numberOfBones / BONES_PER_SKELETON
                 val bonesRemaining = numberOfBones % BONES_PER_SKELETON
-                val world = entityItem.world
+                val world = entityItem.level
 
                 // Iterate over the number of skeletons to spawn
                 for (i in 0 until numberOfSkeletonsToSpawn) {
                     // Create the skeleton
                     val skeleton = EnchantedSkeletonEntity(ModEntities.ENCHANTED_SKELETON, world)
                     // Spawn the skeleton at the position of the itemstack
-                    skeleton.setLocationAndAngles(
-                        entityItem.posX,
-                        entityItem.posY + 0.01,
-                        entityItem.posZ,
-                        entityItem.rotationYaw,
+                    skeleton.moveTo(
+                        entityItem.x,
+                        entityItem.y + 0.01,
+                        entityItem.z,
+                        entityItem.yRot,
                         0.0f
                     )
                     // Give the skeleton 2 ticks of invisibility to ensure players can't see them without their spawning animation
-                    skeleton.addPotionEffect(EffectInstance(Effects.INVISIBILITY, 2))
+                    skeleton.addEffect(EffectInstance(Effects.INVISIBILITY, 2))
                     // Spawn the skeleton
-                    world.addEntity(skeleton)
+                    world.addFreshEntity(skeleton)
                 }
 
                 // Give all players in range of the summoned skeletons a research if possible
-                world.getEntitiesWithinAABB(
+                world.getEntitiesOfClass(
                     PlayerEntity::class.java,
-                    entityItem.boundingBox.grow(RESEARCH_UNLOCK_RADIUS.toDouble())
+                    entityItem.boundingBox.inflate(RESEARCH_UNLOCK_RADIUS.toDouble())
                 ).forEach {
                     val playerResearch = it.getResearch()
                     if (playerResearch.canResearch(ModResearches.ENCHANTED_SKELETON)) {
@@ -91,12 +91,12 @@ class EnchantedSkeletonBoneItem : AOTDItem("enchanted_skeleton_bone", Properties
                     // Create the left over item stack and spawn it in
                     val leftOver = ItemEntity(
                         world,
-                        entityItem.posX,
-                        entityItem.posY,
-                        entityItem.posZ,
+                        entityItem.x,
+                        entityItem.y,
+                        entityItem.z,
                         ItemStack(ModItems.ENCHANTED_SKELETON_BONE, bonesRemaining)
                     )
-                    world.addEntity(leftOver)
+                    world.addFreshEntity(leftOver)
                 }
 
                 // Remove the bone item stacks

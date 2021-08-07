@@ -11,8 +11,6 @@ import net.minecraft.potion.EffectInstance
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.world.World
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Potion that gives you the drowsy potion effect
@@ -31,23 +29,12 @@ class SleepingPotionItem : AOTDItem("sleeping_potion", Properties()) {
     }
 
     /**
-     * True since the potion glows
-     *
-     * @param stack The item stack
-     * @return True since the potion has the 'enchanted' look
-     */
-    @OnlyIn(Dist.CLIENT)
-    override fun hasEffect(stack: ItemStack): Boolean {
-        return true
-    }
-
-    /**
      * It's a potion, so when the item is being used show the drink animation
      *
      * @param stack The item stack being drunk
      * @return DRINK since this is a potion
      */
-    override fun getUseAction(stack: ItemStack): UseAction {
+    override fun getUseAnimation(stack: ItemStack): UseAction {
         return UseAction.DRINK
     }
 
@@ -59,9 +46,9 @@ class SleepingPotionItem : AOTDItem("sleeping_potion", Properties()) {
      * @param hand   The hand the player is using to hold the potion
      * @return SUCCESS since the potion drinking began
      */
-    override fun onItemRightClick(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
-        player.activeHand = hand
-        return ActionResult.resultSuccess(player.getHeldItem(hand))
+    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+        player.startUsingItem(hand)
+        return ActionResult.success(player.getItemInHand(hand))
     }
 
     /**
@@ -72,12 +59,12 @@ class SleepingPotionItem : AOTDItem("sleeping_potion", Properties()) {
      * @param entityLiving The entity that drunk the potion
      * @return The itemstack that this item became
      */
-    override fun onItemUseFinish(stack: ItemStack, worldIn: World, entityLiving: LivingEntity): ItemStack {
+    override fun finishUsingItem(stack: ItemStack, worldIn: World, entityLiving: LivingEntity): ItemStack {
         // Server side only processing
-        if (!worldIn.isRemote) {
+        if (!worldIn.isClientSide) {
             // This potion only effects players
             if (entityLiving is PlayerEntity) {
-                entityLiving.addPotionEffect(EffectInstance(ModEffects.SLEEPING, 4800, 0, false, true))
+                entityLiving.addEffect(EffectInstance(ModEffects.SLEEPING, 4800, 0, false, true))
                 // If the player is not in creative mode reduce the bottle stack size by 1 and return the bottle
                 if (!entityLiving.isCreative) {
                     stack.shrink(1)
@@ -85,10 +72,10 @@ class SleepingPotionItem : AOTDItem("sleeping_potion", Properties()) {
                     if (stack.isEmpty) {
                         return ItemStack(Items.GLASS_BOTTLE)
                     }
-                    entityLiving.inventory.addItemStackToInventory(ItemStack(Items.GLASS_BOTTLE))
+                    entityLiving.inventory.add(ItemStack(Items.GLASS_BOTTLE))
                 }
             }
         }
-        return super.onItemUseFinish(stack, worldIn, entityLiving)
+        return super.finishUsingItem(stack, worldIn, entityLiving)
     }
 }

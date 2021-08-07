@@ -6,9 +6,11 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDPerItemCooldownItem
+import com.davidm1a2.afraidofthedark.common.item.core.IHasModelProperties
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.LivingEntity
+import net.minecraft.item.IItemPropertyGetter
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
@@ -22,11 +24,13 @@ import net.minecraftforge.api.distmarker.OnlyIn
  *
  * @constructor sets up item properties
  */
-class WristCrossbowItem : AOTDPerItemCooldownItem("wrist_crossbow", Properties()) {
-    init {
-        addPropertyOverride(ResourceLocation(Constants.MOD_ID, "is_loaded")) { stack: ItemStack, _: World?, _: LivingEntity? ->
-            if (isOnCooldown(stack)) 0f else 1f
-        }
+class WristCrossbowItem : AOTDPerItemCooldownItem("wrist_crossbow", Properties()), IHasModelProperties {
+    override fun getProperties(): List<Pair<ResourceLocation, IItemPropertyGetter>> {
+        return listOf(
+            ResourceLocation(Constants.MOD_ID, "is_loaded") to IItemPropertyGetter { stack: ItemStack, _: World?, _: LivingEntity? ->
+                if (isOnCooldown(stack)) 0f else 1f
+            }
+        )
     }
 
     /**
@@ -38,19 +42,19 @@ class WristCrossbowItem : AOTDPerItemCooldownItem("wrist_crossbow", Properties()
      * @param flag  The flag telling us if advanced tooltips are on or off
      */
     @OnlyIn(Dist.CLIENT)
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.WRIST_CROSSBOW)) {
             tooltip.add(
                 TranslationTextComponent(
                     "tooltip.afraidofthedark.wrist_crossbow.how_to_fire",
-                    ModKeybindings.FIRE_WRIST_CROSSBOW.localizedName
+                    ModKeybindings.FIRE_WRIST_CROSSBOW.translatedKeyMessage
                 )
             )
             tooltip.add(
                 TranslationTextComponent(
                     "tooltip.afraidofthedark.wrist_crossbow.change_bolt_type",
-                    ModKeybindings.FIRE_WRIST_CROSSBOW.localizedName
+                    ModKeybindings.FIRE_WRIST_CROSSBOW.translatedKeyMessage
                 )
             )
         } else {

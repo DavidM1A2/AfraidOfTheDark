@@ -27,7 +27,7 @@ import net.minecraftforge.api.distmarker.OnlyIn
  * @param equipmentSlot The slot that this armor pieces goes on, can be one of 4 options
  */
 class IgneousArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
-    AOTDArmorItem(baseName, ModArmorMaterials.IGNEOUS, equipmentSlot, Properties().defaultMaxDamage(0)) {
+    AOTDArmorItem(baseName, ModArmorMaterials.IGNEOUS, equipmentSlot, Properties().defaultDurability(0)) {
     /**
      * Gets the resource location path of the texture for the armor when worn by the player
      *
@@ -55,7 +55,7 @@ class IgneousArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
      * @param flag  The flag telling us if advanced tooltips are on or not
      */
     @OnlyIn(Dist.CLIENT)
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.IGNEOUS)) {
             tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_MAGIC_ARMOR_NEVER_BREAKS))
@@ -76,12 +76,12 @@ class IgneousArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
         // Dead players don't have capabilities
         if (player.isAlive) {
             // If the armor wearer is burning extinguish the fire
-            if (player.isBurning) {
+            if (player.isOnFire) {
                 // Ensure the player has the right research
                 if (player.getResearch().isResearched(ModResearches.IGNEOUS)) {
                     // If the player is wearing full armor then add armor set bonuses
                     if (isWearingFullArmor(player)) {
-                        player.extinguish()
+                        player.clearFire()
                     }
                 }
             }
@@ -101,18 +101,18 @@ class IgneousArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
 
         // If the player is wearing full armor then add armor set bonuses. Only apply the velocity for one armor piece :)
         if (isWearingFullArmor(entity) && slot == EquipmentSlotType.CHEST) {
-            val damageSourceEntity = source.trueSource
+            val damageSourceEntity = source.entity
             // If the damage source is non-null set them on fire
             if (damageSourceEntity != null) {
-                damageSourceEntity.setFire(5)
+                damageSourceEntity.remainingFireTicks = damageSourceEntity.remainingFireTicks + 5
 
-                val direction = damageSourceEntity.positionVector
-                    .subtract(entity.positionVector)
+                val direction = damageSourceEntity.position()
+                    .subtract(entity.position())
                     .normalize()
                     .scale(KNOCKBACK_STRENGTH)
 
                 // Move the entity away from the player
-                damageSourceEntity.addVelocity(
+                damageSourceEntity.push(
                     direction.x,
                     direction.y,
                     direction.z

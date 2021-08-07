@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
+import com.davidm1a2.afraidofthedark.common.item.core.IHasModelProperties
 import com.davidm1a2.afraidofthedark.common.registry.bolt.BoltEntry
 import com.davidm1a2.afraidofthedark.common.utility.BoltOrderHelper
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
@@ -11,6 +12,8 @@ import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.AbstractArrowEntity
+import net.minecraft.inventory.ItemStackHelper
+import net.minecraft.item.IItemPropertyGetter
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -27,23 +30,24 @@ import net.minecraftforge.api.distmarker.OnlyIn
  *
  * @constructor Sets the item name and ensures it can't stack
  */
-class CrossbowItem : AOTDItem("crossbow", Properties().maxStackSize(1)) {
-    init {
-        // The charge level property is used to determine how far along in the charge the bow is
-        addPropertyOverride(ResourceLocation(Constants.MOD_ID, "charge_level")) { stack: ItemStack, _: World?, entity: LivingEntity? ->
-            if (entity is PlayerEntity) {
-                // If the selected item is the current one update the charge level
-                if (entity.inventory.mainInventory[entity.inventory.currentItem] == stack) {
-                    return@addPropertyOverride entity.getItemInUseMaxCount().toFloat() / getUseDuration(stack).toFloat()
+class CrossbowItem : AOTDItem("crossbow", Properties().stacksTo(1)), IHasModelProperties {
+    override fun getProperties(): List<Pair<ResourceLocation, IItemPropertyGetter>> {
+        return listOf(
+            // The charge level property is used to determine how far along in the charge the bow is
+            ResourceLocation(Constants.MOD_ID, "charge_level") to IItemPropertyGetter { stack: ItemStack, _: World?, entity: LivingEntity? ->
+                if (entity is PlayerEntity) {
+                    // If the selected item is the current one update the charge level
+                    if (entity.inventory.items[entity.inventory.selected] == stack) {
+                        return@IItemPropertyGetter entity.useItem.useDuration.toFloat() / getUseDuration(stack).toFloat()
+                    }
                 }
+                0f
+            },
+            // True if the bow is loaded (1f) or false (0f) otherwise
+            ResourceLocation(Constants.MOD_ID, "is_loaded") to IItemPropertyGetter { stack: ItemStack, _: World?, _: LivingEntity? ->
+                if (isLoaded(stack)) 1f else 0f
             }
-            0f
-        }
-
-        // True if the bow is loaded (1f) or false (0f) otherwise
-        addPropertyOverride(ResourceLocation(Constants.MOD_ID, "is_loaded")) { stack: ItemStack, _: World?, _: LivingEntity? ->
-            if (isLoaded(stack)) 1f else 0f
-        }
+        )
     }
 
     /**
@@ -54,20 +58,20 @@ class CrossbowItem : AOTDItem("crossbow", Properties().maxStackSize(1)) {
      * @param hand   The hand that the player is using
      * @return The result of the click
      */
-    override fun onItemRightClick(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
         // Grab the itemstack that is held
-        val itemStack = player.getHeldItem(hand)
+        val itemStack = player.getItemInHand(hand)
 
         // Server side processing only
-        if (!world.isRemote) {
+        if (!world.isClientSide) {
             // If the player is sneaking then select the next bolt type for this crossbow
-            if (player.isSneaking) {
+            if (player.isCrouching) {
                 selectNextBoltType(itemStack, player)
             } else {
                 // If the player is not sneaking and the bow is not loaded begin loading
                 if (!isLoaded(itemStack)) {
                     // If we are in creative, no ammo is required or if we have ammo begin charging he bow
-                    if (player.isCreative || player.inventory.hasItemStack(
+                    if (player.isCreative || player.inventory.contains(
                             ItemStack(
                                 getCurrentBoltType(
                                     itemStack
@@ -78,20 +82,21 @@ class CrossbowItem : AOTDItem("crossbow", Properties().maxStackSize(1)) {
                         // Play the load sound
                         world.playSound(
                             null,
-                            player.position,
+                            player.blockPosition(),
                             ModSounds.CROSSBOW_LOAD,
                             SoundCategory.PLAYERS,
                             0.9f,
-                            world.rand.nextFloat() * 0.8f + 1.2f
+                            world.random.nextFloat() * 0.8f + 1.2f
                         )
                         // Set the player's hand to active
-                        player.activeHand = hand
+                        player.startUsingItem(hand)
                     } else {
                         player.sendMessage(
                             TranslationTextComponent(
                                 "message.afraidofthedark.crossbow.no_bolt",
                                 TranslationTextComponent(getCurrentBoltType(itemStack).getUnlocalizedName())
-                            )
+                            ),
+                            player.uuid
                         )
                     }
                 }
@@ -99,7 +104,7 @@ class CrossbowItem : AOTDItem("crossbow", Properties().maxStackSize(1)) {
         }
 
         // We have to "fail" the action so that the bow doesn't play the item use animation and bounce
-        return ActionResult.resultFail(itemStack)
+        return ActionResult.fail(itemStack)
     }
 
     /**
@@ -114,7 +119,13 @@ class CrossbowItem : AOTDItem("crossbow", Properties().maxStackSize(1)) {
         if (entity is PlayerEntity) {
             // Load the bow at 2 ticks left instead of 1 so the unloaded texture doesn't flicker
             if (count == 2) {
-                if (entity.isCreative || entity.inventory.clearMatchingItems({ it.item == getCurrentBoltType(stack).boltItem }, 1) == 1) {
+                if (entity.isCreative || ItemStackHelper.clearOrCountMatchingItems(
+                        entity.inventory,
+                        { it.item == getCurrentBoltType(stack).boltItem },
+                        1,
+                        false
+                    ) == 1
+                ) {
                     setLoaded(stack, true)
                 }
             }
@@ -130,10 +141,10 @@ class CrossbowItem : AOTDItem("crossbow", Properties().maxStackSize(1)) {
      */
     override fun onEntitySwing(stack: ItemStack, entityLiving: LivingEntity): Boolean {
         // Only fire server side and from players
-        if (!entityLiving.world.isRemote && entityLiving is PlayerEntity && isLoaded(stack)) {
+        if (!entityLiving.level.isClientSide && entityLiving is PlayerEntity && isLoaded(stack)) {
             // Reset the charge state and fire
             setLoaded(stack, false)
-            fireBolt(entityLiving, entityLiving.world, stack)
+            fireBolt(entityLiving, entityLiving.level, stack)
         }
         return super.onEntitySwing(stack, entityLiving)
     }
@@ -149,23 +160,23 @@ class CrossbowItem : AOTDItem("crossbow", Properties().maxStackSize(1)) {
         // Play a fire sound effect
         world.playSound(
             null,
-            entityPlayer.position,
+            entityPlayer.blockPosition(),
             ModSounds.CROSSBOW_FIRE,
             SoundCategory.PLAYERS,
             0.5f,
-            world.rand.nextFloat() * 0.4f + 0.8f
+            world.random.nextFloat() * 0.4f + 0.8f
         )
 
         // Instantiate bolt!
         val bolt = getCurrentBoltType(itemStack).boltEntityFactory(world, entityPlayer)
-        bolt.pickupStatus = if (entityPlayer.isCreative) {
+        bolt.pickup = if (entityPlayer.isCreative) {
             AbstractArrowEntity.PickupStatus.DISALLOWED
         } else {
             AbstractArrowEntity.PickupStatus.ALLOWED
         }
         // Aim and fire the bolt
-        bolt.shoot(entityPlayer, entityPlayer.rotationPitch, entityPlayer.rotationYaw, 0f, 5f, 0f)
-        world.addEntity(bolt)
+        bolt.shootFromRotation(entityPlayer, entityPlayer.xRot, entityPlayer.yRot, 0f, 5f, 0f)
+        world.addFreshEntity(bolt)
     }
 
     /**
@@ -183,12 +194,13 @@ class CrossbowItem : AOTDItem("crossbow", Properties().maxStackSize(1)) {
             // Set the next bolt index
             NBTHelper.setInteger(itemStack, NBT_BOLT_TYPE, currentBoltTypeIndex)
             // Tell the user that they have a new bolt loaded
-            if (!entityPlayer.world.isRemote) {
+            if (!entityPlayer.level.isClientSide) {
                 entityPlayer.sendMessage(
                     TranslationTextComponent(
                         "message.afraidofthedark.crossbow.bolt_change",
                         TranslationTextComponent(getCurrentBoltType(itemStack).getUnlocalizedName())
-                    )
+                    ),
+                    entityPlayer.uuid
                 )
             }
         }
@@ -249,7 +261,7 @@ class CrossbowItem : AOTDItem("crossbow", Properties().maxStackSize(1)) {
      * @param flag  True if show advanced info is on, false otherwise
      */
     @OnlyIn(Dist.CLIENT)
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         if (ModRegistries.BOLTS.isEmpty) {
             // Skip adding information before the bolts registry is initialized
             return

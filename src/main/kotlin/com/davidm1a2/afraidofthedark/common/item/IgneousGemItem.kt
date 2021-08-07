@@ -21,6 +21,6 @@ class IgneousGemItem : AOTDItem("igneous_gem", Properties()) {
      * @param isSelected True if the item is selected, false otherwise
      */
     override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean) {
-        entity.setFire(3)
+        entity.remainingFireTicks = entity.remainingFireTicks + 3
     }
 }

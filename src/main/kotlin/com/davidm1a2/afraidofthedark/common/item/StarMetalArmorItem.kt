@@ -28,7 +28,7 @@ import net.minecraftforge.api.distmarker.OnlyIn
  * @param equipmentSlot The slot that this armor pieces goes on, can be one of 4 options
  */
 class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
-    AOTDArmorItem(baseName, ModArmorMaterials.STAR_METAL, equipmentSlot, Properties().defaultMaxDamage(0)) {
+    AOTDArmorItem(baseName, ModArmorMaterials.STAR_METAL, equipmentSlot, Properties().defaultDurability(0)) {
     /**
      * Gets the resource location path of the texture for the armor when worn by the player
      *
@@ -56,7 +56,7 @@ class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
      * @param flag  The flag telling us if advanced tooltips are on or not
      */
     @OnlyIn(Dist.CLIENT)
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL)) {
             tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_MAGIC_ARMOR_NEVER_BREAKS))
@@ -83,7 +83,7 @@ class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
                 if (readyToProcAbsorption(itemStack)) {
                     // The number of star metal armor pieces worn
                     val numberStarMetalPiecesWorn =
-                        player.inventory.armorInventory.map { it.item }.filterIsInstance<StarMetalArmorItem>().count()
+                        player.inventory.armor.map { it.item }.filterIsInstance<StarMetalArmorItem>().count()
                     if (numberStarMetalPiecesWorn * ABSORPTION_PER_PIECE >= player.absorptionAmount) {
                         // Add 4 to absorption up to a max for the proc
                         player.absorptionAmount = (player.absorptionAmount + ABSORPTION_PER_PIECE).coerceIn(

@@ -15,7 +15,7 @@ import net.minecraft.world.World
  *
  * @constructor sets the item's name
  */
-class InsanitysHeightsItem : AOTDItem("insanitys_heights", Properties().maxStackSize(1)) {
+class InsanitysHeightsItem : AOTDItem("insanitys_heights", Properties().stacksTo(1)) {
     /**
      * Called when the book is right clicked, opens the book GUI
      *
@@ -24,16 +24,16 @@ class InsanitysHeightsItem : AOTDItem("insanitys_heights", Properties().maxStack
      * @param hand   The hand the player is holding the item in
      * @return Success, the UI opened
      */
-    override fun onItemRightClick(worldIn: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
-        val heldItem = player.getHeldItem(hand)
+    override fun use(worldIn: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+        val heldItem = player.getItemInHand(hand)
         // Show the player the book if they're in the nightmare
-        if (worldIn.dimension.type.modType == ModDimensions.NIGHTMARE) {
+        if (worldIn.dimension() == ModDimensions.NIGHTMARE_WORLD) {
             AfraidOfTheDark.proxy.showInsanitysHeightsBook()
         } else {
-            if (!worldIn.isRemote) {
-                player.sendMessage(TranslationTextComponent("message.afraidofthedark.insanitys_heights.dont_understand"))
+            if (!worldIn.isClientSide) {
+                player.sendMessage(TranslationTextComponent("message.afraidofthedark.insanitys_heights.dont_understand"), player.uuid)
             }
         }
-        return ActionResult.resultSuccess(heldItem)
+        return ActionResult.success(heldItem)
     }
 }

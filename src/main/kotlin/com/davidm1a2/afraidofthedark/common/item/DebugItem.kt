@@ -19,25 +19,25 @@ import org.apache.logging.log4j.LogManager
  *
  * @constructor sets up item properties
  */
-class DebugItem : AOTDItem("debug", Properties().maxStackSize(1), displayInCreative = false) {
+class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative = false) {
     ///
     /// Code below here is not documented due to its temporary nature used for testing
     ///
 
-    override fun onItemRightClick(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
-        if (worldIn.isRemote) {
+    override fun use(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
+        if (worldIn.isClientSide) {
             AfraidOfTheDark.proxy.researchOverlay?.displayResearch(ModResearches.ASTRAL_SILVER)
         } else {
             playerIn.getResearch().setResearchAndAlert(ModResearches.ENARIAS_SECRET, true, playerIn)
         }
-        return super.onItemRightClick(worldIn, playerIn, handIn)
+        return super.use(worldIn, playerIn, handIn)
     }
 
     override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, entity: Entity): Boolean {
-        if (!player.world.isRemote)
+        if (!player.level.isClientSide)
             if (entity is EnchantedFrogEntity) {
                 val s = entity.spell
-                player.sendMessage(StringTextComponent(s.toString()))
+                player.sendMessage(StringTextComponent(s.toString()), player.uuid)
                 logger.info("Type is:\n$s")
             }
         return super.onLeftClickEntity(stack, player, entity)

@@ -11,7 +11,7 @@ abstract class AOTDSpawnEggItem(
     secondaryColor: Int,
     properties: Properties
 ) : SpawnEggItem(entityType, primaryColor, secondaryColor, properties.apply {
-    group(Constants.AOTD_CREATIVE_TAB)
+    tab(Constants.AOTD_CREATIVE_TAB)
 }) {
     init {
         setRegistryName(Constants.MOD_ID, name)

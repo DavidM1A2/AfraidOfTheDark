@@ -2,74 +2,11 @@ package com.davidm1a2.afraidofthedark.common.utility
 
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundNBT
-import net.minecraft.nbt.CompressedStreamTools
-import net.minecraft.server.MinecraftServer
-import net.minecraft.world.dimension.DimensionType
-import org.apache.commons.lang3.exception.ExceptionUtils
-import org.apache.logging.log4j.LogManager
-import java.io.File
-import java.io.FileInputStream
-import java.io.IOException
 
 /**
  * Class that lets us work with itemstack NBT more easily
  */
 object NBTHelper {
-    private val logger = LogManager.getLogger()
-
-    /**
-     * Returns a list of all saved player nbts, if the flag is set then player data is saved to disk before being read
-     *
-     * @param minecraftServer The minecraft server to get the NBTs from
-     * @param saveFirst       True if the existing online player data should be written to disk first, false otherwise
-     * @return A list of player NBTTagCompounds containing all players both offline and online
-     */
-    fun getAllSavedPlayerNBTs(minecraftServer: MinecraftServer, saveFirst: Boolean): List<CompoundNBT> {
-        // Write all player data to disk if the flag is set
-        if (saveFirst) {
-            minecraftServer.playerList.saveAllPlayerData()
-        }
-
-        // A list of player NBTs to return
-        val toReturn = mutableListOf<CompoundNBT>()
-
-        // All worlds share a single save handler so we can just use the overworld's save handler to grab all player data even players in other dimensions
-        val saveHandler = minecraftServer.getWorld(DimensionType.OVERWORLD).saveHandler
-
-        // Grab the playerdata directory that stores all player's NBT data
-        val playerDataDirectory = File(saveHandler.worldDirectory, "playerdata")
-
-        // Iterate over each player's UUID file
-        for (playerUUID in saveHandler.func_215771_d()) {
-            // Create a file pointed at that player's data
-            val playerData = File(playerDataDirectory, "$playerUUID.dat")
-
-            // If the player data exists, is a file, and can be read read the file
-            if (playerData.exists() && playerData.isFile && playerData.canRead()) {
-                // Open a file input stream to the file
-                try {
-                    FileInputStream(playerData).use {
-                        // Read the player data into NBT
-                        val playerDataCompound = CompressedStreamTools.readCompressed(it)
-                        // Store the data compound to return
-                        toReturn.add(playerDataCompound)
-                    }
-                }
-                // If something goes wrong log an error
-                catch (e: IOException) {
-                    logger.error(
-                        "Could not read player data for file ${playerData.absolutePath}, exception was:\n${
-                            ExceptionUtils.getStackTrace(
-                                e
-                            )
-                        }"
-                    )
-                }
-            }
-        }
-        return toReturn
-    }
-
     /**
      * Tests if a given itemstack has the required key name
      *
@@ -346,6 +283,17 @@ object NBTHelper {
     fun getCompound(itemStack: ItemStack, keyName: String): CompoundNBT? {
         return if (hasTag(itemStack, keyName)) {
             itemStack.tag!!.getCompound(keyName)
+        } else null
+    }
+
+    fun setIntArray(itemStack: ItemStack, keyName: String, keyValue: IntArray) {
+        initNBTTagCompound(itemStack)
+        itemStack.tag!!.putIntArray(keyName, keyValue)
+    }
+
+    fun getIntArray(itemStack: ItemStack, keyName: String): IntArray? {
+        return if (hasTag(itemStack, keyName)) {
+            itemStack.tag!!.getIntArray(keyName)
         } else null
     }
 }

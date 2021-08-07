@@ -26,7 +26,7 @@ abstract class AOTDArmorItem(
     displayInCreative: Boolean = true
 ) : ArmorItem(material, equipmentSlot, properties.apply {
     if (displayInCreative) {
-        group(Constants.AOTD_CREATIVE_TAB)
+        tab(Constants.AOTD_CREATIVE_TAB)
     }
 }) {
     init {
@@ -52,7 +52,7 @@ abstract class AOTDArmorItem(
      * @return True if the player is wearing all armor of this type, false otherwise
      */
     protected fun isWearingFullArmor(entityPlayer: PlayerEntity): Boolean {
-        val armorInventory = entityPlayer.inventory.armorInventory
+        val armorInventory = entityPlayer.inventory.armor
         val armorClass = this.javaClass
         return armorClass.isInstance(armorInventory[0].item) &&
                 armorClass.isInstance(armorInventory[1].item) &&

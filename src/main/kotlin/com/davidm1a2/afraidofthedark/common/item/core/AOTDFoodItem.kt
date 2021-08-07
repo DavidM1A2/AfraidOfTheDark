@@ -20,10 +20,10 @@ abstract class AOTDFoodItem(
     displayInCreative: Boolean = true
 ) : Item(properties.apply {
     if (displayInCreative) {
-        group(Constants.AOTD_CREATIVE_TAB)
+        tab(Constants.AOTD_CREATIVE_TAB)
         food(Food.Builder()
-            .hunger(foodAmount)
-            .saturation(saturation)
+            .nutrition(foodAmount)
+            .saturationMod(saturation)
             .apply { if (isWolfFood) meat() }
             .build())
     }

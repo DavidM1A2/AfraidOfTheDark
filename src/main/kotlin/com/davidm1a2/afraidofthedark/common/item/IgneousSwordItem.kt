@@ -50,9 +50,9 @@ class IgneousSwordItem : AOTDChargeableSwordItem(
         // If igneous is researched allow the sword to function
         if (player.getResearch().isResearched(ModResearches.IGNEOUS)) {
             // The fire burn time is heavily upgraded by fire aspect enchantment
-            target.setFire(5 + EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT, stack) * 10)
+            target.remainingFireTicks = target.remainingFireTicks + 5 + EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT, player) * 10
             // Attack the entity from silver damage
-            target.attackEntityFrom(getSilverDamage(player), attackDamage)
+            target.hurt(getSilverDamage(player), damage)
         } else {
             return true
         }
@@ -68,7 +68,7 @@ class IgneousSwordItem : AOTDChargeableSwordItem(
      * @param tooltip The tooltip to return
      * @param flag True if advanced tooltips are on, false otherwise
      */
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.IGNEOUS)) {
             tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
@@ -91,27 +91,27 @@ class IgneousSwordItem : AOTDChargeableSwordItem(
     override fun performChargeAttack(itemStack: ItemStack, world: World, entityPlayer: PlayerEntity): Boolean {
         // Grab the player's eye posiiton and look vector
         val fromVec = entityPlayer.getEyePosition(0f)
-        val lookDir = entityPlayer.lookVec
+        val lookDir = entityPlayer.lookAngle
 
         // The vector we want to ray trace to
         val toVec = fromVec.add(lookDir.scale(SPECIAL_FIRE_RANGE_BLOCKS.toDouble()))
 
         val context = RayTraceContext(fromVec, toVec, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.ANY, entityPlayer)
         // Perform the ray trace
-        val rayTraceResult: RayTraceResult? = world.rayTraceBlocks(context)
+        val rayTraceResult: RayTraceResult? = world.clip(context)
 
         // Ensure we hit something
-        if (rayTraceResult?.hitVec != null) {
+        if (rayTraceResult?.location != null) {
             // Grab the hit block position
-            val hitPos = BlockPos(rayTraceResult.hitVec.x, rayTraceResult.hitVec.y, rayTraceResult.hitVec.z)
+            val hitPos = BlockPos(rayTraceResult.location.x, rayTraceResult.location.y, rayTraceResult.location.z)
             // Grab all surrounding entities
-            val surroundingEntities = world.getEntitiesWithinAABBExcludingEntity(
+            val surroundingEntities = world.getEntities(
                 entityPlayer,
-                AxisAlignedBB(hitPos).grow(HIT_RANGE.toDouble())
+                AxisAlignedBB(hitPos).inflate(HIT_RANGE.toDouble())
             )
 
             // Set each entity living on fire
-            surroundingEntities.filter { it is MobEntity || it is PlayerEntity }.forEach { it.setFire(20) }
+            surroundingEntities.filter { it is MobEntity || it is PlayerEntity }.forEach { it.remainingFireTicks = it.remainingFireTicks + 20 }
 
             // True, the effect was procd
             return true

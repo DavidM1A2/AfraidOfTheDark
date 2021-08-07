@@ -24,7 +24,7 @@ import net.minecraftforge.api.distmarker.OnlyIn
  * @param accuracy How many blocks away meteors that the telescope finds are dropped
  * @param name The unlocalized name of the item
  */
-abstract class TelescopeBaseItem(val accuracy: Int, name: String) : AOTDItem(name, Properties().maxStackSize(1)) {
+abstract class TelescopeBaseItem(val accuracy: Int, name: String) : AOTDItem(name, Properties().stacksTo(1)) {
     init {
         require(accuracy >= 0) {
             "Accuracy for telescopes must be positive!"
@@ -39,40 +39,40 @@ abstract class TelescopeBaseItem(val accuracy: Int, name: String) : AOTDItem(nam
      * @param hand   The hand the telescope is in
      * @return The result of the right click
      */
-    override fun onItemRightClick(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
         // Grab the itemstack the player is holding
-        val itemStack = player.getHeldItem(hand)
+        val itemStack = player.getItemInHand(hand)
 
         // Grab the player's research
         val playerResearch = player.getResearch()
 
         // Test if the player is high enough to use the telescope
-        val highEnough = player.position.y > 128
+        val highEnough = player.y > 128
 
         // The research required
         val research = getRequiredResearch()
 
         // Start with server side processing
-        if (!world.isRemote) {
+        if (!world.isClientSide) {
             // If the research is researched then test if the player is high enough
             if (playerResearch.isResearched(research)) {
                 // Tell the player that they need to be higher to see through the clouds
                 if (!highEnough) {
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.telescope.not_high_enough"))
+                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.telescope.not_high_enough"), player.uuid)
                 }
             } else {
-                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND), player.uuid)
             }
         }
 
         // If we're on client side and have the proper research and the player is above y=128 to see the stars, show the GUI
         // Don't print anything out client side since the server side takes care of that for us
-        if (world.isRemote && highEnough) {
+        if (world.isClientSide && highEnough) {
             if (playerResearch.isResearched(research)) {
-                Minecraft.getInstance().displayGuiScreen(TelescopeScreen())
+                Minecraft.getInstance().setScreen(TelescopeScreen())
             }
         }
-        return ActionResult.resultSuccess(itemStack)
+        return ActionResult.success(itemStack)
     }
 
     /**
@@ -84,7 +84,7 @@ abstract class TelescopeBaseItem(val accuracy: Int, name: String) : AOTDItem(nam
      * @param flag  True if the advanced tooltip is set on, false otherwise
      */
     @OnlyIn(Dist.CLIENT)
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
 
         if (player != null && player.getResearch().isResearched(getRequiredResearch())) {

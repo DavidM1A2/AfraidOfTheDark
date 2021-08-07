@@ -23,7 +23,7 @@ abstract class AOTDPerItemCooldownItem(
     displayInCreative: Boolean = true
 ) : AOTDItem(baseName, properties.apply {
     // Cooldown items can't stack!
-    maxStackSize(1)
+    stacksTo(1)
 }, displayInCreative) {
     private var serverClientTimeDifference = 0L
 
@@ -47,7 +47,7 @@ abstract class AOTDPerItemCooldownItem(
         NBTHelper.setLong(itemStack, NBT_LAST_USE_TIME, System.currentTimeMillis())
 
         // We need to update the client of the new cooldown, so send a packet
-        if (!entityPlayer.world.isRemote) {
+        if (!entityPlayer.level.isClientSide) {
             AfraidOfTheDark.packetHandler.sendTo(
                 CooldownSyncPacket(System.currentTimeMillis(), this),
                 entityPlayer as ServerPlayerEntity
