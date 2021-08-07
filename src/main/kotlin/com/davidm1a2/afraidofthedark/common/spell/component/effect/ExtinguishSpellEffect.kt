@@ -9,7 +9,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEff
 import net.minecraft.block.Blocks
 import net.minecraft.block.FireBlock
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 
 /**
@@ -25,14 +25,14 @@ class ExtinguishSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID,
         // If we hit an entity extinguish them
         val entity = state.getEntity()
         if (entity != null) {
-            createParticlesAt(3, 5, Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension, ModParticles.FIRE)
-            entity.extinguish()
+            createParticlesAt(3, 5, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), ModParticles.FIRE)
+            entity.clearFire()
         } else {
             val world: World = state.world
             val position = state.blockPosition
             if (world.getBlockState(position).block is FireBlock) {
-                createParticlesAt(1, 3, state.position, world.dimension.type, ModParticles.FIRE)
-                world.setBlockState(position, Blocks.AIR.defaultState)
+                createParticlesAt(1, 3, state.position, world.dimension(), ModParticles.FIRE)
+                world.setBlockAndUpdate(position, Blocks.AIR.defaultBlockState())
             }
         }
     }

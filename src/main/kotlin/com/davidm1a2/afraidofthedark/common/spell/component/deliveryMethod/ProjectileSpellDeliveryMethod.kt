@@ -81,7 +81,7 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
             state.direction,
             state.getEntity()
         )
-        state.world.addEntity(spellProjectile)
+        state.world.addFreshEntity(spellProjectile)
     }
 
     /**

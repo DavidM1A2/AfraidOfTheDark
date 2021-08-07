@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.utility
 
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 
 /**
  * Minecraft does not provide a matrix class for us :/ Use our own
@@ -40,8 +40,8 @@ class Matrix3d(
         return this
     }
 
-    fun mul(vec: Vec3d): Vec3d {
-        return Vec3d(
+    fun mul(vec: Vector3d): Vector3d {
+        return Vector3d(
             m00 * vec.x + m01 * vec.y + m02 * vec.z,
             m10 * vec.x + m11 * vec.y + m12 * vec.z,
             m20 * vec.x + m21 * vec.y + m22 * vec.z,

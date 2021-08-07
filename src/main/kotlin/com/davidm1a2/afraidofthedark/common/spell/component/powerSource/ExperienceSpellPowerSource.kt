@@ -22,7 +22,7 @@ class ExperienceSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constan
     override fun canCast(entity: Entity, spell: Spell): Boolean {
         return (entity as? PlayerEntity)?.let {
             val xpCost = ceil(spell.getCost() / UNIT_COST_PER_XP).toInt()
-            return xpCost <= it.experienceTotal
+            return xpCost <= it.totalExperience
         } ?: false
     }
 

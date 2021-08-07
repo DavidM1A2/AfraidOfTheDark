@@ -7,7 +7,6 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.DamageSource
 import net.minecraft.util.ResourceLocation
-import kotlin.math.ceil
 
 /**
  * Class representing the experience source
@@ -36,7 +35,7 @@ class HealthSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.M
     override fun consumePowerToCast(entity: Entity, spell: Spell) {
         (entity as? PlayerEntity)?.let {
             val hpCost = spell.getCost() / UNIT_COST_PER_HP
-            it.attackEntityFrom(DamageSource.OUT_OF_WORLD, hpCost.toFloat())
+            it.hurt(DamageSource.OUT_OF_WORLD, hpCost.toFloat())
         }
     }
 

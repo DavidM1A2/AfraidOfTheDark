@@ -14,7 +14,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.RayTraceContext
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import java.util.*
 import kotlin.math.ceil
 
@@ -66,16 +66,16 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
 
         // Perform a ray trace, this will not hit blocks
         val hitLiquids = if (hitLiquids(state.getCurrentStage().deliveryInstance!!)) RayTraceContext.FluidMode.ANY else RayTraceContext.FluidMode.NONE
-        val rayTraceResult = world.rayTraceBlocks(RayTraceContext(startPos, endPos, RayTraceContext.BlockMode.COLLIDER, hitLiquids, entity))
+        val rayTraceResult = world.clip(RayTraceContext(startPos, endPos, RayTraceContext.BlockMode.COLLIDER, hitLiquids, entity))
 
         // Compute the hit vector
-        var hitPos = rayTraceResult.hitVec
+        var hitPos = rayTraceResult.location
         // Compute the block position we hit
-        val hitBlockPos = rayTraceResult.pos
+        val hitBlockPos = rayTraceResult.blockPos
 
         // Ray tracing doesn't actually hit entities, so use this "hack" to test that. Create a bounding box that is huge and
         // has the entire possible ray inside. Then grab entities inside, then intersect each of their hitboxes manually
-        val potentialHitEntities = world.getEntitiesWithinAABB(
+        val potentialHitEntities = world.getEntitiesOfClass(
             Entity::class.java,
             AxisAlignedBB(startPos.x, startPos.y, startPos.z, hitPos.x, hitPos.y, hitPos.z)
         )
@@ -84,10 +84,10 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
             // Don't laser ourselves
             .filter { it !== entity }
             // Ensure the entity is along the path with the ray
-            .filter { it.boundingBox.rayTrace(startPos, endPos).isPresent }
+            .filter { it.boundingBox.clip(startPos, endPos).isPresent }
             // Find the closest entity
-            .minWithOrNull(Comparator.comparing { it.getDistanceSq(startPos) })
-        hitPos = hitEntity?.positionVector ?: hitPos
+            .minWithOrNull(Comparator.comparing { it.distanceToSqr(startPos) })
+        hitPos = hitEntity?.position() ?: hitPos
 
         // Compute the distance the ray traveled
         val distanceToHit = startPos.distanceTo(hitPos)
@@ -95,7 +95,7 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         val numParticlesToSpawn = ceil(distanceToHit).coerceIn(10.0, 100.0).toInt()
 
         // Compute points along the laser line
-        val laserPositions = List<Vec3d>(numParticlesToSpawn) {
+        val laserPositions = List<Vector3d>(numParticlesToSpawn) {
             startPos.add(direction.scale(it.toDouble() / numParticlesToSpawn * distanceToHit))
         }
 
@@ -104,9 +104,9 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
             ParticlePacket(
                 ModParticles.SPELL_LASER,
                 laserPositions,
-                Collections.nCopies(numParticlesToSpawn, Vec3d.ZERO)
+                Collections.nCopies(numParticlesToSpawn, Vector3d.ZERO)
             ),
-            state.world.dimension.type
+            state.world.dimension()
         )
 
         // Begin performing effects and transition

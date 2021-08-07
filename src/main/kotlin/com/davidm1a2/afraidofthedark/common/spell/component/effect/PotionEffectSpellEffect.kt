@@ -92,8 +92,8 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
         val entityHit = state.getEntity()
         if (entityHit != null) {
             if (entityHit is LivingEntity) {
-                createParticlesAt(1, 3, exactPosition, entityHit.dimension, ModParticles.SPELL_HIT)
-                entityHit.addPotionEffect(EffectInstance(potionType, potionDuration, potionStrength))
+                createParticlesAt(1, 3, exactPosition, entityHit.level.dimension(), ModParticles.SPELL_HIT)
+                entityHit.addEffect(EffectInstance(potionType, potionDuration, potionStrength))
             }
         } else {
             val world: World = state.world
@@ -103,8 +103,8 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
             aoePotion.radius = getPotionRadius(instance)
             aoePotion.setRadiusPerTick(0f)
             aoePotion.duration = potionDuration
-            world.addEntity(aoePotion)
-            createParticlesAt(2, 6, exactPosition, world.dimension.type, ModParticles.SPELL_HIT)
+            world.addFreshEntity(aoePotion)
+            createParticlesAt(2, 6, exactPosition, world.dimension(), ModParticles.SPELL_HIT)
         }
     }
 

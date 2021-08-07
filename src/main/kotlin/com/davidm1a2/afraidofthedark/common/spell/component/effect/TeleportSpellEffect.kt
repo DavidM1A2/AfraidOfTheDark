@@ -10,7 +10,6 @@ import net.minecraft.util.ResourceLocation
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.SoundEvents
 import net.minecraft.world.World
-import net.minecraftforge.fml.common.Mod
 
 /**
  * Teleports the spell owner to the hit location
@@ -29,27 +28,27 @@ class TeleportSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "
             val position = state.position
             // Create particles at the pre and post teleport position
             // Play sound at the pre and post teleport position
-            createParticlesAt(2, 4, position, spellCaster.dimension, ModParticles.ENDER)
+            createParticlesAt(2, 4, position, spellCaster.level.dimension(), ModParticles.ENDER)
             world.playSound(
                 null,
                 position.x,
                 position.y,
                 position.z,
-                SoundEvents.ENTITY_ENDERMAN_TELEPORT,
+                SoundEvents.ENDERMAN_TELEPORT,
                 SoundCategory.PLAYERS,
                 2.5f,
                 1.0f
             )
 
-            spellCaster.setPositionAndUpdate(position.x, position.y, position.z)
+            spellCaster.teleportTo(position.x, position.y, position.z)
 
-            createParticlesAt(2, 4, position, spellCaster.dimension, ModParticles.ENDER)
+            createParticlesAt(2, 4, position, spellCaster.level.dimension(), ModParticles.ENDER)
             world.playSound(
                 null,
                 position.x,
                 position.y,
                 position.z,
-                SoundEvents.ENTITY_ENDERMAN_TELEPORT,
+                SoundEvents.ENDERMAN_TELEPORT,
                 SoundCategory.PLAYERS,
                 2.5f,
                 1.0f

@@ -9,8 +9,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEff
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.block.Blocks
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.Vec3d
-import net.minecraftforge.fml.common.Mod
+import net.minecraft.util.math.vector.Vector3d
 
 /**
  * Effect that sets fire to the hit target
@@ -40,21 +39,19 @@ class BurnSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "burn
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         if (state.getEntity() != null) {
             val entity = state.getEntity()
-            createParticlesAt(5, 10, Vec3d(entity!!.posX, entity.posY, entity.posZ), entity.dimension, ModParticles.FIRE)
-            entity.setFire(getBurnDuration(instance))
+            createParticlesAt(5, 10, Vector3d(entity!!.x, entity.y, entity.z), entity.level.dimension(), ModParticles.FIRE)
+            entity.remainingFireTicks = entity.remainingFireTicks + getBurnDuration(instance)
         } else {
             val world = state.world
             val position = state.blockPosition
-            val upBlockState = world.getBlockState(position.up())
-            if (upBlockState.isAir(world, position.up())) {
-                val blockState = world.getBlockState(position)
-                if (!blockState.isAir(world, position)) {
+            if (world.isEmptyBlock(position.above())) {
+                if (!world.isEmptyBlock(position)) {
                     if (reducedParticles) {
-                        createParticlesAround(0, 1, state.position, world.dimension.type, ModParticles.FIRE, 0.5)
+                        createParticlesAround(0, 1, state.position, world.dimension(), ModParticles.FIRE, 0.5)
                     } else {
-                        createParticlesAround(2, 4, state.position, world.dimension.type, ModParticles.FIRE, 0.5)
+                        createParticlesAround(2, 4, state.position, world.dimension(), ModParticles.FIRE, 0.5)
                     }
-                    world.setBlockState(position.up(), Blocks.FIRE.defaultState)
+                    world.setBlockAndUpdate(position.above(), Blocks.FIRE.defaultBlockState())
                 }
             }
         }

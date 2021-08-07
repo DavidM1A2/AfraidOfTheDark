@@ -1,12 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect.base
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.particle.AOTDParticleType
+import net.minecraft.util.RegistryKey
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.Vec3d
-import net.minecraft.world.dimension.DimensionType
+import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.world.World
 import net.minecraftforge.fml.network.PacketDistributor
 import kotlin.random.Random
 
@@ -26,7 +26,7 @@ abstract class AOTDSpellEffect(id: ResourceLocation) : SpellEffect(id) {
          * @param pos       The position to spawn particles at
          * @param dimension The dimension to create particles in
          */
-        fun createParticlesAt(min: Int, max: Int, pos: Vec3d, dimension: DimensionType, particleType: AOTDParticleType) {
+        fun createParticlesAt(min: Int, max: Int, pos: Vector3d, dimension: RegistryKey<World>, particleType: AOTDParticleType) {
             // Spawn particles
             val positions = List(Random.nextInt(min, max + 1)) { pos }
 
@@ -36,13 +36,13 @@ abstract class AOTDSpellEffect(id: ResourceLocation) : SpellEffect(id) {
                     ParticlePacket(
                         particleType,
                         positions,
-                        List(positions.size) { Vec3d.ZERO }),
+                        List(positions.size) { Vector3d.ZERO }),
                     PacketDistributor.TargetPoint(pos.x, pos.y, pos.z, 100.0, dimension)
                 )
             }
         }
 
-        fun createParticlesAround(min: Int, max: Int, pos: Vec3d, dimension: DimensionType, particleType: AOTDParticleType, maxDistance: Double) {
+        fun createParticlesAround(min: Int, max: Int, pos: Vector3d, dimension: RegistryKey<World>, particleType: AOTDParticleType, maxDistance: Double) {
             // Spawn particles
             val positions = List(Random.nextInt(min, max + 1)) {
                 pos.add(
@@ -58,7 +58,7 @@ abstract class AOTDSpellEffect(id: ResourceLocation) : SpellEffect(id) {
                     ParticlePacket(
                         particleType,
                         positions,
-                        List(positions.size) { Vec3d.ZERO }),
+                        List(positions.size) { Vector3d.ZERO }),
                     PacketDistributor.TargetPoint(pos.x, pos.y, pos.z, 100.0, dimension)
                 )
             }

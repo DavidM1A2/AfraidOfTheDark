@@ -39,7 +39,7 @@ class HealSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "heal
         val entity = state.getEntity()
         if (entity is LivingEntity && entity !is ArmorStandEntity) {
             val healAmount = getHealAmount(instance)
-            createParticlesAround(healAmount, 2 * healAmount, state.position, entity.dimension, ModParticles.HEAL, 1.0)
+            createParticlesAround(healAmount, 2 * healAmount, state.position, entity.level.dimension(), ModParticles.HEAL, 1.0)
             entity.heal(healAmount.toFloat())
         }
     }

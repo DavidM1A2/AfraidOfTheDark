@@ -10,7 +10,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpel
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.fml.network.PacketDistributor
 import java.util.*
 
@@ -41,7 +41,7 @@ class SmokeScreenSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         val position = state.position
-        val positions: MutableList<Vec3d> = ArrayList()
+        val positions: MutableList<Vector3d> = ArrayList()
 
         // Create smokeDensity random smoke particles
         for (i in 0 until getSmokeDensity(instance)) {
@@ -52,9 +52,9 @@ class SmokeScreenSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
             ParticlePacket(
                 ModParticles.SMOKE_SCREEN,
                 positions,
-                Collections.nCopies(positions.size, Vec3d.ZERO)
+                Collections.nCopies(positions.size, Vector3d.ZERO)
             ),
-            PacketDistributor.TargetPoint(position.x, position.y, position.z, 100.0, state.world.dimension.type)
+            PacketDistributor.TargetPoint(position.x, position.y, position.z, 100.0, state.world.dimension())
         )
     }
 

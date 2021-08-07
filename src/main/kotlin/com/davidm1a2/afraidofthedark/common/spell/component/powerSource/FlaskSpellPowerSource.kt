@@ -8,8 +8,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOT
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ResourceLocation
-import kotlin.math.ceil
-import kotlin.math.max
 
 /**
  * Class representing the flask of souls source
@@ -24,7 +22,7 @@ class FlaskSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MO
      */
     override fun canCast(entity: Entity, spell: Spell): Boolean {
         if (entity is PlayerEntity) {
-            val inventory = entity.inventory.mainInventory + entity.inventory.offHandInventory
+            val inventory = entity.inventory.items + entity.inventory.offhand
             var remainingCost = spell.getCost()
             for (stack in inventory) {
                 if (stack.item == ModItems.FLASK_OF_SOULS) {
@@ -51,7 +49,7 @@ class FlaskSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MO
      */
     override fun consumePowerToCast(entity: Entity, spell: Spell) {
         if (entity is PlayerEntity) {
-            val inventory = entity.inventory.mainInventory + entity.inventory.offHandInventory
+            val inventory = entity.inventory.items + entity.inventory.offhand
             var remainingCost = spell.getCost()
             for (stack in inventory) {
                 if (stack.item == ModItems.FLASK_OF_SOULS) {

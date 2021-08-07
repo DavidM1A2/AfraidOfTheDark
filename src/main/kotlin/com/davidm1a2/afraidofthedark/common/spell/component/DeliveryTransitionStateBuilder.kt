@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import net.minecraft.entity.Entity
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 
 /**
@@ -23,9 +23,9 @@ class DeliveryTransitionStateBuilder {
     private lateinit var spell: Spell
     private var stageIndex = 0
     private lateinit var world: World
-    private lateinit var position: Vec3d
+    private lateinit var position: Vector3d
     private lateinit var blockPosition: BlockPos
-    private lateinit var direction: Vec3d
+    private lateinit var direction: Vector3d
     private var casterEntity: Entity? = null
     private var entity: Entity? = null
     private var deliveryEntity: Entity? = null
@@ -69,7 +69,7 @@ class DeliveryTransitionStateBuilder {
      * @param position The position the transition is happening at
      * @return The builder
      */
-    fun withPosition(position: Vec3d): DeliveryTransitionStateBuilder {
+    fun withPosition(position: Vector3d): DeliveryTransitionStateBuilder {
         this.position = position
         return this
     }
@@ -91,7 +91,7 @@ class DeliveryTransitionStateBuilder {
      * @param direction The direction the transition is happening towards
      * @return The builder
      */
-    fun withDirection(direction: Vec3d): DeliveryTransitionStateBuilder {
+    fun withDirection(direction: Vector3d): DeliveryTransitionStateBuilder {
         this.direction = direction
         return this
     }
@@ -126,10 +126,10 @@ class DeliveryTransitionStateBuilder {
      */
     fun withEntity(entity: Entity): DeliveryTransitionStateBuilder {
         this.entity = entity
-        world = entity.entityWorld
+        world = entity.level
         position = entity.getEyePosition(1.0f)
         blockPosition = BlockPos(position)
-        direction = entity.lookVec
+        direction = entity.lookAngle
         return this
     }
 

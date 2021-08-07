@@ -49,9 +49,9 @@ class FeedSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "feed
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         val entity = state.getEntity()
         if (entity is PlayerEntity) {
-            createParticlesAt(1, 2, state.position, entity.dimension, ModParticles.GROW)
-            val foodStats = entity.foodStats
-            foodStats.addStats(getHungerValue(instance), getSaturationValue(instance).toFloat())
+            createParticlesAt(1, 2, state.position, entity.level.dimension(), ModParticles.GROW)
+            val foodStats = entity.foodData
+            foodStats.eat(getHungerValue(instance), getSaturationValue(instance).toFloat())
         }
     }
 

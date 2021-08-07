@@ -40,11 +40,11 @@ class ExplosionSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, 
         val world = state.world
         val position = state.position
         if (reducedParticles) {
-            createParticlesAt(0, 2, position, world.dimension.type, ModParticles.EXPLOSION)
+            createParticlesAt(0, 2, position, world.dimension(), ModParticles.EXPLOSION)
         } else {
-            createParticlesAt(5, 10, position, world.dimension.type, ModParticles.EXPLOSION)
+            createParticlesAt(5, 10, position, world.dimension(), ModParticles.EXPLOSION)
         }
-        world.createExplosion(null, position.x, position.y - 0.01f, position.z, getRadius(instance), Explosion.Mode.BREAK)
+        world.explode(null, position.x, position.y - 0.01f, position.z, getRadius(instance), Explosion.Mode.BREAK)
     }
 
     /**

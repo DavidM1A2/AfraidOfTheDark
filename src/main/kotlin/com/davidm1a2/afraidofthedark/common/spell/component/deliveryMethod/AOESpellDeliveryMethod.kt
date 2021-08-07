@@ -13,7 +13,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import kotlin.math.floor
 
 /**
@@ -69,9 +69,9 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
         if (getTargetType(state.getCurrentStage().deliveryInstance!!) == TargetType.ENTITY) {
             // A list of nearby entities
             val entitiesWithinAABB =
-                state.world.getEntitiesWithinAABB(
+                state.world.getEntitiesOfClass(
                     Entity::class.java,
-                    AxisAlignedBB(BlockPos(state.position)).grow(radius)
+                    AxisAlignedBB(BlockPos(state.position)).inflate(radius)
                 )
 
             // Go over each nearby entity
@@ -104,17 +104,17 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
                 for (y in -blockRadius..blockRadius) {
                     for (z in -blockRadius..blockRadius) {
                         // Grab the blockpos
-                        val aoePos = basePos.add(x, y, z)
+                        val aoePos = basePos.offset(x, y, z)
                         // Test to see if the block is within the radius
-                        if (aoePos.distanceSq(basePos) < radius * radius) {
+                        if (aoePos.distSqr(basePos) < radius * radius) {
                             // Apply the effect at the position
                             effect.component.procEffect(
                                 transitionBuilder
-                                    .withPosition(Vec3d(aoePos.x.toDouble(), aoePos.y.toDouble(), aoePos.z.toDouble()))
+                                    .withPosition(Vector3d(aoePos.x.toDouble(), aoePos.y.toDouble(), aoePos.z.toDouble()))
                                     .withBlockPosition(aoePos)
                                     // Random direction, AOE has no direction
                                     .withDirection(
-                                        Vec3d(
+                                        Vector3d(
                                             Math.random() - 0.5,
                                             Math.random() - 0.5,
                                             Math.random() - 0.5
@@ -142,9 +142,9 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
         if (getTargetType(state.getCurrentStage().deliveryInstance!!) == TargetType.ENTITY) {
             // A list of nearby entities
             val entitiesWithinAABB =
-                state.world.getEntitiesWithinAABB(
+                state.world.getEntitiesOfClass(
                     Entity::class.java,
-                    AxisAlignedBB(BlockPos(state.position)).grow(getRadius(state.getCurrentStage().deliveryInstance!!))
+                    AxisAlignedBB(BlockPos(state.position)).inflate(getRadius(state.getCurrentStage().deliveryInstance!!))
                 )
 
             // Go over each nearby entity
@@ -170,14 +170,13 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
             // Send out deliveries in all 6 possible directions around the hit point
             // Randomize which order the directions get applied in
             val cardinalDirections = mutableListOf(
-                Vec3d(1.0, 0.0, 0.0),
-                Vec3d(0.0, 1.0, 0.0),
-                Vec3d(0.0, 0.0, 1.0),
-                Vec3d(-1.0, 0.0, 0.0),
-                Vec3d(0.0, -1.0, 0.0),
-                Vec3d(0.0, 0.0, -1.0)
-            ).apply { shuffle() }
-                .toList()
+                Vector3d(1.0, 0.0, 0.0),
+                Vector3d(0.0, 1.0, 0.0),
+                Vector3d(0.0, 0.0, 1.0),
+                Vector3d(-1.0, 0.0, 0.0),
+                Vector3d(0.0, -1.0, 0.0),
+                Vector3d(0.0, 0.0, -1.0)
+            ).apply { shuffle() }.toList()
 
             cardinalDirections.forEach {
                 // Perform the transition between the next delivery method and the current delivery method

@@ -11,7 +11,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEff
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 
 /**
  * The cleanse spell effect clears your spell effects
@@ -26,11 +26,11 @@ class CleanseSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "c
         val entity = state.getEntity()
         if (entity != null) {
             // Extinguish the entity
-            entity.extinguish()
+            entity.clearFire()
 
             // Clear potion effects
             if (entity is LivingEntity) {
-                entity.clearActivePotions()
+                entity.activeEffectsMap.clear()
             }
 
             // Unfreeze and uncharm the player
@@ -45,9 +45,9 @@ class CleanseSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "c
             }
 
             if (reducedParticles) {
-                createParticlesAt(0, 1, Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension, ModParticles.HEAL)
+                createParticlesAt(0, 1, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), ModParticles.HEAL)
             } else {
-                createParticlesAt(2, 4, Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension, ModParticles.HEAL)
+                createParticlesAt(2, 4, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), ModParticles.HEAL)
             }
         }
     }

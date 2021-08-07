@@ -5,12 +5,12 @@ import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import net.minecraft.entity.Entity
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.NBTUtil
+import net.minecraft.util.RegistryKey
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
-import net.minecraft.world.dimension.DimensionType
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.fml.server.ServerLifecycleHooks
 import java.util.*
@@ -58,9 +58,9 @@ class DeliveryTransitionState {
         spell: Spell,
         stageIndex: Int,
         world: World,
-        position: Vec3d,
+        position: Vector3d,
         blockPos: BlockPos,
-        direction: Vec3d,
+        direction: Vector3d,
         casterEntity: Entity?,
         entity: Entity?,
         deliveryEntity: Entity?
@@ -72,9 +72,9 @@ class DeliveryTransitionState {
         this.position = position
         blockPosition = blockPos
         this.direction = direction
-        casterEntityId = casterEntity?.uniqueID
-        entityId = entity?.uniqueID
-        deliveryEntityId = deliveryEntity?.uniqueID
+        casterEntityId = casterEntity?.uuid
+        entityId = entity?.uuid
+        deliveryEntityId = deliveryEntity?.uuid
     }
 
     /**
@@ -87,31 +87,31 @@ class DeliveryTransitionState {
         stageIndex = nbt.getInt(NBT_STAGE_INDEX)
         lazyWorld = lazy {
             // This call will fail during deserialization, but is valid before first use, so lazily initialize it
-            ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.byName(ResourceLocation(nbt.getString(NBT_WORLD)))!!)
+            ServerLifecycleHooks.getCurrentServer().getLevel(RegistryKey.create(Registry.DIMENSION_REGISTRY, ResourceLocation(nbt.getString(NBT_WORLD))))!!
         }
-        position = Vec3d(
+        position = Vector3d(
             nbt.getDouble(NBT_POSITION + "_x"),
             nbt.getDouble(NBT_POSITION + "_y"),
             nbt.getDouble(NBT_POSITION + "_z")
         )
         blockPosition = NBTUtil.readBlockPos(nbt.getCompound(NBT_BLOCK_POSITION))
-        direction = Vec3d(
+        direction = Vector3d(
             nbt.getDouble(NBT_DIRECTION + "_x"),
             nbt.getDouble(NBT_DIRECTION + "_y"),
             nbt.getDouble(NBT_DIRECTION + "_z")
         )
         casterEntityId = if (nbt.contains(NBT_CASTER_ENTITY_ID)) {
-            NBTUtil.readUniqueId(nbt.getCompound(NBT_CASTER_ENTITY_ID))
+            NBTUtil.loadUUID(nbt.get(NBT_CASTER_ENTITY_ID)!!)
         } else {
             null
         }
         entityId = if (nbt.contains(NBT_ENTITY_ID)) {
-            NBTUtil.readUniqueId(nbt.getCompound(NBT_ENTITY_ID))
+            NBTUtil.loadUUID(nbt.get(NBT_ENTITY_ID)!!)
         } else {
             null
         }
         deliveryEntityId = if (nbt.contains(NBT_DELIVERY_ENTITY_ID)) {
-            NBTUtil.readUniqueId(nbt.getCompound(NBT_DELIVERY_ENTITY_ID))
+            NBTUtil.loadUUID(nbt.get(NBT_DELIVERY_ENTITY_ID)!!)
         } else {
             null
         }
@@ -124,7 +124,7 @@ class DeliveryTransitionState {
         val nbt = CompoundNBT()
         nbt.put(NBT_SPELL, spell.serializeNBT())
         nbt.putInt(NBT_STAGE_INDEX, stageIndex)
-        nbt.putString(NBT_WORLD, DimensionType.getKey(world.dimension.type).toString())
+        nbt.putString(NBT_WORLD, world.dimension().registryName.toString())
         nbt.putDouble(NBT_POSITION + "_x", position.x)
         nbt.putDouble(NBT_POSITION + "_y", position.y)
         nbt.putDouble(NBT_POSITION + "_z", position.z)
@@ -133,13 +133,13 @@ class DeliveryTransitionState {
         nbt.putDouble(NBT_DIRECTION + "_y", direction.y)
         nbt.putDouble(NBT_DIRECTION + "_z", direction.z)
         if (casterEntityId != null) {
-            nbt.put(NBT_CASTER_ENTITY_ID, NBTUtil.writeUniqueId(casterEntityId))
+            nbt.put(NBT_CASTER_ENTITY_ID, NBTUtil.createUUID(casterEntityId))
         }
         if (entityId != null) {
-            nbt.put(NBT_ENTITY_ID, NBTUtil.writeUniqueId(entityId))
+            nbt.put(NBT_ENTITY_ID, NBTUtil.createUUID(entityId))
         }
         if (deliveryEntityId != null) {
-            nbt.put(NBT_DELIVERY_ENTITY_ID, NBTUtil.writeUniqueId(deliveryEntityId))
+            nbt.put(NBT_DELIVERY_ENTITY_ID, NBTUtil.createUUID(deliveryEntityId))
         }
         return nbt
     }
@@ -159,7 +159,7 @@ class DeliveryTransitionState {
      */
     fun getCasterEntity(): Entity? {
         // If the entity is non null we get the entity in the world, otherwise we return null
-        return this.casterEntityId?.let { world.getEntityByUuid(this.casterEntityId) }
+        return this.casterEntityId?.let { world.getEntity(this.casterEntityId) }
     }
 
     /**
@@ -167,7 +167,7 @@ class DeliveryTransitionState {
      */
     fun getEntity(): Entity? {
         // If the entity is non null we get the entity in the world, otherwise we return null
-        return this.entityId?.let { world.getEntityByUuid(it) }
+        return this.entityId?.let { world.getEntity(it) }
     }
 
     /**
@@ -175,7 +175,7 @@ class DeliveryTransitionState {
      */
     fun getDeliveryEntity(): Entity? {
         // If the entity is non null we get the entity in the world, otherwise we return null
-        return deliveryEntityId?.let { world.getEntityByUuid(it) }
+        return deliveryEntityId?.let { world.getEntity(it) }
     }
 
     companion object {

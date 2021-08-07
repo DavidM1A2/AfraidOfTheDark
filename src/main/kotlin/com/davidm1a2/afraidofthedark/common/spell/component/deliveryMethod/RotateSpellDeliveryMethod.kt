@@ -9,7 +9,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import com.davidm1a2.afraidofthedark.common.utility.Matrix3d
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -45,8 +45,8 @@ class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Const
         val pitch = Math.toRadians(getPitch(instance))
 
         val forwardBackwardDir = state.direction
-        val leftRightDir = forwardBackwardDir.crossProduct(Vec3d(0.0, 1.0, 0.0)).normalize()
-        val upDownDir = forwardBackwardDir.crossProduct(leftRightDir).normalize()
+        val leftRightDir = forwardBackwardDir.cross(Vector3d(0.0, 1.0, 0.0)).normalize()
+        val upDownDir = forwardBackwardDir.cross(leftRightDir).normalize()
         val finalDir = forwardBackwardDir.rotateAround(upDownDir, yaw).rotateAround(leftRightDir, pitch)
 
         val newState = DeliveryTransitionStateBuilder()
@@ -83,7 +83,7 @@ class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Const
         // The NBT keys
         private const val NBT_YAW = "yaw"
         private const val NBT_PITCH = "pitch"
-        private fun Vec3d.rotateAround(axis: Vec3d, radians: Double): Vec3d {
+        private fun Vector3d.rotateAround(axis: Vector3d, radians: Double): Vector3d {
             // Use the Rodrigues formula to construct a rotation matrix around "axis" "radians" amount
             // https://math.stackexchange.com/questions/2741515/rotation-around-a-vector
             val basisMatrix = Matrix3d(

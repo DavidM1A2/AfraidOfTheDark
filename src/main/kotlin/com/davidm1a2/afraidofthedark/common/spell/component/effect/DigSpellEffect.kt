@@ -1,19 +1,14 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
-import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-import net.minecraft.world.dimension.DimensionType
-import net.minecraftforge.fml.network.PacketDistributor
 import kotlin.random.Random
 
 /**
@@ -33,9 +28,9 @@ class DigSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "dig")
         val max = if (reducedParticles) 1 else 10
         if (entity != null) {
             // Digs the block under the entity
-            val blockPos = entity.position.down()
+            val blockPos = entity.blockPosition().below()
             if (canBlockBeDestroyed(world, blockPos)) {
-                createParticlesAt(min, max, entity.positionVector, entity.dimension, ModParticles.DIG)
+                createParticlesAt(min, max, entity.position(), entity.level.dimension(), ModParticles.DIG)
                 world.destroyBlock(blockPos, true)
             }
         } else {
@@ -43,9 +38,9 @@ class DigSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "dig")
             val position = state.blockPosition
             if (canBlockBeDestroyed(world, position)) {
                 if (!reducedParticles) {
-                    createParticlesAt(min, max, state.position, world.dimension.type, ModParticles.DIG)
+                    createParticlesAt(min, max, state.position, world.dimension(), ModParticles.DIG)
                 } else if (Random.nextDouble() > 0.6) {
-                    createParticlesAt(min, max, state.position, world.dimension.type, ModParticles.DIG)
+                    createParticlesAt(min, max, state.position, world.dimension(), ModParticles.DIG)
                 }
                 world.destroyBlock(position, true)
             }
@@ -61,8 +56,7 @@ class DigSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "dig")
      */
     private fun canBlockBeDestroyed(world: World, blockPos: BlockPos): Boolean {
         val blockState = world.getBlockState(blockPos)
-        @Suppress("DEPRECATION")
-        return blockState.block.getBlockHardness(blockState, world, blockPos) != -1f
+        return blockState.getDestroySpeed(world, blockPos) != -1f
     }
 
     /**

@@ -14,7 +14,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 
 /**
@@ -55,19 +55,19 @@ class FreezeSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "fr
                 if (entity is PlayerEntity) {
                     val freezeData = entity.getSpellFreezeData()
                     freezeData.freezeTicks = getFreezeDuration(instance)
-                    freezeData.freezePosition = Vec3d(entity.posX, entity.posY, entity.posZ)
-                    freezeData.freezeYaw = entity.rotationYaw
-                    freezeData.freezePitch = entity.rotationPitch
+                    freezeData.freezePosition = Vector3d(entity.x, entity.y, entity.z)
+                    freezeData.freezeYaw = entity.yRot
+                    freezeData.freezePitch = entity.xRot
                 } else {
-                    entity.addPotionEffect(EffectInstance(Effects.SLOWNESS, getFreezeDuration(instance), 99))
+                    entity.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, getFreezeDuration(instance), 99))
                 }
-                createParticlesAround(5, 10, entity.positionVector, entity.dimension, ModParticles.FREEZE, 1.0)
+                createParticlesAround(5, 10, entity.position(), entity.level.dimension(), ModParticles.FREEZE, 1.0)
             }
         } else {
             val hitBlock = world.getBlockState(blockPos)
             if (hitBlock.block == Blocks.WATER) {
-                world.setBlockState(blockPos, Blocks.ICE.defaultState)
-                createParticlesAround(5, 10, state.position, world.dimension.type, ModParticles.FREEZE, 1.0)
+                world.setBlockAndUpdate(blockPos, Blocks.ICE.defaultBlockState())
+                createParticlesAround(5, 10, state.position, world.dimension(), ModParticles.FREEZE, 1.0)
             }
         }
     }

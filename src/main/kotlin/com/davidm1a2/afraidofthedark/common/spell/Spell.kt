@@ -16,7 +16,7 @@ import net.minecraft.nbt.ListNBT
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.particles.IParticleData
 import net.minecraft.util.SoundCategory
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraftforge.common.util.Constants
 import net.minecraftforge.common.util.INBTSerializable
@@ -65,11 +65,11 @@ class Spell : INBTSerializable<CompoundNBT> {
      * @param entity The entity casting the spell
      * @param direction The direction the spell should be casted, defaults to the look vec
      */
-    fun attemptToCast(entity: Entity, direction: Vec3d = entity.lookVec) {
+    fun attemptToCast(entity: Entity, direction: Vector3d = entity.lookAngle) {
         // Server side processing only
-        if (!entity.world.isRemote) {
+        if (!entity.level.isClientSide) {
             // Make sure the player isn't in the nightmare realm
-            if (entity.dimension != ModDimensions.NIGHTMARE_TYPE) {
+            if (entity.level.dimension() != ModDimensions.NIGHTMARE_WORLD) {
                 // If the spell is valid continue, if not print an error
                 if (isValid()) {
                     // Test if the spell can be cast, if not tell the player why
@@ -78,9 +78,9 @@ class Spell : INBTSerializable<CompoundNBT> {
                         powerSource!!.component.consumePowerToCast(entity, this)
 
                         // Play a cast sound
-                        entity.world.playSound(
+                        entity.level.playSound(
                             null,
-                            entity.position,
+                            entity.blockPosition(),
                             ModSounds.SPELL_CAST,
                             SoundCategory.PLAYERS,
                             1.0f,
@@ -88,27 +88,27 @@ class Spell : INBTSerializable<CompoundNBT> {
                         )
                         // Determine the particles from the strength of the spell
                         val spellPower = this.getCost()
-                        var spellParticle : IParticleData = ModParticles.SPELL_CAST
+                        var spellParticle: IParticleData = ModParticles.SPELL_CAST
                         if (spellPower > SPELL_TIER2_CUTOFF) spellParticle = ModParticles.SPELL_CAST2
                         if (spellPower > SPELL_TIER3_CUTOFF) spellParticle = ModParticles.SPELL_CAST3
                         // Spawn 3-5 particles
-                        val positions: MutableList<Vec3d> = ArrayList()
+                        val positions: MutableList<Vector3d> = ArrayList()
                         for (i in 0 until Random.nextInt(2, 6)) {
-                            positions.add(Vec3d(entity.posX, entity.posY, entity.posZ))
+                            positions.add(Vector3d(entity.x, entity.y, entity.z))
                         }
                         // Send the particle packet
                         AfraidOfTheDark.packetHandler.sendToAllAround(
                             ParticlePacket(
                                 spellParticle,
                                 positions,
-                                List<Vec3d>(positions.size) { Vec3d.ZERO }
+                                List<Vector3d>(positions.size) { Vector3d.ZERO }
                             ),
                             PacketDistributor.TargetPoint(
-                                entity.posX,
-                                entity.posY,
-                                entity.posZ,
+                                entity.x,
+                                entity.y,
+                                entity.z,
                                 100.0,
-                                entity.dimension
+                                entity.level.dimension()
                             )
                         )
 
@@ -126,19 +126,19 @@ class Spell : INBTSerializable<CompoundNBT> {
                                     .build()
                             )
                     } else {
-                        entity.sendMessage(TranslationTextComponent(powerSource!!.component.getUnlocalizedOutOfPowerMsg()))
+                        entity.sendMessage(TranslationTextComponent(powerSource!!.component.getUnlocalizedOutOfPowerMsg()), entity.uuid)
                         if (entity !is PlayerEntity) {
                             logger.info("Entity '${entity.name}' attempted to cast a spell without enough power?")
                         }
                     }
                 } else {
-                    entity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.invalid"))
+                    entity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.invalid"), entity.uuid)
                     if (entity !is PlayerEntity) {
                         logger.info("Entity '${entity.name}' attempted to cast an invalid spell?")
                     }
                 }
             } else {
-                entity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.wrong_dimension"))
+                entity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.wrong_dimension"), entity.uuid)
                 if (entity !is PlayerEntity) {
                     logger.info("Entity '${entity.name}' attempted to cast a spell in the nightmare?")
                 }
@@ -216,7 +216,7 @@ class Spell : INBTSerializable<CompoundNBT> {
 
         // Write each field to NBT
         nbt.putString(NBT_NAME, name)
-        nbt.put(NBT_ID, NBTUtil.writeUniqueId(id))
+        nbt.put(NBT_ID, NBTUtil.createUUID(id))
 
         // The spell power source can be null, double check that it isn't before writing it and its state
         powerSource?.let { nbt.put(NBT_POWER_SOURCE, it.serializeNBT()) }
@@ -236,7 +236,7 @@ class Spell : INBTSerializable<CompoundNBT> {
     override fun deserializeNBT(nbt: CompoundNBT) {
         // Read each field from NBT
         name = nbt.getString(NBT_NAME)
-        id = NBTUtil.readUniqueId(nbt.getCompound(NBT_ID))
+        id = NBTUtil.loadUUID(nbt.get(NBT_ID)!!)
 
         // The spell power source can be null, double check that it exists before reading it and its state
         if (nbt.contains(NBT_POWER_SOURCE)) {

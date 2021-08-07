@@ -51,14 +51,14 @@ class CharmSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
             spellCharmData.charmTicks = getCharmDuration(instance)
 
             // Set the charming entity
-            spellCharmData.charmingEntityId = spellOwner.uniqueID
+            spellCharmData.charmingEntityId = spellOwner.uuid
             val random = ThreadLocalRandom.current()
-            val width = entity.width.toDouble()
-            val height = entity.height.toDouble()
+            val width = entity.bbWidth.toDouble()
+            val height = entity.bbHeight.toDouble()
 
             // Spawn 4 random heart particles
             for (i in 0..3) {
-                state.world.spawnParticle(
+                state.world.sendParticles(
                     ParticleTypes.HEART,
                     // The position will be somewhere inside the player's hitbox
                     state.position.x + random.nextFloat() * width * 2.0f - width,

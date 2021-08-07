@@ -1,18 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.powerSource
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModItems
-import com.davidm1a2.afraidofthedark.common.item.FlaskOfSoulsItem
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.util.ResourceLocation
-import kotlin.math.ceil
-import kotlin.math.max
-import kotlin.math.roundToInt
 
 /**
  * Class representing the alchemy source
@@ -27,7 +21,7 @@ class AlchemySpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.
      */
     override fun canCast(entity: Entity, spell: Spell): Boolean {
         if (entity is PlayerEntity) {
-            val inventory = entity.inventory.mainInventory + entity.inventory.offHandInventory
+            val inventory = entity.inventory.items + entity.inventory.offhand
             var goldCount = 0
             for (stack in inventory) {
                 if (stack.item == Items.GOLD_INGOT) {
@@ -47,7 +41,7 @@ class AlchemySpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.
      */
     override fun consumePowerToCast(entity: Entity, spell: Spell) {
         if (entity is PlayerEntity) {
-            val inventory = entity.inventory.mainInventory + entity.inventory.offHandInventory
+            val inventory = entity.inventory.items + entity.inventory.offhand
             var costRemaining = spell.getCost()
             for (stack in inventory) {
                 if (stack.item == Items.GOLD_INGOT) {
