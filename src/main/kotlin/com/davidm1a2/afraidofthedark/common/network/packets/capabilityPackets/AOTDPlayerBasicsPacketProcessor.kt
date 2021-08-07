@@ -13,11 +13,11 @@ import net.minecraftforge.fml.network.NetworkEvent
  */
 class AOTDPlayerBasicsPacketProcessor : PacketProcessor<AOTDPlayerBasicsPacket> {
     override fun encode(msg: AOTDPlayerBasicsPacket, buf: PacketBuffer) {
-        buf.writeCompoundTag(msg.data)
+        buf.writeNbt(msg.data)
     }
 
     override fun decode(buf: PacketBuffer): AOTDPlayerBasicsPacket {
-        return AOTDPlayerBasicsPacket(buf.readCompoundTag()!!)
+        return AOTDPlayerBasicsPacket(buf.readNbt()!!)
     }
 
     override fun process(msg: AOTDPlayerBasicsPacket, ctx: NetworkEvent.Context) {

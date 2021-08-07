@@ -33,8 +33,8 @@ class PlayEnariasFightMusicPacketProcessor : EntityPacketProcessor<PlayEnariasFi
 
     override fun process(msg: PlayEnariasFightMusicPacket, ctx: NetworkEvent.Context) {
         if (ctx.direction == NetworkDirection.PLAY_TO_CLIENT) {
-            val soundHandler = Minecraft.getInstance().soundHandler
-            val musicIsPlaying = currentMusicInstance?.let { soundHandler.isPlaying(it) } ?: false
+            val soundHandler = Minecraft.getInstance().soundManager
+            val musicIsPlaying = currentMusicInstance?.let { soundHandler.isActive(it) } ?: false
 
             if (musicIsPlaying) {
                 // If we shouldn't play the music ignore cancel it

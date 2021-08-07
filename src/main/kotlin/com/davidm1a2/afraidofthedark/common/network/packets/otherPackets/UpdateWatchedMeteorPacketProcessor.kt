@@ -16,7 +16,7 @@ import net.minecraftforge.fml.network.NetworkEvent
  */
 class UpdateWatchedMeteorPacketProcessor : PacketProcessor<UpdateWatchedMeteorPacket> {
     override fun encode(msg: UpdateWatchedMeteorPacket, buf: PacketBuffer) {
-        buf.writeString(msg.meteorEntry?.registryName?.toString() ?: "none")
+        buf.writeUtf(msg.meteorEntry?.registryName?.toString() ?: "none")
         buf.writeInt(msg.accuracy)
         buf.writeInt(msg.dropAngle)
         buf.writeInt(msg.latitude)
@@ -24,7 +24,7 @@ class UpdateWatchedMeteorPacketProcessor : PacketProcessor<UpdateWatchedMeteorPa
     }
 
     override fun decode(buf: PacketBuffer): UpdateWatchedMeteorPacket {
-        val meteorEntryString = buf.readString(500)
+        val meteorEntryString = buf.readUtf()
         val meteorEntry = if (meteorEntryString == "none") {
             null
         } else {
@@ -49,18 +49,19 @@ class UpdateWatchedMeteorPacketProcessor : PacketProcessor<UpdateWatchedMeteorPa
             // Randomize the meteor drop angle, latitude, and longitude
             val watchedMeteor = msg.meteorEntry
             val accuracy = msg.accuracy
-            val dropAngle = player.rng.nextInt(45) + 5
-            val latitude = player.rng.nextInt(50) + 5
-            val longitude = player.rng.nextInt(130) + 5
+            val dropAngle = player.random.nextInt(45) + 5
+            val latitude = player.random.nextInt(50) + 5
+            val longitude = player.random.nextInt(130) + 5
 
             // Tell the player about the meteor estimated values
             player.sendMessage(
                 TranslationTextComponent(
                     "message.afraidofthedark.falling_meteor.info.header", TranslationTextComponent(watchedMeteor!!.getUnlocalizedName())
-                )
+                ),
+                player.uuid
             )
-            player.sendMessage(TranslationTextComponent("message.afraidofthedark.falling_meteor.info.data", dropAngle, latitude, longitude))
-            player.sendMessage(TranslationTextComponent("message.afraidofthedark.falling_meteor.info.help"))
+            player.sendMessage(TranslationTextComponent("message.afraidofthedark.falling_meteor.info.data", dropAngle, latitude, longitude), player.uuid)
+            player.sendMessage(TranslationTextComponent("message.afraidofthedark.falling_meteor.info.help"), player.uuid)
 
             // Update the player's watched meteor and send them values
             val playerBasics = player.getBasics()

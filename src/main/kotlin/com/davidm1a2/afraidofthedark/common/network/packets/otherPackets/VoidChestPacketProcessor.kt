@@ -35,10 +35,10 @@ class VoidChestPacketProcessor : EntityPacketProcessor<VoidChestPacket>() {
         if (ctx.direction == NetworkDirection.PLAY_TO_CLIENT) {
             val player = Minecraft.getInstance().player!!
             // The player that opened the chest
-            val chestOpener = player.world.getPlayerByUuid(msg.entityUUID)
+            val chestOpener = player.level.getPlayerByUUID(msg.entityUUID)
             if (chestOpener != null) {
                 // Grab the void chest tile entity
-                val chestTileEntity = player.world.getTileEntity(BlockPos(msg.chestX, msg.chestY, msg.chestZ))
+                val chestTileEntity = player.level.getBlockEntity(BlockPos(msg.chestX, msg.chestY, msg.chestZ))
                 if (chestTileEntity != null) {
                     // Ensure the tile entity is valid
                     if (chestTileEntity is VoidChestTileEntity) {

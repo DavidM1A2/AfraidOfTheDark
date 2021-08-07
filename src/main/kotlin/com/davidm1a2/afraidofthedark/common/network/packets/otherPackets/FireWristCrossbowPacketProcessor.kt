@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.network.packets.packetHandler.PacketProcessor
 import net.minecraft.entity.projectile.AbstractArrowEntity
+import net.minecraft.inventory.ItemStackHelper
 import net.minecraft.network.PacketBuffer
 import net.minecraft.util.SoundCategory
 import net.minecraftforge.fml.network.NetworkDirection
@@ -25,30 +26,30 @@ class FireWristCrossbowPacketProcessor : PacketProcessor<FireWristCrossbowPacket
         if (ctx.direction == NetworkDirection.PLAY_TO_SERVER) {
             val player = ctx.sender!!
             // Only fire a bolt if the player is in creative or has the right bolt item
-            if (player.isCreative || player.inventory.clearMatchingItems({ it.item == msg.selectedBolt.boltItem }, 1) == 1) {
-                val world = player.world
+            if (player.isCreative || ItemStackHelper.clearOrCountMatchingItems(player.inventory, { it.item == msg.selectedBolt.boltItem }, 1, false) == 1) {
+                val world = player.level
 
                 // Play a fire sound effect
                 world.playSound(
                     null,
-                    player.position,
+                    player.blockPosition(),
                     ModSounds.CROSSBOW_FIRE,
                     SoundCategory.PLAYERS,
                     0.5f,
-                    world.rand.nextFloat() * 0.4f + 0.8f
+                    world.random.nextFloat() * 0.4f + 0.8f
                 )
 
                 // Instantiate bolt!
                 val bolt = msg.selectedBolt.boltEntityFactory(world, player)
-                bolt.pickupStatus = if (player.isCreative) {
+                bolt.pickup = if (player.isCreative) {
                     AbstractArrowEntity.PickupStatus.DISALLOWED
                 } else {
                     AbstractArrowEntity.PickupStatus.ALLOWED
                 }
 
                 // Aim and fire the bolt
-                bolt.shoot(player, player.rotationPitch, player.rotationYaw, 0f, 5f, 0f)
-                world.addEntity(bolt)
+                bolt.shootFromRotation(player, player.xRot, player.yRot, 0f, 5f, 0f)
+                world.addFreshEntity(bolt)
             }
         }
     }

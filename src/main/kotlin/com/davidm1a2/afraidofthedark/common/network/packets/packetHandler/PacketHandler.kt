@@ -3,8 +3,9 @@ package com.davidm1a2.afraidofthedark.common.network.packets.packetHandler
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.util.RegistryKey
 import net.minecraft.util.ResourceLocation
-import net.minecraft.world.dimension.DimensionType
+import net.minecraft.world.World
 import net.minecraftforge.fml.network.NetworkRegistry
 import net.minecraftforge.fml.network.PacketDistributor
 
@@ -90,7 +91,7 @@ class PacketHandler {
      * @param z         the z coordinate.
      * @param range     the radius.
      */
-    fun <C> sendToAllAround(packet: C, dimension: DimensionType, x: Double, y: Double, z: Double, range: Double) {
+    fun <C> sendToAllAround(packet: C, dimension: RegistryKey<World>, x: Double, y: Double, z: Double, range: Double) {
         this.sendToAllAround(packet, PacketDistributor.TargetPoint(x, y, z, range, dimension))
     }
 
@@ -102,7 +103,7 @@ class PacketHandler {
      * @param range   the radius.
      */
     fun <C> sendToAllAround(packet: C, entity: Entity, range: Double) {
-        this.sendToAllAround(packet, PacketDistributor.TargetPoint(entity.posX, entity.posY, entity.posZ, range, entity.world.dimension.type))
+        this.sendToAllAround(packet, PacketDistributor.TargetPoint(entity.x, entity.y, entity.z, range, entity.level.dimension()))
     }
 
     /**
@@ -111,7 +112,7 @@ class PacketHandler {
      * @param packet     the packet to send.
      * @param dimensionType the dimension to send the packet to.
      */
-    fun <C> sendToDimension(packet: C, dimensionType: DimensionType) {
+    fun <C> sendToDimension(packet: C, dimensionType: RegistryKey<World>) {
         sendRaw(packet, PacketDistributor.DIMENSION.with { dimensionType })
     }
 

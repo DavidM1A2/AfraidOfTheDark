@@ -19,19 +19,19 @@ class SpellPacketProcessor : PacketProcessor<SpellPacket> {
 
         // Then write the keybind out
         if (hasKeybind) {
-            buf.writeString(msg.keybind!!)
+            buf.writeUtf(msg.keybind!!)
         }
 
         // Finally write the spell NBT
-        buf.writeCompoundTag(msg.spell.serializeNBT())
+        buf.writeNbt(msg.spell.serializeNBT())
     }
 
     override fun decode(buf: PacketBuffer): SpellPacket {
         // First test if we have a keybind
         val hasKeybind = buf.readBoolean()
-        val keybind = if (hasKeybind) buf.readString(500) else null
+        val keybind = if (hasKeybind) buf.readUtf() else null
 
-        return SpellPacket(Spell(buf.readCompoundTag()!!), keybind)
+        return SpellPacket(Spell(buf.readNbt()!!), keybind)
     }
 
     override fun process(msg: SpellPacket, ctx: NetworkEvent.Context) {

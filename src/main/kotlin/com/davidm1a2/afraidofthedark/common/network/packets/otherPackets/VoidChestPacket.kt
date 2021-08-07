@@ -12,8 +12,8 @@ class VoidChestPacket(
     internal val chestZ: Int
 ) : EntityPacket(entityUUID, entityID) {
     constructor(entity: Entity, chestX: Int, chestY: Int, chestZ: Int) : this(
-        entity.uniqueID,
-        entity.entityId,
+        entity.uuid,
+        entity.id,
         chestX,
         chestY,
         chestZ

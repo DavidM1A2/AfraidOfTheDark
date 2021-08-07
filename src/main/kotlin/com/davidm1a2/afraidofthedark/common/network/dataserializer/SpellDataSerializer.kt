@@ -6,14 +6,14 @@ import net.minecraft.network.datasync.IDataSerializer
 
 class SpellDataSerializer : IDataSerializer<Spell> {
     override fun write(buffer: PacketBuffer, spell: Spell) {
-        buffer.writeCompoundTag(spell.serializeNBT())
+        buffer.writeNbt(spell.serializeNBT())
     }
 
     override fun read(buffer: PacketBuffer): Spell {
-        return Spell(buffer.readCompoundTag()!!)
+        return Spell(buffer.readNbt()!!)
     }
 
-    override fun copyValue(spell: Spell): Spell {
+    override fun copy(spell: Spell): Spell {
         return Spell(spell.serializeNBT())
     }
 }

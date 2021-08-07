@@ -13,9 +13,9 @@ import net.minecraftforge.fml.network.NetworkEvent
 class AnimationPacketProcessor : EntityPacketProcessor<AnimationPacket>() {
     override fun encode(msg: AnimationPacket, buf: PacketBuffer) {
         writeEntityData(msg, buf)
-        buf.writeString(msg.animationName)
+        buf.writeUtf(msg.animationName)
         buf.writeInt(msg.higherPriorityAnims.size)
-        msg.higherPriorityAnims.forEach { buf.writeString(it) }
+        msg.higherPriorityAnims.forEach { buf.writeUtf(it) }
     }
 
     override fun decode(buf: PacketBuffer): AnimationPacket {
@@ -24,9 +24,9 @@ class AnimationPacketProcessor : EntityPacketProcessor<AnimationPacket>() {
         return AnimationPacket(
             uuid,
             id,
-            buf.readString(500),
+            buf.readUtf(),
             Array(buf.readInt()) {
-                buf.readString(500)
+                buf.readUtf()
             }
         )
     }
@@ -35,7 +35,7 @@ class AnimationPacketProcessor : EntityPacketProcessor<AnimationPacket>() {
         // Only process client side
         if (ctx.direction == NetworkDirection.PLAY_TO_CLIENT) {
             // Grab the entity in the world by ID that the server wanted us to update
-            val entity = Minecraft.getInstance().player!!.world.getEntityByID(msg.entityID)
+            val entity = Minecraft.getInstance().player!!.level.getEntity(msg.entityID)
 
             // Ensure the entity is non-null and a MC animated entity
             if (entity is IMCAnimatedModel) {

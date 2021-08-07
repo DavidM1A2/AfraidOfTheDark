@@ -12,6 +12,7 @@ import net.minecraft.world.World
 import net.minecraftforge.fml.network.NetworkDirection
 import net.minecraftforge.fml.network.NetworkEvent
 import org.apache.logging.log4j.LogManager
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 /**
@@ -45,13 +46,13 @@ class ProcessSextantInputPacketProcessor : PacketProcessor<ProcessSextantInputPa
 
                 if (meteorEntry != null) {
                     // The meteor can drop from 15 - 500 blocks away from the player in both directions
-                    var xLocOfDrop = player.position.x +
+                    var xLocOfDrop = player.x +
                             (if (Random.nextBoolean()) -1 else 1) * (Random.nextInt(MAX_METEOR_DISTANCE - 15) + 15)
-                    var zLocOfDrop = player.position.z +
+                    var zLocOfDrop = player.z +
                             (if (Random.nextBoolean()) -1 else 1) * (Random.nextInt(MAX_METEOR_DISTANCE - 15) + 15)
 
                     // Drop the meteor
-                    dropMeteor(player.world, meteorEntry, xLocOfDrop, zLocOfDrop)
+                    dropMeteor(player.level, meteorEntry, xLocOfDrop.roundToInt(), zLocOfDrop.roundToInt())
 
                     val accuracy = playerBasics.getWatchedMeteorAccuracy()
 
@@ -61,7 +62,7 @@ class ProcessSextantInputPacketProcessor : PacketProcessor<ProcessSextantInputPa
                     zLocOfDrop =
                         zLocOfDrop + (if (Random.nextBoolean()) -1 else 1) * Random.nextInt(accuracy + 1)
 
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.meteor.location", xLocOfDrop, zLocOfDrop))
+                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.meteor.location", xLocOfDrop, zLocOfDrop), player.uuid)
 
                     // Clear the player's watched meteors so that the same meteor can't be used twice
                     playerBasics.setWatchedMeteor(null, 0, -1, -1, -1)
@@ -73,7 +74,7 @@ class ProcessSextantInputPacketProcessor : PacketProcessor<ProcessSextantInputPa
             }
             // The values aren't correct so show an error
             else {
-                player.sendMessage(TranslationTextComponent("message.afraidofthedark.meteor.process.invalid_vals"))
+                player.sendMessage(TranslationTextComponent("message.afraidofthedark.meteor.process.invalid_vals"), player.uuid)
             }
         }
     }
@@ -123,9 +124,9 @@ class ProcessSextantInputPacketProcessor : PacketProcessor<ProcessSextantInputPa
                             if (REPLACEABLE_BLOCKS.contains(existingBlock)) {
                                 // It's an exterior block so set it to meteor
                                 if (distanceFromCenter >= (radius - 1) * (radius - 1) || Math.random() > meteorEntry.richnessPercent) {
-                                    world.setBlockState(blockPos, ModBlocks.METEOR.defaultState)
+                                    world.setBlockAndUpdate(blockPos, ModBlocks.METEOR.defaultBlockState())
                                 } else {
-                                    world.setBlockState(blockPos, meteorEntry.interiorBlock.defaultState)
+                                    world.setBlockAndUpdate(blockPos, meteorEntry.interiorBlock.defaultBlockState())
                                 }
                             }
                         }

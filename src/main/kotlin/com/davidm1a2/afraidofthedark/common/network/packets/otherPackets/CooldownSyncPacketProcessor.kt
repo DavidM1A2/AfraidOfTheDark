@@ -13,13 +13,13 @@ import net.minecraftforge.fml.network.NetworkEvent
 class CooldownSyncPacketProcessor : PacketProcessor<CooldownSyncPacket> {
     override fun encode(msg: CooldownSyncPacket, buf: PacketBuffer) {
         buf.writeLong(msg.timeServer)
-        buf.writeInt(Item.getIdFromItem(msg.itemToSync))
+        buf.writeInt(Item.getId(msg.itemToSync))
     }
 
     override fun decode(buf: PacketBuffer): CooldownSyncPacket {
         return CooldownSyncPacket(
             buf.readLong(),
-            Item.getItemById(buf.readInt()) as AOTDPerItemCooldownItem
+            Item.byId(buf.readInt()) as AOTDPerItemCooldownItem
         )
     }
 

@@ -11,11 +11,11 @@ import net.minecraftforge.fml.network.NetworkEvent
  */
 class SpellKeyPressPacketProcessor : PacketProcessor<SpellKeyPressPacket> {
     override fun encode(msg: SpellKeyPressPacket, buf: PacketBuffer) {
-        buf.writeString(msg.keyPressedName)
+        buf.writeUtf(msg.keyPressedName)
     }
 
     override fun decode(buf: PacketBuffer): SpellKeyPressPacket {
-        return SpellKeyPressPacket(buf.readString(500))
+        return SpellKeyPressPacket(buf.readUtf())
     }
 
     override fun process(msg: SpellKeyPressPacket, ctx: NetworkEvent.Context) {

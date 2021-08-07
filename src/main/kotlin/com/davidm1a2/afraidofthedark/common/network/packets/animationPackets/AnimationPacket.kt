@@ -11,8 +11,8 @@ class AnimationPacket(
     internal val higherPriorityAnims: Array<String> = emptyArray()
 ) : EntityPacket(entityUUID, entityID) {
     constructor(entity: Entity, animationName: String, vararg higherPriorityAnims: String) : this(
-        entity.uniqueID,
-        entity.entityId,
+        entity.uuid,
+        entity.id,
         animationName,
         arrayOf(*higherPriorityAnims)
     )

@@ -14,11 +14,11 @@ class AABBDataSerializer : IDataSerializer<AxisAlignedBB> {
         values.putDouble("maxX", aabb.maxX)
         values.putDouble("maxY", aabb.maxY)
         values.putDouble("maxZ", aabb.maxZ)
-        buffer.writeCompoundTag(values)
+        buffer.writeNbt(values)
     }
 
     override fun read(buffer: PacketBuffer): AxisAlignedBB {
-        val values = buffer.readCompoundTag()!!
+        val values = buffer.readNbt()!!
         val minX = values.getDouble("minX")
         val minY = values.getDouble("minY")
         val minZ = values.getDouble("minZ")
@@ -28,7 +28,7 @@ class AABBDataSerializer : IDataSerializer<AxisAlignedBB> {
         return AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ)
     }
 
-    override fun copyValue(aabb: AxisAlignedBB): AxisAlignedBB {
+    override fun copy(aabb: AxisAlignedBB): AxisAlignedBB {
         return AxisAlignedBB(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ)
     }
 }

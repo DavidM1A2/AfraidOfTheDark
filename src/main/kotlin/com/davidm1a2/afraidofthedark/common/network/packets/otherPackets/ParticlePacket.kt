@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.network.packets.otherPackets
 
 import net.minecraft.particles.IParticleData
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 
 class ParticlePacket(
     internal val particle: IParticleData,
-    internal val positions: List<Vec3d>,
-    internal val speeds: List<Vec3d>
+    internal val positions: List<Vector3d>,
+    internal val speeds: List<Vector3d>
 )

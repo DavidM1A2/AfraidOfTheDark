@@ -25,7 +25,7 @@ class ResearchPacketProcessor : PacketProcessor<ResearchPacket> {
         }
 
         // Write the compound
-        buf.writeCompoundTag(data)
+        buf.writeNbt(data)
     }
 
     override fun decode(buf: PacketBuffer): ResearchPacket {
@@ -33,11 +33,11 @@ class ResearchPacketProcessor : PacketProcessor<ResearchPacket> {
         val notifyNewResearch = buf.readBoolean()
 
         // Read the compound from the buffer
-        val data = buf.readCompoundTag()!!
+        val data = buf.readNbt()!!
 
         return ResearchPacket(
             // For each research read our compound to test if it is researched or not
-            ModRegistries.RESEARCH.map { it to data.getBoolean(it.registryName.toString()) }.toMap(),
+            ModRegistries.RESEARCH.associateWith { data.getBoolean(it.registryName.toString()) },
             notifyNewResearch
         )
     }
