@@ -49,15 +49,15 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
                         val jsonObject = JSONUtils.fromJson(DESERIALIZER, json, JsonObject::class.java)
                         if (jsonObject != null) {
                             // Parse all the fields of the JSON object using the JSONUtils class
-                            xPosition = JSONUtils.getInt(jsonObject, "x")
-                            zPosition = JSONUtils.getInt(jsonObject, "y")
-                            researchedRecipes = JSONUtils.getJsonArray(jsonObject, "recipes").map {
-                                JSONUtils.getItem(it, "")
+                            xPosition = JSONUtils.getAsInt(jsonObject, "x")
+                            zPosition = JSONUtils.getAsInt(jsonObject, "y")
+                            researchedRecipes = JSONUtils.getAsJsonArray(jsonObject, "recipes").map {
+                                JSONUtils.getAsItem(it.asJsonObject, "")
                             }
-                            preResearchedRecipes = JSONUtils.getJsonArray(jsonObject, "preRecipes").map {
-                                JSONUtils.getItem(it, "")
+                            preResearchedRecipes = JSONUtils.getAsJsonArray(jsonObject, "preRecipes").map {
+                                JSONUtils.getAsItem(it.asJsonObject, "")
                             }
-                            icon = ResourceLocation(JSONUtils.getString(jsonObject, "icon"))
+                            icon = ResourceLocation(JSONUtils.getAsString(jsonObject, "icon"))
                         }
                     }
                 }
