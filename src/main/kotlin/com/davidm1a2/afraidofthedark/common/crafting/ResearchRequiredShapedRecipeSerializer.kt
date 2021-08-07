@@ -18,36 +18,36 @@ class ResearchRequiredShapedRecipeSerializer : ForgeRegistryEntry<IRecipeSeriali
         registryName = ResourceLocation(Constants.MOD_ID, "research_required_shaped_recipe")
     }
 
-    override fun write(buffer: PacketBuffer, recipe: ResearchRequiredShapedRecipe) {
+    override fun toNetwork(buffer: PacketBuffer, recipe: ResearchRequiredShapedRecipe) {
         // Copy & Paste Start (from: SERIALIZER.write(buffer, recipe))
         buffer.writeVarInt(recipe.recipeWidth)
         buffer.writeVarInt(recipe.recipeHeight)
-        buffer.writeString(recipe.group)
+        buffer.writeUtf(recipe.group)
 
         for (ingredient in recipe.ingredients) {
-            ingredient.write(buffer)
+            ingredient.toNetwork(buffer)
         }
 
-        buffer.writeItemStack(recipe.recipeOutput)
+        buffer.writeItem(recipe.resultItem)
         // Copy & Paste End (from: SERIALIZER.write(buffer, recipe))
 
         buffer.writeResourceLocation(recipe.preRequisite.registryName!!)
     }
 
-    override fun read(recipeId: ResourceLocation, json: JsonObject): ResearchRequiredShapedRecipe {
+    override fun fromJson(recipeId: ResourceLocation, json: JsonObject): ResearchRequiredShapedRecipe {
         // This recipe is based on the shaped ore recipe, so start with parsing that
-        val baseRecipe = SERIALIZER.read(recipeId, json)
+        val baseRecipe = SERIALIZER.fromJson(recipeId, json)
 
         // Grab the pre-requisite recipe which is based on our research registry
         val preRequisite =
-            ModRegistries.RESEARCH.getValue(ResourceLocation(JSONUtils.getString(json, "required_research")))!!
+            ModRegistries.RESEARCH.getValue(ResourceLocation(JSONUtils.getAsString(json, "required_research")))!!
 
         // Return the research required shaped recipe
         return ResearchRequiredShapedRecipe(baseRecipe, preRequisite)
     }
 
-    override fun read(recipeId: ResourceLocation, buffer: PacketBuffer): ResearchRequiredShapedRecipe {
-        val baseRecipe = SERIALIZER.read(recipeId, buffer)!!
+    override fun fromNetwork(recipeId: ResourceLocation, buffer: PacketBuffer): ResearchRequiredShapedRecipe {
+        val baseRecipe = SERIALIZER.fromNetwork(recipeId, buffer)!!
 
         val preRequisite = ModRegistries.RESEARCH.getValue(buffer.readResourceLocation())!!
 

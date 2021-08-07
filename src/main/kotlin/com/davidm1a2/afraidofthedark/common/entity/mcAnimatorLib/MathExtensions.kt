@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib
 
-import net.minecraft.client.renderer.Quaternion
-import net.minecraft.client.renderer.Vector3f
+import net.minecraft.util.math.vector.Quaternion
+import net.minecraft.util.math.vector.Vector3f
 import kotlin.math.acos
 import kotlin.math.sin
 
@@ -14,16 +14,16 @@ import kotlin.math.sin
  */
 fun Quaternion.slerp(q1: Quaternion, q2: Quaternion, t: Float): Quaternion {
     // Create a local quaternion to store the interpolated quaternion
-    if (q1.x == q2.x && q1.y == q2.y && q1.z == q2.z && q1.w == q2.w) {
-        this.set(q1.x, q1.y, q1.z, q1.w)
+    if (q1.i() == q2.i() && q1.j() == q2.j() && q1.k() == q2.k() && q1.r() == q2.r()) {
+        this.set(q1.i(), q1.j(), q1.k(), q1.r())
         return this
     }
 
-    var result = q1.x * q2.x + q1.y * q2.y + q1.z * q2.z + q1.w * q2.w
+    var result = q1.i() * q2.i() + q1.j() * q2.j() + q1.k() * q2.k() + q1.r() * q2.r()
 
     if (result < 0.0f) {
         // Negate the second quaternion and the result of the dot product
-        q2.set(-q2.x, -q2.y, -q2.z, -q2.w)
+        q2.set(-q2.i(), -q2.j(), -q2.k(), -q2.r())
         result = -result
     }
 
@@ -50,10 +50,10 @@ fun Quaternion.slerp(q1: Quaternion, q2: Quaternion, t: Float): Quaternion {
     // form of linear interpolation for quaternions.
 
     set(
-        scale0 * q1.x + scale1 * q2.x,
-        scale0 * q1.y + scale1 * q2.y,
-        scale0 * q1.z + scale1 * q2.z,
-        scale0 * q1.w + scale1 * q2.w
+        scale0 * q1.i() + scale1 * q2.i(),
+        scale0 * q1.j() + scale1 * q2.j(),
+        scale0 * q1.k() + scale1 * q2.k(),
+        scale0 * q1.r() + scale1 * q2.r()
     )
 
     // Return the interpolated quaternion
@@ -61,7 +61,7 @@ fun Quaternion.slerp(q1: Quaternion, q2: Quaternion, t: Float): Quaternion {
 }
 
 fun Vector3f.interpolate(otherVec: Vector3f, percent: Float) {
-    this.x = (1 - percent) * this.x + percent * otherVec.x
-    this.y = (1 - percent) * this.y + percent * otherVec.y
-    this.z = (1 - percent) * this.z + percent * otherVec.z
+    this.setX((1 - percent) * this.x() + percent * otherVec.x())
+    this.setY((1 - percent) * this.y() + percent * otherVec.y())
+    this.setZ((1 - percent) * this.z() + percent * otherVec.z())
 }

@@ -15,8 +15,10 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Chann
 import com.davidm1a2.afraidofthedark.common.tileEntity.EnariaSpawnerTileEntity
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.MobEntity
-import net.minecraft.entity.SharedMonsterAttributes
+import net.minecraft.entity.ai.attributes.AttributeModifierMap
+import net.minecraft.entity.ai.attributes.Attributes
 import net.minecraft.entity.ai.goal.LookAtGoal
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
@@ -46,7 +48,7 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
         StringTextComponent("placeholder"),
         BossInfo.Color.PURPLE,
         BossInfo.Overlay.PROGRESS
-    ).setDarkenSky(true) as ServerBossInfo
+    ).setDarkenScreen(true) as ServerBossInfo
 
     // Fight data will only be stored server side
     private lateinit var fight: EnariaFight
@@ -58,7 +60,7 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
         // Name of the entity, will be bold and red
         this.customName = StringTextComponent("Enaria")
         bossInfo.name = this.displayName
-        experienceValue = 300
+        xpReward = 300
     }
 
     /**
@@ -67,7 +69,7 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
      * @param world The world to spawn enaria in
      */
     constructor(world: World, spawnerTilePos: BlockPos) : this(ModEntities.ENARIA, world) {
-        if (!world.isRemote) {
+        if (!world.isClientSide) {
             this.fight = EnariaFight(this, spawnerTilePos)
             this.spawnerTilePos = spawnerTilePos
         }
@@ -84,26 +86,14 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
     }
 
     /**
-     * Gives enaria her entity attributes like damage and movespeed
-     */
-    override fun registerAttributes() {
-        super.registerAttributes()
-        attributes.getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH)?.baseValue = MAX_HEALTH
-        attributes.getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE)?.baseValue = FOLLOW_RANGE
-        attributes.getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE)?.baseValue = KNOCKBACK_RESISTANCE
-        attributes.getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED)?.baseValue = MOVE_SPEED
-        attributes.registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).baseValue = ATTACK_DAMAGE
-    }
-
-    /**
      * Called every game tick for the entity
      */
     override fun baseTick() {
         super.baseTick()
         // Client side test if enaria is walking, if so play the animation
-        if (world.isRemote) {
+        if (level.isClientSide) {
             // Motion >= 0.5 = walking
-            if (motion.x > 0.05 || motion.z > 0.05 || motion.x < -0.05 || motion.z < -0.05) {
+            if (deltaMovement.x > 0.05 || deltaMovement.z > 0.05 || deltaMovement.x < -0.05 || deltaMovement.z < -0.05) {
                 // Ensure no other animation is currently active
                 if (!animHandler.isAnimationActive("spell") &&
                     !animHandler.isAnimationActive("autoattack") &&
@@ -114,21 +104,12 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
                     animHandler.playAnimation("walk")
                 }
             }
-        }
-    }
-
-    /**
-     * Called every tick the enaria entity is alive
-     */
-    override fun livingTick() {
-        super.livingTick()
-        // If we're on server side perform some checks
-        if (!world.isRemote) {
+        } else {
             // Update the boss info HP bar
             bossInfo.percent = this.health / this.maxHealth
             // Tick the fight if enaria is alive. There's an edge case where we tick the fight one too many times after she's dead leading to infinite music :P
             if (!dead) {
-                fight.tick(ticksExisted)
+                fight.tick(tickCount)
             }
         }
     }
@@ -140,9 +121,9 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
      * @param rawAmount The amount of damage inflicted
      * @return True to allow the damage, false otherwise
      */
-    override fun attackEntityFrom(source: DamageSource, rawAmount: Float): Boolean {
+    override fun hurt(source: DamageSource, rawAmount: Float): Boolean {
         // Server side processing only
-        if (!world.isRemote) {
+        if (!level.isClientSide) {
             // Compute the time between this hit and the last hit she received
             val timeBetweenHits = System.currentTimeMillis() - this.lastHit
             // Update the last hit time
@@ -153,7 +134,7 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
 
             // Kill the entity if damage received is FLOAT.MAX_VALUE
             if (amount == Float.MAX_VALUE) {
-                return super.attackEntityFrom(source, amount)
+                return super.hurt(source, amount)
             } else if (amount > MAX_DAMAGE_IN_1_HIT) {
                 amount = MAX_DAMAGE_IN_1_HIT.toFloat()
             }
@@ -161,35 +142,35 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
             // If an entity damaged the entity check if it was with silver damage
             if (source is EntityDamageSource) {
                 // Grab the source of the damage
-                val damageSource = source.getTrueSource()
+                val damageSource = source.entity
                 if (damageSource is PlayerEntity) {
                     // If a player hit enaria check if they have the right research
                     if (!damageSource.getResearch().canResearch(ModResearches.ENARIA) && !damageSource.getResearch().isResearched(ModResearches.ENARIA)) {
-                        damageSource.sendMessage(TranslationTextComponent("message.afraidofthedark.enaria.dont_understand"))
+                        damageSource.sendMessage(TranslationTextComponent("message.afraidofthedark.enaria.dont_understand"), damageSource.uuid)
                         // Can't damage enaria without research
                         return false
                     }
                 }
 
                 // If the damage source is silver damage inflict heavy damage
-                if (source.damageType.equals(ModDamageSources.SILVER_DAMAGE, ignoreCase = true)) {
+                if (source.msgId.equals(ModDamageSources.SILVER_DAMAGE, ignoreCase = true)) {
                     // If its been more than a second since the last attack do full damage, otherwise scale the damage
                     val amountModifier = min(1.0f, timeBetweenHits / 1000.0f)
 
-                    return super.attackEntityFrom(source, amount * amountModifier)
+                    return super.hurt(source, amount * amountModifier)
                 }
             }
         }
 
         // Finally if nothing succeeds do 1 damage
-        return super.attackEntityFrom(DamageSource.GENERIC, 1f)
+        return super.hurt(DamageSource.GENERIC, 1f)
     }
 
-    override fun onDeath(cause: DamageSource) {
-        super.onDeath(cause)
-        if (!world.isRemote) {
+    override fun die(cause: DamageSource) {
+        super.die(cause)
+        if (!level.isClientSide) {
             fight.end()
-            val spawnerTileEntity = world.getTileEntity(this.spawnerTilePos)
+            val spawnerTileEntity = level.getBlockEntity(this.spawnerTilePos)
             if (spawnerTileEntity is EnariaSpawnerTileEntity) {
                 spawnerTileEntity.endFight()
             }
@@ -215,8 +196,8 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
      *
      * @param player The player to show enaria's boss bar to
      */
-    override fun addTrackingPlayer(player: ServerPlayerEntity) {
-        super.addTrackingPlayer(player)
+    override fun startSeenByPlayer(player: ServerPlayerEntity) {
+        super.startSeenByPlayer(player)
         bossInfo.addPlayer(player)
     }
 
@@ -225,16 +206,12 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
      *
      * @param player The player to remove enaria's boss bar from
      */
-    override fun removeTrackingPlayer(player: ServerPlayerEntity) {
-        super.removeTrackingPlayer(player)
+    override fun stopSeenByPlayer(player: ServerPlayerEntity) {
+        super.stopSeenByPlayer(player)
         bossInfo.removePlayer(player)
     }
 
-    override fun isNonBoss(): Boolean {
-        return false
-    }
-
-    override fun isPushedByWater(): Boolean {
+    override fun isPushedByFluid(): Boolean {
         return false
     }
 
@@ -246,15 +223,19 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
         return true
     }
 
-    override fun canBePushed(): Boolean {
+    override fun isPushable(): Boolean {
         return false
     }
 
-    override fun canBeRidden(entityIn: Entity): Boolean {
+    override fun canRide(entityIn: Entity): Boolean {
         return false
     }
 
-    override fun canDespawn(distanceToClosestPlayer: Double): Boolean {
+    override fun checkDespawn() {
+        // Can't despawn
+    }
+
+    override fun removeWhenFarAway(distanceToClosestPlayer: Double): Boolean {
         return false
     }
 
@@ -265,25 +246,25 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
         return super.isInvulnerableTo(source)
     }
 
-    override fun createSpawnPacket(): IPacket<*> {
+    override fun getAddEntityPacket(): IPacket<*> {
         return NetworkHooks.getEntitySpawningPacket(this)
     }
 
-    override fun readAdditional(compound: CompoundNBT) {
-        super.readAdditional(compound)
+    override fun readAdditionalSaveData(compound: CompoundNBT) {
+        super.readAdditionalSaveData(compound)
         this.lastHit = compound.getInt("last_hit")
         this.spawnerTilePos = NBTUtil.readBlockPos(compound.getCompound("spawner_tile_pos"))
-        if (!world.isRemote) {
+        if (!level.isClientSide) {
             this.fight = EnariaFight(this, this.spawnerTilePos)
             this.fight.deserializeNBT(compound.getCompound("fight"))
         }
     }
 
-    override fun writeAdditional(compound: CompoundNBT) {
-        super.writeAdditional(compound)
+    override fun addAdditionalSaveData(compound: CompoundNBT) {
+        super.addAdditionalSaveData(compound)
         compound.putInt("last_hit", this.lastHit)
         compound.put("spawner_tile_pos", NBTUtil.writeBlockPos(this.spawnerTilePos))
-        if (!world.isRemote) {
+        if (!level.isClientSide) {
             compound.put("fight", this.fight.serializeNBT())
         }
     }
@@ -298,5 +279,17 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
 
         // The maximum amount of damage done in a single shot
         private const val MAX_DAMAGE_IN_1_HIT = 10
+
+        /**
+         * Gives enaria her entity attributes like damage and movespeed
+         */
+        fun buildAttributeModifiers(): AttributeModifierMap.MutableAttribute {
+            return LivingEntity.createLivingAttributes()
+                .add(Attributes.MAX_HEALTH, MAX_HEALTH)
+                .add(Attributes.FOLLOW_RANGE, FOLLOW_RANGE)
+                .add(Attributes.KNOCKBACK_RESISTANCE, KNOCKBACK_RESISTANCE)
+                .add(Attributes.MOVEMENT_SPEED, MOVE_SPEED)
+                .add(Attributes.ATTACK_DAMAGE, ATTACK_DAMAGE)
+        }
     }
 }

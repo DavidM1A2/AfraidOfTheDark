@@ -6,7 +6,7 @@ import com.davidm1a2.afraidofthedark.common.entity.enaria.fight.EnariaFight
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.ParticlePacket
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.common.util.INBTSerializable
 import kotlin.math.max
 import kotlin.math.min
@@ -29,7 +29,7 @@ abstract class EnariaFightEvent(
     }
 
     protected fun relativeToAbsolutePosition(relativeX: Int, relativeY: Int, relativeZ: Int): BlockPos {
-        return BlockPos(relativeX, relativeY, relativeZ).rotate(fight.rotation).add(fight.position)
+        return BlockPos(relativeX, relativeY, relativeZ).rotate(fight.rotation).offset(fight.position)
     }
 
     protected fun iterateOverRegion(cornerOne: BlockPos, cornerTwo: BlockPos, processor: (BlockPos) -> Unit) {
@@ -49,8 +49,8 @@ abstract class EnariaFightEvent(
         }
     }
 
-    protected fun getRandomVectorBetween(pointOne: BlockPos, pointTwo: BlockPos): Vec3d {
-        return Vec3d(
+    protected fun getRandomVectorBetween(pointOne: BlockPos, pointTwo: BlockPos): Vector3d {
+        return Vector3d(
             getRandomValueBetween(pointOne.x, pointTwo.x),
             getRandomValueBetween(pointOne.y, pointTwo.y),
             getRandomValueBetween(pointOne.z, pointTwo.z)
@@ -61,9 +61,9 @@ abstract class EnariaFightEvent(
         return Random.nextDouble(min(pointOne, pointTwo).toDouble(), max(pointOne, pointTwo).toDouble() + 1.0)
     }
 
-    protected fun spawnEventParticles(positions: List<Vec3d>) {
+    protected fun spawnEventParticles(positions: List<Vector3d>) {
         AfraidOfTheDark.packetHandler.sendToAllAround(
-            ParticlePacket(ModParticles.SPELL_CAST3, positions, List(positions.size) { Vec3d.ZERO }),
+            ParticlePacket(ModParticles.SPELL_CAST3, positions, List(positions.size) { Vector3d.ZERO }),
             fight.enaria,
             100.0
         )

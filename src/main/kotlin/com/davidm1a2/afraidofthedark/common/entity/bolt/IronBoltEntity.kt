@@ -17,7 +17,7 @@ import net.minecraft.world.World
  * @property chanceToDropHitGround The chance that the bolt will drop its item after hitting the ground
  */
 class IronBoltEntity : BoltEntity {
-    override val damageSourceProducer: (PlayerEntity) -> DamageSource = { DamageSource.causePlayerDamage(it) }
+    override val damageSourceProducer: (PlayerEntity) -> DamageSource = { DamageSource.playerAttack(it) }
     override val drop = ModItems.IRON_BOLT
     override val damage = 6
     override val chanceToDropHitEntity = 0.4

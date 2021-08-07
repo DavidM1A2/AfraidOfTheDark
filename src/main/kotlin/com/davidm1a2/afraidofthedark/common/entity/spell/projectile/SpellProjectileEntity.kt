@@ -22,9 +22,8 @@ import net.minecraft.util.DamageSource
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.BlockRayTraceResult
 import net.minecraft.util.math.EntityRayTraceResult
-import net.minecraft.util.math.RayTraceContext
 import net.minecraft.util.math.RayTraceResult
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.api.distmarker.Dist
@@ -68,14 +67,14 @@ class SpellProjectileEntity(
         spell: Spell,
         spellIndex: Int,
         spellCaster: Entity?,
-        position: Vec3d,
-        velocity: Vec3d,
+        position: Vector3d,
+        velocity: Vector3d,
         shooter: Entity? = null
     ) : this(ModEntities.SPELL_PROJECTILE, world) {
         this.shooter = shooter
-        this.dataManager[SPELL] = spell
-        this.dataManager[SPELL_INDEX] = spellIndex
-        this.casterEntityId = spellCaster?.uniqueID
+        this.entityData[SPELL] = spell
+        this.entityData[SPELL_INDEX] = spellIndex
+        this.casterEntityId = spellCaster?.uuid
         val deliveryInstance = spell.getStage(spellIndex)!!.deliveryInstance!!
         val deliveryMethodProjectile = deliveryInstance.component as ProjectileSpellDeliveryMethod
         this.distanceRemainingBlocks = deliveryMethodProjectile.getRange(deliveryInstance).toFloat()
@@ -84,22 +83,22 @@ class SpellProjectileEntity(
         val projectileSpeed = deliveryMethodProjectile.getSpeed(deliveryInstance)
 
         // Update the acceleration vector by normalizing it and multiplying by speed
-        this.motion = velocity.normalize().scale(projectileSpeed)
+        this.deltaMovement = velocity.normalize().scale(projectileSpeed)
 
         // Position the entity at the center of the shooter moved slightly in the dir of fire
-        setPosition(position.x + this.motion.x, position.y + this.motion.y, position.z + this.motion.z)
+        setPos(position.x + this.deltaMovement.x, position.y + this.deltaMovement.y, position.z + this.deltaMovement.z)
 
         this.shooter?.let {
-            setRotation(it.rotationYaw, it.rotationPitch)
+            setRot(it.xRot, it.yRot)
         }
     }
 
     /**
      * Initialize dataManager. Anything registered here is automatically synced from Server -> Client
      */
-    override fun registerData() {
-        this.dataManager.register(SPELL, Spell())
-        this.dataManager.register(SPELL_INDEX, 0)
+    override fun defineSynchedData() {
+        this.entityData.define(SPELL, Spell())
+        this.entityData.define(SPELL_INDEX, 0)
     }
 
     /**
@@ -109,16 +108,20 @@ class SpellProjectileEntity(
         super.tick()
 
         // Update logic server side
-        if (!world.isRemote) {
+        if (!level.isClientSide) {
             // Ensure the shooting entity is null or not dead, and that the area the projectile is in is loaded
-            @Suppress("DEPRECATION")
-            if (world.isBlockLoaded(BlockPos(this))) {
+            if (level.isLoaded(this.blockPosition())) {
                 // We are in the air, so increment our counter
                 val ticksInAir = this.ticksInAir + 1
 
                 // Perform a ray case to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
-                // Intellij says 'shooter' should always be non-null, that is not the case....
-                val rayTraceResult = ProjectileHelper.rayTrace(this, true, ticksInAir >= 25, shooter, RayTraceContext.BlockMode.COLLIDER)
+                val rayTraceResult = ProjectileHelper.getHitResult(this) {
+                    if (ticksInAir > 25) {
+                        true
+                    } else {
+                        it != shooter
+                    }
+                }
 
                 // If the ray trace hit something, perform the hit effect
                 if (rayTraceResult.type != RayTraceResult.Type.MISS) {
@@ -126,25 +129,25 @@ class SpellProjectileEntity(
                 }
 
                 // Continue flying in the direction of motion, update the position
-                setPosition(posX + motion.x, posY + motion.y, posZ + motion.z)
+                setPos(x + deltaMovement.x, y + deltaMovement.y, z + deltaMovement.z)
 
                 // Update distance flown, and kill the entity if it went
-                val distanceFlown = motion.length()
+                val distanceFlown = deltaMovement.length()
                 this.distanceRemainingBlocks = this.distanceRemainingBlocks - distanceFlown.toFloat()
 
-                val spell = this.dataManager[SPELL]
-                val spellIndex = this.dataManager[SPELL_INDEX]
+                val spell = this.entityData[SPELL]
+                val spellIndex = this.entityData[SPELL_INDEX]
 
                 // If we're out of distance deliver the spell and kill the projectile
                 if (this.distanceRemainingBlocks <= 0) {
                     val state = DeliveryTransitionStateBuilder()
                         .withSpell(spell)
                         .withStageIndex(spellIndex)
-                        .withWorld(world)
-                        .withPosition(this.positionVector)
-                        .withBlockPosition(this.position)
-                        .withDirection(motion.normalize())
-                        .withCasterEntity(this.casterEntityId?.let { (world as? ServerWorld)?.getEntityByUuid(it) })
+                        .withWorld(level)
+                        .withPosition(this.position())
+                        .withBlockPosition(this.blockPosition())
+                        .withDirection(deltaMovement.normalize())
+                        .withCasterEntity(this.casterEntityId?.let { (level as? ServerWorld)?.getEntity(it) })
                         .withDeliveryEntity(this)
                         .build()
 
@@ -168,9 +171,9 @@ class SpellProjectileEntity(
      */
     private fun onImpact(result: RayTraceResult) {
         // Only process server side
-        if (!world.isRemote) {
-            val spell = this.dataManager[SPELL]
-            val spellIndex = this.dataManager[SPELL_INDEX]
+        if (!level.isClientSide) {
+            val spell = this.entityData[SPELL]
+            val spellIndex = this.entityData[SPELL_INDEX]
 
             // Grab the current spell stage
             val currentStage = spell.getStage(spellIndex)
@@ -180,21 +183,20 @@ class SpellProjectileEntity(
                 val currentDeliveryMethod = currentStage!!.deliveryInstance!!.component
                 if (result.type == RayTraceResult.Type.BLOCK && result is BlockRayTraceResult) {
                     // Grab the hit position
-                    var hitPos = BlockPos(result.hitVec)
-                    val hitBlock = world.getBlockState(hitPos)
+                    var hitPos = BlockPos(result.location)
 
                     // If we hit an air block find the block to the side of the air, hit that instead
-                    if (hitBlock.isAir(world, hitPos)) {
-                        hitPos = hitPos.offset(result.face.opposite)
+                    if (level.isEmptyBlock(hitPos)) {
+                        hitPos = hitPos.relative(result.direction.opposite)
                     }
                     val state = DeliveryTransitionStateBuilder()
                         .withSpell(spell)
                         .withStageIndex(spellIndex)
-                        .withWorld(world)
-                        .withPosition(result.hitVec)
+                        .withWorld(level)
+                        .withPosition(result.location)
                         .withBlockPosition(hitPos)
-                        .withDirection(motion.normalize())
-                        .withCasterEntity(this.casterEntityId?.let { (world as? ServerWorld)?.getEntityByUuid(it) })
+                        .withDirection(deltaMovement.normalize())
+                        .withCasterEntity(this.casterEntityId?.let { (level as? ServerWorld)?.getEntity(it) })
                         .withDeliveryEntity(this)
                         .build()
 
@@ -206,7 +208,7 @@ class SpellProjectileEntity(
                         .withSpell(spell)
                         .withStageIndex(spellIndex)
                         .withEntity(result.entity)
-                        .withCasterEntity(this.casterEntityId?.let { (world as? ServerWorld)?.getEntityByUuid(it) })
+                        .withCasterEntity(this.casterEntityId?.let { (level as? ServerWorld)?.getEntity(it) })
                         .withDeliveryEntity(this)
                         .build()
 
@@ -228,7 +230,7 @@ class SpellProjectileEntity(
         super.baseTick()
 
         // If we're client side and no animation is active play the idle animation
-        if (world.isRemote) {
+        if (level.isClientSide) {
             if (!animHandler.isAnimationActive("Idle")) {
                 animHandler.playAnimation("Idle")
             }
@@ -237,7 +239,7 @@ class SpellProjectileEntity(
 
     @OnlyIn(Dist.CLIENT)
     fun getColor(): Color {
-        return ModSpellDeliveryMethods.PROJECTILE.getColor(dataManager[SPELL].spellStages[dataManager[SPELL_INDEX]].deliveryInstance!!)
+        return ModSpellDeliveryMethods.PROJECTILE.getColor(entityData[SPELL].spellStages[entityData[SPELL_INDEX]].deliveryInstance!!)
     }
 
     /**
@@ -247,12 +249,11 @@ class SpellProjectileEntity(
         return true
     }
 
-    /**
-     * Gets the collision bounding box which allows the collision box to be bigger than the entity box
-     *
-     * @return The size of the entity, 0.4
-     */
-    override fun getCollisionBorderSize(): Float {
+    override fun isPickable(): Boolean {
+        return true
+    }
+
+    override fun getPickRadius(): Float {
         return 0.4f
     }
 
@@ -263,7 +264,10 @@ class SpellProjectileEntity(
      * @param amount The amount of damage inflicted
      * @return False, this projectile cannot be attacked
      */
-    override fun attackEntityFrom(source: DamageSource, amount: Float): Boolean {
+    override fun hurt(source: DamageSource, amount: Float): Boolean {
+        if (source == DamageSource.OUT_OF_WORLD) {
+            return super.hurt(source, amount)
+        }
         return false
     }
 
@@ -282,11 +286,11 @@ class SpellProjectileEntity(
      * @param entityIn The entity to test
      * @return False
      */
-    override fun canBeRidden(entityIn: Entity): Boolean {
+    override fun canRide(entityIn: Entity): Boolean {
         return false
     }
 
-    override fun isImmuneToExplosions(): Boolean {
+    override fun ignoreExplosion(): Boolean {
         return true
     }
 
@@ -299,28 +303,28 @@ class SpellProjectileEntity(
         return animHandler
     }
 
-    override fun createSpawnPacket(): IPacket<*> {
+    override fun getAddEntityPacket(): IPacket<*> {
         return NetworkHooks.getEntitySpawningPacket(this)
     }
 
-    override fun readAdditional(compound: CompoundNBT) {
-        this.dataManager[SPELL] = Spell(compound.getCompound("spell"))
-        this.dataManager[SPELL_INDEX] = compound.getInt("spell_index")
+    override fun readAdditionalSaveData(compound: CompoundNBT) {
+        this.entityData[SPELL] = Spell(compound.getCompound("spell"))
+        this.entityData[SPELL_INDEX] = compound.getInt("spell_index")
         this.ticksInAir = compound.getInt("ticks_in_air")
         this.distanceRemainingBlocks = compound.getFloat("distance_remaining_blocks")
         this.casterEntityId = if (compound.contains("caster_entity_id")) {
-            compound.getUniqueId("caster_entity_id")
+            compound.getUUID("caster_entity_id")
         } else {
             null
         }
     }
 
-    override fun writeAdditional(compound: CompoundNBT) {
-        compound.put("spell", this.dataManager[SPELL].serializeNBT())
-        compound.putInt("spell_index", this.dataManager[SPELL_INDEX])
+    override fun addAdditionalSaveData(compound: CompoundNBT) {
+        compound.put("spell", this.entityData[SPELL].serializeNBT())
+        compound.putInt("spell_index", this.entityData[SPELL_INDEX])
         compound.putInt("ticks_in_air", this.ticksInAir)
         compound.putFloat("distance_remaining_blocks", this.distanceRemainingBlocks)
-        this.casterEntityId?.let { compound.putUniqueId("caster_entity_id", it) }
+        this.casterEntityId?.let { compound.putUUID("caster_entity_id", it) }
     }
 
     /*
@@ -328,17 +332,17 @@ class SpellProjectileEntity(
      */
 
     override fun readSpawnData(additionalData: PacketBuffer) {
-        this.dataManager[SPELL] = Spell(additionalData.readCompoundTag()!!)
-        this.dataManager[SPELL_INDEX] = additionalData.readInt()
+        this.entityData[SPELL] = Spell(additionalData.readNbt()!!)
+        this.entityData[SPELL_INDEX] = additionalData.readInt()
     }
 
     override fun writeSpawnData(buffer: PacketBuffer) {
-        buffer.writeCompoundTag(this.dataManager[SPELL].serializeNBT())
-        buffer.writeInt(this.dataManager[SPELL_INDEX])
+        buffer.writeNbt(this.entityData[SPELL].serializeNBT())
+        buffer.writeInt(this.entityData[SPELL_INDEX])
     }
 
     companion object {
-        private val SPELL = EntityDataManager.createKey(SpellProjectileEntity::class.java, ModDataSerializers.SPELL)
-        private val SPELL_INDEX = EntityDataManager.createKey(SpellProjectileEntity::class.java, DataSerializers.VARINT)
+        private val SPELL = EntityDataManager.defineId(SpellProjectileEntity::class.java, ModDataSerializers.SPELL)
+        private val SPELL_INDEX = EntityDataManager.defineId(SpellProjectileEntity::class.java, DataSerializers.INT)
     }
 }

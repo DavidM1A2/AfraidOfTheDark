@@ -12,10 +12,10 @@ class WaterFallFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFi
     override fun start() {
         ticksUntilEnd = Random.nextInt(20 * MIN_EVENT_TIME_SEC, 20 * MAX_EVENT_TIME_SEC)
         ticksUntilWaterGone = TIME_TO_MAKE_WATER_DISAPPEAR
-        val world = fight.enaria.world
+        val world = fight.enaria.level
         iterateOverRegion(relativeToAbsolutePosition(-30, 11, -3), relativeToAbsolutePosition(30, 11, 79)) {
-            if (world.getBlockState(it).isAir(world, it)) {
-                world.setBlockState(it, Blocks.WATER.defaultState)
+            if (world.isEmptyBlock(it)) {
+                world.setBlockAndUpdate(it, Blocks.WATER.defaultBlockState())
             }
         }
     }
@@ -40,12 +40,12 @@ class WaterFallFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFi
     }
 
     private fun clearArenaSourceWater() {
-        val world = fight.enaria.world
+        val world = fight.enaria.level
         val cornerOne = relativeToAbsolutePosition(-30, 11, -3)
         val cornerTwo = relativeToAbsolutePosition(30, 11, 79)
         iterateOverRegion(cornerOne, cornerTwo) {
             if (world.getBlockState(it).block == Blocks.WATER) {
-                world.setBlockState(it, Blocks.AIR.defaultState)
+                world.setBlockAndUpdate(it, Blocks.AIR.defaultBlockState())
             }
         }
 
@@ -53,12 +53,12 @@ class WaterFallFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFi
     }
 
     private fun clearAllArenaWater() {
-        val world = fight.enaria.world
+        val world = fight.enaria.level
         val cornerOne = relativeToAbsolutePosition(-30, -1, -3)
         val cornerTwo = relativeToAbsolutePosition(30, 11, 79)
         iterateOverRegion(cornerOne, cornerTwo) {
             if (world.getBlockState(it).block == Blocks.WATER) {
-                world.setBlockState(it, Blocks.AIR.defaultState)
+                world.setBlockAndUpdate(it, Blocks.AIR.defaultBlockState())
             }
         }
     }

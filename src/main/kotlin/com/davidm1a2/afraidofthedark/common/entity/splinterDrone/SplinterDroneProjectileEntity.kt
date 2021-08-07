@@ -15,11 +15,9 @@ import net.minecraft.network.IPacket
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
 import net.minecraft.util.DamageSource
-import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.EntityRayTraceResult
-import net.minecraft.util.math.RayTraceContext
 import net.minecraft.util.math.RayTraceResult
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 import net.minecraftforge.fml.network.NetworkHooks
 import kotlin.math.sqrt
@@ -58,17 +56,12 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
         this.shootingEntity = shootingEntity
 
         // Position the entity at the center of the drone
-        setLocationAndAngles(
-            shootingEntity.posX,
-            shootingEntity.posY + shootingEntity.eyeHeight,
-            shootingEntity.posZ,
-            shootingEntity.rotationYaw,
-            shootingEntity.rotationPitch
-        )
+        setPos(shootingEntity.x, shootingEntity.y + shootingEntity.eyeHeight, shootingEntity.z)
+        setRot(shootingEntity.yRot, shootingEntity.xRot)
 
         val velocityMagnitude = sqrt(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity)
         // Update the acceleration vector by normalizing it and multiplying by speed
-        motion = Vec3d(
+        deltaMovement = Vector3d(
             xVelocity / velocityMagnitude * PROJECTILE_SPEED,
             yVelocity / velocityMagnitude * PROJECTILE_SPEED,
             zVelocity / velocityMagnitude * PROJECTILE_SPEED
@@ -78,7 +71,7 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
     /**
      * Register any entity data. Anything registered here is automatically synced from Server -> Client
      */
-    override fun registerData() {
+    override fun defineSynchedData() {
     }
 
     /**
@@ -88,27 +81,33 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
         super.tick()
 
         // Animations only update client side
-        if (world.isRemote) {
+        if (level.isClientSide) {
             animHandler.update()
         }
 
         // Update logic server side
-        if (!world.isRemote) {
+        if (!level.isClientSide) {
             // Ensure the shooting entity is null or not dead, and that the area the projectile is in is loaded
             @Suppress("DEPRECATION")
-            if ((shootingEntity == null || shootingEntity!!.isAlive) && world.isBlockLoaded(BlockPos(this))) {
+            if ((shootingEntity == null || shootingEntity!!.isAlive) && level.isLoaded(this.blockPosition())) {
                 // We are in the air, so increment our counter
                 this.ticksInAir = this.ticksInAir + 1
 
                 // Perform a ray cast to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
-                val rayTraceResult = ProjectileHelper.rayTrace(this, true, ticksInAir >= 25, shootingEntity, RayTraceContext.BlockMode.COLLIDER)
+                val rayTraceResult = ProjectileHelper.getHitResult(this) {
+                    if (ticksInAir > 25) {
+                        true
+                    } else {
+                        it != shootingEntity
+                    }
+                }
 
                 if (rayTraceResult.type != RayTraceResult.Type.MISS) {
                     onImpact(rayTraceResult)
                 }
 
                 // Continue flying in the direction of motion, update the position
-                setPosition(posX + motion.x, posY + motion.y, posZ + motion.z)
+                setPos(x + deltaMovement.x, y + deltaMovement.y, z + deltaMovement.z)
             } else {
                 remove()
             }
@@ -122,7 +121,7 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
         super.baseTick()
 
         // If we're client side and no animation is active play the sping animation
-        if (world.isRemote) {
+        if (level.isClientSide) {
             if (!animHandler.isAnimationActive("Sping")) {
                 animHandler.playAnimation("Sping")
             }
@@ -136,16 +135,16 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
      */
     private fun onImpact(result: RayTraceResult) {
         // Only process server side
-        if (!world.isRemote) {
+        if (!level.isClientSide) {
             // Only do something if we hit an entity
             if (result is EntityRayTraceResult) {
                 // Cause a slight amount of damage
-                if (result.entity.attackEntityFrom(causePlasmaBallDamage(this, shootingEntity), 1.0f)) {
+                if (result.entity.hurt(causePlasmaBallDamage(this, shootingEntity), 1.0f)) {
                     // If we hit a player slow them
                     if (result.entity is PlayerEntity) {
                         // The player that was hit, add slowness
                         val entityPlayer = result.entity as PlayerEntity
-                        entityPlayer.addPotionEffect(EffectInstance(Effects.SLOWNESS, 60, 2, false, false))
+                        entityPlayer.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, 60, 2, false, false))
                     }
                 }
             }
@@ -162,12 +161,11 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
         return true
     }
 
-    /**
-     * Gets the collision bounding box which allows the collision box to be bigger than the entity box
-     *
-     * @return The size of the entity, 0.4
-     */
-    override fun getCollisionBorderSize(): Float {
+    override fun isPickable(): Boolean {
+        return true
+    }
+
+    override fun getPickRadius(): Float {
         return 0.4f
     }
 
@@ -178,7 +176,10 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
      * @param amount The amount of damage inflicted
      * @return False, this projectile cannot be attacked
      */
-    override fun attackEntityFrom(source: DamageSource, amount: Float): Boolean {
+    override fun hurt(source: DamageSource, amount: Float): Boolean {
+        if (source == DamageSource.OUT_OF_WORLD) {
+            return super.hurt(source, amount)
+        }
         return false
     }
 
@@ -197,7 +198,7 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
      * @param entityIn The entity to test
      * @return False
      */
-    override fun canBeRidden(entityIn: Entity): Boolean {
+    override fun canRide(entityIn: Entity): Boolean {
         return false
     }
 
@@ -210,15 +211,15 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
         return animHandler
     }
 
-    override fun createSpawnPacket(): IPacket<*> {
+    override fun getAddEntityPacket(): IPacket<*> {
         return NetworkHooks.getEntitySpawningPacket(this)
     }
 
-    override fun writeAdditional(compound: CompoundNBT) {
+    override fun addAdditionalSaveData(compound: CompoundNBT) {
         this.ticksInAir = compound.getInt("ticks_in_air")
     }
 
-    override fun readAdditional(compound: CompoundNBT) {
+    override fun readAdditionalSaveData(compound: CompoundNBT) {
         compound.putInt("ticks_in_air", this.ticksInAir)
     }
 

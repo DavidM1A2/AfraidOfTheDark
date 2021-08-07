@@ -27,9 +27,9 @@ class RegenerateRoomFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, Ena
                     val expectedBlockState = ModSchematics.ENARIA_LAIR.getBlocks()[(x + 30) + (y + 2) * length * width + (z + 3) * width].rotate(fight.rotation)
                     val expectedBlock = expectedBlockState.block
                     if (expectedBlock == Blocks.STRUCTURE_VOID) {
-                        fight.enaria.world.setBlockState(worldPos, Blocks.CAVE_AIR.defaultState)
+                        fight.enaria.level.setBlockAndUpdate(worldPos, Blocks.CAVE_AIR.defaultBlockState())
                     } else if (!expectedBlockState.hasTileEntity() && expectedBlock != Blocks.AIR) {
-                        fight.enaria.world.setBlockState(worldPos, expectedBlockState)
+                        fight.enaria.level.setBlockAndUpdate(worldPos, expectedBlockState)
                     }
                 }
             }

@@ -17,15 +17,4 @@ open class AOTDEffect(name: String, effectType: EffectType, color: Color) : Effe
     init {
         this.setRegistryName(Constants.MOD_ID, name)
     }
-
-    /**
-     * True if the duration is greater than 0
-     *
-     * @param duration  The duration left on the drink
-     * @param amplifier The potion amplifier
-     * @return True if the potion is ready, false otherwise
-     */
-    override fun isReady(duration: Int, amplifier: Int): Boolean {
-        return duration >= 1
-    }
 }

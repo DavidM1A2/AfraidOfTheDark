@@ -48,8 +48,8 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe<CraftingInventory>>(val ba
             // If the player does not have the research return false
             if (!craftingPlayer.getResearch().isResearched(preRequisite)) {
                 // Before returning false notify the player why the crafting failed if the recipe matched
-                if (matches && !craftingPlayer.world.isRemote) {
-                    craftingPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.crafting.missing_research"))
+                if (matches && !craftingPlayer.level.isClientSide) {
+                    craftingPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.crafting.missing_research"), craftingPlayer.uuid)
                 }
                 return false
             }
@@ -59,7 +59,7 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe<CraftingInventory>>(val ba
         return matches
     }
 
-    override fun isDynamic(): Boolean {
+    override fun isSpecial(): Boolean {
         return true
     }
 

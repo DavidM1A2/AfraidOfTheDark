@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
@@ -27,6 +28,7 @@ class DebugItem : AOTDItem("debug", Properties().maxStackSize(1), displayInCreat
         if (worldIn.isRemote) {
             AfraidOfTheDark.proxy.researchOverlay?.displayResearch(ModResearches.ASTRAL_SILVER)
         } else {
+            playerIn.getResearch().setResearchAndAlert(ModResearches.ENARIAS_SECRET, true, playerIn)
         }
         return super.onItemRightClick(worldIn, playerIn, handIn)
     }

@@ -22,7 +22,7 @@ object Constants {
          *
          * @return The icon for the creative tab as an item
          */
-        override fun createIcon(): ItemStack {
+        override fun makeIcon(): ItemStack {
             return ItemStack(ModItems.JOURNAL)
         }
     }

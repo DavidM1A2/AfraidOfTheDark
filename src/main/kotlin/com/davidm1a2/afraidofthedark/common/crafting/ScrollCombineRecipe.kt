@@ -27,8 +27,8 @@ class ScrollCombineRecipe : ICraftingRecipe {
     override fun matches(inv: CraftingInventory, world: World?): Boolean {
         // Grab a list of non-empty stacks in the crafting grid
         val stacks = mutableListOf<ItemStack>()
-        for (i in 0 until inv.sizeInventory) {
-            val itemStack = inv.getStackInSlot(i)
+        for (i in 0 until inv.containerSize) {
+            val itemStack = inv.getItem(i)
             if (!itemStack.isEmpty) {
                 stacks.add(itemStack)
             }
@@ -79,11 +79,11 @@ class ScrollCombineRecipe : ICraftingRecipe {
      * @param inv The inventory containing items to put together
      * @return The resulting item
      */
-    override fun getCraftingResult(inv: CraftingInventory): ItemStack {
+    override fun assemble(inv: CraftingInventory): ItemStack {
         // Grab a list of non-empty stacks in the crafting grid
         val stacks = mutableListOf<ItemStack>()
-        for (i in 0 until inv.sizeInventory) {
-            val itemStack = inv.getStackInSlot(i)
+        for (i in 0 until inv.containerSize) {
+            val itemStack = inv.getItem(i)
             if (!itemStack.isEmpty) {
                 stacks.add(itemStack)
             }
@@ -108,7 +108,7 @@ class ScrollCombineRecipe : ICraftingRecipe {
      * @param height The height of the crafting inventory
      * @return True if wxh is bigger than 2
      */
-    override fun canFit(width: Int, height: Int): Boolean {
+    override fun canCraftInDimensions(width: Int, height: Int): Boolean {
         return width * height >= 2
     }
 
@@ -117,7 +117,7 @@ class ScrollCombineRecipe : ICraftingRecipe {
      *
      * @return An empty itemstack
      */
-    override fun getRecipeOutput(): ItemStack {
+    override fun getResultItem(): ItemStack {
         return ItemStack.EMPTY
     }
 
@@ -134,7 +134,7 @@ class ScrollCombineRecipe : ICraftingRecipe {
      *
      * @return True, the recipe is dynamic
      */
-    override fun isDynamic(): Boolean {
+    override fun isSpecial(): Boolean {
         return true
     }
 

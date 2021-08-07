@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRendere
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.interpolate
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.slerp
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.Quaternion
+import net.minecraft.util.math.vector.Quaternion
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.fml.LogicalSide
@@ -132,7 +132,7 @@ class AnimationHandler(vararg animChannels: Channel) {
     @OnlyIn(Dist.CLIENT)
     private fun isGamePaused(): Boolean {
         val minecraft = Minecraft.getInstance()
-        return minecraft.isSingleplayer && minecraft.currentScreen != null && minecraft.currentScreen!!.isPauseScreen && !minecraft.integratedServer!!.public
+        return minecraft.hasSingleplayerServer() && minecraft.screen != null && minecraft.screen!!.isPauseScreen && !minecraft.singleplayerServer!!.isSingleplayer
     }
 
     /**
@@ -172,7 +172,7 @@ class AnimationHandler(vararg animChannels: Channel) {
                             nextRotationKeyFrame!!.modelRotations[boxName]!!,
                             slerpProgress
                         )
-                        box.rotation.set(currentQuat.x, currentQuat.y, currentQuat.z, currentQuat.w)
+                        box.rotation.set(currentQuat.i(), currentQuat.j(), currentQuat.k(), currentQuat.r())
                         anyRotationApplied = true
                     } else if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame != null && nextRotationKeyFramePosition != 0) {
                         val currentQuat = Quaternion(0f, 0f, 0f, 0f)
@@ -181,7 +181,7 @@ class AnimationHandler(vararg animChannels: Channel) {
                             nextRotationKeyFrame!!.modelRotations[boxName]!!,
                             slerpProgress
                         )
-                        box.rotation.set(currentQuat.x, currentQuat.y, currentQuat.z, currentQuat.w)
+                        box.rotation.set(currentQuat.i(), currentQuat.j(), currentQuat.k(), currentQuat.r())
                         anyRotationApplied = true
                     } else if (prevRotationKeyFramePosition != 0 && nextRotationKeyFramePosition != 0) {
                         val currentQuat = Quaternion(0f, 0f, 0f, 0f)
@@ -190,7 +190,7 @@ class AnimationHandler(vararg animChannels: Channel) {
                             nextRotationKeyFrame!!.modelRotations[boxName]!!,
                             slerpProgress
                         )
-                        box.rotation.set(currentQuat.x, currentQuat.y, currentQuat.z, currentQuat.w)
+                        box.rotation.set(currentQuat.i(), currentQuat.j(), currentQuat.k(), currentQuat.r())
                         anyRotationApplied = true
                     }
 
@@ -213,7 +213,7 @@ class AnimationHandler(vararg animChannels: Channel) {
                         val endPosition = nextTranslationKeyFrame!!.modelTranslations[boxName]!!
                         val currentPosition = startPosition.copy()
                         currentPosition.interpolate(endPosition, lerpProgress)
-                        box.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z)
+                        box.setRotationPoint(currentPosition.x(), currentPosition.y(), currentPosition.z())
                         anyTranslationApplied = true
                     } else if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame != null && nextTranslationsKeyFramePosition != 0) {
                         val startPosition = prevTranslationKeyFrame.modelTranslations[boxName]!!

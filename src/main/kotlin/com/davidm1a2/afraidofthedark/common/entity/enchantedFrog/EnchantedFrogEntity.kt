@@ -18,8 +18,10 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.Spe
 import net.minecraft.block.BlockState
 import net.minecraft.entity.CreatureEntity
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.Pose
-import net.minecraft.entity.SharedMonsterAttributes
+import net.minecraft.entity.ai.attributes.AttributeModifierMap
+import net.minecraft.entity.ai.attributes.Attributes
 import net.minecraft.entity.ai.goal.LookAtGoal
 import net.minecraft.entity.ai.goal.LookRandomlyGoal
 import net.minecraft.entity.ai.goal.RandomWalkingGoal
@@ -51,7 +53,7 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
 
     init {
         // Set how much XP the frog is worth
-        experienceValue = 8
+        xpReward = 8
     }
 
     /**
@@ -64,20 +66,9 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
         // If the entity isn't attacking then try to walk around
         goalSelector.addGoal(2, RandomWalkingGoal(this, 1.0, 20))
         // If the entity isn't wandering then try to watch whatever entity is nearby
-        goalSelector.addGoal(3, LookAtGoal(this, PlayerEntity::class.java, FOLLOW_RANGE))
+        goalSelector.addGoal(3, LookAtGoal(this, PlayerEntity::class.java, FOLLOW_RANGE.toFloat()))
         // If the entity isn't walking, attacking, or watching anything look idle
         goalSelector.addGoal(4, LookRandomlyGoal(this))
-    }
-
-    /**
-     * Sets entity attributes such as max health and movespeed
-     */
-    override fun registerAttributes() {
-        super.registerAttributes()
-        attributes.getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH)?.baseValue = MAX_HEALTH.toDouble()
-        attributes.getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE)?.baseValue = FOLLOW_RANGE.toDouble()
-        attributes.getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE)?.baseValue = KNOCKBACK_RESISTANCE.toDouble()
-        attributes.getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED)?.baseValue = MOVE_SPEED.toDouble()
     }
 
     /**
@@ -93,7 +84,7 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
         // A max of 20 spell stages, but odds are few will be added
         for (ignored in 0..20) {
             // 25% chance to add another spell stage
-            if (rand.nextDouble() < 0.25) {
+            if (random.nextDouble() < 0.25) {
                 frogsSpell.spellStages.add(createRandomSpellStage())
             } else {
                 break
@@ -117,7 +108,7 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
             // 1/2 for an extra effect, 1/4 for 2 extra effects, 1/8 for 3 extra effects
             for (i in 1..3) {
                 // 50% chance to add another effect
-                if (rand.nextDouble() < 0.5) {
+                if (random.nextDouble() < 0.5) {
                     effects[i] =
                         SpellEffectInstance(ModRegistries.SPELL_EFFECTS.entries.random().value).apply { setDefaults() }
                 } else {
@@ -135,9 +126,9 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
         super.baseTick()
 
         // If we're on client side test if we need to show walking animations
-        if (world.isRemote) {
+        if (level.isClientSide) {
             // If the entity is moving show the walking animation
-            if (motion.x > 0.05 || motion.z > 0.05 || motion.x < -0.05 || motion.z < -0.05) {
+            if (deltaMovement.x > 0.05 || deltaMovement.z > 0.05 || deltaMovement.x < -0.05 || deltaMovement.z < -0.05) {
                 if (!animHandler.isAnimationActive("hop") && !animHandler.isAnimationActive("cast")) {
                     animHandler.playAnimation("hop")
                 }
@@ -145,14 +136,14 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
         }
 
         // Cast a spell server side
-        if (!world.isRemote) {
+        if (!level.isClientSide) {
             ticksUntilNextCastAttempt--
             if (ticksUntilNextCastAttempt <= 0) {
                 // Find the nearest player to cast at
-                val nearestPlayer = world.getClosestPlayer(this, FOLLOW_RANGE.toDouble())
+                val nearestPlayer = level.getNearestPlayer(this, FOLLOW_RANGE)
                 // Cast at the player, and show the cast animation
                 nearestPlayer?.let {
-                    spell.attemptToCast(this, it.getEyePosition(1.0f).subtract(this.positionVector).normalize())
+                    spell.attemptToCast(this, it.getEyePosition(1.0f).subtract(this.position()).normalize())
                     AfraidOfTheDark.packetHandler.sendToAllAround(AnimationPacket(this, "cast"), this, 50.0)
                 }
 
@@ -212,13 +203,13 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
         return 0.2f
     }
 
-    override fun readAdditional(compound: CompoundNBT) {
-        super.readAdditional(compound)
+    override fun readAdditionalSaveData(compound: CompoundNBT) {
+        super.readAdditionalSaveData(compound)
         this.spell = Spell(compound.getCompound("spell"))
     }
 
-    override fun writeAdditional(compound: CompoundNBT) {
-        super.writeAdditional(compound)
+    override fun addAdditionalSaveData(compound: CompoundNBT) {
+        super.addAdditionalSaveData(compound)
         compound.put("spell", this.spell.serializeNBT())
     }
 
@@ -227,9 +218,20 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
         private const val MAX_TICKS_BETWEEN_CASTS = 30 * 20
 
         // Constants defining frog parameters
-        private const val MOVE_SPEED = 0.25f
-        private const val FOLLOW_RANGE = 32.0f
-        private const val MAX_HEALTH = 7.0f
-        private const val KNOCKBACK_RESISTANCE = 0.5f
+        private const val MOVE_SPEED = 0.25
+        private const val FOLLOW_RANGE = 32.0
+        private const val MAX_HEALTH = 7.0
+        private const val KNOCKBACK_RESISTANCE = 0.5
+
+        /**
+         * Gives the enchanted frog its entity attributes like movespeed
+         */
+        fun buildAttributeModifiers(): AttributeModifierMap.MutableAttribute {
+            return LivingEntity.createLivingAttributes()
+                .add(Attributes.MAX_HEALTH, MAX_HEALTH)
+                .add(Attributes.FOLLOW_RANGE, FOLLOW_RANGE)
+                .add(Attributes.KNOCKBACK_RESISTANCE, KNOCKBACK_RESISTANCE)
+                .add(Attributes.MOVEMENT_SPEED, MOVE_SPEED)
+        }
     }
 }

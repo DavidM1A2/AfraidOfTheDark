@@ -40,7 +40,7 @@ class AOTDCommands {
                                 .then(
                                     argument<CommandSource, String>("schematic", word())
                                         .suggests { _, builder -> ISuggestionProvider.suggest(ModSchematics.LIST.map { it.getName() }, builder) }
-                                    .executesDefault { generateSchematic(it.source, ModSchematics.NAME_TO_SCHEMATIC[getString(it, "schematic")], false) })
+                                        .executesDefault { generateSchematic(it.source, ModSchematics.NAME_TO_SCHEMATIC[getString(it, "schematic")], false) })
                         )
                         .then(
                             literal<CommandSource>("generateRawMarker")

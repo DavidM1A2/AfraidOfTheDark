@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityType
 import net.minecraft.entity.monster.MonsterEntity
 import net.minecraft.world.gen.Heightmap
 import net.minecraftforge.event.RegistryEvent
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
 /**
@@ -26,13 +27,25 @@ class EntityRegister {
         registry.registerAll(*ModEntities.ENTITY_LIST)
     }
 
+    /**
+     * Called by forge to register any of our entity's attributes
+     *
+     * @param event The event to register to
+     */
+    @SubscribeEvent
+    fun registerEntityAttributes(event: EntityAttributeCreationEvent) {
+        ModEntities.ENTITY_ATTRIBUTES.forEach {
+            event.put(it.first, it.second)
+        }
+    }
+
     companion object {
         fun registerSpawnPlacements() {
             EntitySpawnPlacementRegistry.register(
                 ModEntities.WEREWOLF,
                 EntitySpawnPlacementRegistry.PlacementType.ON_GROUND,
                 Heightmap.Type.WORLD_SURFACE,
-                MonsterEntity::canMonsterSpawnInLight
+                MonsterEntity::checkMonsterSpawnRules
             )
         }
     }

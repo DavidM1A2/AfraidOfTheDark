@@ -32,15 +32,15 @@ class WerewolfTargetLocatorGoal internal constructor(
         sorter = Sorter(entityCreature)
 
         // Required for a target locator, not sure what it does exactly
-        mutexFlags = EnumSet.of(Flag.TARGET)
+        flags = EnumSet.of(Flag.TARGET)
 
         // Create a target predicate which tells us if an entity is valid or not for selection
         targetEntitySelector = {
             // Grab the range at which the werewolf can follow targets
-            var followRange = targetDistance
+            var followRange = followDistance
 
             // If the player is sneaking reduce the follow range
-            if (it.isSneaking) {
+            if (it.isCrouching) {
                 followRange = followRange * 0.8
             }
 
@@ -50,10 +50,10 @@ class WerewolfTargetLocatorGoal internal constructor(
             }
 
             // If the player is to far to follow dont do anything
-            if (it.getDistance(goalOwner) > followRange) {
+            if (it.distanceTo(mob) > followRange) {
                 false
             } else {
-                isSuitableTarget(it, EntityPredicate.DEFAULT)
+                canAttack(it, EntityPredicate.DEFAULT)
             }
         }
     }
@@ -63,25 +63,25 @@ class WerewolfTargetLocatorGoal internal constructor(
      *
      * @return True if the task should execute, false otherwise
      */
-    override fun shouldExecute(): Boolean {
+    override fun canUse(): Boolean {
         // If we roll a 0 execute the task, otherwise don't
-        return if (targetChance > 0 && goalOwner.rng.nextInt(targetChance) != 0) {
+        return if (targetChance > 0 && mob.random.nextInt(targetChance) != 0) {
             false
         } else {
             // Grab the follow range of the locator
-            val followRange = this.targetDistance
+            val followRange = this.followDistance
 
             // Grab a list of nearby players sorted by distance
-            val nearbyPlayers = goalOwner.world.getEntitiesWithinAABB(
+            val nearbyPlayers = mob.level.getEntitiesOfClass(
                 PlayerEntity::class.java,
-                goalOwner.boundingBox.grow(followRange, 4.0, followRange)
+                mob.boundingBox.inflate(followRange, 4.0, followRange)
             )
                 .filter { targetEntitySelector(it) }
                 .sortedWith(sorter)
 
             // Iterate over all players nearby and pick a valid target
             for (entityPlayer in nearbyPlayers) {
-                if (entityPlayer.getBasics().startedAOTD || (goalOwner as WerewolfEntity).canAttackAnyone) {
+                if (entityPlayer.getBasics().startedAOTD || (mob as WerewolfEntity).canAttackAnyone) {
                     targetEntity = entityPlayer
                     return true
                 }
@@ -93,9 +93,9 @@ class WerewolfTargetLocatorGoal internal constructor(
     /**
      * Starts executing the target task
      */
-    override fun startExecuting() {
-        goalOwner.attackTarget = targetEntity
-        super.startExecuting()
+    override fun start() {
+        mob.target = targetEntity
+        super.start()
     }
 
     /**
@@ -114,8 +114,8 @@ class WerewolfTargetLocatorGoal internal constructor(
          * @return The comparison of both entities to the center entity
          */
         override fun compare(entity1: Entity, entity2: Entity): Int {
-            val distance1 = centerEntity.getDistanceSq(entity1)
-            val distance2 = centerEntity.getDistanceSq(entity2)
+            val distance1 = centerEntity.distanceToSqr(entity1)
+            val distance2 = centerEntity.distanceToSqr(entity2)
             return distance1.compareTo(distance2)
         }
     }

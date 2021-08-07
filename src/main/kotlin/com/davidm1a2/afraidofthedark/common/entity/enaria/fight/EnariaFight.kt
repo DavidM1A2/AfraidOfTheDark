@@ -24,7 +24,7 @@ import net.minecraft.util.SoundCategory
 import net.minecraft.util.SoundEvents
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.common.util.Constants
 import net.minecraftforge.common.util.INBTSerializable
 import java.util.*
@@ -38,7 +38,7 @@ class EnariaFight(
 ) : INBTSerializable<CompoundNBT> {
     // Everything based on enaria and the block pos MUST be lazily initialized to avoid querying the world before it's ready
     val rotation: Rotation by lazy {
-        enaria.world.getBlockState(position)[HorizontalFaceBlock.HORIZONTAL_FACING].toRotation()
+        enaria.level.getBlockState(position).getValue(HorizontalFaceBlock.FACING).toRotation()
     }
     val centerPos: BlockPos by lazy {
         relativeToAbsolutePosition(0, 2, 38)
@@ -84,7 +84,7 @@ class EnariaFight(
         // Each player in the fight gets the research
         updatePlayersInFight()
         playersInFight.forEach {
-            val player = enaria.world.getPlayerByUuid(it)
+            val player = enaria.level.getPlayerByUUID(it)
             if (player != null) {
                 val playerResearch = player.getResearch()
                 if (playerResearch.canResearch(ModResearches.ENARIA)) {
@@ -129,9 +129,9 @@ class EnariaFight(
                     if (ticksUntilNextEvent % 5 == 0) {
                         // Make a ring of particles around enaria shooting upward and outward
                         val particleHeight = ((DELAY_BEFORE_EVENT_START - ticksUntilNextEvent.toDouble()) / DELAY_BEFORE_EVENT_START) * 3
-                        val positions = List(30) { Vec3d(centerPos.x + 0.5, centerPos.y + 1.5 + particleHeight, centerPos.z + 0.5) }
+                        val positions = List(30) { Vector3d(centerPos.x + 0.5, centerPos.y + 1.5 + particleHeight, centerPos.z + 0.5) }
                         val speeds = List(positions.size) {
-                            Vec3d(
+                            Vector3d(
                                 sin(Math.toRadians(360.0 / positions.size * it)) * 0.2,
                                 0.0,
                                 cos(Math.toRadians(360.0 / positions.size * it)) * 0.2
@@ -181,44 +181,44 @@ class EnariaFight(
     }
 
     private fun teleportEnariaToCenter() {
-        val world = enaria.world
+        val world = enaria.level
 
         // Clear the area in the center of the arena if a player has placed blocks there
-        world.setBlockState(centerPos, ModBlocks.ELDRITCH_STONE.defaultState)
+        world.setBlockAndUpdate(centerPos, ModBlocks.ELDRITCH_STONE.defaultBlockState())
         for (x in -1..1) {
             for (y in 1..5) {
                 for (z in -1..1) {
-                    world.setBlockState(centerPos.add(x, y, z), Blocks.CAVE_AIR.defaultState)
+                    world.setBlockAndUpdate(centerPos.offset(x, y, z), Blocks.CAVE_AIR.defaultBlockState())
                 }
             }
         }
 
         // Move Enaria to the arena center
-        val enariaPos = centerPos.up()
-        world.playSound(null, enaria.posX, enaria.posY, enaria.posZ, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.HOSTILE, 1.0f, 1.0f)
-        enaria.setPositionAndUpdate(enariaPos.x + 0.5, enariaPos.y.toDouble(), enariaPos.z + 0.5)
-        world.playSound(null, enaria.posX, enaria.posY, enaria.posZ, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.HOSTILE, 1.0f, 1.0f)
+        val enariaPos = centerPos.above()
+        world.playSound(null, enaria.x, enaria.y, enaria.z, SoundEvents.ENDERMAN_TELEPORT, SoundCategory.HOSTILE, 1.0f, 1.0f)
+        enaria.teleportTo(enariaPos.x + 0.5, enariaPos.y.toDouble(), enariaPos.z + 0.5)
+        world.playSound(null, enaria.x, enaria.y, enaria.z, SoundEvents.ENDERMAN_TELEPORT, SoundCategory.HOSTILE, 1.0f, 1.0f)
     }
 
     private fun updatePlayersInFight() {
         // Get players in the arena
-        val playersInArena = enaria.world.getEntitiesWithinAABB(PlayerEntity::class.java, arenaBoundingBox)
+        val playersInArena = enaria.level.getEntitiesOfClass(PlayerEntity::class.java, arenaBoundingBox)
         playersInArena.forEach {
             // If the player is new to the fight, tell them to play the fight music
-            if (!playersInFight.contains(it.uniqueID)) {
-                playersInFight.add(it.uniqueID)
+            if (!playersInFight.contains(it.uuid)) {
+                playersInFight.add(it.uuid)
                 AfraidOfTheDark.packetHandler.sendTo(PlayEnariasFightMusicPacket(enaria), it as ServerPlayerEntity)
             }
         }
 
         playersInFight.removeIf {
-            val player = enaria.world.getPlayerByUuid(it)
+            val player = enaria.level.getPlayerByUUID(it)
             if (player == null) {
                 // Player has changed dimensions or logged out
                 true
             } else {
                 // if players are > 70 blocks from the center, they left the fight. For reference, the arena is roughly 60x82x14
-                (player.position.distanceSq(centerPos) > 70 * 70).also { isOutOfFight ->
+                (player.position().distanceToSqr(Vector3d.atCenterOf(centerPos)) > 70 * 70).also { isOutOfFight ->
                     if (isOutOfFight) {
                         // The player left the fight to stop playing the music
                         AfraidOfTheDark.packetHandler.sendTo(PlayEnariasFightMusicPacket(), player as ServerPlayerEntity)
@@ -230,14 +230,14 @@ class EnariaFight(
 
     private fun relativeToAbsolutePosition(relativeX: Int, relativeY: Int, relativeZ: Int): BlockPos {
         // Rotate, then translate
-        return BlockPos(relativeX, relativeY, relativeZ).rotate(rotation).add(position)
+        return BlockPos(relativeX, relativeY, relativeZ).rotate(rotation).offset(position)
     }
 
     override fun serializeNBT(): CompoundNBT {
         val nbt = CompoundNBT()
 
         val playerListNbt = ListNBT()
-        playersInFight.forEach { playerListNbt.add(NBTUtil.writeUniqueId(it)) }
+        playersInFight.forEach { playerListNbt.add(NBTUtil.createUUID(it)) }
         nbt.put(NBT_PLAYERS_IN_FIGHT, playerListNbt)
 
         nbt.putInt(NBT_TICKS_UNTIL_NEXT_EVENT, ticksUntilNextEvent)
@@ -252,10 +252,10 @@ class EnariaFight(
 
     override fun deserializeNBT(nbt: CompoundNBT) {
         nbt.getList(NBT_PLAYERS_IN_FIGHT, Constants.NBT.TAG_COMPOUND).forEach {
-            val playerId = NBTUtil.readUniqueId(it as CompoundNBT)
+            val playerId = NBTUtil.loadUUID(it as CompoundNBT)
             playersInFight.add(playerId)
             // Tell all players in the fight to play the music
-            enaria.world.getPlayerByUuid(playerId)?.let { player ->
+            enaria.level.getPlayerByUUID(playerId)?.let { player ->
                 AfraidOfTheDark.packetHandler.sendTo(PlayEnariasFightMusicPacket(enaria), player as ServerPlayerEntity)
             }
         }

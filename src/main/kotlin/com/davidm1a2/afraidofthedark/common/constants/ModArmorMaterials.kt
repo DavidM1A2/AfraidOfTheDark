@@ -13,17 +13,17 @@ object ModArmorMaterials {
         0,
         arrayOf(0, 0, 0, 0),
         20,
-        SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
+        SoundEvents.ARMOR_EQUIP_GENERIC,
         0f,
-        Ingredient.fromItems(ModItems.IGNEOUS_GEM)
+        Ingredient.of(ModItems.IGNEOUS_GEM)
     )
     val STAR_METAL = AOTDArmorMaterial(
         "star_metal",
         0,
         arrayOf(0, 0, 0, 0),
         20,
-        SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
+        SoundEvents.ARMOR_EQUIP_GENERIC,
         0f,
-        Ingredient.fromItems(ModItems.STAR_METAL_PLATE)
+        Ingredient.of(ModItems.STAR_METAL_PLATE)
     )
 }

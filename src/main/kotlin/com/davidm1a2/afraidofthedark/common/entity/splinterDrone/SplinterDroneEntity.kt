@@ -13,8 +13,10 @@ import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.IdleC
 import com.davidm1a2.afraidofthedark.common.network.packets.animationPackets.AnimationPacket
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.FlyingEntity
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.Pose
-import net.minecraft.entity.SharedMonsterAttributes
+import net.minecraft.entity.ai.attributes.AttributeModifierMap
+import net.minecraft.entity.ai.attributes.Attributes
 import net.minecraft.entity.ai.goal.LookAtGoal
 import net.minecraft.entity.ai.goal.LookRandomlyGoal
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal
@@ -45,9 +47,9 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
 
     init {
         // Set the EXP value to 7
-        experienceValue = 7
+        xpReward = 7
         // Update our move helper to fly like a ghast
-        moveController = SplinterDroneMovementController(this)
+        moveControl = SplinterDroneMovementController(this)
     }
 
     /**
@@ -67,27 +69,13 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
     }
 
     /**
-     * Sets entity attributes such as max health and movespeed
-     */
-    override fun registerAttributes() {
-        super.registerAttributes()
-        // Make sure to register the attack damage attribute for this entity
-        attributes.registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE)
-        getAttribute(SharedMonsterAttributes.MAX_HEALTH).baseValue = MAX_HEALTH
-        getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).baseValue = FOLLOW_RANGE
-        getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).baseValue = KNOCKBACK_RESISTANCE
-        getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).baseValue = MOVE_SPEED
-        getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).baseValue = ATTACK_DAMAGE
-    }
-
-    /**
      * Update animations for this entity when update is called, also kill the entity if it's peaceful
      */
     override fun tick() {
         super.tick()
 
         // If we're on peaceful and server side kill the entity
-        if (!world.isRemote && world.difficulty == Difficulty.PEACEFUL) {
+        if (!level.isClientSide && level.difficulty == Difficulty.PEACEFUL) {
             remove()
         }
     }
@@ -100,23 +88,20 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
         super.baseTick()
 
         // Server side test if the entity has played the spawn animation
-        if (!world.isRemote) {
+        if (!level.isClientSide) {
             if (!this.playedSpawnAnimation) {
                 // If it hasn't played the spawn animation play it to all nearby players
                 AfraidOfTheDark.packetHandler.sendToAllAround(
                     AnimationPacket(this, "Activate"),
-                    PacketDistributor.TargetPoint(posX, posY, posZ, 50.0, dimension)
+                    PacketDistributor.TargetPoint(x, y, z, 50.0, level.dimension())
                 )
                 this.playedSpawnAnimation = true
             }
         }
 
         // If we're client side and no animation is active play the idle animation
-        if (world.isRemote) {
-            if (!animHandler.isAnimationActive("Activate") && !animHandler.isAnimationActive("Charge") && !animHandler.isAnimationActive(
-                    "Idle"
-                )
-            ) {
+        if (level.isClientSide) {
+            if (!animHandler.isAnimationActive("Activate") && !animHandler.isAnimationActive("Charge") && !animHandler.isAnimationActive("Idle")) {
                 animHandler.playAnimation("Idle")
             }
         }
@@ -127,15 +112,15 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
      *
      * @param cause The damage source that killed the skeleton
      */
-    override fun onDeath(cause: DamageSource) {
+    override fun die(cause: DamageSource) {
         // Kill the entity
-        super.onDeath(cause)
+        super.die(cause)
 
         // Only process server side
-        if (!world.isRemote) {
+        if (!level.isClientSide) {
             // If a player killed the entity unlock the gnomish city research
-            if (cause.trueSource is PlayerEntity) {
-                val entityPlayer = cause.trueSource as PlayerEntity
+            if (cause.entity is PlayerEntity) {
+                val entityPlayer = cause.entity as PlayerEntity
                 // If we can unlock the gnomish city research do so
                 val playerResearch = entityPlayer.getResearch()
                 if (playerResearch.canResearch(ModResearches.GNOMISH_CITY)) {
@@ -160,13 +145,13 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
         return 1.5f
     }
 
-    override fun readAdditional(compound: CompoundNBT) {
-        super.readAdditional(compound)
+    override fun readAdditionalSaveData(compound: CompoundNBT) {
+        super.readAdditionalSaveData(compound)
         this.playedSpawnAnimation = compound.getBoolean("played_spawn_animation")
     }
 
-    override fun writeAdditional(compound: CompoundNBT) {
-        super.writeAdditional(compound)
+    override fun addAdditionalSaveData(compound: CompoundNBT) {
+        super.addAdditionalSaveData(compound)
         compound.putBoolean("played_spawn_animation", this.playedSpawnAnimation)
     }
 
@@ -178,5 +163,18 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
         private const val MAX_HEALTH = 20.0
         private const val ATTACK_DAMAGE = 2.0
         private const val KNOCKBACK_RESISTANCE = 0.5
+
+        /**
+         * Sets entity attributes such as max health and movespeed
+         */
+        fun buildAttributeModifiers(): AttributeModifierMap.MutableAttribute {
+            // Make sure to register the attack damage attribute for this entity
+            return LivingEntity.createLivingAttributes()
+                .add(Attributes.MAX_HEALTH, MAX_HEALTH)
+                .add(Attributes.FOLLOW_RANGE, FOLLOW_RANGE)
+                .add(Attributes.KNOCKBACK_RESISTANCE, KNOCKBACK_RESISTANCE)
+                .add(Attributes.MOVEMENT_SPEED, MOVE_SPEED)
+                .add(Attributes.ATTACK_DAMAGE, ATTACK_DAMAGE)
+        }
     }
 }

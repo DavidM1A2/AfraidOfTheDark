@@ -16,7 +16,7 @@ import net.minecraft.nbt.ListNBT
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.DamageSource
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.common.util.Constants
 import java.util.*
@@ -30,19 +30,19 @@ class SummonSentinelsFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, En
     override fun start() {
         // Cast AOE Freeze by Enaria first
         FREEZE_SPELL.attemptToCast(fight.enaria)
-        enariaCastPosition = fight.enaria.position
+        enariaCastPosition = fight.enaria.blockPosition()
 
         // Summon 8 sentinels around the ice
-        val particlePositions = mutableListOf<Vec3d>()
+        val particlePositions = mutableListOf<Vector3d>()
         for (x in -1..1) {
             for (z in -1..1) {
                 if (x != 0 || z != 0) {
-                    val splinterDrone = SplinterDroneEntity(fight.enaria.world)
-                    val position = fight.enaria.position.add(x * 5, 0, z * 5)
-                    particlePositions.add(Vec3d(position.x + Random.nextDouble(), position.y + Random.nextDouble(), position.z + Random.nextDouble()))
-                    splinterDrone.setPosition(position.x + 0.5, position.y.toDouble(), position.z + 0.5)
-                    fight.enaria.world.addEntity(splinterDrone)
-                    splinterDroneIds.add(splinterDrone.uniqueID)
+                    val splinterDrone = SplinterDroneEntity(fight.enaria.level)
+                    val position = fight.enaria.blockPosition().offset(x * 5, 0, z * 5)
+                    particlePositions.add(Vector3d(position.x + Random.nextDouble(), position.y + Random.nextDouble(), position.z + Random.nextDouble()))
+                    splinterDrone.setPos(position.x + 0.5, position.y.toDouble(), position.z + 0.5)
+                    fight.enaria.level.addFreshEntity(splinterDrone)
+                    splinterDroneIds.add(splinterDrone.uuid)
                 }
             }
         }
@@ -72,19 +72,19 @@ class SummonSentinelsFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, En
 
     private fun killSplinterDronesAndClearIce() {
         // Kill any remaining splinter drones
-        val world = fight.enaria.world
+        val world = fight.enaria.level
         splinterDroneIds.forEach {
             // If we use entity.onKillCommand() they disappear without any animation, if we apply 99999 true damage they play the animation which looks better
-            (world as ServerWorld).getEntityByUuid(it)?.attackEntityFrom(DamageSource.OUT_OF_WORLD, 99999f)
+            (world as ServerWorld).getEntity(it)?.hurt(DamageSource.OUT_OF_WORLD, 99999f)
         }
 
         // Clear out the ice
         for (x in -3..3) {
             for (y in -2..4) {
                 for (z in -3..3) {
-                    val position = enariaCastPosition.add(x, y, z)
+                    val position = enariaCastPosition.offset(x, y, z)
                     if (world.getBlockState(position).block == Blocks.ICE) {
-                        world.setBlockState(position, Blocks.CAVE_AIR.defaultState)
+                        world.setBlockAndUpdate(position, Blocks.CAVE_AIR.defaultBlockState())
                     }
                 }
             }
@@ -103,7 +103,7 @@ class SummonSentinelsFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, En
 
         val splinterDroneIdNbts = ListNBT()
         splinterDroneIds.forEach {
-            splinterDroneIdNbts.add(NBTUtil.writeUniqueId(it))
+            splinterDroneIdNbts.add(NBTUtil.createUUID(it))
         }
         nbt.put(NBT_SPLINTER_DRONE_IDS, splinterDroneIdNbts)
 
@@ -119,7 +119,7 @@ class SummonSentinelsFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, En
         val splinterDroneIdNbts = nbt.getList(NBT_SPLINTER_DRONE_IDS, Constants.NBT.TAG_COMPOUND)
         splinterDroneIds.clear()
         splinterDroneIdNbts.forEach {
-            splinterDroneIds.add(NBTUtil.readUniqueId(it as CompoundNBT))
+            splinterDroneIds.add(NBTUtil.loadUUID(it as CompoundNBT))
         }
     }
 

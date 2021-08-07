@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria
 
-import net.minecraft.entity.SharedMonsterAttributes
+import net.minecraft.entity.ai.attributes.Attributes
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.player.PlayerEntity
 
@@ -27,20 +27,20 @@ class FollowPlayerGoal(
     /**
      * @return True if the following should execute, false otherwise
      */
-    override fun shouldExecute(): Boolean {
+    override fun canUse(): Boolean {
         if (!entity.canMove) {
             return false
         }
 
         // Grab a list of nearby players
         val players =
-            entity.world.getEntitiesWithinAABB(PlayerEntity::class.java, entity.boundingBox.grow(trackRange))
+            entity.level.getEntitiesOfClass(PlayerEntity::class.java, entity.boundingBox.inflate(trackRange))
 
         // Grab the closest player, if there is no closest player return false
-        val closestPlayer = players.minWithOrNull { p1, p2 -> p1.getDistance(entity).compareTo(p2.getDistance(entity)) } ?: return false
+        val closestPlayer = players.minWithOrNull { p1, p2 -> p1.distanceTo(entity).compareTo(p2.distanceTo(entity)) } ?: return false
 
         // If the distance to the player is less than min don't walk towards the player
-        val distance = closestPlayer.getDistance(entity).toDouble()
+        val distance = closestPlayer.distanceTo(entity).toDouble()
         return if (distance < minRange) {
             false
         } else {
@@ -52,9 +52,9 @@ class FollowPlayerGoal(
     /**
      * Resets the task and clears the existing path
      */
-    override fun resetTask() {
+    override fun stop() {
         // Clear the path, clear the target, and reset the update tick counter
-        entity.navigator.clearPath()
+        entity.navigation.recomputePath()
         target = null
         ticksUntilNextUpdate = 0
     }
@@ -62,7 +62,7 @@ class FollowPlayerGoal(
     /**
      * @return True if the pathing should continue to execute, false otherwise
      */
-    override fun shouldContinueExecuting(): Boolean {
+    override fun canContinueToUse(): Boolean {
         if (!entity.canMove) {
             return false
         }
@@ -71,7 +71,7 @@ class FollowPlayerGoal(
         return if (!target!!.isAlive) {
             false
         } else {
-            val distance = entity.getDistance(target!!).toDouble()
+            val distance = entity.distanceTo(target!!).toDouble()
             distance in minRange..maxRange
         }
     }
@@ -84,9 +84,9 @@ class FollowPlayerGoal(
         if (ticksUntilNextUpdate-- <= 0) {
             ticksUntilNextUpdate = TICKS_BETWEEN_PATHING_UPDATES
             // Move to the player to the entity
-            entity.navigator.tryMoveToEntityLiving(
+            entity.navigation.moveTo(
                 target!!,
-                entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).value
+                entity.getAttribute(Attributes.MOVEMENT_SPEED)!!.value
             )
         }
     }

@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.animation
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Channel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.KeyFrame
-import net.minecraft.client.renderer.Quaternion
-import net.minecraft.client.renderer.Vector3f
+import net.minecraft.util.math.vector.Quaternion
+import net.minecraft.util.math.vector.Vector3f
 
 
 /**

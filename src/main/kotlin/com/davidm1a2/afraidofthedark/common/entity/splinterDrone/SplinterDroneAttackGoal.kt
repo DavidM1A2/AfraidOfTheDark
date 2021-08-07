@@ -4,7 +4,6 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.network.packets.animationPackets.AnimationPacket
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.goal.Goal
-import net.minecraft.util.math.BlockPos
 import net.minecraftforge.fml.network.PacketDistributor
 
 /**
@@ -24,14 +23,14 @@ class SplinterDroneAttackGoal(private val splinterDrone: SplinterDroneEntity) : 
      *
      * @return True if we have a target, false otherwise
      */
-    override fun shouldExecute(): Boolean {
+    override fun canUse(): Boolean {
         // If the splinter drone is 'activating' don't attack yet (4 seconds)
-        if (splinterDrone.ticksExisted < 80) {
+        if (splinterDrone.tickCount < 80) {
             return false
         }
 
         // Grab the target entity
-        val target = splinterDrone.attackTarget
+        val target = splinterDrone.target
 
         // If there is no target don't execute the attack
         return if (target == null) {
@@ -47,14 +46,14 @@ class SplinterDroneAttackGoal(private val splinterDrone: SplinterDroneEntity) : 
      *
      * @return True if the attack should continue, false otherwise
      */
-    override fun shouldContinueExecuting(): Boolean {
-        return shouldExecute() && splinterDrone.canEntityBeSeen(target!!)
+    override fun canContinueToUse(): Boolean {
+        return canUse() && splinterDrone.canSee(target!!)
     }
 
     /**
      * Resets the task as if nothing had happened yet
      */
-    override fun resetTask() {
+    override fun stop() {
         // Reset target and time until next attack
         target = null
         timeUntilNextAttack = TIME_BETWEEN_ATTACKS
@@ -65,21 +64,21 @@ class SplinterDroneAttackGoal(private val splinterDrone: SplinterDroneEntity) : 
      */
     override fun tick() {
         // Server side processing only
-        if (!target!!.world.isRemote) {
+        if (!target!!.level.isClientSide) {
             // Look at the target player
-            splinterDrone.lookController.setLookPositionWithEntity(target!!, 30.0f, 30.0f)
+            splinterDrone.lookControl.setLookAt(target!!, 30.0f, 30.0f)
 
             // Engage the player if there is a valid target (should always be true)
-            if (splinterDrone.attackTarget != null) {
+            if (splinterDrone.target != null) {
                 // Play the charge animation if it is not already playing and activate is not already playing
                 AfraidOfTheDark.packetHandler.sendToAllAround(
                     AnimationPacket(splinterDrone, "Charge", "Activate", "Charge"),
                     PacketDistributor.TargetPoint(
-                        splinterDrone.posX,
-                        splinterDrone.posY,
-                        splinterDrone.posZ,
+                        splinterDrone.x,
+                        splinterDrone.y,
+                        splinterDrone.z,
                         50.0,
-                        splinterDrone.dimension
+                        splinterDrone.level.dimension()
                     )
                 )
             }
@@ -87,27 +86,21 @@ class SplinterDroneAttackGoal(private val splinterDrone: SplinterDroneEntity) : 
             // If we are ready to attack do so
             if (timeUntilNextAttack-- <= 0) {
                 // Compute the x, y, and z velocities of the projectile
-                var xVelocity = target!!.posX - splinterDrone.posX
-                var yVelocity =
-                    target!!.boundingBox.minY + (target!!.height / 2.0f).toDouble() - (splinterDrone.posY + (splinterDrone.height / 2.0f).toDouble())
-                var zVelocity = target!!.posZ - splinterDrone.posZ
+                var xVelocity = target!!.x - splinterDrone.x
+                var yVelocity = target!!.y + target!!.eyeHeight / 2.0 - (splinterDrone.y + splinterDrone.eyeHeight / 2.0)
+                var zVelocity = target!!.z - splinterDrone.z
 
                 // Add random inaccuracy distributed over a gaussian with 0.4 block max inaccuracy
-                xVelocity = xVelocity + splinterDrone.rng.nextGaussian() * 0.4 - 0.2
-                yVelocity = yVelocity + splinterDrone.rng.nextGaussian() * 0.4 - 0.2
-                zVelocity = zVelocity + splinterDrone.rng.nextGaussian() * 0.4 - 0.2
+                xVelocity = xVelocity + splinterDrone.random.nextGaussian() * 0.4 - 0.2
+                yVelocity = yVelocity + splinterDrone.random.nextGaussian() * 0.4 - 0.2
+                zVelocity = zVelocity + splinterDrone.random.nextGaussian() * 0.4 - 0.2
 
                 // Create the projectile and spawn it in
-                val attackShot = SplinterDroneProjectileEntity(splinterDrone.world, splinterDrone, xVelocity, yVelocity, zVelocity)
-                splinterDrone.world.addEntity(attackShot)
+                val attackShot = SplinterDroneProjectileEntity(splinterDrone.level, splinterDrone, xVelocity, yVelocity, zVelocity)
+                splinterDrone.level.addFreshEntity(attackShot)
 
                 // Play the shoot fireball sound effect
-                splinterDrone.world.playEvent(
-                    null,
-                    1018,
-                    BlockPos(splinterDrone.posX, splinterDrone.posY, splinterDrone.posZ),
-                    0
-                )
+                splinterDrone.level.levelEvent(null, 1018, splinterDrone.blockPosition(), 0)
 
                 // Attack again in the future
                 timeUntilNextAttack = TIME_BETWEEN_ATTACKS

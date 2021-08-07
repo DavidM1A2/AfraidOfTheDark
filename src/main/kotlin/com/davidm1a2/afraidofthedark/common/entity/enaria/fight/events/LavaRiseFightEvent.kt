@@ -53,19 +53,19 @@ class LavaRiseFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFig
     }
 
     private fun raiseLavaLevel() {
-        val world = fight.enaria.world
+        val world = fight.enaria.level
         iterateOverRegion(relativeToAbsolutePosition(-30, -1 + currentLavaLevel, -3), relativeToAbsolutePosition(30, -1 + currentLavaLevel, 79)) {
-            if (world.getBlockState(it).isAir(world, it)) {
-                world.setBlockState(it, Blocks.LAVA.defaultState)
+            if (world.isEmptyBlock(it)) {
+                world.setBlockAndUpdate(it, Blocks.LAVA.defaultBlockState())
             }
         }
     }
 
     private fun lowerLavaLevel() {
-        val world = fight.enaria.world
+        val world = fight.enaria.level
         iterateOverRegion(relativeToAbsolutePosition(-30, -1 + currentLavaLevel, -3), relativeToAbsolutePosition(30, -1 + currentLavaLevel, 79)) {
             if (world.getBlockState(it).block == Blocks.LAVA) {
-                world.setBlockState(it, Blocks.AIR.defaultState)
+                world.setBlockAndUpdate(it, Blocks.AIR.defaultBlockState())
             }
         }
     }

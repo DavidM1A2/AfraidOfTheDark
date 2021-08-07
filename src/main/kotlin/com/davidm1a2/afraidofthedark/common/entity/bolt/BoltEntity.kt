@@ -66,13 +66,13 @@ abstract class BoltEntity : AbstractArrowEntity {
         super.onHit(result)
 
         // Server side processing only
-        if (!world.isRemote) {
+        if (!level.isClientSide) {
             // Test if we hit an entity or the ground
             if (result.type == RayTraceResult.Type.ENTITY) {
                 val entityHit = (result as EntityRayTraceResult).entity
                 // Test if the shooter of the bolt is a player
-                if (shooter is PlayerEntity) {
-                    entityHit.attackEntityFrom(damageSourceProducer(shooter as PlayerEntity), damage.toFloat())
+                if (owner is PlayerEntity) {
+                    entityHit.hurt(damageSourceProducer(owner as PlayerEntity), damage.toFloat())
                 }
 
                 if (Math.random() >= chanceToDropHitEntity) {
@@ -86,15 +86,15 @@ abstract class BoltEntity : AbstractArrowEntity {
         }
     }
 
-    override fun onEntityHit(result: EntityRayTraceResult) {
+    override fun onHitEntity(result: EntityRayTraceResult) {
         // Called when an entity is hit, no op since we do that calculation in onHit()
     }
 
-    override fun getArrowStack(): ItemStack {
+    override fun getPickupItem(): ItemStack {
         return ItemStack(drop)
     }
 
-    override fun createSpawnPacket(): IPacket<*> {
+    override fun getAddEntityPacket(): IPacket<*> {
         return NetworkHooks.getEntitySpawningPacket(this)
     }
 }

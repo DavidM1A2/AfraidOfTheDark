@@ -82,9 +82,9 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
 
     private fun useSmokeScreen(): Boolean {
         val nearestPlayerDistance = fight.playersInFight.mapNotNull {
-            fight.enaria.world.getPlayerByUuid(it)
+            fight.enaria.level.getPlayerByUUID(it)
         }.map {
-            fight.enaria.getDistanceSq(it)
+            fight.enaria.distanceToSqr(it)
         }.minOrNull()
 
         // This attack requires a player within 10 blocks
@@ -106,17 +106,35 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
 
     private fun useRandomTeleport(): Boolean {
         val enaria = fight.enaria
-        val world = enaria.world
+        val world = enaria.level
         val nearestPlayer = fight.playersInFight.mapNotNull {
-            world.getPlayerByUuid(it)
+            world.getPlayerByUUID(it)
         }.minByOrNull {
-            enaria.getDistanceSq(it)
+            enaria.distanceToSqr(it)
         }
 
         return if (nearestPlayer != null) {
-            world.playSound(null, enaria.posX, enaria.posY, enaria.posZ, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.HOSTILE, 1.0f, 1.0f)
-            enaria.setPositionAndUpdate(nearestPlayer.posX, nearestPlayer.posY, nearestPlayer.posZ)
-            world.playSound(null, enaria.posX, enaria.posY, enaria.posZ, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.HOSTILE, 1.0f, 1.0f)
+            world.playSound(
+                null,
+                enaria.x,
+                enaria.y,
+                enaria.z,
+                SoundEvents.ENDERMAN_TELEPORT,
+                SoundCategory.HOSTILE,
+                1.0f,
+                1.0f
+            )
+            enaria.teleportTo(nearestPlayer.x, nearestPlayer.y, nearestPlayer.z)
+            world.playSound(
+                null,
+                enaria.x,
+                enaria.y,
+                enaria.z,
+                SoundEvents.ENDERMAN_TELEPORT,
+                SoundCategory.HOSTILE,
+                1.0f,
+                1.0f
+            )
             true
         } else {
             false
@@ -125,11 +143,11 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
 
     private fun lookAtNearestPlayer() {
         fight.playersInFight.mapNotNull {
-            fight.enaria.world.getPlayerByUuid(it)
+            fight.enaria.level.getPlayerByUUID(it)
         }.minByOrNull {
-            fight.enaria.getDistanceSq(it)
+            fight.enaria.distanceToSqr(it)
         }?.let {
-            fight.enaria.lookAt(EntityAnchorArgument.Type.EYES, it.positionVec.add(0.0, 1.8, 0.0))
+            fight.enaria.lookAt(EntityAnchorArgument.Type.EYES, it.position().add(0.0, 1.8, 0.0))
         }
     }
 
@@ -177,7 +195,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 }
                 effects[0] = SpellEffectInstance(ModSpellEffects.POTION_EFFECT).apply {
                     setDefaults()
-                    ModSpellEffects.POTION_EFFECT.setPotionType(this, Effects.SLOWNESS)
+                    ModSpellEffects.POTION_EFFECT.setPotionType(this, Effects.MOVEMENT_SLOWDOWN)
                     ModSpellEffects.POTION_EFFECT.setPotionStrength(this, 2)
                     ModSpellEffects.POTION_EFFECT.setPotionDuration(this, 20 * 15)
                 }
@@ -225,7 +243,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 }
                 effects[0] = SpellEffectInstance(ModSpellEffects.POTION_EFFECT).apply {
                     setDefaults()
-                    ModSpellEffects.POTION_EFFECT.setPotionType(this, Effects.INSTANT_DAMAGE)
+                    ModSpellEffects.POTION_EFFECT.setPotionType(this, Effects.HARM)
                     ModSpellEffects.POTION_EFFECT.setPotionStrength(this, 1)
                     ModSpellEffects.POTION_EFFECT.setPotionDuration(this, 1)
                 }

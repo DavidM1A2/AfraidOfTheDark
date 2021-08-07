@@ -16,8 +16,10 @@ import com.davidm1a2.afraidofthedark.common.network.packets.animationPackets.Ani
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.Pose
-import net.minecraft.entity.SharedMonsterAttributes
+import net.minecraft.entity.ai.attributes.AttributeModifierMap
+import net.minecraft.entity.ai.attributes.Attributes
 import net.minecraft.entity.ai.goal.HurtByTargetGoal
 import net.minecraft.entity.ai.goal.LookAtGoal
 import net.minecraft.entity.ai.goal.LookRandomlyGoal
@@ -25,6 +27,7 @@ import net.minecraft.entity.ai.goal.MeleeAttackGoal
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal
 import net.minecraft.entity.ai.goal.RandomWalkingGoal
 import net.minecraft.entity.ai.goal.SwimGoal
+import net.minecraft.entity.item.ItemEntity
 import net.minecraft.entity.monster.MonsterEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -56,7 +59,7 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
 
     init {
         // Set how much XP the skeleton is worth
-        experienceValue = 4
+        xpReward = 4
     }
 
     /**
@@ -67,11 +70,11 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
         // If the entity can swim and it's in water it must do that otherwise it will skin
         goalSelector.addGoal(1, SwimGoal(this))
         // If it's not swimming, test if we can engage in combat, if so do that
-        goalSelector.addGoal(2, MeleeAttackGoal(this, (MOVE_SPEED / 4).toDouble(), false))
+        goalSelector.addGoal(2, MeleeAttackGoal(this, MOVE_SPEED / 4, false))
         // If the entity isn't attacking then try to walk around
-        goalSelector.addGoal(3, RandomWalkingGoal(this, (MOVE_SPEED / 4).toDouble()))
+        goalSelector.addGoal(3, RandomWalkingGoal(this, MOVE_SPEED / 4))
         // If the entity isn't wandering then try to watch whatever entity is nearby
-        goalSelector.addGoal(4, LookAtGoal(this, PlayerEntity::class.java, AGRO_RANGE))
+        goalSelector.addGoal(4, LookAtGoal(this, PlayerEntity::class.java, AGRO_RANGE.toFloat()))
         // If the entity isn't walking, attacking, or watching anything look idle
         goalSelector.addGoal(5, LookRandomlyGoal(this))
         // Targeting tasks get executed when the entity wants to attack and select a target
@@ -82,36 +85,24 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
     }
 
     /**
-     * Sets entity attributes such as max health and movespeed
-     */
-    override fun registerAttributes() {
-        super.registerAttributes()
-        attributes.getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH)?.baseValue = MAX_HEALTH.toDouble()
-        attributes.getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE)?.baseValue = FOLLOW_RANGE.toDouble()
-        attributes.getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE)?.baseValue = KNOCKBACK_RESISTANCE.toDouble()
-        attributes.getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED)?.baseValue = MOVE_SPEED.toDouble()
-        attributes.getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE)?.baseValue = ATTACK_DAMAGE.toDouble()
-    }
-
-    /**
      * Called every game tick for the entity
      */
     override fun baseTick() {
         // Don't forget to call super!
         super.baseTick()
         // If we're server side
-        if (!world.isRemote) {
+        if (!level.isClientSide) {
             // If we haven't played the spawn animation yet, play it now
             if (!playedSpawnAnimation) {
                 // Tell clients to show the spawn animation
                 AfraidOfTheDark.packetHandler.sendToAllAround(
                     AnimationPacket(this, "Spawn"),
-                    PacketDistributor.TargetPoint(posX, posY, posZ, 50.0, dimension)
+                    PacketDistributor.TargetPoint(x, y, z, 50.0, level.dimension())
                 )
 
                 // Give the skeleton slowness and weakness for 3 seconds with level 100 so it can't do anything while spawning
-                addPotionEffect(EffectInstance(Effects.SLOWNESS, 60, 100))
-                addPotionEffect(EffectInstance(Effects.WEAKNESS, 60, 100))
+                addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, 60, 100))
+                addEffect(EffectInstance(Effects.WEAKNESS, 60, 100))
 
                 // Set our flag
                 playedSpawnAnimation = true
@@ -119,11 +110,11 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
         }
 
         // If we're on client side test if we need to show walking animations
-        if (world.isRemote) {
+        if (level.isClientSide) {
             // If spawn and attack are not active test if we can show walking animations
             if (!animHandler.isAnimationActive("Spawn") && !animHandler.isAnimationActive("Attack")) {
                 // If the entity is moving show the walking animation
-                if (motion.x > 0.05 || motion.z > 0.05 || motion.x < -0.05 || motion.z < -0.05) {
+                if (deltaMovement.x > 0.05 || deltaMovement.z > 0.05 || deltaMovement.x < -0.05 || deltaMovement.z < -0.05) {
                     if (!animHandler.isAnimationActive("Walk")) {
                         animHandler.playAnimation("Walk")
                     }
@@ -141,16 +132,16 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
      *
      * @param damageSource The damage source that killed the skeleton
      */
-    override fun onDeath(damageSource: DamageSource) {
+    override fun die(damageSource: DamageSource) {
         // Call super
-        super.onDeath(damageSource)
+        super.die(damageSource)
 
         // Server side processing only
-        if (!world.isRemote) {
+        if (!level.isClientSide) {
             // Test if a player killed the skeleton
-            if (damageSource.trueSource is PlayerEntity) {
+            if (damageSource.entity is PlayerEntity) {
                 // Grab a reference to the player
-                val killer = damageSource.trueSource as PlayerEntity
+                val killer = damageSource.entity as PlayerEntity
                 // Grab the player's research
                 val playerResearch = killer.getResearch()
                 // If the player can research the blade of exhumation research give him the research
@@ -162,8 +153,8 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
 
                 // If the blade of exhumation research is researched and the player is using a blade of exhumation drop one extra enchanted skeleton bone
                 if (playerResearch.isResearched(ModResearches.BLADE_OF_EXHUMATION)) {
-                    if (killer.heldItemMainhand.item is BladeOfExhumationItem) {
-                        entityDropItem(ItemStack(ModItems.ENCHANTED_SKELETON_BONE), 1f)
+                    if (killer.mainHandItem.item is BladeOfExhumationItem) {
+                        level.addFreshEntity(ItemEntity(level, x, y, z, ItemStack(ModItems.ENCHANTED_SKELETON_BONE)))
                     }
                 }
             }
@@ -182,14 +173,14 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
      * @return the sound this mob makes when it is hurt.
      */
     override fun getHurtSound(damageSourceIn: DamageSource): SoundEvent {
-        return SoundEvents.ENTITY_SKELETON_HURT
+        return SoundEvents.SKELETON_HURT
     }
 
     /**
      * @return Returns the sound this mob makes on death.
      */
     override fun getDeathSound(): SoundEvent {
-        return SoundEvents.ENTITY_SKELETON_DEATH
+        return SoundEvents.SKELETON_DEATH
     }
 
     /**
@@ -199,7 +190,7 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
      * @param state The block the entity is over
      */
     override fun playStepSound(pos: BlockPos, state: BlockState) {
-        playSound(SoundEvents.ENTITY_SKELETON_STEP, 0.15f, 1.0f)
+        playSound(SoundEvents.SKELETON_STEP, 0.15f, 1.0f)
     }
 
     /**
@@ -208,11 +199,11 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
      * @param entity The entity attacked
      * @return True if the attack goes through, false otherwise
      */
-    override fun attackEntityAsMob(entity: Entity): Boolean {
+    override fun doHurtTarget(entity: Entity): Boolean {
         // Server side processing the hit only
-        if (!entity.world.isRemote) {
+        if (!entity.level.isClientSide) {
             // If the entity has slowness 100, then it is still spawning so it can't attack
-            this.getActivePotionEffect(Effects.SLOWNESS)?.let {
+            this.getEffect(Effects.MOVEMENT_SLOWDOWN)?.let {
                 if (it.amplifier == 100) {
                     return false
                 }
@@ -221,17 +212,17 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
             // Test if the entity is a player or not
             if (entity is PlayerEntity) {
                 // Add slowness and weakness 1 to the player if hit by a skeleton
-                entity.addPotionEffect(EffectInstance(Effects.SLOWNESS, 80, 0, false, true))
-                entity.addPotionEffect(EffectInstance(Effects.WEAKNESS, 80, 0, false, true))
+                entity.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, 80, 0, false, true))
+                entity.addEffect(EffectInstance(Effects.WEAKNESS, 80, 0, false, true))
             }
 
             // Send a packet to the other players telling them the skeleton attacked
             AfraidOfTheDark.packetHandler.sendToAllAround(
                 AnimationPacket(this, "Attack", "Attack", "Spawn"),
-                PacketDistributor.TargetPoint(posX, posY, posZ, 15.0, dimension)
+                PacketDistributor.TargetPoint(x, y, z, 15.0, level.dimension())
             )
         }
-        return super.attackEntityAsMob(entity)
+        return super.doHurtTarget(entity)
     }
 
     /**
@@ -241,23 +232,35 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
         return 1.9f
     }
 
-    override fun readAdditional(compound: CompoundNBT) {
-        super.readAdditional(compound)
+    override fun readAdditionalSaveData(compound: CompoundNBT) {
+        super.readAdditionalSaveData(compound)
         this.playedSpawnAnimation = compound.getBoolean("played_spawn_animation")
     }
 
-    override fun writeAdditional(compound: CompoundNBT) {
-        super.writeAdditional(compound)
+    override fun addAdditionalSaveData(compound: CompoundNBT) {
+        super.addAdditionalSaveData(compound)
         compound.putBoolean("played_spawn_animation", this.playedSpawnAnimation)
     }
 
     companion object {
         // Constants defining skeleton parameters
-        private const val MOVE_SPEED = 1.0f
-        private const val AGRO_RANGE = 16.0f
-        private const val FOLLOW_RANGE = 32.0f
-        private const val MAX_HEALTH = 7.0f
-        private const val ATTACK_DAMAGE = 4.0f
-        private const val KNOCKBACK_RESISTANCE = 0.5f
+        private const val MOVE_SPEED = 1.0
+        private const val AGRO_RANGE = 16.0
+        private const val FOLLOW_RANGE = 32.0
+        private const val MAX_HEALTH = 7.0
+        private const val ATTACK_DAMAGE = 4.0
+        private const val KNOCKBACK_RESISTANCE = 0.5
+
+        /**
+         * Gives the enchanted skeleton entity attributes like damage and movespeed
+         */
+        fun buildAttributeModifiers(): AttributeModifierMap.MutableAttribute {
+            return LivingEntity.createLivingAttributes()
+                .add(Attributes.MAX_HEALTH, MAX_HEALTH)
+                .add(Attributes.FOLLOW_RANGE, FOLLOW_RANGE)
+                .add(Attributes.KNOCKBACK_RESISTANCE, KNOCKBACK_RESISTANCE)
+                .add(Attributes.MOVEMENT_SPEED, MOVE_SPEED)
+                .add(Attributes.ATTACK_DAMAGE, ATTACK_DAMAGE)
+        }
     }
 }

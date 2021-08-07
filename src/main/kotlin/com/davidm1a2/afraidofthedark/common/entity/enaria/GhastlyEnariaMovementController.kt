@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria
 
 import net.minecraft.entity.ai.controller.MovementController
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import kotlin.math.sqrt
 
 /**
@@ -15,14 +15,14 @@ class GhastlyEnariaMovementController(enaria: GhastlyEnariaEntity) : MovementCon
      */
     override fun tick() {
         // Only update if updating is true
-        if (this.isUpdating) {
+        if (operation == Action.MOVE_TO) {
             // Code copied from super, moves the entity in the direction enaria wants to move to
-            action = Action.WAIT
+            operation = Action.WAIT
 
             // Compute the distance between the entities current position and the position the entity wants to be in
-            val xDifference = posX - mob.posX
-            val yDifference = posY - mob.posY
-            val zDifference = posZ - mob.posZ
+            val xDifference = this.wantedX - mob.x
+            val yDifference = this.wantedY - mob.y
+            val zDifference = this.wantedZ - mob.z
 
             // Compute the total difference in all distances
             val totalDifference =
@@ -30,10 +30,10 @@ class GhastlyEnariaMovementController(enaria: GhastlyEnariaEntity) : MovementCon
 
             // If we haven't gotten to the final position update the entities motion to be in the correct direction
             if (totalDifference != 0.0) {
-                mob.motion = Vec3d(
-                    mob.motion.x + xDifference / totalDifference * speed,
-                    mob.motion.y + yDifference / totalDifference * speed,
-                    mob.motion.z + zDifference / totalDifference * speed
+                mob.deltaMovement = Vector3d(
+                    mob.deltaMovement.x + xDifference / totalDifference * speedModifier,
+                    mob.deltaMovement.y + yDifference / totalDifference * speedModifier,
+                    mob.deltaMovement.z + zDifference / totalDifference * speedModifier
                 )
             }
         }
