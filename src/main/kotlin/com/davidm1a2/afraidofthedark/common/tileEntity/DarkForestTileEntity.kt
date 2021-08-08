@@ -27,7 +27,7 @@ class DarkForestTileEntity : AOTDTickingTileEntity(ModTileEntities.DARK_FOREST) 
     override fun tick() {
         super.tick()
         // Server side processing only
-        if (world?.isRemote == false) {
+        if (level?.isClientSide == false) {
             updateNearbyPlayers()
             spawnCultistTome()
         }
@@ -37,16 +37,16 @@ class DarkForestTileEntity : AOTDTickingTileEntity(ModTileEntities.DARK_FOREST) 
         // If we've existed for a multiple of 60 ticks perform a check for nearby players
         if (ticksExisted % TICKS_INBETWEEN_PLAYER_CHECKS == 0L) {
             // Grab all nearby players
-            for (entityPlayer in world!!.getEntitiesWithinAABB(
+            for (entityPlayer in level!!.getEntitiesOfClass(
                 PlayerEntity::class.java,
                 AxisAlignedBB(
-                    pos.x.toDouble(),
-                    pos.y.toDouble(),
-                    pos.z.toDouble(),
-                    (pos.x + 1).toDouble(),
-                    (pos.y + 1).toDouble(),
-                    (pos.z + 1).toDouble()
-                ).grow(CHECK_RANGE.toDouble())
+                    blockPos.x.toDouble(),
+                    blockPos.y.toDouble(),
+                    blockPos.z.toDouble(),
+                    (blockPos.x + 1).toDouble(),
+                    (blockPos.y + 1).toDouble(),
+                    (blockPos.z + 1).toDouble()
+                ).inflate(CHECK_RANGE.toDouble())
             )) {
                 // Grab their research
                 val playerResearch = entityPlayer.getResearch()
@@ -61,22 +61,19 @@ class DarkForestTileEntity : AOTDTickingTileEntity(ModTileEntities.DARK_FOREST) 
                 // bottles with sleeping potion bottles.
                 if (playerResearch.isResearched(ModResearches.DARK_FOREST)) {
                     // 6 seconds of sleeping potion effect
-                    entityPlayer.addPotionEffect(EffectInstance(ModEffects.SLEEPING, 120, 0, true, false))
+                    entityPlayer.addEffect(EffectInstance(ModEffects.SLEEPING, 120, 0, true, false))
                     // Replace all water bottles with sleeping potions
-                    for (i in entityPlayer.inventory.mainInventory.indices) {
+                    for (i in entityPlayer.inventory.items.indices) {
                         // Grab the stack in the current slot
-                        val itemStack = entityPlayer.inventory.getStackInSlot(i)
+                        val itemStack = entityPlayer.inventory.getItem(i)
 
                         // If it's a potion with type water unlock the sleeping potion research and replace water bottles with sleeping potions
-                        if (PotionUtils.getPotionFromItem(itemStack) == Potions.WATER) {
+                        if (PotionUtils.getPotion(itemStack) == Potions.WATER) {
                             if (playerResearch.canResearch(ModResearches.SLEEPING_POTION)) {
                                 playerResearch.setResearch(ModResearches.SLEEPING_POTION, true)
                                 playerResearch.sync(entityPlayer, true)
                             }
-                            entityPlayer.inventory.setInventorySlotContents(
-                                i,
-                                ItemStack(ModItems.SLEEPING_POTION, itemStack.count)
-                            )
+                            entityPlayer.inventory.setItem(i, ItemStack(ModItems.SLEEPING_POTION, itemStack.count))
                         }
                     }
                 }
@@ -87,12 +84,12 @@ class DarkForestTileEntity : AOTDTickingTileEntity(ModTileEntities.DARK_FOREST) 
     private fun spawnCultistTome() {
         if (ticksExisted % TICKS_INBETWEEN_CULTIST_TOME_CHECKS == 0L) {
             // Spawn a cultist tome
-            val tomeX = pos.x + Random.nextDouble(-TOME_SPAWN_RANGE, TOME_SPAWN_RANGE)
-            val tomeY = pos.y - 7.0
-            val tomeZ = pos.z + Random.nextDouble(-TOME_SPAWN_RANGE, TOME_SPAWN_RANGE)
+            val tomeX = blockPos.x + Random.nextDouble(-TOME_SPAWN_RANGE, TOME_SPAWN_RANGE)
+            val tomeY = blockPos.y - 7.0
+            val tomeZ = blockPos.z + Random.nextDouble(-TOME_SPAWN_RANGE, TOME_SPAWN_RANGE)
 
-            val tome = ItemEntity(world!!, tomeX, tomeY, tomeZ, ItemStack(ModItems.CULTIST_TOME))
-            world!!.addEntity(tome)
+            val tome = ItemEntity(level!!, tomeX, tomeY, tomeZ, ItemStack(ModItems.CULTIST_TOME))
+            level!!.addFreshEntity(tome)
         }
     }
 

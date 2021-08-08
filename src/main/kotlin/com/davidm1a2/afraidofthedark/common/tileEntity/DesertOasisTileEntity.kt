@@ -12,7 +12,7 @@ import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntit
 import net.minecraft.block.Blocks
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.fml.network.PacketDistributor
 import kotlin.math.cos
 import kotlin.math.sin
@@ -33,7 +33,7 @@ class DesertOasisTileEntity : AOTDTickingTileEntity(ModTileEntities.DESERT_OASIS
     override fun tick() {
         super.tick()
         // Server side processing only
-        if (world?.isRemote == false) {
+        if (level?.isClientSide == false) {
             // If we've existed for a multiple of 60 ticks perform a check for nearby players
             if (ticksExisted % TICKS_INBETWEEN_CHECKS == 0L) {
                 if (!::oasisBoundingBox.isInitialized) {
@@ -41,7 +41,7 @@ class DesertOasisTileEntity : AOTDTickingTileEntity(ModTileEntities.DESERT_OASIS
                 }
 
                 // Get all existing frogs
-                val enchantedFrogs = world!!.getEntitiesWithinAABB(EnchantedFrogEntity::class.java, oasisBoundingBox)
+                val enchantedFrogs = level!!.getEntitiesOfClass(EnchantedFrogEntity::class.java, oasisBoundingBox)
                 // Compute the number of frogs to spawn
                 val numberOfFrogsToSpawn =
                     (MAX_NUMBER_OF_FROGS - enchantedFrogs.size).coerceIn(0, MAX_NUMBER_OF_FROGS_TO_SPAWN_AT_ONCE)
@@ -54,11 +54,11 @@ class DesertOasisTileEntity : AOTDTickingTileEntity(ModTileEntities.DESERT_OASIS
      * Updates the oasis bounding box based on position
      */
     private fun computeOasisBoundingBox() {
-        oasisBoundingBox = AxisAlignedBB(pos).grow(
+        oasisBoundingBox = AxisAlignedBB(blockPos).inflate(
             ModSchematics.DESERT_OASIS.getWidth() / 2.0,
             0.0,
             ModSchematics.DESERT_OASIS.getLength() / 2.0
-        ).expand(
+        ).expandTowards(
             0.0,
             // The DesertOasis sits at y=6 (relative to 0,0,0) so don't look up past the bounds of the structure
             ModSchematics.DESERT_OASIS.getHeight().toDouble() - 6,
@@ -84,7 +84,7 @@ class DesertOasisTileEntity : AOTDTickingTileEntity(ModTileEntities.DESERT_OASIS
             // Find the first surface block that the frog may spawn on
             var yPos = 0
             for (y in oasisBoundingBox.maxY.toInt() downTo oasisBoundingBox.minY.toInt()) {
-                val currentBlock = world!!.getBlockState(BlockPos(xPos, y, zPos)).block
+                val currentBlock = level!!.getBlockState(BlockPos(xPos, y, zPos)).block
                 // If we hit water set yPos to 0 so we don't spawn frogs in water
                 if (currentBlock == Blocks.WATER) {
                     yPos = 0
@@ -103,14 +103,14 @@ class DesertOasisTileEntity : AOTDTickingTileEntity(ModTileEntities.DESERT_OASIS
             }
 
             // Make sure the position is loaded
-            if (!world!!.isAreaLoaded(BlockPos(xPos, yPos, zPos), 0)) {
+            if (!level!!.isAreaLoaded(BlockPos(xPos, yPos, zPos), 0)) {
                 continue
             }
 
             // Create particles to show a frog spawn
-            val particlePositions = List(20) { Vec3d(xPos + 0.5, yPos.toDouble() + 1.0, zPos + 0.5) }
+            val particlePositions = List(20) { Vector3d(xPos + 0.5, yPos.toDouble() + 1.0, zPos + 0.5) }
             val particleSpeeds = List(20) {
-                Vec3d(
+                Vector3d(
                     sin(Math.toRadians(360.0 / particlePositions.size * it)) * 0.2,
                     0.0,
                     cos(Math.toRadians(360.0 / particlePositions.size * it)) * 0.2
@@ -122,14 +122,14 @@ class DesertOasisTileEntity : AOTDTickingTileEntity(ModTileEntities.DESERT_OASIS
                     particlePositions,
                     particleSpeeds
                 ),
-                PacketDistributor.TargetPoint(xPos + 0.5, yPos + 0.5, zPos + 0.5, 100.0, world!!.dimension.type)
+                PacketDistributor.TargetPoint(xPos + 0.5, yPos + 0.5, zPos + 0.5, 100.0, level!!.dimension())
             )
 
             // Spawn a frog
-            val frog = EnchantedFrogEntity(ModEntities.ENCHANTED_FROG, world!!)
+            val frog = EnchantedFrogEntity(ModEntities.ENCHANTED_FROG, level!!)
             // Go y + 1.5 to ensure the frog doesn't spawn in the floor
-            frog.setPosition(xPos + 0.5, yPos + 1.5, zPos + 0.5)
-            world!!.addEntity(frog)
+            frog.setPos(xPos + 0.5, yPos + 1.5, zPos + 0.5)
+            level!!.addFreshEntity(frog)
         }
     }
 

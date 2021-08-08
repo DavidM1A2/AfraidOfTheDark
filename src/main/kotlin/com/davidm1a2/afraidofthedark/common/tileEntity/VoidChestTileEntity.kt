@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility.getOrAssignP
 import com.davidm1a2.afraidofthedark.common.dimension.teleport
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.VoidChestPacket
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
+import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.item.NameTagItem
@@ -17,10 +18,9 @@ import net.minecraft.nbt.LongNBT
 import net.minecraft.tileentity.IChestLid
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.SoundEvents
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
-import net.minecraft.world.dimension.DimensionType
 import net.minecraftforge.common.util.Constants
 import java.util.*
 import kotlin.math.sqrt
@@ -50,7 +50,7 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
     private var playerToSend: PlayerEntity? = null
     private var lastInteraction: Long = 0
 
-    override fun getLidAngle(partialTicks: Float): Float {
+    override fun getOpenNess(partialTicks: Float): Float {
         return this.lidAngle
     }
 
@@ -59,9 +59,9 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
      */
     override fun tick() {
         super.tick()
-        val x = pos.x
-        val y = pos.y
-        val z = pos.z
+        val x = blockPos.x
+        val y = blockPos.y
+        val z = blockPos.z
 
         // Check every 20 ticks if it's time to close the chest or not
         if (ticksExisted % 10 == 0L) {
@@ -75,30 +75,29 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
 
         // If the lid is closed and the chest should be open play the open sound
         if (shouldBeOpen && lidAngle == 0f) {
-            world!!.playSound(
+            level!!.playSound(
+                null,
                 x + 0.5,
                 y + 0.5,
                 z + 0.5,
-                SoundEvents.BLOCK_CHEST_OPEN,
+                SoundEvents.CHEST_OPEN,
                 SoundCategory.BLOCKS,
                 0.5f,
-                world!!.rand.nextFloat() * 0.1f + 0.9f,
-                false
+                level!!.random.nextFloat() * 0.1f + 0.9f
             )
         }
 
         // If the chest should be open make it suck in the current player that opened the chest
         if (shouldBeOpen && playerToSend != null) {
             // Compute a vector pointing to the chest and then pull that player in that direction
-            val velocity = Vec3d(pos)
-                .add(0.5, 0.5, 0.5)
-                .subtract(playerToSend!!.posX, playerToSend!!.posY, playerToSend!!.posZ)
+            val velocity = Vector3d.atCenterOf(blockPos)
+                .subtract(playerToSend!!.x, playerToSend!!.y, playerToSend!!.z)
                 .normalize()
-            val distanceSqToPlayer = playerToSend!!.getDistanceSq(Vec3d(pos))
+            val distanceSqToPlayer = playerToSend!!.distanceToSqr(Vector3d.atCenterOf(blockPos))
 
             // Inverse square law, force decreases as player gets more distant
             val adjustedVelocity = velocity.scale((PULL_FORCE * 1 / distanceSqToPlayer).coerceIn(0.01, 0.25))
-            playerToSend!!.addVelocity(adjustedVelocity.x, adjustedVelocity.y, adjustedVelocity.z)
+            playerToSend!!.push(adjustedVelocity.x, adjustedVelocity.y, adjustedVelocity.z)
         }
 
         // Update the lid's angle if it's in transition from open to closed or closed to open
@@ -115,24 +114,23 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
 
             // If the chest is closing play the closing sound and send the player to the void chest dimension
             if (lidAngle < 0.5 && previousLidAngle >= 0.5) {
-                world!!.playSound(
+                level!!.playSound(
+                    null,
                     x + 0.5,
                     y + 0.5,
                     z + 0.5f.toDouble(),
-                    SoundEvents.BLOCK_CHEST_CLOSE,
+                    SoundEvents.CHEST_CLOSE,
                     SoundCategory.BLOCKS,
                     0.5f,
-                    world!!.rand.nextFloat() * 0.1f + 0.9f,
-                    false
+                    level!!.random.nextFloat() * 0.1f + 0.9f
                 )
                 // Ensure the player we're sending is valid
                 if (playerToSend != null) {
-                    val currentDimensionID = world!!.dimension.type
                     // Only allow void chest usage in the overworld
-                    if (currentDimensionID == DimensionType.OVERWORLD) {
+                    if (level!!.dimension() == World.OVERWORLD) {
                         // Temp, send the player to the void chest here if they are close enough to it
-                        if (sqrt(playerToSend!!.getDistanceSq(Vec3d(getPos()))) < DISTANCE_TO_SEND_PLAYER) {
-                            if (!world!!.isRemote) {
+                        if (sqrt(playerToSend!!.distanceToSqr(Vector3d.atCenterOf(blockPos))) < DISTANCE_TO_SEND_PLAYER) {
+                            if (!level!!.isClientSide) {
                                 val playerVoidChestData = playerToSend!!.getVoidChestData()
                                 // If the player we're sending is the owner send them to their home dimension, otherwise send them to their friend's dimension
                                 if (playerToSend!!.gameProfile.id == owner) {
@@ -140,12 +138,12 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
                                 } else {
                                     playerVoidChestData.friendsIndex = indexToGoTo
                                 }
-                                (playerToSend as ServerPlayerEntity).teleport(ModDimensions.VOID_CHEST_TYPE)
+                                (playerToSend as ServerPlayerEntity).teleport(ModDimensions.VOID_CHEST_WORLD)
                             }
                         }
                     } else {
-                        if (!world!!.isRemote) {
-                            playerToSend!!.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.wrong_dimension"))
+                        if (!level!!.isClientSide) {
+                            playerToSend!!.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.wrong_dimension"), playerToSend!!.uuid)
                         }
                     }
                 }
@@ -160,63 +158,75 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
      */
     fun interact(entityPlayer: PlayerEntity) {
         // Server side processing only
-        if (!world!!.isRemote) {
+        if (!level!!.isClientSide) {
             // If the chest has no owner attempt to set this player as the owner
             if (owner == null) {
                 owner = entityPlayer.gameProfile.id
-                val voidChestWorld: World = world!!.server!!.getWorld(ModDimensions.VOID_CHEST_TYPE)
+                val voidChestWorld: World = level!!.server!!.getLevel(ModDimensions.VOID_CHEST_WORLD)!!
                 val playerVoidChestData = entityPlayer.getVoidChestData()
                 indexToGoTo = getOrAssignPlayerPositionalIndex(voidChestWorld, playerVoidChestData)
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.owner_set", entityPlayer.gameProfile.name))
+                entityPlayer.sendMessage(
+                    TranslationTextComponent("message.afraidofthedark.void_chest.owner_set", entityPlayer.gameProfile.name),
+                    entityPlayer.uuid
+                )
             } else if (entityPlayer.gameProfile.id == owner) {
                 // Test if the player is holding a name tag. If so add/remove the friend, if not open the chest
-                val heldItem = entityPlayer.heldItemMainhand
+                val heldItem = entityPlayer.mainHandItem
                 if (heldItem.item is NameTagItem) {
                     // Grab the player's UUID
-                    val friendsUUID = getID(heldItem.displayName.formattedText)
+                    val friendsUUID = getID(heldItem.displayName.string)
 
                     // If it's non-null continue, otherwise tell the player the name is wrong
                     if (friendsUUID != null) {
                         // If the chest does not have the friend add the friend
                         if (!friends.contains(friendsUUID)) {
                             friends.add(friendsUUID)
-                            entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.friend_add", heldItem.displayName))
+                            entityPlayer.sendMessage(
+                                TranslationTextComponent("message.afraidofthedark.void_chest.friend_add", heldItem.displayName),
+                                entityPlayer.uuid
+                            )
                         } else {
                             friends.remove(friendsUUID)
-                            entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.friend_remove", heldItem.displayName))
+                            entityPlayer.sendMessage(
+                                TranslationTextComponent("message.afraidofthedark.void_chest.friend_remove", heldItem.displayName),
+                                entityPlayer.uuid
+                            )
                         }
                     } else {
-                        entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.invalid_account", heldItem.displayName))
+                        entityPlayer.sendMessage(
+                            TranslationTextComponent("message.afraidofthedark.void_chest.invalid_account", heldItem.displayName),
+                            entityPlayer.uuid
+                        )
                     }
                 } else {
                     openChest(entityPlayer)
                     AfraidOfTheDark.packetHandler.sendToDimension(
                         VoidChestPacket(
                             entityPlayer,
-                            pos.x,
-                            pos.y,
-                            pos.z
-                        ), DimensionType.OVERWORLD
+                            blockPos.x,
+                            blockPos.y,
+                            blockPos.z
+                        ), World.OVERWORLD
                     )
                 }
             } else if (friends.contains(entityPlayer.gameProfile.id)) {
                 // Test if the player is trying to edit a chest's friend list that isnt theirs
-                val heldItem = entityPlayer.heldItemMainhand
+                val heldItem = entityPlayer.mainHandItem
                 if (heldItem.item is NameTagItem) {
-                    entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.no_edit_access"))
+                    entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.no_edit_access"), entityPlayer.uuid)
                 } else {
                     openChest(entityPlayer)
                     AfraidOfTheDark.packetHandler.sendToDimension(
                         VoidChestPacket(
                             entityPlayer,
-                            pos.x,
-                            pos.y,
-                            pos.z
-                        ), DimensionType.OVERWORLD
+                            blockPos.x,
+                            blockPos.y,
+                            blockPos.z
+                        ), World.OVERWORLD
                     )
                 }
             } else {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.no_access"))
+                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.no_access"), entityPlayer.uuid)
             }
         }
     }
@@ -239,7 +249,7 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
      * @return The player's UUID
      */
     private fun getID(playerName: String): UUID? {
-        val gameProfileForUsername = world!!.server!!.playerProfileCache.getGameProfileForUsername(playerName)
+        val gameProfileForUsername = level!!.server!!.profileCache.get(playerName)
         return gameProfileForUsername?.id
     }
 
@@ -249,13 +259,13 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
      * @param compound The NBT compound to write to
      * @return The NBT compound representing this void chest tile entity
      */
-    override fun write(compound: CompoundNBT): CompoundNBT {
+    override fun save(compound: CompoundNBT): CompoundNBT {
         // Start by writing any default MC things to the NBT
-        super.write(compound)
+        super.save(compound)
 
         // Write the owner as an ID
         if (owner != null) {
-            compound.putUniqueId(NBT_OWNER, owner!!)
+            compound.putUUID(NBT_OWNER, owner!!)
         }
 
         // Write the index to go to as an integer
@@ -278,13 +288,13 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
      *
      * @param compound The NBT compound to read from
      */
-    override fun read(compound: CompoundNBT) {
+    override fun load(blockState: BlockState, compound: CompoundNBT) {
         // Start by reading any default MC things from the NBT
-        super.read(compound)
+        super.load(blockState, compound)
 
         // Read the owner tag, it could potentially not exist...
         owner = if (compound.contains(NBT_OWNER + "Most") && compound.contains(NBT_OWNER + "Least")) {
-            compound.getUniqueId(NBT_OWNER)
+            compound.getUUID(NBT_OWNER)
         } else {
             null
         }
@@ -301,7 +311,7 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
             // Ensure the tags are the correct type
             if (friendIDLeast is LongNBT && friendIDMost is LongNBT) {
                 // Add the friend back in from least and most significant bits
-                friends.add(UUID(friendIDMost.long, friendIDLeast.long))
+                friends.add(UUID(friendIDMost.asLong, friendIDLeast.asLong))
             }
             i = i + 2
         }

@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EnariaEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.toRotation
+import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFaceBlock
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
@@ -20,10 +21,10 @@ import net.minecraft.util.math.BlockPos
 class EnariaSpawnerTileEntity : AOTDTickingTileEntity(ModTileEntities.ENARIA_SPAWNER) {
     // Unfortunately world.getBlockState() only works right before the first tick, so lazily initialize this
     private val enariaFightStartTriggerBox: AxisAlignedBB by lazy {
-        val direction = world!!.getBlockState(pos)[HorizontalFaceBlock.HORIZONTAL_FACING]
+        val direction = level!!.getBlockState(blockPos).getValue(HorizontalFaceBlock.FACING)
         val rotation = direction.toRotation()
-        val enariaFightStartTriggerBoxNegCorner = BlockPos(-11, -2, -2).rotate(rotation).add(pos)
-        val enariaFightStartTriggerBoxPosCorner = BlockPos(11, 11, 20).rotate(rotation).add(pos)
+        val enariaFightStartTriggerBoxNegCorner = BlockPos(-11, -2, -2).rotate(rotation).offset(blockPos)
+        val enariaFightStartTriggerBoxPosCorner = BlockPos(11, 11, 20).rotate(rotation).offset(blockPos)
         AxisAlignedBB(enariaFightStartTriggerBoxNegCorner, enariaFightStartTriggerBoxPosCorner)
     }
 
@@ -33,13 +34,13 @@ class EnariaSpawnerTileEntity : AOTDTickingTileEntity(ModTileEntities.ENARIA_SPA
     override fun tick() {
         super.tick()
         // Only process server side
-        if (!world!!.isRemote) {
+        if (!level!!.isClientSide) {
             // If no fight is active...
             if (!fightIsActive) {
                 // And the fight is not on cooldown...
                 if (ticksExisted >= this.fightCooldownTime) {
                     // And a player that qualifies for the fight is nearby...
-                    val playersEligibleToFight = world!!.getEntitiesWithinAABB(PlayerEntity::class.java, enariaFightStartTriggerBox) {
+                    val playersEligibleToFight = level!!.getEntitiesOfClass(PlayerEntity::class.java, enariaFightStartTriggerBox) {
                         it.getResearch().canResearch(ModResearches.ENARIA)
                     }
                     if (playersEligibleToFight.isNotEmpty()) {
@@ -54,29 +55,27 @@ class EnariaSpawnerTileEntity : AOTDTickingTileEntity(ModTileEntities.ENARIA_SPA
     private fun startFight() {
         fightIsActive = true
         summonEnaria()
-        markDirty()
     }
 
     fun endFight() {
         fightIsActive = false
         fightCooldownTime = ticksExisted + POST_FIGHT_COOLDOWN_TICKS
-        markDirty()
     }
 
     private fun summonEnaria() {
-        val enaria = EnariaEntity(world!!, pos)
-        enaria.setPosition(pos.x + 0.5, pos.y + 7.0, pos.z + 0.5)
-        world!!.addEntity(enaria)
+        val enaria = EnariaEntity(level!!, blockPos)
+        enaria.setPos(blockPos.x + 0.5, blockPos.y + 7.0, blockPos.z + 0.5)
+        level!!.addFreshEntity(enaria)
     }
 
-    override fun read(compound: CompoundNBT) {
-        super.read(compound)
+    override fun load(blockState: BlockState, compound: CompoundNBT) {
+        super.load(blockState, compound)
         fightIsActive = compound.getBoolean(NBT_FIGHT_IS_ACTIVE)
         fightCooldownTime = compound.getLong(NBT_POST_FIGHT_COOLDOWN)
     }
 
-    override fun write(compound: CompoundNBT): CompoundNBT {
-        super.write(compound)
+    override fun save(compound: CompoundNBT): CompoundNBT {
+        super.save(compound)
         compound.putBoolean(NBT_FIGHT_IS_ACTIVE, fightIsActive)
         compound.putLong(NBT_POST_FIGHT_COOLDOWN, fightCooldownTime)
         return compound

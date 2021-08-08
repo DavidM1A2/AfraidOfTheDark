@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDAnimatedTileEntity
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import kotlin.math.sqrt
 import kotlin.random.Random
 
@@ -24,7 +24,7 @@ class EnariasAltarTileEntity : AOTDAnimatedTileEntity(
      * Called every tick to update the tile entity's state
      */
     override fun tick() {
-        if (world?.isRemote == true) {
+        if (level?.isClientSide == true) {
             val animHandler = getAnimationHandler()
             if (animHandler.isAnimationActive("SpinSlow")) {
                 // Spawn few particles
@@ -37,9 +37,9 @@ class EnariasAltarTileEntity : AOTDAnimatedTileEntity(
                 spawnParticlesWithChance(0.6)
             } else {
                 // Find out how close the nearest player is, if they're close enough play the right animation
-                val closestPlayer = world!!.getClosestPlayer(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), MEDIUM_DISTANCE) { true }
+                val closestPlayer = level!!.getNearestPlayer(blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), MEDIUM_DISTANCE) { true }
                 if (closestPlayer != null) {
-                    val distance = sqrt(closestPlayer.getDistanceSq(Vec3d(pos)))
+                    val distance = sqrt(closestPlayer.distanceToSqr(Vector3d.atCenterOf(blockPos)))
                     if (distance <= FAST_DISTANCE) {
                         animHandler.playAnimation("SpinFast")
                     } else {
@@ -59,12 +59,12 @@ class EnariasAltarTileEntity : AOTDAnimatedTileEntity(
      */
     private fun spawnParticlesWithChance(chance: Double) {
         if (Random.nextDouble() < chance) {
-            this.world!!.addParticle(
+            this.level!!.addParticle(
                 ModParticles.ENARIAS_ALTAR,
                 false,
-                pos.x + 0.2 + Random.nextDouble(0.0, 0.6),
-                pos.y + 0.1,
-                pos.z + 0.2 + Random.nextDouble(0.0, 0.6),
+                blockPos.x + 0.2 + Random.nextDouble(0.0, 0.6),
+                blockPos.y + 0.1,
+                blockPos.z + 0.2 + Random.nextDouble(0.0, 0.6),
                 0.0,
                 0.0,
                 0.0

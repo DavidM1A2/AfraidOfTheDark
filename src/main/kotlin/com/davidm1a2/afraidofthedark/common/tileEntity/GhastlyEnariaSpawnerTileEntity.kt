@@ -19,14 +19,14 @@ class GhastlyEnariaSpawnerTileEntity : AOTDTickingTileEntity(ModTileEntities.GHA
     override fun tick() {
         super.tick()
         // Server side only processing
-        if (world?.isRemote == false) {
+        if (level?.isClientSide == false) {
             // Only check every 100 ticks
             if (ticksExisted % 100 == 0L) {
                 // Find all nearby enaria entities
                 val distanceBetweenIslands = Constants.DISTANCE_BETWEEN_ISLANDS / 2
-                val enariaEntities = world!!.getEntitiesWithinAABB(
+                val enariaEntities = level!!.getEntitiesOfClass(
                     GhastlyEnariaEntity::class.java,
-                    AxisAlignedBB(getPos(), getPos().up()).grow(
+                    AxisAlignedBB(blockPos, blockPos.above()).inflate(
                         distanceBetweenIslands.toDouble(),
                         distanceBetweenIslands.toDouble(),
                         distanceBetweenIslands.toDouble()
@@ -39,15 +39,15 @@ class GhastlyEnariaSpawnerTileEntity : AOTDTickingTileEntity(ModTileEntities.GHA
                 // If she's not alive, spawn her
                 if (!enariaAlive) {
                     // Spawn her at ground level to start
-                    val enariaSpawn = GhastlyEnariaEntity(ModEntities.GHASTLY_ENARIA, world!!)
-                    enariaSpawn.setPositionAndRotation(
-                        getPos().x + 0.5,
-                        getPos().y + 10.2,
-                        getPos().z + 0.5,
-                        world!!.rand.nextFloat(),
+                    val enariaSpawn = GhastlyEnariaEntity(ModEntities.GHASTLY_ENARIA, level!!)
+                    enariaSpawn.moveTo(
+                        blockPos.x + 0.5,
+                        blockPos.y + 10.2,
+                        blockPos.z + 0.5,
+                        level!!.random.nextFloat(),
                         0f
                     )
-                    world!!.addEntity(enariaSpawn)
+                    level!!.addFreshEntity(enariaSpawn)
                 }
             }
         }
