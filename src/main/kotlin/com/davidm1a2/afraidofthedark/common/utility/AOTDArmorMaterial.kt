@@ -15,15 +15,17 @@ class AOTDArmorMaterial(
     private val enchantability: Int,
     private val soundEvent: SoundEvent,
     private val toughness: Float,
+    private val knockbackResistance: Float,
     private val repairMaterial: Ingredient
 ) : IArmorMaterial {
     override fun getName() = name
-    override fun getDurability(slot: EquipmentSlotType) = MAX_DAMAGE_ARRAY[slot.index] * maxDamageFactor
-    override fun getDamageReductionAmount(slot: EquipmentSlotType) = damageReductionAmountArray[slot.index]
-    override fun getEnchantability() = enchantability
-    override fun getSoundEvent() = soundEvent
+    override fun getDurabilityForSlot(slot: EquipmentSlotType) = MAX_DAMAGE_ARRAY[slot.index] * maxDamageFactor
+    override fun getDefenseForSlot(slot: EquipmentSlotType) = damageReductionAmountArray[slot.index]
+    override fun getEnchantmentValue() = enchantability
+    override fun getEquipSound() = soundEvent
     override fun getToughness() = toughness
-    override fun getRepairMaterial() = repairMaterial
+    override fun getKnockbackResistance() = knockbackResistance
+    override fun getRepairIngredient() = repairMaterial
 
     companion object {
         private val MAX_DAMAGE_ARRAY = intArrayOf(13, 15, 16, 11)

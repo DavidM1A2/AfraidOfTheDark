@@ -11,10 +11,10 @@ class AOTDToolMaterial(
     private val enchantability: Int,
     private val repairMaterial: Ingredient
 ) : IItemTier {
-    override fun getHarvestLevel() = harvestLevel
-    override fun getMaxUses() = maxUses
-    override fun getEfficiency() = efficiency
-    override fun getAttackDamage() = attackDamage
-    override fun getEnchantability() = enchantability
-    override fun getRepairMaterial() = repairMaterial
+    override fun getLevel() = harvestLevel
+    override fun getUses() = maxUses
+    override fun getSpeed() = efficiency
+    override fun getAttackDamageBonus() = attackDamage
+    override fun getEnchantmentValue() = enchantability
+    override fun getRepairIngredient() = repairMaterial
 }
