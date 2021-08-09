@@ -1,22 +1,18 @@
 package com.davidm1a2.afraidofthedark.common.feature.structure.nightmareisland
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
+import net.minecraft.util.SharedSeedRandom
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.biome.Biome
-import net.minecraft.world.biome.BiomeManager
+import net.minecraft.world.biome.provider.BiomeProvider
 import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.feature.IFeatureConfig
+import net.minecraft.world.gen.feature.NoFeatureConfig
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 import kotlin.math.round
 
-class NightmareIslandStructure : AOTDStructure<IFeatureConfig>({ IFeatureConfig.NO_FEATURE_CONFIG }, false) {
-    override fun getStructureName(): String {
-        return "${Constants.MOD_ID}:nightmare_island"
-    }
-
+class NightmareIslandStructure : AOTDStructure<NoFeatureConfig>("nightmare_island", NoFeatureConfig.CODEC) {
     override fun getWidth(): Int {
         return ModSchematics.NIGHTMARE_ISLAND.getWidth().toInt()
     }
@@ -25,30 +21,27 @@ class NightmareIslandStructure : AOTDStructure<IFeatureConfig>({ IFeatureConfig.
         return ModSchematics.NIGHTMARE_ISLAND.getLength().toInt()
     }
 
-    override fun setupStructureIn(biome: Biome) {
-        if (biome == ModBiomes.NIGHTMARE) {
-            addToBiome(biome, IFeatureConfig.NO_FEATURE_CONFIG)
-        }
-    }
-
-    override fun getStartFactory(): IStartFactory {
+    override fun getStartFactory(): IStartFactory<NoFeatureConfig> {
         return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
             NightmareIslandStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
         }
     }
 
-    override fun canFitAt(chunkGen: ChunkGenerator<*>, biomeManager: BiomeManager, random: Random, xPos: Int, zPos: Int): Boolean {
+    override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
         // no-op, this is only for structures generated via our AOTD quadtree structure mapper
         return false
     }
 
-    override fun canBeGenerated(
-        biomeManager: BiomeManager,
-        chunkGenerator: ChunkGenerator<*>,
-        random: Random,
+    override fun isFeatureChunk(
+        chunkGenerator: ChunkGenerator,
+        biomeProvider: BiomeProvider,
+        seed: Long,
+        random: SharedSeedRandom,
         centerChunkX: Int,
         centerChunkZ: Int,
-        biome: Biome
+        biome: Biome,
+        featureChunkPos: ChunkPos,
+        config: NoFeatureConfig
     ): Boolean {
         val xStart = centerChunkX * 16
         val xEnd = xStart + 15

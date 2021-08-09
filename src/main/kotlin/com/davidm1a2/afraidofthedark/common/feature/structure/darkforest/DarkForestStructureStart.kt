@@ -2,8 +2,9 @@ package com.davidm1a2.afraidofthedark.common.feature.structure.darkforest
 
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import com.davidm1a2.afraidofthedark.common.feature.structure.AOTDStructureStart
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
+import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructureStart
+import com.davidm1a2.afraidofthedark.common.feature.structure.base.MultiplierConfig
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.SchematicStructurePiece
 import net.minecraft.util.Direction
 import net.minecraft.util.math.MutableBoundingBox
@@ -14,14 +15,14 @@ import java.util.*
 import kotlin.math.max
 import kotlin.math.min
 
-class DarkForestStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: Int, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
-    AOTDStructureStart(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
+class DarkForestStructureStart(structure: Structure<MultiplierConfig>, chunkX: Int, chunkZ: Int, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
+    AOTDStructureStart<MultiplierConfig>(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
 
-    override fun init(generator: ChunkGenerator<*>, xPos: Int, zPos: Int) {
+    override fun init(generator: ChunkGenerator, xPos: Int, zPos: Int) {
         val bedHouseWidth = ModSchematics.BED_HOUSE.getWidth()
         val bedHouseLength = ModSchematics.BED_HOUSE.getLength()
 
-        val darkForest = structure as AOTDStructure<*>
+        val darkForest = feature as AOTDStructure<*>
 
         val yPos = darkForest.getEdgeHeights(xPos, zPos, generator, bedHouseWidth.toInt(), bedHouseLength.toInt()).minOrNull()!! - 1
 
@@ -50,98 +51,98 @@ class DarkForestStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: Int
         val rightGutterWidth = (width - bedHouseWidth) / 2
 
         // Add the center house
-        this.components.add(
+        this.pieces.add(
             SchematicStructurePiece(
                 xPos - bedHouseWidth / 2,
                 yPos,
                 zPos - bedHouseLength / 2,
-                rand,
+                random,
                 ModSchematics.BED_HOUSE,
                 ModLootTables.DARK_FOREST
             )
         )
 
         // Add props
-        val numProps = rand.nextInt(MIN_PROPS, MAX_PROPS)
+        val numProps = random.nextInt(MIN_PROPS, MAX_PROPS)
         for (ignored in 0..numProps) {
-            val propSchematic = ModSchematics.DARK_FOREST_PROPS[rand.nextInt(ModSchematics.DARK_FOREST_PROPS.size)]
+            val propSchematic = ModSchematics.DARK_FOREST_PROPS[random.nextInt(ModSchematics.DARK_FOREST_PROPS.size)]
 
             val widthLengthMax = max(propSchematic.getWidth().toInt(), propSchematic.getHeight().toInt())
-            val gutter = Direction.Plane.HORIZONTAL.random(rand)
+            val gutter = Direction.Plane.HORIZONTAL.getRandomDirection(random)
 
             val (x, z) = when (gutter) {
                 Direction.NORTH -> Pair(
-                    xPos + rand.nextInt(-width / 2, width / 2 - widthLengthMax),
-                    zPos - bedHouseLength / 2 - rand.nextInt(widthLengthMax, topGutterWidth)
+                    xPos + random.nextInt(-width / 2, width / 2 - widthLengthMax),
+                    zPos - bedHouseLength / 2 - random.nextInt(widthLengthMax, topGutterWidth)
                 )
                 Direction.SOUTH -> Pair(
-                    xPos + rand.nextInt(-width / 2, width / 2 - widthLengthMax),
-                    zPos + bedHouseLength / 2 + rand.nextInt(0, bottomGutterWidth - widthLengthMax)
+                    xPos + random.nextInt(-width / 2, width / 2 - widthLengthMax),
+                    zPos + bedHouseLength / 2 + random.nextInt(0, bottomGutterWidth - widthLengthMax)
                 )
                 Direction.WEST -> Pair(
-                    xPos - bedHouseWidth / 2 - rand.nextInt(widthLengthMax, leftGutterWidth),
-                    zPos + rand.nextInt(-length / 2, length / 2 - widthLengthMax)
+                    xPos - bedHouseWidth / 2 - random.nextInt(widthLengthMax, leftGutterWidth),
+                    zPos + random.nextInt(-length / 2, length / 2 - widthLengthMax)
                 )
                 Direction.EAST -> Pair(
-                    xPos + bedHouseWidth / 2 + rand.nextInt(0, rightGutterWidth - widthLengthMax),
-                    zPos + rand.nextInt(-length / 2, length / 2 - widthLengthMax)
+                    xPos + bedHouseWidth / 2 + random.nextInt(0, rightGutterWidth - widthLengthMax),
+                    zPos + random.nextInt(-length / 2, length / 2 - widthLengthMax)
                 )
                 else -> throw IllegalArgumentException("Got an invalid gutter $gutter, should not be possible.")
             }
-            val prop = SchematicStructurePiece(x, 0, z, rand, propSchematic)
+            val prop = SchematicStructurePiece(x, 0, z, random, propSchematic)
 
-            val cornerHeight1 = generator.func_222532_b(prop.boundingBox.minX, prop.boundingBox.minZ, Heightmap.Type.WORLD_SURFACE_WG)
-            val cornerHeight2 = generator.func_222532_b(prop.boundingBox.maxX, prop.boundingBox.minZ, Heightmap.Type.WORLD_SURFACE_WG)
-            val cornerHeight3 = generator.func_222532_b(prop.boundingBox.minX, prop.boundingBox.maxZ, Heightmap.Type.WORLD_SURFACE_WG)
-            val cornerHeight4 = generator.func_222532_b(prop.boundingBox.maxX, prop.boundingBox.maxZ, Heightmap.Type.WORLD_SURFACE_WG)
+            val cornerHeight1 = generator.getBaseHeight(prop.boundingBox.x0, prop.boundingBox.z0, Heightmap.Type.WORLD_SURFACE_WG)
+            val cornerHeight2 = generator.getBaseHeight(prop.boundingBox.x1, prop.boundingBox.z0, Heightmap.Type.WORLD_SURFACE_WG)
+            val cornerHeight3 = generator.getBaseHeight(prop.boundingBox.x0, prop.boundingBox.z1, Heightmap.Type.WORLD_SURFACE_WG)
+            val cornerHeight4 = generator.getBaseHeight(prop.boundingBox.x1, prop.boundingBox.z1, Heightmap.Type.WORLD_SURFACE_WG)
             prop.updateY(min(min(cornerHeight1, cornerHeight2), min(cornerHeight3, cornerHeight4)))
 
-            this.components.add(prop)
+            this.pieces.add(prop)
         }
 
         // Add trees
-        val numTrees = rand.nextInt(MIN_TREES, MAX_TREES)
+        val numTrees = random.nextInt(MIN_TREES, MAX_TREES)
         for (ignored in 0..numTrees) {
-            val treeSchematic = ModSchematics.DARK_FOREST_TREES[rand.nextInt(ModSchematics.DARK_FOREST_TREES.size)]
+            val treeSchematic = ModSchematics.DARK_FOREST_TREES[random.nextInt(ModSchematics.DARK_FOREST_TREES.size)]
 
             val approximateTrunkWidth = 4
             val widthLengthMax = max(treeSchematic.getWidth().toInt(), treeSchematic.getHeight().toInt())
-            val gutter = Direction.Plane.HORIZONTAL.random(rand)
+            val gutter = Direction.Plane.HORIZONTAL.getRandomDirection(random)
 
             val (x, z) = when (gutter) {
                 Direction.NORTH -> Pair(
-                    xPos + rand.nextInt(-width / 2, width / 2 - widthLengthMax),
-                    zPos - bedHouseLength / 2 - rand.nextInt(approximateTrunkWidth + widthLengthMax / 2, bottomGutterWidth)
+                    xPos + random.nextInt(-width / 2, width / 2 - widthLengthMax),
+                    zPos - bedHouseLength / 2 - random.nextInt(approximateTrunkWidth + widthLengthMax / 2, bottomGutterWidth)
                 )
                 Direction.SOUTH -> Pair(
-                    xPos + rand.nextInt(-width / 2, width / 2 - widthLengthMax),
-                    zPos + bedHouseLength / 2 + rand.nextInt(approximateTrunkWidth - widthLengthMax / 2, topGutterWidth - widthLengthMax)
+                    xPos + random.nextInt(-width / 2, width / 2 - widthLengthMax),
+                    zPos + bedHouseLength / 2 + random.nextInt(approximateTrunkWidth - widthLengthMax / 2, topGutterWidth - widthLengthMax)
                 )
                 Direction.WEST -> Pair(
-                    xPos - bedHouseWidth / 2 - rand.nextInt(approximateTrunkWidth + widthLengthMax / 2, leftGutterWidth),
-                    zPos + rand.nextInt(-length / 2, length / 2 - widthLengthMax)
+                    xPos - bedHouseWidth / 2 - random.nextInt(approximateTrunkWidth + widthLengthMax / 2, leftGutterWidth),
+                    zPos + random.nextInt(-length / 2, length / 2 - widthLengthMax)
                 )
                 Direction.EAST -> Pair(
-                    xPos + bedHouseWidth / 2 + rand.nextInt(approximateTrunkWidth - widthLengthMax / 2, rightGutterWidth - widthLengthMax),
-                    zPos + rand.nextInt(-length / 2, length / 2 - widthLengthMax)
+                    xPos + bedHouseWidth / 2 + random.nextInt(approximateTrunkWidth - widthLengthMax / 2, rightGutterWidth - widthLengthMax),
+                    zPos + random.nextInt(-length / 2, length / 2 - widthLengthMax)
                 )
                 else -> throw IllegalArgumentException("Got an invalid gutter $gutter, should not be possible.")
             }
 
-            val tree = SchematicStructurePiece(x, 0, z, rand, treeSchematic)
+            val tree = SchematicStructurePiece(x, 0, z, random, treeSchematic)
 
-            val trunkHeight1 = generator.func_222532_b(x + approximateTrunkWidth, z + approximateTrunkWidth, Heightmap.Type.WORLD_SURFACE_WG)
-            val trunkHeight2 = generator.func_222532_b(x + approximateTrunkWidth, z - approximateTrunkWidth, Heightmap.Type.WORLD_SURFACE_WG)
-            val trunkHeight3 = generator.func_222532_b(x - approximateTrunkWidth, z + approximateTrunkWidth, Heightmap.Type.WORLD_SURFACE_WG)
-            val trunkHeight4 = generator.func_222532_b(x - approximateTrunkWidth, z - approximateTrunkWidth, Heightmap.Type.WORLD_SURFACE_WG)
-            val trunkHeightCenter = generator.func_222532_b(x, z, Heightmap.Type.WORLD_SURFACE_WG)
+            val trunkHeight1 = generator.getBaseHeight(x + approximateTrunkWidth, z + approximateTrunkWidth, Heightmap.Type.WORLD_SURFACE_WG)
+            val trunkHeight2 = generator.getBaseHeight(x + approximateTrunkWidth, z - approximateTrunkWidth, Heightmap.Type.WORLD_SURFACE_WG)
+            val trunkHeight3 = generator.getBaseHeight(x - approximateTrunkWidth, z + approximateTrunkWidth, Heightmap.Type.WORLD_SURFACE_WG)
+            val trunkHeight4 = generator.getBaseHeight(x - approximateTrunkWidth, z - approximateTrunkWidth, Heightmap.Type.WORLD_SURFACE_WG)
+            val trunkHeightCenter = generator.getBaseHeight(x, z, Heightmap.Type.WORLD_SURFACE_WG)
             // Trees need to have roots underground so move them down by 5, ensure it's above ground though
             tree.updateY(min(min(min(trunkHeight1, trunkHeight2), min(trunkHeight3, trunkHeight4)), trunkHeightCenter) - 5)
 
-            this.components.add(tree)
+            this.pieces.add(tree)
         }
 
-        this.recalculateStructureSize()
+        this.calculateBoundingBox()
     }
 
     private fun Random.nextInt(min: Int, max: Int): Int {

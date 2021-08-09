@@ -2,21 +2,21 @@ package com.davidm1a2.afraidofthedark.common.feature.structure.gnomishcity
 
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import com.davidm1a2.afraidofthedark.common.feature.structure.AOTDStructureStart
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
+import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructureStart
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.SchematicStructurePiece
 import net.minecraft.util.Direction
 import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.Heightmap
+import net.minecraft.world.gen.feature.NoFeatureConfig
 import net.minecraft.world.gen.feature.structure.Structure
 import kotlin.math.min
 
-class GnomishCityStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: Int, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
-    AOTDStructureStart(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
-
-    override fun init(generator: ChunkGenerator<*>, xPos: Int, zPos: Int) {
-        val gnomishCity = structure as AOTDStructure<*>
+class GnomishCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX: Int, chunkZ: Int, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
+    AOTDStructureStart<NoFeatureConfig>(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
+    override fun init(generator: ChunkGenerator, xPos: Int, zPos: Int) {
+        val gnomishCity = feature as AOTDStructure<*>
         val width = gnomishCity.getWidth()
         val length = gnomishCity.getLength()
 
@@ -25,20 +25,20 @@ class GnomishCityStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: In
         val cornerPosZ = zPos - length / 2
 
         // Compute the stairs from surface to level 1, can be a random room
-        val stairSurfaceTo1 = rand.nextInt(9)
+        val stairSurfaceTo1 = random.nextInt(9)
 
-        val stairs2ToEnaria = listOf(1, 3, 5, 7)[rand.nextInt(4)]
+        val stairs2ToEnaria = listOf(1, 3, 5, 7)[random.nextInt(4)]
 
         // Compute the stairs from level 1 to level 2, can't be in the same spot as stairs from 'surface -> 1' or '2 -> enaria'
         var stairs1To2: Int
         do {
-            stairs1To2 = rand.nextInt(9)
+            stairs1To2 = random.nextInt(9)
         } while (stairSurfaceTo1 == stairs1To2 || stairs2ToEnaria == stairs1To2)
-        val stairs1To2Facing = Direction.Plane.HORIZONTAL.random(rand)
+        val stairs1To2Facing = Direction.Plane.HORIZONTAL.getRandomDirection(random)
 
         val rooms = ModSchematics.GNOMISH_CITY_ROOMS
             .flatMap { listOf(it, it) }
-            .shuffled(rand)
+            .shuffled(random)
             .iterator()
 
         var amountOfStairRemoved = 0
@@ -60,13 +60,13 @@ class GnomishCityStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: In
                     when {
                         // If the room is the stair from surface to level 1 and the floor is upper (1) generate the stair room and stairwell
                         currentRoom == stairSurfaceTo1 && floor == Floor.UPPER -> {
-                            var facing = Direction.Plane.HORIZONTAL.random(rand)
-                            this.components.add(
+                            var facing = Direction.Plane.HORIZONTAL.getRandomDirection(random)
+                            this.pieces.add(
                                 SchematicStructurePiece(
                                     roomPosX,
                                     roomPosY,
                                     roomPosZ,
-                                    rand,
+                                    random,
                                     ModSchematics.ROOM_STAIR_UP,
                                     ModLootTables.GNOMISH_CITY,
                                     facing
@@ -79,15 +79,15 @@ class GnomishCityStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: In
                             val stairwell = ModSchematics.STAIRWELL
 
                             val groundHeight = listOf(
-                                generator.func_222532_b(stairwellX, stairwellZ, Heightmap.Type.WORLD_SURFACE_WG),
-                                generator.func_222532_b(stairwellX + stairwell.getWidth() - 1, stairwellZ, Heightmap.Type.WORLD_SURFACE_WG),
-                                generator.func_222532_b(stairwellX, stairwellZ + stairwell.getLength() - 1, Heightmap.Type.WORLD_SURFACE_WG),
-                                generator.func_222532_b(
+                                generator.getBaseHeight(stairwellX, stairwellZ, Heightmap.Type.WORLD_SURFACE_WG),
+                                generator.getBaseHeight(stairwellX + stairwell.getWidth() - 1, stairwellZ, Heightmap.Type.WORLD_SURFACE_WG),
+                                generator.getBaseHeight(stairwellX, stairwellZ + stairwell.getLength() - 1, Heightmap.Type.WORLD_SURFACE_WG),
+                                generator.getBaseHeight(
                                     stairwellX + stairwell.getWidth() - 1,
                                     stairwellZ + stairwell.getLength() - 1,
                                     Heightmap.Type.WORLD_SURFACE_WG
                                 ),
-                                generator.func_222532_b(
+                                generator.getBaseHeight(
                                     stairwellX + stairwell.getWidth() / 2,
                                     stairwellZ + stairwell.getLength() / 2,
                                     Heightmap.Type.WORLD_SURFACE_WG
@@ -96,12 +96,12 @@ class GnomishCityStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: In
 
                             var stairwellTop = stairwellY
                             while (stairwellTop < min(220, groundHeight)) {
-                                this.components.add(
+                                this.pieces.add(
                                     SchematicStructurePiece(
                                         stairwellX,
                                         stairwellTop,
                                         stairwellZ,
-                                        rand,
+                                        random,
                                         stairwell,
                                         facing = facing
                                     )
@@ -109,7 +109,7 @@ class GnomishCityStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: In
                                 stairwellTop = stairwellTop + stairwell.getHeight() - 1
                             }
 
-                            this.components.add(
+                            this.pieces.add(
                                 GnomishCityStairwellClipperStructurePiece(
                                     stairwellX,
                                     groundHeight,
@@ -121,12 +121,12 @@ class GnomishCityStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: In
                         }
                         // If the room is the stair from level 1 to 2 and the floor is upper (1) generate the stair room
                         currentRoom == stairs1To2 && floor == Floor.UPPER -> {
-                            this.components.add(
+                            this.pieces.add(
                                 SchematicStructurePiece(
                                     roomPosX,
                                     roomPosY,
                                     roomPosZ,
-                                    rand,
+                                    random,
                                     ModSchematics.ROOM_STAIR_DOWN,
                                     ModLootTables.GNOMISH_CITY,
                                     stairs1To2Facing
@@ -135,12 +135,12 @@ class GnomishCityStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: In
                         }
                         // If the room is the stair from level 1 to 2 and the floor is lower (0) generate the stair room
                         currentRoom == stairs1To2 && floor == Floor.LOWER -> {
-                            this.components.add(
+                            this.pieces.add(
                                 SchematicStructurePiece(
                                     roomPosX,
                                     roomPosY,
                                     roomPosZ,
-                                    rand,
+                                    random,
                                     ModSchematics.ROOM_STAIR_UP,
                                     ModLootTables.GNOMISH_CITY,
                                     stairs1To2Facing
@@ -152,12 +152,12 @@ class GnomishCityStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: In
                             val enariaFloorSettings = EnariaFloorSettings.values().find { it.roomId == currentRoom }
                                 ?: throw IllegalArgumentException("Enaria floor settings can't be determined for room $currentRoom")
 
-                            this.components.add(
+                            this.pieces.add(
                                 SchematicStructurePiece(
                                     roomPosX,
                                     roomPosY,
                                     roomPosZ,
-                                    rand,
+                                    random,
                                     ModSchematics.ROOM_STAIR_DOWN,
                                     ModLootTables.GNOMISH_CITY,
                                     enariaFloorSettings.facing
@@ -165,12 +165,12 @@ class GnomishCityStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: In
                             )
 
                             // Create the enaria lair too to fit under this room
-                            this.components.add(
+                            this.pieces.add(
                                 SchematicStructurePiece(
                                     cornerPosX + xIndex * 50 + enariaFloorSettings.xOffset,
                                     cornerPosY + floor.ordinal * 15,
                                     cornerPosZ + zIndex * 50 + enariaFloorSettings.zOffset,
-                                    rand,
+                                    random,
                                     ModSchematics.ENARIA_LAIR,
                                     facing = enariaFloorSettings.facing
                                 )
@@ -178,12 +178,12 @@ class GnomishCityStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: In
                         }
                         // Generate a non-stair room, pop it off of the queue so we don't get it again
                         else -> {
-                            this.components.add(
+                            this.pieces.add(
                                 SchematicStructurePiece(
                                     roomPosX,
                                     roomPosY,
                                     roomPosZ,
-                                    rand,
+                                    random,
                                     rooms.next(),
                                     ModLootTables.GNOMISH_CITY
                                 )
@@ -201,24 +201,24 @@ class GnomishCityStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: In
                 // One loop that iterates 2 times for the axis (x or z) that contains 2 tunnels
                 for (j in 0..1) {
                     // Create an east-west tunnel for these parameters
-                    this.components.add(
+                    this.pieces.add(
                         SchematicStructurePiece(
                             cornerPosX + i * 50 + 13,
                             cornerPosY + floor.ordinal * 15 + 15 + 7,
                             cornerPosZ + j * 50 + 32,
-                            rand,
+                            random,
                             ModSchematics.CONNECTOR,
                             facing = Direction.EAST
                         )
                     )
 
                     // Create a north-south tunnel for these parameters
-                    this.components.add(
+                    this.pieces.add(
                         SchematicStructurePiece(
                             cornerPosX + j * 50 + 32,
                             cornerPosY + floor.ordinal * 15 + 15 + 7,
                             cornerPosZ + i * 50 + 13,
-                            rand,
+                            random,
                             ModSchematics.CONNECTOR,
                             facing = Direction.NORTH
                         )
@@ -227,9 +227,9 @@ class GnomishCityStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: In
             }
         }
 
-        this.recalculateStructureSize()
+        this.calculateBoundingBox()
         // Don't expand the bounding box past the upward stairs
-        this.boundingBox.maxY = this.boundingBox.maxY - amountOfStairRemoved
+        this.boundingBox.y1 = this.boundingBox.y1 - amountOfStairRemoved
     }
 
     private enum class Floor {

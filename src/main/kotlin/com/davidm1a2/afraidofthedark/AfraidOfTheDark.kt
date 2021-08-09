@@ -34,6 +34,7 @@ import com.davidm1a2.afraidofthedark.common.event.register.SpellDeliveryMethodRe
 import com.davidm1a2.afraidofthedark.common.event.register.SpellEffectOverrideRegister
 import com.davidm1a2.afraidofthedark.common.event.register.SpellEffectRegister
 import com.davidm1a2.afraidofthedark.common.event.register.SpellPowerSourceRegister
+import com.davidm1a2.afraidofthedark.common.event.register.StructureRegister
 import com.davidm1a2.afraidofthedark.common.event.register.TeleportQueue
 import com.davidm1a2.afraidofthedark.common.event.register.TileEntityRegister
 import com.davidm1a2.afraidofthedark.common.network.packets.packetHandler.PacketHandler
@@ -93,6 +94,7 @@ class AfraidOfTheDark {
         modBus.register(MeteorEntryRegister())
         modBus.register(ParticleRegister())
         modBus.register(FeatureRegister())
+        modBus.register(StructureRegister())
         modBus.register(ConfigurationHandler())
         modBus.register(this)
 
@@ -106,21 +108,25 @@ class AfraidOfTheDark {
     @SubscribeEvent
     @Suppress("UNUSED_PARAMETER")
     fun clientSetupEvent(event: FMLClientSetupEvent) {
-        proxy.initializeEntityRenderers()
-        proxy.initializeTileEntityRenderers()
-        proxy.initializeBlockRenderTypes()
-        DimensionRegister.registerRenderInfos()
-        ItemRegister.registerItemModelProperties()
+        event.enqueueWork {
+            proxy.initializeEntityRenderers()
+            proxy.initializeTileEntityRenderers()
+            proxy.initializeBlockRenderTypes()
+            DimensionRegister.registerRenderInfos()
+            ItemRegister.registerItemModelProperties()
+        }
     }
 
     @SubscribeEvent
     @Suppress("UNUSED_PARAMETER")
     fun commonSetupEvent(event: FMLCommonSetupEvent) {
-        CapabilityRegister.register()
-        PacketRegister.initialize()
-        EntityRegister.registerSpawnPlacements()
-        DataSerializerRegister.register()
-        DimensionRegister.registerChunkGenerators()
+        event.enqueueWork {
+            CapabilityRegister.register()
+            PacketRegister.initialize()
+            EntityRegister.registerSpawnPlacements()
+            DataSerializerRegister.register()
+            DimensionRegister.registerChunkGenerators()
+        }
     }
 
     /**

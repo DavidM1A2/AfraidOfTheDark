@@ -1,21 +1,16 @@
 package com.davidm1a2.afraidofthedark.common.feature.structure.voidchestbox
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
+import net.minecraft.util.SharedSeedRandom
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.biome.Biome
-import net.minecraft.world.biome.BiomeManager
+import net.minecraft.world.biome.provider.BiomeProvider
 import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.feature.IFeatureConfig
 import net.minecraft.world.gen.feature.NoFeatureConfig
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 
-class VoidChestBoxStructure : AOTDStructure<NoFeatureConfig>({ IFeatureConfig.NO_FEATURE_CONFIG }, false) {
-    override fun getStructureName(): String {
-        return "${Constants.MOD_ID}:void_chest_box"
-    }
-
+class VoidChestBoxStructure : AOTDStructure<NoFeatureConfig>("void_chest_box", NoFeatureConfig.CODEC) {
     override fun getWidth(): Int {
         return 48
     }
@@ -24,30 +19,27 @@ class VoidChestBoxStructure : AOTDStructure<NoFeatureConfig>({ IFeatureConfig.NO
         return 48
     }
 
-    override fun setupStructureIn(biome: Biome) {
-        if (biome == ModBiomes.VOID_CHEST) {
-            addToBiome(biome, IFeatureConfig.NO_FEATURE_CONFIG)
-        }
-    }
-
-    override fun getStartFactory(): IStartFactory {
+    override fun getStartFactory(): IStartFactory<NoFeatureConfig> {
         return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
             VoidChestBoxStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
         }
     }
 
-    override fun canFitAt(chunkGen: ChunkGenerator<*>, biomeManager: BiomeManager, random: Random, xPos: Int, zPos: Int): Boolean {
+    override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
         // no-op, this is only for structures generated via our AOTD quadtree structure mapper
         return false
     }
 
-    override fun canBeGenerated(
-        biomeManager: BiomeManager,
-        chunkGenerator: ChunkGenerator<*>,
-        random: Random,
+    override fun isFeatureChunk(
+        chunkGenerator: ChunkGenerator,
+        biomeProvider: BiomeProvider,
+        seed: Long,
+        random: SharedSeedRandom,
         centerChunkX: Int,
         centerChunkZ: Int,
-        biome: Biome
+        biome: Biome,
+        featureChunkPos: ChunkPos,
+        config: NoFeatureConfig
     ): Boolean {
         val xStart = centerChunkX * 16
         val xEnd = xStart + 15

@@ -6,7 +6,7 @@ import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.SharedSeedRandom
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
-import net.minecraft.world.biome.BiomeManager
+import net.minecraft.world.biome.provider.BiomeProvider
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraftforge.common.util.INBTSerializable
@@ -66,17 +66,19 @@ class StructureMap : INBTSerializable<CompoundNBT> {
      * Plans what structures will exist in this chunk.
      *
      * @param chunkPos The chunk to plan
-     * @param biomeManager The biome manager used to test if a structure fits at this position
+     * @param biomeProvider The biome manager used to test if a structure fits at this position
      * @param chunkGenerator The chunk generator used to test if a structure fits at this position
+     * @param seed The seed to use
      */
-    fun planStructuresIn(chunkPos: ChunkPos, biomeManager: BiomeManager, chunkGenerator: ChunkGenerator) {
-        planStructuresIn(chunkPos, biomeManager, chunkGenerator, null, StructureGridSize.LARGEST_GRID_SIZE)
+    fun planStructuresIn(chunkPos: ChunkPos, biomeProvider: BiomeProvider, chunkGenerator: ChunkGenerator, seed: Long) {
+        planStructuresIn(chunkPos, biomeProvider, chunkGenerator, seed, null, StructureGridSize.LARGEST_GRID_SIZE)
     }
 
     private fun planStructuresIn(
         chunkPos: ChunkPos,
-        biomeManager: BiomeManager,
+        biomeProvider: BiomeProvider,
         chunkGenerator: ChunkGenerator,
+        seed: Long,
         previousNode: StructureMapNode?,
         gridSize: StructureGridSize
     ) {
@@ -84,7 +86,7 @@ class StructureMap : INBTSerializable<CompoundNBT> {
             // Plan the root (this is a special case)
             if (root == null) {
                 root = StructureMapNode()
-                tryPlacingStructuresFor(root!!, chunkPos, biomeManager, chunkGenerator, gridSize)
+                tryPlacingStructuresFor(root!!, chunkPos, biomeProvider, chunkGenerator, seed, gridSize)
             }
             root!!
         } else {
@@ -97,28 +99,28 @@ class StructureMap : INBTSerializable<CompoundNBT> {
                 currentXQuadrant == 0 && currentZQuadrant == 0 -> {
                     if (previousNode.lowerLeftChild == null) {
                         previousNode.lowerLeftChild = StructureMapNode()
-                        tryPlacingStructuresFor(previousNode.lowerLeftChild!!, chunkPos, biomeManager, chunkGenerator, gridSize)
+                        tryPlacingStructuresFor(previousNode.lowerLeftChild!!, chunkPos, biomeProvider, chunkGenerator, seed, gridSize)
                     }
                     previousNode.lowerLeftChild!!
                 }
                 currentXQuadrant == 1 && currentZQuadrant == 0 -> {
                     if (previousNode.lowerRightChild == null) {
                         previousNode.lowerRightChild = StructureMapNode()
-                        tryPlacingStructuresFor(previousNode.lowerRightChild!!, chunkPos, biomeManager, chunkGenerator, gridSize)
+                        tryPlacingStructuresFor(previousNode.lowerRightChild!!, chunkPos, biomeProvider, chunkGenerator, seed, gridSize)
                     }
                     previousNode.lowerRightChild!!
                 }
                 currentXQuadrant == 0 && currentZQuadrant == 1 -> {
                     if (previousNode.upperLeftChild == null) {
                         previousNode.upperLeftChild = StructureMapNode()
-                        tryPlacingStructuresFor(previousNode.upperLeftChild!!, chunkPos, biomeManager, chunkGenerator, gridSize)
+                        tryPlacingStructuresFor(previousNode.upperLeftChild!!, chunkPos, biomeProvider, chunkGenerator, seed, gridSize)
                     }
                     previousNode.upperLeftChild!!
                 }
                 currentXQuadrant == 1 && currentZQuadrant == 1 -> {
                     if (previousNode.upperRightChild == null) {
                         previousNode.upperRightChild = StructureMapNode()
-                        tryPlacingStructuresFor(previousNode.upperRightChild!!, chunkPos, biomeManager, chunkGenerator, gridSize)
+                        tryPlacingStructuresFor(previousNode.upperRightChild!!, chunkPos, biomeProvider, chunkGenerator, seed, gridSize)
                     }
                     previousNode.upperRightChild!!
                 }
@@ -127,20 +129,20 @@ class StructureMap : INBTSerializable<CompoundNBT> {
         }
 
         if (!plannedNode.hasStructure() && gridSize.nextSizeDown != null) {
-            planStructuresIn(chunkPos, biomeManager, chunkGenerator, plannedNode, gridSize.nextSizeDown)
+            planStructuresIn(chunkPos, biomeProvider, chunkGenerator, seed, plannedNode, gridSize.nextSizeDown)
         }
     }
 
     private fun tryPlacingStructuresFor(
         node: StructureMapNode,
         chunkPos: ChunkPos,
-        biomeManager: BiomeManager,
+        biomeProvider: BiomeProvider,
         chunkGenerator: ChunkGenerator,
+        seed: Long,
         gridSize: StructureGridSize
     ) {
         val gridPos = gridSize.toAbsoluteGridPos(chunkPos)
-        // TODO: SEED?
-        random.setLargeFeatureSeed(0, gridPos.x, gridPos.z)
+        random.setLargeFeatureSeed(seed, gridPos.x, gridPos.z)
         val cornerChunkPos = gridPos.getStartCornerChunk()
         val centerXPos = cornerChunkPos.minBlockX + gridSize.blockSize / 2
         val centerZPos = cornerChunkPos.minBlockZ + gridSize.blockSize / 2
@@ -159,7 +161,7 @@ class StructureMap : INBTSerializable<CompoundNBT> {
                 val xPos = centerXPos + xPosOffset
                 val zPos = centerZPos + zPosOffset
 
-                if (structure.canFitAt(chunkGenerator, biomeManager, random, xPos, zPos)) {
+                if (structure.canFitAt(chunkGenerator, biomeProvider, random, xPos, zPos)) {
                     node.insertStructure(structure, BlockPos(xPos, 0, zPos))
                     return
                 }
@@ -193,7 +195,7 @@ class StructureMap : INBTSerializable<CompoundNBT> {
 
             var previousGridSize: StructureGridSize? = null
             var currentGridSize: StructureGridSize? = StructureGridSize.LARGEST_GRID_SIZE
-            val structures = ModFeatures.FEATURES.filterIsInstance<AOTDStructure<*>>()
+            val structures = ModFeatures.STRUCTURES.filterIsInstance<AOTDStructure<*>>()
 
             do {
                 toReturn[currentGridSize!!] = structures.filter {

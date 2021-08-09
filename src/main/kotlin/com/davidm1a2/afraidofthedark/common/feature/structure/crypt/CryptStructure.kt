@@ -1,22 +1,15 @@
 package com.davidm1a2.afraidofthedark.common.feature.structure.crypt
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.MultiplierConfig
-import net.minecraft.world.biome.Biome
-import net.minecraft.world.biome.BiomeManager
+import net.minecraft.world.biome.provider.BiomeProvider
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 
-class CryptStructure : AOTDStructure<MultiplierConfig>({ MultiplierConfig.deserialize(it) }) {
-    override fun getStructureName(): String {
-        return "${Constants.MOD_ID}:crypt"
-    }
-
+class CryptStructure : AOTDStructure<MultiplierConfig>("crypt", MultiplierConfig.CODEC) {
     override fun getWidth(): Int {
         return ModSchematics.CRYPT.getWidth().toInt()
     }
@@ -25,26 +18,14 @@ class CryptStructure : AOTDStructure<MultiplierConfig>({ MultiplierConfig.deseri
         return ModSchematics.CRYPT.getLength().toInt()
     }
 
-    override fun setupStructureIn(biome: Biome) {
-        if (biome.category !in INCOMPATIBLE_BIOMES) {
-            if (biome == ModBiomes.EERIE_FOREST) {
-                addToBiome(biome, MultiplierConfig(10))
-            } else {
-                addToBiome(biome, MultiplierConfig(1))
-            }
-        } else {
-            addToBiome(biome, MultiplierConfig(0))
-        }
-    }
-
-    override fun getStartFactory(): IStartFactory {
+    override fun getStartFactory(): IStartFactory<MultiplierConfig> {
         return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
             CryptStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
         }
     }
 
-    override fun canFitAt(chunkGen: ChunkGenerator<*>, biomeManager: BiomeManager, random: Random, xPos: Int, zPos: Int): Boolean {
-        val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, chunkGen, biomeManager).map { it.multiplier }.minOrNull() ?: 0
+    override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
+        val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, biomeProvider).map { it.multiplier }.minOrNull() ?: 0
         val chance = getOneInNValidChunks(350) * ModCommonConfiguration.cryptMultiplier * biomeMultiplier
         if (random.nextDouble() >= chance) {
             return false
@@ -57,20 +38,5 @@ class CryptStructure : AOTDStructure<MultiplierConfig>({ MultiplierConfig.deseri
             return false
         }
         return true
-    }
-
-    companion object {
-        private val INCOMPATIBLE_BIOMES = setOf(
-            Biome.Category.BEACH,
-            Biome.Category.EXTREME_HILLS,
-            Biome.Category.ICY,
-            Biome.Category.NETHER,
-            Biome.Category.OCEAN,
-            Biome.Category.RIVER,
-            Biome.Category.THEEND,
-            Biome.Category.NONE,
-            Biome.Category.MUSHROOM,
-            Biome.Category.SWAMP
-        )
     }
 }

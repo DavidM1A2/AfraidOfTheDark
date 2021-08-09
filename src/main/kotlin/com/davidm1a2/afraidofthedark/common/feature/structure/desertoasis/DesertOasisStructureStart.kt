@@ -2,8 +2,9 @@ package com.davidm1a2.afraidofthedark.common.feature.structure.desertoasis
 
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import com.davidm1a2.afraidofthedark.common.feature.structure.AOTDStructureStart
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
+import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructureStart
+import com.davidm1a2.afraidofthedark.common.feature.structure.base.BooleanConfig
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.SchematicStructurePiece
 import com.davidm1a2.afraidofthedark.common.schematic.Schematic
 import net.minecraft.util.Direction
@@ -13,24 +14,24 @@ import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure
 import kotlin.math.roundToInt
 
-class DesertOasisStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: Int, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
-    AOTDStructureStart(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
+class DesertOasisStructureStart(structure: Structure<BooleanConfig>, chunkX: Int, chunkZ: Int, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
+    AOTDStructureStart<BooleanConfig>(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
 
-    override fun init(generator: ChunkGenerator<*>, xPos: Int, zPos: Int) {
+    override fun init(generator: ChunkGenerator, xPos: Int, zPos: Int) {
         val cornerPosX = xPos - ModSchematics.DESERT_OASIS.getWidth() / 2
-        val cornerPosY = (structure as AOTDStructure<*>).getEdgeHeights(xPos, zPos, generator)
+        val cornerPosY = (feature as AOTDStructure<*>).getEdgeHeights(xPos, zPos, generator)
             .average()
             .roundToInt()
             .minus(18)
             .coerceIn(0, 255)
         val cornerPosZ = zPos - ModSchematics.DESERT_OASIS.getLength() / 2
 
-        this.components.add(
+        this.pieces.add(
             SchematicStructurePiece(
                 cornerPosX,
                 cornerPosY,
                 cornerPosZ,
-                rand,
+                random,
                 ModSchematics.DESERT_OASIS,
                 ModLootTables.DESERT_OASIS,
                 Direction.NORTH
@@ -38,23 +39,23 @@ class DesertOasisStructureStart(structure: Structure<*>, chunkX: Int, chunkZ: In
         )
 
         PlotTypes.values().forEach {
-            val shuffledSchematics = it.schematics.indices.shuffled(rand)
+            val shuffledSchematics = it.schematics.indices.shuffled(random)
             it.offsets.forEachIndexed { index, offset ->
-                this.components.add(
+                this.pieces.add(
                     SchematicStructurePiece(
                         cornerPosX + offset.x,
                         cornerPosY + offset.y,
                         cornerPosZ + offset.z,
-                        rand,
+                        random,
                         it.schematics[shuffledSchematics[index]],
                         ModLootTables.DESERT_OASIS,
-                        if (it != PlotTypes.Large && rand.nextBoolean()) it.facing.opposite else it.facing
+                        if (it != PlotTypes.Large && random.nextBoolean()) it.facing.opposite else it.facing
                     )
                 )
             }
         }
 
-        this.recalculateStructureSize()
+        this.calculateBoundingBox()
     }
 
     private enum class PlotTypes(val schematics: Array<Schematic>, val offsets: List<BlockPos>, val facing: Direction) {

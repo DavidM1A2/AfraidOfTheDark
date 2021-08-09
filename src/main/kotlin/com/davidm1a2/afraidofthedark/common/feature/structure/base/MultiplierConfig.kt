@@ -1,17 +1,15 @@
 package com.davidm1a2.afraidofthedark.common.feature.structure.base
 
-import com.mojang.datafixers.Dynamic
-import com.mojang.datafixers.types.DynamicOps
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.world.gen.feature.IFeatureConfig
+import java.util.function.Function
 
 class MultiplierConfig(val multiplier: Int) : IFeatureConfig {
-    override fun <T : Any> serialize(ops: DynamicOps<T>): Dynamic<T> {
-        return Dynamic(ops, ops.createMap(mapOf(ops.createString("multiplier") to ops.createInt(multiplier))))
-    }
-
     companion object {
-        fun <T> deserialize(dynamic: Dynamic<T>): MultiplierConfig {
-            return MultiplierConfig(dynamic.get("multiplier").asInt(0))
+        val CODEC: Codec<MultiplierConfig> = RecordCodecBuilder.create {
+            it.group(Codec.INT.fieldOf("multiplier").orElse(0).forGetter(MultiplierConfig::multiplier))
+                .apply(it, it.stable(Function { a -> MultiplierConfig(a) }))
         }
     }
 }

@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModFeatures
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.schematic.Schematic
+import com.davidm1a2.afraidofthedark.common.schematic.SchematicUtils
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -21,8 +22,9 @@ import net.minecraft.util.Rotation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.MutableBoundingBox
-import net.minecraft.world.IWorld
+import net.minecraft.world.ISeedReader
 import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.feature.structure.StructureManager
 import net.minecraft.world.gen.feature.structure.StructurePiece
 import java.util.*
 
@@ -34,9 +36,9 @@ class SchematicStructurePiece : StructurePiece {
     // Some blocks aren't mirrored correctly by MC. Fix them here
     private val mirrorBlockFixer = mapOf<Block, (BlockState) -> BlockState>(
         Blocks.CHEST to { state ->
-            when (state[ChestBlock.TYPE]) {
-                ChestType.RIGHT -> state.with(ChestBlock.TYPE, ChestType.LEFT)
-                ChestType.LEFT -> state.with(ChestBlock.TYPE, ChestType.RIGHT)
+            when (state.getValue(ChestBlock.TYPE)) {
+                ChestType.RIGHT -> state.setValue(ChestBlock.TYPE, ChestType.LEFT)
+                ChestType.LEFT -> state.setValue(ChestBlock.TYPE, ChestType.RIGHT)
                 else -> state
             }
         },
@@ -91,8 +93,8 @@ class SchematicStructurePiece : StructurePiece {
 
         // The first random number is always 0. No idea why
         random.nextInt(4)
-        coordBaseMode = facing ?: Direction.Plane.HORIZONTAL.random(random)
-        boundingBox = if (coordBaseMode?.axis == Direction.Axis.Z) {
+        orientation = facing ?: Direction.Plane.HORIZONTAL.getRandomDirection(random)
+        boundingBox = if (orientation?.axis == Direction.Axis.Z) {
             MutableBoundingBox(x, y, z, x + schematic.getWidth() - 1, y + schematic.getHeight() - 1, z + schematic.getLength() - 1)
         } else {
             MutableBoundingBox(x, y, z, x + schematic.getLength() - 1, y + schematic.getHeight() - 1, z + schematic.getWidth() - 1)
@@ -100,13 +102,13 @@ class SchematicStructurePiece : StructurePiece {
     }
 
     fun updateY(y: Int) {
-        boundingBox.minY = y
-        boundingBox.maxY = y + schematic.getHeight() - 1
+        boundingBox.y0 = y
+        boundingBox.y1 = y + schematic.getHeight() - 1
     }
 
     // Copy & Pasted from StructurePiece, used to expose the rotation and mirror fields
-    override fun setCoordBaseMode(facing: Direction?) {
-        super.setCoordBaseMode(facing)
+    override fun setOrientation(facing: Direction?) {
+        super.setOrientation(facing)
         if (facing == null) {
             this.mirror = Mirror.NONE
         } else {
@@ -127,22 +129,19 @@ class SchematicStructurePiece : StructurePiece {
         }
     }
 
-    /**
-     * Actually writeAdditional LOL
-     *
-     * @param tagCompound The tag to write to
-     */
-    override fun readAdditional(tagCompound: CompoundNBT) {
+    override fun addAdditionalSaveData(tagCompound: CompoundNBT) {
         tagCompound.putString(NBT_SCHEMATIC_NAME, this.schematic.getName())
         this.lootTable?.let { tagCompound.putString(NBT_LOOT_TABLE_NAME, it.name) }
     }
 
-    override fun create(
-        world: IWorld,
-        chunkGenerator: ChunkGenerator<*>,
+    override fun postProcess(
+        world: ISeedReader,
+        structureManager: StructureManager,
+        chunkGenerator: ChunkGenerator,
         random: Random,
         structureBoundingBox: MutableBoundingBox,
-        chunkPos: ChunkPos
+        chunkPos: ChunkPos,
+        structureBottomCenter: BlockPos
     ): Boolean {
         generateBlocks(world, structureBoundingBox)
         generateTileEntities(world, random, structureBoundingBox)
@@ -150,7 +149,7 @@ class SchematicStructurePiece : StructurePiece {
         return true
     }
 
-    private fun generateBlocks(world: IWorld, structureBoundingBox: MutableBoundingBox) {
+    private fun generateBlocks(world: ISeedReader, structureBoundingBox: MutableBoundingBox) {
         val blocks = schematic.getBlocks()
         val width = schematic.getWidth()
         val height = schematic.getHeight()
@@ -185,17 +184,17 @@ class SchematicStructurePiece : StructurePiece {
                     val nextToPlace = blocks[index]
 
                     // If the block in the schematic is air then ignore it
-                    if (!nextToPlace.isAir(world, BlockPos(x, y, z))) {
+                    if (!world.isEmptyBlock(BlockPos(x, y, z))) {
                         // Structure void blocks represent air blocks in my schematic system. This allows for easy underground structure generation.
                         if (nextToPlace.block == Blocks.STRUCTURE_VOID) {
                             // Set the block to air
-                            setBlockState(world, Blocks.AIR.defaultState, x, y, length - z - 1, structureBoundingBox)
+                            placeBlock(world, Blocks.AIR.defaultBlockState(), x, y, length - z - 1, structureBoundingBox)
                         } else if (mirror == Mirror.LEFT_RIGHT && mirrorBlockFixer.containsKey(nextToPlace.block)) {
                             // Set the block state after applying the fixer
-                            setBlockState(world, mirrorBlockFixer[nextToPlace.block]!!.invoke(nextToPlace), x, y, length - z - 1, structureBoundingBox)
+                            placeBlock(world, mirrorBlockFixer[nextToPlace.block]!!.invoke(nextToPlace), x, y, length - z - 1, structureBoundingBox)
                         } else {
                             // Set the block state without any fix
-                            setBlockState(world, nextToPlace, x, y, length - z - 1, structureBoundingBox)
+                            placeBlock(world, nextToPlace, x, y, length - z - 1, structureBoundingBox)
                         }
                     }
                 }
@@ -203,7 +202,7 @@ class SchematicStructurePiece : StructurePiece {
         }
     }
 
-    private fun generateTileEntities(world: IWorld, random: Random, structureBoundingBox: MutableBoundingBox) {
+    private fun generateTileEntities(world: ISeedReader, random: Random, structureBoundingBox: MutableBoundingBox) {
         // Get the list of tile entities inside this schematic
         val tileEntities = schematic.getTileEntities()
         val length = schematic.getLength()
@@ -215,14 +214,14 @@ class SchematicStructurePiece : StructurePiece {
             val posY = tileEntityCompound.getInt("y")
             val posZ = tileEntityCompound.getInt("z")
             val tileEntityPosition = BlockPos(
-                this.getXWithOffset(posX, length - posZ - 1),
-                this.getYWithOffset(posY),
-                this.getZWithOffset(posX, length - posZ - 1)
+                this.getWorldX(posX, length - posZ - 1),
+                this.getWorldY(posY),
+                this.getWorldZ(posX, length - posZ - 1)
             )
 
             // If the chunk pos was not given or we are in the correct chunk spawn the entity in
-            if (structureBoundingBox.isVecInside(tileEntityPosition)) {
-                val tileEntity = world.getTileEntity(tileEntityPosition)
+            if (structureBoundingBox.isInside(tileEntityPosition)) {
+                val tileEntity = world.getBlockEntity(tileEntityPosition)
 
                 if (tileEntity != null) {
                     val newTileEntityCompound = tileEntityCompound.copy().apply {
@@ -231,7 +230,7 @@ class SchematicStructurePiece : StructurePiece {
                         putInt("z", tileEntityPosition.z)
                     }
 
-                    tileEntity.read(newTileEntityCompound)
+                    tileEntity.load(SchematicUtils.getBlock(schematic, posX, posY, posZ), newTileEntityCompound)
 
                     if (mirror != Mirror.NONE) {
                         tileEntity.mirror(mirror)
@@ -249,7 +248,7 @@ class SchematicStructurePiece : StructurePiece {
         }
     }
 
-    private fun generateEntities(world: IWorld, structureBoundingBox: MutableBoundingBox) {
+    private fun generateEntities(world: ISeedReader, structureBoundingBox: MutableBoundingBox) {
         // Get the list of entities inside this schematic
         val entities = schematic.getEntities()
 
@@ -258,71 +257,71 @@ class SchematicStructurePiece : StructurePiece {
             // Grab the compound that represents this entity
             val entityCompound = entities.getCompound(i)
             // Instantiate the entity object from the compound
-            val entityOpt = EntityType.loadEntityUnchecked(entityCompound, world.world)
+            val entityOpt = EntityType.create(entityCompound, world.level)
 
             // If the entity is valid, continue...
             if (entityOpt.isPresent) {
                 val entity = entityOpt.get()
                 // Update the UUID to be random so that it does not conflict with other entities from the same schematic
-                entity.setUniqueId(UUID.randomUUID())
+                entity.uuid = UUID.randomUUID()
                 val length = schematic.getLength()
 
                 // Get the X, Y, and Z coordinates of this entity if instantiated inside the world
-                val newX = getXWithOffset(entity.posX, length - entity.posZ - 1)
-                val newY = getYWithOffset(entity.posY)
-                val newZ = getZWithOffset(entity.posX, length - entity.posZ - 1)
+                val newX = getWorldX(entity.x, length - entity.z - 1)
+                val newY = getWorldY(entity.y)
+                val newZ = getWorldZ(entity.x, length - entity.z - 1)
 
                 // If the chunk pos was not given or we are in the correct chunk spawn the entity in
-                if (structureBoundingBox.isVecInside(BlockPos(newX, newY, newZ))) {
-                    entity.setPosition(newX, newY, newZ)
-                    world.addEntity(entity)
+                if (structureBoundingBox.isInside(BlockPos(newX, newY, newZ))) {
+                    entity.setPos(newX, newY, newZ)
+                    world.addFreshEntity(entity)
                 }
             }
         }
     }
 
-    private fun fixStairState(state: BlockState): BlockState {
-        val facing = state[StairsBlock.FACING]
-        if (facing.axis == Direction.Axis.X) {
-            return when (state[StairsBlock.SHAPE]) {
-                StairsShape.INNER_LEFT -> state.with(StairsBlock.SHAPE, StairsShape.INNER_RIGHT)
-                StairsShape.INNER_RIGHT -> state.with(StairsBlock.SHAPE, StairsShape.INNER_LEFT)
-                StairsShape.OUTER_LEFT -> state.with(StairsBlock.SHAPE, StairsShape.OUTER_RIGHT)
-                StairsShape.OUTER_RIGHT -> state.with(StairsBlock.SHAPE, StairsShape.OUTER_LEFT)
-                else -> state
-            }
-        }
-        return state
-    }
-
-    private fun getXWithOffset(x: Double, z: Double): Double {
-        return if (coordBaseMode == null) {
+    private fun getWorldX(x: Double, z: Double): Double {
+        return if (orientation == null) {
             x
         } else {
-            when (coordBaseMode) {
-                Direction.NORTH, Direction.SOUTH -> boundingBox.minX + x
-                Direction.WEST -> boundingBox.maxX - z
-                Direction.EAST -> boundingBox.minX + z
+            when (orientation) {
+                Direction.NORTH, Direction.SOUTH -> boundingBox.x0 + x
+                Direction.WEST -> boundingBox.x1 - z
+                Direction.EAST -> boundingBox.x0 + z
                 else -> x
             }
         }
     }
 
-    private fun getYWithOffset(y: Double): Double {
-        return if (coordBaseMode == null) y else y + boundingBox.minY
+    private fun getWorldY(y: Double): Double {
+        return if (orientation == null) y else y + boundingBox.y0
     }
 
-    private fun getZWithOffset(x: Double, z: Double): Double {
-        return if (coordBaseMode == null) {
+    private fun getWorldZ(x: Double, z: Double): Double {
+        return if (orientation == null) {
             z
         } else {
-            when (coordBaseMode) {
-                Direction.NORTH -> boundingBox.maxZ - z
-                Direction.SOUTH -> boundingBox.minZ + z
-                Direction.WEST, Direction.EAST -> boundingBox.minZ + x
+            when (orientation) {
+                Direction.NORTH -> boundingBox.z1 - z
+                Direction.SOUTH -> boundingBox.z0 + z
+                Direction.WEST, Direction.EAST -> boundingBox.z0 + x
                 else -> z
             }
         }
+    }
+
+    private fun fixStairState(state: BlockState): BlockState {
+        val facing = state.getValue(StairsBlock.FACING)
+        if (facing.axis == Direction.Axis.X) {
+            return when (state.getValue(StairsBlock.SHAPE)) {
+                StairsShape.INNER_LEFT -> state.setValue(StairsBlock.SHAPE, StairsShape.INNER_RIGHT)
+                StairsShape.INNER_RIGHT -> state.setValue(StairsBlock.SHAPE, StairsShape.INNER_LEFT)
+                StairsShape.OUTER_LEFT -> state.setValue(StairsBlock.SHAPE, StairsShape.OUTER_RIGHT)
+                StairsShape.OUTER_RIGHT -> state.setValue(StairsBlock.SHAPE, StairsShape.OUTER_LEFT)
+                else -> state
+            }
+        }
+        return state
     }
 
     companion object {

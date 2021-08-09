@@ -3,10 +3,12 @@ package com.davidm1a2.afraidofthedark.common.feature.structure.voidchestbox
 import com.davidm1a2.afraidofthedark.common.constants.ModFeatures
 import net.minecraft.block.Blocks
 import net.minecraft.nbt.CompoundNBT
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.MutableBoundingBox
-import net.minecraft.world.IWorld
+import net.minecraft.world.ISeedReader
 import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.feature.structure.StructureManager
 import net.minecraft.world.gen.feature.structure.StructurePiece
 import java.util.*
 
@@ -17,36 +19,38 @@ class VoidChestBoxStructurePiece : StructurePiece {
         this.boundingBox = MutableBoundingBox(xPos, 100, 0, xPos + 48, 100 + 48, 0 + 48)
     }
 
-    override fun create(
-        worldIn: IWorld,
-        chunkGenerator: ChunkGenerator<*>,
-        randomIn: Random,
-        structureBoundingBoxIn: MutableBoundingBox,
-        chunkPos: ChunkPos
+    override fun postProcess(
+        world: ISeedReader,
+        structureManager: StructureManager,
+        chunkGenerator: ChunkGenerator,
+        random: Random,
+        structureBoundingBox: MutableBoundingBox,
+        chunkPos: ChunkPos,
+        structureBottomCenter: BlockPos
     ): Boolean {
-        val barrier = Blocks.BARRIER.defaultState
-        val xPos = this.boundingBox.minX
+        val barrier = Blocks.BARRIER.defaultBlockState()
+        val xPos = this.boundingBox.x0
 
         for (i in 0..48) {
             for (j in 0..48) {
                 // Create the floor
-                setBlockState(worldIn, barrier, xPos + i, 100, j, structureBoundingBoxIn)
+                placeBlock(world, barrier, xPos + i, 100, j, structureBoundingBox)
                 // Create the roof
-                setBlockState(worldIn, barrier, xPos + i, 100 + 48, j, structureBoundingBoxIn)
+                placeBlock(world, barrier, xPos + i, 100 + 48, j, structureBoundingBox)
                 // Create the left wall
-                setBlockState(worldIn, barrier, xPos + 0, 100 + i, j, structureBoundingBoxIn)
+                placeBlock(world, barrier, xPos + 0, 100 + i, j, structureBoundingBox)
                 // Create the right wall
-                setBlockState(worldIn, barrier, xPos + 48, 100 + i, j, structureBoundingBoxIn)
+                placeBlock(world, barrier, xPos + 48, 100 + i, j, structureBoundingBox)
                 // Create the front wall
-                setBlockState(worldIn, barrier, xPos + i, 100 + j, 0, structureBoundingBoxIn)
+                placeBlock(world, barrier, xPos + i, 100 + j, 0, structureBoundingBox)
                 // Create the back wall
-                setBlockState(worldIn, barrier, xPos + i, 100 + j, 48, structureBoundingBoxIn)
+                placeBlock(world, barrier, xPos + i, 100 + j, 48, structureBoundingBox)
             }
         }
 
         return true
     }
 
-    override fun readAdditional(tagCompound: CompoundNBT) {
+    override fun addAdditionalSaveData(tagCompound: CompoundNBT) {
     }
 }

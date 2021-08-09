@@ -476,9 +476,10 @@ class NightmareHandler {
                     Direction.NORTH
                 )
 
-                enariasAltar.create(
+                enariasAltar.postProcess(
                     nightmareWorld,
-                    nightmareWorld.chunkProvider.chunkGenerator,
+                    nightmareWorld.structureFeatureManager(),
+                    nightmareWorld.chunkSource.generator,
                     // Random isn't used
                     throwawayRandom,
                     MutableBoundingBox(
@@ -488,7 +489,8 @@ class NightmareHandler {
                         posZ + ModSchematics.ENARIAS_ALTAR.getLength()
                     ),
                     // ChunkPos is ignored
-                    ChunkPos(0, 0)
+                    ChunkPos(0, 0),
+                    BlockPos.ZERO
                 )
             }
         }

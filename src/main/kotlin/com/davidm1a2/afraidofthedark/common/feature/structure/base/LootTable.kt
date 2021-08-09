@@ -25,15 +25,15 @@ class LootTable(val name: String, itemProviderToLootTable: Map<IItemProvider?, R
      */
     fun generate(chest: ChestTileEntity, chestNBT: CompoundNBT, random: Random) {
         // Can't use chest.getStackInSlot() since it requires a valid world object
-        val items = NonNullList.withSize(chest.sizeInventory, ItemStack.EMPTY)
+        val items = NonNullList.withSize(chest.containerSize, ItemStack.EMPTY)
         ItemStackHelper.loadAllItems(chestNBT, items)
         // Iterate over the chest's inventory
-        for (i in 0 until chest.sizeInventory) {
+        for (i in 0 until chest.containerSize) {
             val stackInSlot = items[i]
             // If we find a non-empty slot test if we know what loot table that corresponds to
             if (!stackInSlot.isEmpty && itemToLootTable.containsKey(stackInSlot.item)) {
                 // Clear the chest's inventory and update the loot table. Then return since we're done
-                chest.clear()
+                chest.clearContent()
                 chest.setLootTable(itemToLootTable[stackInSlot.item]!!, random.nextLong())
                 return
             }
@@ -41,7 +41,7 @@ class LootTable(val name: String, itemProviderToLootTable: Map<IItemProvider?, R
 
         // No item matched the loot table, so attempt to use the default loot table with key = null
         if (itemToLootTable.containsKey(null)) {
-            chest.clear()
+            chest.clearContent()
             chest.setLootTable(itemToLootTable[null]!!, random.nextLong())
         }
     }

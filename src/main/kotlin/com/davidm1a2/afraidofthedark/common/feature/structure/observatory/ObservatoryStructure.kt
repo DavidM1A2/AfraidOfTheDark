@@ -1,21 +1,15 @@
 package com.davidm1a2.afraidofthedark.common.feature.structure.observatory
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.BooleanConfig
-import net.minecraft.world.biome.Biome
-import net.minecraft.world.biome.BiomeManager
+import net.minecraft.world.biome.provider.BiomeProvider
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 
-class ObservatoryStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deserialize(it) }) {
-    override fun getStructureName(): String {
-        return "${Constants.MOD_ID}:observatory"
-    }
-
+class ObservatoryStructure : AOTDStructure<BooleanConfig>("observatory", BooleanConfig.CODEC) {
     override fun getWidth(): Int {
         return ModSchematics.OBSERVATORY.getWidth().toInt()
     }
@@ -24,22 +18,14 @@ class ObservatoryStructure : AOTDStructure<BooleanConfig>({ BooleanConfig.deseri
         return ModSchematics.OBSERVATORY.getLength().toInt()
     }
 
-    override fun setupStructureIn(biome: Biome) {
-        if (biome.category == Biome.Category.EXTREME_HILLS) {
-            addToBiome(biome, BooleanConfig(true))
-        } else {
-            addToBiome(biome, BooleanConfig(false))
-        }
-    }
-
-    override fun getStartFactory(): IStartFactory {
+    override fun getStartFactory(): IStartFactory<BooleanConfig> {
         return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
             ObservatoryStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
         }
     }
 
-    override fun canFitAt(chunkGen: ChunkGenerator<*>, biomeManager: BiomeManager, random: Random, xPos: Int, zPos: Int): Boolean {
-        val isNotSupported = getInteriorConfigEstimate(xPos, zPos, chunkGen, biomeManager).any { !it.supported }
+    override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
+        val isNotSupported = getInteriorConfigEstimate(xPos, zPos, biomeProvider).any { !it.supported }
         if (isNotSupported) {
             return false
         }
