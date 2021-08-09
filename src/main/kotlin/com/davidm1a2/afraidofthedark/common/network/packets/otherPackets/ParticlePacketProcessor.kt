@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.network.PacketBuffer
 import net.minecraft.particles.IParticleData
 import net.minecraft.particles.ParticleType
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.fml.network.NetworkDirection
 import net.minecraftforge.fml.network.NetworkEvent
 import net.minecraftforge.registries.ForgeRegistries
@@ -17,7 +17,7 @@ class ParticlePacketProcessor : PacketProcessor<ParticlePacket> {
     override fun encode(msg: ParticlePacket, buf: PacketBuffer) {
         // Write the particle index first, then the number of particles to spawn, then each position and speed
         buf.writeResourceLocation(msg.particle.type.registryName!!)
-        msg.particle.write(buf)
+        msg.particle.writeToNetwork(buf)
         buf.writeInt(msg.positions.size)
         for (i in msg.positions.indices) {
             buf.writeDouble(msg.positions[i].x)
@@ -33,14 +33,14 @@ class ParticlePacketProcessor : PacketProcessor<ParticlePacket> {
         // Read the particle, then the number of particles to spawn, then the position/speed of each particle
         @Suppress("UNCHECKED_CAST")
         val particleType = ForgeRegistries.PARTICLE_TYPES.getValue(buf.readResourceLocation()) as ParticleType<IParticleData>
-        val particle = particleType.deserializer.read(particleType, buf)
+        val particle = particleType.deserializer.fromNetwork(particleType, buf)
 
         val numPositions = buf.readInt()
-        val mutablePositions = mutableListOf<Vec3d>()
-        val mutableSpeeds = mutableListOf<Vec3d>()
+        val mutablePositions = mutableListOf<Vector3d>()
+        val mutableSpeeds = mutableListOf<Vector3d>()
         for (i in 0 until numPositions) {
-            mutablePositions.add(Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble()))
-            mutableSpeeds.add(Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble()))
+            mutablePositions.add(Vector3d(buf.readDouble(), buf.readDouble(), buf.readDouble()))
+            mutableSpeeds.add(Vector3d(buf.readDouble(), buf.readDouble(), buf.readDouble()))
         }
 
         return ParticlePacket(
@@ -61,7 +61,7 @@ class ParticlePacketProcessor : PacketProcessor<ParticlePacket> {
             for (i in positions.indices) {
                 val position = positions[i]
                 val speed = speeds[i]
-                player.world.addParticle(msg.particle, false, position.x, position.y, position.z, speed.x, speed.y, speed.z)
+                player.level.addParticle(msg.particle, false, position.x, position.y, position.z, speed.x, speed.y, speed.z)
             }
         }
     }

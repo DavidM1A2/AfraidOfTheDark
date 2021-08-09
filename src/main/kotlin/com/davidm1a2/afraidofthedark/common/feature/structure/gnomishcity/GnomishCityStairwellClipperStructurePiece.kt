@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.feature.structure.gnomishcity
 
-import com.davidm1a2.afraidofthedark.common.constants.ModFeatures
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.common.constants.ModStructures
 import net.minecraft.block.Blocks
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.Direction
@@ -15,9 +15,9 @@ import net.minecraft.world.gen.feature.structure.StructurePiece
 import java.util.*
 
 class GnomishCityStairwellClipperStructurePiece : StructurePiece {
-    constructor(nbt: CompoundNBT) : super(ModFeatures.GNOMISH_CITY_STAIRWELL_CLIPPER_STRUCTURE_PIECE, nbt)
+    constructor(nbt: CompoundNBT) : super(ModStructures.GNOMISH_CITY_STAIRWELL_CLIPPER_STRUCTURE_PIECE, nbt)
 
-    constructor(xPos: Int, groundY: Int, maxStairwellY: Int, zPos: Int) : super(ModFeatures.GNOMISH_CITY_STAIRWELL_CLIPPER_STRUCTURE_PIECE, 0) {
+    constructor(xPos: Int, groundY: Int, maxStairwellY: Int, zPos: Int) : super(ModStructures.GNOMISH_CITY_STAIRWELL_CLIPPER_STRUCTURE_PIECE, 0) {
         val stairwell = ModSchematics.STAIRWELL
         this.boundingBox = MutableBoundingBox(xPos, groundY, zPos, xPos + stairwell.getWidth() - 1, maxStairwellY, zPos + stairwell.getLength() - 1)
         this.orientation = Direction.NORTH

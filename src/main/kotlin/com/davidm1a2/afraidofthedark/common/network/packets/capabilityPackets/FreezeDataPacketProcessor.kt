@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.network.packets.packetHandler.PacketProcessor
 import net.minecraft.client.Minecraft
 import net.minecraft.network.PacketBuffer
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.fml.network.NetworkDirection
 import net.minecraftforge.fml.network.NetworkEvent
 
@@ -28,7 +28,7 @@ class FreezeDataPacketProcessor : PacketProcessor<FreezeDataPacket> {
         return if (freezeTicks > 0) {
             FreezeDataPacket(
                 freezeTicks,
-                Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble()),
+                Vector3d(buf.readDouble(), buf.readDouble(), buf.readDouble()),
                 buf.readFloat(),
                 buf.readFloat()
             )

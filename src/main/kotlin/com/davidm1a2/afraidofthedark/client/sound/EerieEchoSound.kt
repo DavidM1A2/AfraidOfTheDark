@@ -18,7 +18,7 @@ class EerieEchoSound : PlayerFollowingSound(ModSounds.EERIE_ECHOS, SoundCategory
         super.tick()
 
         val entityPlayer = Minecraft.getInstance().player!!
-        if (!entityPlayer.isAlive || entityPlayer.level.dimensionType() != ModDimensions.NIGHTMARE_TYPE) {
+        if (!entityPlayer.isAlive || entityPlayer.level.dimensionType() != ModDimensions.NIGHTMARE_WORLD) {
             stop()
         }
     }

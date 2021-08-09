@@ -220,14 +220,14 @@ class AnimationHandler(vararg animChannels: Channel) {
                         val endPosition = nextTranslationKeyFrame!!.modelTranslations[boxName]!!
                         val currentPosition = startPosition.copy()
                         currentPosition.interpolate(endPosition, lerpProgress)
-                        box.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z)
+                        box.setRotationPoint(currentPosition.x(), currentPosition.y(), currentPosition.z())
                         anyTranslationApplied = true
                     } else if (prevTranslationsKeyFramePosition != 0 && nextTranslationsKeyFramePosition != 0) {
                         val startPosition = prevTranslationKeyFrame!!.modelTranslations[boxName]!!
                         val endPosition = nextTranslationKeyFrame!!.modelTranslations[boxName]!!
                         val currentPosition = startPosition.copy()
                         currentPosition.interpolate(endPosition, lerpProgress)
-                        box.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z)
+                        box.setRotationPoint(currentPosition.x(), currentPosition.y(), currentPosition.z())
                         anyTranslationApplied = true
                     }
                 } else {

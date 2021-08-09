@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.feature.structure.voidchestbox
 
-import com.davidm1a2.afraidofthedark.common.constants.ModFeatures
+import com.davidm1a2.afraidofthedark.common.constants.ModStructures
 import net.minecraft.block.Blocks
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.math.BlockPos
@@ -13,9 +13,9 @@ import net.minecraft.world.gen.feature.structure.StructurePiece
 import java.util.*
 
 class VoidChestBoxStructurePiece : StructurePiece {
-    constructor(nbt: CompoundNBT) : super(ModFeatures.VOID_BOX_STRUCTURE_PIECE, nbt)
+    constructor(nbt: CompoundNBT) : super(ModStructures.VOID_BOX_STRUCTURE_PIECE, nbt)
 
-    constructor(xPos: Int) : super(ModFeatures.VOID_BOX_STRUCTURE_PIECE, 0) {
+    constructor(xPos: Int) : super(ModStructures.VOID_BOX_STRUCTURE_PIECE, 0) {
         this.boundingBox = MutableBoundingBox(xPos, 100, 0, xPos + 48, 100 + 48, 0 + 48)
     }
 

@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.world.structure
 
-import com.davidm1a2.afraidofthedark.common.constants.ModFeatures
+import com.davidm1a2.afraidofthedark.common.constants.ModStructures
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.SharedSeedRandom
@@ -195,10 +195,9 @@ class StructureMap : INBTSerializable<CompoundNBT> {
 
             var previousGridSize: StructureGridSize? = null
             var currentGridSize: StructureGridSize? = StructureGridSize.LARGEST_GRID_SIZE
-            val structures = ModFeatures.STRUCTURES.filterIsInstance<AOTDStructure<*>>()
 
             do {
-                toReturn[currentGridSize!!] = structures.filter {
+                toReturn[currentGridSize!!] = ModStructures.STRUCTURES.filter {
                     when {
                         previousGridSize == null -> it.getSize() > currentGridSize!!.nextSizeDown!!.chunkSize
                         currentGridSize!!.nextSizeDown == null -> it.getSize() <= currentGridSize!!.chunkSize

@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.feature.structure.base
 
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import com.davidm1a2.afraidofthedark.common.constants.ModFeatures
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.common.constants.ModStructures
 import com.davidm1a2.afraidofthedark.common.schematic.Schematic
 import com.davidm1a2.afraidofthedark.common.schematic.SchematicUtils
 import net.minecraft.block.Block
@@ -66,7 +66,7 @@ class SchematicStructurePiece : StructurePiece {
         ).map { it to this::fixStairState }.toTypedArray()
     )
 
-    constructor(nbt: CompoundNBT) : super(ModFeatures.SCHEMATIC_STRUCTURE_PIECE, nbt) {
+    constructor(nbt: CompoundNBT) : super(ModStructures.SCHEMATIC_STRUCTURE_PIECE, nbt) {
         val schematicName = nbt.getString(NBT_SCHEMATIC_NAME)
         this.schematic = ModSchematics.NAME_TO_SCHEMATIC[schematicName] ?: throw IllegalStateException("Schematic $schematicName was not found")
         if (nbt.contains(NBT_LOOT_TABLE_NAME)) {
@@ -85,7 +85,7 @@ class SchematicStructurePiece : StructurePiece {
         schematic: Schematic,
         lootTable: LootTable? = null,
         facing: Direction? = null
-    ) : super(ModFeatures.SCHEMATIC_STRUCTURE_PIECE, 0) {
+    ) : super(ModStructures.SCHEMATIC_STRUCTURE_PIECE, 0) {
         this.schematic = schematic
         this.lootTable = lootTable
 
