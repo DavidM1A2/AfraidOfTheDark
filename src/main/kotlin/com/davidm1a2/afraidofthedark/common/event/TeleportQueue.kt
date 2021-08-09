@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.event.register
+package com.davidm1a2.afraidofthedark.common.event
 
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.util.RegistryKey

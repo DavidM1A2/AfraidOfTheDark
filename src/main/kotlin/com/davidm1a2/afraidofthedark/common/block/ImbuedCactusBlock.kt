@@ -5,7 +5,6 @@ import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.block.CactusBlock
 import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
 import net.minecraft.entity.Entity
@@ -40,7 +39,7 @@ class ImbuedCactusBlock : AOTDBlock(
         .strength(0.4f)
 ), IPlantable {
     init {
-        registerDefaultState(stateDefinition.any().setValue(CactusBlock.AGE, 0))
+        registerDefaultState(stateDefinition.any().setValue(AGE, 0))
     }
 
     override fun tick(state: BlockState, world: ServerWorld, pos: BlockPos, rand: Random) {

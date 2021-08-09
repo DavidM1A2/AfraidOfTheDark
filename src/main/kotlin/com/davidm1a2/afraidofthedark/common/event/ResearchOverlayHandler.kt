@@ -20,8 +20,8 @@ class ResearchOverlayHandler {
      *
      * @param event Chat event
      */
-    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
     @Suppress("UNUSED_PARAMETER")
     fun onRenderGameOverlayEventChat(event: Chat) {
         researchAchievedOverlay.updateResearchAchievedWindow(event.matrixStack)

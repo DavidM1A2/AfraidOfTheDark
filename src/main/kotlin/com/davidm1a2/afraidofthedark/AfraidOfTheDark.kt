@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark.Companion.packetHandler
+import com.davidm1a2.afraidofthedark.client.keybindings.KeyInputEventHandler
 import com.davidm1a2.afraidofthedark.common.command.AOTDCommands
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModConfigHolder
@@ -9,21 +10,30 @@ import com.davidm1a2.afraidofthedark.common.event.CapabilityHandler
 import com.davidm1a2.afraidofthedark.common.event.ConfigurationHandler
 import com.davidm1a2.afraidofthedark.common.event.FlaskOfSoulsHandler
 import com.davidm1a2.afraidofthedark.common.event.NightmareHandler
+import com.davidm1a2.afraidofthedark.common.event.ResearchOverlayHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellCharmHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellFreezeHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellStateHandler
+import com.davidm1a2.afraidofthedark.common.event.TeleportQueue
 import com.davidm1a2.afraidofthedark.common.event.VoidChestHandler
+import com.davidm1a2.afraidofthedark.common.event.register.BlockEntityRendererRegister
 import com.davidm1a2.afraidofthedark.common.event.register.BlockRegister
+import com.davidm1a2.afraidofthedark.common.event.register.BlockRenderTypeRegister
 import com.davidm1a2.afraidofthedark.common.event.register.BoltEntryRegister
 import com.davidm1a2.afraidofthedark.common.event.register.CapabilityRegister
 import com.davidm1a2.afraidofthedark.common.event.register.DataSerializerRegister
 import com.davidm1a2.afraidofthedark.common.event.register.DimensionRegister
+import com.davidm1a2.afraidofthedark.common.event.register.DimensionRenderInfoRegister
 import com.davidm1a2.afraidofthedark.common.event.register.EffectRegister
 import com.davidm1a2.afraidofthedark.common.event.register.EntityRegister
+import com.davidm1a2.afraidofthedark.common.event.register.EntityRendererRegister
 import com.davidm1a2.afraidofthedark.common.event.register.FeatureRegister
 import com.davidm1a2.afraidofthedark.common.event.register.FurnaceFuelRegister
+import com.davidm1a2.afraidofthedark.common.event.register.ItemModelPropertyRegister
 import com.davidm1a2.afraidofthedark.common.event.register.ItemRegister
+import com.davidm1a2.afraidofthedark.common.event.register.KeybindingRegister
 import com.davidm1a2.afraidofthedark.common.event.register.MeteorEntryRegister
+import com.davidm1a2.afraidofthedark.common.event.register.ModColorRegister
 import com.davidm1a2.afraidofthedark.common.event.register.PacketRegister
 import com.davidm1a2.afraidofthedark.common.event.register.ParticleRegister
 import com.davidm1a2.afraidofthedark.common.event.register.RecipeSerializerRegister
@@ -35,7 +45,6 @@ import com.davidm1a2.afraidofthedark.common.event.register.SpellEffectOverrideRe
 import com.davidm1a2.afraidofthedark.common.event.register.SpellEffectRegister
 import com.davidm1a2.afraidofthedark.common.event.register.SpellPowerSourceRegister
 import com.davidm1a2.afraidofthedark.common.event.register.StructureRegister
-import com.davidm1a2.afraidofthedark.common.event.register.TeleportQueue
 import com.davidm1a2.afraidofthedark.common.event.register.TileEntityRegister
 import com.davidm1a2.afraidofthedark.common.network.packets.packetHandler.PacketHandler
 import com.davidm1a2.afraidofthedark.proxy.ClientProxy
@@ -47,9 +56,7 @@ import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.fml.ModLoadingContext
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.config.ModConfig
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 import java.util.function.Supplier
 
@@ -75,8 +82,15 @@ class AfraidOfTheDark {
         forgeBus.register(ArmorHandler())
         forgeBus.register(FurnaceFuelRegister())
         forgeBus.register(teleportQueue)
-        forgeBus.register(this)
         forgeBus.register(AOTDCommands())
+        forgeBus.register(EntityRendererRegister())
+        forgeBus.register(BlockEntityRendererRegister())
+        forgeBus.register(BlockRenderTypeRegister())
+        forgeBus.register(DimensionRenderInfoRegister())
+        forgeBus.register(ItemModelPropertyRegister())
+        forgeBus.register(KeyInputEventHandler())
+        forgeBus.register(researchOverlay)
+        forgeBus.register(KeybindingRegister())
 
         modBus.register(RegistryRegister())
         modBus.register(BlockRegister())
@@ -96,25 +110,10 @@ class AfraidOfTheDark {
         modBus.register(FeatureRegister())
         modBus.register(StructureRegister())
         modBus.register(ConfigurationHandler())
-        modBus.register(this)
+        modBus.register(ModColorRegister())
 
         context.registerConfig(ModConfig.Type.CLIENT, ModConfigHolder.CLIENT_SPEC)
         context.registerConfig(ModConfig.Type.COMMON, ModConfigHolder.COMMON_SPEC)
-
-        proxy.registerHandlers()
-        proxy.registerKeyBindings()
-    }
-
-    @SubscribeEvent
-    @Suppress("UNUSED_PARAMETER")
-    fun clientSetupEvent(event: FMLClientSetupEvent) {
-        event.enqueueWork {
-            proxy.initializeEntityRenderers()
-            proxy.initializeTileEntityRenderers()
-            proxy.initializeBlockRenderTypes()
-            DimensionRegister.registerRenderInfos()
-            ItemRegister.registerItemModelProperties()
-        }
     }
 
     @SubscribeEvent
@@ -126,26 +125,14 @@ class AfraidOfTheDark {
             EntityRegister.registerSpawnPlacements()
             DataSerializerRegister.register()
             DimensionRegister.registerChunkGenerators()
+            SpellEffectOverrideRegister.initialize()
         }
-    }
-
-    /**
-     * Called with the forge initialization event
-     *
-     * @param event Initialization event is responsible for renders and recipes
-     */
-    @SubscribeEvent
-    @Suppress("UNUSED_PARAMETER")
-    fun initialization(event: FMLServerAboutToStartEvent) {
-        // Initialize spell effect overrides
-        SpellEffectOverrideRegister.initialize()
-        // Only used by the developer to create .schematic.meta files
-        // SchematicDebugUtils.createSchematicMetaFiles()
     }
 
     companion object {
         val packetHandler = PacketHandler()
         val proxy: IProxy = DistExecutor.runForDist({ Supplier { ClientProxy() } }, { Supplier { ServerProxy() } })
         val teleportQueue = TeleportQueue()
+        val researchOverlay = ResearchOverlayHandler()
     }
 }

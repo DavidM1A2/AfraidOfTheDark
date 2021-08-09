@@ -74,7 +74,7 @@ class PlayerResearch : IPlayerResearch {
         if (!isServerSide(entityPlayer)) {
             // Play the achievement sound and display the research
             Minecraft.getInstance().soundManager.play(ResearchUnlockedSound())
-            AfraidOfTheDark.proxy.researchOverlay!!.displayResearch(research)
+            AfraidOfTheDark.researchOverlay.displayResearch(research)
         }
     }
 

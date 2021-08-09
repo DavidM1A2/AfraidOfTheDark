@@ -18,7 +18,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 /**
  * Color register registers item and block colors for leaves and grass blocks
  */
-@OnlyIn(Dist.CLIENT)
 class ModColorRegister {
     /**
      * Registers block color handlers for leaves and grass blocks
@@ -26,6 +25,7 @@ class ModColorRegister {
      * @param event The event to register block colors to
      */
     @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
     fun registerBlockColors(event: ColorHandlerEvent.Block) {
         // Filter our block list by leaf blocks only
         val leafBlocks = ModBlocks.BLOCK_LIST.filterIsInstance<AOTDLeavesBlock>().toTypedArray()
@@ -52,6 +52,7 @@ class ModColorRegister {
      * @param event The event to register item colors to
      */
     @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
     fun registerItemColors(event: ColorHandlerEvent.Item) {
         // Filter our block list by leaf blocks only
         val leafBlocks = ModBlocks.BLOCK_LIST.filterIsInstance<AOTDLeavesBlock>().toTypedArray()

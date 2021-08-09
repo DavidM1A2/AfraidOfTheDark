@@ -149,14 +149,17 @@ object ModEntities {
         STAR_METAL_BOLT
     )
 
-    val ENTITY_ATTRIBUTES: Array<Pair<EntityType<out LivingEntity>, AttributeModifierMap>> = arrayOf(
-        ENARIA to EnariaEntity.buildAttributeModifiers().build(),
-        GHASTLY_ENARIA to GhastlyEnariaEntity.buildAttributeModifiers().build(),
-        ENCHANTED_FROG to EnchantedFrogEntity.buildAttributeModifiers().build(),
-        ENCHANTED_SKELETON to EnchantedSkeletonEntity.buildAttributeModifiers().build(),
-        SPLINTER_DRONE to SplinterDroneEntity.buildAttributeModifiers().build(),
-        WEREWOLF to WerewolfEntity.buildAttributeModifiers().build()
-    )
+    // This is not ready to be initialized at the time ENTITY_LIST is, so delay it using a lazy initializer
+    val ENTITY_ATTRIBUTES: Array<Pair<EntityType<out LivingEntity>, AttributeModifierMap>> by lazy {
+        arrayOf(
+            ENARIA to EnariaEntity.buildAttributeModifiers().build(),
+            GHASTLY_ENARIA to GhastlyEnariaEntity.buildAttributeModifiers().build(),
+            ENCHANTED_FROG to EnchantedFrogEntity.buildAttributeModifiers().build(),
+            ENCHANTED_SKELETON to EnchantedSkeletonEntity.buildAttributeModifiers().build(),
+            SPLINTER_DRONE to SplinterDroneEntity.buildAttributeModifiers().build(),
+            WEREWOLF to WerewolfEntity.buildAttributeModifiers().build()
+        )
+    }
 
     /**
      * Special version of .setRegistryName that doesn't return EntityType<*> but EntityType<T> instead

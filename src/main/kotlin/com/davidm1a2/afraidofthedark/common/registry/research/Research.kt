@@ -52,10 +52,10 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
                             xPosition = JSONUtils.getAsInt(jsonObject, "x")
                             zPosition = JSONUtils.getAsInt(jsonObject, "y")
                             researchedRecipes = JSONUtils.getAsJsonArray(jsonObject, "recipes").map {
-                                JSONUtils.getAsItem(it.asJsonObject, "")
+                                JSONUtils.convertToItem(it, "")
                             }
                             preResearchedRecipes = JSONUtils.getAsJsonArray(jsonObject, "preRecipes").map {
-                                JSONUtils.getAsItem(it.asJsonObject, "")
+                                JSONUtils.convertToItem(it, "")
                             }
                             icon = ResourceLocation(JSONUtils.getAsString(jsonObject, "icon"))
                         }

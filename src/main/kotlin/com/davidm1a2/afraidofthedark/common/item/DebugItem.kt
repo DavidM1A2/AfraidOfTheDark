@@ -26,7 +26,7 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
 
     override fun use(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
         if (worldIn.isClientSide) {
-            AfraidOfTheDark.proxy.researchOverlay?.displayResearch(ModResearches.ASTRAL_SILVER)
+            AfraidOfTheDark.researchOverlay.displayResearch(ModResearches.ASTRAL_SILVER)
         } else {
             playerIn.getResearch().setResearchAndAlert(ModResearches.ENARIAS_SECRET, true, playerIn)
         }
