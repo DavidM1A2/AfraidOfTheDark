@@ -8,6 +8,7 @@ import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.biome.provider.BiomeProvider
 import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.GenerationStage
 import net.minecraft.world.gen.Heightmap
 import net.minecraft.world.gen.feature.IFeatureConfig
 import net.minecraft.world.gen.feature.structure.Structure
@@ -26,6 +27,11 @@ abstract class AOTDStructure<T : IFeatureConfig>(name: String, codec: Codec<T>) 
 
     fun getSize(): Int {
         return (max(getWidth(), getLength()) + 15) / 16
+    }
+
+    override fun step(): GenerationStage.Decoration {
+        // Use this as default because it has the higher priority
+        return GenerationStage.Decoration.TOP_LAYER_MODIFICATION
     }
 
     /**
