@@ -12,9 +12,15 @@
     "water_color": 5788102,
     "water_fog_color": 5788038,
     "fog_color": 16777215,
-    "grass_color_modifier": "none"
+    "grass_color_modifier": "none",
+    "sky_color": 3736572,
+    "ambient_sound": "minecraft:ambient.cave"
   },
   "surface_builder": "minecraft:nope",
+  "carvers": {
+    "air": [],
+    "liquid": []
+  },
   "features": [
     [],
     [],
@@ -27,5 +33,7 @@
     [],
     []
   ],
-  "starts": []
+  "starts": [],
+  "spawners": {},
+  "spawn_costs": {}
 }

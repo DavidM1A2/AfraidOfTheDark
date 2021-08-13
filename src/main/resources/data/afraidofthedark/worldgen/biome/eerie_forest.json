@@ -11,8 +11,11 @@
   "effects": {
     "water_color": 153,
     "water_fog_color": 66,
+    "fog_color": 12638463,
     "grass_color": 5453830,
-    "grass_color_modifier": "none"
+    "grass_color_modifier": "none",
+    "sky_color": 10713563,
+    "ambient_sound": "minecraft:ambient.cave"
   },
   "surface_builder": "minecraft:grass",
   "carvers": {
@@ -149,5 +152,6 @@
         "maxCount": 8
       }
     ]
-  }
+  },
+  "spawn_costs": {}
 }
