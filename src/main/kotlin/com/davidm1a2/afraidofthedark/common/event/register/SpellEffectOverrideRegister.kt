@@ -16,6 +16,8 @@ import net.minecraft.util.SoundCategory
 import net.minecraft.util.SoundEvents
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
+import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import kotlin.math.ceil
 import kotlin.math.sqrt
 import kotlin.random.Random
@@ -23,14 +25,17 @@ import kotlin.random.Random
 /**
  * Registers any spell effect overrides
  */
-object SpellEffectOverrideRegister {
+class SpellEffectOverrideRegister {
     /**
      * Register all of our mod spell effect overrides
      */
-    fun initialize() {
-        registerAoeFixes()
-        registerAoeTeleportFix()
-        registerAoeFreezeFix()
+    @SubscribeEvent
+    fun commonSetupEvent(event: FMLCommonSetupEvent) {
+        event.enqueueWork {
+            registerAoeFixes()
+            registerAoeTeleportFix()
+            registerAoeFreezeFix()
+        }
     }
 
     /**

@@ -1,10 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
-import net.minecraft.entity.EntitySpawnPlacementRegistry
 import net.minecraft.entity.EntityType
-import net.minecraft.entity.monster.MonsterEntity
-import net.minecraft.world.gen.Heightmap
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -36,17 +33,6 @@ class EntityRegister {
     fun registerEntityAttributes(event: EntityAttributeCreationEvent) {
         ModEntities.ENTITY_ATTRIBUTES.forEach {
             event.put(it.first, it.second)
-        }
-    }
-
-    companion object {
-        fun registerSpawnPlacements() {
-            EntitySpawnPlacementRegistry.register(
-                ModEntities.WEREWOLF,
-                EntitySpawnPlacementRegistry.PlacementType.ON_GROUND,
-                Heightmap.Type.WORLD_SURFACE,
-                MonsterEntity::checkMonsterSpawnRules
-            )
         }
     }
 }

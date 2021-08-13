@@ -21,12 +21,13 @@ import com.davidm1a2.afraidofthedark.common.event.register.BlockRegister
 import com.davidm1a2.afraidofthedark.common.event.register.BlockRenderTypeRegister
 import com.davidm1a2.afraidofthedark.common.event.register.BoltEntryRegister
 import com.davidm1a2.afraidofthedark.common.event.register.CapabilityRegister
+import com.davidm1a2.afraidofthedark.common.event.register.ChunkGeneratorRegister
 import com.davidm1a2.afraidofthedark.common.event.register.DataSerializerRegister
-import com.davidm1a2.afraidofthedark.common.event.register.DimensionRegister
 import com.davidm1a2.afraidofthedark.common.event.register.DimensionRenderInfoRegister
 import com.davidm1a2.afraidofthedark.common.event.register.EffectRegister
 import com.davidm1a2.afraidofthedark.common.event.register.EntityRegister
 import com.davidm1a2.afraidofthedark.common.event.register.EntityRendererRegister
+import com.davidm1a2.afraidofthedark.common.event.register.EntitySpawnPlacementRegister
 import com.davidm1a2.afraidofthedark.common.event.register.FeatureRegister
 import com.davidm1a2.afraidofthedark.common.event.register.FurnaceFuelRegister
 import com.davidm1a2.afraidofthedark.common.event.register.ItemModelPropertyRegister
@@ -47,18 +48,11 @@ import com.davidm1a2.afraidofthedark.common.event.register.SpellPowerSourceRegis
 import com.davidm1a2.afraidofthedark.common.event.register.StructureRegister
 import com.davidm1a2.afraidofthedark.common.event.register.TileEntityRegister
 import com.davidm1a2.afraidofthedark.common.network.packets.packetHandler.PacketHandler
-import com.davidm1a2.afraidofthedark.proxy.ClientProxy
-import com.davidm1a2.afraidofthedark.proxy.IProxy
-import com.davidm1a2.afraidofthedark.proxy.ServerProxy
 import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.fml.ModLoadingContext
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.config.ModConfig
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
-import java.util.function.Supplier
 
 /**
  * Main class run when the mod is started up
@@ -91,6 +85,12 @@ class AfraidOfTheDark {
         forgeBus.register(KeyInputEventHandler())
         forgeBus.register(researchOverlay)
         forgeBus.register(KeybindingRegister())
+        forgeBus.register(CapabilityRegister())
+        forgeBus.register(PacketRegister())
+        forgeBus.register(EntitySpawnPlacementRegister())
+        forgeBus.register(DataSerializerRegister())
+        forgeBus.register(ChunkGeneratorRegister())
+        forgeBus.register(SpellEffectOverrideRegister())
 
         modBus.register(RegistryRegister())
         modBus.register(BlockRegister())
@@ -116,22 +116,8 @@ class AfraidOfTheDark {
         context.registerConfig(ModConfig.Type.COMMON, ModConfigHolder.COMMON_SPEC)
     }
 
-    @SubscribeEvent
-    @Suppress("UNUSED_PARAMETER")
-    fun commonSetupEvent(event: FMLCommonSetupEvent) {
-        event.enqueueWork {
-            CapabilityRegister.register()
-            PacketRegister.initialize()
-            EntityRegister.registerSpawnPlacements()
-            DataSerializerRegister.register()
-            DimensionRegister.registerChunkGenerators()
-            SpellEffectOverrideRegister.initialize()
-        }
-    }
-
     companion object {
         val packetHandler = PacketHandler()
-        val proxy: IProxy = DistExecutor.runForDist({ Supplier { ClientProxy() } }, { Supplier { ServerProxy() } })
         val teleportQueue = TeleportQueue()
         val researchOverlay = ResearchOverlayHandler()
     }

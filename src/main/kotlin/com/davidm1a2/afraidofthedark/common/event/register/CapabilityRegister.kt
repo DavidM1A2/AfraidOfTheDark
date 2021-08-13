@@ -31,15 +31,16 @@ import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.IWorldS
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.WorldStructureMapper
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.WorldStructureMapperStorage
 import net.minecraftforge.common.capabilities.CapabilityManager
+import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 
-object CapabilityRegister {
-    private var isInitialized = false
-
+class CapabilityRegister {
     /**
      * Called to register our mod's capabilities
      */
-    fun register() {
-        if (!isInitialized) {
+    @SubscribeEvent
+    fun commonSetupEvent(event: FMLCommonSetupEvent) {
+        event.enqueueWork {
             CapabilityManager.INSTANCE.register(
                 IAOTDPlayerBasics::class.java,
                 AOTDPlayerBasicsStorage()
@@ -81,6 +82,5 @@ object CapabilityRegister {
                 WorldStructureMapperStorage()
             ) { WorldStructureMapper() }
         }
-        isInitialized = true
     }
 }
