@@ -1,12 +1,14 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
+import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.mojang.blaze3d.matrix.MatrixStack
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.text.StringTextComponent
+import net.minecraftforge.fml.client.gui.GuiUtils
 
 /**
  * Advanced control that displays an itemstack in a GUI
@@ -47,8 +49,6 @@ open class ItemStackPane(
 
             super.draw(matrixStack)
 
-            // Enable item lighting
-            RenderHelper.setupForFlatItems()
             // Push a matrix before rendering the item, this code is taken from the inventory class
             matrixStack.pushPose()
 
@@ -56,8 +56,6 @@ open class ItemStackPane(
             val renderItem = Minecraft.getInstance().itemRenderer
             // Ensure we have an itemstack to draw
             if (!itemStack.isEmpty) {
-                // Grab the font renderer for the item
-                val font = itemStack.item.getFontRenderer(itemStack) ?: Minecraft.getInstance().font
                 // Attempt to at least center the item because we can't scale them
                 val calcX = x + this.width / 2 - 10
                 val calcY = y + this.height / 2 - 10
@@ -67,7 +65,6 @@ open class ItemStackPane(
 
             // Pop the matrix and disable the item lighting
             matrixStack.popPose()
-            RenderHelper.setupFor3DItems()
         }
     }
 
@@ -79,13 +76,19 @@ open class ItemStackPane(
         if (this.isVisible && highlight != null) {
             // Ensure the stack is hovered and the interior items are not null
             if (this.isHovered && !this.itemStack.isEmpty) {
-                // Show the item name and count
-                fontRenderer.drawShadow(
+                // Get the window width and calculate the distance to the edge of the screen
+                val windowWidth = AOTDGuiUtility.getWindowWidthInMCCoords()
+                val windowHeight = AOTDGuiUtility.getWindowHeightInMCCoords()
+                GuiUtils.drawHoveringText(
+                    itemStack,
                     matrixStack,
-                    "${itemStack.displayName.string} x${itemStack.count}",
-                    x.toFloat(),
-                    (y - 5).toFloat(),
-                    -0x1
+                    listOf(StringTextComponent("${itemStack.hoverName.string} x${itemStack.count}")),
+                    x,
+                    y,
+                    windowWidth,
+                    windowHeight,
+                    200,
+                    fontRenderer
                 )
             }
         }
