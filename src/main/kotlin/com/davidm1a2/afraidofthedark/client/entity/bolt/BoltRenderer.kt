@@ -29,7 +29,7 @@ abstract class BoltRenderer<T : BoltEntity>(renderManager: EntityRendererManager
         /// Copied from "ArrowRenderer" and adapted for bolts
         ///
 
-        matrixStack.popPose()
+        matrixStack.pushPose()
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(MathHelper.lerp(partialTicks, entity.yRotO, entity.yRot) - 90.0f))
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(MathHelper.lerp(partialTicks, entity.xRotO, entity.xRot)))
 
