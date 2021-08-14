@@ -16,6 +16,7 @@ import com.davidm1a2.afraidofthedark.common.event.SpellFreezeHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellStateHandler
 import com.davidm1a2.afraidofthedark.common.event.TeleportQueue
 import com.davidm1a2.afraidofthedark.common.event.VoidChestHandler
+import com.davidm1a2.afraidofthedark.common.event.register.BiomeRegister
 import com.davidm1a2.afraidofthedark.common.event.register.BlockEntityRendererRegister
 import com.davidm1a2.afraidofthedark.common.event.register.BlockRegister
 import com.davidm1a2.afraidofthedark.common.event.register.BlockRenderTypeRegister
@@ -113,6 +114,7 @@ class AfraidOfTheDark {
         modBus.register(DataSerializerRegister())
         modBus.register(ChunkGeneratorRegister())
         modBus.register(SpellEffectOverrideRegister())
+        modBus.register(BiomeRegister())
 
         context.registerConfig(ModConfig.Type.CLIENT, ModConfigHolder.CLIENT_SPEC)
         context.registerConfig(ModConfig.Type.COMMON, ModConfigHolder.COMMON_SPEC)

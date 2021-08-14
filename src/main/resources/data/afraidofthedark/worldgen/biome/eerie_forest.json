@@ -29,8 +29,6 @@
     [],
     [],
     [
-      "minecraft:mineshaft",
-      "minecraft:stronghold",
       "minecraft:monster_room"
     ],
     [],
@@ -54,7 +52,11 @@
     ],
     []
   ],
-  "starts": [],
+  "starts": [
+    "minecraft:mineshaft",
+    "minecraft:stronghold",
+    "minecraft:ruined_portal"
+  ],
   "spawners": {
     "monster": [
       {
