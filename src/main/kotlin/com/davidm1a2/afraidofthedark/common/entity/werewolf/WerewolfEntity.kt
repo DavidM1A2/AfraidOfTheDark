@@ -16,7 +16,6 @@ import com.davidm1a2.afraidofthedark.common.entity.werewolf.animation.RunChannel
 import com.davidm1a2.afraidofthedark.common.network.packets.animationPackets.AnimationPacket
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
-import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.Pose
 import net.minecraft.entity.ai.attributes.AttributeModifierMap
 import net.minecraft.entity.ai.attributes.Attributes
@@ -266,17 +265,19 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
         private const val MAX_HEALTH = 20.0
         private const val KNOCKBACK_RESISTANCE = 0.5
         private const val ATTACK_DAMAGE = 20.0
+        private const val ATTACK_KNOCKBACK = 1.5
 
         /**
          * Sets entity attributes such as max health and movespeed
          */
         fun buildAttributeModifiers(): AttributeModifierMap.MutableAttribute {
-            return LivingEntity.createLivingAttributes()
+            return MonsterEntity.createMonsterAttributes()
                 .add(Attributes.MAX_HEALTH, MAX_HEALTH)
                 .add(Attributes.FOLLOW_RANGE, FOLLOW_RANGE)
                 .add(Attributes.KNOCKBACK_RESISTANCE, KNOCKBACK_RESISTANCE)
                 .add(Attributes.MOVEMENT_SPEED, MOVE_SPEED)
                 .add(Attributes.ATTACK_DAMAGE, ATTACK_DAMAGE)
+                .add(Attributes.ATTACK_KNOCKBACK, ATTACK_KNOCKBACK)
         }
     }
 }

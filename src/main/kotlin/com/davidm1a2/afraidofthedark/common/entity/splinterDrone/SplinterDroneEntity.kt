@@ -13,7 +13,7 @@ import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.IdleC
 import com.davidm1a2.afraidofthedark.common.network.packets.animationPackets.AnimationPacket
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.FlyingEntity
-import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.MobEntity
 import net.minecraft.entity.Pose
 import net.minecraft.entity.ai.attributes.AttributeModifierMap
 import net.minecraft.entity.ai.attributes.Attributes
@@ -163,18 +163,20 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
         private const val MAX_HEALTH = 20.0
         private const val ATTACK_DAMAGE = 2.0
         private const val KNOCKBACK_RESISTANCE = 0.5
+        private const val ATTACK_KNOCKBACK = 0.0
 
         /**
          * Sets entity attributes such as max health and movespeed
          */
         fun buildAttributeModifiers(): AttributeModifierMap.MutableAttribute {
             // Make sure to register the attack damage attribute for this entity
-            return LivingEntity.createLivingAttributes()
+            return MobEntity.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, MAX_HEALTH)
                 .add(Attributes.FOLLOW_RANGE, FOLLOW_RANGE)
                 .add(Attributes.KNOCKBACK_RESISTANCE, KNOCKBACK_RESISTANCE)
                 .add(Attributes.MOVEMENT_SPEED, MOVE_SPEED)
                 .add(Attributes.ATTACK_DAMAGE, ATTACK_DAMAGE)
+                .add(Attributes.ATTACK_KNOCKBACK, ATTACK_KNOCKBACK)
         }
     }
 }
