@@ -6,15 +6,12 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap
 import net.minecraft.client.world.DimensionRenderInfo
 import net.minecraft.util.ResourceLocation
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 
 class DimensionRenderInfoRegister {
     @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
     fun fmlClientSetupEvent(event: FMLClientSetupEvent) {
         event.enqueueWork {
             val effects = ObfuscationReflectionHelper.getPrivateValue<Object2ObjectMap<ResourceLocation, DimensionRenderInfo>, DimensionRenderInfo>(
