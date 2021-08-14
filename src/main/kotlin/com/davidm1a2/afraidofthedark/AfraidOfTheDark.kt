@@ -45,6 +45,7 @@ import com.davidm1a2.afraidofthedark.common.event.register.SpellDeliveryMethodRe
 import com.davidm1a2.afraidofthedark.common.event.register.SpellEffectOverrideRegister
 import com.davidm1a2.afraidofthedark.common.event.register.SpellEffectRegister
 import com.davidm1a2.afraidofthedark.common.event.register.SpellPowerSourceRegister
+import com.davidm1a2.afraidofthedark.common.event.register.StructureGenerationRegister
 import com.davidm1a2.afraidofthedark.common.event.register.StructureRegister
 import com.davidm1a2.afraidofthedark.common.event.register.TileEntityRegister
 import com.davidm1a2.afraidofthedark.common.network.packets.packetHandler.PacketHandler
@@ -79,6 +80,7 @@ class AfraidOfTheDark {
         forgeBus.register(AOTDCommands())
         forgeBus.register(KeyInputEventHandler())
         forgeBus.register(researchOverlay)
+        forgeBus.register(StructureGenerationRegister())
 
         modBus.register(RegistryRegister())
         modBus.register(BlockRegister())
