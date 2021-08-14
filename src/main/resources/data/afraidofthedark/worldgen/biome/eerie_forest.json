@@ -15,7 +15,12 @@
     "grass_color": 5453830,
     "grass_color_modifier": "none",
     "sky_color": 10713563,
-    "ambient_sound": "minecraft:ambient.cave"
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2
+    }
   },
   "surface_builder": "minecraft:grass",
   "carvers": {
@@ -48,7 +53,8 @@
     [],
     [
       "minecraft:patch_grass_forest",
-      "minecraft:patch_tall_grass_2"
+      "minecraft:patch_tall_grass_2",
+      "afraidofthedark:eerie_forest_gravewood_tree"
     ],
     []
   ],

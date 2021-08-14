@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:decorated",
+  "config": {
+    "feature": {
+      "type": "minecraft:decorated",
+      "config": {
+        "feature": "afraidofthedark:gravewood_tree",
+        "decorator": {
+          "type": "minecraft:square",
+          "config": {}
+        }
+      }
+    },
+    "decorator": {
+      "type": "minecraft:count_extra",
+      "config": {
+        "count": 10,
+        "extra_chance": 0.3,
+        "extra_count": 5
+      }
+    }
+  }
+}

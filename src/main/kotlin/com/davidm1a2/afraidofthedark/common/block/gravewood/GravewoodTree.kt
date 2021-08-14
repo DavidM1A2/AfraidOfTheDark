@@ -17,6 +17,7 @@ import java.util.*
  */
 class GravewoodTree : Tree() {
     override fun getConfiguredFeature(random: Random, withBeehives: Boolean): ConfiguredFeature<BaseTreeFeatureConfig, *> {
+        // TODO: Get this feature from the configured feature registry instead of hardcoding the values
         return Feature.TREE.configured(
             BaseTreeFeatureConfig.Builder(
                 SimpleBlockStateProvider(ModBlocks.GRAVEWOOD.defaultBlockState()),
