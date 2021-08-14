@@ -62,7 +62,10 @@ class ProcessSextantInputPacketProcessor : PacketProcessor<ProcessSextantInputPa
                     zLocOfDrop =
                         zLocOfDrop + (if (Random.nextBoolean()) -1 else 1) * Random.nextInt(accuracy + 1)
 
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.meteor.location", xLocOfDrop, zLocOfDrop), player.uuid)
+                    player.sendMessage(
+                        TranslationTextComponent("message.afraidofthedark.meteor.location", xLocOfDrop.roundToInt(), zLocOfDrop.roundToInt()),
+                        player.uuid
+                    )
 
                     // Clear the player's watched meteors so that the same meteor can't be used twice
                     playerBasics.setWatchedMeteor(null, 0, -1, -1, -1)
