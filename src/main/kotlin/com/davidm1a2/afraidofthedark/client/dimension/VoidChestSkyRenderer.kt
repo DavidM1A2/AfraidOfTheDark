@@ -24,12 +24,11 @@ class VoidChestSkyRenderer : ISkyRenderHandler {
         /// Code below is similar to WorldRenderer::renderSky()
         ///
 
-        RenderSystem.disableFog()
         RenderSystem.disableAlphaTest()
         RenderSystem.enableBlend()
         RenderSystem.defaultBlendFunc()
-        RenderSystem.disableTexture()
         RenderSystem.depthMask(false)
+
         val tessellator = Tessellator.getInstance()
         val bufferBuilder = tessellator.builder
 
@@ -72,9 +71,10 @@ class VoidChestSkyRenderer : ISkyRenderHandler {
             matrixStack.popPose()
         }
 
-        RenderSystem.enableTexture()
         RenderSystem.depthMask(true)
-        RenderSystem.disableFog()
+        RenderSystem.enableTexture()
+        RenderSystem.disableBlend()
+        RenderSystem.enableAlphaTest()
     }
 
     companion object {
