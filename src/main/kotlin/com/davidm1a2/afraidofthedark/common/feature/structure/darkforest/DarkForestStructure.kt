@@ -44,7 +44,10 @@ class DarkForestStructure : AOTDStructure<MultiplierConfig>("dark_forest", Multi
     }
 
     override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
-        val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, biomeProvider).map { it.multiplier }.minOrNull()!!
+        val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, biomeProvider, MISSING_CONFIG)
+            .map { it.multiplier }
+            .minOrNull() ?: 0
+
         val chance = getOneInNValidChunks(40) * ModCommonConfiguration.darkForestMultiplier * biomeMultiplier
         if (random.nextDouble() >= chance) {
             return false
@@ -57,5 +60,9 @@ class DarkForestStructure : AOTDStructure<MultiplierConfig>("dark_forest", Multi
             return false
         }
         return true
+    }
+
+    companion object {
+        private val MISSING_CONFIG = MultiplierConfig(0)
     }
 }

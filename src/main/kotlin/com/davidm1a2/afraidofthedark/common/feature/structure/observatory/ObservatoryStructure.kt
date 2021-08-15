@@ -25,7 +25,7 @@ class ObservatoryStructure : AOTDStructure<BooleanConfig>("observatory", Boolean
     }
 
     override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
-        val isNotSupported = getInteriorConfigEstimate(xPos, zPos, biomeProvider).any { !it.supported }
+        val isNotSupported = getInteriorConfigEstimate(xPos, zPos, biomeProvider, MISSING_CONFIG).any { !it.supported }
         if (isNotSupported) {
             return false
         }
@@ -44,5 +44,9 @@ class ObservatoryStructure : AOTDStructure<BooleanConfig>("observatory", Boolean
             return false
         }
         return true
+    }
+
+    companion object {
+        private val MISSING_CONFIG = BooleanConfig(false)
     }
 }

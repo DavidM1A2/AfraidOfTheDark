@@ -30,7 +30,7 @@ class VoidChestStructure : AOTDStructure<BooleanConfig>("void_chest", BooleanCon
             return false
         }
 
-        val isNotSupported = getInteriorConfigEstimate(xPos, zPos, biomeProvider).any { !it.supported }
+        val isNotSupported = getInteriorConfigEstimate(xPos, zPos, biomeProvider, MISSING_CONFIG).any { !it.supported }
         if (isNotSupported) {
             return false
         }
@@ -42,5 +42,9 @@ class VoidChestStructure : AOTDStructure<BooleanConfig>("void_chest", BooleanCon
             return false
         }
         return true
+    }
+
+    companion object {
+        private val MISSING_CONFIG = BooleanConfig(false)
     }
 }

@@ -61,7 +61,8 @@
   "starts": [
     "minecraft:mineshaft",
     "minecraft:stronghold",
-    "minecraft:ruined_portal"
+    "minecraft:ruined_portal",
+    "afraidofthedark:witch_hut"
   ],
   "spawners": {
     "monster": [

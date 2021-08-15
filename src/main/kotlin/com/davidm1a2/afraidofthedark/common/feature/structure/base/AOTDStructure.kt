@@ -94,6 +94,7 @@ abstract class AOTDStructure<T : IFeatureConfig>(name: String, codec: Codec<T>) 
         x: Int,
         z: Int,
         biomeProvider: BiomeProvider,
+        defaultIfAbsent: T?,
         width: Int = getWidth(),
         length: Int = getLength(),
         stepNum: Int = 1
@@ -101,7 +102,7 @@ abstract class AOTDStructure<T : IFeatureConfig>(name: String, codec: Codec<T>) 
         return sequence {
             for (xPos in x until x + width step stepNum) {
                 for (zPos in z until z + length step stepNum) {
-                    yield(getStructureConfig(biomeProvider.getNoiseBiome(xPos, 0, zPos)))
+                    yield(getStructureConfig(biomeProvider.getNoiseBiome(xPos, 0, zPos)) ?: defaultIfAbsent)
                 }
             }
         }.filterNotNull()
@@ -111,19 +112,20 @@ abstract class AOTDStructure<T : IFeatureConfig>(name: String, codec: Codec<T>) 
         x: Int,
         z: Int,
         biomeProvider: BiomeProvider,
+        defaultIfAbsent: T?,
         width: Int = getWidth(),
         length: Int = getLength()
     ): Sequence<T> {
         return sequence {
-            yield(getStructureConfig(biomeProvider.getNoiseBiome(x - width / 2, 0, z - length / 2)))
-            yield(getStructureConfig(biomeProvider.getNoiseBiome(x + width / 2, 0, z - length / 2)))
-            yield(getStructureConfig(biomeProvider.getNoiseBiome(x - width / 2, 0, z + length / 2)))
-            yield(getStructureConfig(biomeProvider.getNoiseBiome(x + width / 2, 0, z + length / 2)))
-            yield(getStructureConfig(biomeProvider.getNoiseBiome(x, 0, z - length / 2)))
-            yield(getStructureConfig(biomeProvider.getNoiseBiome(x, 0, z + length / 2)))
-            yield(getStructureConfig(biomeProvider.getNoiseBiome(x - width / 2, 0, z)))
-            yield(getStructureConfig(biomeProvider.getNoiseBiome(x + width / 2, 0, z)))
-            yield(getStructureConfig(biomeProvider.getNoiseBiome(x, 0, z)))
+            yield(getStructureConfig(biomeProvider.getNoiseBiome(x - width / 2, 0, z - length / 2)) ?: defaultIfAbsent)
+            yield(getStructureConfig(biomeProvider.getNoiseBiome(x + width / 2, 0, z - length / 2)) ?: defaultIfAbsent)
+            yield(getStructureConfig(biomeProvider.getNoiseBiome(x - width / 2, 0, z + length / 2)) ?: defaultIfAbsent)
+            yield(getStructureConfig(biomeProvider.getNoiseBiome(x + width / 2, 0, z + length / 2)) ?: defaultIfAbsent)
+            yield(getStructureConfig(biomeProvider.getNoiseBiome(x, 0, z - length / 2)) ?: defaultIfAbsent)
+            yield(getStructureConfig(biomeProvider.getNoiseBiome(x, 0, z + length / 2)) ?: defaultIfAbsent)
+            yield(getStructureConfig(biomeProvider.getNoiseBiome(x - width / 2, 0, z)) ?: defaultIfAbsent)
+            yield(getStructureConfig(biomeProvider.getNoiseBiome(x + width / 2, 0, z)) ?: defaultIfAbsent)
+            yield(getStructureConfig(biomeProvider.getNoiseBiome(x, 0, z)) ?: defaultIfAbsent)
         }.filterNotNull()
     }
 

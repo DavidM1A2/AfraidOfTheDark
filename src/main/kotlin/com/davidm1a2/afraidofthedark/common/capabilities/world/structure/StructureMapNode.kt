@@ -27,7 +27,7 @@ class StructureMapNode : INBTSerializable<CompoundNBT> {
     }
 
     fun getStructure(): AOTDStructure<*>? {
-        return structure?.let { ForgeRegistries.FEATURES.getValue(it) as? AOTDStructure<*> }
+        return structure?.let { ForgeRegistries.STRUCTURE_FEATURES.getValue(it) as? AOTDStructure<*> }
     }
 
     fun getStructurePos(): BlockPos? {

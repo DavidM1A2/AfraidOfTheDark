@@ -25,7 +25,10 @@ class CryptStructure : AOTDStructure<MultiplierConfig>("crypt", MultiplierConfig
     }
 
     override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
-        val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, biomeProvider).map { it.multiplier }.minOrNull() ?: 0
+        val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, biomeProvider, MISSING_CONFIG)
+            .map { it.multiplier }
+            .minOrNull() ?: 0
+
         val chance = getOneInNValidChunks(350) * ModCommonConfiguration.cryptMultiplier * biomeMultiplier
         if (random.nextDouble() >= chance) {
             return false
@@ -38,5 +41,9 @@ class CryptStructure : AOTDStructure<MultiplierConfig>("crypt", MultiplierConfig
             return false
         }
         return true
+    }
+
+    companion object {
+        private val MISSING_CONFIG = MultiplierConfig(0)
     }
 }

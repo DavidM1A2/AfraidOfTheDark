@@ -25,7 +25,9 @@ class DesertOasisStructure : AOTDStructure<BooleanConfig>("desert_oasis", Boolea
     }
 
     override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
-        val numValidTiles = getInteriorConfigEstimate(xPos, zPos, biomeProvider).count { it.supported }
+        val numValidTiles = getInteriorConfigEstimate(xPos, zPos, biomeProvider, MISSING_CONFIG)
+            .count { it.supported }
+
         // 66% desert tiles required (there's 9 checked, so 6+ must be valid)
         if (numValidTiles < 6) {
             return false
@@ -36,5 +38,9 @@ class DesertOasisStructure : AOTDStructure<BooleanConfig>("desert_oasis", Boolea
             return false
         }
         return true
+    }
+
+    companion object {
+        private val MISSING_CONFIG = BooleanConfig(false)
     }
 }
