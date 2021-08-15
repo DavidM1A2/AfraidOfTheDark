@@ -51,7 +51,7 @@ configure<UserDevExtension> {
         property("forge.logging.markers", "COREMOD,CORE,LOADING,CONFIG") // eg: SCAN,REGISTRIES,REGISTRYDUMP
         property("forge.logging.console.level", "info")
         mods.create("afraidofthedark") {
-            source(the<JavaPluginConvention>().sourceSets.getByName("main"))
+            source(the<JavaPluginExtension>().sourceSets.getByName("main"))
         }
     }
 
@@ -60,7 +60,7 @@ configure<UserDevExtension> {
         property("forge.logging.markers", "COREMOD,CORE,LOADING,CONFIG") // eg: SCAN,REGISTRIES,REGISTRYDUMP
         property("forge.logging.console.level", "info")
         mods.create("afraidofthedark") {
-            source(the<JavaPluginConvention>().sourceSets.getByName("main"))
+            source(the<JavaPluginExtension>().sourceSets.getByName("main"))
         }
     }
 }
