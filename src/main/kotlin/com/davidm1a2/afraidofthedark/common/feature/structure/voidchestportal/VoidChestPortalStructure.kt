@@ -1,13 +1,18 @@
 package com.davidm1a2.afraidofthedark.common.feature.structure.voidchestportal
 
+import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
+import net.minecraft.util.RegistryKey
 import net.minecraft.util.SharedSeedRandom
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.biome.provider.BiomeProvider
 import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.feature.IFeatureConfig
 import net.minecraft.world.gen.feature.NoFeatureConfig
+import net.minecraft.world.gen.feature.StructureFeature
+import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 
@@ -24,6 +29,18 @@ class VoidChestPortalStructure : AOTDStructure<NoFeatureConfig>("void_chest_port
         return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
             VoidChestPortalStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
         }
+    }
+
+    override fun configured(biome: RegistryKey<Biome>, category: Biome.Category): StructureFeature<NoFeatureConfig, out Structure<NoFeatureConfig>>? {
+        return if (biome == ModBiomes.VOID_CHEST) {
+            configured(IFeatureConfig.NONE)
+        } else {
+            null
+        }
+    }
+
+    override fun configuredFlat(): StructureFeature<NoFeatureConfig, out Structure<NoFeatureConfig>> {
+        return configured(IFeatureConfig.NONE)
     }
 
     override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {

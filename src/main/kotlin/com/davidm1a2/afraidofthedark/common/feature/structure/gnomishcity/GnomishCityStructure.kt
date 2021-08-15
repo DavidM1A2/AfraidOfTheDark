@@ -3,9 +3,14 @@ package com.davidm1a2.afraidofthedark.common.feature.structure.gnomishcity
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
+import net.minecraft.util.RegistryKey
+import net.minecraft.world.biome.Biome
 import net.minecraft.world.biome.provider.BiomeProvider
 import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.feature.IFeatureConfig
 import net.minecraft.world.gen.feature.NoFeatureConfig
+import net.minecraft.world.gen.feature.StructureFeature
+import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 
@@ -41,6 +46,18 @@ class GnomishCityStructure : AOTDStructure<NoFeatureConfig>("gnomish_city", NoFe
         }
     }
 
+    override fun configured(biome: RegistryKey<Biome>, category: Biome.Category): StructureFeature<NoFeatureConfig, out Structure<NoFeatureConfig>>? {
+        return if (category in VALID_BIOME_CATEGORIES) {
+            configured(IFeatureConfig.NONE)
+        } else {
+            null
+        }
+    }
+
+    override fun configuredFlat(): StructureFeature<NoFeatureConfig, out Structure<NoFeatureConfig>> {
+        return configured(IFeatureConfig.NONE)
+    }
+
     override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
         val chance = getOneInNValidChunks(3500) * ModCommonConfiguration.gnomishCityFrequency
         if (random.nextDouble() >= chance) {
@@ -48,5 +65,25 @@ class GnomishCityStructure : AOTDStructure<NoFeatureConfig>("gnomish_city", NoFe
         }
 
         return true
+    }
+
+
+    companion object {
+        private val VALID_BIOME_CATEGORIES = listOf(
+            Biome.Category.TAIGA,
+            Biome.Category.EXTREME_HILLS,
+            Biome.Category.JUNGLE,
+            Biome.Category.MESA,
+            Biome.Category.PLAINS,
+            Biome.Category.SAVANNA,
+            Biome.Category.ICY,
+            Biome.Category.BEACH,
+            Biome.Category.FOREST,
+            Biome.Category.OCEAN,
+            Biome.Category.DESERT,
+            Biome.Category.RIVER,
+            Biome.Category.SWAMP,
+            Biome.Category.MUSHROOM
+        )
     }
 }

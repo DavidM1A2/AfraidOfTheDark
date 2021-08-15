@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.feature.structure.base
 import com.davidm1a2.afraidofthedark.common.capabilities.getStructureMapper
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.mojang.serialization.Codec
+import net.minecraft.util.RegistryKey
 import net.minecraft.util.SharedSeedRandom
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.biome.Biome
@@ -11,6 +12,7 @@ import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.GenerationStage
 import net.minecraft.world.gen.Heightmap
 import net.minecraft.world.gen.feature.IFeatureConfig
+import net.minecraft.world.gen.feature.StructureFeature
 import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraftforge.fml.server.ServerLifecycleHooks
 import java.util.*
@@ -33,6 +35,22 @@ abstract class AOTDStructure<T : IFeatureConfig>(name: String, codec: Codec<T>) 
         // Use this as default because it has the higher priority
         return GenerationStage.Decoration.TOP_LAYER_MODIFICATION
     }
+
+    /**
+     * The structure configuration for a biome, or null if it does not exist in the biome
+     *
+     * @param biome The biome to configure the structure for
+     * @param category The category the biome is in
+     * @return The configured structure or null
+     */
+    abstract fun configured(biome: RegistryKey<Biome>, category: Biome.Category): StructureFeature<T, out Structure<T>>?
+
+    /**
+     * The structure configuration when on a flat map
+     *
+     * @return The configured structure
+     */
+    abstract fun configuredFlat(): StructureFeature<T, out Structure<T>>
 
     /**
      * Returns true if the structure would logically fit at a given x, z position. This simply considers biomes and heightmap, and nothing else

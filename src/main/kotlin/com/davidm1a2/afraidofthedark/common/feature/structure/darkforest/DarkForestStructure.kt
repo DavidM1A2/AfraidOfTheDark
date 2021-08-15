@@ -1,11 +1,17 @@
 package com.davidm1a2.afraidofthedark.common.feature.structure.darkforest
 
+import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.MultiplierConfig
+import net.minecraft.util.RegistryKey
+import net.minecraft.world.biome.Biome
+import net.minecraft.world.biome.Biomes
 import net.minecraft.world.biome.provider.BiomeProvider
 import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.feature.StructureFeature
+import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 
@@ -43,6 +49,18 @@ class DarkForestStructure : AOTDStructure<MultiplierConfig>("dark_forest", Multi
         }
     }
 
+    override fun configured(biome: RegistryKey<Biome>, category: Biome.Category): StructureFeature<MultiplierConfig, out Structure<MultiplierConfig>>? {
+        return when (biome) {
+            ModBiomes.EERIE_FOREST -> configured(MultiplierConfig(2))
+            in COMPATIBLE_HOUSE_BIOMES -> configured(MultiplierConfig(1))
+            else -> null
+        }
+    }
+
+    override fun configuredFlat(): StructureFeature<MultiplierConfig, out Structure<MultiplierConfig>> {
+        return configured(MISSING_CONFIG)
+    }
+
     override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
         val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, biomeProvider, MISSING_CONFIG)
             .map { it.multiplier }
@@ -64,5 +82,13 @@ class DarkForestStructure : AOTDStructure<MultiplierConfig>("dark_forest", Multi
 
     companion object {
         private val MISSING_CONFIG = MultiplierConfig(0)
+
+        // A set of compatible biomes
+        private val COMPATIBLE_HOUSE_BIOMES = setOf(
+            Biomes.SAVANNA,
+            Biomes.SAVANNA_PLATEAU,
+            Biomes.PLAINS,
+            Biomes.SUNFLOWER_PLAINS
+        )
     }
 }

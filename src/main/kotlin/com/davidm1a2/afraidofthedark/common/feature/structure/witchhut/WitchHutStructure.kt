@@ -1,11 +1,16 @@
 package com.davidm1a2.afraidofthedark.common.feature.structure.witchhut
 
+import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.MultiplierConfig
+import net.minecraft.util.RegistryKey
+import net.minecraft.world.biome.Biome
 import net.minecraft.world.biome.provider.BiomeProvider
 import net.minecraft.world.gen.ChunkGenerator
+import net.minecraft.world.gen.feature.StructureFeature
+import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.*
 
@@ -22,6 +27,18 @@ class WitchHutStructure : AOTDStructure<MultiplierConfig>("witch_hut", Multiplie
         return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
             WitchHutStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
         }
+    }
+
+    override fun configured(biome: RegistryKey<Biome>, category: Biome.Category): StructureFeature<MultiplierConfig, out Structure<MultiplierConfig>>? {
+        return if (biome == ModBiomes.EERIE_FOREST) {
+            configured(MultiplierConfig(1))
+        } else {
+            null
+        }
+    }
+
+    override fun configuredFlat(): StructureFeature<MultiplierConfig, out Structure<MultiplierConfig>> {
+        return configured(MultiplierConfig(0))
     }
 
     override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
