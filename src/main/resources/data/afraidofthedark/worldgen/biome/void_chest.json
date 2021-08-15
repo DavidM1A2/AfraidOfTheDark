@@ -13,8 +13,7 @@
     "water_fog_color": 5788038,
     "fog_color": 16777215,
     "grass_color_modifier": "none",
-    "sky_color": 3736572,
-    "ambient_sound": "minecraft:ambient.cave"
+    "sky_color": 3736572
   },
   "surface_builder": "minecraft:nope",
   "carvers": {
@@ -33,7 +32,10 @@
     [],
     []
   ],
-  "starts": [],
+  "starts": [
+    "afraidofthedark:void_chest_box",
+    "afraidofthedark:void_chest_portal"
+  ],
   "spawners": {},
   "spawn_costs": {}
 }

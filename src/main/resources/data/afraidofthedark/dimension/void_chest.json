@@ -8,6 +8,16 @@
     },
     "settings": {
       "structures": {
+        "afraidofthedark:void_chest_box": {
+          "spacing": 1,
+          "separation": 0,
+          "salt": 0
+        },
+        "afraidofthedark:void_chest_portal": {
+          "spacing": 1,
+          "separation": 0,
+          "salt": 0
+        }
       }
     }
   }

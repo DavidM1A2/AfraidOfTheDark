@@ -13,8 +13,7 @@
     "water_fog_color": 9961472,
     "fog_color": 5308416,
     "grass_color_modifier": "none",
-    "sky_color": 7536650,
-    "ambient_sound": "minecraft:ambient.cave"
+    "sky_color": 7536650
   },
   "carvers": {
     "air": [],
@@ -33,7 +32,9 @@
     [],
     []
   ],
-  "starts": [],
+  "starts": [
+    "afraidofthedark:nightmare_island"
+  ],
   "spawners": {},
   "spawn_costs": {}
 }

@@ -61,6 +61,7 @@ open class ItemStackPane(
                 val calcY = y + this.height / 2 - 10
                 // Render the itemstack into the GUI
                 renderItem.renderGuiItem(itemStack, calcX, calcY)
+                renderItem.renderGuiItemDecorations(fontRenderer, itemStack, calcX, calcY)
             }
 
             // Pop the matrix and disable the item lighting
