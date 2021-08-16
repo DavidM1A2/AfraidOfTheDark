@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.particle
 
 import net.minecraft.client.particle.IParticleRenderType
+import net.minecraft.client.particle.Particle
 import net.minecraft.client.particle.SpriteTexturedParticle
 import net.minecraft.client.world.ClientWorld
 import net.minecraftforge.api.distmarker.Dist
@@ -57,6 +58,12 @@ abstract class AOTDParticle(
             xd *= 0.7
             zd *= 0.7
         }
+    }
+
+    override fun scale(scale: Float): Particle {
+        // The default size was changed from 1.0 to 0.2 in MC 1.16. To make the old scale compatible with the new one, we multiply scales by 5 to
+        // adapt the old scales to the new scale.
+        return super.scale(scale * 5)
     }
 
     /**
