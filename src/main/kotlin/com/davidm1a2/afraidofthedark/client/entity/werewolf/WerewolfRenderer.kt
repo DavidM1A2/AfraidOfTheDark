@@ -17,6 +17,7 @@ import net.minecraft.util.math.vector.Vector3f
  */
 class WerewolfRenderer(renderManager: EntityRendererManager) : MobRenderer<WerewolfEntity, WerewolfModel>(renderManager, WEREWOLF_MODEL, MODEL_SHADOW_SIZE) {
     override fun setupRotations(werewolf: WerewolfEntity, matrixStack: MatrixStack, bob: Float, yOffset: Float, partialTicks: Float) {
+        super.setupRotations(werewolf, matrixStack, bob, yOffset, partialTicks)
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(180f))
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180f))
     }

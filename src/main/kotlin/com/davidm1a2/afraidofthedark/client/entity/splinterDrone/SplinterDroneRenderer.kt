@@ -18,6 +18,7 @@ import net.minecraft.util.math.vector.Vector3f
 class SplinterDroneRenderer(renderManager: EntityRendererManager) :
     MobRenderer<SplinterDroneEntity, SplinterDroneModel>(renderManager, SPLINTER_DRONE_MODEL, MODEL_SHADOW_SIZE) {
     override fun setupRotations(splinterDrone: SplinterDroneEntity, matrixStack: MatrixStack, bob: Float, yOffset: Float, partialTicks: Float) {
+        super.setupRotations(splinterDrone, matrixStack, bob, yOffset, partialTicks)
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(180f))
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180f))
     }

@@ -20,6 +20,7 @@ import net.minecraft.util.math.vector.Vector3f
 class GhastlyEnariaRenderer(renderManager: EntityRendererManager) :
     MobRenderer<GhastlyEnariaEntity, EnariaModel<GhastlyEnariaEntity>>(renderManager, ENARIA_MODEL, 0f) {
     override fun setupRotations(enaria: GhastlyEnariaEntity, matrixStack: MatrixStack, bob: Float, yOffset: Float, partialTicks: Float) {
+        super.setupRotations(enaria, matrixStack, bob, yOffset, partialTicks)
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(180f))
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180f))
     }
