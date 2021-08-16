@@ -2,8 +2,6 @@ package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.client.gui.ResearchAchievedOverlay
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Chat
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
@@ -12,7 +10,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
  */
 class ResearchOverlayHandler {
     // The overlay to show researches with
-    @OnlyIn(Dist.CLIENT)
     private val researchAchievedOverlay = ResearchAchievedOverlay()
 
     /**
@@ -21,8 +18,6 @@ class ResearchOverlayHandler {
      * @param event Chat event
      */
     @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    @Suppress("UNUSED_PARAMETER")
     fun onRenderGameOverlayEventChat(event: Chat) {
         researchAchievedOverlay.updateResearchAchievedWindow(event.matrixStack)
     }
@@ -32,7 +27,6 @@ class ResearchOverlayHandler {
      *
      * @param research The research to display
      */
-    @OnlyIn(Dist.CLIENT)
     fun displayResearch(research: Research) {
         researchAchievedOverlay.displayResearch(research)
     }

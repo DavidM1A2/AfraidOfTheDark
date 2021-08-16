@@ -16,8 +16,6 @@ import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Class representing a wrist-mounted crossbow
@@ -41,7 +39,6 @@ class WristCrossbowItem : AOTDPerItemCooldownItem("wrist_crossbow", Properties()
      * @param tooltip The tooltip to add to
      * @param flag  The flag telling us if advanced tooltips are on or off
      */
-    @OnlyIn(Dist.CLIENT)
     override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.WRIST_CROSSBOW)) {

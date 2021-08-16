@@ -5,8 +5,6 @@ import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Particle representing a player's spell cast
@@ -17,7 +15,6 @@ import net.minecraftforge.api.distmarker.OnlyIn
  * @param y The y position of the spell cast effect
  * @param z The z position of the spell cast effect
  */
-@OnlyIn(Dist.CLIENT)
 class FlyParticle(
     world: ClientWorld,
     x: Double,
@@ -37,7 +34,6 @@ class FlyParticle(
         yd -= 0.05
     }
 
-    @OnlyIn(Dist.CLIENT)
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
         override fun createParticle(
             particle: BasicParticleType,

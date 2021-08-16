@@ -10,8 +10,6 @@ import net.minecraft.util.Direction
 import net.minecraft.util.math.vector.Quaternion
 import net.minecraft.util.math.vector.Vector3f
 import net.minecraft.util.math.vector.Vector4f
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 import kotlin.math.asin
 import kotlin.math.atan2
 
@@ -240,7 +238,6 @@ class MCAModelRenderer(
         return Vector3f(x, y, z)
     }
 
-    @OnlyIn(Dist.CLIENT)
     class ModelBox(
         texOffX: Int,
         texOffY: Int,
@@ -395,7 +392,6 @@ class MCAModelRenderer(
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     internal class PositionTextureVertex(val position: Vector3f, val textureU: Float, val textureV: Float) {
         constructor(x: Float, y: Float, z: Float, texU: Float, texV: Float) : this(Vector3f(x, y, z), texU, texV)
 
@@ -404,7 +400,6 @@ class MCAModelRenderer(
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     internal class TexturedQuad(
         val vertexPositions: Array<PositionTextureVertex>,
         u1: Float,

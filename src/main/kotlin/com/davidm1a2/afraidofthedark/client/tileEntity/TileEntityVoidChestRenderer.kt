@@ -11,13 +11,10 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.vector.Vector3f
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Code is almost completely copied from ChestTileEntityRenderer
  */
-@OnlyIn(Dist.CLIENT)
 class TileEntityVoidChestRenderer(tileEntityRendererDispatcher: TileEntityRendererDispatcher) :
     TileEntityRenderer<VoidChestTileEntity>(tileEntityRendererDispatcher) {
     private val lid: ModelRenderer

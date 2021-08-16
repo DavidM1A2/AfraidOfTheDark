@@ -14,8 +14,6 @@ import net.minecraft.util.Hand
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Class representing the telescope item used to track meteors
@@ -83,7 +81,6 @@ abstract class TelescopeBaseItem(val accuracy: Int, name: String) : AOTDItem(nam
      * @param tooltip The tooltip to add to
      * @param flag  True if the advanced tooltip is set on, false otherwise
      */
-    @OnlyIn(Dist.CLIENT)
     override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
 

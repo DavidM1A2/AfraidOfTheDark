@@ -5,8 +5,6 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.interpolate
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.slerp
 import net.minecraft.client.Minecraft
 import net.minecraft.util.math.vector.Quaternion
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.fml.LogicalSide
 import net.minecraftforge.fml.common.thread.EffectiveSide
 
@@ -129,7 +127,6 @@ class AnimationHandler(vararg animChannels: Channel) {
     /**
      * @return true if the game is paused, false if not
      */
-    @OnlyIn(Dist.CLIENT)
     private fun isGamePaused(): Boolean {
         val minecraft = Minecraft.getInstance()
         return minecraft.hasSingleplayerServer() && minecraft.screen != null && minecraft.screen!!.isPauseScreen && !minecraft.singleplayerServer!!.isSingleplayer
@@ -140,7 +137,6 @@ class AnimationHandler(vararg animChannels: Channel) {
      *
      * @param parts The parts of the model to update
      */
-    @OnlyIn(Dist.CLIENT)
     fun performAnimationInModel(parts: Map<String, MCAModelRenderer>) {
         for ((boxName, box) in parts) {
             var anyRotationApplied = false

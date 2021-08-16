@@ -5,8 +5,6 @@ import net.minecraft.client.audio.ISound.AttenuationType
 import net.minecraft.client.audio.TickableSound
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.SoundEvent
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Utility class for making a sound follow the player
@@ -15,7 +13,6 @@ import net.minecraftforge.api.distmarker.OnlyIn
  * @param soundEvent The sound event to play
  * @param soundCategory The sound category (effects which sound slider modifies this sound volume)
  */
-@OnlyIn(Dist.CLIENT)
 abstract class PlayerFollowingSound internal constructor(soundEvent: SoundEvent, soundCategory: SoundCategory) : TickableSound(soundEvent, soundCategory) {
     init {
         // The sound is ambient

@@ -14,8 +14,6 @@ import net.minecraft.util.Hand
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Basic telescope item used to track meteors. Has an accuracy of 130 blocks
@@ -87,7 +85,6 @@ class TelescopeItem : TelescopeBaseItem(130, "telescope") {
      * @param tooltip The tooltip to add to
      * @param flag  True if the advanced tooltip is set on, false otherwise
      */
-    @OnlyIn(Dist.CLIENT)
     override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         // Show the tooltip if the pre-req is researched
         if (Minecraft.getInstance().player?.getResearch()?.isResearched(getRequiredResearch().preRequisite!!) == true) {

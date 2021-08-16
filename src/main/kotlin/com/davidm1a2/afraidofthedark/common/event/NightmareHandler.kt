@@ -35,8 +35,6 @@ import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.server.ServerWorld
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.GuiOpenEvent
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.event.entity.EntityJoinWorldEvent
@@ -206,7 +204,6 @@ class NightmareHandler {
      * @param event Event containing info about who joined the world
      */
     @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
     fun onEntityJoinWorldEvent(event: EntityJoinWorldEvent) {
         // Client side only, even though this must be true since we're using SideOnly
         if (event.world.isClientSide) {
@@ -233,7 +230,6 @@ class NightmareHandler {
     }
 
     @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
     fun onGuiOpen(event: GuiOpenEvent) {
         // Can't open an echest in the nightmare realm
         val player = Minecraft.getInstance().player

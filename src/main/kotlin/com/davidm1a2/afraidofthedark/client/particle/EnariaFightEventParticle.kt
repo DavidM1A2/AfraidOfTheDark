@@ -5,8 +5,6 @@ import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Particle representing the second part of enaria's spell cast
@@ -19,7 +17,6 @@ import net.minecraftforge.api.distmarker.OnlyIn
  * @param xSpeed The x speed of the spell cast attack
  * @param zSpeed The z speed of the spell cast attack
  */
-@OnlyIn(Dist.CLIENT)
 class EnariaFightEventParticle(
     world: ClientWorld,
     x: Double,
@@ -49,7 +46,6 @@ class EnariaFightEventParticle(
         yd = yd - 0.02
     }
 
-    @OnlyIn(Dist.CLIENT)
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
         override fun createParticle(
             particle: BasicParticleType,

@@ -10,15 +10,12 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.vector.Vector3f
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.ISkyRenderHandler
 
 /**
  * Class that renders the void chest 'sky' texture
  */
 class VoidChestSkyRenderer : ISkyRenderHandler {
-    @OnlyIn(Dist.CLIENT)
     override fun render(ticks: Int, partialTicks: Float, matrixStack: MatrixStack, world: ClientWorld, mc: Minecraft) {
         ///
         /// Code below is similar to WorldRenderer::renderSky()

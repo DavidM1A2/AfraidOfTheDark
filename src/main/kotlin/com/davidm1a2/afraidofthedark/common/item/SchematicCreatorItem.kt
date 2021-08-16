@@ -20,8 +20,6 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.StringTextComponent
 import net.minecraft.world.World
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 import org.apache.commons.lang3.RandomStringUtils
 import java.io.File
 import kotlin.math.max
@@ -194,7 +192,6 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().stacksTo
      * @param tooltip The tooltip of the item
      * @param flag  If the advanced details is on or off
      */
-    @OnlyIn(Dist.CLIENT)
     override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         tooltip.add(StringTextComponent("Note: This item is for mod developer use only"))
         tooltip.add(StringTextComponent("Pos1: " + (NBTHelper.getCompound(stack, NBT_POS_1)?.let { NBTUtil.readBlockPos(it).toString() } ?: "None")))

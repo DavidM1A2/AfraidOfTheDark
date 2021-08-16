@@ -5,8 +5,6 @@ import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Particle spawned when enaria's altar spins
@@ -17,7 +15,6 @@ import net.minecraftforge.api.distmarker.OnlyIn
  * @param y The y position of the particle
  * @param z The z position of the particle
  */
-@OnlyIn(Dist.CLIENT)
 class EnariasAltarParticle(
     world: ClientWorld,
     x: Double,
@@ -44,7 +41,6 @@ class EnariasAltarParticle(
         alpha = (lifetime - age) / lifetime.toFloat()
     }
 
-    @OnlyIn(Dist.CLIENT)
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
         override fun createParticle(
             particle: BasicParticleType,

@@ -5,13 +5,10 @@ import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * The Freeze Particle
  */
-@OnlyIn(Dist.CLIENT)
 class FreezeParticle(
     world: ClientWorld,
     x: Double,
@@ -27,7 +24,6 @@ class FreezeParticle(
         zd = 0.0
     }
 
-    @OnlyIn(Dist.CLIENT)
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
         override fun createParticle(
             particle: BasicParticleType,

@@ -23,8 +23,6 @@ import com.davidm1a2.afraidofthedark.client.particle.WeaknessParticle
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import net.minecraft.client.Minecraft
 import net.minecraft.particles.ParticleType
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -43,7 +41,6 @@ class ParticleRegister {
         registry.registerAll(*ModParticles.PARTICLE_LIST)
     }
 
-    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     @Suppress("UNUSED_PARAMETER")
     fun registerParticleFactories(event: ParticleFactoryRegisterEvent) {

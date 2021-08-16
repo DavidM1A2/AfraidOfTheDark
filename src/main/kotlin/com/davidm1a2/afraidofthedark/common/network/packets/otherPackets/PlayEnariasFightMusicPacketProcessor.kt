@@ -5,8 +5,6 @@ import com.davidm1a2.afraidofthedark.common.network.packets.EntityPacketProcesso
 import net.minecraft.client.Minecraft
 import net.minecraft.client.audio.ISound
 import net.minecraft.network.PacketBuffer
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.fml.network.NetworkDirection
 import net.minecraftforge.fml.network.NetworkEvent
 
@@ -14,7 +12,6 @@ import net.minecraftforge.fml.network.NetworkEvent
  * Class used to tell the player to play the enaria fight music
  */
 class PlayEnariasFightMusicPacketProcessor : EntityPacketProcessor<PlayEnariasFightMusicPacket>() {
-    @OnlyIn(Dist.CLIENT)
     private var currentMusicInstance: ISound? = null
 
     override fun encode(msg: PlayEnariasFightMusicPacket, buf: PacketBuffer) {

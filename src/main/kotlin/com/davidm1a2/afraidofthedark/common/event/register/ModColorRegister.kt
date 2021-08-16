@@ -10,8 +10,6 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.FoliageColors
 import net.minecraft.world.IBlockDisplayReader
 import net.minecraft.world.biome.BiomeColors
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.ColorHandlerEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
@@ -25,7 +23,6 @@ class ModColorRegister {
      * @param event The event to register block colors to
      */
     @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
     fun registerBlockColors(event: ColorHandlerEvent.Block) {
         // Filter our block list by leaf blocks only
         val leafBlocks = ModBlocks.BLOCK_LIST.filterIsInstance<AOTDLeavesBlock>().toTypedArray()
@@ -52,7 +49,6 @@ class ModColorRegister {
      * @param event The event to register item colors to
      */
     @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
     fun registerItemColors(event: ColorHandlerEvent.Item) {
         // Filter our block list by leaf blocks only
         val leafBlocks = ModBlocks.BLOCK_LIST.filterIsInstance<AOTDLeavesBlock>().toTypedArray()

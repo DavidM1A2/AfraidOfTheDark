@@ -2,8 +2,6 @@ package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
 import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.InputUpdateEvent
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -59,7 +57,6 @@ class SpellFreezeHandler {
      * @param event The event to modify
      */
     @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
     fun onInputUpdateEvent(event: InputUpdateEvent) {
         // Dead players don't have capabilities
         if (event.player.isAlive) {

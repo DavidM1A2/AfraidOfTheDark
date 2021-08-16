@@ -17,8 +17,6 @@ import net.minecraft.util.DamageSource
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Class representing the 4 different pieces of star metal armor
@@ -55,7 +53,6 @@ class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
      * @param tooltip The tooltip list to add to
      * @param flag  The flag telling us if advanced tooltips are on or not
      */
-    @OnlyIn(Dist.CLIENT)
     override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL)) {

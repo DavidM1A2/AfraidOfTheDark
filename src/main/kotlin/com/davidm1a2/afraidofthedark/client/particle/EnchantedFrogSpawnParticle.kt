@@ -5,8 +5,6 @@ import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Particle representing an enchanted frog's spawn animation
@@ -17,7 +15,6 @@ import net.minecraftforge.api.distmarker.OnlyIn
  * @param y The y position of the basic attack
  * @param z The z position of the basic attack
  */
-@OnlyIn(Dist.CLIENT)
 class EnchantedFrogSpawnParticle(
     world: ClientWorld,
     x: Double,
@@ -47,7 +44,6 @@ class EnchantedFrogSpawnParticle(
         zd = zd * 0.7
     }
 
-    @OnlyIn(Dist.CLIENT)
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
         override fun createParticle(
             particle: BasicParticleType,

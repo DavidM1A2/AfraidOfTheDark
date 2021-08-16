@@ -16,8 +16,6 @@ import net.minecraft.util.Hand
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 import java.util.*
 
 /**
@@ -169,7 +167,6 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
      * @param tooltip The tooltip that we need to fill out
      * @param flag  The flag telling us if we should show advanced or normal tooltips
      */
-    @OnlyIn(Dist.CLIENT)
     override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
 

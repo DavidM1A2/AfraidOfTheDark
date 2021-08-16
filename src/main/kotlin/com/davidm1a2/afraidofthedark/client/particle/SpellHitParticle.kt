@@ -5,8 +5,6 @@ import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * A special particle spell hit effect
@@ -17,7 +15,6 @@ import net.minecraftforge.api.distmarker.OnlyIn
  * @param y The y position of the spell hit effect
  * @param z The z position of the spell hit effect
  */
-@OnlyIn(Dist.CLIENT)
 class SpellHitParticle(
     world: ClientWorld,
     x: Double,
@@ -45,7 +42,6 @@ class SpellHitParticle(
         alpha = (lifetime - age) / lifetime.toFloat()
     }
 
-    @OnlyIn(Dist.CLIENT)
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
         override fun createParticle(
             particle: BasicParticleType,

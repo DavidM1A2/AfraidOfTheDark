@@ -22,8 +22,6 @@ import net.minecraft.util.SoundCategory
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Class representing the crossbow item
@@ -260,7 +258,6 @@ class CrossbowItem : AOTDItem("crossbow", Properties().stacksTo(1)), IHasModelPr
      * @param tooltip The tooltip to add to
      * @param flag  True if show advanced info is on, false otherwise
      */
-    @OnlyIn(Dist.CLIENT)
     override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         if (ModRegistries.BOLTS.isEmpty) {
             // Skip adding information before the bolts registry is initialized

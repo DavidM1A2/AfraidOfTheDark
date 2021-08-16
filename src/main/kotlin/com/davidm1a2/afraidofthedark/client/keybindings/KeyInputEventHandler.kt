@@ -17,8 +17,6 @@ import net.minecraft.client.Minecraft
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.InputEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import org.lwjgl.glfw.GLFW
@@ -35,7 +33,6 @@ class KeyInputEventHandler {
      * @param event The key event containing press information
      */
     @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
     @Suppress("UNUSED_PARAMETER")
     fun handleKeyInputEvent(event: InputEvent.KeyInputEvent) {
         // This gets fired in the main menu, or when we have an inventory open. In either case return
