@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.IRenderTypeBuffer
 import net.minecraft.client.renderer.entity.EntityRendererManager
 import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.math.vector.Vector3f
 
 /**
@@ -19,7 +20,10 @@ class SplinterDroneRenderer(renderManager: EntityRendererManager) :
     override fun setupRotations(splinterDrone: SplinterDroneEntity, matrixStack: MatrixStack, bob: Float, yOffset: Float, partialTicks: Float) {
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(180f))
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180f))
-        matrixStack.translate(0.0, MODEL_HEIGHT, 0.0)
+    }
+
+    override fun getRenderOffset(splinterDrone: SplinterDroneEntity, partialTicks: Float): Vector3d {
+        return Vector3d(0.0, MODEL_HEIGHT, 0.0)
     }
 
     override fun render(
