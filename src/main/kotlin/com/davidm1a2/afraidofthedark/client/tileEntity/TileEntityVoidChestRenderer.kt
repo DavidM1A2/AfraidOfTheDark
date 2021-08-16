@@ -29,11 +29,11 @@ class TileEntityVoidChestRenderer(tileEntityRendererDispatcher: TileEntityRender
         bottom.addBox(1.0f, 0.0f, 1.0f, 14.0f, 10.0f, 14.0f, 0.0f)
         lid = ModelRenderer(64, 64, 0, 0)
         lid.addBox(1.0f, 0.0f, 0.0f, 14.0f, 5.0f, 14.0f, 0.0f)
-        lid.yRot = 9.0f
-        lid.zRot = 1.0f
+        lid.y = 9.0f
+        lid.z = 1.0f
         latch = ModelRenderer(64, 64, 0, 0)
         latch.addBox(7.0f, -1.0f, 15.0f, 2.0f, 4.0f, 1.0f, 0.0f)
-        latch.yRot = 8.0f
+        latch.y = 8.0f
     }
 
     override fun render(

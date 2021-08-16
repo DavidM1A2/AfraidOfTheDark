@@ -161,9 +161,9 @@ class MCAModelRenderer(
     }
 
     fun setRotationPoint(rotationPointX: Float, rotationPointY: Float, rotationPointZ: Float) {
-        this.xRot = rotationPointX
-        this.yRot = rotationPointY
-        this.zRot = rotationPointZ
+        this.x = rotationPointX
+        this.y = rotationPointY
+        this.z = rotationPointZ
     }
 
     fun setInitialRotationPoint(x: Float, y: Float, z: Float) {
@@ -237,7 +237,7 @@ class MCAModelRenderer(
     }
 
     fun getRotationPointAsVector(): Vector3f {
-        return Vector3f(xRot, yRot, zRot)
+        return Vector3f(x, y, z)
     }
 
     @OnlyIn(Dist.CLIENT)
