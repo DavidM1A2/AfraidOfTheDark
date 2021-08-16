@@ -51,7 +51,7 @@ class PlayerSpellCharmDataStorage : IStorage<IPlayerSpellCharmData> {
             instance.charmTicks = nbt.getInt(NBT_CHARM_TICKS)
 
             if (nbt.contains(NBT_CHARMING_ENTITY)) {
-                instance.charmingEntityId = NBTUtil.loadUUID(nbt.getCompound(NBT_CHARMING_ENTITY))
+                instance.charmingEntityId = NBTUtil.loadUUID(nbt.get(NBT_CHARMING_ENTITY)!!)
             } else {
                 instance.charmingEntityId = null
             }

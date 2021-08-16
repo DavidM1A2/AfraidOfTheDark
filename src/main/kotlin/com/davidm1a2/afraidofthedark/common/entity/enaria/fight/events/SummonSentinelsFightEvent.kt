@@ -116,10 +116,10 @@ class SummonSentinelsFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, En
         enariaStartingHp = nbt.getFloat(NBT_ENARIA_STARTING_HP)
         enariaCastPosition = NBTUtil.readBlockPos(nbt.getCompound(NBT_ENARIA_CAST_POSITION))
 
-        val splinterDroneIdNbts = nbt.getList(NBT_SPLINTER_DRONE_IDS, Constants.NBT.TAG_COMPOUND)
+        val splinterDroneIdNbts = nbt.getList(NBT_SPLINTER_DRONE_IDS, Constants.NBT.TAG_INT_ARRAY)
         splinterDroneIds.clear()
         splinterDroneIdNbts.forEach {
-            splinterDroneIds.add(NBTUtil.loadUUID(it as CompoundNBT))
+            splinterDroneIds.add(NBTUtil.loadUUID(it))
         }
     }
 

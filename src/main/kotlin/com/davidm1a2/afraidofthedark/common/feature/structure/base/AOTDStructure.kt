@@ -108,24 +108,6 @@ abstract class AOTDStructure<T : IFeatureConfig>(name: String, codec: Codec<T>) 
         }
     }
 
-    protected fun getInteriorConfigs(
-        x: Int,
-        z: Int,
-        biomeProvider: BiomeProvider,
-        defaultIfAbsent: T?,
-        width: Int = getWidth(),
-        length: Int = getLength(),
-        stepNum: Int = 1
-    ): Sequence<T> {
-        return sequence {
-            for (xPos in x until x + width step stepNum) {
-                for (zPos in z until z + length step stepNum) {
-                    yield(getStructureConfig(biomeProvider.getNoiseBiome(xPos, 0, zPos)) ?: defaultIfAbsent)
-                }
-            }
-        }.filterNotNull()
-    }
-
     protected fun getInteriorConfigEstimate(
         x: Int,
         z: Int,

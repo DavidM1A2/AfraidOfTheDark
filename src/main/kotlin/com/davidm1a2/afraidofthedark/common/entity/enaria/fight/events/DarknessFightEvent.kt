@@ -71,9 +71,9 @@ class DarknessFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFig
 
         ticksExisted = nbt.getInt(NBT_TICKS_EXISTED)
 
-        val werewolfIdNbts = nbt.getList(NBT_WEREWOLF_IDS, Constants.NBT.TAG_COMPOUND)
+        val werewolfIdNbts = nbt.getList(NBT_WEREWOLF_IDS, Constants.NBT.TAG_INT_ARRAY)
         werewolfIdNbts.forEach {
-            werewolfIds.add(NBTUtil.loadUUID(it as CompoundNBT))
+            werewolfIds.add(NBTUtil.loadUUID(it))
         }
     }
 

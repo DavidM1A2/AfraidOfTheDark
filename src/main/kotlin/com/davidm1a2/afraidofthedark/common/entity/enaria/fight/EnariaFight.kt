@@ -251,8 +251,8 @@ class EnariaFight(
     }
 
     override fun deserializeNBT(nbt: CompoundNBT) {
-        nbt.getList(NBT_PLAYERS_IN_FIGHT, Constants.NBT.TAG_COMPOUND).forEach {
-            val playerId = NBTUtil.loadUUID(it as CompoundNBT)
+        nbt.getList(NBT_PLAYERS_IN_FIGHT, Constants.NBT.TAG_INT_ARRAY).forEach {
+            val playerId = NBTUtil.loadUUID(it)
             playersInFight.add(playerId)
             // Tell all players in the fight to play the music
             enaria.level.getPlayerByUUID(playerId)?.let { player ->

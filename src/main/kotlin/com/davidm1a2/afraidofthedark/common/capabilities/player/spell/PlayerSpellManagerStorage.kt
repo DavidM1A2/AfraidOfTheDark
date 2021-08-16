@@ -98,7 +98,7 @@ class PlayerSpellManagerStorage : IStorage<IPlayerSpellManager> {
                 // Grab the compound for the keybinding
                 val keybindingNBT = keybindingsNBT.getCompound(i)
                 // Grab the key and spell UUID
-                val spellUUID = NBTUtil.loadUUID(keybindingNBT.getCompound(NBT_KEYBIND_SPELL_UUID))
+                val spellUUID = NBTUtil.loadUUID(keybindingNBT.get(NBT_KEYBIND_SPELL_UUID)!!)
                 val keybind = keybindingNBT.getString(NBT_KEYBIND)
                 // Keybind the key to the spell
                 instance.keybindSpell(keybind, idToSpell[spellUUID]!!)
