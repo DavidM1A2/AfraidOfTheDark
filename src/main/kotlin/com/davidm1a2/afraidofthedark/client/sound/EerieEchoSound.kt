@@ -11,15 +11,15 @@ import net.minecraft.util.SoundCategory
  * @constructor sets the sound event to play and category
  */
 class EerieEchoSound : PlayerFollowingSound(ModSounds.EERIE_ECHOS, SoundCategory.AMBIENT) {
-    /**
-     * Ensure that this only players in the nightmare when the player is not dead
-     */
-    override fun tick() {
-        super.tick()
+    init {
+        looping = false
+        volume = 1.0f
+        delay = 0
+    }
 
+    override fun canPlaySound(): Boolean {
         val entityPlayer = Minecraft.getInstance().player!!
-        if (!entityPlayer.isAlive || entityPlayer.level.dimensionType() != ModDimensions.NIGHTMARE_WORLD) {
-            stop()
-        }
+        // Stop playing the sound if the player is 1) dead 2) not in the nightmare
+        return entityPlayer.isAlive && entityPlayer.level.dimension() == ModDimensions.NIGHTMARE_WORLD
     }
 }

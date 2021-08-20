@@ -37,16 +37,9 @@ class NightmareMusicSound : PlayerFollowingSound(ModSounds.NIGHTMARE_MUSIC, Soun
         return super.resolve(handler)
     }
 
-    /**
-     * Ensure that this only players in the nightmare when the player is not dead
-     */
-    override fun tick() {
-        super.tick()
-
+    override fun canPlaySound(): Boolean {
         val entityPlayer = Minecraft.getInstance().player!!
         // Stop playing the sound if the player is 1) dead 2) not in the nightmare
-        if (!entityPlayer.isAlive || entityPlayer.level.dimension() != ModDimensions.NIGHTMARE_WORLD) {
-            stop()
-        }
+        return entityPlayer.isAlive && entityPlayer.level.dimension() == ModDimensions.NIGHTMARE_WORLD
     }
 }

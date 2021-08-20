@@ -19,6 +19,10 @@ abstract class PlayerFollowingSound internal constructor(soundEvent: SoundEvent,
         attenuation = AttenuationType.NONE
     }
 
+    override fun canStartSilent(): Boolean {
+        return true
+    }
+
     /**
      * The sound will follow the player's position
      */
