@@ -17,17 +17,17 @@ class TeleportQueue {
     @SubscribeEvent
     fun onServerTickEvent(event: TickEvent.ServerTickEvent) {
         if (event.type == TickEvent.Type.SERVER && event.phase == TickEvent.Phase.END && event.side == LogicalSide.SERVER) {
-            playersToTeleport.forEach { (player, world) ->
-                player.teleportTo(
-                    player.server.getLevel(world)!!,
-                    0.0,
-                    1000.0,
-                    0.0,
-                    0f,
-                    0f
-                )
+            playersToTeleport.entries.removeIf { (player, world) ->
+                val server = player.server
+                // There's an edge case where the server doesn't exist after the player respawns.If the player
+                // does not have a server associated with them yet wait a tick then try again
+                if (server?.getLevel(world) != null) {
+                    player.teleportTo(server.getLevel(world)!!, 0.0, 1000.0, 0.0, 0f, 0f)
+                    true
+                } else {
+                    false
+                }
             }
-            playersToTeleport.clear()
         }
     }
 }

@@ -11,11 +11,13 @@ import net.minecraft.world.World
  * @property positionalIndex The index corresponding to the player's void chest position in the void chest dimension
  * @property preTeleportPosition The position in world that the player was at before teleporting into the void chest
  * @property preTeleportDimension The dimension the player was in before teleporting to the void chest
+ * @property preTeleportRespawnPosition The respawn position the player had before leaving the world
  * @property friendsIndex The index of the friend's void chest position that the player was going to, or -1 if the player is going to their own index
  */
 interface IPlayerVoidChestData : IslandData {
     override var positionalIndex: Int
     var preTeleportPosition: BlockPos?
     var preTeleportDimension: RegistryKey<World>?
+    var preTeleportRespawnPosition: RespawnPosition?
     var friendsIndex: Int
 }

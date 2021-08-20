@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.client.sound.NightmareChaseMusicSound
 import com.davidm1a2.afraidofthedark.client.sound.NightmareMusicSound
 import com.davidm1a2.afraidofthedark.common.capabilities.getNightmareData
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.RespawnPosition
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
@@ -320,6 +321,14 @@ class NightmareHandler {
             val inventoryNBT = entityPlayer.inventory.save(ListNBT())
             playerNightmareData.preTeleportPlayerInventory = inventoryNBT
 
+            // Write our player's respawn position to NBT
+            playerNightmareData.preTeleportRespawnPosition = RespawnPosition(
+                entityPlayer.respawnPosition,
+                entityPlayer.respawnDimension,
+                entityPlayer.respawnAngle,
+                entityPlayer.isRespawnForced
+            )
+
             // Clear the players inventory and sync it with packets
             entityPlayer.inventory.clearContent()
             entityPlayer.inventoryMenu.broadcastChanges()
@@ -379,6 +388,15 @@ class NightmareHandler {
             // Give the player torches to see
             entityPlayer.inventory.add(ItemStack(Blocks.TORCH, 64))
 
+            // Ensure the player respawns here before teleporting back
+            entityPlayer.setRespawnPosition(
+                ModDimensions.NIGHTMARE_WORLD,
+                entityPlayer.blockPosition(),
+                0f,
+                true,
+                false
+            )
+
             // Test if the player needs their spell creation structure generated as an addon to the nightmare island
             testForEnariasAltar(entityPlayer, nightmareWorld, BlockPos(playerXBase, 0, 0))
         }
@@ -409,6 +427,16 @@ class NightmareHandler {
 
             // Update the player's inventory with the original things
             entityPlayer.inventory.load(playerNightmareData.preTeleportPlayerInventory!!)
+
+            // Update the player's respawn point with the original
+            val respawnPosition = playerNightmareData.preTeleportRespawnPosition!!
+            entityPlayer.setRespawnPosition(
+                respawnPosition.respawnDimension,
+                respawnPosition.respawnPosition,
+                respawnPosition.respawnAngle,
+                respawnPosition.respawnForced,
+                false
+            )
 
             // If the player found a nightmare stone save it
             if (numberNightmareStones > 0) {

@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getVoidChestData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.RespawnPosition
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility
@@ -16,37 +17,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
  * Handles that pertain to the void chest dimension
  */
 class VoidChestHandler {
-    /**
-     * Called when the player dies, set them back to their void chest home
-     *
-     * @param event The data of the respawned player
-     */
-    @SubscribeEvent
-    fun onPlayerRespawnEvent(event: PlayerEvent.PlayerRespawnEvent) {
-        // Server side processing only
-        if (!event.player.level.isClientSide) {
-            if (event.player.level.dimension() == ModDimensions.VOID_CHEST_WORLD) {
-                val playerVoidChestData = event.player.getVoidChestData()
-
-                // If the player was traveling to a friend's void chest grab that index, otherwise grab our own index
-                // If the friend's index is -1 then we go to our position, otherwise go to the friends position and wipe out the friends index variable
-                val indexToGoTo = if (playerVoidChestData.friendsIndex == -1) {
-                    // Get or compute the player's index to go to based on who the furthest out player is
-                    IslandUtility.getOrAssignPlayerPositionalIndex(
-                        event.player.server!!.getLevel(ModDimensions.VOID_CHEST_WORLD)!!,
-                        playerVoidChestData
-                    )
-                } else {
-                    playerVoidChestData.friendsIndex
-                }
-
-                // Compute the player's X position based on the index
-                val playerXBase = indexToGoTo * Constants.DISTANCE_BETWEEN_ISLANDS
-                (event.player as ServerPlayerEntity).connection.teleport(playerXBase + 24.5, 104.0, 3.0, 0f, 0f)
-            }
-        }
-    }
-
     /**
      * When we want to travel to the
      *
@@ -112,6 +82,14 @@ class VoidChestHandler {
             }
             // Set our pre-teleport dimension ID
             playerVoidChestData.preTeleportDimension = dimensionFrom
+
+            // Write our player's respawn position to NBT
+            playerVoidChestData.preTeleportRespawnPosition = RespawnPosition(
+                entityPlayer.respawnPosition,
+                entityPlayer.respawnDimension,
+                entityPlayer.respawnAngle,
+                entityPlayer.isRespawnForced
+            )
         }
         return false
     }
@@ -150,21 +128,29 @@ class VoidChestHandler {
             val playerVoidChestData = entityPlayer.getVoidChestData()
             // If the player was traveling to a friend's void chest grab that index, otherwise grab our own index
             // If the friend's index is -1 then we go to our position, otherwise go to the friends position
-            val indexToGoTo =
-                if (playerVoidChestData.friendsIndex == -1) // Get or compute the player's index to go to based on who the furthest out player is
-                {
-                    IslandUtility.getOrAssignPlayerPositionalIndex(
-                        entityPlayer.server!!.getLevel(ModDimensions.VOID_CHEST_WORLD)!!,
-                        playerVoidChestData
-                    )
-                } else {
-                    playerVoidChestData.friendsIndex
-                }
+            val indexToGoTo = if (playerVoidChestData.friendsIndex == -1) {
+                // Get or compute the player's index to go to based on who the furthest out player is
+                IslandUtility.getOrAssignPlayerPositionalIndex(
+                    entityPlayer.server!!.getLevel(ModDimensions.VOID_CHEST_WORLD)!!,
+                    playerVoidChestData
+                )
+            } else {
+                playerVoidChestData.friendsIndex
+            }
 
             // Compute the player's X position based on the index
             val playerXBase = indexToGoTo * Constants.DISTANCE_BETWEEN_ISLANDS
             // Set the player's position and rotation for some reason we have to use the connection object to send a packet instead of just using entityplayer#setPosition
             entityPlayer.connection.teleport(playerXBase + 24.5, 104.0, 3.0, 0f, 0f)
+
+            // Ensure the player respawns in the void chest if they die there
+            entityPlayer.setRespawnPosition(
+                ModDimensions.VOID_CHEST_WORLD,
+                entityPlayer.blockPosition(),
+                0f,
+                true,
+                false
+            )
         }
         // If the player left the void chest reset their position
         if (dimensionFrom == ModDimensions.VOID_CHEST_WORLD) {
@@ -177,6 +163,16 @@ class VoidChestHandler {
                 preTeleportPosition.z + 0.5,
                 0f,
                 0f
+            )
+
+            // Reset the player's respawn point to the original
+            val respawnPosition = entityPlayer.getVoidChestData().preTeleportRespawnPosition!!
+            entityPlayer.setRespawnPosition(
+                respawnPosition.respawnDimension,
+                respawnPosition.respawnPosition,
+                respawnPosition.respawnAngle,
+                respawnPosition.respawnForced,
+                false
             )
         }
     }

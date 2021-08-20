@@ -34,7 +34,8 @@ class PlayerNightmareDataStorage : IStorage<IPlayerNightmareData> {
         compound.putInt(NBT_POSITIONAL_INDEX, instance.positionalIndex)
         instance.preTeleportPlayerInventory?.let { compound.put(NBT_PRE_TELEPORT_INVENTORY, it) }
         instance.preTeleportPosition?.let { compound.put(NBT_PRE_TELEPORT_POSITION, NBTUtil.writeBlockPos(it)) }
-        instance.preTeleportDimension?.let { compound.putString(NBT_PRE_TELEPORT_DIMENSION, it.registryName.toString()) }
+        instance.preTeleportDimension?.let { compound.putString(NBT_PRE_TELEPORT_DIMENSION, it.location().toString()) }
+        instance.preTeleportRespawnPosition?.let { compound.put(NBT_PRE_TELEPORT_RESPAWN_POSITION, it.serializeNBT()) }
         return compound
     }
 
@@ -77,6 +78,12 @@ class PlayerNightmareDataStorage : IStorage<IPlayerNightmareData> {
             } else {
                 instance.preTeleportDimension = null
             }
+
+            if (nbt.contains(NBT_PRE_TELEPORT_RESPAWN_POSITION)) {
+                instance.preTeleportRespawnPosition = RespawnPosition.from(nbt.getCompound(NBT_PRE_TELEPORT_RESPAWN_POSITION))
+            } else {
+                instance.preTeleportRespawnPosition = null
+            }
         } else {
             logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
         }
@@ -90,5 +97,6 @@ class PlayerNightmareDataStorage : IStorage<IPlayerNightmareData> {
         private const val NBT_PRE_TELEPORT_INVENTORY = "pre_teleport_inventory"
         private const val NBT_PRE_TELEPORT_POSITION = "pre_teleport_position"
         private const val NBT_PRE_TELEPORT_DIMENSION = "pre_teleport_dimension"
+        private const val NBT_PRE_TELEPORT_RESPAWN_POSITION = "pre_teleport_respawn_position"
     }
 }

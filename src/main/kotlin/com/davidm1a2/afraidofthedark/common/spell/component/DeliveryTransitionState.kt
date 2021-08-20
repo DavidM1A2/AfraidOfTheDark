@@ -124,7 +124,7 @@ class DeliveryTransitionState {
         val nbt = CompoundNBT()
         nbt.put(NBT_SPELL, spell.serializeNBT())
         nbt.putInt(NBT_STAGE_INDEX, stageIndex)
-        nbt.putString(NBT_WORLD, world.dimension().registryName.toString())
+        nbt.putString(NBT_WORLD, world.dimension().location().toString())
         nbt.putDouble(NBT_POSITION + "_x", position.x)
         nbt.putDouble(NBT_POSITION + "_y", position.y)
         nbt.putDouble(NBT_POSITION + "_z", position.z)

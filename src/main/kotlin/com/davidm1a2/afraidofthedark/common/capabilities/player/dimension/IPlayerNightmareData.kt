@@ -12,11 +12,13 @@ import net.minecraft.world.World
  * @property positionalIndex the index corresponding to the player's island position\
  * @property preTeleportPosition The position in world that the player was at before teleporting into the nightmare
  * @property preTeleportDimension The dimension the player was in before teleporting to the nightmare
+ * @property preTeleportRespawnPosition The respawn position the player had before leaving the world
  * @property preTeleportPlayerInventory The player's inventory before teleporting to the nightmare
  */
 interface IPlayerNightmareData : IslandData {
     override var positionalIndex: Int
     var preTeleportPosition: BlockPos?
     var preTeleportDimension: RegistryKey<World>?
+    var preTeleportRespawnPosition: RespawnPosition?
     var preTeleportPlayerInventory: ListNBT?
 }
