@@ -9,11 +9,9 @@ import com.davidm1a2.afraidofthedark.common.schematic.SchematicUtils
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
-import net.minecraft.block.ChestBlock
 import net.minecraft.block.StairsBlock
 import net.minecraft.entity.EntityType
 import net.minecraft.nbt.CompoundNBT
-import net.minecraft.state.properties.ChestType
 import net.minecraft.state.properties.StairsShape
 import net.minecraft.tileentity.ChestTileEntity
 import net.minecraft.util.Direction
@@ -35,13 +33,6 @@ class SchematicStructurePiece : StructurePiece {
 
     // Some blocks aren't mirrored correctly by MC. Fix them here
     private val mirrorBlockFixer = mapOf<Block, (BlockState) -> BlockState>(
-        Blocks.CHEST to { state ->
-            when (state.getValue(ChestBlock.TYPE)) {
-                ChestType.RIGHT -> state.setValue(ChestBlock.TYPE, ChestType.LEFT)
-                ChestType.LEFT -> state.setValue(ChestBlock.TYPE, ChestType.RIGHT)
-                else -> state
-            }
-        },
         *setOf(
             Blocks.ACACIA_STAIRS,
             Blocks.BIRCH_STAIRS,
