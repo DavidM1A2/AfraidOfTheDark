@@ -1,31 +1,36 @@
 package com.davidm1a2.afraidofthedark
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark.Companion.packetHandler
+import com.davidm1a2.afraidofthedark.client.ClientProxy
 import com.davidm1a2.afraidofthedark.client.keybindings.KeyInputEventHandler
+import com.davidm1a2.afraidofthedark.common.IProxy
 import com.davidm1a2.afraidofthedark.common.command.AOTDCommands
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModConfigHolder
-import com.davidm1a2.afraidofthedark.common.event.*
+import com.davidm1a2.afraidofthedark.common.event.ArmorHandler
+import com.davidm1a2.afraidofthedark.common.event.CapabilityHandler
+import com.davidm1a2.afraidofthedark.common.event.ConfigurationHandler
+import com.davidm1a2.afraidofthedark.common.event.FlaskOfSoulsHandler
+import com.davidm1a2.afraidofthedark.common.event.NightmareHandler
+import com.davidm1a2.afraidofthedark.common.event.ResearchHooks
+import com.davidm1a2.afraidofthedark.common.event.SpellCharmHandler
+import com.davidm1a2.afraidofthedark.common.event.SpellFreezeHandler
+import com.davidm1a2.afraidofthedark.common.event.SpellStateHandler
+import com.davidm1a2.afraidofthedark.common.event.TeleportQueue
+import com.davidm1a2.afraidofthedark.common.event.VoidChestHandler
 import com.davidm1a2.afraidofthedark.common.event.register.BiomeRegister
-import com.davidm1a2.afraidofthedark.common.event.register.BlockEntityRendererRegister
 import com.davidm1a2.afraidofthedark.common.event.register.BlockRegister
-import com.davidm1a2.afraidofthedark.common.event.register.BlockRenderTypeRegister
 import com.davidm1a2.afraidofthedark.common.event.register.BoltEntryRegister
 import com.davidm1a2.afraidofthedark.common.event.register.CapabilityRegister
 import com.davidm1a2.afraidofthedark.common.event.register.ChunkGeneratorRegister
 import com.davidm1a2.afraidofthedark.common.event.register.DataSerializerRegister
-import com.davidm1a2.afraidofthedark.common.event.register.DimensionRenderInfoRegister
 import com.davidm1a2.afraidofthedark.common.event.register.EffectRegister
 import com.davidm1a2.afraidofthedark.common.event.register.EntityRegister
-import com.davidm1a2.afraidofthedark.common.event.register.EntityRendererRegister
 import com.davidm1a2.afraidofthedark.common.event.register.EntitySpawnPlacementRegister
 import com.davidm1a2.afraidofthedark.common.event.register.FeatureRegister
 import com.davidm1a2.afraidofthedark.common.event.register.FurnaceFuelRegister
-import com.davidm1a2.afraidofthedark.common.event.register.ItemModelPropertyRegister
 import com.davidm1a2.afraidofthedark.common.event.register.ItemRegister
-import com.davidm1a2.afraidofthedark.common.event.register.KeybindingRegister
 import com.davidm1a2.afraidofthedark.common.event.register.MeteorEntryRegister
-import com.davidm1a2.afraidofthedark.common.event.register.ModColorRegister
 import com.davidm1a2.afraidofthedark.common.event.register.PacketRegister
 import com.davidm1a2.afraidofthedark.common.event.register.ParticleRegister
 import com.davidm1a2.afraidofthedark.common.event.register.RecipeSerializerRegister
@@ -40,7 +45,9 @@ import com.davidm1a2.afraidofthedark.common.event.register.StructureGenerationRe
 import com.davidm1a2.afraidofthedark.common.event.register.StructureRegister
 import com.davidm1a2.afraidofthedark.common.event.register.TileEntityRegister
 import com.davidm1a2.afraidofthedark.common.network.packets.packetHandler.PacketHandler
+import com.davidm1a2.afraidofthedark.server.ServerProxy
 import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.fml.ModLoadingContext
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.config.ModConfig
@@ -70,7 +77,6 @@ class AfraidOfTheDark {
         forgeBus.register(teleportQueue)
         forgeBus.register(AOTDCommands())
         forgeBus.register(KeyInputEventHandler())
-        forgeBus.register(researchOverlay)
         forgeBus.register(researchHooks)
         forgeBus.register(StructureGenerationRegister())
 
@@ -92,13 +98,6 @@ class AfraidOfTheDark {
         modBus.register(FeatureRegister())
         modBus.register(StructureRegister())
         modBus.register(ConfigurationHandler())
-        modBus.register(ModColorRegister())
-        modBus.register(BlockRenderTypeRegister())
-        modBus.register(EntityRendererRegister())
-        modBus.register(BlockEntityRendererRegister())
-        modBus.register(DimensionRenderInfoRegister())
-        modBus.register(ItemModelPropertyRegister())
-        modBus.register(KeybindingRegister())
         modBus.register(CapabilityRegister())
         modBus.register(PacketRegister())
         modBus.register(EntitySpawnPlacementRegister())
@@ -109,12 +108,14 @@ class AfraidOfTheDark {
 
         context.registerConfig(ModConfig.Type.CLIENT, ModConfigHolder.CLIENT_SPEC)
         context.registerConfig(ModConfig.Type.COMMON, ModConfigHolder.COMMON_SPEC)
+
+        proxy.registerSidedHandlers(forgeBus, modBus)
     }
 
     companion object {
+        val proxy: IProxy = DistExecutor.safeRunForDist({ DistExecutor.SafeSupplier { ClientProxy() } }, { DistExecutor.SafeSupplier { ServerProxy() } })
         val packetHandler = PacketHandler()
         val teleportQueue = TeleportQueue()
         val researchHooks = ResearchHooks()
-        val researchOverlay = ResearchOverlayHandler()
     }
 }

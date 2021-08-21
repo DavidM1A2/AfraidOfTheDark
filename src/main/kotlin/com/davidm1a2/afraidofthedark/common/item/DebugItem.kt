@@ -1,8 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import net.minecraft.entity.Entity
@@ -26,9 +23,7 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
 
     override fun use(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
         if (worldIn.isClientSide) {
-            AfraidOfTheDark.researchOverlay.displayResearch(ModResearches.ASTRAL_SILVER)
         } else {
-            playerIn.getResearch().setResearchAndAlert(ModResearches.ENARIAS_SECRET, true, playerIn)
         }
         return super.use(worldIn, playerIn, handIn)
     }

@@ -20,7 +20,6 @@ import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.SchematicStructurePiece
 import net.minecraft.block.Blocks
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.screen.inventory.ChestScreen
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.inventory.ItemStackHelper
@@ -36,7 +35,6 @@ import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.server.ServerWorld
-import net.minecraftforge.client.event.GuiOpenEvent
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.event.entity.EntityJoinWorldEvent
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent
@@ -225,24 +223,6 @@ class NightmareHandler {
                     // test player research here because it isn't synced from Server -> Client at this point
                     soundHandler.playDelayed(NightmareMusicSound(), 7 * 20)
                     soundHandler.playDelayed(NightmareChaseMusicSound(), 7 * 20)
-                }
-            }
-        }
-    }
-
-    @SubscribeEvent
-    fun onGuiOpen(event: GuiOpenEvent) {
-        // Can't open an echest in the nightmare realm
-        val player = Minecraft.getInstance().player
-        if (player?.level?.dimension() == ModDimensions.NIGHTMARE_WORLD) {
-            val gui = event.gui
-            if (gui is ChestScreen) {
-                val title = gui.title
-                if (title is TranslationTextComponent && title.key.contains("enderchest")) {
-                    // Close the chest and don't show the gui
-                    gui.menu.container.stopOpen(player)
-                    event.isCanceled = true
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.nightmare.enderchest"), player.uuid)
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.event.register
+package com.davidm1a2.afraidofthedark.client.event
 
 import com.davidm1a2.afraidofthedark.client.dimension.NightmareRenderInfo
 import com.davidm1a2.afraidofthedark.client.dimension.VoidChestRenderInfo

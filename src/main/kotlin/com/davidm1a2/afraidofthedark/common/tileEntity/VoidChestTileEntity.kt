@@ -21,6 +21,8 @@ import net.minecraft.util.SoundEvents
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.common.util.Constants
 import java.util.*
 import kotlin.math.sqrt
@@ -38,6 +40,7 @@ import kotlin.math.sqrt
  * @property playerToSend The current player that has opened the chest and will be sent soon
  * @property lastInteraction The last time (using system time) that the void chest was right clicked/interacted with
  */
+@OnlyIn(value = Dist.CLIENT, _interface = IChestLid::class)
 class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), IChestLid {
     var lidAngle = 0f
         private set
