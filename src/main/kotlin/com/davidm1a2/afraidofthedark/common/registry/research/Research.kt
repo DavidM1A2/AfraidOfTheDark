@@ -1,11 +1,18 @@
 package com.davidm1a2.afraidofthedark.common.registry.research
 
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.utility.ResourceUtil
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.util.JSONUtils
 import net.minecraft.util.ResourceLocation
+import net.minecraftforge.event.entity.living.LivingDamageEvent
+import net.minecraftforge.event.entity.living.LivingHurtEvent
 import net.minecraftforge.registries.ForgeRegistryEntry
 import org.apache.logging.log4j.LogManager
 import java.io.BufferedReader
@@ -58,6 +65,9 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
                                 JSONUtils.convertToItem(it, "")
                             }
                             icon = ResourceLocation(JSONUtils.getAsString(jsonObject, "icon"))
+                            if (JSONUtils.isValidNode(jsonObject, "trigger")) {
+                                procTrigger(JSONUtils.getAsJsonObject(jsonObject, "trigger"))
+                            }
                         }
                     }
                 }
@@ -95,6 +105,31 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
      */
     fun getUnlocalizedText(): String {
         return "research.${registryName!!.namespace}.${registryName!!.path}.text"
+    }
+
+    private fun procTrigger(trigger: JsonObject) {
+        when (JSONUtils.getAsString(trigger, "type")) {
+            "takeDamage" -> {
+                val fromEntity = JSONUtils.getAsString(trigger, "entity")
+                AfraidOfTheDark.researchHooks.addHook(LivingDamageEvent::class) {
+                    val event = it as LivingDamageEvent
+                    if (event.entity is PlayerEntity) {
+                        val player = event.entity as PlayerEntity
+                        val playerResearch = player.getResearch()
+                        if (playerResearch.canResearch(this)) {
+                            if (event.source.entity != null) {
+                                if (event.source.entity!!.type.registryName.toString() == fromEntity) {
+                                    if (!JSONUtils.getAsBoolean(trigger, "mustSurvive") || player.health > event.amount) {
+                                        playerResearch.setResearch(this, true)
+                                        playerResearch.sync(player, true)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     companion object {

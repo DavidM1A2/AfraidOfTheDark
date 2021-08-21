@@ -3,5 +3,10 @@
   "y": 1,
   "recipes": [],
   "preRecipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/werewolf_examination.png"
+  "icon": "afraidofthedark:textures/gui/research_icons/werewolf_examination.png",
+  "trigger": {
+    "type": "takeDamage",
+    "entity": "afraidofthedark:werewolf",
+    "mustSurvive": false
+  }
 }

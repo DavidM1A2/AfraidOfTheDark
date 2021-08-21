@@ -5,17 +5,7 @@ import com.davidm1a2.afraidofthedark.client.keybindings.KeyInputEventHandler
 import com.davidm1a2.afraidofthedark.common.command.AOTDCommands
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModConfigHolder
-import com.davidm1a2.afraidofthedark.common.event.ArmorHandler
-import com.davidm1a2.afraidofthedark.common.event.CapabilityHandler
-import com.davidm1a2.afraidofthedark.common.event.ConfigurationHandler
-import com.davidm1a2.afraidofthedark.common.event.FlaskOfSoulsHandler
-import com.davidm1a2.afraidofthedark.common.event.NightmareHandler
-import com.davidm1a2.afraidofthedark.common.event.ResearchOverlayHandler
-import com.davidm1a2.afraidofthedark.common.event.SpellCharmHandler
-import com.davidm1a2.afraidofthedark.common.event.SpellFreezeHandler
-import com.davidm1a2.afraidofthedark.common.event.SpellStateHandler
-import com.davidm1a2.afraidofthedark.common.event.TeleportQueue
-import com.davidm1a2.afraidofthedark.common.event.VoidChestHandler
+import com.davidm1a2.afraidofthedark.common.event.*
 import com.davidm1a2.afraidofthedark.common.event.register.BiomeRegister
 import com.davidm1a2.afraidofthedark.common.event.register.BlockEntityRendererRegister
 import com.davidm1a2.afraidofthedark.common.event.register.BlockRegister
@@ -81,6 +71,7 @@ class AfraidOfTheDark {
         forgeBus.register(AOTDCommands())
         forgeBus.register(KeyInputEventHandler())
         forgeBus.register(researchOverlay)
+        forgeBus.register(researchHooks)
         forgeBus.register(StructureGenerationRegister())
 
         modBus.register(RegistryRegister())
@@ -123,6 +114,7 @@ class AfraidOfTheDark {
     companion object {
         val packetHandler = PacketHandler()
         val teleportQueue = TeleportQueue()
+        val researchHooks = ResearchHooks()
         val researchOverlay = ResearchOverlayHandler()
     }
 }

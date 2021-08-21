@@ -177,18 +177,6 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
                     AnimationPacket(this, "Bite", "Bite"),
                     PacketDistributor.TargetPoint(x, y, z, 50.0, level.dimension())
                 )
-
-                // If the thing that was attacked was a player test if that player was killed or not
-                val playerResearch = entity.getResearch()
-
-                // Don't check 'isDead' because that only gets updated next tick, instead check if HP > 0 for alive
-                if (entity.health > 0) {
-                    // The player was not killed by the attack unlock the werewolf research if possible
-                    if (playerResearch.canResearch(ModResearches.WEREWOLF_EXAMINATION)) {
-                        playerResearch.setResearch(ModResearches.WEREWOLF_EXAMINATION, true)
-                        playerResearch.sync(entity, true)
-                    }
-                }
             }
         }
         return attackResult
