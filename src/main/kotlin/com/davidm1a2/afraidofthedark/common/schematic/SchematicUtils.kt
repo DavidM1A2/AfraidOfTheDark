@@ -211,16 +211,17 @@ object SchematicUtils {
         for (i in 0 until tileEntities.size) {
             // Grab the compound that represents this tile entity
             val tileEntityCompound = tileEntities.getCompound(i)
-            val tileEntityPosition = position.offset(tileEntityCompound.getInt("x"), tileEntityCompound.getInt("y"), tileEntityCompound.getInt("z"))
+            val relativeTileEntityPosition = BlockPos(tileEntityCompound.getInt("x"), tileEntityCompound.getInt("y"), tileEntityCompound.getInt("z"))
+            val absoluteTileEntityPosition = position.offset(relativeTileEntityPosition)
             // Clone the NBT, then update the x, y, and z positions to be world absolute
             val newTileEntityCompound = tileEntityCompound.copy().apply {
-                putInt("x", tileEntityPosition.x)
-                putInt("y", tileEntityPosition.y)
-                putInt("z", tileEntityPosition.z)
+                putInt("x", absoluteTileEntityPosition.x)
+                putInt("y", absoluteTileEntityPosition.y)
+                putInt("z", absoluteTileEntityPosition.z)
             }
 
-            val blockState = getBlock(schematic, tileEntityPosition.x, tileEntityPosition.y, tileEntityPosition.z)
-            world.getBlockEntity(tileEntityPosition)?.load(blockState, newTileEntityCompound)
+            val blockState = getBlock(schematic, relativeTileEntityPosition.x, relativeTileEntityPosition.y, relativeTileEntityPosition.z)
+            world.getBlockEntity(absoluteTileEntityPosition)?.load(blockState, newTileEntityCompound)
         }
 
         // Get the list of entities inside this schematic
