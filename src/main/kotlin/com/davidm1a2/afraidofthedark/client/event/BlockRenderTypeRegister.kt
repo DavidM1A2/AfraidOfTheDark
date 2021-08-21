@@ -14,6 +14,9 @@ class BlockRenderTypeRegister {
             RenderTypeLookup.setRenderLayer(ModBlocks.VOID_CHEST_PORTAL, RenderType.translucent())
             RenderTypeLookup.setRenderLayer(ModBlocks.IMBUED_CACTUS, RenderType.cutout())
             RenderTypeLookup.setRenderLayer(ModBlocks.IMBUED_CACTUS_BLOSSOM, RenderType.cutout())
+            RenderTypeLookup.setRenderLayer(ModBlocks.GRAVEWOOD_SAPLING, RenderType.cutout())
+            RenderTypeLookup.setRenderLayer(ModBlocks.MANGROVE_SAPLING, RenderType.cutout())
+            RenderTypeLookup.setRenderLayer(ModBlocks.SACRED_MANGROVE_SAPLING, RenderType.cutout())
         }
     }
 }

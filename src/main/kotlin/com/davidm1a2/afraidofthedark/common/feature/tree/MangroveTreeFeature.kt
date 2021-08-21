@@ -1,6 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.feature.tree
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
+import net.minecraft.block.RotatedPillarBlock
 import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MutableBoundingBox
@@ -10,7 +12,10 @@ import net.minecraft.world.gen.IWorldGenerationReader
 import java.util.*
 import kotlin.math.sqrt
 
-class MangroveTreeFeature : AOTDTreeFeature() {
+class MangroveTreeFeature : AOTDTreeFeature(
+    ModBlocks.MANGROVE.defaultBlockState().setValue(RotatedPillarBlock.AXIS, Direction.Axis.Y),
+    ModBlocks.MANGROVE_LEAVES.defaultBlockState()
+) {
     init {
         setRegistryName(Constants.MOD_ID, "mangrove_tree")
     }
@@ -27,7 +32,7 @@ class MangroveTreeFeature : AOTDTreeFeature() {
         // Generate the trunk and root blocks
         val topOfTrunk = generateBase(world, random, blockPos, logPositions, boundingBox)
         // Generate branches and leaves
-        generateBranches(world, topOfTrunk, random, blockPos, logPositions, leafPositions, boundingBox)
+        generateBranches(world, topOfTrunk, random, logPositions, leafPositions, boundingBox)
     }
 
     private fun generateBase(
@@ -74,11 +79,11 @@ class MangroveTreeFeature : AOTDTreeFeature() {
 
                 // Have a 1/10 chance to generate an extra log one block up or down
                 if (random.nextDouble() < 0.1) {
-                    setLog(world, if (random.nextBoolean()) currentPos.north() else currentPos.south(), logPositions, boundingBox)
+                    setLog(world, if (random.nextBoolean()) currentPos.above() else currentPos.below(), logPositions, boundingBox)
                 }
 
                 // Always move up each iteration
-                currentPos = currentPos.north()
+                currentPos = currentPos.above()
             }
 
             // If we reached the top of the trunk before being all the way in generate horizontal logs all the way to the center
@@ -126,13 +131,12 @@ class MangroveTreeFeature : AOTDTreeFeature() {
         world: IWorldGenerationReader,
         topOfTrunk: BlockPos,
         random: Random,
-        pos: BlockPos,
         logPositions: MutableSet<BlockPos>,
         leafPositions: MutableSet<BlockPos>,
         boundingBox: MutableBoundingBox
     ) {
         // Create a leaf cluster at the top of the trunk
-        generateLeafCluster(world, random, pos, logPositions, leafPositions, boundingBox)
+        generateLeafCluster(world, random, topOfTrunk, logPositions, leafPositions, boundingBox)
 
         // 3 to 5 branches
         val numBranches = random.nextInt(3) + 3

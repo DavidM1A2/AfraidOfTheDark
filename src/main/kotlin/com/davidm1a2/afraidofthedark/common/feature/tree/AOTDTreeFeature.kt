@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.feature.tree
 
-import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import net.minecraft.block.RotatedPillarBlock
+import net.minecraft.block.BlockState
 import net.minecraft.state.properties.BlockStateProperties
 import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
@@ -17,7 +16,10 @@ import net.minecraft.world.gen.feature.TreeFeature
 import net.minecraft.world.gen.feature.template.Template
 import java.util.*
 
-abstract class AOTDTreeFeature : Feature<BaseTreeFeatureConfig>(BaseTreeFeatureConfig.CODEC) {
+abstract class AOTDTreeFeature(
+    private val log: BlockState,
+    private val leaves: BlockState
+) : Feature<BaseTreeFeatureConfig>(BaseTreeFeatureConfig.CODEC) {
     override fun place(
         world: ISeedReader,
         chunkGenerator: ChunkGenerator,
@@ -46,13 +48,13 @@ abstract class AOTDTreeFeature : Feature<BaseTreeFeatureConfig>(BaseTreeFeatureC
     )
 
     protected fun setLog(world: IWorldGenerationReader, blockPos: BlockPos, logPositions: MutableSet<BlockPos>, boundingBox: MutableBoundingBox) {
-        setBlock(world, blockPos, ModBlocks.MANGROVE.defaultBlockState().setValue(RotatedPillarBlock.AXIS, Direction.Axis.Y))
+        setBlock(world, blockPos, log)
         logPositions.add(blockPos)
         boundingBox.expand(MutableBoundingBox(blockPos, blockPos))
     }
 
     protected fun setLeaf(world: IWorldGenerationReader, blockPos: BlockPos, leafPositions: MutableSet<BlockPos>, boundingBox: MutableBoundingBox) {
-        setBlock(world, blockPos, ModBlocks.MANGROVE_LEAVES.defaultBlockState())
+        setBlock(world, blockPos, leaves)
         leafPositions.add(blockPos)
         boundingBox.expand(MutableBoundingBox(blockPos, blockPos))
     }

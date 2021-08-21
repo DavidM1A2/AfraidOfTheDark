@@ -1,13 +1,19 @@
 package com.davidm1a2.afraidofthedark.common.feature.tree
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
+import net.minecraft.block.RotatedPillarBlock
+import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.world.ISeedReader
 import net.minecraft.world.gen.ChunkGenerator
 import java.util.*
 
-class SacredMangroveTreeFeature : AOTDTreeFeature() {
+class SacredMangroveTreeFeature : AOTDTreeFeature(
+    ModBlocks.SACRED_MANGROVE.defaultBlockState().setValue(RotatedPillarBlock.AXIS, Direction.Axis.Y),
+    ModBlocks.SACRED_MANGROVE_LEAVES.defaultBlockState()
+) {
     init {
         setRegistryName(Constants.MOD_ID, "sacred_mangrove_tree")
     }
