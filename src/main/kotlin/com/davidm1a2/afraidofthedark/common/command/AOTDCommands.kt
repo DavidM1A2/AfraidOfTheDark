@@ -87,8 +87,8 @@ class AOTDCommands {
         SchematicUtils.placeRawSchematic(schematic, world, entity!!.blockPosition())
         if (includeCornerMarkers) {
             val db = Blocks.DIAMOND_BLOCK.defaultBlockState()
-            world.setBlock(entity.blockPosition(), db, 4)
-            world.setBlock(entity.blockPosition().offset(schematic.getWidth() - 1, schematic.getHeight() - 1, schematic.getLength() - 1), db, 4)
+            world.setBlockAndUpdate(entity.blockPosition(), db)
+            world.setBlockAndUpdate(entity.blockPosition().offset(schematic.getWidth() - 1, schematic.getHeight() - 1, schematic.getLength() - 1), db)
         }
     }
 
