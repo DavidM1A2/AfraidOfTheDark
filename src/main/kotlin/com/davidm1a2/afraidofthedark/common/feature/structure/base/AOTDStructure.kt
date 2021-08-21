@@ -117,16 +117,20 @@ abstract class AOTDStructure<T : IFeatureConfig>(name: String, codec: Codec<T>) 
         length: Int = getLength()
     ): Sequence<T> {
         return sequence {
-            yield(getStructureConfig(biomeProvider.getNoiseBiome(x - width / 2, 0, z - length / 2)) ?: defaultIfAbsent)
-            yield(getStructureConfig(biomeProvider.getNoiseBiome(x + width / 2, 0, z - length / 2)) ?: defaultIfAbsent)
-            yield(getStructureConfig(biomeProvider.getNoiseBiome(x - width / 2, 0, z + length / 2)) ?: defaultIfAbsent)
-            yield(getStructureConfig(biomeProvider.getNoiseBiome(x + width / 2, 0, z + length / 2)) ?: defaultIfAbsent)
-            yield(getStructureConfig(biomeProvider.getNoiseBiome(x, 0, z - length / 2)) ?: defaultIfAbsent)
-            yield(getStructureConfig(biomeProvider.getNoiseBiome(x, 0, z + length / 2)) ?: defaultIfAbsent)
-            yield(getStructureConfig(biomeProvider.getNoiseBiome(x - width / 2, 0, z)) ?: defaultIfAbsent)
-            yield(getStructureConfig(biomeProvider.getNoiseBiome(x + width / 2, 0, z)) ?: defaultIfAbsent)
-            yield(getStructureConfig(biomeProvider.getNoiseBiome(x, 0, z)) ?: defaultIfAbsent)
+            yield(getStructureConfig(biomeProvider.getNoiseBiomeAbsolute(x - width / 2, 0, z - length / 2)) ?: defaultIfAbsent)
+            yield(getStructureConfig(biomeProvider.getNoiseBiomeAbsolute(x + width / 2, 0, z - length / 2)) ?: defaultIfAbsent)
+            yield(getStructureConfig(biomeProvider.getNoiseBiomeAbsolute(x - width / 2, 0, z + length / 2)) ?: defaultIfAbsent)
+            yield(getStructureConfig(biomeProvider.getNoiseBiomeAbsolute(x + width / 2, 0, z + length / 2)) ?: defaultIfAbsent)
+            yield(getStructureConfig(biomeProvider.getNoiseBiomeAbsolute(x, 0, z - length / 2)) ?: defaultIfAbsent)
+            yield(getStructureConfig(biomeProvider.getNoiseBiomeAbsolute(x, 0, z + length / 2)) ?: defaultIfAbsent)
+            yield(getStructureConfig(biomeProvider.getNoiseBiomeAbsolute(x - width / 2, 0, z)) ?: defaultIfAbsent)
+            yield(getStructureConfig(biomeProvider.getNoiseBiomeAbsolute(x + width / 2, 0, z)) ?: defaultIfAbsent)
+            yield(getStructureConfig(biomeProvider.getNoiseBiomeAbsolute(x, 0, z)) ?: defaultIfAbsent)
         }.filterNotNull()
+    }
+
+    private fun BiomeProvider.getNoiseBiomeAbsolute(x: Int, y: Int, z: Int): Biome {
+        return getNoiseBiome(x shr 2, y shr 2, z shr 2)
     }
 
     private fun getStructureConfig(biome: Biome): T? {
