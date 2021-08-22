@@ -12,5 +12,6 @@
     "afraidofthedark:star_metal_helmet"
   ],
   "preRecipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/star_metal.png"
+  "icon": "afraidofthedark:textures/gui/research_icons/star_metal.png",
+  "prerequisite": "afraidofthedark:astronomy_2"
 }

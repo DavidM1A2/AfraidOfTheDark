@@ -5,5 +5,6 @@
     "afraidofthedark:blade_of_exhumation"
   ],
   "preRecipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/blade_of_exhumation.png"
+  "icon": "afraidofthedark:textures/gui/research_icons/blade_of_exhumation.png",
+  "prerequisite": "afraidofthedark:enchanted_skeleton"
 }

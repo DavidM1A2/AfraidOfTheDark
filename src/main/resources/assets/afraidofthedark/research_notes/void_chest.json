@@ -5,5 +5,6 @@
     "afraidofthedark:void_chest"
   ],
   "preRecipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/void_chest.png"
+  "icon": "afraidofthedark:textures/gui/research_icons/void_chest.png",
+  "prerequisite": "afraidofthedark:astral_silver"
 }

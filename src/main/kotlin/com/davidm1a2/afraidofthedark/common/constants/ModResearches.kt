@@ -1,37 +1,37 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.common.registry.research.AOTDResearch
+import com.davidm1a2.afraidofthedark.common.registry.research.AOTDResearchLoader
 
 /**
  * A static class containing all of our research references for us
  */
 object ModResearches {
-    val AN_UNBREAKABLE_COVENANT = AOTDResearch("an_unbreakable_covenant", null)
-    val ENCHANTED_SKELETON = AOTDResearch("enchanted_skeleton", AN_UNBREAKABLE_COVENANT)
-    val BLADE_OF_EXHUMATION = AOTDResearch("blade_of_exhumation", ENCHANTED_SKELETON)
-    val CROSSBOW = AOTDResearch("crossbow", AN_UNBREAKABLE_COVENANT)
-    val WRIST_CROSSBOW = AOTDResearch("wrist_crossbow", CROSSBOW)
-    val WEREWOLF_EXAMINATION = AOTDResearch("werewolf_examination", AN_UNBREAKABLE_COVENANT)
-    val ASTRONOMY_1 = AOTDResearch("astronomy_1", WEREWOLF_EXAMINATION)
-    val ASTRAL_SILVER = AOTDResearch("astral_silver", ASTRONOMY_1)
-    val OPTICS = AOTDResearch("optics", ASTRONOMY_1)
-    val ELVOVRAS = AOTDResearch("elvovras", OPTICS)
-    val SLAYING_OF_THE_WOLVES = AOTDResearch("slaying_of_the_wolves", ASTRAL_SILVER)
-    val PHYLACTERY_OF_SOULS = AOTDResearch("phylactery_of_souls", SLAYING_OF_THE_WOLVES)
-    val CLOAK_OF_AGILITY = AOTDResearch("cloak_of_agility", WEREWOLF_EXAMINATION)
-    val VOID_CHEST = AOTDResearch("void_chest", ASTRAL_SILVER)
-    val ELDRITCH_DECORATION = AOTDResearch("eldritch_decoration", VOID_CHEST)
-    val DARK_FOREST = AOTDResearch("dark_forest", ASTRAL_SILVER)
-    val SLEEPING_POTION = AOTDResearch("sleeping_potion", DARK_FOREST)
-    val NIGHTMARE = AOTDResearch("nightmare", DARK_FOREST)
-    val INSANITY = AOTDResearch("insanity", NIGHTMARE)
-    val VITAE_1 = AOTDResearch("vitae_1", NIGHTMARE)
-    val ASTRONOMY_2 = AOTDResearch("astronomy_2", NIGHTMARE)
-    val IGNEOUS = AOTDResearch("igneous", ASTRONOMY_2)
-    val STAR_METAL = AOTDResearch("star_metal", ASTRONOMY_2)
-    val GNOMISH_CITY = AOTDResearch("gnomish_city", ASTRONOMY_2)
-    val ENARIA = AOTDResearch("enaria", GNOMISH_CITY)
-    val ENARIAS_SECRET = AOTDResearch("enarias_secret", ENARIA)
+    val AN_UNBREAKABLE_COVENANT = AOTDResearchLoader.load("an_unbreakable_covenant")
+    val ENCHANTED_SKELETON = AOTDResearchLoader.load("enchanted_skeleton")
+    val BLADE_OF_EXHUMATION = AOTDResearchLoader.load("blade_of_exhumation")
+    val CROSSBOW = AOTDResearchLoader.load("crossbow")
+    val WRIST_CROSSBOW = AOTDResearchLoader.load("wrist_crossbow")
+    val WEREWOLF_EXAMINATION = AOTDResearchLoader.load("werewolf_examination")
+    val ASTRONOMY_1 = AOTDResearchLoader.load("astronomy_1")
+    val ASTRAL_SILVER = AOTDResearchLoader.load("astral_silver")
+    val OPTICS = AOTDResearchLoader.load("optics")
+    val ELVOVRAS = AOTDResearchLoader.load("elvovras")
+    val SLAYING_OF_THE_WOLVES = AOTDResearchLoader.load("slaying_of_the_wolves")
+    val PHYLACTERY_OF_SOULS = AOTDResearchLoader.load("phylactery_of_souls")
+    val CLOAK_OF_AGILITY = AOTDResearchLoader.load("cloak_of_agility")
+    val VOID_CHEST = AOTDResearchLoader.load("void_chest")
+    val ELDRITCH_DECORATION = AOTDResearchLoader.load("eldritch_decoration")
+    val DARK_FOREST = AOTDResearchLoader.load("dark_forest")
+    val SLEEPING_POTION = AOTDResearchLoader.load("sleeping_potion")
+    val NIGHTMARE = AOTDResearchLoader.load("nightmare")
+    val INSANITY = AOTDResearchLoader.load("insanity")
+    val VITAE_1 = AOTDResearchLoader.load("vitae_1")
+    val ASTRONOMY_2 = AOTDResearchLoader.load("astronomy_2")
+    val IGNEOUS = AOTDResearchLoader.load("igneous")
+    val STAR_METAL = AOTDResearchLoader.load("star_metal")
+    val GNOMISH_CITY = AOTDResearchLoader.load("gnomish_city")
+    val ENARIA = AOTDResearchLoader.load("enaria")
+    val ENARIAS_SECRET = AOTDResearchLoader.load("enarias_secret")
 
     // An array containing a list of researches that AOTD adds
     var RESEARCH_LIST = arrayOf(

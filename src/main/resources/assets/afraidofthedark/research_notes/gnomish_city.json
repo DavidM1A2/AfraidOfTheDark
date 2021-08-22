@@ -7,5 +7,6 @@
     "afraidofthedark:gnomish_metal_plate"
   ],
   "preRecipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/gnomish_city.png"
+  "icon": "afraidofthedark:textures/gui/research_icons/gnomish_city.png",
+  "prerequisite": "afraidofthedark:astronomy_2"
 }

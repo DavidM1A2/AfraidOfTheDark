@@ -6,5 +6,6 @@
     "afraidofthedark:silver_bolt"
   ],
   "preRecipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/astral_silver.png"
+  "icon": "afraidofthedark:textures/gui/research_icons/astral_silver.png",
+  "prerequisite": "afraidofthedark:astronomy_1"
 }

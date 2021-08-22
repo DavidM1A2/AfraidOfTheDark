@@ -7,5 +7,6 @@
   "preRecipes": [
     "afraidofthedark:flask_of_souls"
   ],
-  "icon": "afraidofthedark:textures/gui/research_icons/phylactery_of_souls.png"
+  "icon": "afraidofthedark:textures/gui/research_icons/phylactery_of_souls.png",
+  "prerequisite": "afraidofthedark:slaying_of_the_wolves"
 }

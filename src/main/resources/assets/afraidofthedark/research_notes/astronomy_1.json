@@ -8,5 +8,6 @@
   "preRecipes": [
     "afraidofthedark:telescope"
   ],
-  "icon": "afraidofthedark:textures/gui/research_icons/astronomy_1.png"
+  "icon": "afraidofthedark:textures/gui/research_icons/astronomy_1.png",
+  "prerequisite": "afraidofthedark:werewolf_examination"
 }

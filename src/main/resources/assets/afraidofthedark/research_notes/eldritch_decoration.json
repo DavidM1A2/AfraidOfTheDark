@@ -1,7 +1,6 @@
 {
   "x": 2,
   "y": 3,
-  "tooltip": "",
   "recipes": [
     "afraidofthedark:eldritch_metal_ingot",
     "afraidofthedark:eldritch_stone",
@@ -13,6 +12,5 @@
   ],
   "preRecipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/eldritch_decoration.png",
-  "pre": "",
-  "researched": ""
+  "prerequisite": "afraidofthedark:void_chest"
 }

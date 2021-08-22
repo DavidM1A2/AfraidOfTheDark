@@ -12,5 +12,6 @@
     "afraidofthedark:igneous_helmet"
   ],
   "preRecipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/igneous.png"
+  "icon": "afraidofthedark:textures/gui/research_icons/igneous.png",
+  "prerequisite": "afraidofthedark:astronomy_2"
 }

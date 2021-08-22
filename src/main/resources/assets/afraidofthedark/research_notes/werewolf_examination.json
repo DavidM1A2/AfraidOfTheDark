@@ -4,6 +4,7 @@
   "recipes": [],
   "preRecipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/werewolf_examination.png",
+  "prerequisite": "afraidofthedark:an_unbreakable_covenant",
   "trigger": {
     "type": "takeDamage",
     "entity": "afraidofthedark:werewolf",

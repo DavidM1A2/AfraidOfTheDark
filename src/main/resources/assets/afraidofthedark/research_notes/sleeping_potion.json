@@ -3,5 +3,6 @@
   "y": 4,
   "recipes": [],
   "preRecipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/sleeping_potion.png"
+  "icon": "afraidofthedark:textures/gui/research_icons/sleeping_potion.png",
+  "prerequisite": "afraidofthedark:dark_forest"
 }

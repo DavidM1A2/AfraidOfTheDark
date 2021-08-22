@@ -6,5 +6,6 @@
     "afraidofthedark:advanced_telescope"
   ],
   "preRecipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/optics.png"
+  "icon": "afraidofthedark:textures/gui/research_icons/optics.png",
+  "prerequisite": "afraidofthedark:astronomy_1"
 }

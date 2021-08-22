@@ -3,5 +3,6 @@
   "y": 3,
   "recipes": [],
   "preRecipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/slaying_of_the_wolves.png"
+  "icon": "afraidofthedark:textures/gui/research_icons/slaying_of_the_wolves.png",
+  "prerequisite": "afraidofthedark:astral_silver"
 }

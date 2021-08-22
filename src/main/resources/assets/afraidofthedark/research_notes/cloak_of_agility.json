@@ -5,5 +5,6 @@
     "afraidofthedark:cloak_of_agility"
   ],
   "preRecipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/cloak_of_agility.png"
+  "icon": "afraidofthedark:textures/gui/research_icons/cloak_of_agility.png",
+  "prerequisite": "afraidofthedark:werewolf_examination"
 }

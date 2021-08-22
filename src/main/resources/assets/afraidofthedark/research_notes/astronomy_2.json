@@ -3,5 +3,6 @@
   "y": 6,
   "recipes": [],
   "preRecipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/astronomy_2.png"
+  "icon": "afraidofthedark:textures/gui/research_icons/astronomy_2.png",
+  "prerequisite": "afraidofthedark:nightmare"
 }
