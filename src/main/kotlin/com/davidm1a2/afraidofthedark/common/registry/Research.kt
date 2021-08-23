@@ -1,7 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.registry
 
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import com.mojang.datafixers.util.Function7
+import com.davidm1a2.afraidofthedark.common.researchTriggers.ConfiguredResearchTrigger
+import com.mojang.datafixers.util.Function8
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.item.Item
@@ -16,6 +17,7 @@ class Research(
     val researchedRecipes: List<Item>,
     val preResearchedRecipes: List<Item>,
     val icon: ResourceLocation,
+    val triggers: List<ConfiguredResearchTrigger<*, *>>,
     preRequisiteId: ResourceLocation?
 ) : ForgeRegistryEntry<Research>() {
     // Why do we need this lazy initializer? Because forge loads registries in random order, so the RESEARCH registry might not be valid yet
@@ -40,34 +42,6 @@ class Research(
     }
 
     companion object {
-        /*
-        TODO: Add triggers field
-
-        private fun procTrigger(trigger: JsonObject, research: Research) {
-            when (JSONUtils.getAsString(trigger, "type")) {
-                "takeDamage" -> {
-                    val fromEntity = JSONUtils.getAsString(trigger, "entity")
-                    AfraidOfTheDark.researchHooks.addHook(LivingDamageEvent::class) {
-                        val event = it as LivingDamageEvent
-                        if (event.entity is PlayerEntity) {
-                            val player = event.entity as PlayerEntity
-                            val playerResearch = player.getResearch()
-                            if (playerResearch.canResearch(research)) {
-                                if (event.source.entity != null) {
-                                    if (event.source.entity!!.type.registryName.toString() == fromEntity) {
-                                        if (!JSONUtils.getAsBoolean(trigger, "mustSurvive") || player.health > event.amount) {
-                                            playerResearch.setResearch(research, true)
-                                            playerResearch.sync(player, true)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-         */
         val CODEC: Codec<Research> = RecordCodecBuilder.create {
             it.group(
                 ResourceLocation.CODEC.fieldOf("forge:registry_name").forGetter(Research::getRegistryName),
@@ -84,11 +58,15 @@ class Research(
                     .fieldOf("pre_recipes")
                     .forGetter(Research::preResearchedRecipes),
                 ResourceLocation.CODEC.fieldOf("icon").forGetter(Research::icon),
+                ConfiguredResearchTrigger.CODEC
+                    .listOf()
+                    .optionalFieldOf("triggers", emptyList())
+                    .forGetter(Research::triggers),
                 ResourceLocation.CODEC
                     .optionalFieldOf("prerequisite")
                     .forGetter { research -> Optional.ofNullable(research.preRequisite?.registryName) }
-            ).apply(it, it.stable(Function7 { name, x, y, recipes, preRecipes, icon, prerequisite ->
-                Research(x, y, recipes, preRecipes, icon, prerequisite.orElse(null)).setRegistryName(name)
+            ).apply(it, it.stable(Function8 { name, x, y, recipes, preRecipes, icon, triggers, prerequisite ->
+                Research(x, y, recipes, preRecipes, icon, triggers, prerequisite.orElse(null)).setRegistryName(name)
             }))
         }
     }

@@ -36,6 +36,7 @@ import com.davidm1a2.afraidofthedark.common.event.register.ParticleRegister
 import com.davidm1a2.afraidofthedark.common.event.register.RecipeSerializerRegister
 import com.davidm1a2.afraidofthedark.common.event.register.RegistryRegister
 import com.davidm1a2.afraidofthedark.common.event.register.ResearchRegister
+import com.davidm1a2.afraidofthedark.common.event.register.ResearchTriggerRegister
 import com.davidm1a2.afraidofthedark.common.event.register.SoundRegister
 import com.davidm1a2.afraidofthedark.common.event.register.SpellDeliveryMethodRegister
 import com.davidm1a2.afraidofthedark.common.event.register.SpellEffectOverrideRegister
@@ -105,6 +106,7 @@ class AfraidOfTheDark {
         modBus.register(ChunkGeneratorRegister())
         modBus.register(SpellEffectOverrideRegister())
         modBus.register(BiomeRegister())
+        modBus.register(ResearchTriggerRegister())
 
         context.registerConfig(ModConfig.Type.CLIENT, ModConfigHolder.CLIENT_SPEC)
         context.registerConfig(ModConfig.Type.COMMON, ModConfigHolder.COMMON_SPEC)

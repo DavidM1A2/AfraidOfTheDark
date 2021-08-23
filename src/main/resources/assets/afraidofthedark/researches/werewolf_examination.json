@@ -6,9 +6,13 @@
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/werewolf_examination.png",
   "prerequisite": "afraidofthedark:an_unbreakable_covenant",
-  "trigger": {
-    "type": "takeDamage",
-    "entity": "afraidofthedark:werewolf",
-    "mustSurvive": false
-  }
+  "triggers": [
+    {
+      "type": "afraidofthedark:player_hurt",
+      "config": {
+        "entity": "afraidofthedark:werewolf",
+        "must_survive": true
+      }
+    }
+  ]
 }

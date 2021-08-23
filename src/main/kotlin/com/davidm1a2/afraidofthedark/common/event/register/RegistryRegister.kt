@@ -5,7 +5,6 @@ import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.registry.BoltEntry
 import com.davidm1a2.afraidofthedark.common.registry.MeteorEntry
 import com.davidm1a2.afraidofthedark.common.registry.Research
-import com.davidm1a2.afraidofthedark.common.researchTriggers.ConfiguredResearchTrigger
 import com.davidm1a2.afraidofthedark.common.researchTriggers.ResearchTrigger
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
@@ -68,12 +67,6 @@ class RegistryRegister {
         ModRegistries.RESEARCH_TRIGGERS = RegistryBuilder<ResearchTrigger<*>>()
             .setType(ResearchTrigger::class.java)
             .setName(ResourceLocation(Constants.MOD_ID, "research_triggers"))
-            .create()
-
-        // Create a new registry for the different research triggers with the name 'afraidofthedark:configured_research_trigger'
-        ModRegistries.CONFIGURED_RESEARCH_TRIGGERS = RegistryBuilder<ConfiguredResearchTrigger<*, *>>()
-            .setType(ConfiguredResearchTrigger::class.java)
-            .setName(ResourceLocation(Constants.MOD_ID, "configured_research_triggers"))
             .create()
     }
 }

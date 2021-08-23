@@ -3,7 +3,6 @@ package com.davidm1a2.afraidofthedark.common.constants
 import com.davidm1a2.afraidofthedark.common.registry.BoltEntry
 import com.davidm1a2.afraidofthedark.common.registry.MeteorEntry
 import com.davidm1a2.afraidofthedark.common.registry.Research
-import com.davidm1a2.afraidofthedark.common.researchTriggers.ConfiguredResearchTrigger
 import com.davidm1a2.afraidofthedark.common.researchTriggers.ResearchTrigger
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
@@ -23,5 +22,4 @@ object ModRegistries {
     lateinit var SPELL_DELIVERY_METHODS: IForgeRegistry<SpellDeliveryMethod>
     lateinit var SPELL_EFFECTS: IForgeRegistry<SpellEffect>
     lateinit var RESEARCH_TRIGGERS: IForgeRegistry<ResearchTrigger<*>>
-    lateinit var CONFIGURED_RESEARCH_TRIGGERS: IForgeRegistry<ConfiguredResearchTrigger<*, *>>
 }
