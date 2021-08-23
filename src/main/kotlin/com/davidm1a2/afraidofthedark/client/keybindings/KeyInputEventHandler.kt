@@ -97,7 +97,7 @@ class KeyInputEventHandler {
                     val boltType = BoltOrderHelper.getBoltAt(playerBasics.selectedWristCrossbowBoltIndex)
 
                     // Ensure the player has a bolt of the right type in his/her inventory or is in creative mode
-                    if (entityPlayer.inventory.contains(ItemStack(boltType.boltItem)) || entityPlayer.isCreative) {
+                    if (entityPlayer.inventory.contains(ItemStack(boltType.item)) || entityPlayer.isCreative) {
                         // Find the wrist crossbow item in the player's inventory
                         for (itemStack in entityPlayer.inventory.items) {
                             if (itemStack.item is WristCrossbowItem) {

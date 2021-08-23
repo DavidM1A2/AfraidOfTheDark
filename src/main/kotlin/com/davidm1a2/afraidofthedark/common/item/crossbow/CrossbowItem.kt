@@ -11,7 +11,6 @@ import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.projectile.AbstractArrowEntity
 import net.minecraft.inventory.ItemStackHelper
 import net.minecraft.item.IItemPropertyGetter
 import net.minecraft.item.ItemStack
@@ -73,7 +72,7 @@ class CrossbowItem : AOTDItem("crossbow", Properties().stacksTo(1)), IHasModelPr
                             ItemStack(
                                 getCurrentBoltType(
                                     itemStack
-                                ).boltItem
+                                ).item
                             )
                         )
                     ) {
@@ -119,7 +118,7 @@ class CrossbowItem : AOTDItem("crossbow", Properties().stacksTo(1)), IHasModelPr
             if (count == 2) {
                 if (entity.isCreative || ItemStackHelper.clearOrCountMatchingItems(
                         entity.inventory,
-                        { it.item == getCurrentBoltType(stack).boltItem },
+                        { it.item == getCurrentBoltType(stack).item },
                         1,
                         false
                     ) == 1
@@ -166,14 +165,8 @@ class CrossbowItem : AOTDItem("crossbow", Properties().stacksTo(1)), IHasModelPr
         )
 
         // Instantiate bolt!
-        val bolt = getCurrentBoltType(itemStack).boltEntityFactory(world, entityPlayer)
-        bolt.pickup = if (entityPlayer.isCreative) {
-            AbstractArrowEntity.PickupStatus.DISALLOWED
-        } else {
-            AbstractArrowEntity.PickupStatus.ALLOWED
-        }
-        // Aim and fire the bolt
-        bolt.shootFromRotation(entityPlayer, entityPlayer.xRot, entityPlayer.yRot, 0f, 5f, 0f)
+        val bolt = getCurrentBoltType(itemStack).boltEntityFactory(world)
+        bolt.setShotFrom(entityPlayer)
         world.addFreshEntity(bolt)
     }
 

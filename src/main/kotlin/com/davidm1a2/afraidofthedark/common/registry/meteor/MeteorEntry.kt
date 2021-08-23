@@ -29,6 +29,7 @@ class MeteorEntry(
     val interiorBlock: Block,
     prerequisiteResearchId: ResourceLocation,
 ) : ForgeRegistryEntry<MeteorEntry>() {
+    // Why do we need this lazy initializer? Because forge loads registries in random order, so the RESEARCH registry might not be valid yet
     val prerequisiteResearch: Research by lazy {
         ModRegistries.RESEARCH.getValue(prerequisiteResearchId)!!
     }

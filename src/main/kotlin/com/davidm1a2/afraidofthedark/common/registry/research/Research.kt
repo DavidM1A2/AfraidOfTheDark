@@ -18,6 +18,7 @@ class Research(
     val icon: ResourceLocation,
     preRequisiteId: ResourceLocation?
 ) : ForgeRegistryEntry<Research>() {
+    // Why do we need this lazy initializer? Because forge loads registries in random order, so the RESEARCH registry might not be valid yet
     val preRequisite: Research? by lazy {
         preRequisiteId?.let { ModRegistries.RESEARCH.getValue(it) }
     }

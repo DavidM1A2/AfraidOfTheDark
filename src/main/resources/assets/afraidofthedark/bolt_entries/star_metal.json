@@ -1,0 +1,6 @@
+{
+  "forge:registry_name": "afraidofthedark:star_metal",
+  "item": "afraidofthedark:star_metal_bolt",
+  "entity_type": "afraidofthedark:star_metal_bolt",
+  "prerequisite_research": "afraidofthedark:star_metal"
+}

@@ -57,6 +57,17 @@ abstract class BoltEntity : AbstractArrowEntity {
      */
     constructor(entityType: EntityType<out BoltEntity>, thrower: LivingEntity, world: World) : super(entityType, thrower, world)
 
+    fun setShotFrom(entity: LivingEntity) {
+        owner = entity
+        pickup = if (entity is PlayerEntity && entity.isCreative) {
+            PickupStatus.DISALLOWED
+        } else {
+            PickupStatus.ALLOWED
+        }
+        setPos(entity.x, entity.eyeY - 0.1, entity.z)
+        shootFromRotation(entity, entity.xRot, entity.yRot, 0f, 5f, 0f)
+    }
+
     /**
      * Called when the bolt hits something
      *

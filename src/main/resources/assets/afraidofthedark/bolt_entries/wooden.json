@@ -1,0 +1,5 @@
+{
+  "forge:registry_name": "afraidofthedark:wooden",
+  "item": "afraidofthedark:wooden_bolt",
+  "entity_type": "afraidofthedark:wooden_bolt"
+}
