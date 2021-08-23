@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.research
+package com.davidm1a2.afraidofthedark.common.researchTriggers
 
 import net.minecraftforge.registries.ForgeRegistryEntry
 
