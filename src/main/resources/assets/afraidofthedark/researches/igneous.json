@@ -12,7 +12,7 @@
     "afraidofthedark:igneous_chestplate",
     "afraidofthedark:igneous_helmet"
   ],
-  "preRecipes": [],
+  "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/igneous.png",
   "prerequisite": "afraidofthedark:astronomy_2"
 }

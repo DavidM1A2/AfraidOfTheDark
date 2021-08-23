@@ -6,7 +6,7 @@
     "afraidofthedark:telescope",
     "afraidofthedark:sextant"
   ],
-  "preRecipes": [
+  "pre_recipes": [
     "afraidofthedark:telescope"
   ],
   "icon": "afraidofthedark:textures/gui/research_icons/astronomy_1.png",

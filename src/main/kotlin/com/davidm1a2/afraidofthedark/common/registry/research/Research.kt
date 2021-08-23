@@ -52,7 +52,7 @@ class Research(
                 ResourceLocation.CODEC
                     .xmap({ location -> ForgeRegistries.ITEMS.getValue(location)!! }) { item -> item?.registryName }
                     .listOf()
-                    .fieldOf("preRecipes")
+                    .fieldOf("pre_recipes")
                     .forGetter(Research::preResearchedRecipes),
                 ResourceLocation.CODEC.fieldOf("icon").forGetter(Research::icon),
                 ResourceLocation.CODEC

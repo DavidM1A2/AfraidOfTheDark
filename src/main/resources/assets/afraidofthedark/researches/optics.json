@@ -6,7 +6,7 @@
     "afraidofthedark:lens_cutter",
     "afraidofthedark:advanced_telescope"
   ],
-  "preRecipes": [],
+  "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/optics.png",
   "prerequisite": "afraidofthedark:astronomy_1"
 }

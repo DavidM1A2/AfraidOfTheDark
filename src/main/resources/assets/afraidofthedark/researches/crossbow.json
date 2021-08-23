@@ -7,7 +7,7 @@
     "afraidofthedark:wooden_bolt",
     "afraidofthedark:iron_bolt"
   ],
-  "preRecipes": [],
+  "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/crossbow.png",
   "prerequisite": "afraidofthedark:an_unbreakable_covenant"
 }

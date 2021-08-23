@@ -3,7 +3,7 @@
   "x": -1,
   "y": 3,
   "recipes": [],
-  "preRecipes": [],
+  "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/slaying_of_the_wolves.png",
   "prerequisite": "afraidofthedark:astral_silver"
 }

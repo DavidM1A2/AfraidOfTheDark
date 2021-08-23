@@ -3,7 +3,7 @@
   "x": 0,
   "y": 4,
   "recipes": [],
-  "preRecipes": [],
+  "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/dark_forest.png",
   "prerequisite": "afraidofthedark:astral_silver"
 }

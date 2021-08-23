@@ -6,7 +6,7 @@
     "afraidofthedark:astral_silver_sword",
     "afraidofthedark:silver_bolt"
   ],
-  "preRecipes": [],
+  "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/astral_silver.png",
   "prerequisite": "afraidofthedark:astronomy_1"
 }

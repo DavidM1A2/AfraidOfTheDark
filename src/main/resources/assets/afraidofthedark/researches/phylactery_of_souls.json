@@ -5,7 +5,7 @@
   "recipes": [
     "afraidofthedark:flask_of_souls"
   ],
-  "preRecipes": [
+  "pre_recipes": [
     "afraidofthedark:flask_of_souls"
   ],
   "icon": "afraidofthedark:textures/gui/research_icons/phylactery_of_souls.png",

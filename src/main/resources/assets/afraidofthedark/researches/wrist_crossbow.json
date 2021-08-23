@@ -5,7 +5,7 @@
   "recipes": [
     "afraidofthedark:wrist_crossbow"
   ],
-  "preRecipes": [],
+  "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/wrist_crossbow.png",
   "prerequisite": "afraidofthedark:crossbow"
 }

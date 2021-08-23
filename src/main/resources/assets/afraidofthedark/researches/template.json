@@ -3,7 +3,7 @@
   "x": 0,
   "y": 0,
   "recipes": [],
-  "preRecipes": [],
+  "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/",
   "prerequisite": "afraidofthedark:name"
 }

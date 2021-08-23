@@ -11,7 +11,7 @@
     "afraidofthedark:eldritch_obsidian",
     "afraidofthedark:amorphous_eldritch_metal"
   ],
-  "preRecipes": [],
+  "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/eldritch_decoration.png",
   "prerequisite": "afraidofthedark:void_chest"
 }

@@ -3,7 +3,7 @@
   "x": 0,
   "y": 8,
   "recipes": [],
-  "preRecipes": [],
+  "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/enaria.png",
   "prerequisite": "afraidofthedark:gnomish_city"
 }

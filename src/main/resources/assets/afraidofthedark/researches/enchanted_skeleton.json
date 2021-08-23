@@ -5,7 +5,7 @@
   "recipes": [
     "minecraft:bone_meal"
   ],
-  "preRecipes": [],
+  "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/enchanted_skeleton.png",
   "prerequisite": "afraidofthedark:an_unbreakable_covenant"
 }

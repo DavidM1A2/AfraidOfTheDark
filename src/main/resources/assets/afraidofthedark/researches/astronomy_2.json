@@ -3,7 +3,7 @@
   "x": 0,
   "y": 6,
   "recipes": [],
-  "preRecipes": [],
+  "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/astronomy_2.png",
   "prerequisite": "afraidofthedark:nightmare"
 }
