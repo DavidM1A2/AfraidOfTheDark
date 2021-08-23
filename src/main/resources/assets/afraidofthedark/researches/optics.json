@@ -1,0 +1,12 @@
+{
+  "forge:registry_name": "afraidofthedark:optics",
+  "x": -1,
+  "y": 2,
+  "recipes": [
+    "afraidofthedark:lens_cutter",
+    "afraidofthedark:advanced_telescope"
+  ],
+  "preRecipes": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/optics.png",
+  "prerequisite": "afraidofthedark:astronomy_1"
+}

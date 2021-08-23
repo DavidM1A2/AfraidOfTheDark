@@ -5,59 +5,27 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.utility.ResourceUtil
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.mojang.serialization.JsonOps
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.JSONUtils
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.event.entity.living.LivingDamageEvent
-import java.io.BufferedReader
 import java.io.InputStreamReader
 
 object AOTDResearchLoader {
     private val GSON = GsonBuilder().disableHtmlEscaping().create()
 
-    fun load(name: String): AOTDResearch {
-        val data = ResourceLocation(Constants.MOD_ID, "research_notes/$name.json")
-        ResourceUtil.getInputStream(data).use { inputStream ->
-            InputStreamReader(inputStream).use { inputStreamReader ->
-                BufferedReader(inputStreamReader).use { reader ->
-                    val json = reader.readLines().joinToString(separator = "")
-                    // Read the file as JSON
-                    val jsonObject = JSONUtils.fromJson(GSON, json, JsonObject::class.java)!!
-                    // Parse all the fields of the JSON object using the JSONUtils class
-                    val xPosition = JSONUtils.getAsInt(jsonObject, "x")
-                    val zPosition = JSONUtils.getAsInt(jsonObject, "y")
-                    val researchedRecipes = JSONUtils.getAsJsonArray(jsonObject, "recipes").map {
-                        JSONUtils.convertToItem(it, "")
-                    }
-                    val preResearchedRecipes = JSONUtils.getAsJsonArray(jsonObject, "preRecipes").map {
-                        JSONUtils.convertToItem(it, "")
-                    }
-                    val icon = ResourceLocation(JSONUtils.getAsString(jsonObject, "icon"))
-                    val prerequisiteResearch = if (JSONUtils.isValidNode(jsonObject, "prerequisite")) {
-                        ResourceLocation(JSONUtils.getAsString(jsonObject, "prerequisite"))
-                    } else {
-                        null
-                    }
-
-                    val research = AOTDResearch(
-                        name,
-                        xPosition,
-                        zPosition,
-                        researchedRecipes,
-                        preResearchedRecipes,
-                        icon,
-                        prerequisiteResearch
-                    )
-
-                    if (JSONUtils.isValidNode(jsonObject, "trigger")) {
-                        procTrigger(JSONUtils.getAsJsonObject(jsonObject, "trigger"), research)
-                    }
-
-                    return research
-                }
-            }
+    fun load(name: String): Research {
+        val data = ResourceLocation(Constants.MOD_ID, "researches/$name.json")
+        val element = InputStreamReader(ResourceUtil.getInputStream(data).buffered()).use {
+            GSON.fromJson(it, JsonElement::class.java)
         }
+        return Research.CODEC.decode(JsonOps.INSTANCE, element)
+            .get()
+            .orThrow()
+            .first
     }
 
     private fun procTrigger(trigger: JsonObject, research: Research) {

@@ -1,8 +1,0 @@
-{
-  "x": -2,
-  "y": 2,
-  "recipes": [],
-  "preRecipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/elvovras.png",
-  "prerequisite": "afraidofthedark:optics"
-}

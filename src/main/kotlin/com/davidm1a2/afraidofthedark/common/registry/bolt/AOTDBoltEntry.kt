@@ -22,8 +22,7 @@ class AOTDBoltEntry(
     boltItem: Item,
     boltEntityFactory: (World, PlayerEntity) -> BoltEntity,
     preRequisite: Research?
-) :
-    BoltEntry(boltItem, boltEntityFactory, preRequisite) {
+) : BoltEntry(boltItem, boltEntityFactory, preRequisite) {
     init {
         registryName = ResourceLocation(Constants.MOD_ID, name)
     }

@@ -66,13 +66,13 @@ class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
 
     private fun addConnector(research: Research) {
         val previous = research.preRequisite ?: return
-        val pos = Position(research.xPosition / TREE_WIDTH, (research.zPosition - 4) / TREE_HEIGHT)
-        val prevPos = Position(previous.xPosition / TREE_WIDTH, (previous.zPosition - 4) / TREE_HEIGHT)
+        val pos = Position(research.xPosition / TREE_WIDTH, (research.yPosition - 4) / TREE_HEIGHT)
+        val prevPos = Position(previous.xPosition / TREE_WIDTH, (previous.yPosition - 4) / TREE_HEIGHT)
         researchTreeBase.add(ResearchConnector(prevPos, pos, research))
     }
 
     private fun addResearchButton(research: Research) {
-        val pos = Position(research.xPosition / TREE_WIDTH, (research.zPosition - 4) / TREE_HEIGHT)
+        val pos = Position(research.xPosition / TREE_WIDTH, (research.yPosition - 4) / TREE_HEIGHT)
         val dim = Dimensions(RESEARCH_WIDTH, RESEARCH_HEIGHT)
         val researchNode = ResearchNode(dim, pos, research, isCheatSheet)
         researchTreeBase.add(researchNode)

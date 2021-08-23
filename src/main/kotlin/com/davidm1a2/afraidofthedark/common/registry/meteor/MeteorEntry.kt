@@ -16,7 +16,7 @@ import org.apache.logging.log4j.LogManager
  * @property interiorBlock The block that the meteor uses on the inside
  * @property preRequisite The pre-requisite research to be able to see this type of meteor
  */
-abstract class MeteorEntry(
+open class MeteorEntry(
     val icon: ResourceLocation,
     val minMeteorRadius: Int,
     val maxMeteorRadius: Int,

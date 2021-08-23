@@ -15,7 +15,7 @@ import net.minecraftforge.registries.ForgeRegistryEntry
  * @param boltEntityFactory The entity factory that creates this bolt once shot
  * @param preRequisite The pre-requisite research that needs to be researched for this to be used
  */
-abstract class BoltEntry constructor(
+open class BoltEntry constructor(
     val boltItem: Item,
     val boltEntityFactory: (World, PlayerEntity) -> BoltEntity,
     val preRequisite: Research?
