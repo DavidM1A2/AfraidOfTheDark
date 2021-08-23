@@ -2,8 +2,8 @@ package com.davidm1a2.afraidofthedark.common.utility
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import com.davidm1a2.afraidofthedark.common.registry.bolt.BoltEntry
-import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import com.davidm1a2.afraidofthedark.common.registry.BoltEntry
+import com.davidm1a2.afraidofthedark.common.registry.Research
 import net.minecraft.entity.player.PlayerEntity
 
 /**

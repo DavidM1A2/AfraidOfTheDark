@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.item.telescope
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import com.davidm1a2.afraidofthedark.common.registry.Research
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack

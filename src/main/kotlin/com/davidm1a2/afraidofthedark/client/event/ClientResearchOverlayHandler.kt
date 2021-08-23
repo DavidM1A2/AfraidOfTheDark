@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.client.event
 
 import com.davidm1a2.afraidofthedark.client.gui.ResearchAchievedOverlay
 import com.davidm1a2.afraidofthedark.common.event.ResearchOverlayHandler
-import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import com.davidm1a2.afraidofthedark.common.registry.Research
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Chat
 import net.minecraftforge.eventbus.api.SubscribeEvent
 

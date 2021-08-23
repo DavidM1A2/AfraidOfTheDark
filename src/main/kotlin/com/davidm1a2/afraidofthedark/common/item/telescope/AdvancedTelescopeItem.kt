@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.item.telescope
 
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import com.davidm1a2.afraidofthedark.common.registry.Research
 
 /**
  * Advanced telescope item used to track meteors. Has an accuracy of 50 blocks

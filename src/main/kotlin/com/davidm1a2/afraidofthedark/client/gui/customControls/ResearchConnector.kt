@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.LineComponent
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import com.davidm1a2.afraidofthedark.common.registry.Research
 import java.awt.Color
 
 /**

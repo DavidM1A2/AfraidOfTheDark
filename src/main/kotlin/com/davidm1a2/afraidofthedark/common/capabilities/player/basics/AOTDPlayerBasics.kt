@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.AO
 import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.SelectedWristCrossbowBoltPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.StartedAOTDPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.UpdateWatchedMeteorPacket
-import com.davidm1a2.afraidofthedark.common.registry.meteor.MeteorEntry
+import com.davidm1a2.afraidofthedark.common.registry.MeteorEntry
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 

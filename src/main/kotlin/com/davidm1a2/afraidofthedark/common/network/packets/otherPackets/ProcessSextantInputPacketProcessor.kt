@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.network.packets.otherPackets
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.network.packets.packetHandler.PacketProcessor
-import com.davidm1a2.afraidofthedark.common.registry.meteor.MeteorEntry
+import com.davidm1a2.afraidofthedark.common.registry.MeteorEntry
 import net.minecraft.block.Blocks
 import net.minecraft.network.PacketBuffer
 import net.minecraft.util.math.BlockPos

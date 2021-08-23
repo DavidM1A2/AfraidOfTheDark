@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets
 
-import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import com.davidm1a2.afraidofthedark.common.registry.Research
 
 class ResearchPacket(
     internal val researchToUnlocked: Map<Research, Boolean>,

@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.item.core.IHasModelProperties
-import com.davidm1a2.afraidofthedark.common.registry.bolt.BoltEntry
+import com.davidm1a2.afraidofthedark.common.registry.BoltEntry
 import com.davidm1a2.afraidofthedark.common.utility.BoltOrderHelper
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.util.ITooltipFlag

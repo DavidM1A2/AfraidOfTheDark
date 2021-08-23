@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.registry.research
+package com.davidm1a2.afraidofthedark.common.registry
 
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.mojang.datafixers.util.Function7

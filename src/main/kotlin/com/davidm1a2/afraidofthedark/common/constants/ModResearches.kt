@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.registry.JsonCodecLoader
-import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import com.davidm1a2.afraidofthedark.common.registry.Research
 import net.minecraft.util.ResourceLocation
 
 /**

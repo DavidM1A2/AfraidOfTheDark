@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.research
 
-import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import com.davidm1a2.afraidofthedark.common.registry.Research
 import net.minecraft.entity.player.PlayerEntity
 
 /**

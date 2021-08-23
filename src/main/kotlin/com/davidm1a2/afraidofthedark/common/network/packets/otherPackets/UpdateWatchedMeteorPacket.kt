@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.network.packets.otherPackets
 
-import com.davidm1a2.afraidofthedark.common.registry.meteor.MeteorEntry
+import com.davidm1a2.afraidofthedark.common.registry.MeteorEntry
 
 class UpdateWatchedMeteorPacket(
     internal val meteorEntry: MeteorEntry?,

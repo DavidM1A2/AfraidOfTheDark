@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.crafting
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import com.davidm1a2.afraidofthedark.common.registry.Research
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.CraftingInventory
 import net.minecraft.inventory.container.Container

@@ -2,9 +2,9 @@ package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import com.davidm1a2.afraidofthedark.common.registry.bolt.BoltEntry
-import com.davidm1a2.afraidofthedark.common.registry.meteor.MeteorEntry
-import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import com.davidm1a2.afraidofthedark.common.registry.BoltEntry
+import com.davidm1a2.afraidofthedark.common.registry.MeteorEntry
+import com.davidm1a2.afraidofthedark.common.registry.Research
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
