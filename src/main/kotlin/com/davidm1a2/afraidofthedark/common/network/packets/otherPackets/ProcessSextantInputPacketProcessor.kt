@@ -107,7 +107,7 @@ class ProcessSextantInputPacketProcessor : PacketProcessor<ProcessSextantInputPa
         // If we have a valid y-pos generate the meteor
         if (yPos > 0) {
             // Compute the meteor's radius, it will be based on the parameters of the meteor entry
-            val radius = Random.nextInt(meteorEntry.minMeteorRadius, meteorEntry.maxMeteorRadius + 1)
+            val radius = Random.nextInt(meteorEntry.minRadius, meteorEntry.maxRadius + 1)
             // Iterate over x, y, and z
             for (x in xPos - radius..xPos + radius) {
                 for (y in yPos - radius until yPos + radius) {

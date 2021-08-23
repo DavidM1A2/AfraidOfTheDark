@@ -46,7 +46,7 @@ class TelescopeScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         val playerResearch = entityPlayer.getResearch()
         // Grab a list of possible meteors
         val possibleMeteors =
-            ModRegistries.METEORS.values.filter { playerResearch.isResearched(it.preRequisite) }
+            ModRegistries.METEORS.values.filter { playerResearch.isResearched(it.prerequisiteResearch) }
         // If we somehow open the GUI without having any known meteors don't show any. This can happen if the telescope is right
         // clicked and the packet to update research from the server hasn't arrived yet
         if (possibleMeteors.isNotEmpty()) {

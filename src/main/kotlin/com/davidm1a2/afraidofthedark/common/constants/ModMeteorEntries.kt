@@ -1,43 +1,24 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.common.registry.meteor.AOTDMeteorEntry
+import com.davidm1a2.afraidofthedark.common.registry.JsonCodecLoader
+import com.davidm1a2.afraidofthedark.common.registry.meteor.MeteorEntry
 import net.minecraft.util.ResourceLocation
 
 /**
  * A static class containing all of our meteor entry references for us
  */
 object ModMeteorEntries {
-    val ASTRAL_SILVER = AOTDMeteorEntry(
-        "astral_silver",
-        ResourceLocation(Constants.MOD_ID, "textures/gui/telescope/astral_silver_meteor.png"),
-        3,
-        5,
-        0.75,
-        ModBlocks.ASTRAL_SILVER_ORE,
-        ModResearches.ASTRONOMY_1
-    )
-    val STAR_METAL = AOTDMeteorEntry(
-        "star_metal",
-        ResourceLocation(Constants.MOD_ID, "textures/gui/telescope/star_metal_meteor.png"),
-        3,
-        6,
-        0.4,
-        ModBlocks.STAR_METAL_ORE,
-        ModResearches.ASTRONOMY_2
-    )
-    val IGNEOUS = AOTDMeteorEntry(
-        "igneous",
-        ResourceLocation(Constants.MOD_ID, "textures/gui/telescope/sunstone_meteor.png"),
-        3,
-        6,
-        0.4,
-        ModBlocks.SUNSTONE_ORE,
-        ModResearches.ASTRONOMY_2
-    )
+    val ASTRAL_SILVER = load("astral_silver")
+    val STAR_METAL = load("star_metal")
+    val IGNEOUS = load("igneous")
 
     val METEOR_ENTRY_LIST = arrayOf(
         ASTRAL_SILVER,
         STAR_METAL,
         IGNEOUS
     )
+
+    private fun load(name: String): MeteorEntry {
+        return JsonCodecLoader.load(ResourceLocation(Constants.MOD_ID, "meteor_entries/$name.json"), MeteorEntry.CODEC)
+    }
 }

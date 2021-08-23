@@ -1,8 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.registry.meteor
 
+import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import com.mojang.datafixers.util.Function7
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.block.Block
 import net.minecraft.util.ResourceLocation
+import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.ForgeRegistryEntry
 import org.apache.logging.log4j.LogManager
 
@@ -10,27 +15,31 @@ import org.apache.logging.log4j.LogManager
  * Base class for all meteor entries, meteor entries are used to define new meteor properties
  *
  * @property icon The resource location containing the icon that this meteor type will use in the telescope
- * @property minMeteorRadius The minimum radius of the meteor
- * @property maxMeteorRadius The maximum radius of the meteor
+ * @property minRadius The minimum radius of the meteor
+ * @property maxRadius The maximum radius of the meteor
  * @property richnessPercent What percent of the meteor is ore vs meteor block
  * @property interiorBlock The block that the meteor uses on the inside
- * @property preRequisite The pre-requisite research to be able to see this type of meteor
+ * @property prerequisiteResearch The pre-requisite research to be able to see this type of meteor
  */
-open class MeteorEntry(
+class MeteorEntry(
     val icon: ResourceLocation,
-    val minMeteorRadius: Int,
-    val maxMeteorRadius: Int,
+    val minRadius: Int,
+    val maxRadius: Int,
     val richnessPercent: Double,
     val interiorBlock: Block,
-    val preRequisite: Research
+    prerequisiteResearchId: ResourceLocation,
 ) : ForgeRegistryEntry<MeteorEntry>() {
+    val prerequisiteResearch: Research by lazy {
+        ModRegistries.RESEARCH.getValue(prerequisiteResearchId)!!
+    }
+
     init {
         // Ensure the min/max radii are valid values
-        if (minMeteorRadius < 2) {
-            logger.error("Meteor entries should not have a min radius less than 2!")
+        if (minRadius < 2) {
+            LOG.error("Meteor entries should not have a min radius less than 2!")
         }
-        if (minMeteorRadius > maxMeteorRadius) {
-            logger.error("Meteor entries max-radius should be larger than the min-radius!")
+        if (minRadius > maxRadius) {
+            LOG.error("Meteor entries max-radius should be larger than the min-radius!")
         }
     }
 
@@ -42,6 +51,23 @@ open class MeteorEntry(
     }
 
     companion object {
-        private val logger = LogManager.getLogger()
+        private val LOG = LogManager.getLogger()
+
+        val CODEC: Codec<MeteorEntry> = RecordCodecBuilder.create {
+            it.group(
+                ResourceLocation.CODEC.fieldOf("forge:registry_name").forGetter(MeteorEntry::getRegistryName),
+                ResourceLocation.CODEC.fieldOf("icon").forGetter(MeteorEntry::icon),
+                Codec.INT.fieldOf("min_radius").forGetter(MeteorEntry::minRadius),
+                Codec.INT.fieldOf("max_radius").forGetter(MeteorEntry::maxRadius),
+                Codec.DOUBLE.fieldOf("richness_percent").forGetter(MeteorEntry::richnessPercent),
+                ResourceLocation.CODEC
+                    .xmap({ location -> ForgeRegistries.BLOCKS.getValue(location)!! }) { block -> block?.registryName }
+                    .fieldOf("interior_block")
+                    .forGetter(MeteorEntry::interiorBlock),
+                ResourceLocation.CODEC.fieldOf("prerequisite_research").forGetter { meteorEntry -> meteorEntry.prerequisiteResearch.registryName }
+            ).apply(it, it.stable(Function7 { name, icon, minRadius, maxRadius, richnessPercent, interiorBlock, prerequisiteResearch ->
+                MeteorEntry(icon, minRadius, maxRadius, richnessPercent, interiorBlock, prerequisiteResearch).setRegistryName(name)
+            }))
+        }
     }
 }

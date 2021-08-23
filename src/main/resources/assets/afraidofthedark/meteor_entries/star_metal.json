@@ -1,0 +1,9 @@
+{
+  "forge:registry_name": "afraidofthedark:star_metal",
+  "icon": "afraidofthedark:textures/gui/telescope/star_metal_meteor.png",
+  "min_radius": 3,
+  "max_radius": 6,
+  "richness_percent": 0.4,
+  "interior_block": "afraidofthedark:star_metal_ore",
+  "prerequisite_research": "afraidofthedark:astronomy_2"
+}

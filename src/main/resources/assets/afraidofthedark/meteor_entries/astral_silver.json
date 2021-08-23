@@ -1,0 +1,9 @@
+{
+  "forge:registry_name": "afraidofthedark:astral_silver",
+  "icon": "afraidofthedark:textures/gui/telescope/astral_silver_meteor.png",
+  "min_radius": 3,
+  "max_radius": 5,
+  "richness_percent": 0.75,
+  "interior_block": "afraidofthedark:astral_silver_ore",
+  "prerequisite_research": "afraidofthedark:astronomy_1"
+}
