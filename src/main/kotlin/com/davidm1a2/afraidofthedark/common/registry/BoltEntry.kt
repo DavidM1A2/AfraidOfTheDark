@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.registry
 
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.entity.bolt.BoltEntity
+import com.davidm1a2.afraidofthedark.common.research.Research
 import com.mojang.datafixers.util.Function4
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder

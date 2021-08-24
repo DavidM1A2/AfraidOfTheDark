@@ -1,12 +1,12 @@
-package com.davidm1a2.afraidofthedark.common.researchTriggers
+package com.davidm1a2.afraidofthedark.common.research.trigger.base
 
 import com.mojang.serialization.Codec
 import net.minecraftforge.registries.ForgeRegistryEntry
 
 abstract class ResearchTrigger<C : ResearchTriggerConfig>(codec: Codec<C>) : ForgeRegistryEntry<ResearchTrigger<*>>() {
-    val configuredCodec: Codec<ConfiguredResearchTrigger<ResearchTrigger<C>, C>> = codec
+    val configurationCodec: Codec<ConfiguredResearchTrigger<ResearchTrigger<C>, C>> = codec
         .fieldOf("config")
-        .xmap({ ConfiguredResearchTrigger(this, it) }, { it.config })
+        .xmap({ configure(it) }, { it.config })
         .codec()
 
     fun configure(config: C): ConfiguredResearchTrigger<ResearchTrigger<C>, C> {

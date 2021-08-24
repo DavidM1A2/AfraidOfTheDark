@@ -1,6 +1,7 @@
-package com.davidm1a2.afraidofthedark.common.researchTriggers
+package com.davidm1a2.afraidofthedark.common.research.trigger
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.research.trigger.base.ResearchTrigger
 
 class PlayerHurtResearchTrigger : ResearchTrigger<PlayerHurtResearchTriggerConfig>(PlayerHurtResearchTriggerConfig.CODEC) {
     init {

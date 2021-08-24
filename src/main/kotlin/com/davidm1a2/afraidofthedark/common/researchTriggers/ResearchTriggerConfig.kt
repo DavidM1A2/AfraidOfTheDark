@@ -1,3 +1,0 @@
-package com.davidm1a2.afraidofthedark.common.researchTriggers
-
-interface ResearchTriggerConfig

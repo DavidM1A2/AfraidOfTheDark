@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.ModResearchTriggers
-import com.davidm1a2.afraidofthedark.common.researchTriggers.ResearchTrigger
+import com.davidm1a2.afraidofthedark.common.research.trigger.base.ResearchTrigger
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 

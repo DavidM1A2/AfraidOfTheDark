@@ -1,7 +1,7 @@
-package com.davidm1a2.afraidofthedark.common.registry
+package com.davidm1a2.afraidofthedark.common.research
 
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import com.davidm1a2.afraidofthedark.common.researchTriggers.ConfiguredResearchTrigger
+import com.davidm1a2.afraidofthedark.common.research.trigger.base.ConfiguredResearchTrigger
 import com.mojang.datafixers.util.Function8
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder

@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.sound.ResearchUnlockedSound
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.ResearchPacket
-import com.davidm1a2.afraidofthedark.common.registry.Research
+import com.davidm1a2.afraidofthedark.common.research.Research
 import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity

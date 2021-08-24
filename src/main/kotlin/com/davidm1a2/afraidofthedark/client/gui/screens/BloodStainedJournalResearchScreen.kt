@@ -13,7 +13,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.RatioPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ScrollPane
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import com.davidm1a2.afraidofthedark.common.registry.Research
+import com.davidm1a2.afraidofthedark.common.research.Research
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
 import java.awt.Color

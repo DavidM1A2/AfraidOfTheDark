@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.client.gui.screens.TelescopeScreen
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
-import com.davidm1a2.afraidofthedark.common.registry.Research
+import com.davidm1a2.afraidofthedark.common.research.Research
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.PlayerEntity

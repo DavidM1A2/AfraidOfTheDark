@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.server.event
 
 import com.davidm1a2.afraidofthedark.common.event.ResearchOverlayHandler
-import com.davidm1a2.afraidofthedark.common.registry.Research
+import com.davidm1a2.afraidofthedark.common.research.Research
 import org.apache.logging.log4j.LogManager
 
 class ServerResearchOverlayHandler : ResearchOverlayHandler {
