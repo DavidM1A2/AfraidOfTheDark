@@ -10,7 +10,7 @@
     {
       "type": "afraidofthedark:player_hurt",
       "config": {
-        "entity": "afraidofthedark:werewolf",
+        "attacking_entity_type": "afraidofthedark:werewolf",
         "must_survive": true
       }
     }

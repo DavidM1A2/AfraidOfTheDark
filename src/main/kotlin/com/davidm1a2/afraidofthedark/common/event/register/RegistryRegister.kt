@@ -64,7 +64,7 @@ class RegistryRegister {
             .create()
 
         // Create a new registry for the different research triggers with the name 'afraidofthedark:research_trigger'
-        ModRegistries.RESEARCH_TRIGGERS = RegistryBuilder<ResearchTrigger<*>>()
+        ModRegistries.RESEARCH_TRIGGERS = RegistryBuilder<ResearchTrigger<*, *>>()
             .setType(ResearchTrigger::class.java)
             .setName(ResourceLocation(Constants.MOD_ID, "research_triggers"))
             .create()

@@ -12,7 +12,7 @@ import com.davidm1a2.afraidofthedark.common.event.CapabilityHandler
 import com.davidm1a2.afraidofthedark.common.event.ConfigurationHandler
 import com.davidm1a2.afraidofthedark.common.event.FlaskOfSoulsHandler
 import com.davidm1a2.afraidofthedark.common.event.NightmareHandler
-import com.davidm1a2.afraidofthedark.common.event.ResearchHooks
+import com.davidm1a2.afraidofthedark.common.event.ResearchTriggerHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellCharmHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellFreezeHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellStateHandler
@@ -66,6 +66,7 @@ class AfraidOfTheDark {
         val modBus = FMLJavaModLoadingContext.get().modEventBus
         val context = ModLoadingContext.get()
 
+        val researchTriggerHandler = ResearchTriggerHandler()
         forgeBus.register(CapabilityHandler())
         forgeBus.register(FlaskOfSoulsHandler())
         forgeBus.register(NightmareHandler())
@@ -78,7 +79,7 @@ class AfraidOfTheDark {
         forgeBus.register(teleportQueue)
         forgeBus.register(AOTDCommands())
         forgeBus.register(KeyInputEventHandler())
-        forgeBus.register(researchHooks)
+        forgeBus.register(researchTriggerHandler)
         forgeBus.register(StructureGenerationRegister())
 
         modBus.register(RegistryRegister())
@@ -106,7 +107,7 @@ class AfraidOfTheDark {
         modBus.register(ChunkGeneratorRegister())
         modBus.register(SpellEffectOverrideRegister())
         modBus.register(BiomeRegister())
-        modBus.register(ResearchTriggerRegister())
+        modBus.register(ResearchTriggerRegister(researchTriggerHandler))
 
         context.registerConfig(ModConfig.Type.CLIENT, ModConfigHolder.CLIENT_SPEC)
         context.registerConfig(ModConfig.Type.COMMON, ModConfigHolder.COMMON_SPEC)
@@ -118,6 +119,5 @@ class AfraidOfTheDark {
         val proxy: IProxy = DistExecutor.safeRunForDist({ DistExecutor.SafeSupplier { ClientProxy() } }, { DistExecutor.SafeSupplier { ServerProxy() } })
         val packetHandler = PacketHandler()
         val teleportQueue = TeleportQueue()
-        val researchHooks = ResearchHooks()
     }
 }

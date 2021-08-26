@@ -17,7 +17,7 @@ class Research(
     val researchedRecipes: List<Item>,
     val preResearchedRecipes: List<Item>,
     val icon: ResourceLocation,
-    val triggers: List<ConfiguredResearchTrigger<*, *>>,
+    val triggers: List<ConfiguredResearchTrigger<*, *, *>>,
     preRequisiteId: ResourceLocation?
 ) : ForgeRegistryEntry<Research>() {
     // Why do we need this lazy initializer? Because forge loads registries in random order, so the RESEARCH registry might not be valid yet

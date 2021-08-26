@@ -21,5 +21,5 @@ object ModRegistries {
     lateinit var SPELL_POWER_SOURCES: IForgeRegistry<SpellPowerSource>
     lateinit var SPELL_DELIVERY_METHODS: IForgeRegistry<SpellDeliveryMethod>
     lateinit var SPELL_EFFECTS: IForgeRegistry<SpellEffect>
-    lateinit var RESEARCH_TRIGGERS: IForgeRegistry<ResearchTrigger<*>>
+    lateinit var RESEARCH_TRIGGERS: IForgeRegistry<ResearchTrigger<*, *>>
 }

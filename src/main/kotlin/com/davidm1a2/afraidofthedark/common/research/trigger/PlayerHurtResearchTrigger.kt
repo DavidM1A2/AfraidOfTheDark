@@ -2,38 +2,27 @@ package com.davidm1a2.afraidofthedark.common.research.trigger
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.research.trigger.base.ResearchTrigger
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraftforge.event.entity.living.LivingDamageEvent
+import kotlin.reflect.KClass
 
-class PlayerHurtResearchTrigger : ResearchTrigger<PlayerHurtResearchTriggerConfig>(PlayerHurtResearchTriggerConfig.CODEC) {
+class PlayerHurtResearchTrigger : ResearchTrigger<LivingDamageEvent, PlayerHurtResearchTriggerConfig>(PlayerHurtResearchTriggerConfig.CODEC) {
+    override val type: KClass<LivingDamageEvent> = LivingDamageEvent::class
+
     init {
         setRegistryName(Constants.MOD_ID, "player_hurt")
     }
 
-    /*
-    TODO: Add a real implementation
+    override fun getAffectedPlayer(event: LivingDamageEvent): PlayerEntity? {
+        return event.entity as? PlayerEntity
+    }
 
-    private fun procTrigger(trigger: JsonObject, research: Research) {
-        when (JSONUtils.getAsString(trigger, "type")) {
-            "takeDamage" -> {
-                val fromEntity = JSONUtils.getAsString(trigger, "entity")
-                AfraidOfTheDark.researchHooks.addHook(LivingDamageEvent::class) {
-                    val event = it as LivingDamageEvent
-                    if (event.entity is PlayerEntity) {
-                        val player = event.entity as PlayerEntity
-                        val playerResearch = player.getResearch()
-                        if (playerResearch.canResearch(research)) {
-                            if (event.source.entity != null) {
-                                if (event.source.entity!!.type.registryName.toString() == fromEntity) {
-                                    if (!JSONUtils.getAsBoolean(trigger, "mustSurvive") || player.health > event.amount) {
-                                        playerResearch.setResearch(research, true)
-                                        playerResearch.sync(player, true)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+    override fun shouldUnlock(player: PlayerEntity, event: LivingDamageEvent, config: PlayerHurtResearchTriggerConfig): Boolean {
+        if (event.source.entity?.type == config.attackingEntityType) {
+            if (!config.mustSurvive || player.health > event.amount) {
+                return true
             }
         }
+        return false
     }
-     */
 }
