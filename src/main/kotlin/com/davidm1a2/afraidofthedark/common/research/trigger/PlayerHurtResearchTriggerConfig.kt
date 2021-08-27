@@ -5,12 +5,11 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.entity.EntityType
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.registry.Registry
 import java.util.function.BiFunction
 
 class PlayerHurtResearchTriggerConfig(attackingEntityTypeId: ResourceLocation, val mustSurvive: Boolean) : ResearchTriggerConfig {
     val attackingEntityType: EntityType<*> by lazy {
-        Registry.ENTITY_TYPE.get(attackingEntityTypeId)
+        EntityType.byString(attackingEntityTypeId.toString()).get()
     }
 
     companion object {
