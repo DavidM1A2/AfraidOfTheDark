@@ -14,5 +14,16 @@
   ],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/star_metal.png",
-  "prerequisite": "afraidofthedark:astronomy_2"
+  "prerequisite": "afraidofthedark:astronomy_2",
+  "triggers": [
+    {
+      "type": "afraidofthedark:block_broken",
+      "config": {
+        "block_state": {
+          "Name": "afraidofthedark:star_metal_ore"
+        },
+        "must_drop": true
+      }
+    }
+  ]
 }

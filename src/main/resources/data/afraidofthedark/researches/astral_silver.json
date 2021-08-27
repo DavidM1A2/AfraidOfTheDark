@@ -8,5 +8,16 @@
   ],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/astral_silver.png",
-  "prerequisite": "afraidofthedark:astronomy_1"
+  "prerequisite": "afraidofthedark:astronomy_1",
+  "triggers": [
+    {
+      "type": "afraidofthedark:block_broken",
+      "config": {
+        "block_state": {
+          "Name": "afraidofthedark:astral_silver_ore"
+        },
+        "must_drop": true
+      }
+    }
+  ]
 }

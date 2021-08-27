@@ -16,7 +16,7 @@ class PlayerHurtResearchTriggerConfig(attackingEntityTypeId: ResourceLocation, v
         val CODEC: Codec<PlayerHurtResearchTriggerConfig> = RecordCodecBuilder.create {
             it.group(
                 ResourceLocation.CODEC.fieldOf("attacking_entity_type").forGetter { config -> config.attackingEntityType.registryName },
-                Codec.BOOL.fieldOf("must_survive").forGetter(PlayerHurtResearchTriggerConfig::mustSurvive)
+                Codec.BOOL.optionalFieldOf("must_survive", false).forGetter(PlayerHurtResearchTriggerConfig::mustSurvive)
             ).apply(it, it.stable(BiFunction { entityType, mustSurvive ->
                 PlayerHurtResearchTriggerConfig(entityType, mustSurvive)
             }))
