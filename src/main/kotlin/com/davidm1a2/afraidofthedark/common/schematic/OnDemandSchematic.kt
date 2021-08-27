@@ -55,7 +55,7 @@ class OnDemandSchematic internal constructor(
         if (wasTimedOut) {
             try {
                 // Grab an input stream to the schematic file
-                val inputStream = ResourceUtil.getInputStream(schematicLocation)
+                val inputStream = ResourceUtil.readServerResource(schematicLocation)
                 // Read the NBT data from the file
                 val nbtData = CompressedStreamTools.readCompressed(inputStream)
 

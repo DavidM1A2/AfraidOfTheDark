@@ -12,7 +12,7 @@ object JsonCodecLoader {
     private val GSON = GsonBuilder().disableHtmlEscaping().create()
 
     fun <T> load(resource: ResourceLocation, codec: Codec<T>): T {
-        val element = InputStreamReader(ResourceUtil.getInputStream(resource).buffered()).use {
+        val element = InputStreamReader(ResourceUtil.readServerResource(resource).buffered()).use {
             GSON.fromJson(it, JsonElement::class.java)
         }
         return codec.decode(JsonOps.INSTANCE, element)

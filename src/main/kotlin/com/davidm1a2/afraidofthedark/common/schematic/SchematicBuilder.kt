@@ -75,7 +75,7 @@ class SchematicBuilder {
         // Grab the name of the schematic
         val schematicName = FilenameUtils.getBaseName(resourceLocation!!.path)
         // Read the NBT data from the file
-        val nbtData = ResourceUtil.getInputStream(resourceLocation!!).use {
+        val nbtData = ResourceUtil.readServerResource(resourceLocation!!).use {
             CompressedStreamTools.readCompressed(it)
         }
 
@@ -115,7 +115,7 @@ class SchematicBuilder {
         val metaLocation =
             ResourceLocation(resourceLocation!!.namespace, resourceLocation!!.path + ".meta")
         // Grab an input stream to the schematic meta file
-        val inputStream = ResourceUtil.getInputStream(metaLocation)
+        val inputStream = ResourceUtil.readServerResource(metaLocation)
         // Read the NBT data from the file
         val nbtData = CompressedStreamTools.readCompressed(inputStream)
 
