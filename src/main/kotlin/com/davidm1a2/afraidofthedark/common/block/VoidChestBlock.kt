@@ -36,6 +36,7 @@ class VoidChestBlock : AOTDTileEntityBlock(
         .strength(4.0f, 50.0f)
         .harvestLevel(2)
         .harvestTool(ToolType.PICKAXE)
+        .requiresCorrectToolForDrops()
 ) {
     init {
         registerDefaultState(stateDefinition.any().setValue(FACING_PROPERTY, Direction.NORTH))

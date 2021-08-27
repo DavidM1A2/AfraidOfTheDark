@@ -17,4 +17,5 @@ class AmorphousEldritchMetalBlock : AOTDBlock(
         .harvestLevel(2)
         .harvestTool(ToolType.PICKAXE)
         .strength(10.0f, 50.0f)
+        .requiresCorrectToolForDrops()
 )

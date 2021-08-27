@@ -16,4 +16,5 @@ class SunstoneOreBlock : AOTDBlock(
         .lightLevel { 1 }
         .harvestLevel(2)
         .harvestTool(ToolType.PICKAXE)
+        .requiresCorrectToolForDrops()
 )

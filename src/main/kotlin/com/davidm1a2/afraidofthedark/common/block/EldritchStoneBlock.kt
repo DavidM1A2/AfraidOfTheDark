@@ -15,4 +15,5 @@ class EldritchStoneBlock : AOTDBlock(
         .strength(5.0f)
         .harvestLevel(1)
         .harvestTool(ToolType.PICKAXE)
+        .requiresCorrectToolForDrops()
 )

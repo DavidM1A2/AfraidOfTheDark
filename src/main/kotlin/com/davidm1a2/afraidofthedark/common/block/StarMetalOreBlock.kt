@@ -16,4 +16,5 @@ class StarMetalOreBlock : AOTDBlock(
         .lightLevel { 4 }
         .harvestLevel(2)
         .harvestTool(ToolType.PICKAXE)
+        .requiresCorrectToolForDrops()
 )

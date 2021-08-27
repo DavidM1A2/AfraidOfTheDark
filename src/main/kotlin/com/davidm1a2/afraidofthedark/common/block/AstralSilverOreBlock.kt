@@ -15,4 +15,5 @@ class AstralSilverOreBlock : AOTDBlock(
         .strength(10.0f, 50.0f)
         .harvestLevel(2)
         .harvestTool(ToolType.PICKAXE)
+        .requiresCorrectToolForDrops()
 )

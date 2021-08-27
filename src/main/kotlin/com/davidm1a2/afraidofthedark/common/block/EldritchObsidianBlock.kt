@@ -15,4 +15,5 @@ class EldritchObsidianBlock : AOTDBlock(
         .strength(10.0f, 50.0f)
         .harvestLevel(3)
         .harvestTool(ToolType.PICKAXE)
+        .requiresCorrectToolForDrops()
 )

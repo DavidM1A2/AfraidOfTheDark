@@ -15,4 +15,5 @@ class GnomishMetalPlateBlock : AOTDBlock(
         .strength(2.0f, 10.0f)
         .harvestLevel(2)
         .harvestTool(ToolType.PICKAXE)
+        .requiresCorrectToolForDrops()
 )
