@@ -39,7 +39,7 @@ class FireWristCrossbowPacketProcessor : PacketProcessor<FireWristCrossbowPacket
                 )
 
                 // Instantiate bolt!
-                val bolt = msg.selectedBolt.boltEntityFactory(world)
+                val bolt = msg.selectedBolt.makeBoltEntity(world)
                 bolt.setShotFrom(player)
                 world.addFreshEntity(bolt)
             }

@@ -27,12 +27,10 @@ class MeteorEntry(
     val maxRadius: Int,
     val richnessPercent: Double,
     val interiorBlock: Block,
-    prerequisiteResearchId: ResourceLocation,
+    lazyPrerequisiteResearch: Lazy<Research>,
 ) : ForgeRegistryEntry<MeteorEntry>() {
     // Why do we need this lazy initializer? Because forge loads registries in random order, so the RESEARCH registry might not be valid yet
-    val prerequisiteResearch: Research by lazy {
-        ModRegistries.RESEARCH.getValue(prerequisiteResearchId)!!
-    }
+    val prerequisiteResearch: Research by lazyPrerequisiteResearch
 
     init {
         // Ensure the min/max radii are valid values
@@ -61,11 +59,13 @@ class MeteorEntry(
                 Codec.INT.fieldOf("min_radius").forGetter(MeteorEntry::minRadius),
                 Codec.INT.fieldOf("max_radius").forGetter(MeteorEntry::maxRadius),
                 Codec.DOUBLE.fieldOf("richness_percent").forGetter(MeteorEntry::richnessPercent),
-                ResourceLocation.CODEC
-                    .xmap({ location -> ForgeRegistries.BLOCKS.getValue(location)!! }) { block -> block?.registryName }
+                ForgeRegistries.BLOCKS.codec()
                     .fieldOf("interior_block")
                     .forGetter(MeteorEntry::interiorBlock),
-                ResourceLocation.CODEC.fieldOf("prerequisite_research").forGetter { meteorEntry -> meteorEntry.prerequisiteResearch.registryName }
+                ModRegistries.RESEARCH.codec()
+                    .lazy()
+                    .fieldOf("prerequisite_research")
+                    .forGetter { meteorEntry -> lazyOf(meteorEntry.prerequisiteResearch) }
             ).apply(it, it.stable(Function7 { name, icon, minRadius, maxRadius, richnessPercent, interiorBlock, prerequisiteResearch ->
                 MeteorEntry(icon, minRadius, maxRadius, richnessPercent, interiorBlock, prerequisiteResearch).setRegistryName(name)
             }))

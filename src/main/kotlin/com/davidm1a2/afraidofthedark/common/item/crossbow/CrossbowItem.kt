@@ -165,7 +165,7 @@ class CrossbowItem : AOTDItem("crossbow", Properties().stacksTo(1)), IHasModelPr
         )
 
         // Instantiate bolt!
-        val bolt = getCurrentBoltType(itemStack).boltEntityFactory(world)
+        val bolt = getCurrentBoltType(itemStack).makeBoltEntity(world)
         bolt.setShotFrom(entityPlayer)
         world.addFreshEntity(bolt)
     }

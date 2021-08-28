@@ -6,11 +6,7 @@ import com.mojang.serialization.DataResult
 import com.mojang.serialization.DynamicOps
 import org.apache.logging.log4j.LogManager
 
-fun <C> Codec<C>.lazy(): Codec<Lazy<C>> {
-    return LazyCodec(this)
-}
-
-private class LazyCodec<C>(private val baseCodec: Codec<C>) : Codec<Lazy<C>> {
+internal class LazyCodec<C>(private val baseCodec: Codec<C>) : Codec<Lazy<C>> {
     override fun <T> encode(input: Lazy<C>, ops: DynamicOps<T>, prefix: T): DataResult<T> {
         return baseCodec.encode(input.value, ops, prefix)
     }

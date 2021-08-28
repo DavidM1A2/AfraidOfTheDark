@@ -1,6 +1,6 @@
 {
   "forge:registry_name": "afraidofthedark:astral_silver",
-  "item": "afraidofthedark:astral_silver_bolt",
+  "item": "afraidofthedark:silver_bolt",
   "entity_type": "afraidofthedark:silver_bolt",
   "prerequisite_research": "afraidofthedark:astral_silver"
 }

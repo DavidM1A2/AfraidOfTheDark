@@ -12,24 +12,18 @@ import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
 import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.ForgeRegistryEntry
-import java.util.*
 
 open class BoltEntry constructor(
     val item: Item,
-    entityTypeId: ResourceLocation,
-    prerequisiteResearchId: ResourceLocation?
+    lazyEntityType: Lazy<EntityType<*>>,
+    lazyPrerequisiteResearch: Lazy<Research?>
 ) : ForgeRegistryEntry<BoltEntry>() {
     // Why do we need these lazy initializers? Because forge loads registries in random order, so the RESEARCH and EntityType registries might not be valid yet
-    private val entityType: EntityType<*> by lazy {
-        EntityType.byString(entityTypeId.toString()).orElseThrow {
-            IllegalStateException("Entity type $entityTypeId for bolt entry could not be found.")
-        }
-    }
-    val boltEntityFactory: (World) -> BoltEntity by lazy {
-        { world -> (entityType.create(world) as? BoltEntity) ?: throw IllegalStateException("Entity type $entityTypeId is not a subclass of BoltEntity") }
-    }
-    val prerequisiteResearch: Research? by lazy {
-        prerequisiteResearchId?.let { ModRegistries.RESEARCH.getValue(it) }
+    private val entityType: EntityType<*> by lazyEntityType
+    val prerequisiteResearch: Research? by lazyPrerequisiteResearch
+
+    fun makeBoltEntity(world: World): BoltEntity {
+        return entityType.create(world) as? BoltEntity ?: throw IllegalStateException("Entity type $entityType is not a subclass of BoltEntity")
     }
 
     /**
@@ -43,18 +37,19 @@ open class BoltEntry constructor(
         val CODEC: Codec<BoltEntry> = RecordCodecBuilder.create {
             it.group(
                 ResourceLocation.CODEC.fieldOf("forge:registry_name").forGetter(BoltEntry::getRegistryName),
-                ResourceLocation.CODEC
-                    .xmap({ location -> ForgeRegistries.ITEMS.getValue(location)!! }) { item -> item?.registryName }
+                ForgeRegistries.ITEMS.codec()
                     .fieldOf("item")
                     .forGetter(BoltEntry::item),
-                ResourceLocation.CODEC
+                ForgeRegistries.ENTITIES.codec()
+                    .lazy()
                     .fieldOf("entity_type")
-                    .forGetter { boltEntry -> boltEntry.entityType.registryName },
-                ResourceLocation.CODEC
+                    .forGetter { boltEntry -> lazyOf(boltEntry.entityType) },
+                ModRegistries.RESEARCH.codec()
+                    .lazy()
                     .optionalFieldOf("prerequisite_research")
-                    .forGetter { boltEntry -> Optional.ofNullable(boltEntry.prerequisiteResearch?.registryName) }
+                    .forGetter { boltEntry -> boltEntry.prerequisiteResearch.toLazyOptional() }
             ).apply(it, it.stable(Function4 { name, item, entityType, prerequisiteResearch ->
-                BoltEntry(item, entityType, prerequisiteResearch.orElse(null)).setRegistryName(name)
+                BoltEntry(item, entityType, prerequisiteResearch.getOrNull()).setRegistryName(name)
             }))
         }
     }
