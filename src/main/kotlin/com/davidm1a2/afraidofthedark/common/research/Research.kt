@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.research
 
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
+import com.davidm1a2.afraidofthedark.common.registry.lazy
 import com.davidm1a2.afraidofthedark.common.research.trigger.base.ConfiguredResearchTrigger
 import com.mojang.datafixers.util.Function8
 import com.mojang.serialization.Codec
@@ -17,10 +18,11 @@ class Research(
     val researchedRecipes: List<Item>,
     val preResearchedRecipes: List<Item>,
     val icon: ResourceLocation,
-    val triggers: List<ConfiguredResearchTrigger<*, *, *>>,
+    lazyTriggers: Lazy<List<ConfiguredResearchTrigger<*, *, *>>>,
     preRequisiteId: ResourceLocation?
 ) : ForgeRegistryEntry<Research>() {
     // Why do we need this lazy initializer? Because forge loads registries in random order, so the RESEARCH registry might not be valid yet
+    val triggers: List<ConfiguredResearchTrigger<*, *, *>> by lazyTriggers
     val preRequisite: Research? by lazy {
         preRequisiteId?.let { ModRegistries.RESEARCH.getValue(it) }
     }
@@ -60,8 +62,9 @@ class Research(
                 ResourceLocation.CODEC.fieldOf("icon").forGetter(Research::icon),
                 ConfiguredResearchTrigger.CODEC
                     .listOf()
-                    .optionalFieldOf("triggers", emptyList())
-                    .forGetter(Research::triggers),
+                    .lazy()
+                    .optionalFieldOf("triggers", lazyOf(emptyList()))
+                    .forGetter { research -> lazyOf(research.triggers) },
                 ResourceLocation.CODEC
                     .optionalFieldOf("prerequisite")
                     .forGetter { research -> Optional.ofNullable(research.preRequisite?.registryName) }

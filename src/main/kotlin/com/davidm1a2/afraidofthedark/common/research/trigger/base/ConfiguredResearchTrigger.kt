@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.research.trigger.base
 
-import com.davidm1a2.afraidofthedark.common.constants.ModResearchTriggers
+import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.mojang.serialization.Codec
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ResourceLocation
@@ -20,9 +20,7 @@ class ConfiguredResearchTrigger<E : Event, C : ResearchTriggerConfig, T : Resear
 
     companion object {
         val CODEC: Codec<ConfiguredResearchTrigger<*, *, *>> = ResourceLocation.CODEC.dispatch({ it.trigger.registryName }, {
-            // TODO: How can we pull from the registry before it is filled? :/ This is a hack but it works for now
-            // ModRegistries.RESEARCH_TRIGGERS.getValue(it)!!.configuredCodec
-            ModResearchTriggers.NAME_TO_TRIGGER[it]!!.configurationCodec
+            ModRegistries.RESEARCH_TRIGGERS.getValue(it)!!.configurationCodec
         })
     }
 }

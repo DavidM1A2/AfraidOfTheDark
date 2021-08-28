@@ -11,6 +11,4 @@ object ModResearchTriggers {
         PLAYER_HURT,
         BLOCK_BROKEN
     )
-
-    val NAME_TO_TRIGGER = LIST.associateBy { it.registryName }
 }
