@@ -19,7 +19,8 @@ class ResearchTriggerHandler {
     fun onEvent(event: Event) {
         hooks[event::class]?.forEach {
             val player = it.getAffectedPlayer(event)
-            if (player != null) {
+            // Only process hooks server side, otherwise we risk processing each event twice in singleplayer.
+            if (player != null && !player.level.isClientSide) {
                 if (it.shouldUnlock(player, event)) {
                     val research = triggerToResearch[it]!!
                     val playerResearch = player.getResearch()

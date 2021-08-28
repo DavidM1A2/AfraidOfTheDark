@@ -7,36 +7,12 @@ import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraftforge.event.entity.living.LivingDeathEvent
-import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
 /**
  * Class used to detect mob death events and forward them to the flask of souls
  */
 class FlaskOfSoulsHandler {
-    /**
-     * Called when a player crafts an item. If this item is a flask of souls unlock the research
-     *
-     * @param event The crafting event
-     */
-    @SubscribeEvent
-    fun onItemCraftedEvent(event: PlayerEvent.ItemCraftedEvent) {
-        // Server side processing only
-        if (!event.player.level.isClientSide) {
-            // Test if the item crafted was a flask of souls
-            if (event.crafting.item is FlaskOfSoulsItem) {
-                // Grab the player's research
-                val playerResearch = event.player.getResearch()
-
-                // If the player can research phylactery of souls unlock it
-                if (playerResearch.canResearch(ModResearches.PHYLACTERY_OF_SOULS)) {
-                    playerResearch.setResearch(ModResearches.PHYLACTERY_OF_SOULS, true)
-                    playerResearch.sync(event.player, true)
-                }
-            }
-        }
-    }
-
     /**
      * Called when an entity dies
      *

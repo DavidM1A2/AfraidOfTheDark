@@ -9,5 +9,13 @@
     "afraidofthedark:flask_of_souls"
   ],
   "icon": "afraidofthedark:textures/gui/research_icons/phylactery_of_souls.png",
-  "prerequisite": "afraidofthedark:slaying_of_the_wolves"
+  "prerequisite": "afraidofthedark:slaying_of_the_wolves",
+  "triggers": [
+    {
+      "type": "afraidofthedark:item_crafted",
+      "config": {
+        "item": "afraidofthedark:flask_of_souls"
+      }
+    }
+  ]
 }
