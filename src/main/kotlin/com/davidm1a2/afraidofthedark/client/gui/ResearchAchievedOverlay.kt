@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui
 
+import com.davidm1a2.afraidofthedark.client.sound.ResearchUnlockedSound
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.mojang.blaze3d.matrix.MatrixStack
@@ -71,6 +72,8 @@ class ResearchAchievedOverlay : AbstractGui() {
             researchDescription = I18n.get(research.getUnlocalizedName())
             // Update the notification time to be the current system time
             notificationTime = System.currentTimeMillis()
+            // Play the achievement sound and display the research
+            Minecraft.getInstance().soundManager.play(ResearchUnlockedSound())
         }
 
         if (notificationTime != 0L && Minecraft.getInstance().player != null) {
