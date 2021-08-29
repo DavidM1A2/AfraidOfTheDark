@@ -43,20 +43,13 @@ class EnariasAltarBlock : AOTDTileEntityBlock(
         // Grab the player's research
         val playerResearch = playerIn.getResearch()
 
-        // Server side processing research
         if (!worldIn.isClientSide) {
-            // If the player can research enaria's secret do so
-            if (playerResearch.canResearch(ModResearches.ENARIAS_SECRET)) {
-                playerResearch.setResearch(ModResearches.ENARIAS_SECRET, true)
-                playerResearch.sync(playerIn, true)
-            }
-
             if (!playerResearch.isResearched(ModResearches.ENARIAS_SECRET)) {
                 playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.enarias_altar.no_research"), playerIn.uuid)
             }
         } else {
             // If the player has the right research show the gui
-            if (playerResearch.isResearched(ModResearches.ENARIAS_SECRET)) {
+            if (playerResearch.isResearched(ModResearches.ENARIAS_SECRET) || playerResearch.canResearch(ModResearches.ENARIAS_SECRET)) {
                 Minecraft.getInstance().setScreen(SpellListScreen())
             }
         }

@@ -8,5 +8,15 @@
   ],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/optics.png",
-  "prerequisite": "afraidofthedark:astronomy_1"
+  "prerequisite": "afraidofthedark:astronomy_1",
+  "triggers": [
+    {
+      "type": "afraidofthedark:use_block",
+      "config": {
+        "block_state": {
+          "Name": "afraidofthedark:lens_cutter"
+        }
+      }
+    }
+  ]
 }

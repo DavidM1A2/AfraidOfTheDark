@@ -40,12 +40,7 @@ class LensCutterBlock : AOTDBlock(
     ): ActionResultType {
         // Server side processing only
         if (!worldIn.isClientSide) {
-            // Unlock optics if possible
             val research = playerIn.getResearch()
-            if (research.canResearch(ModResearches.OPTICS)) {
-                research.setResearch(ModResearches.OPTICS, true)
-                research.sync(playerIn, true)
-            }
 
             // Check if the player has the research to use the block
             if (research.isResearched(ModResearches.OPTICS)) {
