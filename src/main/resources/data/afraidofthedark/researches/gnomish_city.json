@@ -9,5 +9,13 @@
   ],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/gnomish_city.png",
-  "prerequisite": "afraidofthedark:astronomy_2"
+  "prerequisite": "afraidofthedark:astronomy_2",
+  "triggers": [
+    {
+      "type": "afraidofthedark:kill_entity",
+      "config": {
+        "entity_type": "afraidofthedark:splinter_drone"
+      }
+    }
+  ]
 }

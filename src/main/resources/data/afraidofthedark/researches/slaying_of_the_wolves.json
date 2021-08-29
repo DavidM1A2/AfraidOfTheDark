@@ -5,5 +5,13 @@
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/slaying_of_the_wolves.png",
-  "prerequisite": "afraidofthedark:astral_silver"
+  "prerequisite": "afraidofthedark:astral_silver",
+  "triggers": [
+    {
+      "type": "afraidofthedark:kill_entity",
+      "config": {
+        "entity_type": "afraidofthedark:werewolf"
+      }
+    }
+  ]
 }

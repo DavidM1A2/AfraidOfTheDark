@@ -1,9 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.entity.splinterDrone
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
-import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
@@ -23,7 +21,6 @@ import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal
 import net.minecraft.entity.monster.IMob
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
-import net.minecraft.util.DamageSource
 import net.minecraft.world.Difficulty
 import net.minecraft.world.World
 import net.minecraftforge.fml.network.PacketDistributor
@@ -103,30 +100,6 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
         if (level.isClientSide) {
             if (!animHandler.isAnimationActive("Activate") && !animHandler.isAnimationActive("Charge") && !animHandler.isAnimationActive("Idle")) {
                 animHandler.playAnimation("Idle")
-            }
-        }
-    }
-
-    /**
-     * Called when the mob's health reaches 0.
-     *
-     * @param cause The damage source that killed the skeleton
-     */
-    override fun die(cause: DamageSource) {
-        // Kill the entity
-        super.die(cause)
-
-        // Only process server side
-        if (!level.isClientSide) {
-            // If a player killed the entity unlock the gnomish city research
-            if (cause.entity is PlayerEntity) {
-                val entityPlayer = cause.entity as PlayerEntity
-                // If we can unlock the gnomish city research do so
-                val playerResearch = entityPlayer.getResearch()
-                if (playerResearch.canResearch(ModResearches.GNOMISH_CITY)) {
-                    playerResearch.setResearch(ModResearches.GNOMISH_CITY, true)
-                    playerResearch.sync(entityPlayer, true)
-                }
             }
         }
     }

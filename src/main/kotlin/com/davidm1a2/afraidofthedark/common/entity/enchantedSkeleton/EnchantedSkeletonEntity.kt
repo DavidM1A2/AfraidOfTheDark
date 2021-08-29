@@ -143,12 +143,6 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
                 val killer = damageSource.entity as PlayerEntity
                 // Grab the player's research
                 val playerResearch = killer.getResearch()
-                // If the player can research the blade of exhumation research give him the research
-                if (playerResearch.canResearch(ModResearches.BLADE_OF_EXHUMATION)) {
-                    // Unlock the research for the player
-                    playerResearch.setResearch(ModResearches.BLADE_OF_EXHUMATION, true)
-                    playerResearch.sync(killer, true)
-                }
 
                 // If the blade of exhumation research is researched and the player is using a blade of exhumation drop one extra enchanted skeleton bone
                 if (playerResearch.isResearched(ModResearches.BLADE_OF_EXHUMATION)) {
