@@ -11,8 +11,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
-import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.capabilities.hasStartedAOTD
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.item.JournalItem
 import net.minecraft.util.ResourceLocation
@@ -64,22 +63,13 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
             if (it.eventType == MouseEvent.EventType.Click) {
                 if (it.source.isHovered && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
                     val playerBasics = entityPlayer.getBasics()
-                    val playerResearch = entityPlayer.getResearch()
                     if (nameSignField.getText() == entityPlayer.gameProfile.name) {
                         // if the name is correct start the mod
-                        if (!playerBasics.startedAOTD) {
+                        if (!entityPlayer.hasStartedAOTD()) {
                             // We now started the mod
 
-                            // Set that we started the mod and perform a client -> server sync
-                            playerBasics.startedAOTD = true
-                            playerBasics.syncStartedAOTD(entityPlayer)
-                            playerResearch.setResearchAndAlert(
-                                ModResearches.AN_UNBREAKABLE_COVENANT,
-                                true,
-                                entityPlayer
-                            )
-                            playerResearch.setResearchAndAlert(ModResearches.CROSSBOW, true, entityPlayer)
-                            playerResearch.sync(entityPlayer, false)
+                            // Set that we started the mod
+                            playerBasics.startAOTD(entityPlayer)
 
                             // Set the journal to have a new owner name
                             val mainHand = entityPlayer.mainHandItem
@@ -97,7 +87,7 @@ class BloodStainedJournalSignScreen : AOTDScreen(TranslationTextComponent("scree
                         }
                     } else {
                         // Test if the user has not yet started AOTD
-                        if (!playerBasics.startedAOTD) {
+                        if (!entityPlayer.hasStartedAOTD()) {
                             // If he has not started then print out a message that the name was wrong
                             entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.journal.sign.unsuccessful"), entityPlayer.uuid)
                             onClose()

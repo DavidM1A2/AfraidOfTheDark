@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.entity.werewolf
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.capabilities.hasStartedAOTD
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
@@ -140,7 +140,7 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
         if (damageSource is EntityDamageSource) {
             val player = damageSource.entity
             if (player is PlayerEntity) {
-                if (!player.getBasics().startedAOTD) {
+                if (!player.hasStartedAOTD()) {
                     canAttackAnyone = true
                 }
             }

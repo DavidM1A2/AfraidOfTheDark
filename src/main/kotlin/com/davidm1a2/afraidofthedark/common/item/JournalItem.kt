@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.client.gui.screens.BloodStainedJournalResearchScreen
 import com.davidm1a2.afraidofthedark.client.gui.screens.BloodStainedJournalSignScreen
-import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
+import com.davidm1a2.afraidofthedark.common.capabilities.hasStartedAOTD
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
@@ -40,7 +40,7 @@ class JournalItem : AOTDItem("journal", Properties().stacksTo(1)) {
         // If the journal does not have an owner yet...
         if (!NBTHelper.hasTag(heldItemStack, NBT_OWNER)) {
             // If the player has started AOTD, set the NBT tag and open the journal
-            if (player.getBasics().startedAOTD) {
+            if (player.hasStartedAOTD()) {
                 // Set the owner tag to the player's username
                 setOwner(heldItemStack, player.gameProfile.name)
 
@@ -57,7 +57,7 @@ class JournalItem : AOTDItem("journal", Properties().stacksTo(1)) {
         // If the journal does have an owner, check if that owner is us
         else if (player.gameProfile.name == NBTHelper.getString(heldItemStack, NBT_OWNER)) {
             // If the player has started AOTD show the journal UI
-            if (player.getBasics().startedAOTD) {
+            if (player.hasStartedAOTD()) {
                 if (world.isClientSide) {
                     Minecraft.getInstance().setScreen(BloodStainedJournalResearchScreen(isCheatSheet(heldItemStack)))
                 }

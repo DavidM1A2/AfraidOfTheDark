@@ -28,7 +28,6 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
     ): INBT {
         // Create a compound to write
         val compound = CompoundNBT()
-        compound.putBoolean(STARTED_AOTD, instance.startedAOTD)
         compound.putInt(WRIST_CROSSBOW_BOLT_INDEX, instance.selectedWristCrossbowBoltIndex)
         compound.putString(WATCHED_METEOR, instance.getWatchedMeteor()?.registryName?.toString() ?: "none")
         compound.putInt(WATCHED_METEOR_ACCURACY, instance.getWatchedMeteorAccuracy())
@@ -55,7 +54,6 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
         // Test if the nbt tag base is an NBT tag compound
         if (nbt is CompoundNBT) {
             // The compound to read from
-            instance.startedAOTD = nbt.getBoolean(STARTED_AOTD)
             instance.selectedWristCrossbowBoltIndex = nbt.getInt(WRIST_CROSSBOW_BOLT_INDEX)
             val watchedMeteorName = nbt.getString(WATCHED_METEOR)
             val watchedMeteor = if (watchedMeteorName == "none") null else ModRegistries.METEORS.getValue(
@@ -81,7 +79,6 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
         private val logger = LogManager.getLogger()
 
         // Constant IDs used in NBT
-        private const val STARTED_AOTD = "playerStartedAOTD"
         private const val WRIST_CROSSBOW_BOLT_INDEX = "wristCrossbowBoltIndex"
         private const val WATCHED_METEOR = "watchedMeteor"
         private const val WATCHED_METEOR_ACCURACY = "watchedMeteorAccuracy"

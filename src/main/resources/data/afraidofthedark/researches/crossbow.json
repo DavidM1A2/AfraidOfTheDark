@@ -9,5 +9,11 @@
   ],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/crossbow.png",
-  "prerequisite": "afraidofthedark:an_unbreakable_covenant"
+  "prerequisite": "afraidofthedark:an_unbreakable_covenant",
+  "triggers": [
+    {
+      "type": "afraidofthedark:started_aotd",
+      "config": {}
+    }
+  ]
 }

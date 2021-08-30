@@ -15,8 +15,8 @@ import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.Se
 import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.SelectedWristCrossbowBoltPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.SpellPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.SpellPacketProcessor
-import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.StartedAOTDPacket
-import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.StartedAOTDPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.StartAOTDPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.StartAOTDPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.CooldownSyncPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.CooldownSyncPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.FireWristCrossbowPacket
@@ -47,7 +47,7 @@ class PacketRegister {
     fun commonSetupEvent(event: FMLCommonSetupEvent) {
         event.enqueueWork {
             val packetHandler = AfraidOfTheDark.packetHandler
-            packetHandler.registerPacket(StartedAOTDPacket::class.java, StartedAOTDPacketProcessor())
+            packetHandler.registerPacket(StartAOTDPacket::class.java, StartAOTDPacketProcessor())
             packetHandler.registerPacket(AOTDPlayerBasicsPacket::class.java, AOTDPlayerBasicsPacketProcessor())
             packetHandler.registerPacket(ResearchPacket::class.java, ResearchPacketProcessor())
             packetHandler.registerPacket(UpdateWatchedMeteorPacket::class.java, UpdateWatchedMeteorPacketProcessor())

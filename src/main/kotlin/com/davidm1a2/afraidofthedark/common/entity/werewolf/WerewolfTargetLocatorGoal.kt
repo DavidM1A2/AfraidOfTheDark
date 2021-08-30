@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.entity.werewolf
 
-import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
+import com.davidm1a2.afraidofthedark.common.capabilities.hasStartedAOTD
 import net.minecraft.entity.CreatureEntity
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityPredicate
@@ -81,7 +81,7 @@ class WerewolfTargetLocatorGoal internal constructor(
 
             // Iterate over all players nearby and pick a valid target
             for (entityPlayer in nearbyPlayers) {
-                if (entityPlayer.getBasics().startedAOTD || (mob as WerewolfEntity).canAttackAnyone) {
+                if (entityPlayer.hasStartedAOTD() || (mob as WerewolfEntity).canAttackAnyone) {
                     targetEntity = entityPlayer
                     return true
                 }

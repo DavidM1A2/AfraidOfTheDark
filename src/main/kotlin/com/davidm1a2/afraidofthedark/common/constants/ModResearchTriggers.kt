@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.common.research.trigger.BlockBrokenResearch
 import com.davidm1a2.afraidofthedark.common.research.trigger.ItemCraftedResearchTrigger
 import com.davidm1a2.afraidofthedark.common.research.trigger.KillEntityResearchTrigger
 import com.davidm1a2.afraidofthedark.common.research.trigger.PlayerHurtResearchTrigger
+import com.davidm1a2.afraidofthedark.common.research.trigger.StartedAOTDResearchTrigger
 import com.davidm1a2.afraidofthedark.common.research.trigger.UseBlockResearchTrigger
 import com.davidm1a2.afraidofthedark.common.research.trigger.UseItemResearchTrigger
 
@@ -14,6 +15,7 @@ object ModResearchTriggers {
     val USE_BLOCK = UseBlockResearchTrigger()
     val USE_ITEM = UseItemResearchTrigger()
     val KILL_ENTITY = KillEntityResearchTrigger()
+    val START_AOTD = StartedAOTDResearchTrigger()
 
     val LIST = arrayOf(
         PLAYER_HURT,
@@ -21,6 +23,7 @@ object ModResearchTriggers {
         ITEM_CRAFTED,
         USE_BLOCK,
         USE_ITEM,
-        KILL_ENTITY
+        KILL_ENTITY,
+        START_AOTD
     )
 }

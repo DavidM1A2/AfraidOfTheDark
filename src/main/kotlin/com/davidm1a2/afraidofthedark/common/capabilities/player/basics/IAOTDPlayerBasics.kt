@@ -6,19 +6,17 @@ import net.minecraft.entity.player.PlayerEntity
 /**
  * An interface that is a base for AOTD player basic capabilities
  *
- * @property startedAOTD True if the player has started the afraid of the dark mod, false otherwise
  * @property selectedWristCrossbowBoltIndex the selected wrist crossbow bolt index
  */
 interface IAOTDPlayerBasics {
-    var startedAOTD: Boolean
     var selectedWristCrossbowBoltIndex: Int
 
     /**
-     * Called to either tell client -> server the current client AOTD status or server -> client based on if it's client or server side
+     * Called by a client to start the mod
      *
-     * @param entityPlayer The player to sync
+     * @param entityPlayer The player that started the mod
      */
-    fun syncStartedAOTD(entityPlayer: PlayerEntity)
+    fun startAOTD(entityPlayer: PlayerEntity)
 
     /**
      * Syncs the newly selected crossbow bolt to the server

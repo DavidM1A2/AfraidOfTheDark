@@ -11,10 +11,15 @@ import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IW
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.IWorldSpellStates
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.IWorldStructureMapper
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.world.World
 
 // Extension functions to access these player capabilities more easily
+
+fun PlayerEntity.hasStartedAOTD(): Boolean {
+    return getResearch().isResearched(ModResearches.AN_UNBREAKABLE_COVENANT)
+}
 
 /**
  * @return The player's 'PLAYER_BASICS' capability

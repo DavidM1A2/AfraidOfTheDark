@@ -4,5 +4,11 @@
   "y": 0,
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/an_unbreakable_covenant.png"
+  "icon": "afraidofthedark:textures/gui/research_icons/an_unbreakable_covenant.png",
+  "triggers": [
+    {
+      "type": "afraidofthedark:started_aotd",
+      "config": {}
+    }
+  ]
 }

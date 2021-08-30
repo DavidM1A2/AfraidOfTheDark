@@ -1,18 +1,19 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.basics
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.event.custom.PlayerStartedAfraidOfTheDarkEvent
 import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.AOTDPlayerBasicsPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.SelectedWristCrossbowBoltPacket
-import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.StartedAOTDPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.StartAOTDPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.UpdateWatchedMeteorPacket
 import com.davidm1a2.afraidofthedark.common.registry.MeteorEntry
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraftforge.common.MinecraftForge
 
 /**
  * Default implementation of the AOTD player basics capability
  *
- * @property startedAOTD Flag telling us if the user has started the mod or not
  * @property selectedWristCrossbowBoltIndex Integer telling us what bolt the wrist crossbow is currently set to fire
  * @property watchedMeteor The meteor the player is currently observing (was last clicked in telescope)
  * @property watchedMeteorAccuracy The accuracy of the telescope used to watch the meteor
@@ -21,7 +22,6 @@ import net.minecraft.entity.player.ServerPlayerEntity
  * @property watchedMeteorLongitude </
  */
 class AOTDPlayerBasics : IAOTDPlayerBasics {
-    override var startedAOTD = false
     override var selectedWristCrossbowBoltIndex = 0
     private var watchedMeteor: MeteorEntry? = null
     private var watchedMeteorAccuracy: Int = 0
@@ -39,17 +39,13 @@ class AOTDPlayerBasics : IAOTDPlayerBasics {
         return !entityPlayer.level.isClientSide
     }
 
-    /**
-     * Called to either tell client -> server the current client AOTD status or server -> client based on if it's client or server side
-     *
-     * @param entityPlayer The player to sync
-     */
-    override fun syncStartedAOTD(entityPlayer: PlayerEntity) {
+    override fun startAOTD(entityPlayer: PlayerEntity) {
         if (isServerSide(entityPlayer)) {
-            AfraidOfTheDark.packetHandler.sendTo(StartedAOTDPacket(startedAOTD), entityPlayer as ServerPlayerEntity)
-        } else {
-            AfraidOfTheDark.packetHandler.sendToServer(StartedAOTDPacket(startedAOTD))
+            throw IllegalStateException("Only a client can make a player start AOTD")
         }
+
+        MinecraftForge.EVENT_BUS.post(PlayerStartedAfraidOfTheDarkEvent(entityPlayer))
+        AfraidOfTheDark.packetHandler.sendToServer(StartAOTDPacket())
     }
 
     /**
