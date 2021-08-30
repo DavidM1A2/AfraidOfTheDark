@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets
 
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.network.packets.packetHandler.PacketProcessor
@@ -56,10 +57,9 @@ class ResearchPacketProcessor : PacketProcessor<ResearchPacket> {
                 val showPopup = researched && !wasResearched && msg.notifyNewResearch
 
                 // Set the research
+                playerResearch.setResearch(research, researched)
                 if (showPopup) {
-                    playerResearch.setResearchAndAlert(research, researched, player)
-                } else {
-                    playerResearch.setResearch(research, researched)
+                    AfraidOfTheDark.proxy.researchOverlayHandler.displayResearch(research)
                 }
             }
         } else if (ctx.direction == NetworkDirection.PLAY_TO_SERVER) {

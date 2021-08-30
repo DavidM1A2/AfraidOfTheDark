@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
@@ -49,8 +50,9 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
                     if (isCheatSheet) {
                         // Cheat Sheet - If this research can be researched unlock it
                         if (playerResearch.canResearch(research)) {
-                            playerResearch.setResearchAndAlert(research, true, entityPlayer)
+                            playerResearch.setResearch(research, true)
                             playerResearch.sync(entityPlayer, false)
+                            AfraidOfTheDark.proxy.researchOverlayHandler.displayResearch(research)
                             refreshHoverTexts()
                         } else if (playerResearch.isResearched(research)) {
                             // Show the research if it's already researched

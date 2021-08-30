@@ -61,21 +61,7 @@ class PlayerResearch : IPlayerResearch {
     }
 
     /**
-     * Sets a given research to be unlocked or not and shows the player a popup that notifies them of the unlock
-     *
-     * @param research     The research to unlock
-     * @param researched   If the research is researched or not
-     * @param entityPlayer The player to alert of the research
-     */
-    override fun setResearchAndAlert(research: Research, researched: Boolean, entityPlayer: PlayerEntity) {
-        setResearch(research, researched)
-        if (!isServerSide(entityPlayer)) {
-            AfraidOfTheDark.proxy.researchOverlayHandler.displayResearch(research)
-        }
-    }
-
-    /**
-     * Syncronizes research between server and client
+     * Synchronizes research between server and client
      *
      * @param entityPlayer The player to sync research to
      * @param notify       True if the player should be notified of any new researches, false otherwise
