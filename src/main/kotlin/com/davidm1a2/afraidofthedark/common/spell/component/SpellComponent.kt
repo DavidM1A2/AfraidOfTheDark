@@ -27,9 +27,6 @@ abstract class SpellComponent<T : IForgeRegistryEntry<T>>(id: ResourceLocation, 
      */
     abstract fun getUnlocalizedName(): String
 
-    open fun <C : SpellComponent<C>> setDefaults(componentInstance: SpellComponentInstance<C>) {
-    }
-
     /**
      * Adds an editable property that this spell component has
      *
@@ -43,6 +40,6 @@ abstract class SpellComponent<T : IForgeRegistryEntry<T>>(id: ResourceLocation, 
      * @return An unmodifiable list of editable component properties
      */
     fun getEditableProperties(): List<SpellComponentProperty> {
-        return editableProperties.toList()
+        return editableProperties
     }
 }
