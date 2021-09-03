@@ -5,5 +5,13 @@
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/dark_forest.png",
-  "prerequisite": "afraidofthedark:astral_silver"
+  "prerequisite": "afraidofthedark:astral_silver",
+  "triggers": [
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:dark_forest"
+      }
+    }
+  ]
 }

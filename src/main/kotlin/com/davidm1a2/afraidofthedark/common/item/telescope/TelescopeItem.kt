@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.client.gui.screens.TelescopeScreen
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import com.davidm1a2.afraidofthedark.common.research.Research
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
@@ -14,6 +15,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
+import net.minecraftforge.common.MinecraftForge
 
 /**
  * Basic telescope item used to track meteors. Has an accuracy of 130 blocks
@@ -42,13 +44,12 @@ class TelescopeItem : TelescopeBaseItem(130, "telescope") {
 
         if (!world.isClientSide) {
             // If the player can research the research research it
-            if (playerResearch.canResearch(ModResearches.ASTRONOMY_1) && highEnough) {
-                playerResearch.setResearch(ModResearches.ASTRONOMY_1, true)
-                playerResearch.sync(player, true)
+            if (highEnough) {
+                MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(player, research))
             }
 
             // If the research is researched then test if the player is high enough
-            if (playerResearch.isResearched(research) || playerResearch.canResearch(research)) {
+            if (playerResearch.isResearched(research)) {
                 // Tell the player that they need to be higher to see through the clouds
                 if (!highEnough) {
                     player.sendMessage(TranslationTextComponent("message.afraidofthedark.telescope.not_high_enough"), player.uuid)

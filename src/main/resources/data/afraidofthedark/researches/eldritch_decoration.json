@@ -13,5 +13,13 @@
   ],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/eldritch_decoration.png",
-  "prerequisite": "afraidofthedark:void_chest"
+  "prerequisite": "afraidofthedark:void_chest",
+  "triggers": [
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:eldritch_decoration"
+      }
+    }
+  ]
 }

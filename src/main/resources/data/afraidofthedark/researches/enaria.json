@@ -5,5 +5,13 @@
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/enaria.png",
-  "prerequisite": "afraidofthedark:gnomish_city"
+  "prerequisite": "afraidofthedark:gnomish_city",
+  "triggers": [
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:enaria"
+      }
+    }
+  ]
 }

@@ -10,5 +10,13 @@
     "afraidofthedark:telescope"
   ],
   "icon": "afraidofthedark:textures/gui/research_icons/astronomy_1.png",
-  "prerequisite": "afraidofthedark:werewolf_examination"
+  "prerequisite": "afraidofthedark:werewolf_examination",
+  "triggers": [
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:astronomy_1"
+      }
+    }
+  ]
 }

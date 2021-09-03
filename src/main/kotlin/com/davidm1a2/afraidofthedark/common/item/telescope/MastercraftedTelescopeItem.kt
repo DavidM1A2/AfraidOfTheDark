@@ -1,12 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.item.telescope
 
-import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import com.davidm1a2.afraidofthedark.common.research.Research
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.world.World
+import net.minecraftforge.common.MinecraftForge
 
 /**
  * Mastercrafted telescope item used to track meteors. Has an accuracy of 50 blocks
@@ -25,11 +26,7 @@ class MastercraftedTelescopeItem : TelescopeBaseItem(5, "mastercrafted_telescope
         // Every 1 second check if this item is in a player's inventory, if so unlock the research
         if (!worldIn.isClientSide && entityIn.tickCount % 20 == 0) {
             if (entityIn is PlayerEntity) {
-                val research = entityIn.getResearch()
-                if (research.canResearch(ModResearches.ELVOVRAS)) {
-                    research.setResearch(ModResearches.ELVOVRAS, true)
-                    research.sync(entityIn, true)
-                }
+                MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(entityIn, ModResearches.ELVOVRAS))
             }
         }
     }

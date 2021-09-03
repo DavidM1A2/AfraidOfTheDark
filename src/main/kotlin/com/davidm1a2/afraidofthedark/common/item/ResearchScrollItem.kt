@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
+import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
@@ -17,6 +18,7 @@ import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
+import net.minecraftforge.common.MinecraftForge
 
 /**
  * Class that represents a research scroll to unlock researches
@@ -69,8 +71,7 @@ class ResearchScrollItem : AOTDItem("research_scroll", Properties()) {
                         itemStack.shrink(1)
 
                         // Unlock the research
-                        playerResearch.setResearch(scrollResearch, true)
-                        playerResearch.sync(player, true)
+                        MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(player, scrollResearch))
                     } else {
                         player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.incomplete"), player.uuid)
                     }

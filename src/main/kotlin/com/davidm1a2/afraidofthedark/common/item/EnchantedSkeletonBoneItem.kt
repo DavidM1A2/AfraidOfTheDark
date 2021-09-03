@@ -1,16 +1,17 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSkeletonEntity
+import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import net.minecraft.entity.item.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
+import net.minecraftforge.common.MinecraftForge
 
 /**
  * Class representing the enchanted skeleton bone item
@@ -79,11 +80,7 @@ class EnchantedSkeletonBoneItem : AOTDItem("enchanted_skeleton_bone", Properties
                     PlayerEntity::class.java,
                     entityItem.boundingBox.inflate(RESEARCH_UNLOCK_RADIUS.toDouble())
                 ).forEach {
-                    val playerResearch = it.getResearch()
-                    if (playerResearch.canResearch(ModResearches.ENCHANTED_SKELETON)) {
-                        playerResearch.setResearch(ModResearches.ENCHANTED_SKELETON, true)
-                        playerResearch.sync(it, true)
-                    }
+                    MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(it, ModResearches.ENCHANTED_SKELETON))
                 }
 
                 // If bones remain create a new entity item with that many bones left

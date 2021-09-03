@@ -61,7 +61,7 @@ class Research(
                 ConfiguredResearchTrigger.CODEC
                     .listOf()
                     .lazy()
-                    .optionalFieldOf("triggers", lazyOf(emptyList()))
+                    .fieldOf("triggers")
                     .forGetter { research -> lazyOf(research.triggers) },
                 ModRegistries.RESEARCH.codec()
                     .lazy()

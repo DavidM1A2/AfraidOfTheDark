@@ -6,12 +6,14 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getVoidChestData
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.dimension.teleport
+import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import net.minecraft.block.BlockState
 import net.minecraft.block.material.Material
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import net.minecraftforge.common.MinecraftForge
 
 /**
  * Class that defines a void chest portal block
@@ -45,11 +47,8 @@ class VoidChestPortalBlock : AOTDBlock(
                     entity.teleport(playerVoidChestData.preTeleportDimension!!)
                 } else {
                     // If we can research the research research it
-                    if (playerResearch.canResearch(ModResearches.VOID_CHEST)) {
-                        playerResearch.setResearch(ModResearches.VOID_CHEST, true)
-                        playerResearch.setResearch(ModResearches.ELDRITCH_DECORATION, true)
-                        playerResearch.sync(entity, true)
-                    }
+                    MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(entity, ModResearches.VOID_CHEST))
+                    MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(entity, ModResearches.ELDRITCH_DECORATION))
 
                     // If the player has the void chest research then move the player
                     if (playerResearch.isResearched(ModResearches.VOID_CHEST)) {

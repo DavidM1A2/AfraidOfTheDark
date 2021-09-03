@@ -7,5 +7,13 @@
   ],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/enchanted_skeleton.png",
-  "prerequisite": "afraidofthedark:an_unbreakable_covenant"
+  "prerequisite": "afraidofthedark:an_unbreakable_covenant",
+  "triggers": [
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:enchanted_skeleton"
+      }
+    }
+  ]
 }

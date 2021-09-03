@@ -5,5 +5,13 @@
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/sleeping_potion.png",
-  "prerequisite": "afraidofthedark:dark_forest"
+  "prerequisite": "afraidofthedark:dark_forest",
+  "triggers": [
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:sleeping_potion"
+      }
+    }
+  ]
 }

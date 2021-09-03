@@ -5,5 +5,11 @@
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/",
-  "prerequisite": "afraidofthedark:name"
+  "prerequisite": "afraidofthedark:name",
+  "triggers": [
+    {
+      "type": "afraidofthedark:trigger",
+      "config": {}
+    }
+  ]
 }

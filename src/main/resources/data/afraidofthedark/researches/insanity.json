@@ -5,5 +5,13 @@
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/insanity.png",
-  "prerequisite": "afraidofthedark:nightmare"
+  "prerequisite": "afraidofthedark:nightmare",
+  "triggers": [
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:insanity"
+      }
+    }
+  ]
 }

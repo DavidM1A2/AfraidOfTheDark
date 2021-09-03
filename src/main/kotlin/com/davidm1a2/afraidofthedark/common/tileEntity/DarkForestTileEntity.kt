@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModEffects
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
+import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
 import net.minecraft.entity.item.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -13,6 +14,7 @@ import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.PotionUtils
 import net.minecraft.potion.Potions
 import net.minecraft.util.math.AxisAlignedBB
+import net.minecraftforge.common.MinecraftForge
 import kotlin.random.Random
 
 /**
@@ -52,10 +54,7 @@ class DarkForestTileEntity : AOTDTickingTileEntity(ModTileEntities.DARK_FOREST) 
                 val playerResearch = entityPlayer.getResearch()
 
                 // If the player can research dark forest unlock it and sync that research
-                if (playerResearch.canResearch(ModResearches.DARK_FOREST)) {
-                    playerResearch.setResearch(ModResearches.DARK_FOREST, true)
-                    playerResearch.sync(entityPlayer, true)
-                }
+                MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(entityPlayer, ModResearches.DARK_FOREST))
 
                 // If the player has dark forest research unlocked add the sleeping potion effect and exchange water
                 // bottles with sleeping potion bottles.
@@ -69,10 +68,7 @@ class DarkForestTileEntity : AOTDTickingTileEntity(ModTileEntities.DARK_FOREST) 
 
                         // If it's a potion with type water unlock the sleeping potion research and replace water bottles with sleeping potions
                         if (PotionUtils.getPotion(itemStack) == Potions.WATER) {
-                            if (playerResearch.canResearch(ModResearches.SLEEPING_POTION)) {
-                                playerResearch.setResearch(ModResearches.SLEEPING_POTION, true)
-                                playerResearch.sync(entityPlayer, true)
-                            }
+                            MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(entityPlayer, ModResearches.SLEEPING_POTION))
                             entityPlayer.inventory.setItem(i, ItemStack(ModItems.SLEEPING_POTION, itemStack.count))
                         }
                     }

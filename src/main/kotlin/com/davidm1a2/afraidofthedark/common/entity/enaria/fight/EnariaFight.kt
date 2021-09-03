@@ -1,13 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria.fight
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EnariaEntity
 import com.davidm1a2.afraidofthedark.common.entity.enaria.fight.events.EnariaFightEvent
 import com.davidm1a2.afraidofthedark.common.entity.enaria.fight.events.EnariaFightEvents
+import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import com.davidm1a2.afraidofthedark.common.network.packets.animationPackets.AnimationPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.PlayEnariasFightMusicPacket
@@ -25,6 +25,7 @@ import net.minecraft.util.SoundEvents
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.util.Constants
 import net.minecraftforge.common.util.INBTSerializable
 import java.util.*
@@ -86,11 +87,7 @@ class EnariaFight(
         playersInFight.forEach {
             val player = enaria.level.getPlayerByUUID(it)
             if (player != null) {
-                val playerResearch = player.getResearch()
-                if (playerResearch.canResearch(ModResearches.ENARIA)) {
-                    playerResearch.setResearch(ModResearches.ENARIA, true)
-                    playerResearch.sync(player, true)
-                }
+                MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(player, ModResearches.ENARIA))
 
                 // Tell the player to stop playing the enaria combat music
                 AfraidOfTheDark.packetHandler.sendTo(PlayEnariasFightMusicPacket(), player as ServerPlayerEntity)

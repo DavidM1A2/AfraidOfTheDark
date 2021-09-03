@@ -7,5 +7,13 @@
   ],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/wrist_crossbow.png",
-  "prerequisite": "afraidofthedark:crossbow"
+  "prerequisite": "afraidofthedark:crossbow",
+  "triggers": [
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:wrist_crossbow"
+      }
+    }
+  ]
 }
