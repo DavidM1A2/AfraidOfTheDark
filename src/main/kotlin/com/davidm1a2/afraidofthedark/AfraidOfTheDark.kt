@@ -65,6 +65,7 @@ class AfraidOfTheDark {
         val forgeBus = MinecraftForge.EVENT_BUS
         val modBus = FMLJavaModLoadingContext.get().modEventBus
         val context = ModLoadingContext.get()
+        val proxy: IProxy = DistExecutor.safeRunForDist({ DistExecutor.SafeSupplier { ClientProxy() } }, { DistExecutor.SafeSupplier { ServerProxy() } })
 
         val researchTriggerHandler = ResearchTriggerHandler()
         forgeBus.register(CapabilityHandler())
@@ -101,7 +102,7 @@ class AfraidOfTheDark {
         modBus.register(StructureRegister())
         modBus.register(ConfigurationHandler())
         modBus.register(CapabilityRegister())
-        modBus.register(PacketRegister())
+        modBus.register(PacketRegister(proxy.researchOverlayHandler))
         modBus.register(EntitySpawnPlacementRegister())
         modBus.register(DataSerializerRegister())
         modBus.register(ChunkGeneratorRegister())
@@ -116,7 +117,6 @@ class AfraidOfTheDark {
     }
 
     companion object {
-        val proxy: IProxy = DistExecutor.safeRunForDist({ DistExecutor.SafeSupplier { ClientProxy() } }, { DistExecutor.SafeSupplier { ServerProxy() } })
         val packetHandler = PacketHandler()
         val teleportQueue = TeleportQueue()
     }

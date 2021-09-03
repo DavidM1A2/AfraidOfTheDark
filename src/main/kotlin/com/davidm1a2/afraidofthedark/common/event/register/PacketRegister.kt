@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.event.ResearchOverlayHandler
 import com.davidm1a2.afraidofthedark.common.network.packets.animation.AnimationPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.animation.AnimationPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.AOTDPlayerBasicsPacket
@@ -41,7 +42,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 /**
  * Class that registers all of our mod's packets
  */
-class PacketRegister {
+class PacketRegister(private val researchOverlayHandler: ResearchOverlayHandler) {
     /**
      * Registers all the mod's packets
      */
@@ -51,7 +52,7 @@ class PacketRegister {
             val packetHandler = AfraidOfTheDark.packetHandler
             packetHandler.registerPacket(StartAOTDPacket::class.java, StartAOTDPacketProcessor())
             packetHandler.registerPacket(AOTDPlayerBasicsPacket::class.java, AOTDPlayerBasicsPacketProcessor())
-            packetHandler.registerPacket(ResearchPacket::class.java, ResearchPacketProcessor())
+            packetHandler.registerPacket(ResearchPacket::class.java, ResearchPacketProcessor(researchOverlayHandler))
             packetHandler.registerPacket(UpdateWatchedMeteorPacket::class.java, UpdateWatchedMeteorPacketProcessor())
             packetHandler.registerPacket(SpellPacket::class.java, SpellPacketProcessor())
             packetHandler.registerPacket(ClearSpellsPacket::class.java, ClearSpellsPacketProcessor())

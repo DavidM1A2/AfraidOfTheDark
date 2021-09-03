@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.network.packets.capability
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
+import com.davidm1a2.afraidofthedark.common.event.ResearchOverlayHandler
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundNBT
@@ -13,7 +13,7 @@ import net.minecraftforge.fml.network.NetworkEvent
 /**
  * Packet used to sync research between server and client
  */
-class ResearchPacketProcessor : PacketProcessor<ResearchPacket> {
+class ResearchPacketProcessor(private val researchOverlayHandler: ResearchOverlayHandler) : PacketProcessor<ResearchPacket> {
     override fun encode(msg: ResearchPacket, buf: PacketBuffer) {
         // Write the notify flag first
         buf.writeBoolean(msg.notifyNewResearch)
@@ -59,7 +59,7 @@ class ResearchPacketProcessor : PacketProcessor<ResearchPacket> {
                 // Set the research
                 playerResearch.setResearch(research, researched)
                 if (showPopup) {
-                    AfraidOfTheDark.proxy.researchOverlayHandler.displayResearch(research)
+                    researchOverlayHandler.displayResearch(research)
                 }
             }
         }
