@@ -6,7 +6,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility.getOrAssignPlayerPositionalIndex
 import com.davidm1a2.afraidofthedark.common.dimension.teleport
-import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.VoidChestPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.other.VoidChestPacket
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity

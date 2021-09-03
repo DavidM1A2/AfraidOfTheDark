@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellDeliveryMethods
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellEffects
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
-import com.davidm1a2.afraidofthedark.common.network.packets.animationPackets.AnimationPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.animation.AnimationPacket
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance

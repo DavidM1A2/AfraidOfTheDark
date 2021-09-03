@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.item.core
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.CooldownSyncPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.other.CooldownSyncPacket
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity

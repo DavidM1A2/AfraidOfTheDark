@@ -8,7 +8,7 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Chann
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.ActivateChannel
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.ChargeChannel
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.IdleChannel
-import com.davidm1a2.afraidofthedark.common.network.packets.animationPackets.AnimationPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.animation.AnimationPacket
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.FlyingEntity
 import net.minecraft.entity.MobEntity

@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.entity.enaria.fight.events
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.entity.enaria.fight.EnariaFight
-import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.ParticlePacket
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d

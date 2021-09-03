@@ -13,7 +13,7 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Anima
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.animation.BiteChannel
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.animation.RunChannel
-import com.davidm1a2.afraidofthedark.common.network.packets.animationPackets.AnimationPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.animation.AnimationPacket
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.Pose

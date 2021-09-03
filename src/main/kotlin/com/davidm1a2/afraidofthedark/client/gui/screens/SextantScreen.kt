@@ -10,7 +10,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
-import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.ProcessSextantInputPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ProcessSextantInputPacket
 import net.minecraft.util.text.TranslationTextComponent
 import java.awt.Color
 

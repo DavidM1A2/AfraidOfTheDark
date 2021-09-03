@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.entity.splinterDrone
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.network.packets.animationPackets.AnimationPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.animation.AnimationPacket
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraftforge.fml.network.PacketDistributor

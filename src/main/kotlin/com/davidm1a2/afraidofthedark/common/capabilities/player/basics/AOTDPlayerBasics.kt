@@ -2,10 +2,10 @@ package com.davidm1a2.afraidofthedark.common.capabilities.player.basics
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.event.custom.PlayerStartedAfraidOfTheDarkEvent
-import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.AOTDPlayerBasicsPacket
-import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.SelectedWristCrossbowBoltPacket
-import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.StartAOTDPacket
-import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.UpdateWatchedMeteorPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.AOTDPlayerBasicsPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.SelectedWristCrossbowBoltPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.StartAOTDPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.other.UpdateWatchedMeteorPacket
 import com.davidm1a2.afraidofthedark.common.registry.MeteorEntry
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity

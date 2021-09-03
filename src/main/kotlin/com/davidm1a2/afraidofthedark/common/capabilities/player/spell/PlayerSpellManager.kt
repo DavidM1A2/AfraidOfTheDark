@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.ClearSpellsPacket
-import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.SpellPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.ClearSpellsPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellPacket
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap

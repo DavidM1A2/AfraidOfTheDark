@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.capabilities.player.research
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import com.davidm1a2.afraidofthedark.common.network.packets.capabilityPackets.ResearchPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.ResearchPacket
 import com.davidm1a2.afraidofthedark.common.research.Research
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity

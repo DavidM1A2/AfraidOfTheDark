@@ -45,7 +45,7 @@ import com.davidm1a2.afraidofthedark.common.event.register.SpellPowerSourceRegis
 import com.davidm1a2.afraidofthedark.common.event.register.StructureGenerationRegister
 import com.davidm1a2.afraidofthedark.common.event.register.StructureRegister
 import com.davidm1a2.afraidofthedark.common.event.register.TileEntityRegister
-import com.davidm1a2.afraidofthedark.common.network.packets.packetHandler.PacketHandler
+import com.davidm1a2.afraidofthedark.common.network.handler.PacketHandler
 import com.davidm1a2.afraidofthedark.server.ServerProxy
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.DistExecutor

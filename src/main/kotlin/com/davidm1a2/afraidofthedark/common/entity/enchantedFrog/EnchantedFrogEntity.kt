@@ -9,7 +9,7 @@ import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.animation.HopCh
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
-import com.davidm1a2.afraidofthedark.common.network.packets.animationPackets.AnimationPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.animation.AnimationPacket
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance

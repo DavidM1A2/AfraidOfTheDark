@@ -8,9 +8,9 @@ import com.davidm1a2.afraidofthedark.common.entity.enaria.EnariaEntity
 import com.davidm1a2.afraidofthedark.common.entity.enaria.fight.events.EnariaFightEvent
 import com.davidm1a2.afraidofthedark.common.entity.enaria.fight.events.EnariaFightEvents
 import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
-import com.davidm1a2.afraidofthedark.common.network.packets.animationPackets.AnimationPacket
-import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.ParticlePacket
-import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.PlayEnariasFightMusicPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.animation.AnimationPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
+import com.davidm1a2.afraidofthedark.common.network.packets.other.PlayEnariasFightMusicPacket
 import com.davidm1a2.afraidofthedark.common.utility.toRotation
 import net.minecraft.block.Blocks
 import net.minecraft.block.HorizontalFaceBlock

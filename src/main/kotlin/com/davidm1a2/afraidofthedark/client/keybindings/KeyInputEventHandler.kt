@@ -10,8 +10,8 @@ import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.CloakOfAgilityItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.WristCrossbowItem
-import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.FireWristCrossbowPacket
-import com.davidm1a2.afraidofthedark.common.network.packets.otherPackets.SpellKeyPressPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.other.FireWristCrossbowPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.other.SpellKeyPressPacket
 import com.davidm1a2.afraidofthedark.common.utility.BoltOrderHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.item.ItemStack
