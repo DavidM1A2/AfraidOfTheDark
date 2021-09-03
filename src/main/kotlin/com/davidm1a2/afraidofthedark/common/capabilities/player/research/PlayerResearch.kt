@@ -67,14 +67,11 @@ class PlayerResearch : IPlayerResearch {
      * @param notify       True if the player should be notified of any new researches, false otherwise
      */
     override fun sync(entityPlayer: PlayerEntity, notify: Boolean) {
-        // Send packets based on server side or client side
         if (isServerSide(entityPlayer)) {
             AfraidOfTheDark.packetHandler.sendTo(
                 ResearchPacket(researchToUnlocked, notify),
                 entityPlayer as ServerPlayerEntity
             )
-        } else {
-            AfraidOfTheDark.packetHandler.sendToServer(ResearchPacket(researchToUnlocked, notify))
         }
     }
 }

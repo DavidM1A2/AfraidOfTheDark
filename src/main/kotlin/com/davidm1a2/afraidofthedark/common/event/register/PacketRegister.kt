@@ -17,6 +17,8 @@ import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellPack
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.StartAOTDPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.StartAOTDPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.other.CheatSheetUnlockPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.other.CheatSheetUnlockPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.other.CooldownSyncPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.other.CooldownSyncPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.other.FireWristCrossbowPacket
@@ -63,6 +65,7 @@ class PacketRegister {
             packetHandler.registerPacket(ProcessSextantInputPacket::class.java, ProcessSextantInputPacketProcessor())
             packetHandler.registerPacket(SelectedWristCrossbowBoltPacket::class.java, SelectedWristCrossbowBoltPacketProcessor())
             packetHandler.registerPacket(SpellKeyPressPacket::class.java, SpellKeyPressPacketProcessor())
+            packetHandler.registerPacket(CheatSheetUnlockPacket::class.java, CheatSheetUnlockPacketProcessor())
         }
     }
 }

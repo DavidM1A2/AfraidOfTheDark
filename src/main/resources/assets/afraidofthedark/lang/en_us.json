@@ -358,6 +358,7 @@
   "_comment": "AOTD Messages to player",
   "message.afraidofthedark.journal.sign.successful": "§cWhat have I done?",
   "message.afraidofthedark.journal.sign.unsuccessful": "§oI expected something to happen... but nothing did. Perhaps the name I signed was incorrect?",
+  "message.afraidofthedark.journal.cheat_sheet_missing": "§oI must have a cheat sheet in my inventory to unlock researches",
   "message.afraidofthedark.sextant.process.field_empty": "§oI need to fill out all the fields to accurately predict the meteor's landing coordinates.",
   "message.afraidofthedark.sextant.process.invalid_vals": "§oThe calculation was not successful, the values entered must be integers.",
   "message.afraidofthedark.wrist_crossbow.bolt_change": "§oWrist crossbow(s) will now fire %1$s§o bolts.",

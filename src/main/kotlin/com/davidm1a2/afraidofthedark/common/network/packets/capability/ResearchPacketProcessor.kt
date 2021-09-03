@@ -62,17 +62,6 @@ class ResearchPacketProcessor : PacketProcessor<ResearchPacket> {
                     AfraidOfTheDark.proxy.researchOverlayHandler.displayResearch(research)
                 }
             }
-        } else if (ctx.direction == NetworkDirection.PLAY_TO_SERVER) {
-            // Grab the player's current research
-            val playerResearch = ctx.sender!!.getResearch()
-
-            // Update each research, don't show popups server side
-            msg.researchToUnlocked.forEach { (research, researched) ->
-                playerResearch.setResearch(
-                    research,
-                    researched
-                )
-            }
         }
     }
 }

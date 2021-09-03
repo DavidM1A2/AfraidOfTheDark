@@ -84,6 +84,10 @@ class JournalItem : AOTDItem("journal", Properties().stacksTo(1)) {
         return NBTHelper.hasTag(itemStack, NBT_CHEAT_SHEET) && NBTHelper.getBoolean(itemStack, NBT_CHEAT_SHEET)!!
     }
 
+    fun setCheatSheet(itemStack: ItemStack) {
+        NBTHelper.setBoolean(itemStack, NBT_CHEAT_SHEET, true)
+    }
+
     /**
      * Sets the owner of the journal
      *
@@ -109,10 +113,7 @@ class JournalItem : AOTDItem("journal", Properties().stacksTo(1)) {
         if (allowdedIn(group)) {
             // Two item stacks one standard and one cheatsheet journal
             val standardJournal = ItemStack(this)
-            val cheatsheetJournal = ItemStack(this)
-
-            // The cheat sheet journal will have the cheat sheet tag set to true
-            NBTHelper.setBoolean(cheatsheetJournal, NBT_CHEAT_SHEET, true)
+            val cheatsheetJournal = ItemStack(this).apply { setCheatSheet(this) }
 
             // Add the two journals to the item list
             items.add(standardJournal)

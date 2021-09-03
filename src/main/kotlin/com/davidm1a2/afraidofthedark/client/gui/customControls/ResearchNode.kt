@@ -9,6 +9,7 @@ import com.davidm1a2.afraidofthedark.client.gui.screens.BloodStainedJournalPageS
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.network.packets.other.CheatSheetUnlockPacket
 import com.davidm1a2.afraidofthedark.common.research.Research
 import net.minecraft.client.Minecraft
 import net.minecraft.client.resources.I18n
@@ -50,10 +51,8 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
                     if (isCheatSheet) {
                         // Cheat Sheet - If this research can be researched unlock it
                         if (playerResearch.canResearch(research)) {
-                            playerResearch.setResearch(research, true)
-                            playerResearch.sync(entityPlayer, false)
-                            AfraidOfTheDark.proxy.researchOverlayHandler.displayResearch(research)
-                            refreshHoverTexts()
+                            AfraidOfTheDark.packetHandler.sendToServer(CheatSheetUnlockPacket(research))
+                            refreshHoverTexts(true)
                         } else if (playerResearch.isResearched(research)) {
                             // Show the research if it's already researched
                             Minecraft.getInstance().setScreen(
@@ -87,11 +86,13 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
                 }
             }
         }
-        refreshHoverTexts()
+        refreshHoverTexts(false)
     }
 
-    private fun refreshHoverTexts() {
-        hoverTexts = if (playerResearch.isResearched(this.research)) {
+    private fun refreshHoverTexts(forceShowUnlocked: Boolean) {
+        // forceShowUnlocked means we've requested that the server unlock a research for us, but we might not have a response yet. Just assume
+        // the unlock was successful and show the real tooltip if it's 'true'.
+        hoverTexts = if (forceShowUnlocked || playerResearch.isResearched(this.research)) {
             arrayOf(I18n.get(research.getUnlocalizedName()), "${TextFormatting.ITALIC}${I18n.get(this.research.getUnlocalizedTooltip())}")
         } else {
             arrayOf("?", "${TextFormatting.ITALIC}Unknown Research")
