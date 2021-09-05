@@ -52,36 +52,36 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
         val green = color.green
         val blue = color.blue
 
-        matrixStack.mulPose((if (random.nextBoolean()) Vector3f.XP else Vector3f.XN).rotationDegrees((tickCount + (random.nextGaussian().toFloat() + 1)) * 2))
-        matrixStack.mulPose((if (random.nextBoolean()) Vector3f.YP else Vector3f.YN).rotationDegrees((tickCount + (random.nextGaussian().toFloat() + 1)) * 2))
-        matrixStack.mulPose((if (random.nextBoolean()) Vector3f.ZP else Vector3f.ZN).rotationDegrees((tickCount + (random.nextGaussian().toFloat() + 1)) * 2))
+        setupBaseRotations(matrixStack, tickCount)
+
+        // Draw the horizontal plane -----------
 
         // Setup in-plane rotation
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(tickCount * 3))
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(tickCount * IN_PLANE_ROTATION_SPEED))
         // Rotate the plane
         matrixStack.mulPose(Vector3f.XP.rotationDegrees(90f))
         drawOneSprite(rotationMatrix, normalMatrix, buffer, red, green, blue)
 
-        // --------------------------------------
-
-        // Undo any previous rotations
+        // Undo any rotations
         matrixStack.mulPose(Vector3f.XP.rotationDegrees(-90f))
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(-tickCount * 3))
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(-tickCount * IN_PLANE_ROTATION_SPEED))
+
+        // Draw the first vertical plane -----------
 
         // Setup in-plane rotation
-        matrixStack.mulPose(Vector3f.XP.rotationDegrees(tickCount * 3))
+        matrixStack.mulPose(Vector3f.XP.rotationDegrees(tickCount * IN_PLANE_ROTATION_SPEED))
         // Rotate the plane
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(90f))
         drawOneSprite(rotationMatrix, normalMatrix, buffer, red, green, blue)
 
-        // --------------------------------------
-
-        // Undo any previous rotations
+        // Undo any rotations
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(-90f))
-        matrixStack.mulPose(Vector3f.XP.rotationDegrees(-tickCount * 3))
+        matrixStack.mulPose(Vector3f.XP.rotationDegrees(-tickCount * IN_PLANE_ROTATION_SPEED))
+
+        // Draw the second vertical plane -----------
 
         // Setup in-plane rotation
-        matrixStack.mulPose(Vector3f.ZP.rotationDegrees(tickCount * 3))
+        matrixStack.mulPose(Vector3f.ZP.rotationDegrees(tickCount * IN_PLANE_ROTATION_SPEED))
         // Rotate the plane
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(90f))
         drawOneSprite(rotationMatrix, normalMatrix, buffer, red, green, blue)
@@ -89,12 +89,14 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
         matrixStack.popPose()
     }
 
-    override fun getRenderOffset(entity: SpellProjectileEntity, partialTicks: Float): Vector3d {
-        return Vector3d(0.0, 0.0, 0.0)
-    }
+    private fun setupBaseRotations(matrixStack: MatrixStack, tickCount: Float) {
+        val xRotation = (tickCount + (random.nextGaussian().toFloat() + 1)) * PLANE_ROTATION_SPEED
+        val yRotation = (tickCount + (random.nextGaussian().toFloat() + 1)) * PLANE_ROTATION_SPEED
+        val zRotation = (tickCount + (random.nextGaussian().toFloat() + 1)) * PLANE_ROTATION_SPEED
 
-    override fun getTextureLocation(entity: SpellProjectileEntity): ResourceLocation {
-        return SPELL_PROJECTILE_TEXTURE
+        matrixStack.mulPose((if (random.nextBoolean()) Vector3f.XP else Vector3f.XN).rotationDegrees(xRotation))
+        matrixStack.mulPose((if (random.nextBoolean()) Vector3f.YP else Vector3f.YN).rotationDegrees(yRotation))
+        matrixStack.mulPose((if (random.nextBoolean()) Vector3f.ZP else Vector3f.ZN).rotationDegrees(zRotation))
     }
 
     private fun drawOneSprite(rotationMatrix: Matrix4f, normalMatrix: Matrix3f, buffer: IVertexBuilder, red: Int, green: Int, blue: Int) {
@@ -127,7 +129,18 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
             .endVertex()
     }
 
+    override fun getRenderOffset(entity: SpellProjectileEntity, partialTicks: Float): Vector3d {
+        return Vector3d(0.0, 0.0, 0.0)
+    }
+
+    override fun getTextureLocation(entity: SpellProjectileEntity): ResourceLocation {
+        return SPELL_PROJECTILE_TEXTURE
+    }
+
     companion object {
+        private const val IN_PLANE_ROTATION_SPEED = 3
+        private const val PLANE_ROTATION_SPEED = 2
+
         // Ignores block and sky light levels and always renders the same
         private val FULLBRIGHT = LightTexture.pack(15, 15)
 
