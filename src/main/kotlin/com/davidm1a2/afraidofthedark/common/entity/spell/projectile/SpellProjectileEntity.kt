@@ -3,10 +3,6 @@ package com.davidm1a2.afraidofthedark.common.entity.spell.projectile
 import com.davidm1a2.afraidofthedark.common.constants.ModDataSerializers
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellDeliveryMethods
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
-import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.animation.SpellProjectileIdleChannel
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.ProjectileSpellDeliveryMethod
@@ -37,14 +33,11 @@ import java.util.*
  * @constructor required constructor that sets the world
  * @param world The world the entity is in
  * @property shooter The entity that fired the projectile, can be null
- * @property animHandler The animation handler that this entity uses for all animations
  */
 class SpellProjectileEntity(
     entityType: EntityType<out SpellProjectileEntity>,
     world: World
-) : Entity(entityType, world), IMCAnimatedModel, IEntityAdditionalSpawnData {
-    private val animHandler = AnimationHandler(SpellProjectileIdleChannel("Idle", 50.0f, 60, ChannelMode.LOOP))
-
+) : Entity(entityType, world), IEntityAdditionalSpawnData {
     private var shooter: Entity? = null
     private var casterEntityId: UUID? = null
     private var distanceRemainingBlocks: Float = 0f
@@ -105,13 +98,13 @@ class SpellProjectileEntity(
     override fun tick() {
         super.tick()
 
-        // Update logic server side
-        if (!level.isClientSide) {
-            // Ensure the shooting entity is null or not dead, and that the area the projectile is in is loaded
-            if (level.isLoaded(this.blockPosition())) {
-                // We are in the air, so increment our counter
-                val ticksInAir = this.ticksInAir + 1
+        // Ensure the shooting entity is null or not dead, and that the area the projectile is in is loaded
+        if (level.isLoaded(this.blockPosition())) {
+            // We are in the air, so increment our counter
+            this.ticksInAir = this.ticksInAir + 1
 
+            // Process hit detection server side
+            if (!level.isClientSide) {
                 // Perform a ray case to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
                 val rayTraceResult = ProjectileHelper.getHitResult(this) {
                     if (ticksInAir > 25) {
@@ -125,19 +118,22 @@ class SpellProjectileEntity(
                 if (rayTraceResult.type != RayTraceResult.Type.MISS) {
                     onImpact(rayTraceResult)
                 }
+            }
 
-                // Continue flying in the direction of motion, update the position
-                moveTo(x + deltaMovement.x, y + deltaMovement.y, z + deltaMovement.z)
+            // Continue flying in the direction of motion, update the position
+            setPos(x + deltaMovement.x, y + deltaMovement.y, z + deltaMovement.z)
 
-                // Update distance flown, and kill the entity if it went
-                val distanceFlown = deltaMovement.length()
-                this.distanceRemainingBlocks = this.distanceRemainingBlocks - distanceFlown.toFloat()
+            // Update distance flown, and kill the entity if it went
+            val distanceFlown = deltaMovement.length()
+            this.distanceRemainingBlocks = this.distanceRemainingBlocks - distanceFlown.toFloat()
 
+            // If we're out of distance deliver the spell and kill the projectile
+            if (this.distanceRemainingBlocks <= 0) {
                 val spell = this.entityData[SPELL]
                 val spellIndex = this.entityData[SPELL_INDEX]
 
-                // If we're out of distance deliver the spell and kill the projectile
-                if (this.distanceRemainingBlocks <= 0) {
+                // Update spell logic server side
+                if (!level.isClientSide) {
                     val state = DeliveryTransitionStateBuilder()
                         .withSpell(spell)
                         .withStageIndex(spellIndex)
@@ -156,9 +152,9 @@ class SpellProjectileEntity(
 
                     remove()
                 }
-            } else {
-                remove()
             }
+        } else {
+            remove()
         }
     }
 
@@ -221,29 +217,23 @@ class SpellProjectileEntity(
         }
     }
 
-    /**
-     * Called from onUpdate to update entity specific logic
-     */
-    override fun baseTick() {
-        super.baseTick()
-
-        // If we're client side and no animation is active play the idle animation
-        if (level.isClientSide) {
-            if (!animHandler.isAnimationActive("Idle")) {
-                animHandler.playAnimation("Idle")
-            }
+    /*
+    override fun lerpMotion(x: Double, y: Double, z: Double) {
+        // This is a special client side only method that predicts an entity's movement to make it smoother
+        this.setDeltaMovement(x, y, z)
+        if (xRotO == 0.0f && yRotO == 0.0f) {
+            val horizontalMovement = sqrt(x * x + z * z)
+            xRot = (atan2(y, horizontalMovement) * 180f / Math.PI).toFloat()
+            yRot = (atan2(x, z) * 180f / Math.PI).toFloat()
+            xRotO = xRot
+            yRotO = yRot
+            this.moveTo(this.x, this.y, this.z, yRot, xRot)
         }
     }
+     */
 
     fun getColor(): Color {
         return ModSpellDeliveryMethods.PROJECTILE.getColor(entityData[SPELL].spellStages[entityData[SPELL_INDEX]].deliveryInstance!!)
-    }
-
-    /**
-     * @return True, the projectile can hit other entities
-     */
-    override fun canBeCollidedWith(): Boolean {
-        return true
     }
 
     override fun isPickable(): Boolean {
@@ -289,15 +279,6 @@ class SpellProjectileEntity(
 
     override fun ignoreExplosion(): Boolean {
         return true
-    }
-
-    /**
-     * Gets the animation handler which makes the projectile spin
-     *
-     * @return The animation handler for the projectile
-     */
-    override fun getAnimationHandler(): AnimationHandler {
-        return animHandler
     }
 
     override fun getAddEntityPacket(): IPacket<*> {
