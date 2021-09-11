@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.entity.spell.projectile
 
+import com.davidm1a2.afraidofthedark.client.entity.LateEntityRenderer
 import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.SpellProjectileEntity
 import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.platform.GlStateManager
@@ -18,6 +19,7 @@ import net.minecraft.util.math.vector.Matrix3f
 import net.minecraft.util.math.vector.Matrix4f
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.math.vector.Vector3f
+import org.lwjgl.opengl.GL11C
 import java.util.*
 
 /**
@@ -26,7 +28,7 @@ import java.util.*
  * @constructor just passes down fields and the render manager
  * @param renderManager The render manager to pass down
  */
-class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRenderer<SpellProjectileEntity>(renderManager) {
+class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRenderer<SpellProjectileEntity>(renderManager), LateEntityRenderer {
     private val random = Random()
 
     override fun render(
@@ -42,8 +44,6 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
         matrixStack.translate(0.0, spellProjectile.boundingBox.ysize / 2, 0.0)
 
         val buffer = renderTypeBuffer.getBuffer(RENDER_TYPE)
-        val rotationMatrix = matrixStack.last().pose()
-        val normalMatrix = matrixStack.last().normal()
 
         random.setSeed(spellProjectile.id.toLong())
         val tickCount = spellProjectile.tickCount + partialTicks
@@ -54,37 +54,29 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
 
         setupBaseRotations(matrixStack, tickCount)
 
-        // Draw the horizontal plane -----------
-
         // Setup in-plane rotation
+        matrixStack.pushPose()
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(tickCount * IN_PLANE_ROTATION_SPEED))
         // Rotate the plane
         matrixStack.mulPose(Vector3f.XP.rotationDegrees(90f))
-        drawOneSprite(rotationMatrix, normalMatrix, buffer, red, green, blue)
-
-        // Undo any rotations
-        matrixStack.mulPose(Vector3f.XP.rotationDegrees(-90f))
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(-tickCount * IN_PLANE_ROTATION_SPEED))
-
-        // Draw the first vertical plane -----------
+        drawOneSprite(matrixStack, buffer, red, green, blue)
+        matrixStack.popPose()
 
         // Setup in-plane rotation
+        matrixStack.pushPose()
         matrixStack.mulPose(Vector3f.XP.rotationDegrees(tickCount * IN_PLANE_ROTATION_SPEED))
         // Rotate the plane
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(90f))
-        drawOneSprite(rotationMatrix, normalMatrix, buffer, red, green, blue)
-
-        // Undo any rotations
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(-90f))
-        matrixStack.mulPose(Vector3f.XP.rotationDegrees(-tickCount * IN_PLANE_ROTATION_SPEED))
-
-        // Draw the second vertical plane -----------
+        drawOneSprite(matrixStack, buffer, red, green, blue)
+        matrixStack.popPose()
 
         // Setup in-plane rotation
+        matrixStack.pushPose()
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(tickCount * IN_PLANE_ROTATION_SPEED))
         // Rotate the plane
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(90f))
-        drawOneSprite(rotationMatrix, normalMatrix, buffer, red, green, blue)
+        drawOneSprite(matrixStack, buffer, red, green, blue)
+        matrixStack.popPose()
 
         matrixStack.popPose()
     }
@@ -99,7 +91,9 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
         matrixStack.mulPose((if (random.nextBoolean()) Vector3f.ZP else Vector3f.ZN).rotationDegrees(zRotation))
     }
 
-    private fun drawOneSprite(rotationMatrix: Matrix4f, normalMatrix: Matrix3f, buffer: IVertexBuilder, red: Int, green: Int, blue: Int) {
+    private fun drawOneSprite(matrixStack: MatrixStack, buffer: IVertexBuilder, red: Int, green: Int, blue: Int) {
+        val rotationMatrix = matrixStack.last().pose()
+        val normalMatrix = matrixStack.last().normal()
         drawVertex(rotationMatrix, normalMatrix, buffer, -1, -1, 0, 0f, 0f, red, green, blue)
         drawVertex(rotationMatrix, normalMatrix, buffer, 1, -1, 0, 1f, 0f, red, green, blue)
         drawVertex(rotationMatrix, normalMatrix, buffer, 1, 1, 0, 1f, 1f, red, green, blue)
@@ -169,7 +163,7 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
                     RenderSystem.defaultBlendFunc()
                 })
                 .setWriteMaskState(RenderState.WriteMaskState(true, false))
-                .setFogState(RenderState.FogState("no_fog", {}) {})
+                .setDepthTestState(RenderState.DepthTestState("<", GL11C.GL_LESS))
                 .setCullState(RenderState.CullState(false))
                 .createCompositeState(false)
         )

@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.client
 
 import com.davidm1a2.afraidofthedark.client.event.BlockEntityRendererRegister
 import com.davidm1a2.afraidofthedark.client.event.BlockRenderTypeRegister
+import com.davidm1a2.afraidofthedark.client.event.ClientLateRenderHandler
 import com.davidm1a2.afraidofthedark.client.event.ClientNightmareHandler
 import com.davidm1a2.afraidofthedark.client.event.ClientResearchOverlayHandler
 import com.davidm1a2.afraidofthedark.client.event.ClientSpellFreezeHandler
@@ -21,6 +22,7 @@ class ClientProxy : IProxy {
         forgeBus.register(researchOverlayHandler)
         forgeBus.register(ClientNightmareHandler())
         forgeBus.register(ClientSpellFreezeHandler())
+        forgeBus.register(ClientLateRenderHandler())
 
         modBus.register(ModColorRegister())
         modBus.register(BlockRenderTypeRegister())
