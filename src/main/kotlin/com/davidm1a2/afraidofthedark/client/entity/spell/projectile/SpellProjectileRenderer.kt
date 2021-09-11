@@ -124,7 +124,7 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
     }
 
     override fun getRenderOffset(entity: SpellProjectileEntity, partialTicks: Float): Vector3d {
-        return Vector3d(0.0, 0.0, 0.0)
+        return Vector3d.ZERO
     }
 
     override fun getTextureLocation(entity: SpellProjectileEntity): ResourceLocation {
