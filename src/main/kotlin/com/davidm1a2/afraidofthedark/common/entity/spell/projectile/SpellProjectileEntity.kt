@@ -217,21 +217,6 @@ class SpellProjectileEntity(
         }
     }
 
-    /*
-    override fun lerpMotion(x: Double, y: Double, z: Double) {
-        // This is a special client side only method that predicts an entity's movement to make it smoother
-        this.setDeltaMovement(x, y, z)
-        if (xRotO == 0.0f && yRotO == 0.0f) {
-            val horizontalMovement = sqrt(x * x + z * z)
-            xRot = (atan2(y, horizontalMovement) * 180f / Math.PI).toFloat()
-            yRot = (atan2(x, z) * 180f / Math.PI).toFloat()
-            xRotO = xRot
-            yRotO = yRot
-            this.moveTo(this.x, this.y, this.z, yRot, xRot)
-        }
-    }
-     */
-
     fun getColor(): Color {
         return ModSpellDeliveryMethods.PROJECTILE.getColor(entityData[SPELL].spellStages[entityData[SPELL_INDEX]].deliveryInstance!!)
     }
@@ -279,6 +264,13 @@ class SpellProjectileEntity(
 
     override fun ignoreExplosion(): Boolean {
         return true
+    }
+
+    override fun doWaterSplashEffect() {
+    }
+
+    override fun updateInWaterStateAndDoFluidPushing(): Boolean {
+        return false
     }
 
     override fun getAddEntityPacket(): IPacket<*> {
