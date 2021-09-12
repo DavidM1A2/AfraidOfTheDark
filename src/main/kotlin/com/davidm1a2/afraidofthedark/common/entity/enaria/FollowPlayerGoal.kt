@@ -54,7 +54,7 @@ class FollowPlayerGoal(
      */
     override fun stop() {
         // Clear the path, clear the target, and reset the update tick counter
-        entity.navigation.recomputePath()
+        entity.navigation.stop()
         target = null
         ticksUntilNextUpdate = 0
     }
