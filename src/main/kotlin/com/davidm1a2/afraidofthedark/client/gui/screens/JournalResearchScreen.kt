@@ -19,10 +19,10 @@ import net.minecraft.util.text.TranslationTextComponent
 import java.awt.Color
 
 /**
- * The research GUI used by the blood stained journal to show what has been unlocked and what has not been unlocked
+ * The research GUI used by the journal to show what has been unlocked and what has not been unlocked
  */
-class BloodStainedJournalResearchScreen(private val isCheatSheet: Boolean) :
-    AOTDScreen(TranslationTextComponent("screen.afraidofthedark.blood_stained_journal_research")) {
+class JournalResearchScreen(private val isCheatSheet: Boolean) :
+    AOTDScreen(TranslationTextComponent("screen.afraidofthedark.journal_research")) {
 
     private val researchTreeBase: ScrollPane = ScrollPane(2.0, 2.0, scrollOffset)
     private val scrollBackground: ImagePane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/background.png"))

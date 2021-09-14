@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
-import com.davidm1a2.afraidofthedark.client.gui.screens.BloodStainedJournalPageScreen
+import com.davidm1a2.afraidofthedark.client.gui.screens.JournalPageScreen
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
@@ -56,7 +56,7 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
                         } else if (playerResearch.isResearched(research)) {
                             // Show the research if it's already researched
                             Minecraft.getInstance().setScreen(
-                                BloodStainedJournalPageScreen(
+                                JournalPageScreen(
                                     I18n.get(research.getUnlocalizedText()),
                                     I18n.get(research.getUnlocalizedName()),
                                     research.researchedRecipes
@@ -67,7 +67,7 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
                         // If this isn't a cheat sheet open the research page
                         if (playerResearch.isResearched(research)) {
                             Minecraft.getInstance().setScreen(
-                                BloodStainedJournalPageScreen(
+                                JournalPageScreen(
                                     I18n.get(research.getUnlocalizedText()),
                                     I18n.get(research.getUnlocalizedName()),
                                     research.researchedRecipes
@@ -75,7 +75,7 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
                             )
                         } else if (research.preRequisite != null && playerResearch.isResearched(research.preRequisite!!)) {   // Pre-Page UI
                             Minecraft.getInstance().setScreen(
-                                BloodStainedJournalPageScreen(
+                                JournalPageScreen(
                                     I18n.get(research.getUnlocalizedPreText()),
                                     "???",
                                     research.preResearchedRecipes

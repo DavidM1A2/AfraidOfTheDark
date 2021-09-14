@@ -440,7 +440,7 @@ class NightmareHandler {
     }
 
     /**
-     * Creates a blood stained journal that is named after the player
+     * Creates a journal that is named after the player
      *
      * @param entityPlayer The player to create a journal for
      * @return The created journal

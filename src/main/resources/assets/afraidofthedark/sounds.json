@@ -87,15 +87,15 @@
       }
     ]
   },
-  "journal_sign": {
+  "journal_open": {
     "category": "player",
     "sounds": [
       {
-        "name": "afraidofthedark:journal_sign",
+        "name": "afraidofthedark:journal_open",
         "stream": false
       }
     ],
-    "subtitle": "Journal Signed"
+    "subtitle": "Journal Opened"
   },
   "research_unlocked": {
     "category": "player",

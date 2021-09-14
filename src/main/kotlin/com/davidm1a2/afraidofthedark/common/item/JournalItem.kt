@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.client.gui.screens.BloodStainedJournalResearchScreen
-import com.davidm1a2.afraidofthedark.client.gui.screens.BloodStainedJournalSignScreen
+import com.davidm1a2.afraidofthedark.client.gui.screens.JournalOpenScreen
+import com.davidm1a2.afraidofthedark.client.gui.screens.JournalResearchScreen
 import com.davidm1a2.afraidofthedark.common.capabilities.hasStartedAOTD
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
@@ -18,7 +18,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 
 /**
- * Class representing the blood stained journal item
+ * Class representing the journal item
  *
  * @constructor sets up item properties
  */
@@ -46,11 +46,11 @@ class JournalItem : AOTDItem("journal", Properties().stacksTo(1)) {
 
                 // Show the journal UI
                 if (world.isClientSide) {
-                    Minecraft.getInstance().setScreen(BloodStainedJournalResearchScreen(isCheatSheet(heldItemStack)))
+                    Minecraft.getInstance().setScreen(JournalResearchScreen(isCheatSheet(heldItemStack)))
                 }
             } else {
                 if (world.isClientSide) {
-                    Minecraft.getInstance().setScreen(BloodStainedJournalSignScreen())
+                    Minecraft.getInstance().setScreen(JournalOpenScreen())
                 }
             }
         }
@@ -59,13 +59,13 @@ class JournalItem : AOTDItem("journal", Properties().stacksTo(1)) {
             // If the player has started AOTD show the journal UI
             if (player.hasStartedAOTD()) {
                 if (world.isClientSide) {
-                    Minecraft.getInstance().setScreen(BloodStainedJournalResearchScreen(isCheatSheet(heldItemStack)))
+                    Minecraft.getInstance().setScreen(JournalResearchScreen(isCheatSheet(heldItemStack)))
                 }
             }
-            // If the player has not started AOTD show the sign UI and clear the owner
+            // If the player has not started AOTD show the open UI and clear the owner
             else {
                 if (world.isClientSide) {
-                    Minecraft.getInstance().setScreen(BloodStainedJournalSignScreen())
+                    Minecraft.getInstance().setScreen(JournalOpenScreen())
                 }
                 setOwner(heldItemStack, null)
             }

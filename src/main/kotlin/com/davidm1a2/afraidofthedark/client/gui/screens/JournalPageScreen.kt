@@ -27,8 +27,8 @@ import java.awt.Color
 /**
  * Journal page UI which is shown when a player opens a page
  */
-class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItemRecipes: List<Item>) :
-    AOTDScreen(TranslationTextComponent("screen.afraidofthedark.blood_stained_journal_page")) {
+class JournalPageScreen(text: String, titleText: String, relatedItemRecipes: List<Item>) :
+    AOTDScreen(TranslationTextComponent("screen.afraidofthedark.journal_page")) {
     private val completeText: String = text
     private val textOnEachPage: MutableList<String> = mutableListOf()
     private val researchRecipes: List<IRecipe<*>> = entityPlayer.level.recipeManager.recipes.filter { relatedItemRecipes.contains(it.resultItem.item) }
@@ -206,7 +206,7 @@ class BloodStainedJournalPageScreen(text: String, titleText: String, relatedItem
         } else {
             ModItems.JOURNAL.isCheatSheet(entityPlayer.mainHandItem)
         }
-        Minecraft.getInstance().setScreen(BloodStainedJournalResearchScreen(isCheatSheet))
+        Minecraft.getInstance().setScreen(JournalResearchScreen(isCheatSheet))
     }
 
     /**
