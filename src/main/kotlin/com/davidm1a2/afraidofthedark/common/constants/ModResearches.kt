@@ -2,7 +2,10 @@ package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.registry.JsonCodecLoader
 import com.davidm1a2.afraidofthedark.common.research.Research
+import com.davidm1a2.afraidofthedark.common.research.ResearchWrapper
 import net.minecraft.util.ResourceLocation
+import kotlin.math.max
+import kotlin.streams.toList
 
 /**
  * A static class containing all of our research references for us
@@ -64,6 +67,33 @@ object ModResearches {
         ENARIA,
         ENARIAS_SECRET
     )
+
+    private val wrapperMap = mutableMapOf<Research, ResearchWrapper>()
+
+    private fun calcDistFromRoot(researchWrapper: ResearchWrapper): Int {
+        var count = 0
+        var cur = researchWrapper
+        while (cur.parent != null) {
+            cur = cur.parent!!
+            count++
+        }
+        return count
+    }
+
+    private fun findRoot(): ResearchWrapper? {
+        wrapperMap.values.forEach { if (it.parent == null) return it }
+        return null
+    }
+
+    fun calcPositions() {
+        var longestChain = 1
+        RESEARCH_LIST.forEach {
+            wrapperMap[it] = ResearchWrapper(it).apply { parent = if (it.preRequisite == null) null else wrapperMap.getOrDefault(it.preRequisite, null) }
+            wrapperMap[it]!!.parent?.children?.add(wrapperMap[it]!!)
+            longestChain = max(longestChain, calcDistFromRoot(wrapperMap[it]!!))
+        }
+        findRoot()?.computeChildren(1.0/(longestChain+1))?.applyPos()
+    }
 
     private fun load(name: String): Research {
         return JsonCodecLoader.load(ResourceLocation(Constants.MOD_ID, "researches/$name.json"), Research.CODEC)

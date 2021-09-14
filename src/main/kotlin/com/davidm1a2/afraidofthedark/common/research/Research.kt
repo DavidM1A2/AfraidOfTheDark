@@ -15,8 +15,8 @@ import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.ForgeRegistryEntry
 
 class Research(
-    val xPosition: Int,
-    val yPosition: Int,
+    var xPosition: Double,
+    var yPosition: Double,
     val researchedRecipes: List<Item>,
     val preResearchedRecipes: List<Item>,
     val icon: ResourceLocation,
@@ -47,8 +47,8 @@ class Research(
         val CODEC: Codec<Research> = RecordCodecBuilder.create {
             it.group(
                 ResourceLocation.CODEC.fieldOf("forge:registry_name").forGetter(Research::getRegistryName),
-                Codec.INT.fieldOf("x").forGetter(Research::xPosition),
-                Codec.INT.fieldOf("y").forGetter(Research::yPosition),
+                Codec.DOUBLE.fieldOf("x").forGetter(Research::xPosition),
+                Codec.DOUBLE.fieldOf("y").forGetter(Research::yPosition),
                 ForgeRegistries.ITEMS.codec()
                     .listOf()
                     .fieldOf("recipes")

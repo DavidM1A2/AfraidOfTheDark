@@ -24,7 +24,7 @@ import java.awt.Color
 class JournalResearchScreen(private val isCheatSheet: Boolean) :
     AOTDScreen(TranslationTextComponent("screen.afraidofthedark.journal_research")) {
 
-    private val researchTreeBase: ScrollPane = ScrollPane(2.0, 2.0, scrollOffset)
+    private val researchTreeBase: ScrollPane = ScrollPane(4.0, 4.0, scrollOffset)
     private val scrollBackground: ImagePane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/background.png"))
     private val backgroundBorder = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/frame.png"), ImagePane.DispMode.FIT_TO_PARENT)
     private val ratioPane = RatioPane(1, 1)
@@ -54,7 +54,7 @@ class JournalResearchScreen(private val isCheatSheet: Boolean) :
         // Add all connectors for visible researches
         ModRegistries.RESEARCH.values.forEach { addConnector(it) }
 
-        // Now that we have all connectors added add each research node on top to ensure correct z-layer order
+        // Now that we have all connectors added, add each research node on top to ensure correct z-layer order
         ModRegistries.RESEARCH.values.forEach { addResearchButton(it) }
     }
 
@@ -66,13 +66,13 @@ class JournalResearchScreen(private val isCheatSheet: Boolean) :
 
     private fun addConnector(research: Research) {
         val previous = research.preRequisite ?: return
-        val pos = Position(research.xPosition / TREE_WIDTH, (research.yPosition - 4) / TREE_HEIGHT)
-        val prevPos = Position(previous.xPosition / TREE_WIDTH, (previous.yPosition - 4) / TREE_HEIGHT)
+        val pos = Position(research.xPosition / 2, research.yPosition / 2)
+        val prevPos = Position(previous.xPosition / 2, previous.yPosition / 2)
         researchTreeBase.add(ResearchConnector(prevPos, pos, research))
     }
 
     private fun addResearchButton(research: Research) {
-        val pos = Position(research.xPosition / TREE_WIDTH, (research.yPosition - 4) / TREE_HEIGHT)
+        val pos = Position(research.xPosition / 2, research.yPosition / 2)
         val dim = Dimensions(RESEARCH_WIDTH, RESEARCH_HEIGHT)
         val researchNode = ResearchNode(dim, pos, research, isCheatSheet)
         researchTreeBase.add(researchNode)
@@ -89,12 +89,8 @@ class JournalResearchScreen(private val isCheatSheet: Boolean) :
 
     companion object {
         // The research texture is 64x64
-        private const val RESEARCH_HEIGHT = 0.06
-        private const val RESEARCH_WIDTH = 0.06
-
-        // Display 10x10 of researches
-        private const val TREE_WIDTH = 12.0
-        private const val TREE_HEIGHT = 12.0
+        private const val RESEARCH_HEIGHT = 0.03
+        private const val RESEARCH_WIDTH = 0.03
 
         // The stored scroll pane offset
         private var scrollOffset = Position(-0.25, -0.25)
