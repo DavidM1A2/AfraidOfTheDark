@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark.Companion.packetHandler
 import com.davidm1a2.afraidofthedark.client.ClientProxy
+import com.davidm1a2.afraidofthedark.client.event.ResearchPositionHandler
 import com.davidm1a2.afraidofthedark.client.keybindings.KeyInputEventHandler
 import com.davidm1a2.afraidofthedark.common.IProxy
 import com.davidm1a2.afraidofthedark.common.command.AOTDCommands
@@ -109,6 +110,7 @@ class AfraidOfTheDark {
         modBus.register(SpellEffectOverrideRegister())
         modBus.register(BiomeRegister())
         modBus.register(ResearchTriggerRegister(researchTriggerHandler))
+        modBus.register(ResearchPositionHandler())
 
         context.registerConfig(ModConfig.Type.CLIENT, ModConfigHolder.CLIENT_SPEC)
         context.registerConfig(ModConfig.Type.COMMON, ModConfigHolder.COMMON_SPEC)
