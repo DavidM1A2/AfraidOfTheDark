@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.research
 
 import kotlin.math.cos
+import kotlin.math.max
 import kotlin.math.sin
 
 // Wrapper used for positioning researches at load time
@@ -12,20 +13,33 @@ class ResearchWrapper(val research: Research) {
     var outerRadius: Double = 0.0
     var parent: ResearchWrapper? = null
     val children = mutableListOf<ResearchWrapper>()
+    var weight = 1.0
 
     // Updates all children's positions
     fun computeChildren(thickness: Double): ResearchWrapper {
+        computeWeight()
+        val totalChildWeight = children.stream().mapToDouble { it.weight }.sum()
+        var curLeftAngle = leftHandAngle
         for (i in children.indices) {
             val child = children[i]
             child.outerRadius = this.outerRadius + thickness
-            val sliceWidth = (rightHandAngle - leftHandAngle) / children.size
-            child.leftHandAngle = this.leftHandAngle + i * sliceWidth
-            child.rightHandAngle = child.leftHandAngle + sliceWidth
+            val sliceWidth = (rightHandAngle - leftHandAngle) * child.weight / totalChildWeight
+            child.leftHandAngle = curLeftAngle
+            curLeftAngle += sliceWidth
+            child.rightHandAngle = curLeftAngle
             child.computeChildren(thickness)
             child.computePos()
             child.applyPos()
         }
         return this
+    }
+
+    private fun computeWeight() {
+        val weightPerChild = 0.65
+        val weightRetained = 0.15
+        this.weight = 1.0 - weightPerChild
+        children.forEach { it.computeWeight(); this.weight += weightPerChild + weightRetained * (it.weight - 1.0) }
+        this.weight = max(weight, 1.0)
     }
 
     private fun computePos() {
