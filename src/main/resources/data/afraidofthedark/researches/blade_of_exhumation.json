@@ -1,7 +1,5 @@
 {
   "forge:registry_name": "afraidofthedark:blade_of_exhumation",
-  "x": -2,
-  "y": 1,
   "recipes": [
     "afraidofthedark:blade_of_exhumation"
   ],

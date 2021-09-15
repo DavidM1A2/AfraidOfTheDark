@@ -1,7 +1,5 @@
 {
   "forge:registry_name": "afraidofthedark:astral_silver",
-  "x": 0,
-  "y": 3,
   "recipes": [
     "afraidofthedark:astral_silver_sword",
     "afraidofthedark:silver_bolt"

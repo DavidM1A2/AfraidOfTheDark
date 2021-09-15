@@ -1,7 +1,5 @@
 {
   "forge:registry_name": "afraidofthedark:dark_forest",
-  "x": 0,
-  "y": 4,
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/dark_forest.png",

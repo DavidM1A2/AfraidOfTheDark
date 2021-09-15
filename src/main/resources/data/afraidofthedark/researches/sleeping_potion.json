@@ -1,7 +1,5 @@
 {
   "forge:registry_name": "afraidofthedark:sleeping_potion",
-  "x": -1,
-  "y": 4,
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/sleeping_potion.png",

@@ -1,7 +1,5 @@
 {
   "forge:registry_name": "afraidofthedark:werewolf_examination",
-  "x": 0,
-  "y": 1,
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/werewolf_examination.png",

@@ -1,7 +1,5 @@
 {
   "forge:registry_name": "afraidofthedark:gnomish_city",
-  "x": 0,
-  "y": 7,
   "recipes": [
     "afraidofthedark:gnomish_metal_ingot",
     "afraidofthedark:gnomish_metal_strut",

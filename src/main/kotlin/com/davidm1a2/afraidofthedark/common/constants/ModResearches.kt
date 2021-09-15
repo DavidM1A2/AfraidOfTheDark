@@ -5,7 +5,6 @@ import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.research.ResearchWrapper
 import net.minecraft.util.ResourceLocation
 import kotlin.math.max
-import kotlin.streams.toList
 
 /**
  * A static class containing all of our research references for us
@@ -92,7 +91,7 @@ object ModResearches {
             wrapperMap[it]!!.parent?.children?.add(wrapperMap[it]!!)
             longestChain = max(longestChain, calcDistFromRoot(wrapperMap[it]!!))
         }
-        findRoot()?.computeChildren(1.0/(longestChain+1))?.applyPos()
+        findRoot()?.computeChildren(1.0 / (longestChain + 1))?.applyPos()
     }
 
     private fun load(name: String): Research {

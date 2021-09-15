@@ -1,7 +1,5 @@
 {
   "forge:registry_name": "afraidofthedark:star_metal",
-  "x": 1,
-  "y": 6,
   "recipes": [
     "afraidofthedark:star_metal_plate",
     "afraidofthedark:star_metal_khopesh",

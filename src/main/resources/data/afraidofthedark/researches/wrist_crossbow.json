@@ -1,7 +1,5 @@
 {
   "forge:registry_name": "afraidofthedark:wrist_crossbow",
-  "x": 2,
-  "y": 1,
   "recipes": [
     "afraidofthedark:wrist_crossbow"
   ],

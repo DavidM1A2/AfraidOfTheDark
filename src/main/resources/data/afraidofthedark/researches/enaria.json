@@ -1,7 +1,5 @@
 {
   "forge:registry_name": "afraidofthedark:enaria",
-  "x": 0,
-  "y": 8,
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/enaria.png",
