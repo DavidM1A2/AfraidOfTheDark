@@ -8,7 +8,7 @@
     "afraidofthedark:telescope"
   ],
   "icon": "afraidofthedark:textures/gui/research_icons/astronomy_1.png",
-  "prerequisite": "afraidofthedark:werewolf_examination",
+  "prerequisite": "afraidofthedark:observatory",
   "triggers": [
     {
       "type": "afraidofthedark:manual",

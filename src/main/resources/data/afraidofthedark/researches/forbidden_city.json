@@ -1,5 +1,5 @@
 {
-  "forge:registry_name": "afraidofthedark:gnomish_city",
+  "forge:registry_name": "afraidofthedark:forbidden_city",
   "recipes": [
     "afraidofthedark:gnomish_metal_ingot",
     "afraidofthedark:gnomish_metal_strut",
@@ -7,7 +7,7 @@
   ],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/gnomish_city.png",
-  "prerequisite": "afraidofthedark:astronomy_2",
+  "prerequisite": "afraidofthedark:an_unbreakable_covenant",
   "triggers": [
     {
       "type": "afraidofthedark:kill_entity",

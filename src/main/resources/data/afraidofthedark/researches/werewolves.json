@@ -1,9 +1,9 @@
 {
-  "forge:registry_name": "afraidofthedark:werewolf_examination",
+  "forge:registry_name": "afraidofthedark:werewolves",
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/werewolf_examination.png",
-  "prerequisite": "afraidofthedark:an_unbreakable_covenant",
+  "prerequisite": "afraidofthedark:eerie_forest",
   "triggers": [
     {
       "type": "afraidofthedark:player_hurt",

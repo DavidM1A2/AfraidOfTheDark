@@ -3,7 +3,7 @@
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/enaria.png",
-  "prerequisite": "afraidofthedark:gnomish_city",
+  "prerequisite": "afraidofthedark:forbidden_city",
   "triggers": [
     {
       "type": "afraidofthedark:manual",

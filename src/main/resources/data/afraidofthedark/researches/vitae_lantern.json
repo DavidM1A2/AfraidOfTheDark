@@ -1,14 +1,14 @@
 {
-  "forge:registry_name": "afraidofthedark:vitae_1",
+  "forge:registry_name": "afraidofthedark:vitae_lantern",
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/vitae_1.png",
-  "prerequisite": "afraidofthedark:nightmare",
+  "prerequisite": "afraidofthedark:flask_of_souls",
   "triggers": [
     {
       "type": "afraidofthedark:manual",
       "config": {
-        "research": "afraidofthedark:vitae_1"
+        "research": "afraidofthedark:vitae_lantern"
       }
     }
   ]

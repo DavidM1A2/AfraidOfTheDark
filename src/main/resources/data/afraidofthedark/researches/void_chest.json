@@ -5,7 +5,7 @@
   ],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/void_chest.png",
-  "prerequisite": "afraidofthedark:astral_silver",
+  "prerequisite": "afraidofthedark:void_obelisk",
   "triggers": [
     {
       "type": "afraidofthedark:manual",

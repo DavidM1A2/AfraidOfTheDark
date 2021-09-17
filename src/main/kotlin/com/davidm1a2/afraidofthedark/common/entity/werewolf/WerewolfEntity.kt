@@ -111,7 +111,7 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
                     val playerResearch = killer.getResearch()
 
                     // If the player has the slaying of the wolves achievement then test if the player has glass bottles to fill with werewolf blood
-                    if (playerResearch.isResearched(ModResearches.SLAYING_OF_THE_WOLVES)) {
+                    if (playerResearch.isResearched(ModResearches.WEREWOLF_BLOOD)) {
                         // If the player is in creative mode or we can clear a glass bottle do so and add 1 werewolf blood
                         if (killer.isCreative || ItemStackHelper.clearOrCountMatchingItems(
                                 killer.inventory,

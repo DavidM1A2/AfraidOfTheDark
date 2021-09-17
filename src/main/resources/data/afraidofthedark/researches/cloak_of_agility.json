@@ -5,7 +5,7 @@
   ],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/cloak_of_agility.png",
-  "prerequisite": "afraidofthedark:werewolf_examination",
+  "prerequisite": "afraidofthedark:wrist_crossbow",
   "triggers": [
     {
       "type": "afraidofthedark:manual",

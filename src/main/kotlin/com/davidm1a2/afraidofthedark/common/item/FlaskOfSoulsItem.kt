@@ -53,7 +53,7 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
         // Server side processing only
         if (!world.isClientSide) {
             // Ensure the player has the right research
-            if (player.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS)) {
+            if (player.getResearch().isResearched(ModResearches.FLASK_OF_SOULS)) {
                 // Ray trace where the player is looking
                 val rayTraceResult: RayTraceResult? = getPlayerPOVHitResult(world, player, RayTraceContext.FluidMode.NONE)
 
@@ -157,7 +157,7 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
     override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         // If the player has the right research then show them flask stats
-        if (player != null && player.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS)) {
+        if (player != null && player.getResearch().isResearched(ModResearches.FLASK_OF_SOULS)) {
             // If the flask is unbound show them information how to bind it
             if (getSpawnedEntity(stack) == null) {
                 tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.flask_of_souls.empty.line1"))

@@ -1,5 +1,5 @@
 {
-  "forge:registry_name": "afraidofthedark:phylactery_of_souls",
+  "forge:registry_name": "afraidofthedark:flask_of_souls",
   "recipes": [
     "afraidofthedark:flask_of_souls"
   ],
@@ -7,7 +7,7 @@
     "afraidofthedark:flask_of_souls"
   ],
   "icon": "afraidofthedark:textures/gui/research_icons/phylactery_of_souls.png",
-  "prerequisite": "afraidofthedark:slaying_of_the_wolves",
+  "prerequisite": "afraidofthedark:werewolf_blood",
   "triggers": [
     {
       "type": "afraidofthedark:item_crafted",

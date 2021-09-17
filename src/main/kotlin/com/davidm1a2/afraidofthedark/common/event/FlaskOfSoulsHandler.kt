@@ -26,7 +26,7 @@ class FlaskOfSoulsHandler {
             val entityPlayer = event.source.entity as PlayerEntity
 
             // Ensure the player has the right research
-            if (entityPlayer.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS)) {
+            if (entityPlayer.getResearch().isResearched(ModResearches.FLASK_OF_SOULS)) {
                 // Grab the player's inventory
                 val inventory = entityPlayer.inventory.items + entityPlayer.inventory.offhand
                 val entityID = EntityType.getKey(event.entity.type)
