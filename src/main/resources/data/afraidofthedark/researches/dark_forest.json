@@ -6,9 +6,9 @@
   "prerequisite": "afraidofthedark:an_unbreakable_covenant",
   "triggers": [
     {
-      "type": "afraidofthedark:manual",
+      "type": "afraidofthedark:zone_entered",
       "config": {
-        "research": "afraidofthedark:dark_forest"
+        "tile_entity": "afraidofthedark:dark_forest"
       }
     }
   ]

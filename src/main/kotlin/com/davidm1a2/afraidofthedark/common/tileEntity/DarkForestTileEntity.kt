@@ -7,10 +7,12 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
+import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDZoneTileEntity
 import net.minecraft.entity.item.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.play.server.SSetSlotPacket
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.PotionUtils
@@ -24,64 +26,49 @@ import kotlin.random.Random
  *
  * @constructor sets the block type of the tile entity
  */
-class DarkForestTileEntity : AOTDTickingTileEntity(ModTileEntities.DARK_FOREST) {
-    /**
-     * Update gets called every tick
-     */
-    override fun tick() {
-        super.tick()
-        // Server side processing only
-        if (level?.isClientSide == false) {
-            updateNearbyPlayers()
-            spawnCultistTome()
+class DarkForestTileEntity : AOTDZoneTileEntity(ModTileEntities.DARK_FOREST) {
+    init {
+        this.zone = lazy {
+            AxisAlignedBB(
+                blockPos.x.toDouble(),
+                blockPos.y.toDouble(),
+                blockPos.z.toDouble(),
+                (blockPos.x + 1).toDouble(),
+                (blockPos.y + 1).toDouble(),
+                (blockPos.z + 1).toDouble()
+            ).inflate(CHECK_RANGE.toDouble())
         }
     }
 
-    private fun updateNearbyPlayers() {
-        // If we've existed for a multiple of 60 ticks perform a check for nearby players
-        if (ticksExisted % TICKS_INBETWEEN_PLAYER_CHECKS == 0L) {
-            // Grab all nearby players
-            for (entityPlayer in level!!.getEntitiesOfClass(
-                PlayerEntity::class.java,
-                AxisAlignedBB(
-                    blockPos.x.toDouble(),
-                    blockPos.y.toDouble(),
-                    blockPos.z.toDouble(),
-                    (blockPos.x + 1).toDouble(),
-                    (blockPos.y + 1).toDouble(),
-                    (blockPos.z + 1).toDouble()
-                ).inflate(CHECK_RANGE.toDouble())
-            )) {
-                // Grab their research
-                val playerResearch = entityPlayer.getResearch()
+    override fun playerInZone(player: PlayerEntity) {
+        val playerResearch = player.getResearch()
 
-                // If the player can research dark forest unlock it and sync that research
-                MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(entityPlayer, ModResearches.DARK_FOREST))
+        if (playerResearch.isResearched(ModResearches.DARK_FOREST)) {
+            // 6 seconds of sleeping potion effect
+            player.addEffect(EffectInstance(ModEffects.SLEEPING, 120, 0, true, false))
+            // Replace all water bottles with sleeping potions
+            for (i in player.inventory.items.indices) {
+                val itemStack = player.inventory.getItem(i)
 
-                // If the player has dark forest research unlocked add the sleeping potion effect and exchange water
-                // bottles with sleeping potion bottles.
-                if (playerResearch.isResearched(ModResearches.DARK_FOREST)) {
-                    // 6 seconds of sleeping potion effect
-                    entityPlayer.addEffect(EffectInstance(ModEffects.SLEEPING, 120, 0, true, false))
-                    // Replace all water bottles with sleeping potions
-                    for (i in entityPlayer.inventory.items.indices) {
-                        // Grab the stack in the current slot
-                        val itemStack = entityPlayer.inventory.getItem(i)
-
-                        // If it's a potion with type water unlock the sleeping potion research and replace water bottles with sleeping potions
-                        if (PotionUtils.getPotion(itemStack) == Potions.WATER) {
-                            MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(entityPlayer, ModResearches.SLEEPING_POTION))
-                            entityPlayer.inventory.setItem(i, ItemStack(ModItems.SLEEPING_POTION, itemStack.count))
-                            (entityPlayer as ServerPlayerEntity).connection.send(SSetSlotPacket(-2, i, itemStack))
-                        }
-                    }
+                // If it's a potion with type water replace water bottles with sleeping potions
+                if (PotionUtils.getPotion(itemStack) == Potions.WATER) {
+                    player.inventory.setItem(i, ItemStack(ModItems.SLEEPING_POTION, itemStack.count))
+                    (player as ServerPlayerEntity).connection.send(SSetSlotPacket(-2, i, itemStack))
                 }
             }
         }
     }
 
+    override fun tick() {
+        super.tick()
+        // Server side processing only
+        if (level?.isClientSide == false) {
+            spawnCultistTome()
+        }
+    }
+
     private fun spawnCultistTome() {
-        if (ticksExisted % TICKS_INBETWEEN_CULTIST_TOME_CHECKS == 0L) {
+        if (ticksExisted % TICKS_BETWEEN_CULTIST_TOME_CHECKS == 0L) {
             // Spawn a cultist tome
             val tomeX = blockPos.x + Random.nextDouble(-TOME_SPAWN_RANGE, TOME_SPAWN_RANGE)
             val tomeY = blockPos.y - 7.0
@@ -93,11 +80,8 @@ class DarkForestTileEntity : AOTDTickingTileEntity(ModTileEntities.DARK_FOREST) 
     }
 
     companion object {
-        // The ticks inbetween checks for nearby players
-        private const val TICKS_INBETWEEN_PLAYER_CHECKS = 60
-
-        // The ticks inbetween cultist tome checks (5 min)
-        private const val TICKS_INBETWEEN_CULTIST_TOME_CHECKS = 20 * 5 * 60
+        // The ticks in between cultist tome checks (5 min)
+        private const val TICKS_BETWEEN_CULTIST_TOME_CHECKS = 20 * 5 * 60
 
         // The range that players get drowsy in blocks
         private const val CHECK_RANGE = 14

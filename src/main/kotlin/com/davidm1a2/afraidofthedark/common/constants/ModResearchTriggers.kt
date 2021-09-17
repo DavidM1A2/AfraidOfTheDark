@@ -1,13 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.common.research.trigger.BlockBrokenResearchTrigger
-import com.davidm1a2.afraidofthedark.common.research.trigger.ItemCraftedResearchTrigger
-import com.davidm1a2.afraidofthedark.common.research.trigger.KillEntityResearchTrigger
-import com.davidm1a2.afraidofthedark.common.research.trigger.ManualResearchTrigger
-import com.davidm1a2.afraidofthedark.common.research.trigger.PlayerHurtResearchTrigger
-import com.davidm1a2.afraidofthedark.common.research.trigger.StartedAOTDResearchTrigger
-import com.davidm1a2.afraidofthedark.common.research.trigger.UseBlockResearchTrigger
-import com.davidm1a2.afraidofthedark.common.research.trigger.UseItemResearchTrigger
+import com.davidm1a2.afraidofthedark.common.research.trigger.*
 
 object ModResearchTriggers {
     val PLAYER_HURT = PlayerHurtResearchTrigger()
@@ -18,6 +11,8 @@ object ModResearchTriggers {
     val KILL_ENTITY = KillEntityResearchTrigger()
     val START_AOTD = StartedAOTDResearchTrigger()
     val MANUAL = ManualResearchTrigger()
+    val ENTER_ZONE = ZoneEnteredResearchTrigger()
+    val EXIT_ZONE = ZoneExitedResearchTrigger()
 
     val LIST = arrayOf(
         PLAYER_HURT,
@@ -27,6 +22,8 @@ object ModResearchTriggers {
         USE_ITEM,
         KILL_ENTITY,
         START_AOTD,
-        MANUAL
+        MANUAL,
+        ENTER_ZONE,
+        EXIT_ZONE
     )
 }
