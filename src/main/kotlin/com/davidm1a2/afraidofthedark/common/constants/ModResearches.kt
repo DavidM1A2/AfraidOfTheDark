@@ -2,9 +2,7 @@ package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.registry.JsonCodecLoader
 import com.davidm1a2.afraidofthedark.common.research.Research
-import com.davidm1a2.afraidofthedark.common.research.ResearchWrapper
 import net.minecraft.util.ResourceLocation
-import kotlin.math.max
 
 /**
  * A static class containing all of our research references for us

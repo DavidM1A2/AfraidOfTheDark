@@ -11,6 +11,7 @@ import com.davidm1a2.afraidofthedark.client.event.EntityRendererRegister
 import com.davidm1a2.afraidofthedark.client.event.ItemModelPropertyRegister
 import com.davidm1a2.afraidofthedark.client.event.KeybindingRegister
 import com.davidm1a2.afraidofthedark.client.event.ModColorRegister
+import com.davidm1a2.afraidofthedark.client.event.ResearchPositionHandler
 import com.davidm1a2.afraidofthedark.common.IProxy
 import com.davidm1a2.afraidofthedark.common.event.ResearchOverlayHandler
 import net.minecraftforge.eventbus.api.IEventBus
@@ -31,5 +32,6 @@ class ClientProxy : IProxy {
         modBus.register(DimensionRenderInfoRegister())
         modBus.register(ItemModelPropertyRegister())
         modBus.register(KeybindingRegister())
+        modBus.register(ResearchPositionHandler())
     }
 }
