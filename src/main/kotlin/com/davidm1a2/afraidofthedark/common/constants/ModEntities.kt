@@ -9,6 +9,7 @@ import com.davidm1a2.afraidofthedark.common.entity.enaria.EnariaEntity
 import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSkeletonEntity
+import com.davidm1a2.afraidofthedark.common.entity.spell.laser.SpellLaserEntity
 import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.SpellProjectileEntity
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneEntity
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneProjectileEntity
@@ -96,6 +97,14 @@ object ModEntities {
         .noSummon()
         .build("${Constants.MOD_ID}:spell_projectile")
         .setRegistryNameGeneric("spell_projectile")
+    val SPELL_LASER = EntityType.Builder.of(::SpellLaserEntity, EntityClassification.MISC)
+        .setTrackingRange(50)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .sized(0f, 0f)
+        .noSummon()
+        .build("${Constants.MOD_ID}:spell_laser")
+        .setRegistryNameGeneric("spell_laser")
 
     // 5 bolt entities
     val WOODEN_BOLT = EntityType.Builder.of(::WoodenBoltEntity, EntityClassification.MISC)
@@ -149,6 +158,7 @@ object ModEntities {
         ENARIA,
         ENCHANTED_FROG,
         SPELL_PROJECTILE,
+        SPELL_LASER,
         WOODEN_BOLT,
         IRON_BOLT,
         SILVER_BOLT,

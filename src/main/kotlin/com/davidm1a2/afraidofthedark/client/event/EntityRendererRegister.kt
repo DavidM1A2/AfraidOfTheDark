@@ -9,6 +9,7 @@ import com.davidm1a2.afraidofthedark.client.entity.enaria.EnariaRenderer
 import com.davidm1a2.afraidofthedark.client.entity.enaria.GhastlyEnariaRenderer
 import com.davidm1a2.afraidofthedark.client.entity.enchantedFrog.EnchantedFrogRenderer
 import com.davidm1a2.afraidofthedark.client.entity.enchantedSkeleton.EnchantedSkeletonRenderer
+import com.davidm1a2.afraidofthedark.client.entity.spell.laser.SpellLaserRenderer
 import com.davidm1a2.afraidofthedark.client.entity.spell.projectile.SpellProjectileRenderer
 import com.davidm1a2.afraidofthedark.client.entity.splinterDrone.SplinterDroneProjectileRenderer
 import com.davidm1a2.afraidofthedark.client.entity.splinterDrone.SplinterDroneRenderer
@@ -34,6 +35,7 @@ class EntityRendererRegister {
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.IGNEOUS_BOLT) { IgneousBoltRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.STAR_METAL_BOLT) { StarMetalBoltRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_PROJECTILE) { SpellProjectileRenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_LASER) { SpellLaserRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.ENCHANTED_FROG) { EnchantedFrogRenderer(it) }
     }
 }
