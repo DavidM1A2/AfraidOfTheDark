@@ -52,10 +52,10 @@ class SpellLaserRenderer(renderManager: EntityRendererManager) : EntityRenderer<
         // Point the laser in the right direction
         val direction = endPos.subtract(startPos).normalize()
         val rotation = BASE_RENDER_DIRECTION.computeRotationTo(direction)
-        val lengthScale = segmentLength / RENDER_WIDTH
         matrixStack.mulPose(rotation)
 
         // Rotate/Spin the laser
+        val lengthScale = segmentLength / RENDER_WIDTH
         matrixStack.mulPose(Vector3f.XP.rotationDegrees((spellLaser.tickCount + partialTicks) * SPIN_SPEED))
         for (segment in 0 until numSegments) {
             drawSegment(matrixStack, buffer, lengthScale)

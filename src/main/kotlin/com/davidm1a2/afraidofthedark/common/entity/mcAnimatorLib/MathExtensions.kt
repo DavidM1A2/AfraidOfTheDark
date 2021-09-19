@@ -72,15 +72,38 @@ fun Vector3f.interpolate(otherVec: Vector3f, percent: Float) {
  * Computes the rotation needed to go from the source vector to the target vector as a Quaternion. For more info see:
  * https://stackoverflow.com/questions/1171849/finding-quaternion-representing-the-rotation-from-one-vector-to-another/1171995#1171995
  */
+private val X_UNIT_VECTOR = Vector3d(1.0, 0.0, 0.0)
+private val Y_UNIT_VECTOR = Vector3d(0.0, 1.0, 0.0)
 fun Vector3d.computeRotationTo(target: Vector3d): Quaternion {
     val normalizedBasis = this.normalize()
     val normalizedTarget = target.normalize()
+    val angleBetweenVectors = normalizedBasis.dot(normalizedTarget)
+
+    // If the angle is close to -1 it indicates the vectors are at a 180deg angle, eg: <---- and ---->
+    // In this case we have to rotate the vector by 180 degrees around either the X or Y axis. The reason we
+    // try X OR Y is that the vectors might be parallel to the X or Y axis, so pick the one which isn't parallel
+    if (angleBetweenVectors < -0.999999) {
+        var orthogonalVec = X_UNIT_VECTOR.cross(normalizedBasis)
+        if (orthogonalVec.length() < 0.00001) {
+            orthogonalVec = Y_UNIT_VECTOR.cross(normalizedBasis)
+        }
+        orthogonalVec.normalize()
+        return Quaternion(Vector3f(orthogonalVec), 180f, true)
+    }
+
+    // If the angle is close to 1 it indicates the vectors are perfectly parallel, eg: ----> and ---->
+    // In this case we do no rotations and return the unit quaternion
+    if (angleBetweenVectors > 0.999999) {
+        return Quaternion.ONE
+    }
+
+    // The default case is our vectors are at some angle from one another. Compute the rotation quaternion needed
     val cross = normalizedBasis.cross(target)
     val rotation = Quaternion(
         cross.x.toFloat(),
         cross.y.toFloat(),
         cross.z.toFloat(),
-        (sqrt(normalizedBasis.lengthSqr() * normalizedTarget.lengthSqr()) + normalizedBasis.dot(normalizedTarget)).toFloat()
+        (sqrt(normalizedBasis.lengthSqr() * normalizedTarget.lengthSqr()) + angleBetweenVectors).toFloat()
     )
     rotation.normalize()
     return rotation
