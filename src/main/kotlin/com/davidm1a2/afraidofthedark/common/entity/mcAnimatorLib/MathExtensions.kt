@@ -1,9 +1,11 @@
 package com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib
 
 import net.minecraft.util.math.vector.Quaternion
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.math.vector.Vector3f
 import kotlin.math.acos
 import kotlin.math.sin
+import kotlin.math.sqrt
 
 /**
  * Slerp sets this quaternion's value as an interpolation between two other quaternions
@@ -64,4 +66,22 @@ fun Vector3f.interpolate(otherVec: Vector3f, percent: Float) {
     this.setX((1 - percent) * this.x() + percent * otherVec.x())
     this.setY((1 - percent) * this.y() + percent * otherVec.y())
     this.setZ((1 - percent) * this.z() + percent * otherVec.z())
+}
+
+/**
+ * Computes the rotation needed to go from the source vector to the target vector as a Quaternion. For more info see:
+ * https://stackoverflow.com/questions/1171849/finding-quaternion-representing-the-rotation-from-one-vector-to-another/1171995#1171995
+ */
+fun Vector3d.computeRotationTo(target: Vector3d): Quaternion {
+    val normalizedBasis = this.normalize()
+    val normalizedTarget = target.normalize()
+    val cross = normalizedBasis.cross(target)
+    val rotation = Quaternion(
+        cross.x.toFloat(),
+        cross.y.toFloat(),
+        cross.z.toFloat(),
+        (sqrt(normalizedBasis.lengthSqr() * normalizedTarget.lengthSqr()) + normalizedBasis.dot(normalizedTarget)).toFloat()
+    )
+    rotation.normalize()
+    return rotation
 }

@@ -1,10 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.entity.spell.laser.SpellLaserEntity
-import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -15,9 +12,6 @@ import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.RayTraceContext
-import net.minecraft.util.math.vector.Vector3d
-import java.util.*
-import kotlin.math.ceil
 
 /**
  * Laser delivery method delivers the spell to the target with a hitscan laser
@@ -92,26 +86,6 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
 
         // The entity contains no logic, it's just for rendering a beam
         world.addFreshEntity(SpellLaserEntity(world, startPos, hitPos))
-
-        // Compute the distance the ray traveled
-        val distanceToHit = startPos.distanceTo(hitPos)
-        // Spawn at least 10 particles and at most 100. Take the distance to the hit position and spawn one particle per distance
-        val numParticlesToSpawn = ceil(distanceToHit).coerceIn(10.0, 100.0).toInt()
-
-        // Compute points along the laser line
-        val laserPositions = List<Vector3d>(numParticlesToSpawn) {
-            startPos.add(direction.scale(it.toDouble() / numParticlesToSpawn * distanceToHit))
-        }
-
-        // Spawn laser particles
-        AfraidOfTheDark.packetHandler.sendToDimension(
-            ParticlePacket(
-                ModParticles.SPELL_LASER,
-                laserPositions,
-                Collections.nCopies(numParticlesToSpawn, Vector3d.ZERO)
-            ),
-            state.world.dimension()
-        )
 
         // Begin performing effects and transition
         val currentState = if (hitEntity != null) {

@@ -87,8 +87,8 @@ class SpellLaserEntity(
     }
 
     companion object {
-        // Lasers only live for a second
-        private const val LIFESPAN_TICKS = 20
+        // Lasers only live for 1/2 a second
+        private const val LIFESPAN_TICKS = 10
 
         private val END_POS = EntityDataManager.defineId(SpellLaserEntity::class.java, ModDataSerializers.VECTOR3D)
     }

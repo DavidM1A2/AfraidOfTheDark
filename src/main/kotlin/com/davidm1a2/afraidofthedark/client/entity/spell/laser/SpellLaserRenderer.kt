@@ -1,13 +1,14 @@
 package com.davidm1a2.afraidofthedark.client.entity.spell.laser
 
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.computeRotationTo
 import com.davidm1a2.afraidofthedark.common.entity.spell.laser.SpellLaserEntity
 import com.mojang.blaze3d.matrix.MatrixStack
-import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.IVertexBuilder
 import net.minecraft.client.renderer.IRenderTypeBuffer
 import net.minecraft.client.renderer.LightTexture
 import net.minecraft.client.renderer.RenderState
+import net.minecraft.client.renderer.RenderState.TransparencyState
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererManager
@@ -17,7 +18,7 @@ import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.vector.Matrix3f
 import net.minecraft.util.math.vector.Matrix4f
 import net.minecraft.util.math.vector.Vector3d
-import org.lwjgl.opengl.GL11C
+import net.minecraft.util.math.vector.Vector3f
 import kotlin.math.roundToInt
 
 /**
@@ -43,33 +44,48 @@ class SpellLaserRenderer(renderManager: EntityRendererManager) : EntityRenderer<
         if (startPos == endPos) {
             return
         }
-        val segmentLength = getSegmentLength(startPos, endPos)
+
+        val distance = startPos.distanceTo(endPos)
+        val numSegments = (distance / RENDER_WIDTH).roundToInt().coerceAtLeast(1)
+        val segmentLength = distance / numSegments
+
+        // Point the laser in the right direction
+        val direction = endPos.subtract(startPos).normalize()
+        val rotation = BASE_RENDER_DIRECTION.computeRotationTo(direction)
+        val lengthScale = segmentLength / RENDER_WIDTH
+        matrixStack.mulPose(rotation)
+
+        // Rotate/Spin the laser
+        matrixStack.mulPose(Vector3f.XP.rotationDegrees((spellLaser.tickCount + partialTicks) * SPIN_SPEED))
+        for (segment in 0 until numSegments) {
+            drawSegment(matrixStack, buffer, lengthScale)
+            matrixStack.translate(segmentLength, 0.0, 0.0)
+        }
 
         matrixStack.popPose()
     }
 
-    private fun getSegmentLength(startPos: Vector3d, endPos: Vector3d): Double {
-        val length = startPos.distanceToSqr(endPos)
-        val numSegments = (length / STANDARD_TEXTURE_WIDTH_BLOCKS).roundToInt().coerceAtLeast(1)
-        return length / numSegments
-    }
-
-    private fun drawOneSprite(matrixStack: MatrixStack, buffer: IVertexBuilder, red: Int, green: Int, blue: Int) {
+    private fun drawSegment(matrixStack: MatrixStack, buffer: IVertexBuilder, lengthScale: Double) {
         val rotationMatrix = matrixStack.last().pose()
         val normalMatrix = matrixStack.last().normal()
-        drawVertex(rotationMatrix, normalMatrix, buffer, -1, -1, 0, 0f, 0f, red, green, blue)
-        drawVertex(rotationMatrix, normalMatrix, buffer, 1, -1, 0, 1f, 0f, red, green, blue)
-        drawVertex(rotationMatrix, normalMatrix, buffer, 1, 1, 0, 1f, 1f, red, green, blue)
-        drawVertex(rotationMatrix, normalMatrix, buffer, -1, 1, 0, 0f, 1f, red, green, blue)
+        val rotationPerSprite = 180f / SPRITE_COUNT
+        for (ignored in 0 until SPRITE_COUNT) {
+            drawVertex(rotationMatrix, normalMatrix, buffer, 0.0, -RENDER_HEIGHT, 0.0, 0f, 0f, 255, 255, 255)
+            drawVertex(rotationMatrix, normalMatrix, buffer, RENDER_WIDTH * lengthScale, -RENDER_HEIGHT, 0.0, 1f, 0f, 255, 255, 255)
+            drawVertex(rotationMatrix, normalMatrix, buffer, RENDER_WIDTH * lengthScale, RENDER_HEIGHT, 0.0, 1f, 1f, 255, 255, 255)
+            drawVertex(rotationMatrix, normalMatrix, buffer, 0.0, RENDER_HEIGHT, 0.0, 0f, 1f, 255, 255, 255)
+            matrixStack.mulPose(Vector3f.XP.rotationDegrees(rotationPerSprite))
+        }
+        matrixStack.mulPose(Vector3f.XP.rotationDegrees(180f))
     }
 
     private fun drawVertex(
         rotationMatrix: Matrix4f,
         normalMatrix: Matrix3f,
         vertexBuilder: IVertexBuilder,
-        x: Int,
-        y: Int,
-        z: Int,
+        x: Double,
+        y: Double,
+        z: Double,
         u: Float,
         v: Float,
         r: Int,
@@ -95,10 +111,15 @@ class SpellLaserRenderer(renderManager: EntityRendererManager) : EntityRenderer<
     }
 
     companion object {
-        private const val STANDARD_TEXTURE_WIDTH_BLOCKS = 2
+        private const val RENDER_WIDTH = 2.0
+        private const val RENDER_HEIGHT = 0.03
+        private const val SPRITE_COUNT = 4
+        private const val SPIN_SPEED = 20.0f
 
         // Ignores block and sky light levels and always renders the same
         private val FULLBRIGHT = LightTexture.pack(15, 15)
+
+        private val BASE_RENDER_DIRECTION = Vector3d(1.0, 0.0, 0.0)
 
         // The texture used by the model
         private val SPELL_LASER_TEXTURE = ResourceLocation("afraidofthedark:textures/entity/spell/laser.png")
@@ -112,22 +133,10 @@ class SpellLaserRenderer(renderManager: EntityRendererManager) : EntityRenderer<
             true,
             RenderType.State.builder()
                 .setTextureState(RenderState.TextureState(SPELL_LASER_TEXTURE, false, false))
-                .setTransparencyState(RenderState.TransparencyState("translucent_transparency", {
-                    RenderSystem.enableBlend()
-                    RenderSystem.blendFuncSeparate(
-                        GlStateManager.SourceFactor.SRC_ALPHA,
-                        GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
-                        GlStateManager.SourceFactor.ONE,
-                        GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA
-                    )
-                }) {
-                    RenderSystem.disableBlend()
-                    RenderSystem.defaultBlendFunc()
-                })
-                .setWriteMaskState(RenderState.WriteMaskState(true, false))
-                .setDepthTestState(RenderState.DepthTestState("<", GL11C.GL_LESS))
+                .setTransparencyState(TransparencyState("no_transparency", { RenderSystem.disableBlend() }) {})
                 .setCullState(RenderState.CullState(false))
-                .createCompositeState(false)
+                .setLightmapState(RenderState.LightmapState(false))
+                .createCompositeState(true)
         )
     }
 }
