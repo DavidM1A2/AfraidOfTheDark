@@ -113,7 +113,7 @@ class SpellLaserRenderer(renderManager: EntityRendererManager) : EntityRenderer<
     companion object {
         private const val RENDER_WIDTH = 2.0
         private const val RENDER_HEIGHT = 0.03
-        private const val SPRITE_COUNT = 4
+        private const val SPRITE_COUNT = 2
         private const val SPIN_SPEED = 20.0f
 
         // Ignores block and sky light levels and always renders the same
