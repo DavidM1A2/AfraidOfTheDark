@@ -18,6 +18,6 @@ class ZoneExitedResearchTrigger : ResearchTrigger<PlayerExitZoneEvent, ZoneExite
     }
 
     override fun shouldUnlock(player: PlayerEntity, event: PlayerExitZoneEvent, config: ZoneExitedResearchTriggerConfig): Boolean {
-        return event.tileEntity == config.tileEntityType.registryName
+        return event.tileEntity == config.tileEntityType
     }
 }

@@ -18,6 +18,6 @@ class ZoneEnteredResearchTrigger : ResearchTrigger<PlayerEnterZoneEvent, ZoneEnt
     }
 
     override fun shouldUnlock(player: PlayerEntity, event: PlayerEnterZoneEvent, config: ZoneEnteredResearchTriggerConfig): Boolean {
-        return event.tileEntity == config.tileEntityType.registryName
+        return event.tileEntity == config.tileEntityType
     }
 }
