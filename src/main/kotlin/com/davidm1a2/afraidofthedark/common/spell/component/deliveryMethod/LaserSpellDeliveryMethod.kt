@@ -4,14 +4,17 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.entity.spell.laser.SpellLaserEntity
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
+import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
+import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.RayTraceContext
+import java.awt.Color
 
 /**
  * Laser delivery method delivers the spell to the target with a hitscan laser
@@ -39,6 +42,28 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
                 .withGetter { it.data.getBoolean(NBT_HIT_LIQUIDS) }
                 .withDefaultValue(false)
                 .build()
+        )
+        addEditableProperty(
+            SpellComponentProperty(
+                "Color",
+                "The color of the laser in the format 'r g b' where red, green, and blue are values between 0 and 255",
+                { instance, newValue ->
+                    val rgbStrings = newValue.split(Regex("\\s+"))
+                    if (rgbStrings.size != 3) {
+                        throw InvalidValueException("RGB must be in the format 'r g b' (without the quotes)")
+                    }
+                    rgbStrings.forEach {
+                        it.toIntOrNull()?.let { rgb ->
+                            if (rgb < 0 || rgb > 255) {
+                                throw InvalidValueException("All 3 'r g b' values must be between 0 to 255")
+                            }
+                        } ?: throw InvalidValueException("All 3 'r g b' values must be integers between 0 to 255")
+                    }
+                    instance.data.putString(NBT_COLOR, newValue)
+                },
+                { it.data.getString(NBT_COLOR) },
+                { it.data.putString(NBT_COLOR, "255 0 0") }
+            )
         )
     }
 
@@ -85,7 +110,7 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         hitPos = hitEntity?.position() ?: hitPos
 
         // The entity contains no logic, it's just for rendering a beam
-        world.addFreshEntity(SpellLaserEntity(world, startPos, hitPos))
+        world.addFreshEntity(SpellLaserEntity(world, startPos, hitPos, getColor(state.getCurrentStage().deliveryInstance!!)))
 
         // Begin performing effects and transition
         val currentState = if (hitEntity != null) {
@@ -154,9 +179,15 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         return instance.data.getBoolean(NBT_HIT_LIQUIDS)
     }
 
+    fun getColor(instance: SpellComponentInstance<SpellDeliveryMethod>): Color {
+        val rgb = instance.data.getString(NBT_COLOR).split(Regex("\\s+")).map { it.toInt() }
+        return Color(rgb[0], rgb[1], rgb[2])
+    }
+
     companion object {
         // The NBT keys
         private const val NBT_RANGE = "range"
         private const val NBT_HIT_LIQUIDS = "hit_liquids"
+        private const val NBT_COLOR = "color"
     }
 }

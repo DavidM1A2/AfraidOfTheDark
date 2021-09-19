@@ -45,6 +45,11 @@ class SpellLaserRenderer(renderManager: EntityRendererManager) : EntityRenderer<
             return
         }
 
+        val color = spellLaser.getColor()
+        val red = color.red
+        val green = color.green
+        val blue = color.blue
+
         val distance = startPos.distanceTo(endPos)
         val numSegments = (distance / RENDER_WIDTH).roundToInt().coerceAtLeast(1)
         val segmentLength = distance / numSegments
@@ -58,22 +63,22 @@ class SpellLaserRenderer(renderManager: EntityRendererManager) : EntityRenderer<
         val lengthScale = segmentLength / RENDER_WIDTH
         matrixStack.mulPose(Vector3f.XP.rotationDegrees((spellLaser.tickCount + partialTicks) * SPIN_SPEED))
         for (segment in 0 until numSegments) {
-            drawSegment(matrixStack, buffer, lengthScale)
+            drawSegment(matrixStack, buffer, lengthScale, red, green, blue)
             matrixStack.translate(segmentLength, 0.0, 0.0)
         }
 
         matrixStack.popPose()
     }
 
-    private fun drawSegment(matrixStack: MatrixStack, buffer: IVertexBuilder, lengthScale: Double) {
+    private fun drawSegment(matrixStack: MatrixStack, buffer: IVertexBuilder, lengthScale: Double, red: Int, green: Int, blue: Int) {
         val rotationMatrix = matrixStack.last().pose()
         val normalMatrix = matrixStack.last().normal()
         val rotationPerSprite = 180f / SPRITE_COUNT
         for (ignored in 0 until SPRITE_COUNT) {
-            drawVertex(rotationMatrix, normalMatrix, buffer, 0.0, -RENDER_HEIGHT, 0.0, 0f, 0f, 255, 255, 255)
-            drawVertex(rotationMatrix, normalMatrix, buffer, RENDER_WIDTH * lengthScale, -RENDER_HEIGHT, 0.0, 1f, 0f, 255, 255, 255)
-            drawVertex(rotationMatrix, normalMatrix, buffer, RENDER_WIDTH * lengthScale, RENDER_HEIGHT, 0.0, 1f, 1f, 255, 255, 255)
-            drawVertex(rotationMatrix, normalMatrix, buffer, 0.0, RENDER_HEIGHT, 0.0, 0f, 1f, 255, 255, 255)
+            drawVertex(rotationMatrix, normalMatrix, buffer, 0.0, -RENDER_HEIGHT, 0.0, 0f, 0f, red, green, blue)
+            drawVertex(rotationMatrix, normalMatrix, buffer, RENDER_WIDTH * lengthScale, -RENDER_HEIGHT, 0.0, 1f, 0f, red, green, blue)
+            drawVertex(rotationMatrix, normalMatrix, buffer, RENDER_WIDTH * lengthScale, RENDER_HEIGHT, 0.0, 1f, 1f, red, green, blue)
+            drawVertex(rotationMatrix, normalMatrix, buffer, 0.0, RENDER_HEIGHT, 0.0, 0f, 1f, red, green, blue)
             matrixStack.mulPose(Vector3f.XP.rotationDegrees(rotationPerSprite))
         }
         matrixStack.mulPose(Vector3f.XP.rotationDegrees(180f))

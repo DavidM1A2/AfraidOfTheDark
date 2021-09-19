@@ -12,6 +12,7 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 import net.minecraftforge.fml.network.NetworkHooks
+import java.awt.Color
 
 class SpellLaserEntity(
     entityType: EntityType<out SpellLaserEntity>,
@@ -23,9 +24,11 @@ class SpellLaserEntity(
     constructor(
         world: World,
         startPos: Vector3d,
-        endPos: Vector3d
+        endPos: Vector3d,
+        color: Color
     ) : this(ModEntities.SPELL_LASER, world) {
         this.entityData[END_POS] = endPos
+        this.entityData[COLOR] = color
         this.setPos(startPos.x, startPos.y, startPos.z)
         this.setRot(0f, 0f)
         this.deltaMovement = Vector3d(0.0, 0.0, 0.0)
@@ -45,6 +48,10 @@ class SpellLaserEntity(
         return this.entityData[END_POS]
     }
 
+    fun getColor(): Color {
+        return this.entityData[COLOR]
+    }
+
     override fun shouldRenderAtSqrDistance(squareDistance: Double): Boolean {
         // Copy & Pasted from base class, except uses culling AABB instead of the regular AABB
         var boundingBoxSize = this.boundingBoxForCulling.size
@@ -61,6 +68,7 @@ class SpellLaserEntity(
 
     override fun defineSynchedData() {
         this.entityData.define(END_POS, Vector3d(0.0, 0.0, 0.0))
+        this.entityData.define(COLOR, Color.RED)
     }
 
     override fun onSyncedDataUpdated(dataParameter: DataParameter<*>) {
@@ -71,8 +79,8 @@ class SpellLaserEntity(
     }
 
     override fun readAdditionalSaveData(compound: CompoundNBT) {
-        val endPos = Vector3d(compound.getDouble("end_x"), compound.getDouble("end_y"), compound.getDouble("end_z"))
-        this.entityData[END_POS] = endPos
+        this.entityData[END_POS] = Vector3d(compound.getDouble("end_x"), compound.getDouble("end_y"), compound.getDouble("end_z"))
+        this.entityData[COLOR] = Color(compound.getInt("red"), compound.getInt("green"), compound.getInt("blue"))
     }
 
     override fun addAdditionalSaveData(compound: CompoundNBT) {
@@ -80,6 +88,10 @@ class SpellLaserEntity(
         compound.putDouble("end_x", endPos.x)
         compound.putDouble("end_y", endPos.y)
         compound.putDouble("end_z", endPos.z)
+        val color = this.getColor()
+        compound.putInt("red", color.red)
+        compound.putInt("green", color.green)
+        compound.putInt("blue", color.blue)
     }
 
     override fun getAddEntityPacket(): IPacket<*> {
@@ -91,5 +103,6 @@ class SpellLaserEntity(
         private const val LIFESPAN_TICKS = 10
 
         private val END_POS = EntityDataManager.defineId(SpellLaserEntity::class.java, ModDataSerializers.VECTOR3D)
+        private val COLOR = EntityDataManager.defineId(SpellLaserEntity::class.java, ModDataSerializers.COLOR)
     }
 }
