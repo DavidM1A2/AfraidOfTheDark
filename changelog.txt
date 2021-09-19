@@ -1,0 +1,9 @@
+Major:
+-
+
+Minor:
+- Laser has a new fancy look
+- Researches are laid out in a spiral instead of a top-down tree
+
+Bug Fixes:
+-
