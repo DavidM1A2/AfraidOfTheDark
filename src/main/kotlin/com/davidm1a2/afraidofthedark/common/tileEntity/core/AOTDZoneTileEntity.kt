@@ -40,8 +40,6 @@ abstract class AOTDZoneTileEntity(tileEntityType: TileEntityType<*>) : AOTDTicki
         if (ticksExisted % TICKS_BETWEEN_PLAYER_CHECKS == 0L) {
             // Grab all nearby players
             val nearbyPlayers = level!!.getEntitiesOfClass(PlayerEntity::class.java, zone)
-            println(nearbyPlayers.size)
-            println(zone)
             for (entityPlayer in nearbyPlayers) {
                 if (!playersInZone.contains(entityPlayer.uuid)) {
                     playersInZone.add(entityPlayer.uuid)
