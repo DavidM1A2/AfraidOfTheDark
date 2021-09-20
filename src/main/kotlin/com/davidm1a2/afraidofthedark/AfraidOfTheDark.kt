@@ -47,6 +47,7 @@ import com.davidm1a2.afraidofthedark.common.event.register.StructureRegister
 import com.davidm1a2.afraidofthedark.common.event.register.TileEntityRegister
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketHandler
 import com.davidm1a2.afraidofthedark.server.ServerProxy
+import com.davidm1a2.afraidofthedark.server.event.PlayerBiomeEventHandler
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.fml.ModLoadingContext
@@ -82,6 +83,7 @@ class AfraidOfTheDark {
         forgeBus.register(KeyInputEventHandler())
         forgeBus.register(researchTriggerHandler)
         forgeBus.register(StructureGenerationRegister())
+        forgeBus.register(PlayerBiomeEventHandler())
 
         modBus.register(RegistryRegister())
         modBus.register(BlockRegister())

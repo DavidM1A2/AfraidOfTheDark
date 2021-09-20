@@ -1,6 +1,16 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.common.research.trigger.*
+import com.davidm1a2.afraidofthedark.common.research.trigger.BlockBrokenResearchTrigger
+import com.davidm1a2.afraidofthedark.common.research.trigger.InBiomeResearchTrigger
+import com.davidm1a2.afraidofthedark.common.research.trigger.ItemCraftedResearchTrigger
+import com.davidm1a2.afraidofthedark.common.research.trigger.KillEntityResearchTrigger
+import com.davidm1a2.afraidofthedark.common.research.trigger.ManualResearchTrigger
+import com.davidm1a2.afraidofthedark.common.research.trigger.PlayerHurtResearchTrigger
+import com.davidm1a2.afraidofthedark.common.research.trigger.StartedAOTDResearchTrigger
+import com.davidm1a2.afraidofthedark.common.research.trigger.UseBlockResearchTrigger
+import com.davidm1a2.afraidofthedark.common.research.trigger.UseItemResearchTrigger
+import com.davidm1a2.afraidofthedark.common.research.trigger.ZoneEnteredResearchTrigger
+import com.davidm1a2.afraidofthedark.common.research.trigger.ZoneExitedResearchTrigger
 
 object ModResearchTriggers {
     val PLAYER_HURT = PlayerHurtResearchTrigger()
@@ -13,6 +23,7 @@ object ModResearchTriggers {
     val MANUAL = ManualResearchTrigger()
     val ENTER_ZONE = ZoneEnteredResearchTrigger()
     val EXIT_ZONE = ZoneExitedResearchTrigger()
+    val IN_BIOME = InBiomeResearchTrigger()
 
     val LIST = arrayOf(
         PLAYER_HURT,
@@ -24,6 +35,7 @@ object ModResearchTriggers {
         START_AOTD,
         MANUAL,
         ENTER_ZONE,
-        EXIT_ZONE
+        EXIT_ZONE,
+        IN_BIOME
     )
 }
