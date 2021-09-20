@@ -19,6 +19,7 @@ class UseBlockResearchTrigger :
     }
 
     override fun shouldUnlock(player: PlayerEntity, event: PlayerInteractEvent.RightClickBlock, config: UseBlockResearchTriggerConfig): Boolean {
-        return config.blockState == event.world.getBlockState(event.pos)
+        val affectedBlockState = event.world.getBlockState(event.pos)
+        return config.blockOrState.map({ affectedBlockState == it }, { affectedBlockState.block == it })
     }
 }

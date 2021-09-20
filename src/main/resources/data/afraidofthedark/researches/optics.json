@@ -11,9 +11,7 @@
     {
       "type": "afraidofthedark:use_block",
       "config": {
-        "block_state": {
-          "Name": "afraidofthedark:lens_cutter"
-        }
+        "block_or_state": "afraidofthedark:lens_cutter"
       }
     }
   ]

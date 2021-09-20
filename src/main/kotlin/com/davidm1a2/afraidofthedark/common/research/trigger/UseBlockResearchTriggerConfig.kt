@@ -1,20 +1,24 @@
 package com.davidm1a2.afraidofthedark.common.research.trigger
 
+import com.davidm1a2.afraidofthedark.common.registry.codec
 import com.davidm1a2.afraidofthedark.common.research.trigger.base.ResearchTriggerConfig
+import com.mojang.datafixers.util.Either
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraftforge.registries.ForgeRegistries
 import java.util.function.Function
 
-class UseBlockResearchTriggerConfig(
-    val blockState: BlockState
-) : ResearchTriggerConfig {
+class UseBlockResearchTriggerConfig(val blockOrState: Either<BlockState, Block>) : ResearchTriggerConfig {
     companion object {
         val CODEC: Codec<UseBlockResearchTriggerConfig> = RecordCodecBuilder.create {
             it.group(
-                BlockState.CODEC.fieldOf("block_state").forGetter(UseBlockResearchTriggerConfig::blockState)
-            ).apply(it, it.stable(Function { blockState ->
-                UseBlockResearchTriggerConfig(blockState)
+                Codec.either(BlockState.CODEC, ForgeRegistries.BLOCKS.codec())
+                    .fieldOf("block_or_state")
+                    .forGetter(UseBlockResearchTriggerConfig::blockOrState),
+            ).apply(it, it.stable(Function { blockOrState ->
+                UseBlockResearchTriggerConfig(blockOrState)
             }))
         }
     }

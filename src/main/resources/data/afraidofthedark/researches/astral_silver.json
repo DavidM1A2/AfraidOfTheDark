@@ -11,9 +11,7 @@
     {
       "type": "afraidofthedark:block_broken",
       "config": {
-        "block_state": {
-          "Name": "afraidofthedark:astral_silver_ore"
-        },
+        "block_or_state": "afraidofthedark:astral_silver_ore",
         "must_drop": true
       }
     }

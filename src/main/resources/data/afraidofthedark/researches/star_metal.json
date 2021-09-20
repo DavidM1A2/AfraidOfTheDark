@@ -17,9 +17,7 @@
     {
       "type": "afraidofthedark:block_broken",
       "config": {
-        "block_state": {
-          "Name": "afraidofthedark:star_metal_ore"
-        },
+        "block_or_state": "afraidofthedark:star_metal_ore",
         "must_drop": true
       }
     }

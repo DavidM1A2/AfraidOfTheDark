@@ -19,6 +19,7 @@ class BlockBrokenResearchTrigger : ResearchTrigger<BlockEvent.BreakEvent, BlockB
     }
 
     override fun shouldUnlock(player: PlayerEntity, event: BlockEvent.BreakEvent, config: BlockBrokenResearchTriggerConfig): Boolean {
-        return event.state == config.blockState && (ForgeHooks.canHarvestBlock(event.state, player, event.world, event.pos) || !config.mustDrop)
+        val stateMatches = config.blockOrState.map({ event.state == it }, { event.state.block == it })
+        return stateMatches && (ForgeHooks.canHarvestBlock(event.state, player, event.world, event.pos) || !config.mustDrop)
     }
 }
