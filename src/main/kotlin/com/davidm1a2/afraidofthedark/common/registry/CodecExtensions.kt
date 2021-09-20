@@ -18,7 +18,7 @@ fun <C> Codec<C>.lazy(): Codec<Lazy<C>> {
  */
 fun <V : IForgeRegistryEntry<V>> IForgeRegistry<V>.codec(): Codec<V> {
     return ResourceLocation.CODEC.xmap(
-        { this.getValue(it)!! },
+        { this.getValue(it) ?: throw IllegalStateException("Could not find item $it in registry ${this.registryName}") },
         { it.registryName!! }
     )
 }
