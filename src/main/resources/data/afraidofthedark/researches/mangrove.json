@@ -1,0 +1,16 @@
+{
+  "forge:registry_name": "afraidofthedark:mangrove",
+  "recipes": [],
+  "pre_recipes": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "prerequisite": "afraidofthedark:desert_oasis",
+  "triggers": [
+    {
+      "type": "afraidofthedark:block_broken",
+      "config": {
+        "block_or_state": "afraidofthedark:mangrove",
+        "must_drop": true
+      }
+    }
+  ]
+}

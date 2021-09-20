@@ -1,14 +1,14 @@
 {
-  "forge:registry_name": "afraidofthedark:nightmare",
+  "forge:registry_name": "afraidofthedark:nightmare_realm",
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/nightmare.png",
   "prerequisite": "afraidofthedark:dark_forest",
   "triggers": [
     {
-      "type": "afraidofthedark:manual",
+      "type": "afraidofthedark:in_biome",
       "config": {
-        "research": "afraidofthedark:nightmare"
+        "biome": "afraidofthedark:nightmare"
       }
     }
   ]

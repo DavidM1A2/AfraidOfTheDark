@@ -61,7 +61,8 @@ abstract class AOTDZoneTileEntity(tileEntityType: TileEntityType<*>) : AOTDTicki
         }
     }
 
-    protected abstract fun playerInZone(player: PlayerEntity)
+    // NOT abstract, because a subclass shouldn't be forced to override it
+    protected open fun playerInZone(player: PlayerEntity) {}
 
     override fun load(blockState: BlockState, compound: CompoundNBT) {
         super.load(blockState, compound)

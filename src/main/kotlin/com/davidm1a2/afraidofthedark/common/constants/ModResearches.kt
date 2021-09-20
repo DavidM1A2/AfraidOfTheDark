@@ -8,69 +8,99 @@ import net.minecraft.util.ResourceLocation
  * A static class containing all of our research references for us
  */
 object ModResearches {
+    val ADVANCED_MAGIC = load("advanced_magic")
+    val ALCHEMY = load("alchemy")
     val AN_UNBREAKABLE_COVENANT = load("an_unbreakable_covenant")
-    val OBSERVATORY = load("observatory")
+    val ASTRAL_SILVER = load("astral_silver")
+    val ASTRONOMY_1 = load("astronomy_1")
+    val ASTRONOMY_2 = load("astronomy_2")
+    val BLOOD_MAGIC = load("blood_magic")
+    val BLOODBATH = load("bloodbath")
+    val BONE_DUST = load("bone_dust")
+    val BONE_SWORD = load("bone_sword")
+    val CLOAK_OF_AGILITY = load("cloak_of_agility")
+    val DARK_FOREST = load("dark_forest")
+    val DEMON_HUNTER = load("demon_hunter")
+    val DESERT_OASIS = load("desert_oasis")
     val EERIE_FOREST = load("eerie_forest")
+    val ELEMENTAL_MAGIC = load("elemental_magic")
+    val ENARIA = load("enaria")
+    val ENCHANTED_FROGS = load("enchanted_frogs")
+    val ENCHANTED_SKELETON = load("enchanted_skeleton")
+    val FLASK_OF_SOULS = load("flask_of_souls")
+    val FORBIDDEN_CITY = load("forbidden_city")
+    val IGNEOUS = load("igneous")
+    val INFERNO = load("inferno")
+    val MAGIC_MASTERY = load("magic_mastery")
+    val MANGROVE = load("mangrove")
+    val NIGHTMARE_REALM = load("nightmare_realm")
+    val OBSERVATORY = load("observatory")
+    val OPTICS = load("optics")
+    val POCKET_DIMENSION = load("pocket_dimension")
+    val REANIMATION = load("reanimation")
+    val SACRED_MANGROVE = load("sacred_mangrove")
+    val SLEEPING_POTION = load("sleeping_potion")
+    val SPELLMASON = load("spellmason")
+    val STAR_METAL = load("star_metal")
+    val THRONE_ROOM = load("throne_room")
+    val VITAE_EXTRACTION = load("vitae_extraction")
+    val VITAE_LANTERN = load("vitae_lantern")
+    val VOID_CHEST = load("void_chest")
+    val VOID_OBELISK = load("void_obelisk")
+    val VOID_PARTY = load("void_party")
+    val WEREWOLF_BLOOD = load("werewolf_blood")
+    val WEREWOLVES = load("werewolves")
+    val WISDOM = load("wisdom")
     val WITCH_HUTS = load("witch_huts")
     val WRIST_CROSSBOW = load("wrist_crossbow")
-    val CLOAK_OF_AGILITY = load("cloak_of_agility")
-    val VOID_OBELISK = load("void_obelisk")
-    val DESERT_OASIS = load("desert_oasis")
-    val ENCHANTED_SKELETON = load("enchanted_skeleton")
-    val BLADE_OF_EXHUMATION = load("blade_of_exhumation")
-    val WEREWOLVES = load("werewolves")
-    val ASTRONOMY_1 = load("astronomy_1")
-    val ASTRAL_SILVER = load("astral_silver")
-    val OPTICS = load("optics")
-    val ELVOVRAS = load("elvovras")
-    val WEREWOLF_BLOOD = load("werewolf_blood")
-    val FLASK_OF_SOULS = load("flask_of_souls")
-    val VOID_CHEST = load("void_chest")
-    val ELDRITCH_DECORATION = load("eldritch_decoration")
-    val DARK_FOREST = load("dark_forest")
-    val SLEEPING_POTION = load("sleeping_potion")
-    val NIGHTMARE = load("nightmare")
-    val INSANITY = load("insanity")
-    val VITAE_LANTERN = load("vitae_lantern")
-    val ASTRONOMY_2 = load("astronomy_2")
-    val IGNEOUS = load("igneous")
-    val STAR_METAL = load("star_metal")
-    val FORBIDDEN_CITY = load("forbidden_city")
-    val ENARIA = load("enaria")
-    val ENARIAS_SECRET = load("enarias_secret")
 
     // An array containing a list of researches that AOTD adds
     val RESEARCH_LIST = arrayOf(
+        ADVANCED_MAGIC,
+        ALCHEMY,
         AN_UNBREAKABLE_COVENANT,
-        OBSERVATORY,
-        EERIE_FOREST,
-        WITCH_HUTS,
-        WRIST_CROSSBOW,
-        CLOAK_OF_AGILITY,
-        VOID_OBELISK,
-        VOID_CHEST,
-        DESERT_OASIS,
-        ENCHANTED_SKELETON,
-        BLADE_OF_EXHUMATION,
-        WEREWOLVES,
-        ASTRONOMY_1,
         ASTRAL_SILVER,
-        OPTICS,
-        ELVOVRAS,
-        WEREWOLF_BLOOD,
-        FLASK_OF_SOULS,
-        ELDRITCH_DECORATION,
-        DARK_FOREST,
-        SLEEPING_POTION,
-        NIGHTMARE,
-        INSANITY,
-        VITAE_LANTERN,
+        ASTRONOMY_1,
         ASTRONOMY_2,
-        IGNEOUS,
-        STAR_METAL,
-        FORBIDDEN_CITY,
+        BLOOD_MAGIC,
+        BLOODBATH,
+        BONE_DUST,
+        BONE_SWORD,
+        CLOAK_OF_AGILITY,
+        DARK_FOREST,
+        DEMON_HUNTER,
+        DESERT_OASIS,
+        EERIE_FOREST,
+        ELEMENTAL_MAGIC,
         ENARIA,
-        ENARIAS_SECRET
+        ENCHANTED_FROGS,
+        ENCHANTED_SKELETON,
+        FLASK_OF_SOULS,
+        FORBIDDEN_CITY,
+        IGNEOUS,
+        INFERNO,
+        MAGIC_MASTERY,
+        MANGROVE,
+        NIGHTMARE_REALM,
+        OBSERVATORY,
+        OPTICS,
+        POCKET_DIMENSION,
+        REANIMATION,
+        SACRED_MANGROVE,
+        SLEEPING_POTION,
+        SPELLMASON,
+        STAR_METAL,
+        THRONE_ROOM,
+        VITAE_EXTRACTION,
+        VITAE_LANTERN,
+        VOID_CHEST,
+        VOID_OBELISK,
+        VOID_PARTY,
+        WEREWOLF_BLOOD,
+        WEREWOLVES,
+        WISDOM,
+        WITCH_HUTS,
+        WRIST_CROSSBOW
     )
 
     private fun load(name: String): Research {

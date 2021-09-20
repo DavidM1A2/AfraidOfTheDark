@@ -1,0 +1,15 @@
+{
+  "forge:registry_name": "afraidofthedark:pocket_dimension",
+  "recipes": [],
+  "pre_recipes": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "prerequisite": "afraidofthedark:void_obelisk",
+  "triggers": [
+    {
+      "type": "afraidofthedark:in_biome",
+      "config": {
+        "biome": "afraidofthedark:void_chest"
+      }
+    }
+  ]
+}

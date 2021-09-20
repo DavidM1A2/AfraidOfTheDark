@@ -1,9 +1,6 @@
 {
   "forge:registry_name": "afraidofthedark:astral_silver",
-  "recipes": [
-    "afraidofthedark:astral_silver_sword",
-    "afraidofthedark:silver_bolt"
-  ],
+  "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/astral_silver.png",
   "prerequisite": "afraidofthedark:astronomy_1",

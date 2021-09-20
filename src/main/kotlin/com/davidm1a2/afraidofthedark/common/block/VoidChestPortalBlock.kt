@@ -46,10 +46,6 @@ class VoidChestPortalBlock : AOTDBlock(
                     // Send the player to their previously stored dimension
                     entity.teleport(playerVoidChestData.preTeleportDimension!!)
                 } else {
-                    // If we can research the research research it
-                    MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(entity, ModResearches.VOID_CHEST))
-                    MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(entity, ModResearches.ELDRITCH_DECORATION))
-
                     // If the player has the void chest research then move the player
                     if (playerResearch.isResearched(ModResearches.VOID_CHEST)) {
                         // Make sure no friends index is set since the portal can only send to the player's dimension

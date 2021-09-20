@@ -1,0 +1,27 @@
+{
+  "forge:registry_name": "afraidofthedark:demon_hunter",
+  "recipes": [
+    "afraidofthedark:astral_silver_sword",
+    "afraidofthedark:silver_bolt"
+  ],
+  "pre_recipes": [
+    "afraidofthedark:astral_silver_sword",
+    "afraidofthedark:silver_bolt"
+  ],
+  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "prerequisite": "afraidofthedark:astral_silver",
+  "triggers": [
+    {
+      "type": "afraidofthedark:item_crafted",
+      "config": {
+        "item": "afraidofthedark:astral_silver_sword"
+      }
+    },
+    {
+      "type": "afraidofthedark:item_crafted",
+      "config": {
+        "item": "afraidofthedark:silver_bolt"
+      }
+    }
+  ]
+}

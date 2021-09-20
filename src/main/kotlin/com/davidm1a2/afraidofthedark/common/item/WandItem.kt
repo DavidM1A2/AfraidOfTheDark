@@ -171,7 +171,7 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
         val player = Minecraft.getInstance().player
 
         // Need to test if player is null during client init
-        if (player != null && player.getResearch().isResearched(ModResearches.ENARIAS_SECRET)) {
+        if (player != null && player.getResearch().isResearched(ModResearches.SPELLMASON)) {
             // Test if the wand has a spell ID
             if (hasSpellId(stack)) {
                 // Grab the spell by ID

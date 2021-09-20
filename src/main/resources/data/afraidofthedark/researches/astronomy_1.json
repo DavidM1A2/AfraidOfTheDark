@@ -11,9 +11,9 @@
   "prerequisite": "afraidofthedark:observatory",
   "triggers": [
     {
-      "type": "afraidofthedark:manual",
+      "type": "afraidofthedark:use_item",
       "config": {
-        "research": "afraidofthedark:astronomy_1"
+        "item": "afraidofthedark:telescope"
       }
     }
   ]

@@ -3,12 +3,12 @@
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/sleeping_potion.png",
-  "prerequisite": "afraidofthedark:dark_forest",
+  "prerequisite": "afraidofthedark:nightmare_realm",
   "triggers": [
     {
-      "type": "afraidofthedark:manual",
+      "type": "afraidofthedark:item_crafted",
       "config": {
-        "research": "afraidofthedark:sleeping_potion"
+        "item": "afraidofthedark:sleeping_potion"
       }
     }
   ]

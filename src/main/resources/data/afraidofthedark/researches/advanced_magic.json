@@ -1,0 +1,15 @@
+{
+  "forge:registry_name": "afraidofthedark:advanced_magic",
+  "recipes": [],
+  "pre_recipes": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "prerequisite": "afraidofthedark:elemental_magic",
+  "triggers": [
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:advanced_magic"
+      }
+    }
+  ]
+}

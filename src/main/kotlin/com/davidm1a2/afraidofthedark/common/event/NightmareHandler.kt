@@ -101,10 +101,10 @@ class NightmareHandler {
                 val playerResearch = entityPlayer.getResearch()
 
                 // If the player can research the nightmare research do so
-                MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(entityPlayer, ModResearches.NIGHTMARE))
+                MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(entityPlayer, ModResearches.NIGHTMARE_REALM))
 
                 // If the player has the nightmare research send them to the nightmare realm
-                if (playerResearch.isResearched(ModResearches.NIGHTMARE)) {
+                if (playerResearch.isResearched(ModResearches.NIGHTMARE_REALM)) {
                     event.setResult(PlayerEntity.SleepResult.OTHER_PROBLEM)
                     (entityPlayer as ServerPlayerEntity).teleport(ModDimensions.NIGHTMARE_WORLD)
                 }

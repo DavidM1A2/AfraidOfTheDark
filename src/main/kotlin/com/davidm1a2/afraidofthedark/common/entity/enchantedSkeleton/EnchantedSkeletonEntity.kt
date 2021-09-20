@@ -11,7 +11,7 @@ import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.animation.W
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
-import com.davidm1a2.afraidofthedark.common.item.BladeOfExhumationItem
+import com.davidm1a2.afraidofthedark.common.item.BoneSwordItem
 import com.davidm1a2.afraidofthedark.common.network.packets.animation.AnimationPacket
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
@@ -145,8 +145,8 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
                 val playerResearch = killer.getResearch()
 
                 // If the blade of exhumation research is researched and the player is using a blade of exhumation drop one extra enchanted skeleton bone
-                if (playerResearch.isResearched(ModResearches.BLADE_OF_EXHUMATION)) {
-                    if (killer.mainHandItem.item is BladeOfExhumationItem) {
+                if (playerResearch.isResearched(ModResearches.BONE_SWORD)) {
+                    if (killer.mainHandItem.item is BoneSwordItem) {
                         level.addFreshEntity(ItemEntity(level, x, y, z, ItemStack(ModItems.ENCHANTED_SKELETON_BONE)))
                     }
                 }

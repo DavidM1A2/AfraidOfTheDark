@@ -1,7 +1,7 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "afraidofthedark:item/blade_of_exhumation"
+    "layer0": "afraidofthedark:item/bone_sword"
   },
   "display": {
     "thirdperson_righthand": {

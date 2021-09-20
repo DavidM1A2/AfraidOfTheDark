@@ -6,9 +6,9 @@
   "prerequisite": "afraidofthedark:eerie_forest",
   "triggers": [
     {
-      "type": "afraidofthedark:manual",
+      "type": "afraidofthedark:zone_entered",
       "config": {
-        "research": "afraidofthedark:witch_huts"
+        "tile_entity": "afraidofthedark:witch_hut"
       }
     }
   ]

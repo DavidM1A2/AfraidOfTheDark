@@ -9,6 +9,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
+import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDZoneTileEntity
 import net.minecraft.block.Blocks
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
@@ -23,7 +24,19 @@ import kotlin.random.Random
  *
  * @constructor sets the block type of the tile entity
  */
-class DesertOasisTileEntity : AOTDTickingTileEntity(ModTileEntities.DESERT_OASIS) {
+class DesertOasisTileEntity : AOTDZoneTileEntity(ModTileEntities.DESERT_OASIS) {
+    override val zone: AxisAlignedBB by lazy {
+        AxisAlignedBB(blockPos).inflate(
+            ModSchematics.DESERT_OASIS.getWidth() / 2.0,
+            0.0,
+            ModSchematics.DESERT_OASIS.getLength() / 2.0
+        ).expandTowards(
+            0.0,
+            // The DesertOasis sits at y=6 (relative to 0,0,0) so don't look up past the bounds of the structure
+            ModSchematics.DESERT_OASIS.getHeight().toDouble() - 6,
+            0.0
+        )
+    }
     // The AABB of the desert oasis
     private lateinit var oasisBoundingBox: AxisAlignedBB
 
@@ -36,10 +49,6 @@ class DesertOasisTileEntity : AOTDTickingTileEntity(ModTileEntities.DESERT_OASIS
         if (level?.isClientSide == false) {
             // If we've existed for a multiple of 60 ticks perform a check for nearby players
             if (ticksExisted % TICKS_INBETWEEN_CHECKS == 0L) {
-                if (!::oasisBoundingBox.isInitialized) {
-                    computeOasisBoundingBox()
-                }
-
                 // Get all existing frogs
                 val enchantedFrogs = level!!.getEntitiesOfClass(EnchantedFrogEntity::class.java, oasisBoundingBox)
                 // Compute the number of frogs to spawn
@@ -48,22 +57,6 @@ class DesertOasisTileEntity : AOTDTickingTileEntity(ModTileEntities.DESERT_OASIS
                 spawnFrogs(numberOfFrogsToSpawn)
             }
         }
-    }
-
-    /**
-     * Updates the oasis bounding box based on position
-     */
-    private fun computeOasisBoundingBox() {
-        oasisBoundingBox = AxisAlignedBB(blockPos).inflate(
-            ModSchematics.DESERT_OASIS.getWidth() / 2.0,
-            0.0,
-            ModSchematics.DESERT_OASIS.getLength() / 2.0
-        ).expandTowards(
-            0.0,
-            // The DesertOasis sits at y=6 (relative to 0,0,0) so don't look up past the bounds of the structure
-            ModSchematics.DESERT_OASIS.getHeight().toDouble() - 6,
-            0.0
-        )
     }
 
     /**

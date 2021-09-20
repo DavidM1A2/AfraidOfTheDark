@@ -1,0 +1,15 @@
+{
+  "forge:registry_name": "afraidofthedark:alchemy",
+  "recipes": [],
+  "pre_recipes": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "prerequisite": "afraidofthedark:astral_silver",
+  "triggers": [
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:alchemy"
+      }
+    }
+  ]
+}

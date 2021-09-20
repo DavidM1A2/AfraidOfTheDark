@@ -40,18 +40,8 @@ class EnariasAltarBlock : AOTDTileEntityBlock(
         hand: Hand,
         hit: BlockRayTraceResult
     ): ActionResultType {
-        // Grab the player's research
-        val playerResearch = playerIn.getResearch()
-
-        if (!worldIn.isClientSide) {
-            if (!playerResearch.isResearched(ModResearches.ENARIAS_SECRET)) {
-                playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.enarias_altar.no_research"), playerIn.uuid)
-            }
-        } else {
-            // If the player has the right research show the gui
-            if (playerResearch.isResearched(ModResearches.ENARIAS_SECRET) || playerResearch.canResearch(ModResearches.ENARIAS_SECRET)) {
-                Minecraft.getInstance().setScreen(SpellListScreen())
-            }
+        if (worldIn.isClientSide) {
+            Minecraft.getInstance().setScreen(SpellListScreen())
         }
         return ActionResultType.SUCCESS
     }

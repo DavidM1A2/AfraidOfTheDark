@@ -14,8 +14,8 @@
     }
   },
   "result": {
-    "item": "afraidofthedark:blade_of_exhumation",
+    "item": "afraidofthedark:bone_sword",
     "count": 1
   },
-  "required_research": "afraidofthedark:blade_of_exhumation"
+  "required_research": "afraidofthedark:bone_sword"
 }

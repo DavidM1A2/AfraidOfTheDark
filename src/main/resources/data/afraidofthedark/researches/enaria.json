@@ -3,7 +3,7 @@
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/enaria.png",
-  "prerequisite": "afraidofthedark:forbidden_city",
+  "prerequisite": "afraidofthedark:nightmare_realm",
   "triggers": [
     {
       "type": "afraidofthedark:manual",

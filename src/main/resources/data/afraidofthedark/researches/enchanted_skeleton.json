@@ -1,16 +1,14 @@
 {
   "forge:registry_name": "afraidofthedark:enchanted_skeleton",
-  "recipes": [
-    "minecraft:bone_meal"
-  ],
+  "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/enchanted_skeleton.png",
   "prerequisite": "afraidofthedark:an_unbreakable_covenant",
   "triggers": [
     {
-      "type": "afraidofthedark:manual",
+      "type": "afraidofthedark:kill_entity",
       "config": {
-        "research": "afraidofthedark:enchanted_skeleton"
+        "entity_type": "afraidofthedark:enchanted_skeleton"
       }
     }
   ]

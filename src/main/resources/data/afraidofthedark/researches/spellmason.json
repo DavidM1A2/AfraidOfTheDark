@@ -1,8 +1,8 @@
 {
-  "forge:registry_name": "afraidofthedark:enarias_secret",
+  "forge:registry_name": "afraidofthedark:spellmason",
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/enarias_secret.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
   "prerequisite": "afraidofthedark:enaria",
   "triggers": [
     {

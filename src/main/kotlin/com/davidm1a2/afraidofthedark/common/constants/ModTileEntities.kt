@@ -1,10 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.common.tileEntity.DarkForestTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.DesertOasisTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.EnariaSpawnerTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.GhastlyEnariaSpawnerTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.VoidChestTileEntity
+import com.davidm1a2.afraidofthedark.common.tileEntity.*
 import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.EnariasAltarTileEntity
 import net.minecraft.tileentity.TileEntityType
 
@@ -24,6 +20,24 @@ object ModTileEntities {
         .of({ DarkForestTileEntity() }, ModBlocks.DARK_FOREST)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "dark_forest")
+        }
+    val OBSERVATORY: TileEntityType<ObservatoryTileEntity> = TileEntityType
+        .Builder
+        .of({ ObservatoryTileEntity() }, ModBlocks.OBSERVATORY)
+        .build(null).apply {
+            setRegistryName(Constants.MOD_ID, "observatory")
+        }
+    val VOID_OBELISK: TileEntityType<VoidObeliskTileEntity> = TileEntityType
+        .Builder
+        .of({ VoidObeliskTileEntity() }, ModBlocks.VOID_OBELISK)
+        .build(null).apply {
+            setRegistryName(Constants.MOD_ID, "void_obelisk")
+        }
+    val WITCH_HUT: TileEntityType<WitchHutTileEntity> = TileEntityType
+        .Builder
+        .of({ WitchHutTileEntity() }, ModBlocks.WITCH_HUT)
+        .build(null).apply {
+            setRegistryName(Constants.MOD_ID, "witch_hut")
         }
     val GHASTLY_ENARIA_SPAWNER: TileEntityType<GhastlyEnariaSpawnerTileEntity> = TileEntityType
         .Builder
@@ -54,9 +68,12 @@ object ModTileEntities {
     val TILE_ENTITY_LIST = arrayOf(
         VOID_CHEST,
         DARK_FOREST,
+        WITCH_HUT,
+        VOID_OBELISK,
         GHASTLY_ENARIA_SPAWNER,
         ENARIA_SPAWNER,
         DESERT_OASIS,
-        ENARIAS_ALTAR
+        ENARIAS_ALTAR,
+        OBSERVATORY
     )
 }

@@ -1,12 +1,12 @@
 {
   "type": "minecraft:crafting_shapeless",
+  "result": {
+    "item": "afraidofthedark:bone_dust",
+    "count": 2
+  },
   "ingredients": [
     {
       "item": "afraidofthedark:enchanted_skeleton_bone"
     }
-  ],
-  "result": {
-    "item": "minecraft:bone_meal",
-    "count": 3
-  }
+  ]
 }

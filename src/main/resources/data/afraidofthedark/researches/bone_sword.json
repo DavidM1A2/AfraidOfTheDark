@@ -1,0 +1,19 @@
+{
+  "forge:registry_name": "afraidofthedark:bone_sword",
+  "recipes": [
+    "afraidofthedark:bone_sword"
+  ],
+  "pre_recipes": [
+    "afraidofthedark:bone_sword"
+  ],
+  "icon": "afraidofthedark:textures/gui/research_icons/blade_of_exhumation.png",
+  "prerequisite": "afraidofthedark:enchanted_skeleton",
+  "triggers": [
+    {
+      "type": "afraidofthedark:item_crafted",
+      "config": {
+        "item": "afraidofthedark:bone_sword"
+      }
+    }
+  ]
+}

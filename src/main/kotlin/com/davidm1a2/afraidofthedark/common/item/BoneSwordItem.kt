@@ -16,9 +16,9 @@ import net.minecraft.util.SoundEvents
  *
  * @constructor Initializes the item with a name and material
  */
-class BladeOfExhumationItem : AOTDSwordItem(
-    "blade_of_exhumation",
-    ModToolMaterials.BLADE_OF_EXHUMATION,
+class BoneSwordItem : AOTDSwordItem(
+    "bone_sword",
+    ModToolMaterials.BONE,
     3,
     -2.4f,
     Properties()
@@ -40,7 +40,7 @@ class BladeOfExhumationItem : AOTDSwordItem(
         // If the player has researched the blade of exhumation research and the entity hit is an enchanted skeleton 1 shot kill it
         if (entity is EnchantedSkeletonEntity && entity.isAlive) {
             // 1 shot kill the skeleton
-            if (player.getResearch().isResearched(ModResearches.BLADE_OF_EXHUMATION)) {
+            if (player.getResearch().isResearched(ModResearches.BONE_SWORD)) {
                 // 1 shot the skeleton
                 entity.hurt(DamageSource.playerAttack(player), Float.MAX_VALUE)
                 stack.hurtAndBreak(1, player) {}

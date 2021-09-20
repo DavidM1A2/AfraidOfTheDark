@@ -3,12 +3,12 @@
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/astronomy_2.png",
-  "prerequisite": "afraidofthedark:nightmare",
+  "prerequisite": "afraidofthedark:astronomy_1",
   "triggers": [
     {
-      "type": "afraidofthedark:manual",
+      "type": "afraidofthedark:use_item",
       "config": {
-        "research": "afraidofthedark:astronomy_2"
+        "item": "afraidofthedark:advanced_telescope"
       }
     }
   ]

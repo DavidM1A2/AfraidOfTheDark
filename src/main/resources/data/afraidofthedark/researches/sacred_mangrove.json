@@ -1,0 +1,16 @@
+{
+  "forge:registry_name": "afraidofthedark:sacred_mangrove",
+  "recipes": [],
+  "pre_recipes": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "prerequisite": "afraidofthedark:mangrove",
+  "triggers": [
+    {
+      "type": "afraidofthedark:block_broken",
+      "config": {
+        "block_or_state": "afraidofthedark:sacred_mangrove",
+        "must_drop": true
+      }
+    }
+  ]
+}

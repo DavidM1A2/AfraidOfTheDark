@@ -13,12 +13,18 @@ class ResearchPositionHandler {
 
     @SubscribeEvent
     fun initResearchPositions(event: FMLClientSetupEvent) {
+        // First pass to create all wrappers
+        for (research in ModRegistries.RESEARCH) {
+            wrapperMap[research] = ResearchWrapper(research)
+        }
+        // Second pass to link wrappers together
         var longestChain = 1
         for (research in ModRegistries.RESEARCH) {
-            wrapperMap[research] = ResearchWrapper(research).apply { parent = research.preRequisite?.let { preReq -> wrapperMap[preReq] } }
+            wrapperMap[research]!!.parent = research.preRequisite?.let { preReq -> wrapperMap[preReq] }
             wrapperMap[research]!!.parent?.children?.add(wrapperMap[research]!!)
             longestChain = max(longestChain, calcDistFromRoot(wrapperMap[research]!!))
         }
+        // Compute spacing from the root node
         findRoot()?.apply {
             computeChildren(1.0 / (longestChain + 1))
             applyPos()

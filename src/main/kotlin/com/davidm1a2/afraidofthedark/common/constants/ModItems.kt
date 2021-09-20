@@ -20,7 +20,7 @@ import net.minecraft.inventory.EquipmentSlotType
 object ModItems {
     val JOURNAL = JournalItem()
     val ENCHANTED_SKELETON_BONE = EnchantedSkeletonBoneItem()
-    val BLADE_OF_EXHUMATION = BladeOfExhumationItem()
+    val BONE_SWORD = BoneSwordItem()
     val CROSSBOW = CrossbowItem()
     val WRIST_CROSSBOW = WristCrossbowItem()
     val RESEARCH_SCROLL = ResearchScrollItem()
@@ -83,7 +83,7 @@ object ModItems {
     var ITEM_LIST = arrayOf(
         JOURNAL,
         ENCHANTED_SKELETON_BONE,
-        BLADE_OF_EXHUMATION,
+        BONE_SWORD,
         CROSSBOW,
         WRIST_CROSSBOW,
         RESEARCH_SCROLL,

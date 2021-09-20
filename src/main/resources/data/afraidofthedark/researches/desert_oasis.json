@@ -6,9 +6,9 @@
   "prerequisite": "afraidofthedark:an_unbreakable_covenant",
   "triggers": [
     {
-      "type": "afraidofthedark:manual",
+      "type": "afraidofthedark:zone_entered",
       "config": {
-        "research": "afraidofthedark:desert_oasis"
+        "tile_entity": "afraidofthedark:desert_oasis"
       }
     }
   ]

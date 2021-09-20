@@ -1,0 +1,15 @@
+{
+  "forge:registry_name": "afraidofthedark:throne_room",
+  "recipes": [],
+  "pre_recipes": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "prerequisite": "afraidofthedark:forbidden_city",
+  "triggers": [
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:throne_room"
+      }
+    }
+  ]
+}

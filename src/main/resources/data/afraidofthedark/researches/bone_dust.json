@@ -1,0 +1,19 @@
+{
+  "forge:registry_name": "afraidofthedark:bone_dust",
+  "recipes": [
+    "afraidofthedark:bone_dust"
+  ],
+  "pre_recipes": [
+    "afraidofthedark:bone_dust"
+  ],
+  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "prerequisite": "afraidofthedark:enchanted_skeleton",
+  "triggers": [
+    {
+      "type": "afraidofthedark:item_crafted",
+      "config": {
+        "item": "afraidofthedark:bone_dust"
+      }
+    }
+  ]
+}
