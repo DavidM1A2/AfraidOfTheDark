@@ -22,10 +22,15 @@ abstract class SpellComponent<T : IForgeRegistryEntry<T>>(id: ResourceLocation, 
         registryName = id
     }
 
-    /**
-     * @return Gets the unlocalized name of the component
-     */
-    abstract fun getUnlocalizedName(): String
+    abstract fun getUnlocalizedBaseName(): String
+
+    fun getUnlocalizedName(): String {
+        return "${getUnlocalizedBaseName()}.name"
+    }
+
+    fun getUnlocalizedPropertyBaseName(propertyName: String): String {
+        return "${getUnlocalizedBaseName()}.$propertyName"
+    }
 
     /**
      * Adds an editable property that this spell component has

@@ -25,8 +25,7 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()
-                .withName("Range")
-                .withDescription("The range of the laser in blocks.")
+                .withBaseName(getUnlocalizedPropertyBaseName("range"))
                 .withSetter { instance, newValue -> instance.data.putDouble(NBT_RANGE, newValue) }
                 .withGetter { it.data.getDouble(NBT_RANGE) }
                 .withDefaultValue(50.0)
@@ -36,8 +35,7 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         )
         addEditableProperty(
             SpellComponentPropertyFactory.booleanProperty()
-                .withName("Hit Liquids")
-                .withDescription("'True' to let liquid blocks be hit, or 'false' to go through them.")
+                .withBaseName(getUnlocalizedPropertyBaseName("hit_liquids"))
                 .withSetter { instance, newValue -> instance.data.putBoolean(NBT_HIT_LIQUIDS, newValue) }
                 .withGetter { it.data.getBoolean(NBT_HIT_LIQUIDS) }
                 .withDefaultValue(false)
@@ -45,8 +43,7 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         )
         addEditableProperty(
             SpellComponentProperty(
-                "Color",
-                "The color of the laser in the format 'r g b' where red, green, and blue are values between 0 and 255",
+                getUnlocalizedPropertyBaseName("color"),
                 { instance, newValue ->
                     val rgbStrings = newValue.split(Regex("\\s+"))
                     if (rgbStrings.size != 3) {

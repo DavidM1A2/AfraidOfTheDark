@@ -19,8 +19,7 @@ class FeedSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "feed
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
-                .withName("Hunger Amount")
-                .withDescription("The amount of food half 'drumsticks' to restore.")
+                .withBaseName(getUnlocalizedPropertyBaseName("hunger_amount"))
                 .withSetter { instance, newValue -> instance.data.putInt(NBT_HUNGER_VALUE, newValue) }
                 .withGetter { it.data.getInt(NBT_HUNGER_VALUE) }
                 .withDefaultValue(2)
@@ -30,8 +29,7 @@ class FeedSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "feed
         )
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
-                .withName("Saturation Amount")
-                .withDescription("The amount of saturation restore.")
+                .withBaseName(getUnlocalizedPropertyBaseName("saturation_amount"))
                 .withSetter { instance, newValue -> instance.data.putInt(NBT_SATURATION_VALUE, newValue) }
                 .withGetter { it.data.getInt(NBT_SATURATION_VALUE) }
                 .withDefaultValue(1)

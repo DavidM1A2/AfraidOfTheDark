@@ -25,8 +25,7 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()
-                .withName("Radius")
-                .withDescription("The area of effect radius in blocks.")
+                .withBaseName(getUnlocalizedPropertyBaseName("radius"))
                 .withSetter { instance, newValue -> instance.data.putDouble(NBT_RADIUS, newValue) }
                 .withGetter { it.data.getDouble(NBT_RADIUS) }
                 .withDefaultValue(3.0)
@@ -36,8 +35,7 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
         )
         addEditableProperty(
             SpellComponentPropertyFactory.enumProperty<TargetType>()
-                .withName("Target Type")
-                .withDescription("Should be either 'entity' or 'block'. If the target type is 'block' all nearby blocks will be affected, if it is 'entity' all nearby entities will be affected.")
+                .withBaseName(getUnlocalizedPropertyBaseName("target_type"))
                 .withSetter { instance, newValue -> instance.data.putInt(NBT_TARGET_TYPE, newValue.ordinal) }
                 .withGetter { TargetType.values()[it.data.getInt(NBT_TARGET_TYPE)] }
                 .withDefaultValue(TargetType.BLOCK)

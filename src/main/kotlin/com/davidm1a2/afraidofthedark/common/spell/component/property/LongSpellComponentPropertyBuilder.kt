@@ -11,6 +11,6 @@ class LongSpellComponentPropertyBuilder :
      * @return The built spell component property
      */
     fun build(): SpellComponentProperty {
-        return LongSpellComponentProperty(name!!, description!!, setter!!, getter!!, defaultValue!!, minValue, maxValue)
+        return LongSpellComponentProperty(baseName!!, setter!!, getter!!, defaultValue!!, minValue, maxValue)
     }
 }

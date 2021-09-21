@@ -22,8 +22,7 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()
-                .withName("Range")
-                .withDescription("The range of the projectile in blocks.")
+                .withBaseName(getUnlocalizedPropertyBaseName("range"))
                 .withSetter { instance, newValue -> instance.data.putDouble(NBT_RANGE, newValue) }
                 .withGetter { it.data.getDouble(NBT_RANGE) }
                 .withDefaultValue(50.0)
@@ -33,8 +32,7 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
         )
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()
-                .withName("Speed")
-                .withDescription("The speed of the projectile in blocks/tick.")
+                .withBaseName(getUnlocalizedPropertyBaseName("speed"))
                 .withSetter { instance, newValue -> instance.data.putDouble(NBT_SPEED, newValue) }
                 .withGetter { it.data.getDouble(NBT_SPEED) }
                 .withDefaultValue(0.6)
@@ -44,8 +42,7 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
         )
         addEditableProperty(
             SpellComponentProperty(
-                "Color",
-                "The color of the projectile in the format 'r g b' where red, green, and blue are values between 0 and 255",
+                getUnlocalizedPropertyBaseName("color"),
                 { instance, newValue ->
                     val rgbStrings = newValue.split(Regex("\\s+"))
                     if (rgbStrings.size != 3) {

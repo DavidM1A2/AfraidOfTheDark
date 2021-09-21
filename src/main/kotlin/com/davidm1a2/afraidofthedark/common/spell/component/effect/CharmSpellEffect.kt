@@ -22,8 +22,7 @@ class CharmSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
-                .withName("Charm Duration")
-                .withDescription("The number of ticks to charm to when hitting players.")
+                .withBaseName(getUnlocalizedPropertyBaseName("duration"))
                 .withSetter { instance, newValue -> instance.data.putInt(NBT_CHARM_DURATION, newValue) }
                 .withGetter { it.data.getInt(NBT_CHARM_DURATION) }
                 .withDefaultValue(40)

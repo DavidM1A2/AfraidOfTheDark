@@ -17,8 +17,7 @@ class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Const
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()
-                .withName("Yaw")
-                .withDescription("The yaw (left/right rotation) to apply in degrees. Yaw gets applied before pitch")
+                .withBaseName(getUnlocalizedPropertyBaseName("yaw"))
                 .withSetter { instance, newValue -> instance.data.putDouble(NBT_YAW, newValue) }
                 .withGetter { it.data.getDouble(NBT_YAW) }
                 .withDefaultValue(0.0)
@@ -28,8 +27,7 @@ class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Const
         )
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()
-                .withName("Pitch")
-                .withDescription("The pitch (up/down rotation) to apply in degrees. Yaw gets applied before pitch")
+                .withBaseName(getUnlocalizedPropertyBaseName("pitch"))
                 .withSetter { instance, newValue -> instance.data.putDouble(NBT_PITCH, newValue) }
                 .withGetter { it.data.getDouble(NBT_PITCH) }
                 .withDefaultValue(0.0)

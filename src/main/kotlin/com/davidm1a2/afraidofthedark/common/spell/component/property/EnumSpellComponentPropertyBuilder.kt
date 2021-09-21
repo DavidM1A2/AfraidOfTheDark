@@ -11,6 +11,6 @@ class EnumSpellComponentPropertyBuilder<T : Enum<T>>(private val values: Array<T
      * @return The built spell component property
      */
     fun build(): SpellComponentProperty {
-        return EnumSpellComponentProperty(name!!, description!!, setter!!, getter!!, defaultValue!!, values)
+        return EnumSpellComponentProperty(baseName!!, setter!!, getter!!, defaultValue!!, values)
     }
 }

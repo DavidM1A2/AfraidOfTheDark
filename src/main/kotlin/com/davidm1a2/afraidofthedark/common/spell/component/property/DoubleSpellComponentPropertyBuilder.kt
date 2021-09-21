@@ -12,8 +12,7 @@ class DoubleSpellComponentPropertyBuilder :
      */
     fun build(): SpellComponentProperty {
         return DoubleSpellComponentProperty(
-            name!!,
-            description!!,
+            baseName!!,
             setter!!,
             getter!!,
             defaultValue!!,

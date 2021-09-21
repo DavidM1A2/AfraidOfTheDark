@@ -20,8 +20,7 @@ class BurnSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "burn
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
-                .withName("Burn")
-                .withDescription("The number of seconds to set fire to when hitting entities.")
+                .withBaseName(getUnlocalizedPropertyBaseName("duration"))
                 .withSetter { instance, newValue -> instance.data.putInt(NBT_BURN_DURATION, newValue) }
                 .withGetter { it.data.getInt(NBT_BURN_DURATION) }
                 .withDefaultValue(2)

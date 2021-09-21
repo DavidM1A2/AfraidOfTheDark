@@ -194,7 +194,7 @@ class SpellScroll :
                     // Create a label that states the name of the property
                     val propertyName = LabelComponent(ClientData.getOrCreate(26f), Dimensions(1.0, 0.1))
                     propertyName.textColor = purpleText
-                    propertyName.text = "${editableProp.name}:"
+                    propertyName.text = "${I18n.get(editableProp.getUnlocalizedName())}:"
                     propertyList.add(propertyName)
 
                     if (editableProp is EnumSpellComponentProperty<*>) {
@@ -223,14 +223,14 @@ class SpellScroll :
                                 propertyError.isVisible = false
                             } catch (e: InvalidValueException) {
                                 propertyError.isVisible = true
-                                propertyError.setHoverText(editableProp.description + "\n§4Error: " + e.message!!)
+                                propertyError.setHoverText(I18n.get(editableProp.getUnlocalizedDescription()) + "\n§4Error: " + e.message!!)
                             }
                         }
 
                         val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png")).apply {
                             displayMode = DispMode.FIT_TO_PARENT
                             gravity = Gravity.CENTER_RIGHT
-                            setHoverText(editableProp.description)
+                            setHoverText(I18n.get(editableProp.getUnlocalizedDescription()))
                         }
 
                         propertyEditor.add(propertyError)
@@ -254,7 +254,7 @@ class SpellScroll :
                         val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png")).apply {
                             displayMode = DispMode.FIT_TO_PARENT
                             gravity = Gravity.CENTER_RIGHT
-                            setHoverText(editableProp.description)
+                            setHoverText(I18n.get(editableProp.getUnlocalizedDescription()))
                         }
                         propertyPane.add(ratioPane)
                         propertyPane.add(infoPane)
@@ -290,14 +290,14 @@ class SpellScroll :
                                 propertyError.isVisible = false
                             } catch (e: InvalidValueException) {
                                 propertyError.isVisible = true
-                                propertyError.setHoverText(editableProp.description + "\n§4Error: " + e.message!!)
+                                propertyError.setHoverText(I18n.get(editableProp.getUnlocalizedDescription()) + "\n§4Error: " + e.message!!)
                             }
                         }
 
                         val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png")).apply {
                             displayMode = DispMode.FIT_TO_PARENT
                             gravity = Gravity.CENTER_RIGHT
-                            setHoverText(editableProp.description)
+                            setHoverText(I18n.get(editableProp.getUnlocalizedDescription()))
                         }
 
                         propertyEditor.add(propertyError)

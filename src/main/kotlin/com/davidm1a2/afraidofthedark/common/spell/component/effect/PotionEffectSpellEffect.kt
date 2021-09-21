@@ -28,8 +28,7 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
     init {
         addEditableProperty(
             SpellComponentProperty(
-                "Potion Type",
-                "The type of potion effect to apply. Must be using the minecraft naming convention, like 'minecraft:speed'.",
+                getUnlocalizedPropertyBaseName("type"),
                 { instance, newValue ->
                     // Grab the potion associated with the text
                     val type = ForgeRegistries.POTIONS.getValue(ResourceLocation(newValue))
@@ -46,8 +45,7 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
         )
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
-                .withName("Potion Strength")
-                .withDescription("The level of the potion to apply, ex. 4 means apply 'Potion Type' at level 4.")
+                .withBaseName(getUnlocalizedPropertyBaseName("strength"))
                 .withSetter { instance, newValue -> instance.data.putInt(NBT_POTION_STRENGTH, newValue - 1) }
                 .withGetter { it.data.getInt(NBT_POTION_STRENGTH) + 1 }
                 .withDefaultValue(1)
@@ -56,8 +54,7 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
         )
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
-                .withName("Potion Duration")
-                .withDescription("The number of ticks the potion effect should run for.")
+                .withBaseName(getUnlocalizedPropertyBaseName("duration"))
                 .withSetter { instance, newValue -> instance.data.putInt(NBT_POTION_DURATION, newValue) }
                 .withGetter { it.data.getInt(NBT_POTION_DURATION) }
                 .withDefaultValue(20)
@@ -66,8 +63,7 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
         )
         addEditableProperty(
             SpellComponentPropertyFactory.floatProperty()
-                .withName("Potion Cloud Radius")
-                .withDescription("The size of the potion cloud if the potion is delivered to a block and not an entity.")
+                .withBaseName(getUnlocalizedPropertyBaseName("cloud_radius"))
                 .withSetter { instance, newValue -> instance.data.putFloat(NBT_POTION_RADIUS, newValue) }
                 .withGetter { it.data.getFloat(NBT_POTION_RADIUS) }
                 .withDefaultValue(2f)

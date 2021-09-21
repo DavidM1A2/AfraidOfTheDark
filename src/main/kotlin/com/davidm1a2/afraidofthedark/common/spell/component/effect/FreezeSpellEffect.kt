@@ -26,8 +26,7 @@ class FreezeSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "fr
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
-                .withName("Duration")
-                .withDescription("The number of ticks the freeze will last against entities.")
+                .withBaseName(getUnlocalizedPropertyBaseName("duration"))
                 .withSetter { instance, newValue -> instance.data.putInt(NBT_FREEZE_DURATION, newValue) }
                 .withGetter { it.data.getInt(NBT_FREEZE_DURATION) }
                 .withDefaultValue(20)

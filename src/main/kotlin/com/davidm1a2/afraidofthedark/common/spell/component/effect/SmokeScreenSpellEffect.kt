@@ -23,8 +23,7 @@ class SmokeScreenSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
-                .withName("Smoke Density")
-                .withDescription("The number of particles present in the smoke screen.")
+                .withBaseName(getUnlocalizedPropertyBaseName("density"))
                 .withSetter { instance, newValue -> instance.data.putInt(NBT_SMOKE_DENSITY, newValue) }
                 .withGetter { it.data.getInt(NBT_SMOKE_DENSITY) }
                 .withDefaultValue(10)

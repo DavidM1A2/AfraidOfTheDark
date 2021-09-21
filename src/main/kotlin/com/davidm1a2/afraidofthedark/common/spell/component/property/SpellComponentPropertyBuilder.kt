@@ -7,16 +7,14 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
  *
  * @param <T> The type that this property is
  * @param <V> The builder type, used to
- * @property name The name of the property
- * @property description The description of the property
+ * @property baseName The name of the property
  * @property setter The setter for this property
  * @property setter The getter for this property
  * @property defaultValue The default value of this property
  */
 @Suppress("UNCHECKED_CAST")
 abstract class SpellComponentPropertyBuilder<T, V : SpellComponentPropertyBuilder<T, V>> {
-    var name: String? = null
-    var description: String? = null
+    var baseName: String? = null
     var setter: ((SpellComponentInstance<*>, T) -> Unit)? = null
     var getter: ((SpellComponentInstance<*>) -> T)? = null
     var defaultValue: T? = null
@@ -24,22 +22,11 @@ abstract class SpellComponentPropertyBuilder<T, V : SpellComponentPropertyBuilde
     /**
      * Sets the name of the property
      *
-     * @param name The name of the property
+     * @param baseName The name of the property
      * @return The builder instance
      */
-    fun withName(name: String): V {
-        this.name = name
-        return this as V
-    }
-
-    /**
-     * Sets the description of the property
-     *
-     * @param description The description of the property
-     * @return The builder instance
-     */
-    fun withDescription(description: String): V {
-        this.description = description
+    fun withBaseName(baseName: String): V {
+        this.baseName = baseName
         return this as V
     }
 

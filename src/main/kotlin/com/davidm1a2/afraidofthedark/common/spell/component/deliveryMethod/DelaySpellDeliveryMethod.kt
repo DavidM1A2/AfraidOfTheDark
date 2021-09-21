@@ -18,8 +18,7 @@ class DelaySpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.longProperty()
-                .withName("Delay")
-                .withDescription("The delay of the delivery in ticks (20 ticks = 1 second).")
+                .withBaseName(getUnlocalizedPropertyBaseName("delay"))
                 .withSetter { instance, newValue -> instance.data.putLong(NBT_DELAY, newValue) }
                 .withGetter { it.data.getLong(NBT_DELAY) }
                 .withDefaultValue(20L)

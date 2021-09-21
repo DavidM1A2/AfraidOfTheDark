@@ -11,6 +11,6 @@ class BooleanSpellComponentPropertyBuilder :
      * @return The built spell component property
      */
     fun build(): SpellComponentProperty {
-        return BooleanSpellComponentProperty(name!!, description!!, setter!!, getter!!, defaultValue!!)
+        return BooleanSpellComponentProperty(baseName!!, setter!!, getter!!, defaultValue!!)
     }
 }

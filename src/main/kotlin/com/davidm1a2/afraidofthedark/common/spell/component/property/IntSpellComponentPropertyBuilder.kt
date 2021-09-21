@@ -10,6 +10,6 @@ class IntSpellComponentPropertyBuilder : BoundedSpellComponentPropertyBuilder<In
      * @return The built spell component property
      */
     fun build(): SpellComponentProperty {
-        return IntSpellComponentProperty(name!!, description!!, setter!!, getter!!, defaultValue!!, minValue, maxValue)
+        return IntSpellComponentProperty(baseName!!, setter!!, getter!!, defaultValue!!, minValue, maxValue)
     }
 }
