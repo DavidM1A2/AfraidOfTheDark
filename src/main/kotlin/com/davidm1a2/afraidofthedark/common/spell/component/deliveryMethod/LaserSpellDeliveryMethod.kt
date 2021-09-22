@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.RayTraceContext
+import net.minecraft.util.text.TranslationTextComponent
 import java.awt.Color
 
 /**
@@ -47,14 +48,14 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
                 { instance, newValue ->
                     val rgbStrings = newValue.split(Regex("\\s+"))
                     if (rgbStrings.size != 3) {
-                        throw InvalidValueException("RGB must be in the format 'r g b' (without the quotes)")
+                        throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.color.format"))
                     }
                     rgbStrings.forEach {
                         it.toIntOrNull()?.let { rgb ->
                             if (rgb < 0 || rgb > 255) {
-                                throw InvalidValueException("All 3 'r g b' values must be between 0 to 255")
+                                throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.color.value_range"))
                             }
-                        } ?: throw InvalidValueException("All 3 'r g b' values must be integers between 0 to 255")
+                        } ?: throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.color.value_type"))
                     }
                     instance.data.putString(NBT_COLOR, newValue)
                 },

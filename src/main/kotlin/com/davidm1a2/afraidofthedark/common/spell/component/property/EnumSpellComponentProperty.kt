@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.property
 
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
+import net.minecraft.util.text.TranslationTextComponent
 
 /**
  * Special spell component property that allows for an enumerated set of options
@@ -26,7 +27,7 @@ internal class EnumSpellComponentProperty<T : Enum<T>>(
             setter(instance, enumValue)
         } else {
             setter(instance, defaultValue)
-            throw InvalidValueException("$newValue must in the list of options!")
+            throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.enum.format", newValue))
         }
     },
     {

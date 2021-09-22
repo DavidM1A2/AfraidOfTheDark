@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.property
 
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
+import net.minecraft.util.text.TranslationTextComponent
 
 /**
  * Special spell component property that encapsulates long parsing
@@ -23,16 +24,16 @@ internal class LongSpellComponentProperty(
     baseName,
     { instance, newValue ->
         // Ensure the number is parsable
-        val longValue = newValue.toLongOrNull() ?: throw InvalidValueException("$newValue is not a valid integer!")
+        val longValue = newValue.toLongOrNull() ?: throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.long.format", newValue))
 
         // Ensure the long is valid
         if (minValue != null && longValue < minValue) {
             setter(instance, defaultValue)
-            throw InvalidValueException("$baseName must be larger than or equal to $minValue")
+            throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.long.too_small", TranslationTextComponent(baseName), minValue))
         }
         if (maxValue != null && longValue > maxValue) {
             setter(instance, defaultValue)
-            throw InvalidValueException("$baseName must be smaller than than or equal to $maxValue")
+            throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.long.too_large", TranslationTextComponent(baseName), maxValue))
         }
         setter(instance, longValue)
     },

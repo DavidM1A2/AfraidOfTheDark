@@ -1,6 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.property
 
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
+import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.TranslationTextComponent
 
 /**
  * Class containing information about a property of a spell component (power source, effect, or delivery method)
@@ -17,11 +19,11 @@ open class SpellComponentProperty(
     val getter: (SpellComponentInstance<*>) -> String,
     val defaultSetter: (SpellComponentInstance<*>) -> Unit
 ) {
-    fun getUnlocalizedName(): String {
-        return "$baseName.name"
+    fun getName(): ITextComponent {
+        return TranslationTextComponent("$baseName.name")
     }
 
-    fun getUnlocalizedDescription(): String {
-        return "$baseName.description"
+    fun getDescription(): ITextComponent {
+        return TranslationTextComponent("$baseName.description")
     }
 }

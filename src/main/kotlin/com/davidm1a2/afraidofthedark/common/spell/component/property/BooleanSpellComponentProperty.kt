@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.property
 
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
+import net.minecraft.util.text.TranslationTextComponent
 
 /**
  * Special spell component property that encapsulates boolean parsing
@@ -30,7 +31,7 @@ internal class BooleanSpellComponentProperty(
             }
             else -> {
                 setter(instance, defaultValue)
-                throw InvalidValueException("$newValue must be 'true' or 'false'!")
+                throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.boolean.format", newValue))
             }
         }
     },

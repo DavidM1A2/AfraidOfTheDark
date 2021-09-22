@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.property
 
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
+import net.minecraft.util.text.TranslationTextComponent
 
 /**
  * Special spell component property that encapsulates integer parsing
@@ -25,16 +26,29 @@ internal class IntSpellComponentProperty(
     baseName,
     { instance, newValue ->
         // Ensure the number is parsable
-        val intValue = newValue.toIntOrNull() ?: throw InvalidValueException("$newValue is not a valid integer!")
+        val intValue =
+            newValue.toIntOrNull() ?: throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.integer.format", newValue))
 
         // Ensure the int is valid
         if (minValue != null && intValue < minValue) {
             setter(instance, defaultValue)
-            throw InvalidValueException("$baseName must be larger than or equal to $minValue")
+            throw InvalidValueException(
+                TranslationTextComponent(
+                    "property_error.afraidofthedark.integer.too_small",
+                    TranslationTextComponent(baseName),
+                    minValue
+                )
+            )
         }
         if (maxValue != null && intValue > maxValue) {
             setter(instance, defaultValue)
-            throw InvalidValueException("$baseName must be smaller than than or equal to $maxValue")
+            throw InvalidValueException(
+                TranslationTextComponent(
+                    "property_error.afraidofthedark.integer.too_large",
+                    TranslationTextComponent(baseName),
+                    maxValue
+                )
+            )
         }
         setter(instance, intValue)
     },

@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.property
 
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
+import net.minecraft.util.text.TranslationTextComponent
 
 /**
  * Special spell component property that encapsulates double parsing
@@ -28,16 +29,28 @@ internal class DoubleSpellComponentProperty
     { instance, newValue ->
         // Ensure the number is parsable
         val doubleValue =
-            newValue.toDoubleOrNull() ?: throw InvalidValueException("$newValue is not a valid decimal value!")
+            newValue.toDoubleOrNull() ?: throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.double.format", newValue))
 
         // Ensure the double is valid
         if (minValue != null && doubleValue < minValue) {
             setter(instance, defaultValue)
-            throw InvalidValueException("$baseName must be larger than or equal to $minValue")
+            throw InvalidValueException(
+                TranslationTextComponent(
+                    "property_error.afraidofthedark.double.too_small",
+                    TranslationTextComponent(baseName),
+                    minValue
+                )
+            )
         }
         if (maxValue != null && doubleValue > maxValue) {
             setter(instance, defaultValue)
-            throw InvalidValueException("$baseName must be smaller than than or equal to $maxValue")
+            throw InvalidValueException(
+                TranslationTextComponent(
+                    "property_error.afraidofthedark.double.too_large",
+                    TranslationTextComponent(baseName),
+                    maxValue
+                )
+            )
         }
         setter(instance, doubleValue)
     },

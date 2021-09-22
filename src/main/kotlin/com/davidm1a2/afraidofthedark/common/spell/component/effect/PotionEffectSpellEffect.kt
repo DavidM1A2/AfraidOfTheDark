@@ -14,6 +14,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.potion.Effect
 import net.minecraft.potion.EffectInstance
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 import net.minecraftforge.registries.ForgeRegistries
 import kotlin.math.max
@@ -36,7 +37,7 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
                     if (type != null) {
                         instance.data.putString(NBT_POTION_TYPE, type.registryName.toString())
                     } else {
-                        throw InvalidValueException("Invalid potion type $newValue, it was not found in the registry.")
+                        throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.potion.type", newValue))
                     }
                 },
                 { it.data.getString(NBT_POTION_TYPE) },
