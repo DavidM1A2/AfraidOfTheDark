@@ -20,8 +20,8 @@ class FeedSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "feed
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("hunger_amount"))
-                .withSetter { instance, newValue -> instance.data.putInt(NBT_HUNGER_VALUE, newValue) }
-                .withGetter { it.data.getInt(NBT_HUNGER_VALUE) }
+                .withSetter(this::setHungerAmount)
+                .withGetter(this::getHungerAmount)
                 .withDefaultValue(2)
                 .withMinValue(1)
                 .withMaxValue(300)
@@ -30,8 +30,8 @@ class FeedSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "feed
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("saturation_amount"))
-                .withSetter { instance, newValue -> instance.data.putInt(NBT_SATURATION_VALUE, newValue) }
-                .withGetter { it.data.getInt(NBT_SATURATION_VALUE) }
+                .withSetter(this::setSaturationAmount)
+                .withGetter(this::getSaturationAmount)
                 .withDefaultValue(1)
                 .withMinValue(0)
                 .build()
@@ -49,7 +49,7 @@ class FeedSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "feed
         if (entity is PlayerEntity) {
             createParticlesAt(1, 2, state.position, entity.level.dimension(), ModParticles.GROW)
             val foodStats = entity.foodData
-            foodStats.eat(getHungerValue(instance), getSaturationValue(instance).toFloat())
+            foodStats.eat(getHungerAmount(instance), getSaturationAmount(instance).toFloat())
         }
     }
 
@@ -60,32 +60,28 @@ class FeedSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "feed
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 10.0 + getHungerValue(instance) / 2.0 + getSaturationValue(instance) * 2.0
+        return 10.0 + getHungerAmount(instance) / 2.0 + getSaturationAmount(instance) * 2.0
     }
 
-    /**
-     * Gets the hunger value this feed instance adds
-     *
-     * @param instance The instance of the feed effect
-     * @return The hunger value this instance adds
-     */
-    fun getHungerValue(instance: SpellComponentInstance<SpellEffect>): Int {
-        return instance.data.getInt(NBT_HUNGER_VALUE)
+    fun setHungerAmount(instance: SpellComponentInstance<*>, hungerAmount: Int) {
+        instance.data.putInt(NBT_HUNGER_AMOUNT, hungerAmount)
     }
 
-    /**
-     * Gets the saturation value this feed instance adds
-     *
-     * @param instance The instance of the feed effect
-     * @return The saturation value this instance adds
-     */
-    fun getSaturationValue(instance: SpellComponentInstance<SpellEffect>): Int {
-        return instance.data.getInt(NBT_SATURATION_VALUE)
+    fun getHungerAmount(instance: SpellComponentInstance<*>): Int {
+        return instance.data.getInt(NBT_HUNGER_AMOUNT)
+    }
+
+    fun setSaturationAmount(instance: SpellComponentInstance<*>, saturationAmount: Int) {
+        instance.data.putInt(NBT_SATURATION_AMOUNT, saturationAmount)
+    }
+
+    fun getSaturationAmount(instance: SpellComponentInstance<*>): Int {
+        return instance.data.getInt(NBT_SATURATION_AMOUNT)
     }
 
     companion object {
         // NBT constants
-        private const val NBT_HUNGER_VALUE = "hunger_value"
-        private const val NBT_SATURATION_VALUE = "saturation_value"
+        private const val NBT_HUNGER_AMOUNT = "hunger_amount"
+        private const val NBT_SATURATION_AMOUNT = "saturation_amount"
     }
 }

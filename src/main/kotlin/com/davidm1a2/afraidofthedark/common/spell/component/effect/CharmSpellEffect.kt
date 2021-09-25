@@ -23,8 +23,8 @@ class CharmSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("duration"))
-                .withSetter { instance, newValue -> instance.data.putInt(NBT_CHARM_DURATION, newValue) }
-                .withGetter { it.data.getInt(NBT_CHARM_DURATION) }
+                .withSetter(this::setDuration)
+                .withGetter(this::getDuration)
                 .withDefaultValue(40)
                 .withMinValue(1)
                 .withMaxValue(1200)
@@ -47,7 +47,7 @@ class CharmSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
             // Grab the player's charm data
             val spellCharmData = entity.getSpellCharmData()
             // Charm them for the "charm duration"
-            spellCharmData.charmTicks = getCharmDuration(instance)
+            spellCharmData.charmTicks = getDuration(instance)
 
             // Set the charming entity
             spellCharmData.charmingEntityId = spellOwner.uuid
@@ -82,26 +82,20 @@ class CharmSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        val charmDuration = getCharmDuration(instance) / 20.0
+        val charmDuration = getDuration(instance) / 20.0
         return 25.0 + charmDuration * charmDuration * 5.0
     }
 
-    fun setCharmDuration(instance: SpellComponentInstance<SpellEffect>, duration: Int) {
-        instance.data.putInt(NBT_CHARM_DURATION, duration)
+    fun setDuration(instance: SpellComponentInstance<*>, duration: Int) {
+        instance.data.putInt(NBT_DURATION, duration)
     }
 
-    /**
-     * The charm duration this effect gives in ticks
-     *
-     * @param instance The instance of the spell effect to grab the charm duration from
-     * @return The duration of the charm in ticks
-     */
-    private fun getCharmDuration(instance: SpellComponentInstance<SpellEffect>): Int {
-        return instance.data.getInt(NBT_CHARM_DURATION)
+    private fun getDuration(instance: SpellComponentInstance<*>): Int {
+        return instance.data.getInt(NBT_DURATION)
     }
 
     companion object {
         // NBT constants for charm duration
-        private const val NBT_CHARM_DURATION = "charm_duration"
+        private const val NBT_DURATION = "duration"
     }
 }

@@ -24,8 +24,8 @@ class SmokeScreenSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("density"))
-                .withSetter { instance, newValue -> instance.data.putInt(NBT_SMOKE_DENSITY, newValue) }
-                .withGetter { it.data.getInt(NBT_SMOKE_DENSITY) }
+                .withSetter(this::setDensity)
+                .withGetter(this::getDensity)
                 .withDefaultValue(10)
                 .withMinValue(1)
                 .build()
@@ -43,7 +43,7 @@ class SmokeScreenSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
         val positions: MutableList<Vector3d> = ArrayList()
 
         // Create smokeDensity random smoke particles
-        for (i in 0 until getSmokeDensity(instance)) {
+        for (i in 0 until getDensity(instance)) {
             positions.add(position.add(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5))
         }
 
@@ -64,21 +64,19 @@ class SmokeScreenSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 10.0 + getSmokeDensity(instance) / 5.0
+        return 10.0 + getDensity(instance) / 5.0
     }
 
-    /**
-     * The amount of smoke density this effect gives
-     *
-     * @param instance The instance of the smoke screen spell
-     * @return amount of smoke density this effect gives
-     */
-    fun getSmokeDensity(instance: SpellComponentInstance<SpellEffect>): Int {
-        return instance.data.getInt(NBT_SMOKE_DENSITY)
+    fun setDensity(instance: SpellComponentInstance<*>, density: Int) {
+        instance.data.putInt(NBT_DENSITY, density)
+    }
+
+    fun getDensity(instance: SpellComponentInstance<*>): Int {
+        return instance.data.getInt(NBT_DENSITY)
     }
 
     companion object {
         // NBT constants for smoke density
-        private const val NBT_SMOKE_DENSITY = "smoke_density"
+        private const val NBT_DENSITY = "density"
     }
 }

@@ -21,8 +21,8 @@ class HealSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "heal
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("amount"))
-                .withSetter { instance, newValue -> instance.data.putInt(NBT_HEALING_AMOUNT, newValue) }
-                .withGetter { it.data.getInt(NBT_HEALING_AMOUNT) }
+                .withSetter(this::setAmount)
+                .withGetter(this::getAmount)
                 .withDefaultValue(2)
                 .withMinValue(1)
                 .build()
@@ -37,7 +37,7 @@ class HealSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "heal
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         val entity = state.getEntity()
         if (entity is LivingEntity && entity !is ArmorStandEntity) {
-            val healAmount = getHealAmount(instance)
+            val healAmount = getAmount(instance)
             createParticlesAround(healAmount, 2 * healAmount, state.position, entity.level.dimension(), ModParticles.HEAL, 1.0)
             entity.heal(healAmount.toFloat())
         }
@@ -50,25 +50,19 @@ class HealSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "heal
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return getHealAmount(instance) * 5.0
+        return getAmount(instance) * 5.0
     }
 
-    fun setHealAmount(instance: SpellComponentInstance<SpellEffect>, amount: Int) {
-        instance.data.putInt(NBT_HEALING_AMOUNT, amount)
+    fun setAmount(instance: SpellComponentInstance<*>, amount: Int) {
+        instance.data.putInt(NBT_AMOUNT, amount)
     }
 
-    /**
-     * Gets the number of half hearts this spell effect heals
-     *
-     * @param instance The instance of this effect
-     * @return The number of half hearts to heal
-     */
-    fun getHealAmount(instance: SpellComponentInstance<SpellEffect>): Int {
-        return instance.data.getInt(NBT_HEALING_AMOUNT)
+    fun getAmount(instance: SpellComponentInstance<*>): Int {
+        return instance.data.getInt(NBT_AMOUNT)
     }
 
     companion object {
         // NBT constants for healing amount
-        private const val NBT_HEALING_AMOUNT = "healing_amount"
+        private const val NBT_AMOUNT = "amount"
     }
 }

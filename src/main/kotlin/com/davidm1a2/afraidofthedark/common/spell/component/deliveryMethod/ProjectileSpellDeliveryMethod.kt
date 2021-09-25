@@ -21,8 +21,8 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("range"))
-                .withSetter { instance, newValue -> instance.data.putDouble(NBT_RANGE, newValue) }
-                .withGetter { it.data.getDouble(NBT_RANGE) }
+                .withSetter(this::setRange)
+                .withGetter(this::getRange)
                 .withDefaultValue(50.0)
                 .withMinValue(1.0)
                 .withMaxValue(300.0)
@@ -31,8 +31,8 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("speed"))
-                .withSetter { instance, newValue -> instance.data.putDouble(NBT_SPEED, newValue) }
-                .withGetter { it.data.getDouble(NBT_SPEED) }
+                .withSetter(this::setSpeed)
+                .withGetter(this::getSpeed)
                 .withDefaultValue(0.6)
                 .withMinValue(0.0)
                 .withMaxValue(10.0)
@@ -103,19 +103,19 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
         return 1.5
     }
 
-    fun setSpeed(instance: SpellComponentInstance<SpellDeliveryMethod>, speed: Double) {
+    fun setSpeed(instance: SpellComponentInstance<*>, speed: Double) {
         instance.data.putDouble(NBT_SPEED, speed)
     }
 
-    fun getSpeed(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
+    fun getSpeed(instance: SpellComponentInstance<*>): Double {
         return instance.data.getDouble(NBT_SPEED)
     }
 
-    fun setRange(instance: SpellComponentInstance<SpellDeliveryMethod>, range: Double) {
+    fun setRange(instance: SpellComponentInstance<*>, range: Double) {
         instance.data.putDouble(NBT_RANGE, range)
     }
 
-    fun getRange(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
+    fun getRange(instance: SpellComponentInstance<*>): Double {
         return instance.data.getDouble(NBT_RANGE)
     }
 

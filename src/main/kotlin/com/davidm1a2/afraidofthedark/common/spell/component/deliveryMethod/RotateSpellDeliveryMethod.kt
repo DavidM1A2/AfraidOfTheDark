@@ -18,8 +18,8 @@ class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Const
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("yaw"))
-                .withSetter { instance, newValue -> instance.data.putDouble(NBT_YAW, newValue) }
-                .withGetter { it.data.getDouble(NBT_YAW) }
+                .withSetter(this::setYaw)
+                .withGetter(this::getYaw)
                 .withDefaultValue(0.0)
                 .withMinValue(-180.0)
                 .withMaxValue(180.0)
@@ -28,8 +28,8 @@ class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Const
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("pitch"))
-                .withSetter { instance, newValue -> instance.data.putDouble(NBT_PITCH, newValue) }
-                .withGetter { it.data.getDouble(NBT_PITCH) }
+                .withSetter(this::setPitch)
+                .withGetter(this::getPitch)
                 .withDefaultValue(0.0)
                 .withMinValue(-90.0)
                 .withMaxValue(90.0)
@@ -69,11 +69,19 @@ class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Const
         return 1.0
     }
 
-    fun getYaw(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
+    fun setYaw(instance: SpellComponentInstance<*>, yaw: Double) {
+        instance.data.putDouble(NBT_YAW, yaw)
+    }
+
+    fun getYaw(instance: SpellComponentInstance<*>): Double {
         return instance.data.getDouble(NBT_YAW)
     }
 
-    fun getPitch(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
+    fun setPitch(instance: SpellComponentInstance<*>, pitch: Double) {
+        instance.data.putDouble(NBT_PITCH, pitch)
+    }
+
+    fun getPitch(instance: SpellComponentInstance<*>): Double {
         return instance.data.getDouble(NBT_PITCH)
     }
 

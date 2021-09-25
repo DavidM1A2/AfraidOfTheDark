@@ -24,8 +24,8 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("range"))
-                .withSetter { instance, newValue -> instance.data.putDouble(NBT_RANGE, newValue) }
-                .withGetter { it.data.getDouble(NBT_RANGE) }
+                .withSetter(this::setRange)
+                .withGetter(this::getRange)
                 .withDefaultValue(50.0)
                 .withMinValue(1.0)
                 .withMaxValue(300.0)
@@ -34,8 +34,8 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         addEditableProperty(
             SpellComponentPropertyFactory.booleanProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("hit_liquids"))
-                .withSetter { instance, newValue -> instance.data.putBoolean(NBT_HIT_LIQUIDS, newValue) }
-                .withGetter { it.data.getBoolean(NBT_HIT_LIQUIDS) }
+                .withSetter(this::setHitLiquids)
+                .withGetter(this::getHitLiquids)
                 .withDefaultValue(false)
                 .build()
         )
@@ -67,7 +67,7 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         val endPos = startPos.add(direction.scale(getRange(state.getCurrentStage().deliveryInstance!!)))
 
         // Perform a ray trace, this will not hit blocks
-        val hitLiquids = if (hitLiquids(state.getCurrentStage().deliveryInstance!!)) RayTraceContext.FluidMode.ANY else RayTraceContext.FluidMode.NONE
+        val hitLiquids = if (getHitLiquids(state.getCurrentStage().deliveryInstance!!)) RayTraceContext.FluidMode.ANY else RayTraceContext.FluidMode.NONE
         val rayTraceResult = world.clip(RayTraceContext(startPos, endPos, RayTraceContext.BlockMode.COLLIDER, hitLiquids, entity))
 
         // Compute the hit vector
@@ -137,27 +137,19 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         return 2.0
     }
 
-    fun setRange(instance: SpellComponentInstance<SpellDeliveryMethod>, range: Double) {
+    fun setRange(instance: SpellComponentInstance<*>, range: Double) {
         instance.data.putDouble(NBT_RANGE, range)
     }
 
-    /**
-     * Gets the hitscan range from the NBT data
-     *
-     * @param instance The spell delivery method instance
-     * @return the hitscan range
-     */
-    fun getRange(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
+    fun getRange(instance: SpellComponentInstance<*>): Double {
         return instance.data.getDouble(NBT_RANGE)
     }
 
-    /**
-     * True if liquids can be hit, false otherwise
-     *
-     * @param instance The spell delivery method instance
-     * @return True if liquids can be hit, false otherwise
-     */
-    fun hitLiquids(instance: SpellComponentInstance<SpellDeliveryMethod>): Boolean {
+    fun setHitLiquids(instance: SpellComponentInstance<*>, hitLiquids: Boolean) {
+        instance.data.putBoolean(NBT_HIT_LIQUIDS, hitLiquids)
+    }
+
+    fun getHitLiquids(instance: SpellComponentInstance<*>): Boolean {
         return instance.data.getBoolean(NBT_HIT_LIQUIDS)
     }
 

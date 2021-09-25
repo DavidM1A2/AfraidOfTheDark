@@ -27,8 +27,8 @@ class FreezeSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "fr
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("duration"))
-                .withSetter { instance, newValue -> instance.data.putInt(NBT_FREEZE_DURATION, newValue) }
-                .withGetter { it.data.getInt(NBT_FREEZE_DURATION) }
+                .withSetter(this::setDuration)
+                .withGetter(this::getDuration)
                 .withDefaultValue(20)
                 .withMinValue(1)
                 .withMaxValue(1200)
@@ -53,12 +53,12 @@ class FreezeSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "fr
                 // If we hit a player, freeze their position and direction
                 if (entity is PlayerEntity) {
                     val freezeData = entity.getSpellFreezeData()
-                    freezeData.freezeTicks = getFreezeDuration(instance)
+                    freezeData.freezeTicks = getDuration(instance)
                     freezeData.freezePosition = Vector3d(entity.x, entity.y, entity.z)
                     freezeData.freezeYaw = entity.yRot
                     freezeData.freezePitch = entity.xRot
                 } else {
-                    entity.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, getFreezeDuration(instance), 99))
+                    entity.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, getDuration(instance), 99))
                 }
                 createParticlesAround(5, 10, entity.position(), entity.level.dimension(), ModParticles.FREEZE, 1.0)
             }
@@ -78,26 +78,20 @@ class FreezeSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "fr
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        val freezeDuration = getFreezeDuration(instance) / 20.0
+        val freezeDuration = getDuration(instance) / 20.0
         return 25.0 + freezeDuration * freezeDuration * 5.0
     }
 
-    fun setFreezeDuration(instance: SpellComponentInstance<SpellEffect>, duration: Int) {
-        instance.data.putInt(NBT_FREEZE_DURATION, duration)
+    fun setDuration(instance: SpellComponentInstance<*>, duration: Int) {
+        instance.data.putInt(NBT_DURATION, duration)
     }
 
-    /**
-     * Gets the freeze duration in ticks
-     *
-     * @param instance The instance of the freeze effect
-     * @return The freeze duration in ticks
-     */
-    fun getFreezeDuration(instance: SpellComponentInstance<SpellEffect>): Int {
-        return instance.data.getInt(NBT_FREEZE_DURATION)
+    fun getDuration(instance: SpellComponentInstance<*>): Int {
+        return instance.data.getInt(NBT_DURATION)
     }
 
     companion object {
         // NBT constants for freeze duration
-        private const val NBT_FREEZE_DURATION = "freeze_duration"
+        private const val NBT_DURATION = "duration"
     }
 }

@@ -26,8 +26,8 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("radius"))
-                .withSetter { instance, newValue -> instance.data.putDouble(NBT_RADIUS, newValue) }
-                .withGetter { it.data.getDouble(NBT_RADIUS) }
+                .withSetter(this::setRadius)
+                .withGetter(this::getRadius)
                 .withDefaultValue(3.0)
                 .withMinValue(1.0)
                 .withMaxValue(20.0)
@@ -36,8 +36,8 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
         addEditableProperty(
             SpellComponentPropertyFactory.enumProperty<TargetType>()
                 .withBaseName(getUnlocalizedPropertyBaseName("target_type"))
-                .withSetter { instance, newValue -> instance.data.putInt(NBT_TARGET_TYPE, newValue.ordinal) }
-                .withGetter { TargetType.values()[it.data.getInt(NBT_TARGET_TYPE)] }
+                .withSetter(this::setTargetType)
+                .withGetter(this::getTargetType)
                 .withDefaultValue(TargetType.BLOCK)
                 .build()
         )
@@ -206,27 +206,19 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
         return 6.0
     }
 
-    fun setRadius(instance: SpellComponentInstance<SpellDeliveryMethod>, radius: Double) {
+    fun setRadius(instance: SpellComponentInstance<*>, radius: Double) {
         instance.data.putDouble(NBT_RADIUS, radius)
     }
 
-    /**
-     * Gets the radius of the delivery in blocks
-     *
-     * @param instance The spell delivery method instance
-     * @return the radius of the delivery in blocks
-     */
-    fun getRadius(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
+    fun getRadius(instance: SpellComponentInstance<*>): Double {
         return instance.data.getDouble(NBT_RADIUS)
     }
 
-    /**
-     * Gets the target type of the AOE
-     *
-     * @param instance The spell delivery method instance
-     * @return the target type of the AOE
-     */
-    fun getTargetType(instance: SpellComponentInstance<SpellDeliveryMethod>): TargetType {
+    fun setTargetType(instance: SpellComponentInstance<*>, targetType: TargetType) {
+        instance.data.putInt(NBT_TARGET_TYPE, targetType.ordinal)
+    }
+
+    fun getTargetType(instance: SpellComponentInstance<*>): TargetType {
         return TargetType.values()[instance.data.getInt(NBT_TARGET_TYPE)]
     }
 

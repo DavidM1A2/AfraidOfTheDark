@@ -19,8 +19,8 @@ class DelaySpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         addEditableProperty(
             SpellComponentPropertyFactory.longProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("delay"))
-                .withSetter { instance, newValue -> instance.data.putLong(NBT_DELAY, newValue) }
-                .withGetter { it.data.getLong(NBT_DELAY) }
+                .withSetter(this::setDelay)
+                .withGetter(this::getDelay)
                 .withDefaultValue(20L)
                 .withMinValue(1L)
                 .build()
@@ -57,13 +57,11 @@ class DelaySpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         return 1.5
     }
 
-    /**
-     * Gets the delay of the delivery in ticks
-     *
-     * @param instance The spell delivery method instance
-     * @return the delay of the delivery in ticks
-     */
-    fun getDelay(instance: SpellComponentInstance<SpellDeliveryMethod>): Long {
+    fun setDelay(instance: SpellComponentInstance<*>, delay: Long) {
+        instance.data.putLong(NBT_DELAY, delay)
+    }
+
+    fun getDelay(instance: SpellComponentInstance<*>): Long {
         return instance.data.getLong(NBT_DELAY)
     }
 

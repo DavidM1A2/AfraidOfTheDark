@@ -195,9 +195,9 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 }
                 effects[0] = SpellEffectInstance(ModSpellEffects.POTION_EFFECT).apply {
                     setDefaults()
-                    ModSpellEffects.POTION_EFFECT.setPotionType(this, Effects.MOVEMENT_SLOWDOWN)
-                    ModSpellEffects.POTION_EFFECT.setPotionStrength(this, 2)
-                    ModSpellEffects.POTION_EFFECT.setPotionDuration(this, 20 * 15)
+                    ModSpellEffects.POTION_EFFECT.setType(this, Effects.MOVEMENT_SLOWDOWN)
+                    ModSpellEffects.POTION_EFFECT.setStrength(this, 2)
+                    ModSpellEffects.POTION_EFFECT.setDuration(this, 20 * 15)
                 }
             })
         }
@@ -213,7 +213,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 }
                 effects[0] = SpellEffectInstance(ModSpellEffects.FREEZE).apply {
                     setDefaults()
-                    ModSpellEffects.FREEZE.setFreezeDuration(this, 20 * 5)
+                    ModSpellEffects.FREEZE.setDuration(this, 20 * 5)
                 }
             })
         }
@@ -229,7 +229,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 }
                 effects[0] = SpellEffectInstance(ModSpellEffects.CHARM).apply {
                     setDefaults()
-                    ModSpellEffects.CHARM.setCharmDuration(this, 20 * 5)
+                    ModSpellEffects.CHARM.setDuration(this, 20 * 5)
                 }
             })
         }
@@ -243,9 +243,9 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 }
                 effects[0] = SpellEffectInstance(ModSpellEffects.POTION_EFFECT).apply {
                     setDefaults()
-                    ModSpellEffects.POTION_EFFECT.setPotionType(this, Effects.HARM)
-                    ModSpellEffects.POTION_EFFECT.setPotionStrength(this, 1)
-                    ModSpellEffects.POTION_EFFECT.setPotionDuration(this, 1)
+                    ModSpellEffects.POTION_EFFECT.setType(this, Effects.HARM)
+                    ModSpellEffects.POTION_EFFECT.setStrength(this, 1)
+                    ModSpellEffects.POTION_EFFECT.setDuration(this, 1)
                 }
             })
         }
@@ -264,7 +264,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.SELF).apply { setDefaults() }
                 effects[0] = SpellEffectInstance(ModSpellEffects.HEAL).apply {
                     setDefaults()
-                    ModSpellEffects.HEAL.setHealAmount(this, 15)
+                    ModSpellEffects.HEAL.setAmount(this, 15)
                 }
             })
         }

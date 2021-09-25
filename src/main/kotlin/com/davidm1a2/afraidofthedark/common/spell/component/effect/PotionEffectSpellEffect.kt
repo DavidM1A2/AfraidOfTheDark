@@ -13,6 +13,7 @@ import net.minecraft.entity.AreaEffectCloudEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.potion.Effect
 import net.minecraft.potion.EffectInstance
+import net.minecraft.potion.Effects
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
@@ -28,29 +29,33 @@ import kotlin.math.sqrt
 class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "potion_effect")) {
     init {
         addEditableProperty(
-            object : SpellComponentProperty<String>(
+            object : SpellComponentProperty<Effect>(
                 getUnlocalizedPropertyBaseName("type"),
-                { instance, newValue -> instance.data.putString(NBT_POTION_TYPE, newValue) },
-                { it.data.getString(NBT_POTION_TYPE) },
-                "speed"
+                this::setType,
+                this::getType,
+                Effects.MOVEMENT_SPEED
             ) {
-                override fun convertTo(newValue: String): String {
+                override fun convertTo(newValue: String): Effect {
                     // Grab the potion associated with the text
                     val type = ForgeRegistries.POTIONS.getValue(ResourceLocation(newValue))
                     // If type is not null it's a valid potion type so we store it, otherwise throw an exception
                     if (type != null) {
-                        return type.registryName.toString()
+                        return type
                     } else {
                         throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.potion.type", newValue))
                     }
+                }
+
+                override fun convertFrom(value: Effect): String {
+                    return value.registryName.toString()
                 }
             }
         )
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("strength"))
-                .withSetter { instance, newValue -> instance.data.putInt(NBT_POTION_STRENGTH, newValue - 1) }
-                .withGetter { it.data.getInt(NBT_POTION_STRENGTH) + 1 }
+                .withSetter(this::setStrength)
+                .withGetter(this::getStrength)
                 .withDefaultValue(1)
                 .withMinValue(1)
                 .build()
@@ -58,8 +63,8 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("duration"))
-                .withSetter { instance, newValue -> instance.data.putInt(NBT_POTION_DURATION, newValue) }
-                .withGetter { it.data.getInt(NBT_POTION_DURATION) }
+                .withSetter(this::setDuration)
+                .withGetter(this::getDuration)
                 .withDefaultValue(20)
                 .withMinValue(1)
                 .build()
@@ -67,8 +72,8 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
         addEditableProperty(
             SpellComponentPropertyFactory.floatProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("cloud_radius"))
-                .withSetter { instance, newValue -> instance.data.putFloat(NBT_POTION_RADIUS, newValue) }
-                .withGetter { it.data.getFloat(NBT_POTION_RADIUS) }
+                .withSetter(this::setRadius)
+                .withGetter(this::getRadius)
                 .withDefaultValue(2f)
                 .withMinValue(0f)
                 .build()
@@ -83,9 +88,9 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         val exactPosition = state.position
-        val potionType = getPotionType(instance)
-        val potionStrength = getPotionStrength(instance)
-        val potionDuration = getPotionDuration(instance)
+        val potionType = getType(instance)
+        val potionStrength = getStrength(instance)
+        val potionDuration = getDuration(instance)
 
         // If we hit an entity just apply the potion effect
         val entityHit = state.getEntity()
@@ -99,7 +104,7 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
             val aoePotion = AreaEffectCloudEntity(world, exactPosition.x, exactPosition.y, exactPosition.z)
             aoePotion.addEffect(EffectInstance(potionType, potionDuration, potionStrength))
             aoePotion.owner = state.getCasterEntity() as? LivingEntity
-            aoePotion.radius = getPotionRadius(instance)
+            aoePotion.radius = getRadius(instance)
             aoePotion.setRadiusPerTick(0f)
             aoePotion.duration = potionDuration
             world.addFreshEntity(aoePotion)
@@ -114,66 +119,46 @@ class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 15.0 + getPotionDuration(instance) * getPotionStrength(instance) * max(sqrt(getPotionRadius(instance)), 1.0f)
+        return 15.0 + getDuration(instance) * getStrength(instance) * max(sqrt(getRadius(instance)), 1.0f)
     }
 
-    fun setPotionType(instance: SpellComponentInstance<SpellEffect>, effect: Effect) {
-        instance.data.putString(NBT_POTION_TYPE, effect.registryName.toString())
+    fun setType(instance: SpellComponentInstance<*>, effect: Effect) {
+        instance.data.putString(NBT_TYPE, effect.registryName.toString())
     }
 
-    /**
-     * Gets the potion type for the given spell instance
-     *
-     * @param instance The instance of the potion type
-     * @return The potion for the instance
-     */
-    fun getPotionType(instance: SpellComponentInstance<SpellEffect>): Effect {
-        return ForgeRegistries.POTIONS.getValue(ResourceLocation(instance.data.getString(NBT_POTION_TYPE)))!!
+    fun getType(instance: SpellComponentInstance<*>): Effect {
+        return ForgeRegistries.POTIONS.getValue(ResourceLocation(instance.data.getString(NBT_TYPE)))!!
     }
 
-    fun setPotionStrength(instance: SpellComponentInstance<SpellEffect>, strength: Int) {
-        instance.data.putInt(NBT_POTION_STRENGTH, strength)
+    fun setStrength(instance: SpellComponentInstance<*>, strength: Int) {
+        instance.data.putInt(NBT_STRENGTH, strength)
     }
 
-    /**
-     * Gets the potion strength for the given spell instance
-     *
-     * @param instance The instance of the potion strength
-     * @return The potion strength for the instance
-     */
-    fun getPotionStrength(instance: SpellComponentInstance<SpellEffect>): Int {
-        return instance.data.getInt(NBT_POTION_STRENGTH)
+    fun getStrength(instance: SpellComponentInstance<*>): Int {
+        return instance.data.getInt(NBT_STRENGTH)
     }
 
-    fun setPotionDuration(instance: SpellComponentInstance<SpellEffect>, duration: Int) {
-        instance.data.putInt(NBT_POTION_DURATION, duration)
+    fun setDuration(instance: SpellComponentInstance<*>, duration: Int) {
+        instance.data.putInt(NBT_DURATION, duration)
     }
 
-    /**
-     * Gets the potion duration for the given spell instance
-     *
-     * @param instance The instance of the potion duration
-     * @return The potion duration for the instance
-     */
-    fun getPotionDuration(instance: SpellComponentInstance<SpellEffect>): Int {
-        return instance.data.getInt(NBT_POTION_DURATION)
+    fun getDuration(instance: SpellComponentInstance<*>): Int {
+        return instance.data.getInt(NBT_DURATION)
     }
 
-    /**
-     * Gets the potion radius for the given spell instance
-     *
-     * @param instance The instance of the potion radius
-     * @return The potion radius for the instance
-     */
-    fun getPotionRadius(instance: SpellComponentInstance<SpellEffect>): Float {
-        return instance.data.getFloat(NBT_POTION_RADIUS)
+    fun setRadius(instance: SpellComponentInstance<*>, radius: Float) {
+        instance.data.putFloat(NBT_RADIUS, radius)
+    }
+
+    fun getRadius(instance: SpellComponentInstance<*>): Float {
+        return instance.data.getFloat(NBT_RADIUS)
     }
 
     companion object {
         // NBT constants spell potion stats
-        private const val NBT_POTION_TYPE = "potion_type"
-        private const val NBT_POTION_STRENGTH = "potion_strength"
-        private const val NBT_POTION_DURATION = "potion_duration"
-        private const val NBT_POTION_RADIUS = "potion_radius"
+        private const val NBT_TYPE = "type"
+        private const val NBT_STRENGTH = "strength"
+        private const val NBT_DURATION = "duration"
+        private const val NBT_RADIUS = "radius"
     }
 }

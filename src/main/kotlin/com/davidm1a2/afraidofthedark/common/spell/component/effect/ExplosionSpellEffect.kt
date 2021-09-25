@@ -20,8 +20,8 @@ class ExplosionSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, 
         addEditableProperty(
             SpellComponentPropertyFactory.floatProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("radius"))
-                .withSetter { instance, newValue -> instance.data.putFloat(NBT_RADIUS, newValue) }
-                .withGetter { it.data.getFloat(NBT_RADIUS) }
+                .withSetter(this::setRadius)
+                .withGetter(this::getRadius)
                 .withDefaultValue(2.0f)
                 .withMinValue(1.0f)
                 .withMaxValue(50.0f)
@@ -57,11 +57,11 @@ class ExplosionSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, 
         return 25.0 + radius * radius * radius
     }
 
-    fun setRadius(instance: SpellComponentInstance<SpellEffect>, radius: Float) {
+    fun setRadius(instance: SpellComponentInstance<*>, radius: Float) {
         instance.data.putFloat(NBT_RADIUS, radius)
     }
 
-    fun getRadius(instance: SpellComponentInstance<SpellEffect>): Float {
+    fun getRadius(instance: SpellComponentInstance<*>): Float {
         return instance.data.getFloat(NBT_RADIUS)
     }
 
