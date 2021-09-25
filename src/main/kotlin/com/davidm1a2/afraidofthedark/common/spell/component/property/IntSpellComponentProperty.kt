@@ -35,7 +35,7 @@ internal class IntSpellComponentProperty(
             throw InvalidValueException(
                 TranslationTextComponent(
                     "property_error.afraidofthedark.integer.too_small",
-                    TranslationTextComponent(baseName),
+                    TranslationTextComponent("$baseName.name"),
                     minValue
                 )
             )
@@ -45,7 +45,7 @@ internal class IntSpellComponentProperty(
             throw InvalidValueException(
                 TranslationTextComponent(
                     "property_error.afraidofthedark.integer.too_large",
-                    TranslationTextComponent(baseName),
+                    TranslationTextComponent("$baseName.name"),
                     maxValue
                 )
             )

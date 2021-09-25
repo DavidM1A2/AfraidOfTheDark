@@ -37,7 +37,7 @@ internal class DoubleSpellComponentProperty
             throw InvalidValueException(
                 TranslationTextComponent(
                     "property_error.afraidofthedark.double.too_small",
-                    TranslationTextComponent(baseName),
+                    TranslationTextComponent("$baseName.name"),
                     minValue
                 )
             )
@@ -47,7 +47,7 @@ internal class DoubleSpellComponentProperty
             throw InvalidValueException(
                 TranslationTextComponent(
                     "property_error.afraidofthedark.double.too_large",
-                    TranslationTextComponent(baseName),
+                    TranslationTextComponent("$baseName.name"),
                     maxValue
                 )
             )

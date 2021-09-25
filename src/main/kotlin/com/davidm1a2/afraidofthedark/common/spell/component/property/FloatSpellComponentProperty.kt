@@ -35,7 +35,7 @@ internal class FloatSpellComponentProperty(
             throw InvalidValueException(
                 TranslationTextComponent(
                     "property_error.afraidofthedark.float.too_small",
-                    TranslationTextComponent(baseName),
+                    TranslationTextComponent("$baseName.name"),
                     minValue
                 )
             )
@@ -44,8 +44,8 @@ internal class FloatSpellComponentProperty(
             setter(instance, defaultValue)
             throw InvalidValueException(
                 TranslationTextComponent(
-                    "property_error.afraidofthedark.float.too_large",
-                    TranslationTextComponent(baseName),
+                    "property_error.afraidofthedark.float.too_large", TranslationTextComponent("$baseName.name"),
+
                     maxValue
                 )
             )

@@ -29,11 +29,23 @@ internal class LongSpellComponentProperty(
         // Ensure the long is valid
         if (minValue != null && longValue < minValue) {
             setter(instance, defaultValue)
-            throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.long.too_small", TranslationTextComponent(baseName), minValue))
+            throw InvalidValueException(
+                TranslationTextComponent(
+                    "property_error.afraidofthedark.long.too_small",
+                    TranslationTextComponent("$baseName.name"),
+                    minValue
+                )
+            )
         }
         if (maxValue != null && longValue > maxValue) {
             setter(instance, defaultValue)
-            throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.long.too_large", TranslationTextComponent(baseName), maxValue))
+            throw InvalidValueException(
+                TranslationTextComponent(
+                    "property_error.afraidofthedark.long.too_large",
+                    TranslationTextComponent("$baseName.name"),
+                    maxValue
+                )
+            )
         }
         setter(instance, longValue)
     },
