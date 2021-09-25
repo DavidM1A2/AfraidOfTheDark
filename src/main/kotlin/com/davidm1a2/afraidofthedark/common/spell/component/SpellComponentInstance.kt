@@ -8,7 +8,7 @@ open class SpellComponentInstance<T : SpellComponent<T>>(val component: T) : INB
         private set
 
     fun setDefaults() {
-        component.getEditableProperties().forEach { it.defaultSetter(this) }
+        component.getEditableProperties().forEach { it.setDefaultValue(this) }
     }
 
     override fun serializeNBT(): CompoundNBT {

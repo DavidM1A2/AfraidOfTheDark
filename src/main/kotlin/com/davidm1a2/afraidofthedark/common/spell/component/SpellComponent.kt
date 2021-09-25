@@ -16,7 +16,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry
  * @property icon A resource location containing an image file with the icon to be used by the component
  */
 abstract class SpellComponent<T : IForgeRegistryEntry<T>>(id: ResourceLocation, val icon: ResourceLocation) : ForgeRegistryEntry<T>() {
-    private val editableProperties: MutableList<SpellComponentProperty> = mutableListOf()
+    private val editableProperties: MutableList<SpellComponentProperty<*>> = mutableListOf()
 
     init {
         registryName = id
@@ -37,14 +37,14 @@ abstract class SpellComponent<T : IForgeRegistryEntry<T>>(id: ResourceLocation, 
      *
      * @param property A property that this component has that can be edited
      */
-    fun addEditableProperty(property: SpellComponentProperty) {
+    fun addEditableProperty(property: SpellComponentProperty<*>) {
         editableProperties.add(property)
     }
 
     /**
      * @return An unmodifiable list of editable component properties
      */
-    fun getEditableProperties(): List<SpellComponentProperty> {
+    fun getEditableProperties(): List<SpellComponentProperty<*>> {
         return editableProperties
     }
 }

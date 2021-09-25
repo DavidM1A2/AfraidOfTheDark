@@ -45,4 +45,8 @@ object SpellComponentPropertyFactory {
     inline fun <reified T : Enum<T>> enumProperty(): EnumSpellComponentPropertyBuilder<T> {
         return EnumSpellComponentPropertyBuilder(T::class.java.enumConstants)
     }
+
+    fun colorProperty(): ColorSpellComponentPropertyBuilder {
+        return ColorSpellComponentPropertyBuilder()
+    }
 }

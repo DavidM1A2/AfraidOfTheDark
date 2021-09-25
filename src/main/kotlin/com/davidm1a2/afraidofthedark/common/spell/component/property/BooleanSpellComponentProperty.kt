@@ -18,27 +18,13 @@ internal class BooleanSpellComponentProperty(
     setter: (SpellComponentInstance<*>, Boolean) -> Unit,
     getter: (SpellComponentInstance<*>) -> Boolean,
     defaultValue: Boolean
-) : SpellComponentProperty(
-    baseName,
-    { instance, newValue ->
+) : SpellComponentProperty<Boolean>(baseName, setter, getter, defaultValue) {
+    override fun convertTo(newValue: String): Boolean {
         // Ensure the boolean is valid
-        when {
-            newValue.equals("false", true) -> {
-                setter(instance, false)
-            }
-            newValue.equals("true", true) -> {
-                setter(instance, true)
-            }
-            else -> {
-                setter(instance, defaultValue)
-                throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.boolean.format", newValue))
-            }
+        return when {
+            newValue.equals("false", true) -> false
+            newValue.equals("true", true) -> true
+            else -> throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.boolean.format", newValue))
         }
-    },
-    {
-        getter(it).toString()
-    },
-    {
-        setter(it, defaultValue)
     }
-)
+}

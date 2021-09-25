@@ -10,7 +10,7 @@ class FloatSpellComponentPropertyBuilder :
      *
      * @return The built spell component property
      */
-    fun build(): SpellComponentProperty {
+    fun build(): SpellComponentProperty<Float> {
         return FloatSpellComponentProperty(
             baseName!!,
             setter!!,

@@ -28,21 +28,23 @@ import kotlin.math.sqrt
 class PotionEffectSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "potion_effect")) {
     init {
         addEditableProperty(
-            SpellComponentProperty(
+            object : SpellComponentProperty<String>(
                 getUnlocalizedPropertyBaseName("type"),
-                { instance, newValue ->
+                { instance, newValue -> instance.data.putString(NBT_POTION_TYPE, newValue) },
+                { it.data.getString(NBT_POTION_TYPE) },
+                "speed"
+            ) {
+                override fun convertTo(newValue: String): String {
                     // Grab the potion associated with the text
                     val type = ForgeRegistries.POTIONS.getValue(ResourceLocation(newValue))
                     // If type is not null it's a valid potion type so we store it, otherwise throw an exception
                     if (type != null) {
-                        instance.data.putString(NBT_POTION_TYPE, type.registryName.toString())
+                        return type.registryName.toString()
                     } else {
                         throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.potion.type", newValue))
                     }
-                },
-                { it.data.getString(NBT_POTION_TYPE) },
-                { it.data.putString(NBT_POTION_TYPE, "speed") }
-            )
+                }
+            }
         )
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()

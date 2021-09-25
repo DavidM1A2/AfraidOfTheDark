@@ -41,7 +41,7 @@ class SpellScroll :
     private val propertyScrollBar = VScrollBar(Dimensions(0.05, 1.0))
     private val componentList: ListPane = ListPane(ListPane.ExpandDirection.DOWN, componentScrollBar)
     private val propertyList: ListPane = ListPane(ListPane.ExpandDirection.DOWN, propertyScrollBar)
-    private val currentPropEditors = mutableListOf<Pair<SpellComponentProperty, AOTDPane>>()
+    private val currentPropEditors = mutableListOf<Pair<SpellComponentProperty<*>, AOTDPane>>()
 
     init {
         // Put everything that isn't the scroll bar into a padded pane
@@ -212,14 +212,14 @@ class SpellScroll :
                             it.name.lowercase().replaceFirstChar { char -> char.uppercase() }
                         }
                         val selectedIndex = editableProp.values.indexOfFirst {
-                            it.name.equals(editableProp.getter(componentInstance), true)
+                            it.name.equals(editableProp.getValue(componentInstance), true)
                         }
                         val propertyEditor = DropdownPane(ClientData.getOrCreate(26f), dropdownValues, selectedIndex)
                         propertyEditor.prefSize = Dimensions(0.8, 1.0)
                         propertyEditor.gravity = Gravity.CENTER_LEFT
                         propertyEditor.setChangeListener { _, newVal ->
                             try {
-                                editableProp.setter(componentInstance, editableProp.values[newVal].name)
+                                editableProp.setValue(componentInstance, editableProp.values[newVal].name)
                                 propertyError.isVisible = false
                             } catch (e: InvalidValueException) {
                                 propertyError.isVisible = true
@@ -259,9 +259,9 @@ class SpellScroll :
                         propertyPane.add(ratioPane)
                         propertyPane.add(infoPane)
 
-                        togglePane.toggled = editableProp.getter(componentInstance).toBoolean()
+                        togglePane.toggled = editableProp.getValue(componentInstance).toBoolean()
                         togglePane.setToggleListener { newVal ->
-                            editableProp.setter(componentInstance, newVal.toString())
+                            editableProp.setValue(componentInstance, newVal.toString())
                         }
 
                         propertyList.add(propertyPane)
@@ -283,10 +283,10 @@ class SpellScroll :
                         val propertyEditor =
                             TextFieldPane(prefSize = Dimensions(0.8, 1.0), font = ClientData.getOrCreate(26f))
                         propertyEditor.setTextColor(purpleText)
-                        propertyEditor.setText(editableProp.getter(componentInstance))
+                        propertyEditor.setText(editableProp.getValue(componentInstance))
                         propertyEditor.addTextChangeListener { _, newText ->
                             try {
-                                editableProp.setter(componentInstance, newText)
+                                editableProp.setValue(componentInstance, newText)
                                 propertyError.isVisible = false
                             } catch (e: InvalidValueException) {
                                 propertyError.isVisible = true

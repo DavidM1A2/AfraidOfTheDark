@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.property
 
+import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
@@ -13,12 +14,34 @@ import net.minecraft.util.text.TranslationTextComponent
  * @property setter   The setter to be used when setting this property's value
  * @property getter   The getter to get this property's current value
  */
-open class SpellComponentProperty(
+abstract class SpellComponentProperty<T>(
     private val baseName: String,
-    val setter: (SpellComponentInstance<*>, String) -> Unit,
-    val getter: (SpellComponentInstance<*>) -> String,
-    val defaultSetter: (SpellComponentInstance<*>) -> Unit
+    private val setter: (SpellComponentInstance<*>, T) -> Unit,
+    private val getter: (SpellComponentInstance<*>) -> T,
+    private val defaultValue: T
 ) {
+    internal abstract fun convertTo(newValue: String): T
+    open fun convertFrom(value: T): String {
+        return value.toString()
+    }
+
+    fun setValue(instance: SpellComponentInstance<*>, newValue: String) {
+        try {
+            setter(instance, convertTo(newValue))
+        } catch (e: InvalidValueException) {
+            setDefaultValue(instance)
+            throw e
+        }
+    }
+
+    fun setDefaultValue(instance: SpellComponentInstance<*>) {
+        setter(instance, defaultValue)
+    }
+
+    fun getValue(instance: SpellComponentInstance<*>): String {
+        return convertFrom(getter(instance))
+    }
+
     fun getName(): ITextComponent {
         return TranslationTextComponent("$baseName.name")
     }

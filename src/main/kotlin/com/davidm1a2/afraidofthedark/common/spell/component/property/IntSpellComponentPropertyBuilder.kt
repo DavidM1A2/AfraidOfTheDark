@@ -9,7 +9,7 @@ class IntSpellComponentPropertyBuilder : BoundedSpellComponentPropertyBuilder<In
      *
      * @return The built spell component property
      */
-    fun build(): SpellComponentProperty {
+    fun build(): SpellComponentProperty<Int> {
         return IntSpellComponentProperty(baseName!!, setter!!, getter!!, defaultValue!!, minValue, maxValue)
     }
 }

@@ -4,14 +4,11 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.SpellProjectileEntity
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
-import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
-import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.TranslationTextComponent
 import java.awt.Color
 
 /**
@@ -42,25 +39,12 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
                 .build()
         )
         addEditableProperty(
-            SpellComponentProperty(
-                getUnlocalizedPropertyBaseName("color"),
-                { instance, newValue ->
-                    val rgbStrings = newValue.split(Regex("\\s+"))
-                    if (rgbStrings.size != 3) {
-                        throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.color.format"))
-                    }
-                    rgbStrings.forEach {
-                        it.toIntOrNull()?.let { rgb ->
-                            if (rgb < 0 || rgb > 255) {
-                                throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.color.value_range"))
-                            }
-                        } ?: throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.color.value_type"))
-                    }
-                    instance.data.putString(NBT_COLOR, newValue)
-                },
-                { it.data.getString(NBT_COLOR) },
-                { it.data.putString(NBT_COLOR, "155 0 255") }
-            )
+            SpellComponentPropertyFactory.colorProperty()
+                .withBaseName(getUnlocalizedPropertyBaseName("color"))
+                .withSetter(this::setColor)
+                .withGetter(this::getColor)
+                .withDefaultValue(Color(155, 0, 255))
+                .build()
         )
     }
 
@@ -135,11 +119,11 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
         return instance.data.getDouble(NBT_RANGE)
     }
 
-    fun setColor(instance: SpellComponentInstance<SpellDeliveryMethod>, color: Color) {
+    fun setColor(instance: SpellComponentInstance<*>, color: Color) {
         instance.data.putString(NBT_COLOR, "${color.red} ${color.green} ${color.blue}")
     }
 
-    fun getColor(instance: SpellComponentInstance<SpellDeliveryMethod>): Color {
+    fun getColor(instance: SpellComponentInstance<*>): Color {
         val rgb = instance.data.getString(NBT_COLOR).split(Regex("\\s+")).map { it.toInt() }
         return Color(rgb[0], rgb[1], rgb[2])
     }
