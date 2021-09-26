@@ -15,14 +15,10 @@ import net.minecraft.world.IBlockReader
  * @param baseName The name of the block to register
  * @param properties The properties of this block
  */
-abstract class AOTDLogBlock(baseName: String, properties: Properties) :
-    RotatedPillarBlock(
-        properties.apply {
-            strength(2.0f)
-            sound(SoundType.WOOD)
-        }
-    ),
-    AOTDShowBlockCreative {
+abstract class AOTDLogBlock(baseName: String, properties: Properties) : RotatedPillarBlock(properties.apply {
+    strength(2.0f)
+    sound(SoundType.WOOD)
+}), AOTDShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)
     }

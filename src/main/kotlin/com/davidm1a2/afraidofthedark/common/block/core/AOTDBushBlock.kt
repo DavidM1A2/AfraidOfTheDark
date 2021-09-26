@@ -11,14 +11,10 @@ import net.minecraft.block.SoundType
  * @param baseName The name of the block to be used by the game registry
  * @param properties The properties of this block
  */
-abstract class AOTDBushBlock(baseName: String, properties: Properties) :
-    BushBlock(
-        properties.apply {
-            instabreak()
-            sound(SoundType.CROP)
-        }
-    ),
-    AOTDShowBlockCreative {
+abstract class AOTDBushBlock(baseName: String, properties: Properties) : BushBlock(properties.apply {
+    instabreak()
+    sound(SoundType.CROP)
+}), AOTDShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)
     }

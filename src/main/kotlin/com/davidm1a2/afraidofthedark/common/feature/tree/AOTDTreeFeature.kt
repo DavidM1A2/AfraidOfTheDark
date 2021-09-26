@@ -14,7 +14,7 @@ import net.minecraft.world.gen.feature.BaseTreeFeatureConfig
 import net.minecraft.world.gen.feature.Feature
 import net.minecraft.world.gen.feature.TreeFeature
 import net.minecraft.world.gen.feature.template.Template
-import java.util.Random
+import java.util.*
 
 abstract class AOTDTreeFeature(
     private val log: BlockState,

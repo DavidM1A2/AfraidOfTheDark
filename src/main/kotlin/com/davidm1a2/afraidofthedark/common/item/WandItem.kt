@@ -16,7 +16,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
-import java.util.UUID
+import java.util.*
 
 /**
  * Item representing a wand used to cast spells with an item

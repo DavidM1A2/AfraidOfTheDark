@@ -24,7 +24,7 @@ import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.common.util.Constants
-import java.util.UUID
+import java.util.*
 import kotlin.math.sqrt
 
 /**

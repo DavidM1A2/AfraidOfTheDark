@@ -20,7 +20,7 @@ import net.minecraft.util.math.vector.Matrix4f
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.math.vector.Vector3f
 import org.lwjgl.opengl.GL11C
-import java.util.Random
+import java.util.*
 
 /**
  * Renderer class for the spell projectile entity
@@ -150,20 +150,18 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
             true,
             RenderType.State.builder()
                 .setTextureState(RenderState.TextureState(SPELL_PROJECTILE_TEXTURE, false, false))
-                .setTransparencyState(
-                    RenderState.TransparencyState("translucent_transparency", {
-                        RenderSystem.enableBlend()
-                        RenderSystem.blendFuncSeparate(
-                            GlStateManager.SourceFactor.SRC_ALPHA,
-                            GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
-                            GlStateManager.SourceFactor.ONE,
-                            GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA
-                        )
-                    }) {
-                        RenderSystem.disableBlend()
-                        RenderSystem.defaultBlendFunc()
-                    }
-                )
+                .setTransparencyState(RenderState.TransparencyState("translucent_transparency", {
+                    RenderSystem.enableBlend()
+                    RenderSystem.blendFuncSeparate(
+                        GlStateManager.SourceFactor.SRC_ALPHA,
+                        GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+                        GlStateManager.SourceFactor.ONE,
+                        GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA
+                    )
+                }) {
+                    RenderSystem.disableBlend()
+                    RenderSystem.defaultBlendFunc()
+                })
                 .setWriteMaskState(RenderState.WriteMaskState(true, false))
                 .setDepthTestState(RenderState.DepthTestState("<", GL11C.GL_LESS))
                 .setCullState(RenderState.CullState(false))

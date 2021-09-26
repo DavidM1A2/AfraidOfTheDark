@@ -39,8 +39,7 @@ class ModColorRegister {
                 } else {
                     FoliageColors.getDefaultColor()
                 }
-            },
-            *leafBlocks
+            }, *leafBlocks
         )
     }
 

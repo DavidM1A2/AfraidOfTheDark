@@ -15,7 +15,7 @@ import net.minecraft.world.gen.feature.IFeatureConfig
 import net.minecraft.world.gen.feature.StructureFeature
 import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraftforge.fml.server.ServerLifecycleHooks
-import java.util.Random
+import java.util.*
 import kotlin.math.max
 
 abstract class AOTDStructure<T : IFeatureConfig>(name: String, codec: Codec<T>) : Structure<T>(codec) {

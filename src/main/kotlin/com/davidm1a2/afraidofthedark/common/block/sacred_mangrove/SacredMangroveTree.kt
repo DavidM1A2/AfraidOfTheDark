@@ -10,7 +10,7 @@ import net.minecraft.world.gen.feature.FeatureSpread
 import net.minecraft.world.gen.feature.TwoLayerFeature
 import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer
 import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer
-import java.util.Random
+import java.util.*
 
 /**
  * Sacred mangrove tree generator

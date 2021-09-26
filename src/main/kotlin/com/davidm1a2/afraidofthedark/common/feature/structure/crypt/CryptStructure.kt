@@ -12,7 +12,7 @@ import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.StructureFeature
 import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
-import java.util.Random
+import java.util.*
 
 class CryptStructure : AOTDStructure<MultiplierConfig>("crypt", MultiplierConfig.CODEC) {
     override fun getWidth(): Int {

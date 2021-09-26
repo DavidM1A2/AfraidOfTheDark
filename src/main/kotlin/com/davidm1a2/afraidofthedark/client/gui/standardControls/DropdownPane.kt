@@ -40,7 +40,7 @@ class DropdownPane(val font: TrueTypeFont, val values: List<String>, defaultInde
     private val optionsScissor = StackPane()
     private val options = ListPane(ListPane.ExpandDirection.DOWN)
 
-    private var listener: IIntChangeListener = IIntChangeListener { _: Int, _: Int -> }
+    private var listener : IIntChangeListener = IIntChangeListener { _: Int, _: Int -> }
 
     init {
         background.prefSize = Dimensions(1.0, 1.0)

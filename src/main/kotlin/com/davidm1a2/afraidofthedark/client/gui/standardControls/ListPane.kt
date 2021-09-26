@@ -80,7 +80,7 @@ open class ListPane(val expandDirection: ExpandDirection, val scrollBar: VScroll
         }
         maxOffset = tempMaxOffset
     }
-
+    
     private fun recalculateChildrenOffsets() {
         var nextChildOffset = 0.0
         for (child in getChildren()) {

@@ -12,7 +12,8 @@ import net.minecraft.block.StairsBlock
  * @param modelState The state that this block copies its texture from
  * @param properties The block properties
  */
-abstract class AOTDStairsBlock(baseName: String, modelState: () -> BlockState, properties: Properties) : StairsBlock(modelState, properties), AOTDShowBlockCreative {
+abstract class AOTDStairsBlock(baseName: String, modelState: () -> BlockState, properties: Properties) : StairsBlock(modelState, properties),
+    AOTDShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)
     }

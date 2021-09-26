@@ -24,7 +24,7 @@ import net.minecraft.world.World
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.common.IPlantable
 import net.minecraftforge.common.PlantType
-import java.util.Random
+import java.util.*
 
 /**
  * Class representing the imbued cactus block

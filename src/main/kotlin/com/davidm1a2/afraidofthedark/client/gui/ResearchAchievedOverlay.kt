@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.client.resources.I18n
 import net.minecraft.util.ResourceLocation
 import org.lwjgl.opengl.GL11
-import java.util.LinkedList
+import java.util.*
 
 /**
  * Class used to show what researches were unlocked. This code is copied from the achievement UI from MC 1.8.9

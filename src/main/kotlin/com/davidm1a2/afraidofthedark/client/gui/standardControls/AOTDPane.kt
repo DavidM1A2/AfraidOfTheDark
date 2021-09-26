@@ -111,7 +111,7 @@ abstract class AOTDPane(
     }
 
     fun determineInBounds(component: AOTDGuiComponent) {
-        if (component is OverlayPane) return // SPECIAL CASE: OverlayPane extends past it's ancestors' bounds
+        if (component is OverlayPane) return    // SPECIAL CASE: OverlayPane extends past it's ancestors' bounds
         if (!component.intersects(this.boundingBox)) component.inBounds = false
         if (component is AOTDPane) {
             for (child in component.getChildren()) {

@@ -11,8 +11,7 @@ import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.util.Constants
 import org.apache.logging.log4j.LogManager
 import java.io.IOException
-import java.util.Timer
-import java.util.TimerTask
+import java.util.*
 
 /**
  * Object representation of a schematic file that only caches block data in memory when needed. This optimizes for the

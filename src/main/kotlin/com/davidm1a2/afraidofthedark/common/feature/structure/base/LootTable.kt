@@ -7,7 +7,7 @@ import net.minecraft.tileentity.ChestTileEntity
 import net.minecraft.util.IItemProvider
 import net.minecraft.util.NonNullList
 import net.minecraft.util.ResourceLocation
-import java.util.Random
+import java.util.*
 
 /**
  * Class representing a loot table that can be used by schematics to generate loot

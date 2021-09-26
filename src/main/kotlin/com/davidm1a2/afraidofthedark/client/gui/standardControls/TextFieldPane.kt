@@ -222,7 +222,7 @@ class TextFieldPane(offset: Position = Position(0.0, 0.0), prefSize: Dimensions 
 
     override fun calcChildrenBounds() {
         super.calcChildrenBounds()
-        updateScroll() // Update the alignment every UI update
+        updateScroll()  // Update the alignment every UI update
     }
 
     /**

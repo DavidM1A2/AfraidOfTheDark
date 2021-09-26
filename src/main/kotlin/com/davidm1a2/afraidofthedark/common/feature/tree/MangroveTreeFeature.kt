@@ -9,7 +9,7 @@ import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.world.ISeedReader
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.IWorldGenerationReader
-import java.util.Random
+import java.util.*
 import kotlin.math.sqrt
 
 class MangroveTreeFeature : AOTDTreeFeature(

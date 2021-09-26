@@ -14,7 +14,7 @@ import net.minecraft.world.gen.feature.NoFeatureConfig
 import net.minecraft.world.gen.feature.StructureFeature
 import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
-import java.util.Random
+import java.util.*
 import kotlin.math.round
 
 class NightmareIslandStructure : AOTDStructure<NoFeatureConfig>("nightmare_island", NoFeatureConfig.CODEC) {

@@ -13,7 +13,7 @@ import net.minecraft.world.gen.feature.NoFeatureConfig
 import net.minecraft.world.gen.feature.StructureFeature
 import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
-import java.util.Random
+import java.util.*
 
 class VoidChestBoxStructure : AOTDStructure<NoFeatureConfig>("void_chest_box", NoFeatureConfig.CODEC) {
     override fun getWidth(): Int {

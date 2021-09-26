@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.model.Model
 import net.minecraft.util.math.vector.Quaternion
 
+
 /**
  * Model for the enaria's altar
  *
@@ -130,3 +131,4 @@ class TileEntityEnariasAltarModel internal constructor() : Model(RenderType::ent
         model.getAnimationHandler().performAnimationInModel(parts)
     }
 }
+
