@@ -226,7 +226,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
     private fun calcGuiScale(): Float {
         val minecraft = Minecraft.getInstance()
         val min = min(minecraft.window.width, minecraft.window.height)
-        val refSize = Constants.REFERENCE_SIZE  // Our reference screen size is 480p (ie. text will look like gui scale 1 at 480p)
+        val refSize = Constants.REFERENCE_SIZE // Our reference screen size is 480p (ie. text will look like gui scale 1 at 480p)
         return Constants.TEXT_SCALE_FACTOR * min / refSize / minecraft.window.calculateScale(minecraft.options.guiScale, minecraft.isEnforceUnicode)
     }
 

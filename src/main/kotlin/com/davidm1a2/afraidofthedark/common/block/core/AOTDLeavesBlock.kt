@@ -15,11 +15,15 @@ import net.minecraft.world.IBlockReader
  * @param baseName The name to be used by the registry and unlocalized names
  * @param properties The properties of this block
  */
-abstract class AOTDLeavesBlock(baseName: String, properties: Properties) : LeavesBlock(properties.apply {
-    strength(0.2f)
-    randomTicks()
-    sound(SoundType.GRASS)
-}), AOTDShowBlockCreative {
+abstract class AOTDLeavesBlock(baseName: String, properties: Properties) :
+    LeavesBlock(
+        properties.apply {
+            strength(0.2f)
+            randomTicks()
+            sound(SoundType.GRASS)
+        }
+    ),
+    AOTDShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)
     }

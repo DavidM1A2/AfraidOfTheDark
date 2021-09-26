@@ -12,7 +12,7 @@ import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.StructureFeature
 import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
-import java.util.*
+import java.util.Random
 
 class WitchHutStructure : AOTDStructure<MultiplierConfig>("witch_hut", MultiplierConfig.CODEC) {
     override fun getWidth(): Int {

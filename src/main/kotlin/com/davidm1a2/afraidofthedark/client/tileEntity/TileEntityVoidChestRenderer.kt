@@ -58,7 +58,6 @@ class TileEntityVoidChestRenderer(tileEntityRendererDispatcher: TileEntityRender
         matrixStack.popPose()
     }
 
-
     companion object {
         private val VOID_CHEST_TEXTURE = ResourceLocation("afraidofthedark:textures/block/void_chest/void_chest.png")
         private val RENDER_TYPE = RenderType.entityCutout(VOID_CHEST_TEXTURE)

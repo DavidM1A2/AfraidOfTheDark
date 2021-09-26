@@ -59,7 +59,7 @@ open class ButtonPane(
         if (this.isVisible) {
             super.draw(matrixStack)
             if (iconHovered != null && icon != null) {
-                if (this.isHovered) {   // Always end with setting the visibility to true just in case the two icons are the same
+                if (this.isHovered) { // Always end with setting the visibility to true just in case the two icons are the same
                     icon.isVisible = false
                     iconHovered.isVisible = true
                 } else {

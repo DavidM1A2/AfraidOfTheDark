@@ -8,7 +8,6 @@ import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
-import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDZoneTileEntity
 import net.minecraft.block.Blocks
 import net.minecraft.util.math.AxisAlignedBB

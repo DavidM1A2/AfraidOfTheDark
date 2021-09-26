@@ -24,8 +24,7 @@ class RecipePane(prefSize: Dimensions, offset: Position = Position(0.0, 0.0), re
         this.add(this.craftingGrid)
 
         // Create an array of 9 stacks for each of the 9 slots and initialize each of the 9 stacks
-        this.guiItemStacks = Array(9)
-        {
+        this.guiItemStacks = Array(9) {
             ItemStackPane(
                 Dimensions(0.2, 0.33),
                 Position((it % 3) * 0.22 + 0.055, (it / 3) * 0.3 + 0.045),

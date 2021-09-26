@@ -8,7 +8,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.item.Item
 import net.minecraft.nbt.CompoundNBT
 import net.minecraftforge.registries.ForgeRegistries
-import java.util.*
+import java.util.Optional
 
 class ItemCraftedResearchTriggerConfig(
     val item: Item,

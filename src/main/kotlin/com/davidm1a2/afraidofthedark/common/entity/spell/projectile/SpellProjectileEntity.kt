@@ -25,7 +25,7 @@ import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData
 import net.minecraftforge.fml.network.NetworkHooks
 import java.awt.Color
-import java.util.*
+import java.util.UUID
 
 /**
  * Class representing the projectile delivery method

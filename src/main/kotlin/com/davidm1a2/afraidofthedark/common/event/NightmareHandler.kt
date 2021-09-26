@@ -45,7 +45,7 @@ import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent
 import net.minecraftforge.event.world.ChunkEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.LogicalSide
-import java.util.*
+import java.util.Random
 
 /**
  * Class handling events to send players to and from their nightmare realm

@@ -12,7 +12,7 @@ import net.minecraft.world.ISeedReader
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.StructureManager
 import net.minecraft.world.gen.feature.structure.StructurePiece
-import java.util.*
+import java.util.Random
 
 class GnomishCityStairwellClipperStructurePiece : StructurePiece {
     constructor(nbt: CompoundNBT) : super(ModStructures.GNOMISH_CITY_STAIRWELL_CLIPPER_STRUCTURE_PIECE, nbt)

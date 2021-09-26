@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.world.ISeedReader
 import net.minecraft.world.gen.ChunkGenerator
-import java.util.*
+import java.util.Random
 
 class SacredMangroveTreeFeature : AOTDTreeFeature(
     ModBlocks.SACRED_MANGROVE.defaultBlockState().setValue(RotatedPillarBlock.AXIS, Direction.Axis.Y),

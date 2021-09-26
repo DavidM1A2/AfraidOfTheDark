@@ -73,7 +73,7 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
                                     research.researchedRecipes
                                 )
                             )
-                        } else if (research.preRequisite != null && playerResearch.isResearched(research.preRequisite!!)) {   // Pre-Page UI
+                        } else if (research.preRequisite != null && playerResearch.isResearched(research.preRequisite!!)) { // Pre-Page UI
                             Minecraft.getInstance().setScreen(
                                 JournalPageScreen(
                                     I18n.get(research.getUnlocalizedPreText()),

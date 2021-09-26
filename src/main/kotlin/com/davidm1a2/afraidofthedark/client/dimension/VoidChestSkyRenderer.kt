@@ -17,9 +17,7 @@ import net.minecraftforge.client.ISkyRenderHandler
  */
 class VoidChestSkyRenderer : ISkyRenderHandler {
     override fun render(ticks: Int, partialTicks: Float, matrixStack: MatrixStack, world: ClientWorld, mc: Minecraft) {
-        ///
-        /// Code below is similar to WorldRenderer::renderSky()
-        ///
+        // Code below is similar to WorldRenderer::renderSky()
 
         RenderSystem.disableAlphaTest()
         RenderSystem.enableBlend()

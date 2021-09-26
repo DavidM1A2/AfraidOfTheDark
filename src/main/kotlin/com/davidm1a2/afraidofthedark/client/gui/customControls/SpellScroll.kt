@@ -241,7 +241,6 @@ class SpellScroll :
 
                         // Store the editor off for later use
                         this.currentPropEditors.add(Pair.of(editableProp, propertyEditor))
-
                     } else if (editableProp is BooleanSpellComponentProperty) {
                         // Create a toggle control to represent the property
                         val propertyPane = StackPane(Dimensions(1.0, 0.1))
@@ -268,7 +267,6 @@ class SpellScroll :
 
                         // Store the editor off for later use
                         this.currentPropEditors.add(Pair.of(editableProp, togglePane))
-
                     } else {
                         // Create a text field that edits the property value
                         val propertyPane = StackPane(Dimensions(1.0, 0.1))

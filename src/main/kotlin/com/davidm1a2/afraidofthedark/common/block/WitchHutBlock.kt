@@ -1,8 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
-import com.davidm1a2.afraidofthedark.common.tileEntity.DesertOasisTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.ObservatoryTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.WitchHutTileEntity
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState

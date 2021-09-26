@@ -235,7 +235,7 @@ class SpellTablet(
     override fun calcChildrenBounds() {
         super.calcChildrenBounds()
         // Safe call is necessary here because calcChildrenBounds gets called in the constructor before the label is added
-        spellCost?.let { this.refreshCost() }   // Refresh the cost every UI update
+        spellCost?.let { this.refreshCost() } // Refresh the cost every UI update
     }
 
     /**

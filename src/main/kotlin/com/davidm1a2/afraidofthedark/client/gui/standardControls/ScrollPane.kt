@@ -53,7 +53,7 @@ open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHe
         addMouseDragListener {
             if (this.isHovered) {
                 if (it.clickedButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                    if (mouseHeld) {   // A click must have been detected for a drag to register
+                    if (mouseHeld) { // A click must have been detected for a drag to register
                         guiOffsetX = originalGuiOffsetX + (it.mouseX - originalXPosition)
                         guiOffsetY = originalGuiOffsetY + (it.mouseY - originalYPosition)
                         checkOutOfBounds()
@@ -93,7 +93,7 @@ open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHe
         }
     }
 
-    fun getCurrentOffset() : Position {
+    fun getCurrentOffset(): Position {
         return Position(guiOffsetX, guiOffsetY, false)
     }
 }

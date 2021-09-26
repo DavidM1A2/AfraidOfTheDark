@@ -12,10 +12,14 @@ import net.minecraft.block.SoundType
  * @param baseName The name of the block to be used by the game registry
  * @param properties The properties of this block
  */
-abstract class AOTDFenceGateBlock(baseName: String, properties: Properties) : FenceGateBlock(properties.apply {
-    strength(2.0f, 5.0f)
-    sound(SoundType.WOOD)
-}), AOTDShowBlockCreative {
+abstract class AOTDFenceGateBlock(baseName: String, properties: Properties) :
+    FenceGateBlock(
+        properties.apply {
+            strength(2.0f, 5.0f)
+            sound(SoundType.WOOD)
+        }
+    ),
+    AOTDShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)
     }

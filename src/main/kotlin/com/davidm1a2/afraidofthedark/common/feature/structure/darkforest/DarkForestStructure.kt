@@ -13,7 +13,7 @@ import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.StructureFeature
 import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
-import java.util.*
+import java.util.Random
 
 class DarkForestStructure : AOTDStructure<MultiplierConfig>("dark_forest", MultiplierConfig.CODEC) {
     private val width: Int

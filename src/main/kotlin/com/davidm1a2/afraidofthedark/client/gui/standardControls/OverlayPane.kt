@@ -11,10 +11,10 @@ open class OverlayPane(private val parent: AOTDPane?) : StackPane() {
     override fun drawOverlay(matrixStack: MatrixStack) {
         RenderSystem.disableLighting()
         for (child in getChildren()) {
-            child.draw(matrixStack)    // Draw children's content as an overlay
+            child.draw(matrixStack) // Draw children's content as an overlay
         }
         for (child in getChildren()) {
-            child.drawOverlay(matrixStack)    // Draw children's overlays on top of that
+            child.drawOverlay(matrixStack) // Draw children's overlays on top of that
         }
         super.drawOverlay(matrixStack) // Call our super method
     }

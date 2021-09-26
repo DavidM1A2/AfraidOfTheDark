@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.mojang.blaze3d.matrix.MatrixStack
 import java.awt.Color
-import java.util.*
+import java.util.StringTokenizer
 
 /**
  * A text box control that will have multiple lines of text like a label

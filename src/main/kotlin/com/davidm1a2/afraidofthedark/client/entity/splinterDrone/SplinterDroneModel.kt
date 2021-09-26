@@ -176,7 +176,6 @@ class SplinterDroneModel internal constructor() : EntityModel<SplinterDroneEntit
         pillar7.setTexSize(64, 64)
         parts["Pillar7"] = pillar7
         body.addChild(pillar7)
-
     }
 
     override fun renderToBuffer(

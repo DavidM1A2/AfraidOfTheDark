@@ -10,7 +10,7 @@ import net.minecraft.world.gen.feature.FeatureSpread
 import net.minecraft.world.gen.feature.TwoLayerFeature
 import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer
 import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer
-import java.util.*
+import java.util.Random
 
 /**
  * Mangrove tree generator

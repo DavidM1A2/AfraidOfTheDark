@@ -90,11 +90,11 @@ abstract class AOTDGuiComponent(
 
                 if (breakIndex == -1 || w > width) { // No breaks left OR break is after the max width
                     when {
-                        w < width -> {  // Line does not need to be wrapped
+                        w < width -> { // Line does not need to be wrapped
                             ret += line
                             line = ""
                         }
-                        lastBreak != -1 -> {  // If the previous line break exists (last break before max width)
+                        lastBreak != -1 -> { // If the previous line break exists (last break before max width)
                             ret += line.substring(0, lastBreak)
                             line = line.substring(lastBreak + 1)
                         }
@@ -102,7 +102,7 @@ abstract class AOTDGuiComponent(
                             ret += line.substring(0, breakIndex)
                             line = line.substring(breakIndex + 1)
                         }
-                        else -> {    // Line is too long, but no break exists
+                        else -> { // Line is too long, but no break exists
                             ret += line
                             line = ""
                         }
@@ -131,7 +131,7 @@ abstract class AOTDGuiComponent(
     open fun negotiateDimensions(width: Double, height: Double) {
         this.width = if (prefSize.isRelative) (min(prefSize.width, 1.0) * width).roundToInt() else min(prefSize.width, width).roundToInt()
         this.height = if (prefSize.isRelative) (min(prefSize.height, 1.0) * height).roundToInt() else min(prefSize.height, height).roundToInt()
-        this.inBounds = true    // Reset the inBounds tag and let ancestor nodes check it again
+        this.inBounds = true // Reset the inBounds tag and let ancestor nodes check it again
     }
 
     /**

@@ -11,7 +11,7 @@ import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.Heightmap
 import net.minecraft.world.gen.feature.structure.Structure
-import java.util.*
+import java.util.Random
 import kotlin.math.max
 import kotlin.math.min
 

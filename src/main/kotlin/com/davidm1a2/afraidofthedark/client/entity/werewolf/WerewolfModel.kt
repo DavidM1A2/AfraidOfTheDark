@@ -185,7 +185,6 @@ class WerewolfModel internal constructor() : EntityModel<WerewolfEntity>() {
         rightBackFoot.setTexSize(128, 128)
         parts["RightBackFoot"] = rightBackFoot
         rightBackLowerLeg.addChild(rightBackFoot)
-
     }
 
     override fun renderToBuffer(

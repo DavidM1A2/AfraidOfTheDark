@@ -13,12 +13,17 @@ import net.minecraft.block.trees.Tree
  * @param tree The tree that grows for the sapling
  * @param properties The properties of the block
  */
-abstract class AOTDSaplingBlock(baseName: String, tree: Tree, properties: Properties) : SaplingBlock(tree, properties.apply {
-    noCollission()
-    randomTicks()
-    instabreak()
-    sound(SoundType.GRASS)
-}), AOTDShowBlockCreative {
+abstract class AOTDSaplingBlock(baseName: String, tree: Tree, properties: Properties) :
+    SaplingBlock(
+        tree,
+        properties.apply {
+            noCollission()
+            randomTicks()
+            instabreak()
+            sound(SoundType.GRASS)
+        }
+    ),
+    AOTDShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)
     }

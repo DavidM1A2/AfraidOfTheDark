@@ -2,8 +2,6 @@ package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.client.gui.screens.SpellListScreen
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
-import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.EnariasAltarTileEntity
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -17,7 +15,6 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.BlockRayTraceResult
 import net.minecraft.util.math.shapes.ISelectionContext
 import net.minecraft.util.math.shapes.VoxelShape
-import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.IBlockReader
 import net.minecraft.world.World
 

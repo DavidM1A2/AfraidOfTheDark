@@ -25,9 +25,7 @@ abstract class BoltRenderer<T : BoltEntity>(renderManager: EntityRendererManager
     internal abstract val boltTexture: ResourceLocation
 
     override fun render(entity: T, entityYaw: Float, partialTicks: Float, matrixStack: MatrixStack, iRenderTypeBuffer: IRenderTypeBuffer, packedLightIn: Int) {
-        ///
-        /// Copied from "ArrowRenderer" and adapted for bolts
-        ///
+        // Copied from "ArrowRenderer" and adapted for bolts
 
         matrixStack.pushPose()
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(MathHelper.lerp(partialTicks, entity.yRotO, entity.yRot) - 90.0f))

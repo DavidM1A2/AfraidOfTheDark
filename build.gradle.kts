@@ -25,6 +25,10 @@ buildscript {
     }
 }
 
+plugins {
+    id("org.jlleitschuh.gradle.ktlint").version("10.2.0")
+}
+
 apply {
     plugin("net.minecraftforge.gradle")
     plugin("eclipse")

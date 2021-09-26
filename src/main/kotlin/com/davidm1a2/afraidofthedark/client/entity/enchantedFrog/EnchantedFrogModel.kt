@@ -8,7 +8,6 @@ import com.mojang.blaze3d.vertex.IVertexBuilder
 import net.minecraft.client.renderer.entity.model.EntityModel
 import net.minecraft.util.math.vector.Quaternion
 
-
 /**
  * Model class that defines the enchanted frog model
  *

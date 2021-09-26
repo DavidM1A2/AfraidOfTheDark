@@ -84,7 +84,8 @@ class EnariaModel<T : Entity> internal constructor(private val isTransparent: Bo
         alpha: Float
     ) {
         body.render(
-            matrixStack, vertexBuilder, packedLight, packedOverlay, red, green, blue, if (isTransparent) {
+            matrixStack, vertexBuilder, packedLight, packedOverlay, red, green, blue,
+            if (isTransparent) {
                 0.3f
             } else {
                 1.0f
