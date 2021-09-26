@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
+import com.davidm1a2.afraidofthedark.common.feature.structure.altarruins.AltarRuinsStructure
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.SchematicStructurePiece
 import com.davidm1a2.afraidofthedark.common.feature.structure.crypt.CryptStructure
 import com.davidm1a2.afraidofthedark.common.feature.structure.darkforest.DarkForestStructure
@@ -30,6 +31,7 @@ object ModStructures {
     val NIGHTMARE_ISLAND = NightmareIslandStructure()
     val GNOMISH_CITY = GnomishCityStructure()
     val DESERT_OASIS = DesertOasisStructure()
+    val ALTAR_RUINS = AltarRuinsStructure()
 
     val STRUCTURES = arrayOf(
         CRYPT,
@@ -41,7 +43,8 @@ object ModStructures {
         VOID_CHEST_PORTAL,
         NIGHTMARE_ISLAND,
         GNOMISH_CITY,
-        DESERT_OASIS
+        DESERT_OASIS,
+        ALTAR_RUINS
     )
 
     val SCHEMATIC_STRUCTURE_PIECE = IStructurePieceType { _, nbt -> SchematicStructurePiece(nbt) }

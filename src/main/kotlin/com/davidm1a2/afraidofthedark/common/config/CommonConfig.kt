@@ -17,6 +17,7 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
     private val witchHutMultiplier: ForgeConfigSpec.DoubleValue
     private val desertOasisMultiplier: ForgeConfigSpec.DoubleValue
     private val observatoryMultiplier: ForgeConfigSpec.DoubleValue
+    private val altarRuinsMultiplier: ForgeConfigSpec.DoubleValue
 
     // The eerie biome frequency
     private val eerieBiomeFrequency: ForgeConfigSpec.IntValue
@@ -58,6 +59,10 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
             .comment("Increases the number of Observatories in the world by the multiplier specified.")
             .translation("config.afraidofthedark:observatory_multiplier")
             .defineInRange("observatory_multiplier", 1.0, 0.0, 100.0)
+        altarRuinsMultiplier = builder
+            .comment("Increases the number of Altar Ruins in the world by the multiplier specified.")
+            .translation("config.afraidofthedark:altar_ruins_multiplier")
+            .defineInRange("altar_ruins_multiplier", 1.0, 0.0, 100.0)
 
         builder.pop()
 
@@ -88,6 +93,7 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
         ModCommonConfiguration.witchHutMultiplier = witchHutMultiplier.get()
         ModCommonConfiguration.desertOasisMultiplier = desertOasisMultiplier.get()
         ModCommonConfiguration.observatoryMultiplier = observatoryMultiplier.get()
+        ModCommonConfiguration.altarRuinsMultiplier = altarRuinsMultiplier.get()
         ModCommonConfiguration.eerieBiomeFrequency = eerieBiomeFrequency.get()
         ModCommonConfiguration.cacheStructures = cacheStructures.get()
         ModCommonConfiguration.cacheTimeout = cacheTimeout.get()

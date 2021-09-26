@@ -1,5 +1,6 @@
-package com.davidm1a2.afraidofthedark.common.feature.structure.crypt
+package com.davidm1a2.afraidofthedark.common.feature.structure.altarruins
 
+import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
@@ -13,24 +14,28 @@ import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.Random
 
-class CryptStructure : AOTDStructure<MultiplierConfig>("crypt", MultiplierConfig.CODEC) {
+class AltarRuinsStructure : AOTDStructure<MultiplierConfig>("altar_ruins", MultiplierConfig.CODEC) {
     override fun getWidth(): Int {
-        return ModSchematics.CRYPT.getWidth().toInt()
+        return ModSchematics.ALTAR_RUINS.getWidth().toInt()
     }
 
     override fun getLength(): Int {
-        return ModSchematics.CRYPT.getLength().toInt()
+        return ModSchematics.ALTAR_RUINS.getLength().toInt()
     }
 
     override fun getStartFactory(): IStartFactory<MultiplierConfig> {
         return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
-            CryptStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
+            AltarRuinsStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
         }
     }
 
     override fun configured(biome: RegistryKey<Biome>, category: Biome.Category): StructureFeature<MultiplierConfig, out Structure<MultiplierConfig>>? {
         return if (category !in INCOMPATIBLE_BIOME_CATEGORIES) {
-            configured(MultiplierConfig(1))
+            if (biome == ModBiomes.EERIE_FOREST) {
+                configured(MultiplierConfig(10))
+            } else {
+                configured(MultiplierConfig(1))
+            }
         } else {
             null
         }
@@ -45,7 +50,7 @@ class CryptStructure : AOTDStructure<MultiplierConfig>("crypt", MultiplierConfig
             .map { it.multiplier }
             .minOrNull() ?: 0
 
-        val chance = getOneInNValidChunks(350) * ModCommonConfiguration.cryptMultiplier * biomeMultiplier
+        val chance = getOneInNValidChunks(250) * ModCommonConfiguration.altarRuinsMultiplier * biomeMultiplier
         if (random.nextDouble() >= chance) {
             return false
         }
@@ -53,7 +58,7 @@ class CryptStructure : AOTDStructure<MultiplierConfig>("crypt", MultiplierConfig
         val heights = getEdgeHeights(xPos, zPos, chunkGen)
         val maxHeight = heights.maxOrNull()!!
         val minHeight = heights.minOrNull()!!
-        if (maxHeight - minHeight > 5) {
+        if (maxHeight - minHeight > 2) {
             return false
         }
         return true

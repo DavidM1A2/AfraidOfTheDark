@@ -12,6 +12,7 @@ object ModCommonConfiguration {
     var witchHutMultiplier = 1.0
     var desertOasisMultiplier = 1.0
     var observatoryMultiplier = 1.0
+    var altarRuinsMultiplier = 1.0
 
     // The eerie biome frequency
     var eerieBiomeFrequency = 10

@@ -34,11 +34,6 @@
         },
         {
           "type": "item",
-          "name": "afraidofthedark:journal",
-          "weight": 2
-        },
-        {
-          "type": "item",
           "name": "afraidofthedark:bone_dust",
           "functions": [
             {
