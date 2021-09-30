@@ -1,6 +1,32 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.common.block.*
+import com.davidm1a2.afraidofthedark.common.block.AmorphousEldritchMetalBlock
+import com.davidm1a2.afraidofthedark.common.block.AstralSilverOreBlock
+import com.davidm1a2.afraidofthedark.common.block.DarkForestBlock
+import com.davidm1a2.afraidofthedark.common.block.DesertOasisBlock
+import com.davidm1a2.afraidofthedark.common.block.DroppedJournalBlock
+import com.davidm1a2.afraidofthedark.common.block.EldritchObsidianBlock
+import com.davidm1a2.afraidofthedark.common.block.EldritchStoneBlock
+import com.davidm1a2.afraidofthedark.common.block.EldritchStoneSlabBlock
+import com.davidm1a2.afraidofthedark.common.block.EldritchStoneStairsBlock
+import com.davidm1a2.afraidofthedark.common.block.EldritchStoneWallBlock
+import com.davidm1a2.afraidofthedark.common.block.EnariaSpawnerBlock
+import com.davidm1a2.afraidofthedark.common.block.EnariasAltarBlock
+import com.davidm1a2.afraidofthedark.common.block.GlowStalkBlock
+import com.davidm1a2.afraidofthedark.common.block.GnomishMetalPlateBlock
+import com.davidm1a2.afraidofthedark.common.block.GnomishMetalStrutBlock
+import com.davidm1a2.afraidofthedark.common.block.IgneousBlock
+import com.davidm1a2.afraidofthedark.common.block.ImbuedCactusBlock
+import com.davidm1a2.afraidofthedark.common.block.ImbuedCactusBlossomBlock
+import com.davidm1a2.afraidofthedark.common.block.LensCutterBlock
+import com.davidm1a2.afraidofthedark.common.block.MeteorBlock
+import com.davidm1a2.afraidofthedark.common.block.ObservatoryBlock
+import com.davidm1a2.afraidofthedark.common.block.StarMetalOreBlock
+import com.davidm1a2.afraidofthedark.common.block.SunstoneOreBlock
+import com.davidm1a2.afraidofthedark.common.block.VoidChestBlock
+import com.davidm1a2.afraidofthedark.common.block.VoidChestPortalBlock
+import com.davidm1a2.afraidofthedark.common.block.VoidObeliskBlock
+import com.davidm1a2.afraidofthedark.common.block.WitchHutBlock
 import com.davidm1a2.afraidofthedark.common.block.gravewood.GravewoodBlock
 import com.davidm1a2.afraidofthedark.common.block.gravewood.GravewoodButtonBlock
 import com.davidm1a2.afraidofthedark.common.block.gravewood.GravewoodDoorBlock
@@ -97,6 +123,7 @@ object ModBlocks {
     val IMBUED_CACTUS_BLOSSOM = ImbuedCactusBlossomBlock()
     val DESERT_OASIS = DesertOasisBlock()
     val LENS_CUTTER = LensCutterBlock()
+    val DROPPED_JOURNAL = DroppedJournalBlock()
 
     // An array containing a list of blocks that AOTD adds
     val BLOCK_LIST = arrayOf<Block>(
@@ -155,6 +182,7 @@ object ModBlocks {
         DESERT_OASIS,
         LENS_CUTTER,
         VOID_OBELISK,
-        WITCH_HUT
+        WITCH_HUT,
+        DROPPED_JOURNAL
     )
 }
