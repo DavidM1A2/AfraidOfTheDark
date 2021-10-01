@@ -1,19 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.common.research.trigger.BlockBrokenResearchTrigger
-import com.davidm1a2.afraidofthedark.common.research.trigger.InBiomeResearchTrigger
-import com.davidm1a2.afraidofthedark.common.research.trigger.ItemCraftedResearchTrigger
-import com.davidm1a2.afraidofthedark.common.research.trigger.KillEntityResearchTrigger
-import com.davidm1a2.afraidofthedark.common.research.trigger.ManualResearchTrigger
-import com.davidm1a2.afraidofthedark.common.research.trigger.PlayerHurtResearchTrigger
-import com.davidm1a2.afraidofthedark.common.research.trigger.StartedAOTDResearchTrigger
-import com.davidm1a2.afraidofthedark.common.research.trigger.UseBlockResearchTrigger
-import com.davidm1a2.afraidofthedark.common.research.trigger.UseItemResearchTrigger
-import com.davidm1a2.afraidofthedark.common.research.trigger.ZoneEnteredResearchTrigger
-import com.davidm1a2.afraidofthedark.common.research.trigger.ZoneExitedResearchTrigger
+import com.davidm1a2.afraidofthedark.common.research.trigger.*
 
 object ModResearchTriggers {
     val PLAYER_HURT = PlayerHurtResearchTrigger()
+    val PLAYER_CAST = PlayerCastResearchTrigger()
     val BLOCK_BROKEN = BlockBrokenResearchTrigger()
     val ITEM_CRAFTED = ItemCraftedResearchTrigger()
     val USE_BLOCK = UseBlockResearchTrigger()
@@ -27,6 +18,7 @@ object ModResearchTriggers {
 
     val LIST = arrayOf(
         PLAYER_HURT,
+        PLAYER_CAST,
         BLOCK_BROKEN,
         ITEM_CRAFTED,
         USE_BLOCK,

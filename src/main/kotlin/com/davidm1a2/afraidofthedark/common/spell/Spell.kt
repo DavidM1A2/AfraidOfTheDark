@@ -4,9 +4,12 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
+import com.davidm1a2.afraidofthedark.common.event.custom.CastSpellEvent
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
+import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
 import net.minecraft.entity.Entity
@@ -18,11 +21,13 @@ import net.minecraft.particles.IParticleData
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.util.Constants
 import net.minecraftforge.common.util.INBTSerializable
 import net.minecraftforge.fml.network.PacketDistributor
 import org.apache.logging.log4j.LogManager
 import java.util.*
+import java.util.stream.Collectors
 import kotlin.random.Random
 
 /**
@@ -77,6 +82,9 @@ class Spell : INBTSerializable<CompoundNBT> {
                         // Consumer the power to cast the spell
                         powerSource!!.component.consumePowerToCast(entity, this)
 
+                        // Send an event for the spell being cast
+                        MinecraftForge.EVENT_BUS.post(CastSpellEvent(entity, this))
+
                         // Play a cast sound
                         entity.level.playSound(
                             null,
@@ -86,6 +94,7 @@ class Spell : INBTSerializable<CompoundNBT> {
                             1.0f,
                             (0.8f + Math.random() * 0.4).toFloat()
                         )
+
                         // Determine the particles from the strength of the spell
                         val spellPower = this.getCost()
                         var spellParticle: IParticleData = ModParticles.SPELL_CAST
@@ -96,6 +105,7 @@ class Spell : INBTSerializable<CompoundNBT> {
                         for (i in 0 until Random.nextInt(2, 6)) {
                             positions.add(Vector3d(entity.x, entity.y, entity.z))
                         }
+
                         // Send the particle packet
                         AfraidOfTheDark.packetHandler.sendToAllAround(
                             ParticlePacket(
@@ -204,6 +214,14 @@ class Spell : INBTSerializable<CompoundNBT> {
         } else {
             null
         }
+    }
+
+    fun getAllDeliveryMethods(): List<SpellDeliveryMethod> {
+        return spellStages.mapNotNull { it.deliveryInstance?.component }.toList()
+    }
+
+    fun getAllEffects(): List<SpellEffect> {
+        return spellStages.flatMap { stage -> stage.effects.mapNotNull { it?.component }.toList() }
     }
 
     /**

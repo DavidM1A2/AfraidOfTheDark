@@ -6,9 +6,9 @@
   "prerequisite": "afraidofthedark:wisdom",
   "triggers": [
     {
-      "type": "afraidofthedark:manual",
+      "type": "afraidofthedark:player_cast",
       "config": {
-        "research": "afraidofthedark:blood_magic"
+        "power_source": "afraidofthedark:experience"
       }
     }
   ]

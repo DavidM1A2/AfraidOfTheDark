@@ -6,9 +6,9 @@
   "prerequisite": "afraidofthedark:blood_magic",
   "triggers": [
     {
-      "type": "afraidofthedark:manual",
+      "type": "afraidofthedark:player_cast",
       "config": {
-        "research": "afraidofthedark:bloodbath"
+        "power_source": "afraidofthedark:health"
       }
     }
   ]
