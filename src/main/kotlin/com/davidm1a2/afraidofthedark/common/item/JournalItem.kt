@@ -3,7 +3,9 @@ package com.davidm1a2.afraidofthedark.common.item
 import com.davidm1a2.afraidofthedark.client.gui.screens.JournalOpenScreen
 import com.davidm1a2.afraidofthedark.client.gui.screens.JournalResearchScreen
 import com.davidm1a2.afraidofthedark.common.capabilities.hasStartedAOTD
+import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
+import com.davidm1a2.afraidofthedark.common.tileEntity.DroppedJournalTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
@@ -36,6 +38,19 @@ class JournalItem : AOTDItem("journal", Properties().stacksTo(1)) {
      */
     override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
         val heldItemStack = player.getItemInHand(hand)
+
+        // Drop the journal
+        if (player.isCrouching) {
+            val playerPos = player.blockPosition()
+            if (ModBlocks.DROPPED_JOURNAL.canSurvive(world.getBlockState(playerPos), world, playerPos)) {
+                world.setBlockAndUpdate(playerPos, ModBlocks.DROPPED_JOURNAL.defaultBlockState())
+                (world.getBlockEntity(playerPos) as? DroppedJournalTileEntity)?.journalItem = heldItemStack
+                if (!player.isCreative) {
+                    player.setItemInHand(hand, ItemStack.EMPTY)
+                }
+                return ActionResult.success(heldItemStack)
+            }
+        }
 
         // If the journal does not have an owner yet...
         if (!NBTHelper.hasTag(heldItemStack, NBT_OWNER)) {
@@ -133,9 +148,11 @@ class JournalItem : AOTDItem("journal", Properties().stacksTo(1)) {
     override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         // If the stack has an owner tag, show who owns the stack, otherwise show that the journal is not bound
         if (NBTHelper.hasTag(stack, NBT_OWNER)) {
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.journal.bound", NBTHelper.getString(stack, NBT_OWNER)))
+            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.journal.owned", NBTHelper.getString(stack, NBT_OWNER)))
+            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.journal.drop"))
         } else {
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.journal.unbound"))
+            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.journal.unowned"))
+            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.journal.drop"))
         }
 
         // If the journal is a cheat sheet, show that
