@@ -18,7 +18,8 @@ import org.apache.logging.log4j.LogManager
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.*
+import java.util.LinkedList
+import java.util.UUID
 
 /**
  * Collection of utility methods used to debug, not used in actual play
@@ -100,7 +101,7 @@ object SchematicUtils {
     fun createSchematicMetaFiles() {
         generateMcMetaFileForDir(
             File(
-                "../src/main/resources/assets/afraidofthedark/schematics"
+                "../src/main/resources/data/afraidofthedark/schematics"
             )
         )
     }
@@ -142,7 +143,7 @@ object SchematicUtils {
         val localPath =
             StringUtils.substringAfter(
                 schematicFile.absolutePath.replace("\\", "/"),
-                "src/main/resources/assets/afraidofthedark/"
+                "src/main/resources/data/afraidofthedark/"
             )
         val schematic = SchematicBuilder()
             .withFile(ResourceLocation(Constants.MOD_ID, localPath))
