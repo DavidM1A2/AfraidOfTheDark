@@ -8,7 +8,6 @@ import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
-import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDZoneTileEntity
 import net.minecraft.block.Blocks
 import net.minecraft.util.math.AxisAlignedBB
@@ -37,8 +36,6 @@ class DesertOasisTileEntity : AOTDZoneTileEntity(ModTileEntities.DESERT_OASIS) {
             0.0
         )
     }
-    // The AABB of the desert oasis
-    private lateinit var oasisBoundingBox: AxisAlignedBB
 
     /**
      * Update gets called every tick
@@ -50,7 +47,7 @@ class DesertOasisTileEntity : AOTDZoneTileEntity(ModTileEntities.DESERT_OASIS) {
             // If we've existed for a multiple of 60 ticks perform a check for nearby players
             if (ticksExisted % TICKS_INBETWEEN_CHECKS == 0L) {
                 // Get all existing frogs
-                val enchantedFrogs = level!!.getEntitiesOfClass(EnchantedFrogEntity::class.java, oasisBoundingBox)
+                val enchantedFrogs = level!!.getEntitiesOfClass(EnchantedFrogEntity::class.java, zone)
                 // Compute the number of frogs to spawn
                 val numberOfFrogsToSpawn =
                     (MAX_NUMBER_OF_FROGS - enchantedFrogs.size).coerceIn(0, MAX_NUMBER_OF_FROGS_TO_SPAWN_AT_ONCE)
@@ -67,16 +64,16 @@ class DesertOasisTileEntity : AOTDZoneTileEntity(ModTileEntities.DESERT_OASIS) {
     private fun spawnFrogs(number: Int) {
         for (ignored in 0 until number) {
             // https://gamedev.stackexchange.com/questions/168279/get-a-point-inside-an-ellipse
-            val ellipseWidth = oasisBoundingBox.maxX.toInt() - oasisBoundingBox.minX.toInt()
-            val ellipseHeight = oasisBoundingBox.maxZ.toInt() - oasisBoundingBox.minZ.toInt()
+            val ellipseWidth = zone.maxX.toInt() - zone.minX.toInt()
+            val ellipseHeight = zone.maxZ.toInt() - zone.minZ.toInt()
             val x = cos(Random.nextDouble(0.0, 2 * Math.PI)) * ellipseWidth / 2 * Random.nextDouble()
             val z = sin(Random.nextDouble(0.0, 2 * Math.PI)) * ellipseHeight / 2 * Random.nextDouble()
-            val xPos = oasisBoundingBox.minX.toInt() + ellipseWidth / 2 + x.toInt()
-            val zPos = oasisBoundingBox.minZ.toInt() + ellipseHeight / 2 + z.toInt()
+            val xPos = zone.minX.toInt() + ellipseWidth / 2 + x.toInt()
+            val zPos = zone.minZ.toInt() + ellipseHeight / 2 + z.toInt()
 
             // Find the first surface block that the frog may spawn on
             var yPos = 0
-            for (y in oasisBoundingBox.maxY.toInt() downTo oasisBoundingBox.minY.toInt()) {
+            for (y in zone.maxY.toInt() downTo zone.minY.toInt()) {
                 val currentBlock = level!!.getBlockState(BlockPos(xPos, y, zPos)).block
                 // If we hit water set yPos to 0 so we don't spawn frogs in water
                 if (currentBlock == Blocks.WATER) {
