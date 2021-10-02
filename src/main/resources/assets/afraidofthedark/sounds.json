@@ -87,15 +87,15 @@
       }
     ]
   },
-  "journal_open": {
+  "arcane_journal_open": {
     "category": "player",
     "sounds": [
       {
-        "name": "afraidofthedark:journal_open",
+        "name": "afraidofthedark:arcane_journal_open",
         "stream": false
       }
     ],
-    "subtitle": "Journal Opened"
+    "subtitle": "Arcane Journal Opened"
   },
   "research_unlocked": {
     "category": "player",

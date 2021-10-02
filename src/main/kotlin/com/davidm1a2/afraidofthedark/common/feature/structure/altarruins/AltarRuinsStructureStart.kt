@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.feature.structure.altarruins
 
-import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructureStart
@@ -22,8 +21,7 @@ class AltarRuinsStructureStart(structure: Structure<MultiplierConfig>, chunkX: I
                 yPos,
                 zPos - ModSchematics.ALTAR_RUINS.getLength() / 2,
                 random,
-                ModSchematics.ALTAR_RUINS,
-                ModLootTables.ALTAR_RUINS
+                ModSchematics.ALTAR_RUINS
             )
         )
         this.calculateBoundingBox()

@@ -12,7 +12,7 @@ import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.hasStartedAOTD
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
-import com.davidm1a2.afraidofthedark.common.item.JournalItem
+import com.davidm1a2.afraidofthedark.common.item.ArcaneJournalItem
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
 import java.awt.Color
@@ -20,14 +20,14 @@ import java.awt.Color
 /**
  * Class used to create a journal opening UI
  */
-class JournalOpenScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.journal_open")) {
+class ArcaneJournalOpenScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.arcane_journal_open")) {
     init {
         // Add padding to our root pane
         contentPane.padding = Spacing(0.08)
 
         // Add a background image to the background panel
         val background = ImagePane(
-            ResourceLocation("afraidofthedark:textures/gui/journal_open/journal.png"),
+            ResourceLocation("afraidofthedark:textures/gui/arcane_journal_open/background.png"),
             ImagePane.DispMode.FIT_TO_PARENT
         )
         background.gravity = Gravity.CENTER
@@ -35,8 +35,8 @@ class JournalOpenScreen : AOTDScreen(TranslationTextComponent("screen.afraidofth
 
         // Add the open button
         val openButton = ButtonPane(
-            icon = ImagePane("afraidofthedark:textures/gui/journal_open/open_button.png"),
-            iconHovered = ImagePane("afraidofthedark:textures/gui/journal_open/open_button_hovered.png"),
+            icon = ImagePane("afraidofthedark:textures/gui/arcane_journal_open/open_button.png"),
+            iconHovered = ImagePane("afraidofthedark:textures/gui/arcane_journal_open/open_button_hovered.png"),
             prefSize = Dimensions(0.5, 0.1),
             offset = Position(0.0, 0.1),
             font = ClientData.getOrCreate(55f)
@@ -62,15 +62,15 @@ class JournalOpenScreen : AOTDScreen(TranslationTextComponent("screen.afraidofth
                         val mainHand = entityPlayer.mainHandItem
                         val offHand = entityPlayer.mainHandItem
                         // We must check both off hand and main hand since the journal could be in either hand
-                        if (mainHand.item is JournalItem) {
-                            (mainHand.item as JournalItem).setOwner(mainHand, entityPlayer.gameProfile.name)
-                        } else if (offHand.item is JournalItem) {
-                            (offHand.item as JournalItem).setOwner(offHand, entityPlayer.gameProfile.name)
+                        if (mainHand.item is ArcaneJournalItem) {
+                            (mainHand.item as ArcaneJournalItem).setOwner(mainHand, entityPlayer.gameProfile.name)
+                        } else if (offHand.item is ArcaneJournalItem) {
+                            (offHand.item as ArcaneJournalItem).setOwner(offHand, entityPlayer.gameProfile.name)
                         }
 
                         // Play the open animation and chat message
-                        entityPlayer.playSound(ModSounds.JOURNAL_OPEN, 4.0F, 1.0F)
-                        entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.journal.read"), entityPlayer.uuid)
+                        entityPlayer.playSound(ModSounds.ARCANE_JOURNAL_OPEN, 4.0F, 1.0F)
+                        entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.arcane_journal.read"), entityPlayer.uuid)
                     }
                     onClose()
                 }

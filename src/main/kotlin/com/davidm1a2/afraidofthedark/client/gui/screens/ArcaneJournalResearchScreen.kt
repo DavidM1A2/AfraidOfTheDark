@@ -21,12 +21,12 @@ import java.awt.Color
 /**
  * The research GUI used by the journal to show what has been unlocked and what has not been unlocked
  */
-class JournalResearchScreen(private val isCheatSheet: Boolean) :
-    AOTDScreen(TranslationTextComponent("screen.afraidofthedark.journal_research")) {
+class ArcaneJournalResearchScreen(private val isCheatSheet: Boolean) :
+    AOTDScreen(TranslationTextComponent("screen.afraidofthedark.arcane_journal_research")) {
 
     private val researchTreeBase: ScrollPane = ScrollPane(4.0, 4.0, scrollOffset)
-    private val scrollBackground: ImagePane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/background.png"))
-    private val backgroundBorder = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/frame.png"), ImagePane.DispMode.FIT_TO_PARENT)
+    private val scrollBackground: ImagePane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/arcane_journal_tech_tree/background.png"))
+    private val backgroundBorder = ImagePane(ResourceLocation("afraidofthedark:textures/gui/arcane_journal_tech_tree/frame.png"), ImagePane.DispMode.FIT_TO_PARENT)
     private val ratioPane = RatioPane(1, 1)
 
     init {

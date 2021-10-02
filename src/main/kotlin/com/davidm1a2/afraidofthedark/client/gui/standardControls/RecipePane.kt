@@ -15,7 +15,7 @@ import net.minecraftforge.common.crafting.IShapedRecipe
 class RecipePane(prefSize: Dimensions, offset: Position = Position(0.0, 0.0), recipe: IRecipe<*>? = null) :
     AOTDPane(offset, prefSize) {
     private val craftingGrid: ImagePane =
-        ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/crafting_grid.png"), ImagePane.DispMode.FIT_TO_PARENT)
+        ImagePane(ResourceLocation("afraidofthedark:textures/gui/arcane_journal_page/crafting_grid.png"), ImagePane.DispMode.FIT_TO_PARENT)
     private val guiItemStacks: Array<ItemStackPane>
     private val output: ItemStackPane
 

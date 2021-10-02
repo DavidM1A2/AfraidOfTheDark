@@ -30,12 +30,12 @@ class CheatSheetUnlockPacketProcessor : PacketProcessor<CheatSheetUnlockPacket> 
                     playerResearch.sync(player, true)
                 }
             } else {
-                player.sendMessage(TranslationTextComponent("message.afraidofthedark.journal.cheat_sheet_missing"), player.uuid)
+                player.sendMessage(TranslationTextComponent("message.afraidofthedark.arcane_journal.cheat_sheet_missing"), player.uuid)
             }
         }
     }
 
     companion object {
-        private val CHEAT_SHEET = ItemStack(ModItems.JOURNAL).apply { ModItems.JOURNAL.setCheatSheet(this) }
+        private val CHEAT_SHEET = ItemStack(ModItems.ARCANE_JOURNAL).apply { ModItems.ARCANE_JOURNAL.setCheatSheet(this) }
     }
 }

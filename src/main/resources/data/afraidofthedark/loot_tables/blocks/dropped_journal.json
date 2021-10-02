@@ -6,19 +6,19 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "afraidofthedark:journal",
+          "name": "afraidofthedark:arcane_journal",
           "functions": [
             {
               "function": "minecraft:copy_nbt",
               "source": "block_entity",
               "ops": [
                 {
-                  "source": "journal.tag.owner",
+                  "source": "arcane_journal.tag.owner",
                   "target": "owner",
                   "op": "replace"
                 },
                 {
-                  "source": "journal.tag.cheatsheet",
+                  "source": "arcane_journal.tag.cheatsheet",
                   "target": "cheatsheet",
                   "op": "replace"
                 }

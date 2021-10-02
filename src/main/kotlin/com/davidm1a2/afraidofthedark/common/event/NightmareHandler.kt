@@ -45,7 +45,7 @@ import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent
 import net.minecraftforge.event.world.ChunkEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.LogicalSide
-import java.util.*
+import java.util.Random
 
 /**
  * Class handling events to send players to and from their nightmare realm
@@ -446,8 +446,8 @@ class NightmareHandler {
      * @return The created journal
      */
     private fun createNamedJournal(entityPlayer: PlayerEntity): ItemStack {
-        val toReturn = ItemStack(ModItems.JOURNAL, 1)
-        ModItems.JOURNAL.setOwner(toReturn, entityPlayer.gameProfile.name)
+        val toReturn = ItemStack(ModItems.ARCANE_JOURNAL, 1)
+        ModItems.ARCANE_JOURNAL.setOwner(toReturn, entityPlayer.gameProfile.name)
         return toReturn
     }
 

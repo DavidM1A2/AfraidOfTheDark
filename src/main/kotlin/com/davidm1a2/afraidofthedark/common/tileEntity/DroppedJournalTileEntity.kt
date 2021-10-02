@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundNBT
 
 class DroppedJournalTileEntity : AOTDTileEntity(ModTileEntities.DROPPED_JOURNAL) {
-    var journalItem: ItemStack = ItemStack(ModItems.JOURNAL)
+    var journalItem: ItemStack = ItemStack(ModItems.ARCANE_JOURNAL)
         set(value) {
             setChanged()
             field = value
@@ -16,12 +16,14 @@ class DroppedJournalTileEntity : AOTDTileEntity(ModTileEntities.DROPPED_JOURNAL)
 
     override fun save(nbt: CompoundNBT): CompoundNBT {
         super.save(nbt)
-        nbt.put("journal", journalItem.serializeNBT())
+        nbt.put("arcane_journal", journalItem.serializeNBT())
         return nbt
     }
 
     override fun load(blockState: BlockState, nbt: CompoundNBT) {
         super.load(blockState, nbt)
-        journalItem = ItemStack.of(nbt.getCompound("journal"))
+        if (nbt.contains("arcane_journal")) {
+            journalItem = ItemStack.of(nbt.getCompound("arcane_journal"))
+        }
     }
 }

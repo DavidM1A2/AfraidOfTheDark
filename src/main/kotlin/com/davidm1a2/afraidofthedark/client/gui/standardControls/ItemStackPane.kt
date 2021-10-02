@@ -26,7 +26,7 @@ open class ItemStackPane(
     init {
         // if we should highlight the background then add a highlit background image
         if (backgroundHighlight) {
-            highlight = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/slot_highlight.png"), ImagePane.DispMode.FIT_TO_PARENT)
+            highlight = ImagePane(ResourceLocation("afraidofthedark:textures/gui/arcane_journal_page/slot_highlight.png"), ImagePane.DispMode.FIT_TO_PARENT)
             // Start the highlight off
             highlight.isVisible = false
             this.add(highlight)

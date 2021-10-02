@@ -23,7 +23,7 @@ object Constants {
          * @return The icon for the creative tab as an item
          */
         override fun makeIcon(): ItemStack {
-            return ItemStack(ModItems.JOURNAL)
+            return ItemStack(ModItems.ARCANE_JOURNAL)
         }
     }
 

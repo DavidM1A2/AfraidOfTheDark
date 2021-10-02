@@ -27,8 +27,8 @@ import java.awt.Color
 /**
  * Journal page UI which is shown when a player opens a page
  */
-class JournalPageScreen(text: String, titleText: String, relatedItemRecipes: List<Item>) :
-    AOTDScreen(TranslationTextComponent("screen.afraidofthedark.journal_page")) {
+class ArcaneJournalPageScreen(text: String, titleText: String, relatedItemRecipes: List<Item>) :
+    AOTDScreen(TranslationTextComponent("screen.afraidofthedark.arcane_journal_page")) {
     private val completeText: String = text
     private val textOnEachPage: MutableList<String> = mutableListOf()
     private val researchRecipes: List<IRecipe<*>> = entityPlayer.level.recipeManager.recipes.filter { relatedItemRecipes.contains(it.resultItem.item) }
@@ -51,7 +51,7 @@ class JournalPageScreen(text: String, titleText: String, relatedItemRecipes: Lis
         val guiPane = StackPane(padding = Spacing(0.125))
 
         // Create a page image to be used as the background
-        val journalPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/background.png"), ImagePane.DispMode.FIT_TO_PARENT)
+        val journalPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/arcane_journal_page/background.png"), ImagePane.DispMode.FIT_TO_PARENT)
         journalPane.gravity = Gravity.CENTER
         guiPane.add(journalPane)
 
@@ -101,7 +101,7 @@ class JournalPageScreen(text: String, titleText: String, relatedItemRecipes: Lis
 
         // The bookmark button returns the user to the research screen
         // The bookmark button to go back
-        val bookmarkIcon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/slot_highlight.png"), ImagePane.DispMode.STRETCH)
+        val bookmarkIcon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/arcane_journal_page/slot_highlight.png"), ImagePane.DispMode.STRETCH)
         val bookmarkButton = ButtonPane(
             icon = null,
             iconHovered = bookmarkIcon,
@@ -137,13 +137,13 @@ class JournalPageScreen(text: String, titleText: String, relatedItemRecipes: Lis
 
         // Create the forward and backward button to advance and rewind pages
         forwardButton = ButtonPane(
-            icon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/forward_button.png")),
-            iconHovered = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/forward_button_hovered.png")),
+            icon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/arcane_journal_page/forward_button.png")),
+            iconHovered = ImagePane(ResourceLocation("afraidofthedark:textures/gui/arcane_journal_page/forward_button_hovered.png")),
             prefSize = Dimensions(16.0, 16.0, false)
         )
         backwardButton = ButtonPane(
-            icon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/backward_button.png")),
-            iconHovered = ImagePane(ResourceLocation("afraidofthedark:textures/gui/journal_page/backward_button_hovered.png")),
+            icon = ImagePane(ResourceLocation("afraidofthedark:textures/gui/arcane_journal_page/backward_button.png")),
+            iconHovered = ImagePane(ResourceLocation("afraidofthedark:textures/gui/arcane_journal_page/backward_button_hovered.png")),
             prefSize = Dimensions(16.0, 16.0, false)
         )
         // Upon clicking forward then advance the page, if we hover the button darken the color, if we don't hover the button brighten the color
@@ -201,12 +201,12 @@ class JournalPageScreen(text: String, titleText: String, relatedItemRecipes: Lis
 
     private fun returnToResearchScreen() {
         val mainhandItem = entityPlayer.mainHandItem
-        val isCheatSheet = if (mainhandItem.item == ModItems.JOURNAL) {
-            ModItems.JOURNAL.isCheatSheet(mainhandItem)
+        val isCheatSheet = if (mainhandItem.item == ModItems.ARCANE_JOURNAL) {
+            ModItems.ARCANE_JOURNAL.isCheatSheet(mainhandItem)
         } else {
-            ModItems.JOURNAL.isCheatSheet(entityPlayer.mainHandItem)
+            ModItems.ARCANE_JOURNAL.isCheatSheet(entityPlayer.mainHandItem)
         }
-        Minecraft.getInstance().setScreen(JournalResearchScreen(isCheatSheet))
+        Minecraft.getInstance().setScreen(ArcaneJournalResearchScreen(isCheatSheet))
     }
 
     /**

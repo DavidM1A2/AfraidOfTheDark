@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.client.gui.screens.JournalOpenScreen
-import com.davidm1a2.afraidofthedark.client.gui.screens.JournalResearchScreen
+import com.davidm1a2.afraidofthedark.client.gui.screens.ArcaneJournalOpenScreen
+import com.davidm1a2.afraidofthedark.client.gui.screens.ArcaneJournalResearchScreen
 import com.davidm1a2.afraidofthedark.common.capabilities.hasStartedAOTD
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
@@ -24,7 +24,7 @@ import net.minecraft.world.World
  *
  * @constructor sets up item properties
  */
-class JournalItem : AOTDItem("journal", Properties().stacksTo(1)) {
+class ArcaneJournalItem : AOTDItem("arcane_journal", Properties().stacksTo(1)) {
     /**
      * Called when the user right clicks with the journal. We show the research UI if they have started the mod
      *
@@ -61,11 +61,11 @@ class JournalItem : AOTDItem("journal", Properties().stacksTo(1)) {
 
                 // Show the journal UI
                 if (world.isClientSide) {
-                    Minecraft.getInstance().setScreen(JournalResearchScreen(isCheatSheet(heldItemStack)))
+                    Minecraft.getInstance().setScreen(ArcaneJournalResearchScreen(isCheatSheet(heldItemStack)))
                 }
             } else {
                 if (world.isClientSide) {
-                    Minecraft.getInstance().setScreen(JournalOpenScreen())
+                    Minecraft.getInstance().setScreen(ArcaneJournalOpenScreen())
                 }
             }
         }
@@ -74,20 +74,20 @@ class JournalItem : AOTDItem("journal", Properties().stacksTo(1)) {
             // If the player has started AOTD show the journal UI
             if (player.hasStartedAOTD()) {
                 if (world.isClientSide) {
-                    Minecraft.getInstance().setScreen(JournalResearchScreen(isCheatSheet(heldItemStack)))
+                    Minecraft.getInstance().setScreen(ArcaneJournalResearchScreen(isCheatSheet(heldItemStack)))
                 }
             }
             // If the player has not started AOTD show the open UI and clear the owner
             else {
                 if (world.isClientSide) {
-                    Minecraft.getInstance().setScreen(JournalOpenScreen())
+                    Minecraft.getInstance().setScreen(ArcaneJournalOpenScreen())
                 }
                 setOwner(heldItemStack, null)
             }
         } else {
             // Send chat messages on server side only
             if (!world.isClientSide) {
-                player.sendMessage(TranslationTextComponent("message.afraidofthedark.journal.cant_comprehend"), player.uuid)
+                player.sendMessage(TranslationTextComponent("message.afraidofthedark.arcane_journal.cant_comprehend"), player.uuid)
             }
         }
 
@@ -148,17 +148,17 @@ class JournalItem : AOTDItem("journal", Properties().stacksTo(1)) {
     override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         // If the stack has an owner tag, show who owns the stack, otherwise show that the journal is not bound
         if (NBTHelper.hasTag(stack, NBT_OWNER)) {
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.journal.owned", NBTHelper.getString(stack, NBT_OWNER)))
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.journal.drop"))
+            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.arcane_journal.owned", NBTHelper.getString(stack, NBT_OWNER)))
+            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.arcane_journal.drop"))
         } else {
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.journal.unowned"))
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.journal.drop"))
+            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.arcane_journal.unowned"))
+            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.arcane_journal.drop"))
         }
 
         // If the journal is a cheat sheet, show that
         if (NBTHelper.hasTag(stack, NBT_CHEAT_SHEET)) {
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.journal.cheatsheet.line1"))
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.journal.cheatsheet.line2"))
+            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.arcane_journal.cheatsheet.line1"))
+            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.arcane_journal.cheatsheet.line2"))
         }
     }
 

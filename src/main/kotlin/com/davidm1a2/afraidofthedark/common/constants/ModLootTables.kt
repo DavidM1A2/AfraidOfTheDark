@@ -58,12 +58,6 @@ object ModLootTables {
             )
         )
     )
-    val ALTAR_RUINS = LootTable(
-        "altar_ruins",
-        mapOf(
-            null to ResourceLocation(Constants.MOD_ID, "chests/altar_ruins")
-        )
-    )
 
     private val LOOT_TABLES = listOf(
         CRYPT,
@@ -74,7 +68,6 @@ object ModLootTables {
         NIGHTMARE_ISLAND,
         GNOMISH_CITY,
         DESERT_OASIS,
-        ALTAR_RUINS
     )
 
     val NAME_TO_LOOT_TABLE = LOOT_TABLES.associateBy { it.name }
