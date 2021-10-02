@@ -4,7 +4,6 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.event.custom.CastSpellEvent
 import com.davidm1a2.afraidofthedark.common.research.trigger.base.ResearchTrigger
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraftforge.event.entity.living.LivingDamageEvent
 import kotlin.reflect.KClass
 
 class PlayerCastResearchTrigger : ResearchTrigger<CastSpellEvent, PlayerCastResearchTriggerConfig>(PlayerCastResearchTriggerConfig.CODEC) {
@@ -19,9 +18,9 @@ class PlayerCastResearchTrigger : ResearchTrigger<CastSpellEvent, PlayerCastRese
     }
 
     override fun shouldUnlock(player: PlayerEntity, event: CastSpellEvent, config: PlayerCastResearchTriggerConfig): Boolean {
-        if (config.powerSource == null || config.powerSource == event.spell.powerSource?.component?.registryName) {
-            if (config.deliveryMethod == null || event.spell.getAllDeliveryMethods().map { it.registryName }.contains(config.deliveryMethod)) {
-                if (config.effect == null || event.spell.getAllEffects().map { it.registryName }.contains(config.effect)) {
+        if (config.powerSource == null || config.powerSource == event.spell.powerSource) {
+            if (config.deliveryMethod == null || event.spell.getAllDeliveryMethods().contains(config.deliveryMethod)) {
+                if (config.effect == null || event.spell.getAllEffects().contains(config.effect)) {
                     if (config.minCost == null || config.minCost <= event.spell.getCost()) {
                         return true
                     }

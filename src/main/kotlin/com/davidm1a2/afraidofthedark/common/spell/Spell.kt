@@ -26,8 +26,7 @@ import net.minecraftforge.common.util.Constants
 import net.minecraftforge.common.util.INBTSerializable
 import net.minecraftforge.fml.network.PacketDistributor
 import org.apache.logging.log4j.LogManager
-import java.util.*
-import java.util.stream.Collectors
+import java.util.UUID
 import kotlin.random.Random
 
 /**
@@ -217,11 +216,11 @@ class Spell : INBTSerializable<CompoundNBT> {
     }
 
     fun getAllDeliveryMethods(): List<SpellDeliveryMethod> {
-        return spellStages.mapNotNull { it.deliveryInstance?.component }.toList()
+        return spellStages.mapNotNull { it.deliveryInstance?.component }
     }
 
     fun getAllEffects(): List<SpellEffect> {
-        return spellStages.flatMap { stage -> stage.effects.mapNotNull { it?.component }.toList() }
+        return spellStages.flatMap { stage -> stage.effects.mapNotNull { it?.component } }
     }
 
     /**
