@@ -10,13 +10,14 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.IntArrayNBT
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
-import java.util.*
+import java.util.UUID
 
 /**
  * Item representing a wand used to cast spells with an item
@@ -155,8 +156,8 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
      * @return The spell id on the itemstack or null if it doesn't exist
      */
     private fun getSpellId(itemStack: ItemStack): UUID? {
-        val uuidNBT = NBTHelper.getCompound(itemStack, NBT_SPELL_ID)
-        return uuidNBT?.let { NBTUtil.loadUUID(it) }
+        val uuidArray = NBTHelper.getIntArray(itemStack, NBT_SPELL_ID)
+        return uuidArray?.let { NBTUtil.loadUUID(IntArrayNBT(it)) }
     }
 
     /**
