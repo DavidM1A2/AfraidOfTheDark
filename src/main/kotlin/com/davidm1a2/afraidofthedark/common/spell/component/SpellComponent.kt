@@ -2,6 +2,8 @@ package com.davidm1a2.afraidofthedark.common.spell.component
 
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.TranslationTextComponent
 import net.minecraftforge.registries.ForgeRegistryEntry
 import net.minecraftforge.registries.IForgeRegistryEntry
 
@@ -24,8 +26,8 @@ abstract class SpellComponent<T : IForgeRegistryEntry<T>>(id: ResourceLocation, 
 
     abstract fun getUnlocalizedBaseName(): String
 
-    fun getUnlocalizedName(): String {
-        return "${getUnlocalizedBaseName()}.name"
+    fun getName(): ITextComponent {
+        return TranslationTextComponent("${getUnlocalizedBaseName()}.name")
     }
 
     fun getUnlocalizedPropertyBaseName(propertyName: String): String {

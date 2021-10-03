@@ -4,7 +4,6 @@ import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableProducer
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
-import net.minecraft.client.resources.I18n
 
 /**
  * The icon for a spell power source on the scroll panel
@@ -16,7 +15,7 @@ class SpellPowerSourceIcon(val powerSource: SpellPowerSource) :
     init {
         this.add(ImagePane(powerSource.icon, DispMode.STRETCH))
         this.hoverTexts = arrayOf(
-            I18n.get(powerSource.getUnlocalizedName()),
+            powerSource.getName().string,
             "Cost Meaning: ${powerSource.getCostDescription()}"
         )
     }

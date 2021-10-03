@@ -25,7 +25,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.property.BooleanSpellComponentProperty
 import com.davidm1a2.afraidofthedark.common.spell.component.property.EnumSpellComponentProperty
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
-import net.minecraft.client.resources.I18n
 import net.minecraft.util.ResourceLocation
 import org.apache.commons.lang3.tuple.Pair
 import java.awt.Color
@@ -160,7 +159,7 @@ class SpellScroll :
             // This cast is required even though IntelliJ doesn't agree
             @Suppress("USELESS_CAST")
             val spellComponent = componentInstance.component as SpellComponent<*>
-            name.text = "${I18n.get(spellComponent.getUnlocalizedName())} Properties"
+            name.text = "${spellComponent.getName().string} Properties"
 
             val closeEditor = ButtonPane(
                 ImagePane(ResourceLocation("afraidofthedark:textures/gui/spell_editor/editor_back.png")),

@@ -5,7 +5,6 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import net.minecraft.client.resources.I18n
 
 /**
  * The icon for a spell effect on the scroll panel
@@ -19,7 +18,7 @@ class SpellEffectIcon(val effect: SpellEffect) :
         val componentInstance = SpellComponentInstance(effect)
         componentInstance.setDefaults()
         this.hoverTexts = arrayOf(
-            I18n.get(effect.getUnlocalizedName()),
+            effect.getName().string,
             "Cost: %.1f".format(effect.getCost(componentInstance))
         )
     }

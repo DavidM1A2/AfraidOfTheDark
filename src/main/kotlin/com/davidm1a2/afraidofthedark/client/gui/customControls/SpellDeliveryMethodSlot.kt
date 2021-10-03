@@ -7,7 +7,6 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
-import net.minecraft.client.resources.I18n
 
 /**
  * Class used to create a delivery method slot UI component
@@ -32,7 +31,7 @@ class SpellDeliveryMethodSlot(offset: Position, prefSize: Dimensions, spell: Spe
         if (componentType != null) {
             val componentInstance = this.getComponentInstance()!!
             this.hoverTexts = arrayOf(
-                "Delivery Method (${I18n.get(componentType.getUnlocalizedName())})",
+                "Delivery Method (${componentType.getName().string})",
                 "Cost Multiplier: %.1f".format(componentType.getStageCostMultiplier(componentInstance)),
                 "Cost: %.1f".format(componentType.getCost(componentInstance))
             )

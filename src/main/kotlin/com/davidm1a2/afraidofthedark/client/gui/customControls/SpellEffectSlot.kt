@@ -7,7 +7,6 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import net.minecraft.client.resources.I18n
 
 /**
  * Class used to create an effect slot UI component
@@ -38,7 +37,7 @@ class SpellEffectSlot(offset: Position, prefSize: Dimensions, spell: Spell, val 
         if (componentType != null) {
             val componentInstance = this.getComponentInstance()!!
             this.hoverTexts = arrayOf(
-                "Effect (${I18n.get(componentType.getUnlocalizedName())})",
+                "Effect (${componentType.getName().string})",
                 "Cost: %.1f".format(componentType.getCost(componentInstance))
             )
         } else {
