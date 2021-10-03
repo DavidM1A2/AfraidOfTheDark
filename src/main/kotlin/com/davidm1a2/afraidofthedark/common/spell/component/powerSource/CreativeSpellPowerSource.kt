@@ -6,6 +6,9 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOT
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.StringTextComponent
+import net.minecraft.util.text.TranslationTextComponent
 
 /**
  * Class representing the creative power source
@@ -36,8 +39,8 @@ class CreativeSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants
      *
      * @return A description describing how cost is computed
      */
-    override fun getCostDescription(): String {
-        return "Unlimited power!"
+    override fun getCostDescription(): ITextComponent {
+        return StringTextComponent("Unlimited power!")
     }
 
     /**
@@ -45,7 +48,7 @@ class CreativeSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants
      *
      * @return A string describing why the power source doesn't have enough energy
      */
-    override fun getUnlocalizedOutOfPowerMsg(): String {
-        return "message.afraidofthedark.spell.power_source.creative.invalid_msg"
+    override fun getOutOfPowerMsg(): ITextComponent {
+        return TranslationTextComponent("message.afraidofthedark.spell.power_source.creative.invalid_msg")
     }
 }

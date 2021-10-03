@@ -7,6 +7,8 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.block.Block
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.TranslationTextComponent
 import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.ForgeRegistryEntry
 import org.apache.logging.log4j.LogManager
@@ -45,8 +47,8 @@ class MeteorEntry(
     /**
      * @return The unlocalized name of the meteor entry
      */
-    fun getUnlocalizedName(): String {
-        return "meteor_entry.${registryName!!.namespace}.${registryName!!.path}"
+    fun getName(): ITextComponent {
+        return TranslationTextComponent("meteor_entry.${registryName!!.namespace}.${registryName!!.path}")
     }
 
     companion object {

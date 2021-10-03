@@ -6,6 +6,9 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOT
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.StringTextComponent
+import net.minecraft.util.text.TranslationTextComponent
 import kotlin.math.ceil
 
 /**
@@ -44,8 +47,8 @@ class ExperienceSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constan
      *
      * @return A description describing how cost is computed
      */
-    override fun getCostDescription(): String {
-        return "1xp for every $UNIT_COST_PER_XP units of spell cost"
+    override fun getCostDescription(): ITextComponent {
+        return StringTextComponent("1xp for every $UNIT_COST_PER_XP units of spell cost")
     }
 
     /**
@@ -53,8 +56,8 @@ class ExperienceSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constan
      *
      * @return A string describing why the power source doesn't have enough energy
      */
-    override fun getUnlocalizedOutOfPowerMsg(): String {
-        return "message.afraidofthedark.spell.power_source.experience.invalid_msg"
+    override fun getOutOfPowerMsg(): ITextComponent {
+        return TranslationTextComponent("message.afraidofthedark.spell.power_source.experience.invalid_msg")
     }
 
     companion object {

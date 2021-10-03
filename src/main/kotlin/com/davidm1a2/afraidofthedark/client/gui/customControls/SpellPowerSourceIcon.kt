@@ -16,7 +16,7 @@ class SpellPowerSourceIcon(val powerSource: SpellPowerSource) :
         this.add(ImagePane(powerSource.icon, DispMode.STRETCH))
         this.hoverTexts = arrayOf(
             powerSource.getName().string,
-            "Cost Meaning: ${powerSource.getCostDescription()}"
+            "Cost Meaning: ${powerSource.getCostDescription().string}"
         )
     }
 

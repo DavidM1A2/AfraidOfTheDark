@@ -55,9 +55,7 @@ class UpdateWatchedMeteorPacketProcessor : PacketProcessor<UpdateWatchedMeteorPa
 
             // Tell the player about the meteor estimated values
             player.sendMessage(
-                TranslationTextComponent(
-                    "message.afraidofthedark.falling_meteor.info.header", TranslationTextComponent(watchedMeteor!!.getUnlocalizedName())
-                ),
+                TranslationTextComponent("message.afraidofthedark.falling_meteor.info.header", watchedMeteor!!.getName()),
                 player.uuid
             )
             player.sendMessage(TranslationTextComponent("message.afraidofthedark.falling_meteor.info.data", dropAngle, latitude, longitude), player.uuid)

@@ -7,6 +7,9 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Items
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.StringTextComponent
+import net.minecraft.util.text.TranslationTextComponent
 
 /**
  * Class representing the alchemy source
@@ -60,8 +63,8 @@ class AlchemySpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.
      *
      * @return A description describing how cost is computed
      */
-    override fun getCostDescription(): String {
-        return "Transmute gold ingots into magic essence at a rate of $UNIT_COST_PER_GOLD spell power per ingot"
+    override fun getCostDescription(): ITextComponent {
+        return StringTextComponent("Transmute gold ingots into magic essence at a rate of $UNIT_COST_PER_GOLD spell power per ingot")
     }
 
     /**
@@ -69,8 +72,8 @@ class AlchemySpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.
      *
      * @return A string describing why the power source doesn't have enough energy
      */
-    override fun getUnlocalizedOutOfPowerMsg(): String {
-        return "message.afraidofthedark.spell.power_source.alchemy.invalid_msg"
+    override fun getOutOfPowerMsg(): ITextComponent {
+        return TranslationTextComponent("message.afraidofthedark.spell.power_source.alchemy.invalid_msg")
     }
 
     companion object {

@@ -135,7 +135,7 @@ class Spell : INBTSerializable<CompoundNBT> {
                                     .build()
                             )
                     } else {
-                        entity.sendMessage(TranslationTextComponent(powerSource!!.component.getUnlocalizedOutOfPowerMsg()), entity.uuid)
+                        entity.sendMessage(powerSource!!.component.getOutOfPowerMsg(), entity.uuid)
                         if (entity !is PlayerEntity) {
                             logger.info("Entity '${entity.name}' attempted to cast a spell without enough power?")
                         }
