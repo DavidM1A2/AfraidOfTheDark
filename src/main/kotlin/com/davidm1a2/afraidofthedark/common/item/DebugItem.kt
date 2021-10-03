@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -32,7 +33,7 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
         if (!player.level.isClientSide)
             if (entity is EnchantedFrogEntity) {
                 val s = entity.spell
-                player.sendMessage(StringTextComponent(s.toString()), player.uuid)
+                player.sendMessage(StringTextComponent(s.toString()))
                 logger.info("Type is:\n$s")
             }
         return super.onLeftClickEntity(stack, player, entity)

@@ -12,6 +12,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
@@ -135,19 +136,19 @@ class Spell : INBTSerializable<CompoundNBT> {
                                     .build()
                             )
                     } else {
-                        entity.sendMessage(powerSource!!.component.getOutOfPowerMsg(), entity.uuid)
+                        entity.sendMessage(powerSource!!.component.getOutOfPowerMsg())
                         if (entity !is PlayerEntity) {
                             logger.info("Entity '${entity.name}' attempted to cast a spell without enough power?")
                         }
                     }
                 } else {
-                    entity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.invalid"), entity.uuid)
+                    entity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.invalid"))
                     if (entity !is PlayerEntity) {
                         logger.info("Entity '${entity.name}' attempted to cast an invalid spell?")
                     }
                 }
             } else {
-                entity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.wrong_dimension"), entity.uuid)
+                entity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.wrong_dimension"))
                 if (entity !is PlayerEntity) {
                     logger.info("Entity '${entity.name}' attempted to cast a spell in the nightmare?")
                 }

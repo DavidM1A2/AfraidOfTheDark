@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.common.item.core.IHasModelProperties
 import com.davidm1a2.afraidofthedark.common.registry.BoltEntry
 import com.davidm1a2.afraidofthedark.common.utility.BoltOrderHelper
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -92,8 +93,7 @@ class CrossbowItem : AOTDItem("crossbow", Properties().stacksTo(1)), IHasModelPr
                             TranslationTextComponent(
                                 "message.afraidofthedark.crossbow.no_bolt",
                                 getCurrentBoltType(itemStack).getName()
-                            ),
-                            player.uuid
+                            )
                         )
                     }
                 }
@@ -190,8 +190,7 @@ class CrossbowItem : AOTDItem("crossbow", Properties().stacksTo(1)), IHasModelPr
                     TranslationTextComponent(
                         "message.afraidofthedark.crossbow.bolt_change",
                         getCurrentBoltType(itemStack).getName()
-                    ),
-                    entityPlayer.uuid
+                    )
                 )
             }
         }

@@ -11,6 +11,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ProcessSextantInputPacket
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.util.text.TranslationTextComponent
 import java.awt.Color
 
@@ -69,7 +70,7 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
             val longitudeText = longitude.getText()
             // If any of the fields are empty print a message
             if (dropAngleText.isEmpty() || latitudeText.isEmpty() || longitudeText.isEmpty()) {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.sextant.process.field_empty"), entityPlayer.uuid)
+                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.sextant.process.field_empty"))
             }
 
             // If any field is invalid send the player an error, otherwise send the info to the server
@@ -82,7 +83,7 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
                     )
                 )
             } catch (e: NumberFormatException) {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.sextant.process.invalid_vals"), entityPlayer.uuid)
+                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.sextant.process.invalid_vals"))
             }
             onClose()
         }

@@ -13,6 +13,7 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedMode
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.tileEntity.EnariaSpawnerTileEntity
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -146,7 +147,7 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
                 if (damageSource is PlayerEntity) {
                     // If a player hit enaria check if they have the right research
                     if (!damageSource.getResearch().canResearch(ModResearches.ENARIA) && !damageSource.getResearch().isResearched(ModResearches.ENARIA)) {
-                        damageSource.sendMessage(TranslationTextComponent("message.afraidofthedark.enaria.dont_understand"), damageSource.uuid)
+                        damageSource.sendMessage(TranslationTextComponent("message.afraidofthedark.enaria.dont_understand"))
                         // Can't damage enaria without research
                         return false
                     }

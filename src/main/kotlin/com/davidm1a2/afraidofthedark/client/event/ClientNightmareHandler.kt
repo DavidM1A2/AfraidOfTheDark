@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.event
 
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screen.inventory.ChestScreen
 import net.minecraft.util.text.TranslationTextComponent
@@ -20,7 +21,7 @@ class ClientNightmareHandler {
                     // Close the chest and don't show the gui
                     gui.menu.container.stopOpen(player)
                     event.isCanceled = true
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.nightmare.enderchest"), player.uuid)
+                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.nightmare.enderchest"))
                 }
             }
         }

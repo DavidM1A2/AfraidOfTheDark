@@ -7,6 +7,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.tileEntity.DroppedJournalTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.PlayerEntity
@@ -87,7 +88,7 @@ class ArcaneJournalItem : AOTDItem("arcane_journal", Properties().stacksTo(1)) {
         } else {
             // Send chat messages on server side only
             if (!world.isClientSide) {
-                player.sendMessage(TranslationTextComponent("message.afraidofthedark.arcane_journal.cant_comprehend"), player.uuid)
+                player.sendMessage(TranslationTextComponent("message.afraidofthedark.arcane_journal.cant_comprehend"))
             }
         }
 

@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility.getOrAssignP
 import com.davidm1a2.afraidofthedark.common.dimension.teleport
 import com.davidm1a2.afraidofthedark.common.network.packets.other.VoidChestPacket
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
@@ -24,7 +25,7 @@ import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.common.util.Constants
-import java.util.*
+import java.util.UUID
 import kotlin.math.sqrt
 
 /**
@@ -146,7 +147,7 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
                         }
                     } else {
                         if (!level!!.isClientSide) {
-                            playerToSend!!.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.wrong_dimension"), playerToSend!!.uuid)
+                            playerToSend!!.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.wrong_dimension"))
                         }
                     }
                 }
@@ -168,10 +169,7 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
                 val voidChestWorld: World = level!!.server!!.getLevel(ModDimensions.VOID_CHEST_WORLD)!!
                 val playerVoidChestData = entityPlayer.getVoidChestData()
                 indexToGoTo = getOrAssignPlayerPositionalIndex(voidChestWorld, playerVoidChestData)
-                entityPlayer.sendMessage(
-                    TranslationTextComponent("message.afraidofthedark.void_chest.owner_set", entityPlayer.gameProfile.name),
-                    entityPlayer.uuid
-                )
+                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.owner_set", entityPlayer.gameProfile.name))
             } else if (entityPlayer.gameProfile.id == owner) {
                 // Test if the player is holding a name tag. If so add/remove the friend, if not open the chest
                 val heldItem = entityPlayer.mainHandItem
@@ -184,22 +182,13 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
                         // If the chest does not have the friend add the friend
                         if (!friends.contains(friendsUUID)) {
                             friends.add(friendsUUID)
-                            entityPlayer.sendMessage(
-                                TranslationTextComponent("message.afraidofthedark.void_chest.friend_add", heldItem.displayName),
-                                entityPlayer.uuid
-                            )
+                            entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.friend_add", heldItem.displayName))
                         } else {
                             friends.remove(friendsUUID)
-                            entityPlayer.sendMessage(
-                                TranslationTextComponent("message.afraidofthedark.void_chest.friend_remove", heldItem.displayName),
-                                entityPlayer.uuid
-                            )
+                            entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.friend_remove", heldItem.displayName))
                         }
                     } else {
-                        entityPlayer.sendMessage(
-                            TranslationTextComponent("message.afraidofthedark.void_chest.invalid_account", heldItem.displayName),
-                            entityPlayer.uuid
-                        )
+                        entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.invalid_account", heldItem.displayName))
                     }
                 } else {
                     openChest(entityPlayer)
@@ -216,7 +205,7 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
                 // Test if the player is trying to edit a chest's friend list that isnt theirs
                 val heldItem = entityPlayer.mainHandItem
                 if (heldItem.item is NameTagItem) {
-                    entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.no_edit_access"), entityPlayer.uuid)
+                    entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.no_edit_access"))
                 } else {
                     openChest(entityPlayer)
                     AfraidOfTheDark.packetHandler.sendToDimension(
@@ -229,7 +218,7 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
                     )
                 }
             } else {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.no_access"), entityPlayer.uuid)
+                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.no_access"))
             }
         }
     }

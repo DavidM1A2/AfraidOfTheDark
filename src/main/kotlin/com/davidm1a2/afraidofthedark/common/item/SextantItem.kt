@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -39,7 +40,7 @@ class SextantItem : AOTDItem("sextant", Properties().stacksTo(1)) {
         // If the player does not have the research send him a chat message from the server
         else {
             if (!world.isClientSide) {
-                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND), player.uuid)
+                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
         return ActionResult.success(itemStack)

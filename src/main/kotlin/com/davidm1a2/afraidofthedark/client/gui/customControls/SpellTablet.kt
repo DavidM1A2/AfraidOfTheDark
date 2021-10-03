@@ -17,6 +17,7 @@ import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.util.text.TranslationTextComponent
 import kotlin.math.roundToInt
@@ -129,7 +130,7 @@ class SpellTablet(
             // Sync the spell server side
             spellManager.sync(entityPlayer, spellClone)
             // Tell the player the save was successful
-            entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.save_successful", spellClone.name), entityPlayer.uuid)
+            entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.save_successful", spellClone.name))
         }
         this.add(saveButton)
 

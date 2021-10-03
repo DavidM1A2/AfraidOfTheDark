@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.item
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screen.ReadBookScreen
 import net.minecraft.client.resources.I18n
@@ -41,7 +42,7 @@ class InsanitysHeightsItem : AOTDItem("insanitys_heights", Properties().stacksTo
             }
         } else {
             if (!worldIn.isClientSide) {
-                player.sendMessage(TranslationTextComponent("message.afraidofthedark.insanitys_heights.dont_understand"), player.uuid)
+                player.sendMessage(TranslationTextComponent("message.afraidofthedark.insanitys_heights.dont_understand"))
             }
         }
         return ActionResult.success(heldItem)

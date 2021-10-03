@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import com.davidm1a2.afraidofthedark.common.research.Research
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.PlayerEntity
@@ -52,10 +53,10 @@ class TelescopeItem : TelescopeBaseItem(130, "telescope") {
             if (playerResearch.isResearched(research)) {
                 // Tell the player that they need to be higher to see through the clouds
                 if (!highEnough) {
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.telescope.not_high_enough"), player.uuid)
+                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.telescope.not_high_enough"))
                 }
             } else {
-                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND), player.uuid)
+                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
 

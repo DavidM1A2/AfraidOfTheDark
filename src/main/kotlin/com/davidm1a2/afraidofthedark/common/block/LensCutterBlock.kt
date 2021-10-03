@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.SoundType
@@ -51,10 +52,10 @@ class LensCutterBlock : AOTDBlock(
                     worldIn.playSound(null, pos, ModSounds.LENS_CUTTER, SoundCategory.BLOCKS, 0.5f, Random.nextDouble(0.8, 1.2).toFloat())
                     playerIn.addItem(ItemStack(ModItems.LENS))
                 } else {
-                    playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.lens_cutter.wrong_item"), playerIn.uuid)
+                    playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.lens_cutter.wrong_item"))
                 }
             } else {
-                playerIn.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND), playerIn.uuid)
+                playerIn.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
 

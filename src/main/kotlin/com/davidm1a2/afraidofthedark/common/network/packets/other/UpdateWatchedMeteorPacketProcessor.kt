@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.network.packets.other
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.network.PacketBuffer
 import net.minecraft.util.ResourceLocation
@@ -54,12 +55,9 @@ class UpdateWatchedMeteorPacketProcessor : PacketProcessor<UpdateWatchedMeteorPa
             val longitude = player.random.nextInt(130) + 5
 
             // Tell the player about the meteor estimated values
-            player.sendMessage(
-                TranslationTextComponent("message.afraidofthedark.falling_meteor.info.header", watchedMeteor!!.getName()),
-                player.uuid
-            )
-            player.sendMessage(TranslationTextComponent("message.afraidofthedark.falling_meteor.info.data", dropAngle, latitude, longitude), player.uuid)
-            player.sendMessage(TranslationTextComponent("message.afraidofthedark.falling_meteor.info.help"), player.uuid)
+            player.sendMessage(TranslationTextComponent("message.afraidofthedark.falling_meteor.info.header", watchedMeteor!!.getName()))
+            player.sendMessage(TranslationTextComponent("message.afraidofthedark.falling_meteor.info.data", dropAngle, latitude, longitude))
+            player.sendMessage(TranslationTextComponent("message.afraidofthedark.falling_meteor.info.help"))
 
             // Update the player's watched meteor and send them values
             val playerBasics = player.getBasics()

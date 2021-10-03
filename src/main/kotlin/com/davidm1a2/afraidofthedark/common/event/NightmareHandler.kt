@@ -19,6 +19,7 @@ import com.davidm1a2.afraidofthedark.common.dimension.teleport
 import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
 import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import com.davidm1a2.afraidofthedark.common.feature.structure.base.SchematicStructurePiece
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.block.Blocks
 import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.PlayerEntity
@@ -286,7 +287,7 @@ class NightmareHandler {
 
                 // If we didn't find a valid spot around the player's position then throw an error and reject the teleport
                 if (preTeleportPosition == null) {
-                    entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.dimension.nightmare.no_spawn"), entityPlayer.uuid)
+                    entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.dimension.nightmare.no_spawn"))
                     return true
                 } else {
                     playerNightmareData.preTeleportPosition = preTeleportPosition

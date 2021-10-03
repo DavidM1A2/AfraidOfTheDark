@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDSharedCooldownItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.MobEntity
@@ -90,8 +91,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
                 // If the staff is on cooldown say that
                 if (!world.isClientSide) {
                     player.sendMessage(
-                        TranslationTextComponent("message.afraidofthedark.star_metal_staff.on_cooldown", cooldownRemainingInSeconds(heldItem)),
-                        player.uuid
+                        TranslationTextComponent("message.afraidofthedark.star_metal_staff.on_cooldown", cooldownRemainingInSeconds(heldItem))
                     )
                 }
                 return ActionResult.fail(heldItem)
@@ -99,7 +99,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
         } else {
             // If the player has the wrong research print an error
             if (!world.isClientSide) {
-                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND), player.uuid)
+                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
         return ActionResult.pass(heldItem)

@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.schematic.CachedSchematic
 import com.davidm1a2.afraidofthedark.common.schematic.SchematicUtils
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.block.Blocks
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.PlayerEntity
@@ -60,24 +61,23 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().stacksTo
 
                     // If the name is empty it means the name is invalid
                     if (schematicName.isNotEmpty()) {
-                        player.sendMessage(StringTextComponent("Schematic '$schematicName' saved successfully"), player.uuid)
+                        player.sendMessage(StringTextComponent("Schematic '$schematicName' saved successfully"))
                     } else {
                         player.sendMessage(
-                            StringTextComponent("Schematic '${mainhandItem.displayName}' has an invalid name (No ., \\, /, or space)"),
-                            player.uuid
+                            StringTextComponent("Schematic '${mainhandItem.displayName}' has an invalid name (No ., \\, /, or space)")
                         )
                     }
                 } else {
-                    player.sendMessage(StringTextComponent("Please set pos1 and pos2 before saving"), player.uuid)
+                    player.sendMessage(StringTextComponent("Please set pos1 and pos2 before saving"))
                 }
             } else {
                 // If the player is sneaking, set pos2, otherwise set pos 1
                 if (player.isCrouching) {
                     NBTHelper.setCompound(mainhandItem, NBT_POS_2, NBTUtil.writeBlockPos(player.blockPosition().below()))
-                    player.sendMessage(StringTextComponent("Pos2 set: " + player.blockPosition().below().toString()), player.uuid)
+                    player.sendMessage(StringTextComponent("Pos2 set: " + player.blockPosition().below().toString()))
                 } else {
                     NBTHelper.setCompound(mainhandItem, NBT_POS_1, NBTUtil.writeBlockPos(player.blockPosition().below()))
-                    player.sendMessage(StringTextComponent("Pos1 set: " + player.blockPosition().below()), player.uuid)
+                    player.sendMessage(StringTextComponent("Pos1 set: " + player.blockPosition().below()))
                 }
             }
         }

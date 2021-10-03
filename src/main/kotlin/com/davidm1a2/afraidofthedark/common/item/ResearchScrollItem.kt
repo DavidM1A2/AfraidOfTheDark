@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEv
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemGroup
@@ -72,21 +73,21 @@ class ResearchScrollItem : AOTDItem("research_scroll", Properties()) {
                         // Unlock the research
                         MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(player, scrollResearch))
                     } else {
-                        player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.incomplete"), player.uuid)
+                        player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.incomplete"))
                     }
                 }
                 // If the player does not yet have the research then state that they need additional research first
                 else if (!playerResearch.isResearched(scrollResearch)) {
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.cant_understand"), player.uuid)
+                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.cant_understand"))
                 }
                 // If the player does have the research tell them
                 else {
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.already_researched"), player.uuid)
+                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.already_researched"))
                 }
             }
             // No valid research detected
             else {
-                player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.corrupt"), player.uuid)
+                player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.corrupt"))
             }
         }
         return super.use(world, player, hand)

@@ -13,6 +13,7 @@ import com.davidm1a2.afraidofthedark.common.item.crossbow.WristCrossbowItem
 import com.davidm1a2.afraidofthedark.common.network.packets.other.FireWristCrossbowPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.other.SpellKeyPressPacket
 import com.davidm1a2.afraidofthedark.common.utility.BoltOrderHelper
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.vector.Vector3d
@@ -85,8 +86,7 @@ class KeyInputEventHandler {
                 TranslationTextComponent(
                     "message.afraidofthedark.wrist_crossbow.bolt_change",
                     BoltOrderHelper.getBoltAt(currentBoltIndex).getName()
-                ),
-                entityPlayer.uuid
+                )
             )
         } else {
             // Test if the player has the correct research
@@ -116,21 +116,20 @@ class KeyInputEventHandler {
                             }
                         }
                         // No valid wrist crossbow found
-                        entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wrist_crossbow.reloading"), entityPlayer.uuid)
+                        entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wrist_crossbow.reloading"))
                     } else {
                         entityPlayer.sendMessage(
                             TranslationTextComponent(
                                 "message.afraidofthedark.wrist_crossbow.no_bolt",
                                 boltType.getName()
-                            ),
-                            entityPlayer.uuid
+                            )
                         )
                     }
                 } else {
-                    entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wrist_crossbow.no_crossbow"), entityPlayer.uuid)
+                    entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wrist_crossbow.no_crossbow"))
                 }
             } else {
-                entityPlayer.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND), entityPlayer.uuid)
+                entityPlayer.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
     }
@@ -181,8 +180,7 @@ class KeyInputEventHandler {
                                 TranslationTextComponent(
                                     "message.afraidofthedark.cloak_of_agility.too_tired",
                                     cloakOfAgility.cooldownRemainingInSeconds(itemStack)
-                                ),
-                                entityPlayer.uuid
+                                )
                             )
                             // If one cloak is on cooldown they all are, return
                             return
@@ -190,10 +188,10 @@ class KeyInputEventHandler {
                     }
                 }
             } else {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.cloak_of_agility.not_grounded"), entityPlayer.uuid)
+                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.cloak_of_agility.not_grounded"))
             }
         } else {
-            entityPlayer.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND), entityPlayer.uuid)
+            entityPlayer.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
         }
     }
 

@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.crafting
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.research.Research
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.CraftingInventory
 import net.minecraft.inventory.container.Container
@@ -49,7 +50,7 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe<CraftingInventory>>(val ba
             if (!craftingPlayer.getResearch().isResearched(preRequisite)) {
                 // Before returning false notify the player why the crafting failed if the recipe matched
                 if (matches && !craftingPlayer.level.isClientSide) {
-                    craftingPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.crafting.missing_research"), craftingPlayer.uuid)
+                    craftingPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.crafting.missing_research"))
                 }
                 return false
             }

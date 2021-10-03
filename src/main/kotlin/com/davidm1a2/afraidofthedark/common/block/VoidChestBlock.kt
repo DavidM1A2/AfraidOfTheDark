@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.tileEntity.VoidChestTileEntity
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -71,7 +72,7 @@ class VoidChestBlock : AOTDTileEntityBlock(
                 // Let the player interact with the chest
                 tileEntity.interact(playerIn)
             } else if (!worldIn.isClientSide) {
-                playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.dont_understand"), playerIn.uuid)
+                playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.dont_understand"))
             }
         }
         return ActionResultType.SUCCESS

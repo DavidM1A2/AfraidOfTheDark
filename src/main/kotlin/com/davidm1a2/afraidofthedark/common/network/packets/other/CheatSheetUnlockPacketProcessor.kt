@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketBuffer
 import net.minecraft.util.ResourceLocation
@@ -32,7 +33,7 @@ class CheatSheetUnlockPacketProcessor : PacketProcessor<CheatSheetUnlockPacket> 
                     playerResearch.sync(player, true)
                 }
             } else {
-                player.sendMessage(TranslationTextComponent("message.afraidofthedark.arcane_journal.cheat_sheet_missing"), player.uuid)
+                player.sendMessage(TranslationTextComponent("message.afraidofthedark.arcane_journal.cheat_sheet_missing"))
             }
         }
     }

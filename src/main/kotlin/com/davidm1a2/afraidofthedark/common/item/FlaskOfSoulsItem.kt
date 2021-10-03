@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDPerItemCooldownItem
 import com.davidm1a2.afraidofthedark.common.item.core.IHasModelProperties
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.EntityType
@@ -69,7 +70,7 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
                     }
                 }
             } else {
-                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND), player.uuid)
+                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
         return ActionResult.success(itemStack)
@@ -111,12 +112,11 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
                     }
                 } else {
                     entityPlayer.sendMessage(
-                        TranslationTextComponent("message.afraidofthedark.flask_of_souls.on_cooldown", cooldownRemainingInSeconds(itemStack)),
-                        entityPlayer.uuid
+                        TranslationTextComponent("message.afraidofthedark.flask_of_souls.on_cooldown", cooldownRemainingInSeconds(itemStack))
                     )
                 }
             } else {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.flask_of_souls.incomplete"), entityPlayer.uuid)
+                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.flask_of_souls.incomplete"))
             }
         }
     }

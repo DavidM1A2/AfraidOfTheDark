@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.PlayerEntity
@@ -68,8 +69,7 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
                                 TranslationTextComponent(
                                     "message.afraidofthedark:wand.spell_set",
                                     next.name
-                                ),
-                                player.uuid
+                                )
                             )
                         }
                     } else {
@@ -88,10 +88,10 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
                     if (toCast != null) {
                         toCast.attemptToCast(player)
                     } else {
-                        player.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.invalid_spell"), player.uuid)
+                        player.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.invalid_spell"))
                     }
                 } else {
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.no_bound_spell"), player.uuid)
+                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.no_bound_spell"))
                 }
             }
         }
@@ -116,7 +116,7 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
 
             // Server side sending only, tell the player the spell was updated
             if (!entityPlayer.level.isClientSide) {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.spell_set", first.name), entityPlayer.uuid)
+                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.spell_set", first.name))
             }
 
             // Set the NBT spell ID
@@ -124,7 +124,7 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
         } else {
             // Server side sending only, tell the player he/she has no spells to bind to the wand yet
             if (!entityPlayer.level.isClientSide) {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.no_spells"), entityPlayer.uuid)
+                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.no_spells"))
             }
         }
     }
