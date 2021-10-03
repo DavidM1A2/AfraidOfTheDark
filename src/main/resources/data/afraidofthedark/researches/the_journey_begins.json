@@ -1,0 +1,12 @@
+{
+  "forge:registry_name": "afraidofthedark:the_journey_begins",
+  "recipes": [],
+  "pre_recipes": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/the_journey_begins.png",
+  "triggers": [
+    {
+      "type": "afraidofthedark:started_aotd",
+      "config": {}
+    }
+  ]
+}

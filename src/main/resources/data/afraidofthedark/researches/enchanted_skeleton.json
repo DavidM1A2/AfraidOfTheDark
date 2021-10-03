@@ -3,7 +3,7 @@
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/enchanted_skeleton.png",
-  "prerequisite": "afraidofthedark:an_unbreakable_covenant",
+  "prerequisite": "afraidofthedark:the_journey_begins",
   "triggers": [
     {
       "type": "afraidofthedark:kill_entity",

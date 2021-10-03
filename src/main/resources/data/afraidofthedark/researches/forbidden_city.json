@@ -7,7 +7,7 @@
   ],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/gnomish_city.png",
-  "prerequisite": "afraidofthedark:an_unbreakable_covenant",
+  "prerequisite": "afraidofthedark:the_journey_begins",
   "triggers": [
     {
       "type": "afraidofthedark:kill_entity",

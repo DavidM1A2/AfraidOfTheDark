@@ -18,7 +18,7 @@ import net.minecraft.world.World
 // Extension functions to access these player capabilities more easily
 
 fun PlayerEntity.hasStartedAOTD(): Boolean {
-    return getResearch().isResearched(ModResearches.AN_UNBREAKABLE_COVENANT)
+    return getResearch().isResearched(ModResearches.THE_JOURNEY_BEGINS)
 }
 
 /**
