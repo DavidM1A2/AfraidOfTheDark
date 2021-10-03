@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.research
 
+import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.INBT
@@ -7,6 +8,8 @@ import net.minecraft.util.Direction
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.Capability.IStorage
 import org.apache.logging.log4j.LogManager
+import java.time.Instant
+import java.time.ZonedDateTime
 
 /**
  * Default storage implementation for AOTD player research
@@ -30,7 +33,8 @@ class PlayerResearchStorage : IStorage<IPlayerResearch> {
 
         // Write each researches name as a key with true/false as the value
         for (research in ModRegistries.RESEARCH) {
-            compound.putBoolean(research.registryName.toString(), instance.isResearched(research))
+            val researchTime = instance.getResearchTime(research)
+            researchTime?.let { compound.putLong(research.registryName.toString(), it.toInstant().toEpochMilli()) }
         }
 
         return compound
@@ -54,7 +58,12 @@ class PlayerResearchStorage : IStorage<IPlayerResearch> {
         if (nbt is CompoundNBT) {
             // For each research if we have researched it unlock that research in our instance
             for (research in ModRegistries.RESEARCH) {
-                instance.setResearch(research, nbt.getBoolean(research.registryName.toString()))
+                val unlockTime = if (nbt.contains(research.registryName.toString())) {
+                    ZonedDateTime.ofInstant(Instant.ofEpochMilli(nbt.getLong(research.registryName.toString())), Constants.DEFAULT_TIME_ZONE)
+                } else {
+                    null
+                }
+                instance.setResearch(research, unlockTime)
             }
         } else {
             logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")

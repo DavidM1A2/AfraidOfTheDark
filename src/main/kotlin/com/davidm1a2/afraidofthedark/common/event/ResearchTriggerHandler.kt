@@ -1,11 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.research.trigger.base.ConfiguredResearchTrigger
 import net.minecraftforge.eventbus.api.Event
 import net.minecraftforge.eventbus.api.SubscribeEvent
+import java.time.ZonedDateTime
 import kotlin.reflect.KClass
 
 /**
@@ -23,7 +25,7 @@ class ResearchTriggerHandler {
                 if (trigger.shouldUnlock(player, event)) {
                     val playerResearch = player.getResearch()
                     if (playerResearch.canResearch(research)) {
-                        playerResearch.setResearch(research, true)
+                        playerResearch.setResearch(research, ZonedDateTime.now(Constants.DEFAULT_TIME_ZONE))
                         playerResearch.sync(player, true)
                     }
                 }

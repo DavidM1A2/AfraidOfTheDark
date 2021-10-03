@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.network.packets.other
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
@@ -10,6 +11,7 @@ import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraftforge.fml.network.NetworkDirection
 import net.minecraftforge.fml.network.NetworkEvent
+import java.time.ZonedDateTime
 
 class CheatSheetUnlockPacketProcessor : PacketProcessor<CheatSheetUnlockPacket> {
     override fun encode(msg: CheatSheetUnlockPacket, buf: PacketBuffer) {
@@ -26,7 +28,7 @@ class CheatSheetUnlockPacketProcessor : PacketProcessor<CheatSheetUnlockPacket> 
             if (player.inventory.contains(CHEAT_SHEET)) {
                 val playerResearch = player.getResearch()
                 if (playerResearch.canResearch(msg.research)) {
-                    playerResearch.setResearch(msg.research, true)
+                    playerResearch.setResearch(msg.research, ZonedDateTime.now(Constants.DEFAULT_TIME_ZONE))
                     playerResearch.sync(player, true)
                 }
             } else {
