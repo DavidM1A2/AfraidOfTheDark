@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.client.resources.I18n
 import net.minecraft.util.ResourceLocation
 import org.lwjgl.opengl.GL11
-import java.util.*
+import java.util.LinkedList
 
 /**
  * Class used to show what researches were unlocked. This code is copied from the achievement UI from MC 1.8.9
@@ -69,7 +69,7 @@ class ResearchAchievedOverlay : AbstractGui() {
             // The research to display
             val research = toDisplay.pop()
             // The new research description
-            researchDescription = I18n.get(research.getUnlocalizedName())
+            researchDescription = research.getName().string
             // Update the notification time to be the current system time
             notificationTime = System.currentTimeMillis()
             // Play the achievement sound and display the research

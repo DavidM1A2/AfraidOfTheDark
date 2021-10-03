@@ -6,7 +6,6 @@ import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEv
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
-import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemGroup
@@ -110,14 +109,14 @@ class ResearchScrollItem : AOTDItem("research_scroll", Properties()) {
                         "tooltip.afraidofthedark.research_scroll.part",
                         getPartNumber(stack),
                         getNumberParts(stack),
-                        TranslationTextComponent(scrollResearch.getUnlocalizedName())
+                        scrollResearch.getName()
                     )
                 )
             } else {
                 tooltip.add(
                     TranslationTextComponent(
                         "tooltip.afraidofthedark.research_scroll.complete",
-                        I18n.get(scrollResearch.getUnlocalizedName())
+                        scrollResearch.getName()
                     )
                 )
             }

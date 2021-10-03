@@ -11,6 +11,8 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.item.Item
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.TranslationTextComponent
 import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.ForgeRegistryEntry
 
@@ -28,20 +30,20 @@ class Research(
     val triggers: List<ConfiguredResearchTrigger<*, *, *>> by lazyTriggers
     val preRequisite: Research? by lazyPrerequisite
 
-    fun getUnlocalizedName(): String {
-        return "research.${registryName!!.namespace}.${registryName!!.path}.name"
+    fun getName(): ITextComponent {
+        return TranslationTextComponent("research.${registryName!!.namespace}.${registryName!!.path}.name")
     }
 
-    fun getUnlocalizedTooltip(): String {
-        return "research.${registryName!!.namespace}.${registryName!!.path}.tooltip"
+    fun getTooltip(): ITextComponent {
+        return TranslationTextComponent("research.${registryName!!.namespace}.${registryName!!.path}.tooltip")
     }
 
-    fun getUnlocalizedPreText(): String {
-        return "research.${registryName!!.namespace}.${registryName!!.path}.pre_text"
+    fun getPreText(): ITextComponent {
+        return TranslationTextComponent("research.${registryName!!.namespace}.${registryName!!.path}.pre_text")
     }
 
-    fun getUnlocalizedText(): String {
-        return "research.${registryName!!.namespace}.${registryName!!.path}.text"
+    fun getText(): ITextComponent {
+        return TranslationTextComponent("research.${registryName!!.namespace}.${registryName!!.path}.text")
     }
 
     companion object {

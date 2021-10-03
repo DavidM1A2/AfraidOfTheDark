@@ -12,7 +12,6 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.network.packets.other.CheatSheetUnlockPacket
 import com.davidm1a2.afraidofthedark.common.research.Research
 import net.minecraft.client.Minecraft
-import net.minecraft.client.resources.I18n
 import net.minecraft.util.text.TextFormatting
 
 /**
@@ -57,8 +56,8 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
                             // Show the research if it's already researched
                             Minecraft.getInstance().setScreen(
                                 ArcaneJournalPageScreen(
-                                    I18n.get(research.getUnlocalizedText()),
-                                    I18n.get(research.getUnlocalizedName()),
+                                    research.getText().string,
+                                    research.getName().string,
                                     research.researchedRecipes
                                 )
                             )
@@ -68,15 +67,15 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
                         if (playerResearch.isResearched(research)) {
                             Minecraft.getInstance().setScreen(
                                 ArcaneJournalPageScreen(
-                                    I18n.get(research.getUnlocalizedText()),
-                                    I18n.get(research.getUnlocalizedName()),
+                                    research.getText().string,
+                                    research.getName().string,
                                     research.researchedRecipes
                                 )
                             )
                         } else if (research.preRequisite != null && playerResearch.isResearched(research.preRequisite!!)) {   // Pre-Page UI
                             Minecraft.getInstance().setScreen(
                                 ArcaneJournalPageScreen(
-                                    I18n.get(research.getUnlocalizedPreText()),
+                                    research.getPreText().string,
                                     "???",
                                     research.preResearchedRecipes
                                 )
@@ -93,7 +92,7 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
         // forceShowUnlocked means we've requested that the server unlock a research for us, but we might not have a response yet. Just assume
         // the unlock was successful and show the real tooltip if it's 'true'.
         hoverTexts = if (forceShowUnlocked || playerResearch.isResearched(this.research)) {
-            arrayOf(I18n.get(research.getUnlocalizedName()), "${TextFormatting.ITALIC}${I18n.get(this.research.getUnlocalizedTooltip())}")
+            arrayOf(research.getName().string, "${TextFormatting.ITALIC}${research.getTooltip().string}")
         } else {
             arrayOf("?", "${TextFormatting.ITALIC}Unknown Research")
         }
