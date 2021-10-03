@@ -91,7 +91,7 @@ class CrossbowItem : AOTDItem("crossbow", Properties().stacksTo(1)), IHasModelPr
                         player.sendMessage(
                             TranslationTextComponent(
                                 "message.afraidofthedark.crossbow.no_bolt",
-                                TranslationTextComponent(getCurrentBoltType(itemStack).getUnlocalizedName())
+                                getCurrentBoltType(itemStack).getName()
                             ),
                             player.uuid
                         )
@@ -189,7 +189,7 @@ class CrossbowItem : AOTDItem("crossbow", Properties().stacksTo(1)), IHasModelPr
                 entityPlayer.sendMessage(
                     TranslationTextComponent(
                         "message.afraidofthedark.crossbow.bolt_change",
-                        TranslationTextComponent(getCurrentBoltType(itemStack).getUnlocalizedName())
+                        getCurrentBoltType(itemStack).getName()
                     ),
                     entityPlayer.uuid
                 )
@@ -260,7 +260,7 @@ class CrossbowItem : AOTDItem("crossbow", Properties().stacksTo(1)), IHasModelPr
         tooltip.add(
             TranslationTextComponent(
                 "tooltip.afraidofthedark.crossbow.fire_bolt_type",
-                TranslationTextComponent(getCurrentBoltType(stack).getUnlocalizedName())
+                getCurrentBoltType(stack).getName()
             )
         )
         if (isLoaded(stack)) {

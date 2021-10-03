@@ -84,7 +84,7 @@ class KeyInputEventHandler {
             entityPlayer.sendMessage(
                 TranslationTextComponent(
                     "message.afraidofthedark.wrist_crossbow.bolt_change",
-                    TranslationTextComponent(BoltOrderHelper.getBoltAt(currentBoltIndex).getUnlocalizedName())
+                    BoltOrderHelper.getBoltAt(currentBoltIndex).getName()
                 ),
                 entityPlayer.uuid
             )
@@ -121,7 +121,7 @@ class KeyInputEventHandler {
                         entityPlayer.sendMessage(
                             TranslationTextComponent(
                                 "message.afraidofthedark.wrist_crossbow.no_bolt",
-                                TranslationTextComponent(boltType.getUnlocalizedName())
+                                boltType.getName()
                             ),
                             entityPlayer.uuid
                         )

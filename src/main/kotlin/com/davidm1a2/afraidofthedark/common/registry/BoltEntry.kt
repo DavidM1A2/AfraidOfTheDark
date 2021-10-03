@@ -9,6 +9,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.ForgeRegistryEntry
@@ -29,8 +31,8 @@ open class BoltEntry constructor(
     /**
      * @return The unlocalized name of the bolt entry
      */
-    fun getUnlocalizedName(): String {
-        return "bolt_entry.${registryName!!.namespace}.${registryName!!.path}"
+    fun getName(): ITextComponent {
+        return TranslationTextComponent("bolt_entry.${registryName!!.namespace}.${registryName!!.path}")
     }
 
     companion object {
