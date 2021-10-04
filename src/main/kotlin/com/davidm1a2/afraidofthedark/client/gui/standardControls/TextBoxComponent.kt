@@ -1,11 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
+import com.davidm1a2.afraidofthedark.client.gui.SpecialTextCharacters
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.mojang.blaze3d.matrix.MatrixStack
 import java.awt.Color
-import java.util.*
+import java.util.StringTokenizer
 
 /**
  * A text box control that will have multiple lines of text like a label
@@ -60,30 +61,40 @@ class TextBoxComponent(
     fun setText(text: String) {
         this.text = text
         this.textLines.clear()
-        val words = StringTokenizer(text, " ")
-        var currentLineText = ""
 
-        // Read words into lines that fit inside the text box
-        while (words.hasMoreTokens()) {
-            var word = words.nextToken()
-            // Replace tab characters with spaces since tab characters are buggy to render
-            word = word.replace("\t", "   ")
-            if (this.font.getWidth("$currentLineText $word") > width) {
-                this.textLines.add(currentLineText)
-                currentLineText = word
-            } else {
-                if (currentLineText.isNotEmpty()) currentLineText += " "
-                currentLineText += word
+        val textBlocks = text.split(SpecialTextCharacters.NEW_LINE.toString())
+        for (textBlock in textBlocks) {
+            // Read words into lines that fit inside the text box
+            val words = StringTokenizer(textBlock, " ")
+            var currentLineText = ""
+            while (words.hasMoreTokens()) {
+                val word = words.nextToken()
+                    .replace(SpecialTextCharacters.SPACE.toString(), " ")
+                    .replace(SpecialTextCharacters.TAB.toString(), "   ")
+
+                if (this.font.getWidth("$currentLineText $word") > width) {
+                    this.textLines.add(currentLineText)
+                    currentLineText = word
+                } else {
+                    if (currentLineText.isNotEmpty()) currentLineText += " "
+                    currentLineText += word
+                }
             }
+            this.textLines.add(currentLineText)
         }
-        this.textLines.add(currentLineText)
 
-        // Check for overflow
-        this.overflowText = ""
+        // Check for overflow. Start by removing lines that don't fit
         var textHeight = this.font.getHeight(this.textLines.joinToString("\n"))
         while (textHeight > this.height && textLines.isNotEmpty()) {
-            overflowText += this.textLines.removeLast() + "\n"
+            textLines.removeLast()
             textHeight = this.font.getHeight(this.textLines.joinToString("\n"))
+        }
+        // TODO: Clean up this implementation, it's really bad but works. Remove word by word from our overflow text
+        this.overflowText = text
+        for (textLine in textLines) {
+            for (word in textLine.split(" ")) {
+                this.overflowText = this.overflowText.substringAfter(word)
+            }
         }
     }
 

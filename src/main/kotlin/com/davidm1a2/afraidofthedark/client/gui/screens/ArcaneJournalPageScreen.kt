@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
+import com.davidm1a2.afraidofthedark.client.gui.SpecialTextCharacters
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
@@ -14,24 +15,26 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.RecipePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextBoxComponent
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
+import com.davidm1a2.afraidofthedark.common.research.Research
 import net.minecraft.client.Minecraft
-import net.minecraft.item.Item
+import net.minecraft.client.resources.I18n
 import net.minecraft.item.crafting.IRecipe
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
 import org.lwjgl.glfw.GLFW
 import java.awt.Color
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 /**
  * Journal page UI which is shown when a player opens a page
  */
-class ArcaneJournalPageScreen(text: String, titleText: String, relatedItemRecipes: List<Item>) :
-    AOTDScreen(TranslationTextComponent("screen.afraidofthedark.arcane_journal_page")) {
-    private val completeText: String = text
+class ArcaneJournalPageScreen(private val research: Research) : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.arcane_journal_page")) {
     private val textOnEachPage: MutableList<String> = mutableListOf()
-    private val researchRecipes: List<IRecipe<*>> = entityPlayer.level.recipeManager.recipes.filter { relatedItemRecipes.contains(it.resultItem.item) }
+    private val researchRecipes: List<IRecipe<*>>
     private val leftPage: StackPane
     private val rightPage: StackPane
     private val leftPageText: TextBoxComponent
@@ -47,6 +50,11 @@ class ArcaneJournalPageScreen(text: String, titleText: String, relatedItemRecipe
     private var pageNumber = 0
 
     init {
+        val isResearched = entityPlayer.getResearch().isResearched(research)
+
+        val recipesToShow = if (isResearched) research.researchedRecipes else research.preResearchedRecipes
+        researchRecipes = entityPlayer.level.recipeManager.recipes.filter { recipesToShow.contains(it.resultItem.item) }
+
         // Create a panel to contain everything
         val guiPane = StackPane(padding = Spacing(0.125))
 
@@ -61,7 +69,7 @@ class ArcaneJournalPageScreen(text: String, titleText: String, relatedItemRecipe
 
         // Create a title label to contain the research name
         val titleLabel = LabelComponent(ClientData.getOrCreate(50f), Dimensions(1.0, 0.1), Gravity.TOP_CENTER)
-        titleLabel.text = titleText
+        titleLabel.text = if (isResearched) research.getName().string else "???"
         titleLabel.textColor = titleColor
         titleLabel.textAlignment = TextAlignment.ALIGN_CENTER
         contentPane.add(titleLabel)
@@ -311,8 +319,42 @@ class ArcaneJournalPageScreen(text: String, titleText: String, relatedItemRecipe
     private fun updateText() {
         // Clear the text distribution to start out with
         textOnEachPage.clear()
+
+        val isResearched = entityPlayer.getResearch().isResearched(research)
+        val researchTime = entityPlayer.getResearch().getResearchTime(research)?.withZoneSameInstant(ZoneId.systemDefault())
+        val previousResearchTime = research.preRequisite?.let { entityPlayer.getResearch().getResearchTime(it) }?.withZoneSameInstant(ZoneId.systemDefault())
+        val text = buildString {
+            // Date and time the previous research was unlocked
+            if (previousResearchTime != null) {
+                append(previousResearchTime.format(DATE_TIME_FORMAT))
+                append(SpecialTextCharacters.NEW_LINE.toString())
+                append(SpecialTextCharacters.NEW_LINE.toString())
+            }
+            // Indent the pre text paragraph
+            append(SpecialTextCharacters.TAB.toString())
+            append(research.getPreText().string)
+            append(SpecialTextCharacters.NEW_LINE.toString())
+            append(SpecialTextCharacters.NEW_LINE.toString())
+
+            // Date and time the current research was unlocked
+            if (researchTime != null) {
+                append(researchTime.format(DATE_TIME_FORMAT))
+                append(SpecialTextCharacters.NEW_LINE.toString())
+                append(SpecialTextCharacters.NEW_LINE.toString())
+            }
+            if (isResearched) {
+                // Indent the text paragraph
+                append(SpecialTextCharacters.TAB.toString())
+                append(research.getText().string)
+            }
+        }
+
+        splitTextIntoPages(text)
+    }
+
+    private fun splitTextIntoPages(rawText: String) {
         // Create a variable that will be the text to distribute
-        var textToDistribute = completeText
+        var textToDistribute = rawText
         // An alternator variable to switch between adding text to the left and right box
         var alternator = true
         // Loop while we have text to distribute
@@ -364,5 +406,9 @@ class ArcaneJournalPageScreen(text: String, titleText: String, relatedItemRecipe
      */
     override fun drawGradientBackground(): Boolean {
         return true
+    }
+
+    companion object {
+        private val DATE_TIME_FORMAT = DateTimeFormatter.ofPattern(I18n.get("journalpage.dateformat"))
     }
 }

@@ -54,33 +54,10 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
                             refreshHoverTexts(true)
                         } else if (playerResearch.isResearched(research)) {
                             // Show the research if it's already researched
-                            Minecraft.getInstance().setScreen(
-                                ArcaneJournalPageScreen(
-                                    research.getText().string,
-                                    research.getName().string,
-                                    research.researchedRecipes
-                                )
-                            )
+                            Minecraft.getInstance().setScreen(ArcaneJournalPageScreen(research))
                         }
                     } else {
-                        // If this isn't a cheat sheet open the research page
-                        if (playerResearch.isResearched(research)) {
-                            Minecraft.getInstance().setScreen(
-                                ArcaneJournalPageScreen(
-                                    research.getText().string,
-                                    research.getName().string,
-                                    research.researchedRecipes
-                                )
-                            )
-                        } else if (research.preRequisite != null && playerResearch.isResearched(research.preRequisite!!)) {   // Pre-Page UI
-                            Minecraft.getInstance().setScreen(
-                                ArcaneJournalPageScreen(
-                                    research.getPreText().string,
-                                    "???",
-                                    research.preResearchedRecipes
-                                )
-                            )
-                        }
+                        Minecraft.getInstance().setScreen(ArcaneJournalPageScreen(research))
                     }
                 }
             }
