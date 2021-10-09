@@ -13,7 +13,7 @@
       "item": "minecraft:string"
     },
     "c": {
-      "item": "afraidofthedark:crossbow"
+      "item": "crossbow"
     }
   },
   "result": {

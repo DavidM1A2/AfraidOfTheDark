@@ -163,7 +163,7 @@
         },
         {
           "type": "item",
-          "name": "afraidofthedark:crossbow",
+          "name": "crossbow",
           "functions": [
             {
               "function": "set_count",

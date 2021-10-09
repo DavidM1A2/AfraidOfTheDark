@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.entity.bolt
 
+import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import net.minecraft.entity.EntityType
-import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.DamageSource
 import net.minecraft.world.World
@@ -16,35 +16,12 @@ import net.minecraft.world.World
  * @property chanceToDropHitEntity The chance that the bolt will drop its item after hitting an entity
  * @property chanceToDropHitGround The chance that the bolt will drop its item after hitting the ground
  */
-class IronBoltEntity : BoltEntity {
+class IronBoltEntity(entityType: EntityType<out IronBoltEntity>, world: World) : BoltEntity(entityType, world) {
     override val damageSourceProducer: (PlayerEntity) -> DamageSource = { DamageSource.playerAttack(it) }
     override val drop = ModItems.IRON_BOLT
     override val damage = 6
     override val chanceToDropHitEntity = 0.4
     override val chanceToDropHitGround = 0.8
 
-    /**
-     * Creates the entity in the world with a shooter source
-     *
-     * @param world The world to create the bolt in
-     */
-    constructor(entityType: EntityType<out IronBoltEntity>, world: World) : super(entityType, world)
-
-    /**
-     * Creates the entity in the world without a source at a position
-     *
-     * @param world The world to create the bolt in
-     * @param x       The x position of the bolt
-     * @param y       The y position of the bolt
-     * @param z       The z position of the bolt
-     */
-    constructor(entityType: EntityType<out IronBoltEntity>, x: Double, y: Double, z: Double, world: World) : super(entityType, x, y, z, world)
-
-    /**
-     * Creates the entity in the world with a shooter source
-     *
-     * @param world   The world to create the bolt in
-     * @param thrower The shooter of the bolt
-     */
-    constructor(entityType: EntityType<out IronBoltEntity>, thrower: LivingEntity, world: World) : super(entityType, thrower, world)
+    constructor(world: World) : this(ModEntities.IRON_BOLT, world)
 }

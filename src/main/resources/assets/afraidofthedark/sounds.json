@@ -9,16 +9,6 @@
     ],
     "subtitle": "Crossbow Fired"
   },
-  "crossbow_load": {
-    "category": "player",
-    "sounds": [
-      {
-        "name": "afraidofthedark:crossbow_load",
-        "stream": false
-      }
-    ],
-    "subtitle": "Crossbow Loading"
-  },
   "werewolf_idle": {
     "category": "hostile",
     "sounds": [

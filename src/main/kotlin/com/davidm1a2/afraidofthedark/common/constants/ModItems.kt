@@ -39,7 +39,6 @@ import com.davidm1a2.afraidofthedark.common.item.StarMetalStaffItem
 import com.davidm1a2.afraidofthedark.common.item.SunstoneFragmentItem
 import com.davidm1a2.afraidofthedark.common.item.WandItem
 import com.davidm1a2.afraidofthedark.common.item.WerewolfBloodItem
-import com.davidm1a2.afraidofthedark.common.item.crossbow.CrossbowItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.WristCrossbowItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.IgneousBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.IronBoltItem
@@ -63,7 +62,6 @@ object ModItems {
     val ARCANE_JOURNAL = ArcaneJournalItem()
     val ENCHANTED_SKELETON_BONE = EnchantedSkeletonBoneItem()
     val BONE_SWORD = BoneSwordItem()
-    val CROSSBOW = CrossbowItem()
     val WRIST_CROSSBOW = WristCrossbowItem()
     val RESEARCH_SCROLL = ResearchScrollItem()
     val TELESCOPE = TelescopeItem()
@@ -126,7 +124,6 @@ object ModItems {
         ARCANE_JOURNAL,
         ENCHANTED_SKELETON_BONE,
         BONE_SWORD,
-        CROSSBOW,
         WRIST_CROSSBOW,
         RESEARCH_SCROLL,
         TELESCOPE,

@@ -8,7 +8,6 @@ import net.minecraft.util.SoundEvent
  */
 object ModSounds {
     val CROSSBOW_FIRE = create("crossbow_fire")
-    val CROSSBOW_LOAD = create("crossbow_load")
     val WEREWOLF_IDLE = create("werewolf_idle")
     val WEREWOLF_AGRO = create("werewolf_agro")
     val WEREWOLF_DEATH = create("werewolf_death")
@@ -30,7 +29,6 @@ object ModSounds {
     // An array containing a list of sounds that AOTD adds
     val SOUND_LIST = arrayOf(
         CROSSBOW_FIRE,
-        CROSSBOW_LOAD,
         WEREWOLF_IDLE,
         WEREWOLF_AGRO,
         WEREWOLF_DEATH,

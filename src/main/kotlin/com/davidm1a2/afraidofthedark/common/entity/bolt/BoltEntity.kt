@@ -1,5 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.entity.bolt
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.research.Research
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -10,6 +13,7 @@ import net.minecraft.network.IPacket
 import net.minecraft.util.DamageSource
 import net.minecraft.util.math.EntityRayTraceResult
 import net.minecraft.util.math.RayTraceResult
+import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 import net.minecraftforge.fml.network.NetworkHooks
 
@@ -22,43 +26,22 @@ import net.minecraftforge.fml.network.NetworkHooks
  * @property chanceToDropHitEntity The chance that the bolt will drop its item after hitting an entity
  * @property chanceToDropHitGround The chance that the bolt will drop its item after hitting the ground
  */
-abstract class BoltEntity : AbstractArrowEntity {
+abstract class BoltEntity(entityType: EntityType<out BoltEntity>, world: World) : AbstractArrowEntity(entityType, world) {
     abstract val damageSourceProducer: (PlayerEntity) -> DamageSource
     abstract val drop: Item
     open val damage: Int = 6
     open val chanceToDropHitEntity: Double = 0.4
     open val chanceToDropHitGround: Double = 0.8
+    open val research: Research? = null
 
-    /**
-     * Creates the entity in the world with a shooter source
-     *
-     * @param entityType The entity type of the bolt
-     * @param world The world to create the bolt in
-     */
-    constructor(entityType: EntityType<out BoltEntity>, world: World) : super(entityType, world)
-
-    /**
-     * Creates the entity in the world without a source at a position
-     *
-     * @param entityType The entity type of the bolt
-     * @param world The world to create the bolt in
-     * @param x       The x position of the bolt
-     * @param y       The y position of the bolt
-     * @param z       The z position of the bolt
-     */
-    constructor(entityType: EntityType<out BoltEntity>, x: Double, y: Double, z: Double, world: World) : super(entityType, x, y, z, world)
-
-    /**
-     * Creates the entity in the world with a shooter source
-     *
-     * @param entityType The entity type of the bolt
-     * @param world   The world to create the bolt in
-     * @param thrower The shooter of the bolt
-     */
-    constructor(entityType: EntityType<out BoltEntity>, thrower: LivingEntity, world: World) : super(entityType, thrower, world)
+    internal var hasResearch = false
 
     fun setShotFrom(entity: LivingEntity) {
         owner = entity
+        hasResearch = research == null || (entity is PlayerEntity && entity.getResearch().isResearched(research!!))
+        if (!hasResearch && !entity.level.isClientSide) {
+            entity.sendMessage(TranslationTextComponent("message.afraidofthedark.bolt.dont_understand", typeName))
+        }
         pickup = if (entity is PlayerEntity && entity.isCreative) {
             PickupStatus.DISALLOWED
         } else {
@@ -66,6 +49,11 @@ abstract class BoltEntity : AbstractArrowEntity {
         }
         setPos(entity.x, entity.eyeY - 0.1, entity.z)
         shootFromRotation(entity, entity.xRot, entity.yRot, 0f, 5f, 0f)
+    }
+
+    override fun shoot(xDir: Double, yDir: Double, zDir: Double, speed: Float, inaccuracy: Float) {
+        // Bolts can only be shot from crossbows, or they're super inaccurate
+        super.shoot(xDir, yDir, zDir, if (shotFromCrossbow() && hasResearch) 5.0f else 0.3f, if (shotFromCrossbow() && hasResearch) 0.0f else 30.0f)
     }
 
     /**
@@ -81,8 +69,8 @@ abstract class BoltEntity : AbstractArrowEntity {
             // Test if we hit an entity or the ground
             if (result.type == RayTraceResult.Type.ENTITY) {
                 val entityHit = (result as EntityRayTraceResult).entity
-                // Test if the shooter of the bolt is a player
-                if (owner is PlayerEntity) {
+                // Test if the shooter of the bolt is a player and the player has the right research
+                if (owner is PlayerEntity && hasResearch) {
                     entityHit.hurt(damageSourceProducer(owner as PlayerEntity), damage.toFloat())
                 }
 
