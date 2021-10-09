@@ -1,6 +1,0 @@
-{
-  "forge:registry_name": "afraidofthedark:igneous",
-  "item": "afraidofthedark:igneous_bolt",
-  "entity_type": "afraidofthedark:igneous_bolt",
-  "prerequisite_research": "afraidofthedark:igneous"
-}

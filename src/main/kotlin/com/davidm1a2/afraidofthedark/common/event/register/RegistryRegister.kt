@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import com.davidm1a2.afraidofthedark.common.registry.BoltEntry
 import com.davidm1a2.afraidofthedark.common.registry.MeteorEntry
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.research.trigger.base.ResearchTrigger
@@ -31,12 +30,6 @@ class RegistryRegister {
         ModRegistries.RESEARCH = RegistryBuilder<Research>()
             .setType(Research::class.java)
             .setName(ResourceLocation(Constants.MOD_ID, "research"))
-            .create()
-
-        // Create a new registry for the different bolt types with the name 'afraidofthedark:bolts'
-        ModRegistries.BOLTS = RegistryBuilder<BoltEntry>()
-            .setType(BoltEntry::class.java)
-            .setName(ResourceLocation(Constants.MOD_ID, "bolts"))
             .create()
 
         // Create a new registry for the different meteor types with the name 'afraidofthedark:meteors'

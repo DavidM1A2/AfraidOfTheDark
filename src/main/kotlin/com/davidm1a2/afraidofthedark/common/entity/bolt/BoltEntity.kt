@@ -1,7 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.entity.bolt
 
-import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -9,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.AbstractArrowEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.IPacket
 import net.minecraft.util.DamageSource
 import net.minecraft.util.math.EntityRayTraceResult
@@ -32,23 +31,21 @@ abstract class BoltEntity(entityType: EntityType<out BoltEntity>, world: World) 
     open val damage: Int = 6
     open val chanceToDropHitEntity: Double = 0.4
     open val chanceToDropHitGround: Double = 0.8
-    open val research: Research? = null
-
     internal var hasResearch = false
 
-    fun setShotFrom(entity: LivingEntity) {
-        owner = entity
-        hasResearch = research == null || (entity is PlayerEntity && entity.getResearch().isResearched(research!!))
-        if (!hasResearch && !entity.level.isClientSide) {
-            entity.sendMessage(TranslationTextComponent("message.afraidofthedark.bolt.dont_understand", typeName))
+    fun initUsingShooter(shooter: LivingEntity, hasResearch: Boolean) {
+        owner = shooter
+        this.hasResearch = hasResearch
+        if (!hasResearch && !shooter.level.isClientSide) {
+            shooter.sendMessage(TranslationTextComponent("message.afraidofthedark.bolt.dont_understand", typeName))
         }
-        pickup = if (entity is PlayerEntity && entity.isCreative) {
+        pickup = if (shooter is PlayerEntity && shooter.isCreative) {
             PickupStatus.DISALLOWED
         } else {
             PickupStatus.ALLOWED
         }
-        setPos(entity.x, entity.eyeY - 0.1, entity.z)
-        shootFromRotation(entity, entity.xRot, entity.yRot, 0f, 5f, 0f)
+        setPos(shooter.x, shooter.eyeY - 0.1, shooter.z)
+        shootFromRotation(shooter, shooter.xRot, shooter.yRot, 0f, 5f, 0f)
     }
 
     override fun shoot(xDir: Double, yDir: Double, zDir: Double, speed: Float, inaccuracy: Float) {
@@ -91,6 +88,16 @@ abstract class BoltEntity(entityType: EntityType<out BoltEntity>, world: World) 
 
     override fun getPickupItem(): ItemStack {
         return ItemStack(drop)
+    }
+
+    override fun readAdditionalSaveData(compound: CompoundNBT) {
+        super.readAdditionalSaveData(compound)
+        hasResearch = compound.getBoolean("has_research")
+    }
+
+    override fun addAdditionalSaveData(compound: CompoundNBT) {
+        super.addAdditionalSaveData(compound)
+        compound.putBoolean("has_research", hasResearch)
     }
 
     override fun getAddEntityPacket(): IPacket<*> {

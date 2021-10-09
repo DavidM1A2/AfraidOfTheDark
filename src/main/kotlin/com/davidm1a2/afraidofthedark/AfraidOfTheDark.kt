@@ -20,7 +20,6 @@ import com.davidm1a2.afraidofthedark.common.event.TeleportQueue
 import com.davidm1a2.afraidofthedark.common.event.VoidChestHandler
 import com.davidm1a2.afraidofthedark.common.event.register.BiomeRegister
 import com.davidm1a2.afraidofthedark.common.event.register.BlockRegister
-import com.davidm1a2.afraidofthedark.common.event.register.BoltEntryRegister
 import com.davidm1a2.afraidofthedark.common.event.register.CapabilityRegister
 import com.davidm1a2.afraidofthedark.common.event.register.ChunkGeneratorRegister
 import com.davidm1a2.afraidofthedark.common.event.register.DataSerializerRegister
@@ -97,7 +96,6 @@ class AfraidOfTheDark {
         modBus.register(SpellDeliveryMethodRegister())
         modBus.register(SpellEffectRegister())
         modBus.register(ResearchRegister())
-        modBus.register(BoltEntryRegister())
         modBus.register(MeteorEntryRegister())
         modBus.register(ParticleRegister())
         modBus.register(FeatureRegister())

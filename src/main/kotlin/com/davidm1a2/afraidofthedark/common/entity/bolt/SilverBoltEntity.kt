@@ -3,8 +3,6 @@ package com.davidm1a2.afraidofthedark.common.entity.bolt
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
-import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.research.Research
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.DamageSource
@@ -25,7 +23,6 @@ class SilverBoltEntity(entityType: EntityType<out SilverBoltEntity>, world: Worl
     override val damage = 16
     override val chanceToDropHitEntity = 0.4
     override val chanceToDropHitGround = 0.8
-    override val research: Research = ModResearches.ASTRAL_SILVER
 
     constructor(world: World) : this(ModEntities.SILVER_BOLT, world)
 }
