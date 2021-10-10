@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.research.trigger
 
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.registry.codec
+import com.davidm1a2.afraidofthedark.common.registry.getOrNull
 import com.davidm1a2.afraidofthedark.common.registry.lazy
 import com.davidm1a2.afraidofthedark.common.registry.toLazyOptional
 import com.davidm1a2.afraidofthedark.common.research.trigger.base.ResearchTriggerConfig
@@ -43,7 +44,7 @@ class PlayerCastResearchTriggerConfig(
                     .forGetter { config -> config.effect.toLazyOptional() },
                 Codec.DOUBLE.optionalFieldOf("minCost").forGetter { config -> Optional.ofNullable(config.minCost) }
             ).apply(it, it.stable(Function4 { powerSource, deliveryMethod, effect, minCost ->
-                PlayerCastResearchTriggerConfig(powerSource.orElse(null), deliveryMethod.orElse(null), effect.orElse(null), minCost.orElse(null))
+                PlayerCastResearchTriggerConfig(powerSource.getOrNull(), deliveryMethod.getOrNull(), effect.getOrNull(), minCost.orElse(null))
             }))
         }
     }
