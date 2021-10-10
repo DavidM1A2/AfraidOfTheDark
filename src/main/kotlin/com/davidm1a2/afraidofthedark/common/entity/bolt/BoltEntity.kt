@@ -26,11 +26,11 @@ import net.minecraftforge.fml.network.NetworkHooks
  * @property chanceToDropHitGround The chance that the bolt will drop its item after hitting the ground
  */
 abstract class BoltEntity(entityType: EntityType<out BoltEntity>, world: World) : AbstractArrowEntity(entityType, world) {
-    abstract val damageSourceProducer: (PlayerEntity) -> DamageSource
-    abstract val drop: Item
-    open val damage: Int = 6
-    open val chanceToDropHitEntity: Double = 0.4
-    open val chanceToDropHitGround: Double = 0.8
+    internal abstract val damageSourceProducer: (PlayerEntity) -> DamageSource
+    internal abstract val drop: Item
+    internal open val damage: Int = 6
+    internal open val chanceToDropHitEntity: Double = 0.4
+    internal open val chanceToDropHitGround: Double = 0.8
     internal var hasResearch = false
 
     fun initUsingShooter(shooter: LivingEntity, hasResearch: Boolean) {
