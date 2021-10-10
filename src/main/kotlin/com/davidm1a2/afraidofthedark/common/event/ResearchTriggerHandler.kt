@@ -7,6 +7,7 @@ import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.research.trigger.base.ConfiguredResearchTrigger
 import net.minecraftforge.eventbus.api.Event
 import net.minecraftforge.eventbus.api.SubscribeEvent
+import org.apache.logging.log4j.LogManager
 import java.time.ZonedDateTime
 import kotlin.reflect.KClass
 
@@ -35,11 +36,19 @@ class ResearchTriggerHandler {
 
     fun loadHooksFromResearches() {
         ModRegistries.RESEARCH.forEach { research ->
-            research.triggers.forEach {
-                val hookList = hooks.computeIfAbsent(it.trigger.type) { mutableListOf() }
-                @Suppress("UNCHECKED_CAST")
-                hookList.add(it as ConfiguredResearchTrigger<in Event, *, *> to research)
+            try {
+                research.triggers.forEach {
+                    val hookList = hooks.computeIfAbsent(it.trigger.type) { mutableListOf() }
+                    @Suppress("UNCHECKED_CAST")
+                    hookList.add(it as ConfiguredResearchTrigger<in Event, *, *> to research)
+                }
+            } catch (e: Exception) {
+                LOG.error("Failed to load research ${research.registryName.toString()}", e)
             }
         }
+    }
+
+    companion object {
+        private val LOG = LogManager.getLogger()
     }
 }
