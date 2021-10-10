@@ -5,7 +5,6 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
@@ -16,7 +15,6 @@ import com.davidm1a2.afraidofthedark.common.item.ArcaneJournalItem
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
-import java.awt.Color
 
 /**
  * Class used to create a journal opening UI
@@ -38,14 +36,11 @@ class ArcaneJournalOpenScreen : AOTDScreen(TranslationTextComponent("screen.afra
         val openButton = ButtonPane(
             icon = ImagePane("afraidofthedark:textures/gui/arcane_journal_open/open_button.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/arcane_journal_open/open_button_hovered.png"),
-            prefSize = Dimensions(0.5, 0.1),
-            offset = Position(0.0, 0.1),
+            prefSize = Dimensions(0.1, 0.1),
+            offset = Position(-0.05, 0.0),
             font = ClientData.getOrCreate(55f)
         )
-        openButton.setText("Open")
-        openButton.setTextColor(Color(105, 0, 108))
-        openButton.setTextAlignment(TextAlignment.ALIGN_CENTER)
-        openButton.gravity = Gravity.CENTER
+        openButton.gravity = Gravity.BOTTOM_RIGHT
 
         // When we click the open button either start the mod or tell the user they messed up
         openButton.addMouseListener {
