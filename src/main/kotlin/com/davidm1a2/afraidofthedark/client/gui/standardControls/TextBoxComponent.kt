@@ -1,12 +1,10 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.SpecialTextCharacters
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.mojang.blaze3d.matrix.MatrixStack
 import java.awt.Color
-import java.util.StringTokenizer
 
 /**
  * A text box control that will have multiple lines of text like a label
@@ -62,40 +60,67 @@ class TextBoxComponent(
         this.text = text
         this.textLines.clear()
 
-        val textBlocks = text.split(SpecialTextCharacters.NEW_LINE.toString())
-        for (textBlock in textBlocks) {
-            // Read words into lines that fit inside the text box
-            val words = StringTokenizer(textBlock, " ")
-            var currentLineText = ""
-            while (words.hasMoreTokens()) {
-                val word = words.nextToken()
-                    .replace(SpecialTextCharacters.SPACE.toString(), " ")
-                    .replace(SpecialTextCharacters.TAB.toString(), "   ")
+        if (width <= 0 || height <= 0) {
+            overflowText = text
+            return
+        }
 
-                if (this.font.getWidth("$currentLineText $word") > width) {
-                    this.textLines.add(currentLineText)
-                    currentLineText = word
-                } else {
-                    if (currentLineText.isNotEmpty()) currentLineText += " "
-                    currentLineText += word
+        if (text.isEmpty()) {
+            overflowText = ""
+            return
+        }
+
+        var currentWord = ""
+        var currentLineText = ""
+        val lineEndings = mutableListOf<Int>()
+        text.forEachIndexed { index, char ->
+            when (char) {
+                '\t' -> throw IllegalStateException("Tabs are not supported for now by text boxes. Use 3 spaces instead")
+                // Done with the current word AND line
+                '\n' -> {
+                    this.textLines.add("$currentLineText$currentWord")
+                    lineEndings.add(index + 1)
+                    currentLineText = ""
+                    currentWord = ""
+                }
+                // Done with the current word
+                ' ' -> {
+                    if (this.font.getWidth("$currentLineText$currentWord ") > width) {
+                        this.textLines.add(currentLineText)
+                        lineEndings.add(index - currentWord.length)
+                        currentLineText = "$currentWord "
+                        currentWord = ""
+                    } else {
+                        currentLineText = "$currentLineText$currentWord "
+                        currentWord = ""
+                    }
+                }
+                // Add to the current word
+                else -> {
+                    currentWord = "$currentWord$char"
+                    if (this.font.getWidth("$currentLineText$currentWord") > width) {
+                        if (currentLineText.isEmpty()) {
+                            throw IllegalStateException("Could not lay out text in text box because the word was too long and couldn't be split")
+                        }
+                        this.textLines.add(currentLineText)
+                        lineEndings.add(index - currentWord.length + 1)
+                        currentLineText = ""
+                    }
                 }
             }
-            this.textLines.add(currentLineText)
+        }
+        val remainder = "$currentLineText$currentWord"
+        if (remainder.isNotEmpty()) {
+            this.textLines.add(remainder)
+            lineEndings.add(text.length)
         }
 
         // Check for overflow. Start by removing lines that don't fit
-        var textHeight = this.font.getHeight(this.textLines.joinToString("\n"))
-        while (textHeight > this.height && textLines.isNotEmpty()) {
+        while (this.font.getHeight(this.textLines.joinToString("\n")) > this.height) {
             textLines.removeLast()
-            textHeight = this.font.getHeight(this.textLines.joinToString("\n"))
         }
-        // TODO: Clean up this implementation, it's really bad but works. Remove word by word from our overflow text
-        this.overflowText = text
-        for (textLine in textLines) {
-            for (word in textLine.split(" ")) {
-                this.overflowText = this.overflowText.substringAfter(word)
-            }
-        }
+
+        this.overflowText = text.substring(lineEndings[textLines.size - 1])
     }
 
     override fun invalidate() {

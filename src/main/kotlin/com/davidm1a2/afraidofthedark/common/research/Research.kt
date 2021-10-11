@@ -17,8 +17,8 @@ import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.ForgeRegistryEntry
 
 class Research(
-    val researchedRecipes: List<Item>,
-    val preResearchedRecipes: List<Item>,
+    lazyResearchedRecipes: Lazy<List<Item>>,
+    lazyPreResearchedRecipes: Lazy<List<Item>>,
     val icon: ResourceLocation,
     lazyTriggers: Lazy<List<ConfiguredResearchTrigger<*, *, *>>>,
     lazyPrerequisite: Lazy<Research?>
@@ -29,6 +29,8 @@ class Research(
     // Why do we need this lazy initializer? Because forge loads registries in random order, so the RESEARCH registry might not be valid yet
     val triggers: List<ConfiguredResearchTrigger<*, *, *>> by lazyTriggers
     val preRequisite: Research? by lazyPrerequisite
+    val researchedRecipes: List<Item> by lazyResearchedRecipes
+    val preResearchedRecipes: List<Item> by lazyPreResearchedRecipes
 
     fun getName(): ITextComponent {
         return TranslationTextComponent("research.${registryName!!.namespace}.${registryName!!.path}.name")
@@ -52,12 +54,14 @@ class Research(
                 ResourceLocation.CODEC.fieldOf("forge:registry_name").forGetter(Research::getRegistryName),
                 ForgeRegistries.ITEMS.codec()
                     .listOf()
+                    .lazy()
                     .fieldOf("recipes")
-                    .forGetter(Research::researchedRecipes),
+                    .forGetter { research -> lazyOf(research.researchedRecipes) },
                 ForgeRegistries.ITEMS.codec()
                     .listOf()
+                    .lazy()
                     .fieldOf("pre_recipes")
-                    .forGetter(Research::preResearchedRecipes),
+                    .forGetter { research -> lazyOf(research.preResearchedRecipes) },
                 ResourceLocation.CODEC.fieldOf("icon").forGetter(Research::icon),
                 ConfiguredResearchTrigger.CODEC
                     .listOf()

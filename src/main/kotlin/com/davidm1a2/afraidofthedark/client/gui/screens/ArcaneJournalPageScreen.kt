@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
-import com.davidm1a2.afraidofthedark.client.gui.SpecialTextCharacters
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
@@ -327,24 +326,22 @@ class ArcaneJournalPageScreen(private val research: Research) : AOTDScreen(Trans
             // Date and time the previous research was unlocked
             if (previousResearchTime != null) {
                 append(previousResearchTime.format(DATE_TIME_FORMAT))
-                append(SpecialTextCharacters.NEW_LINE.toString())
-                append(SpecialTextCharacters.NEW_LINE.toString())
+                appendLine()
+                appendLine()
             }
             // Indent the pre text paragraph
-            append(SpecialTextCharacters.TAB.toString())
+            append("   ")
             append(research.getPreText().string)
-            append(SpecialTextCharacters.NEW_LINE.toString())
-            append(SpecialTextCharacters.NEW_LINE.toString())
 
             // Date and time the current research was unlocked
-            if (researchTime != null) {
+            if (researchTime != null && isResearched) {
+                appendLine()
+                appendLine()
                 append(researchTime.format(DATE_TIME_FORMAT))
-                append(SpecialTextCharacters.NEW_LINE.toString())
-                append(SpecialTextCharacters.NEW_LINE.toString())
-            }
-            if (isResearched) {
                 // Indent the text paragraph
-                append(SpecialTextCharacters.TAB.toString())
+                appendLine()
+                appendLine()
+                append("   ")
                 append(research.getText().string)
             }
         }
