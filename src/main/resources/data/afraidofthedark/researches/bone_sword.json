@@ -6,7 +6,7 @@
   "pre_recipes": [
     "afraidofthedark:bone_sword"
   ],
-  "icon": "afraidofthedark:textures/gui/research_icons/blade_of_exhumation.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/bone_sword.png",
   "prerequisite": "afraidofthedark:enchanted_skeleton",
   "triggers": [
     {
