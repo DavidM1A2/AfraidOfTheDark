@@ -80,7 +80,7 @@ class EnchantedSkeletonBoneItem : AOTDItem("enchanted_skeleton_bone", Properties
                     PlayerEntity::class.java,
                     entityItem.boundingBox.inflate(RESEARCH_UNLOCK_RADIUS.toDouble())
                 ).forEach {
-                    MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(it, ModResearches.ENCHANTED_SKELETON))
+                    MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(it, ModResearches.REANIMATION))
                 }
 
                 // If bones remain create a new entity item with that many bones left

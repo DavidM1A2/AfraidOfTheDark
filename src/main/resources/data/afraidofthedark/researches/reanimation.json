@@ -2,7 +2,7 @@
   "forge:registry_name": "afraidofthedark:reanimation",
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/enchanted_skeleton.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/reanimation.png",
   "prerequisite": "afraidofthedark:enchanted_skeleton",
   "triggers": [
     {
