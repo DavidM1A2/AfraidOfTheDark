@@ -3,10 +3,8 @@
   "recipes": [
     "afraidofthedark:bone_dust"
   ],
-  "pre_recipes": [
-    "afraidofthedark:bone_dust"
-  ],
-  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "pre_recipes": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/bone_dust.png",
   "prerequisite": "afraidofthedark:enchanted_skeleton",
   "triggers": [
     {
