@@ -2,7 +2,7 @@
   "forge:registry_name": "afraidofthedark:bloodbath",
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/bloodbath.png",
   "prerequisite": "afraidofthedark:blood_magic",
   "triggers": [
     {
