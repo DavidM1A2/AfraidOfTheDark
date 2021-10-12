@@ -2,13 +2,14 @@
   "forge:registry_name": "afraidofthedark:wisdom",
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/wisdom.png",
   "prerequisite": "afraidofthedark:reanimation",
   "triggers": [
     {
-      "type": "afraidofthedark:manual",
+      "type": "afraidofthedark:kill_entity",
       "config": {
-        "research": "afraidofthedark:wisdom"
+        "entity_type": "afraidofthedark:enchanted_skeleton",
+        "count_required": 15
       }
     }
   ]

@@ -3,6 +3,8 @@ package com.davidm1a2.afraidofthedark.common.research.trigger
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.research.trigger.base.ResearchTrigger
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.stats.Stats
 import net.minecraft.util.EntityDamageSource
 import net.minecraftforge.event.entity.living.LivingDeathEvent
 import kotlin.reflect.KClass
@@ -26,6 +28,12 @@ class KillEntityResearchTrigger : ResearchTrigger<LivingDeathEvent, KillEntityRe
     }
 
     override fun shouldUnlock(player: PlayerEntity, event: LivingDeathEvent, config: KillEntityResearchTriggerConfig): Boolean {
-        return event.entity.type == config.entityType
+        if (player !is ServerPlayerEntity) {
+            // This should never happen
+            return false
+        }
+        // +1 to count the current one that was killed
+        val numKilled = player.stats.getValue(Stats.ENTITY_KILLED.get(config.entityType)) + 1
+        return event.entity.type == config.entityType && numKilled >= config.countRequired
     }
 }
