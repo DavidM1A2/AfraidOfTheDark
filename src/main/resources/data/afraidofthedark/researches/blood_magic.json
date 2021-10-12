@@ -2,7 +2,7 @@
   "forge:registry_name": "afraidofthedark:blood_magic",
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/blood_magic.png",
   "prerequisite": "afraidofthedark:wisdom",
   "triggers": [
     {

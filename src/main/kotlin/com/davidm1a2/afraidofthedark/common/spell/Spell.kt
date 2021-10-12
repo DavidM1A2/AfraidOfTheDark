@@ -216,12 +216,12 @@ class Spell : INBTSerializable<CompoundNBT> {
         }
     }
 
-    fun getAllDeliveryMethods(): List<SpellDeliveryMethod> {
-        return spellStages.mapNotNull { it.deliveryInstance?.component }
+    fun hasDeliveryMethod(deliveryMethod: SpellDeliveryMethod): Boolean {
+        return spellStages.any { it.deliveryInstance?.component == deliveryMethod }
     }
 
-    fun getAllEffects(): List<SpellEffect> {
-        return spellStages.flatMap { stage -> stage.effects.mapNotNull { it?.component } }
+    fun hasEffect(effect: SpellEffect): Boolean {
+        return spellStages.any { it.effects.any { eff -> eff?.component == effect } }
     }
 
     /**
