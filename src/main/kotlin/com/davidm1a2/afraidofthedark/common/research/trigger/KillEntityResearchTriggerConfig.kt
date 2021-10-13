@@ -7,12 +7,9 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.entity.EntityType
 import net.minecraftforge.registries.ForgeRegistries
-import java.util.function.BiFunction
+import java.util.function.Function
 
-class KillEntityResearchTriggerConfig(
-    lazyEntityType: Lazy<EntityType<*>>,
-    val countRequired: Int
-) : ResearchTriggerConfig {
+class KillEntityResearchTriggerConfig(lazyEntityType: Lazy<EntityType<*>>) : ResearchTriggerConfig {
     val entityType: EntityType<*> by lazyEntityType
 
     companion object {
@@ -21,10 +18,9 @@ class KillEntityResearchTriggerConfig(
                 ForgeRegistries.ENTITIES.codec()
                     .lazy()
                     .fieldOf("entity_type")
-                    .forGetter { config -> lazyOf(config.entityType) },
-                Codec.INT.optionalFieldOf("count_required", 1).forGetter(KillEntityResearchTriggerConfig::countRequired)
-            ).apply(it, it.stable(BiFunction { entityType, numberRequired ->
-                KillEntityResearchTriggerConfig(entityType, numberRequired)
+                    .forGetter { config -> lazyOf(config.entityType) }
+            ).apply(it, it.stable(Function { entityType ->
+                KillEntityResearchTriggerConfig(entityType)
             }))
         }
     }

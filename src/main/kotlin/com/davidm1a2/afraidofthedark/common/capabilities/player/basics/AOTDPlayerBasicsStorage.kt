@@ -38,6 +38,13 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
             compound.putInt(WATCHED_METEOR_LATITUDE, watchedMeteor.latitude)
             compound.putInt(WATCHED_METEOR_LONGITUDE, watchedMeteor.longitude)
         }
+
+        val multiplicities = CompoundNBT()
+        instance.listMultiplicities().forEach {
+            multiplicities.putInt(it.toString(), instance.getMultiplicity(it))
+        }
+        compound.put(MULTIPLICITIES, multiplicities)
+
         return compound
     }
 
@@ -71,6 +78,11 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
             } else {
                 instance.watchedMeteor = null
             }
+
+            val multiplicities = nbt.getCompound(MULTIPLICITIES)
+            multiplicities.allKeys.forEach {
+                instance.setMultiplicity(ResourceLocation(it), multiplicities.getInt(it))
+            }
         } else {
             logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
         }
@@ -86,5 +98,6 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
         private const val WATCHED_METEOR_DROP_ANGLE = "watchedMeteorDropAngle"
         private const val WATCHED_METEOR_LATITUDE = "watchedMeteorLatitude"
         private const val WATCHED_METEOR_LONGITUDE = "watchedMeteorLongitude"
+        private const val MULTIPLICITIES = "multiplicities"
     }
 }

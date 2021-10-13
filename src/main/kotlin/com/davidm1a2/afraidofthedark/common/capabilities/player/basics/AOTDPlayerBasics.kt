@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.common.network.packets.capability.StartAOTD
 import com.davidm1a2.afraidofthedark.common.network.packets.other.UpdateWatchedMeteorPacket
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.MinecraftForge
 
 /**
@@ -19,6 +20,7 @@ import net.minecraftforge.common.MinecraftForge
 class AOTDPlayerBasics : IAOTDPlayerBasics {
     override var selectedWristCrossbowBoltIndex = 0
     override var watchedMeteor: WatchedMeteor? = null
+    private val multiplicities = mutableMapOf<ResourceLocation, Int>()
 
     private fun isServerSide(entityPlayer: PlayerEntity): Boolean {
         return !entityPlayer.level.isClientSide
@@ -31,6 +33,18 @@ class AOTDPlayerBasics : IAOTDPlayerBasics {
 
         MinecraftForge.EVENT_BUS.post(PlayerStartedAfraidOfTheDarkEvent(entityPlayer))
         AfraidOfTheDark.packetHandler.sendToServer(StartAOTDPacket())
+    }
+
+    override fun setMultiplicity(key: ResourceLocation, value: Int) {
+        multiplicities[key] = value
+    }
+
+    override fun getMultiplicity(key: ResourceLocation): Int {
+        return multiplicities[key] ?: 0
+    }
+
+    override fun listMultiplicities(): List<ResourceLocation> {
+        return multiplicities.keys.toList()
     }
 
     override fun syncSelectedWristCrossbowBoltIndex(entityPlayer: PlayerEntity) {

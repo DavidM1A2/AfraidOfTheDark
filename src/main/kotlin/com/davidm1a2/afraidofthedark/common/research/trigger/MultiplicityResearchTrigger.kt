@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.research.trigger
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.research.trigger.base.ResearchTrigger
 import net.minecraft.entity.player.PlayerEntity
@@ -20,6 +21,15 @@ class MultiplicityResearchTrigger : ResearchTrigger<Event, MultiplicityResearchT
     }
 
     override fun shouldUnlock(player: PlayerEntity, event: Event, config: MultiplicityResearchTriggerConfig): Boolean {
-        return config.baseTrigger.shouldUnlock(player, event)
+        val wouldUnlock = config.baseTrigger.shouldUnlock(player, event)
+        if (!wouldUnlock) {
+            return false
+        }
+
+        val playerBasics = player.getBasics()
+        val currentMultiplicity = playerBasics.getMultiplicity(config.key)
+        val newMultiplicity = currentMultiplicity + 1
+        playerBasics.setMultiplicity(config.key, newMultiplicity)
+        return newMultiplicity >= config.times
     }
 }

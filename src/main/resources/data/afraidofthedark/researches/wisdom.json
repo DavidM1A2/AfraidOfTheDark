@@ -6,10 +6,16 @@
   "prerequisite": "afraidofthedark:reanimation",
   "triggers": [
     {
-      "type": "afraidofthedark:kill_entity",
+      "type": "afraidofthedark:multiplicity",
       "config": {
-        "entity_type": "afraidofthedark:enchanted_skeleton",
-        "count_required": 15
+        "base_trigger": {
+          "type": "afraidofthedark:kill_entity",
+          "config": {
+            "entity_type": "afraidofthedark:enchanted_skeleton"
+          }
+        },
+        "times": 15,
+        "key": "afraidofthedark:enchanted_skeleton_kills"
       }
     }
   ]
