@@ -52,7 +52,7 @@ object FontLoader {
 
         // Set the font size and make it bold. Bold fonts tend to look better in this font rendering system
         val font = Minecraft.getInstance().resourceManager.getResource(fontFile).inputStream.use {
-            Font.createFont(type, it).deriveFont(size).deriveFont(Font.BOLD)
+            Font.createFont(type, it).deriveFont(size)
         }
 
         // Grab the list of characters our font can support

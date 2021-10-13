@@ -40,8 +40,6 @@ class ArcaneJournalPageScreen(private val research: Research) : AOTDScreen(Trans
     private val rightPageText: TextBoxComponent
     private val forwardButton: ButtonPane
     private val backwardButton: ButtonPane
-    private val leftPageNumber: LabelComponent
-    private val rightPageNumber: LabelComponent
     private val topLeftRecipe: RecipePane
     private val bottomLeftRecipe: RecipePane
     private val topRightRecipe: RecipePane
@@ -63,41 +61,24 @@ class ArcaneJournalPageScreen(private val research: Research) : AOTDScreen(Trans
         guiPane.add(journalPane)
 
         // Create red colors for text
-        val textColor = Color(170, 3, 25)
-        val titleColor = Color(200, 0, 0)
+        val textColor = Color(135, 70, 44)
+        val titleColor = Color(165, 70, 20)
 
         // Create a title label to contain the research name
-        val titleLabel = LabelComponent(ClientData.getOrCreate(50f), Dimensions(1.0, 0.1), Gravity.TOP_CENTER)
+        val titleLabel = LabelComponent(ClientData.getOrCreate(80f), Dimensions(1.0, 0.1), Gravity.TOP_CENTER)
         titleLabel.text = if (isResearched) research.getName().string else "???"
         titleLabel.textColor = titleColor
         titleLabel.textAlignment = TextAlignment.ALIGN_CENTER
         contentPane.add(titleLabel)
 
-        // Create two page numbers, one for the left page and one for the right page
-        leftPageNumber = LabelComponent(ClientData.getOrCreate(32f), Dimensions(0.1, 0.1), Gravity.TOP_LEFT)
-        leftPageNumber.offset = Position(0.05, 0.03)
-        rightPageNumber = LabelComponent(ClientData.getOrCreate(32f), Dimensions(0.1, 0.1), Gravity.TOP_RIGHT)
-        rightPageNumber.offset = Position(-0.05, 0.03)
-        // Align the right page number right so that it fits into the corner
-        rightPageNumber.textAlignment = TextAlignment.ALIGN_RIGHT
-        // Start the page numbers at 1 and 2
-        leftPageNumber.text = "1"
-        rightPageNumber.text = "2"
-        // Both page numbers are red
-        leftPageNumber.textColor = textColor
-        rightPageNumber.textColor = textColor
-        // Add both page numbers
-        journalPane.add(leftPageNumber)
-        journalPane.add(rightPageNumber)
-
         // Create two pages, one for the left page text and one for the right page text
         leftPage = StackPane(prefSize = Dimensions(0.5, 1.0), padding = Spacing(0.08, 0.15, 0.2, 0.05))
         leftPage.gravity = Gravity.TOP_LEFT
-        leftPageText = TextBoxComponent(font = ClientData.getOrCreate(32f))
+        leftPageText = TextBoxComponent(font = ClientData.getOrCreate(38f))
         leftPage.add(leftPageText)
         rightPage = StackPane(prefSize = Dimensions(0.5, 1.0), padding = Spacing(0.08, 0.15, 0.05, 0.2))
         rightPage.gravity = Gravity.TOP_RIGHT
-        rightPageText = TextBoxComponent(font = ClientData.getOrCreate(32f))
+        rightPageText = TextBoxComponent(font = ClientData.getOrCreate(38f))
         rightPage.add(rightPageText)
         // Set the text on both pages to red
         leftPageText.textColor = textColor
@@ -266,10 +247,6 @@ class ArcaneJournalPageScreen(private val research: Research) : AOTDScreen(Trans
      * Updates the text or recipes on each page
      */
     private fun refreshPagesForNumber() {
-        // Update the page numbers
-        leftPageNumber.text = (pageNumber + 1).toString()
-        rightPageNumber.text = (pageNumber + 2).toString()
-
         // Hide the forward button if we're not on the last page
         forwardButton.isVisible = hasPageForward()
         // Hide the backward button if we're not on the first page
