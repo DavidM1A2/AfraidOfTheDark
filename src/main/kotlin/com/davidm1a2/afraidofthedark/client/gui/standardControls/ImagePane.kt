@@ -24,6 +24,9 @@ open class ImagePane(
         Minecraft.getInstance().textureManager.bind(imageTexture)
         textureWidth = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH).toDouble()
         textureHeight = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_HEIGHT).toDouble()
+        if (textureWidth.isNaN() || textureHeight.isNaN()) {
+            throw IllegalStateException("Texture $imageTexture does not exist")
+        }
     }
 
     constructor(imageTexture: String, displayMode: DispMode = DispMode.STRETCH) : this(ResourceLocation(imageTexture), displayMode)
