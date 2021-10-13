@@ -39,11 +39,11 @@ class ProcessSextantInputPacketProcessor : PacketProcessor<ProcessSextantInputPa
             val player = ctx.sender!!
             // First validate that the player entered the correct values into the sextant
             val playerBasics = player.getBasics()
-            if (playerBasics.getWatchedMeteorDropAngle() == msg.dropAngle &&
-                playerBasics.getWatchedMeteorLatitude() == msg.latitude &&
-                playerBasics.getWatchedMeteorLongitude() == msg.longitude
+            if (playerBasics.watchedMeteor?.dropAngle == msg.dropAngle &&
+                playerBasics.watchedMeteor?.latitude == msg.latitude &&
+                playerBasics.watchedMeteor?.longitude == msg.longitude
             ) {
-                val meteorEntry = playerBasics.getWatchedMeteor()
+                val meteorEntry = playerBasics.watchedMeteor?.meteor
 
                 if (meteorEntry != null) {
                     // The meteor can drop from 15 - 500 blocks away from the player in both directions
@@ -55,7 +55,7 @@ class ProcessSextantInputPacketProcessor : PacketProcessor<ProcessSextantInputPa
                     // Drop the meteor
                     dropMeteor(player.level, meteorEntry, xLocOfDrop.roundToInt(), zLocOfDrop.roundToInt())
 
-                    val accuracy = playerBasics.getWatchedMeteorAccuracy()
+                    val accuracy = playerBasics.watchedMeteor?.accuracy!!
 
                     // Print out a message telling the player where the meteor dropped +/- 8 blocks
                     xLocOfDrop =
@@ -68,7 +68,7 @@ class ProcessSextantInputPacketProcessor : PacketProcessor<ProcessSextantInputPa
                     )
 
                     // Clear the player's watched meteors so that the same meteor can't be used twice
-                    playerBasics.setWatchedMeteor(null, 0, -1, -1, -1)
+                    playerBasics.watchedMeteor = null
                     playerBasics.syncWatchedMeteor(player)
                 } else {
                     logger.error("Player ${player.gameProfile.name} had null meteor entry")

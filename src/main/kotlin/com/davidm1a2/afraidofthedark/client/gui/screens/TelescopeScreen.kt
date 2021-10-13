@@ -10,6 +10,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.RatioPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ScrollPane
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.WatchedMeteor
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.item.telescope.TelescopeBaseItem
@@ -72,7 +73,7 @@ class TelescopeScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
                     val telescopeItem = entityPlayer.mainHandItem.item as? TelescopeBaseItem ?: entityPlayer.offhandItem.item as? TelescopeBaseItem
                     val accuracy = telescopeItem?.accuracy ?: WORST_ACCURACY
                     // Tell the server we're watching a new meteor. It will update our capability NBT data for us
-                    AfraidOfTheDark.packetHandler.sendToServer(UpdateWatchedMeteorPacket(meteorType, accuracy))
+                    AfraidOfTheDark.packetHandler.sendToServer(UpdateWatchedMeteorPacket(WatchedMeteor(meteorType, accuracy, 0, 0, 0)))
                     onClose()
                 }
                 // Add the button

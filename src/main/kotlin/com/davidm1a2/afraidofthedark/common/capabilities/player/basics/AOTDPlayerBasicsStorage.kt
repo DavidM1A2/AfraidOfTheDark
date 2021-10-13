@@ -29,11 +29,15 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
         // Create a compound to write
         val compound = CompoundNBT()
         compound.putInt(WRIST_CROSSBOW_BOLT_INDEX, instance.selectedWristCrossbowBoltIndex)
-        compound.putString(WATCHED_METEOR, instance.getWatchedMeteor()?.registryName?.toString() ?: "none")
-        compound.putInt(WATCHED_METEOR_ACCURACY, instance.getWatchedMeteorAccuracy())
-        compound.putInt(WATCHED_METEOR_DROP_ANGLE, instance.getWatchedMeteorDropAngle())
-        compound.putInt(WATCHED_METEOR_LATITUDE, instance.getWatchedMeteorLatitude())
-        compound.putInt(WATCHED_METEOR_LONGITUDE, instance.getWatchedMeteorLongitude())
+
+        val watchedMeteor = instance.watchedMeteor
+        if (watchedMeteor != null) {
+            compound.putString(WATCHED_METEOR, watchedMeteor.meteor.registryName.toString())
+            compound.putInt(WATCHED_METEOR_ACCURACY, watchedMeteor.accuracy)
+            compound.putInt(WATCHED_METEOR_DROP_ANGLE, watchedMeteor.dropAngle)
+            compound.putInt(WATCHED_METEOR_LATITUDE, watchedMeteor.latitude)
+            compound.putInt(WATCHED_METEOR_LONGITUDE, watchedMeteor.longitude)
+        }
         return compound
     }
 
@@ -55,21 +59,18 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
         if (nbt is CompoundNBT) {
             // The compound to read from
             instance.selectedWristCrossbowBoltIndex = nbt.getInt(WRIST_CROSSBOW_BOLT_INDEX)
-            val watchedMeteorName = nbt.getString(WATCHED_METEOR)
-            val watchedMeteor = if (watchedMeteorName == "none") null else ModRegistries.METEORS.getValue(
-                ResourceLocation(watchedMeteorName)
-            )
-            val watchedMeteorAccuracy = nbt.getInt(WATCHED_METEOR_ACCURACY)
-            val watchedMeteorDropAngle = nbt.getInt(WATCHED_METEOR_DROP_ANGLE)
-            val watchedMeteorLatitude = nbt.getInt(WATCHED_METEOR_LATITUDE)
-            val watchedMeteorLongitude = nbt.getInt(WATCHED_METEOR_LONGITUDE)
-            instance.setWatchedMeteor(
-                watchedMeteor,
-                watchedMeteorAccuracy,
-                watchedMeteorDropAngle,
-                watchedMeteorLatitude,
-                watchedMeteorLongitude
-            )
+
+            if (nbt.contains(WATCHED_METEOR)) {
+                instance.watchedMeteor = WatchedMeteor(
+                    ModRegistries.METEORS.getValue(ResourceLocation(nbt.getString(WATCHED_METEOR)))!!,
+                    nbt.getInt(WATCHED_METEOR_ACCURACY),
+                    nbt.getInt(WATCHED_METEOR_DROP_ANGLE),
+                    nbt.getInt(WATCHED_METEOR_LATITUDE),
+                    nbt.getInt(WATCHED_METEOR_LONGITUDE)
+                )
+            } else {
+                instance.watchedMeteor = null
+            }
         } else {
             logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
         }
