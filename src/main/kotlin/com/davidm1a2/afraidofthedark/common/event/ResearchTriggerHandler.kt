@@ -23,9 +23,9 @@ class ResearchTriggerHandler {
             val player = trigger.getAffectedPlayer(event)
             // Only process hooks server side, otherwise we risk processing each event twice in singleplayer.
             if (player != null && !player.level.isClientSide) {
-                if (trigger.shouldUnlock(player, event)) {
-                    val playerResearch = player.getResearch()
-                    if (playerResearch.canResearch(research)) {
+                val playerResearch = player.getResearch()
+                if (playerResearch.canResearch(research)) {
+                    if (trigger.shouldUnlock(player, event)) {
                         playerResearch.setResearch(research, ZonedDateTime.now(Constants.DEFAULT_TIME_ZONE))
                         playerResearch.sync(player, true)
                     }
