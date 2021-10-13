@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
@@ -99,12 +100,20 @@ class ArcaneJournalPageScreen(private val research: Research) : AOTDScreen(Trans
         bookmarkButton.gravity = Gravity.BOTTOM_CENTER
         // Set the color to a see-through white
         bookmarkIcon.color = Color(255, 255, 255, 50)
+        bookmarkIcon.isVisible = false
         // When we click the bookmark return to the journal research ui
         bookmarkButton.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click) {
                 if (it.source.isHovered && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
                     returnToResearchScreen()
                 }
+            }
+        }
+        bookmarkButton.addMouseMoveListener {
+            if (it.eventType == MouseMoveEvent.EventType.Enter) {
+                bookmarkIcon.isVisible = true
+            } else if (it.eventType == MouseMoveEvent.EventType.Exit) {
+                bookmarkIcon.isVisible = false
             }
         }
         journalPane.add(bookmarkButton)
