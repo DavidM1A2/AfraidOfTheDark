@@ -7,13 +7,15 @@ import net.minecraft.entity.player.PlayerEntity
 import kotlin.reflect.KClass
 
 class ManualResearchTrigger : ResearchTrigger<ManualResearchTriggerEvent, ManualResearchTriggerConfig>(ManualResearchTriggerConfig.CODEC) {
-    override val type: KClass<ManualResearchTriggerEvent> = ManualResearchTriggerEvent::class
-
     init {
         setRegistryName(Constants.MOD_ID, "manual")
     }
 
-    override fun getAffectedPlayer(event: ManualResearchTriggerEvent): PlayerEntity? {
+    override fun getEventType(config: ManualResearchTriggerConfig): KClass<ManualResearchTriggerEvent> {
+        return ManualResearchTriggerEvent::class
+    }
+
+    override fun getAffectedPlayer(event: ManualResearchTriggerEvent, config: ManualResearchTriggerConfig): PlayerEntity? {
         return event.player
     }
 

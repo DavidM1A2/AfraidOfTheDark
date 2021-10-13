@@ -7,13 +7,15 @@ import net.minecraft.entity.player.PlayerEntity
 import kotlin.reflect.KClass
 
 class ZoneEnteredResearchTrigger : ResearchTrigger<PlayerEnterZoneEvent, ZoneEnteredResearchTriggerConfig>(ZoneEnteredResearchTriggerConfig.CODEC) {
-    override val type: KClass<PlayerEnterZoneEvent> = PlayerEnterZoneEvent::class
-
     init {
         setRegistryName(Constants.MOD_ID, "zone_entered")
     }
 
-    override fun getAffectedPlayer(event: PlayerEnterZoneEvent): PlayerEntity? {
+    override fun getEventType(config: ZoneEnteredResearchTriggerConfig): KClass<PlayerEnterZoneEvent> {
+        return PlayerEnterZoneEvent::class
+    }
+
+    override fun getAffectedPlayer(event: PlayerEnterZoneEvent, config: ZoneEnteredResearchTriggerConfig): PlayerEntity? {
         return event.player
     }
 

@@ -8,13 +8,15 @@ import net.minecraftforge.event.world.BlockEvent
 import kotlin.reflect.KClass
 
 class BlockBrokenResearchTrigger : ResearchTrigger<BlockEvent.BreakEvent, BlockBrokenResearchTriggerConfig>(BlockBrokenResearchTriggerConfig.CODEC) {
-    override val type: KClass<BlockEvent.BreakEvent> = BlockEvent.BreakEvent::class
-
     init {
         setRegistryName(Constants.MOD_ID, "block_broken")
     }
 
-    override fun getAffectedPlayer(event: BlockEvent.BreakEvent): PlayerEntity? {
+    override fun getEventType(config: BlockBrokenResearchTriggerConfig): KClass<BlockEvent.BreakEvent> {
+        return BlockEvent.BreakEvent::class
+    }
+
+    override fun getAffectedPlayer(event: BlockEvent.BreakEvent, config: BlockBrokenResearchTriggerConfig): PlayerEntity? {
         return event.player
     }
 

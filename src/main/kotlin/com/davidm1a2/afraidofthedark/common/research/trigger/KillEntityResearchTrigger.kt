@@ -10,13 +10,15 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent
 import kotlin.reflect.KClass
 
 class KillEntityResearchTrigger : ResearchTrigger<LivingDeathEvent, KillEntityResearchTriggerConfig>(KillEntityResearchTriggerConfig.CODEC) {
-    override val type: KClass<LivingDeathEvent> = LivingDeathEvent::class
-
     init {
         setRegistryName(Constants.MOD_ID, "kill_entity")
     }
 
-    override fun getAffectedPlayer(event: LivingDeathEvent): PlayerEntity? {
+    override fun getEventType(config: KillEntityResearchTriggerConfig): KClass<LivingDeathEvent> {
+        return LivingDeathEvent::class
+    }
+
+    override fun getAffectedPlayer(event: LivingDeathEvent, config: KillEntityResearchTriggerConfig): PlayerEntity? {
         val source = event.source
         if (source is EntityDamageSource) {
             val entity = source.entity

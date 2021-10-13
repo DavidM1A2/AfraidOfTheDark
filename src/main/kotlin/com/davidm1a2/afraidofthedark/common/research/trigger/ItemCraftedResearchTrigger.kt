@@ -7,13 +7,15 @@ import net.minecraftforge.event.entity.player.PlayerEvent
 import kotlin.reflect.KClass
 
 class ItemCraftedResearchTrigger : ResearchTrigger<PlayerEvent.ItemCraftedEvent, ItemCraftedResearchTriggerConfig>(ItemCraftedResearchTriggerConfig.CODEC) {
-    override val type: KClass<PlayerEvent.ItemCraftedEvent> = PlayerEvent.ItemCraftedEvent::class
-
     init {
         setRegistryName(Constants.MOD_ID, "item_crafted")
     }
 
-    override fun getAffectedPlayer(event: PlayerEvent.ItemCraftedEvent): PlayerEntity? {
+    override fun getEventType(config: ItemCraftedResearchTriggerConfig): KClass<PlayerEvent.ItemCraftedEvent> {
+        return PlayerEvent.ItemCraftedEvent::class
+    }
+
+    override fun getAffectedPlayer(event: PlayerEvent.ItemCraftedEvent, config: ItemCraftedResearchTriggerConfig): PlayerEntity? {
         return event.player
     }
 

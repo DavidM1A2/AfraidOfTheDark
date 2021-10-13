@@ -7,17 +7,18 @@ import net.minecraftforge.registries.ForgeRegistryEntry
 import kotlin.reflect.KClass
 
 abstract class ResearchTrigger<E : Event, C : ResearchTriggerConfig>(codec: Codec<C>) : ForgeRegistryEntry<ResearchTrigger<*, *>>() {
-    abstract val type: KClass<E>
     val configurationCodec: Codec<ConfiguredResearchTrigger<E, C, ResearchTrigger<E, C>>> = codec
         .fieldOf("config")
         .xmap({ configure(it) }, { it.config })
         .codec()
 
-    fun configure(config: C): ConfiguredResearchTrigger<E, C, ResearchTrigger<E, C>> {
+    private fun configure(config: C): ConfiguredResearchTrigger<E, C, ResearchTrigger<E, C>> {
         return ConfiguredResearchTrigger(this, config)
     }
 
-    abstract fun getAffectedPlayer(event: E): PlayerEntity?
+    abstract fun getEventType(config: C): KClass<E>
+
+    abstract fun getAffectedPlayer(event: E, config: C): PlayerEntity?
 
     abstract fun shouldUnlock(player: PlayerEntity, event: E, config: C): Boolean
 }

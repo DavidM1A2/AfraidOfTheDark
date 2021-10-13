@@ -7,13 +7,15 @@ import net.minecraft.entity.player.PlayerEntity
 import kotlin.reflect.KClass
 
 class InBiomeResearchTrigger : ResearchTrigger<PlayerInBiomeEvent, InBiomeResearchTriggerConfig>(InBiomeResearchTriggerConfig.CODEC) {
-    override val type: KClass<PlayerInBiomeEvent> = PlayerInBiomeEvent::class
-
     init {
         setRegistryName(Constants.MOD_ID, "in_biome")
     }
 
-    override fun getAffectedPlayer(event: PlayerInBiomeEvent): PlayerEntity? {
+    override fun getEventType(config: InBiomeResearchTriggerConfig): KClass<PlayerInBiomeEvent> {
+        return PlayerInBiomeEvent::class
+    }
+
+    override fun getAffectedPlayer(event: PlayerInBiomeEvent, config: InBiomeResearchTriggerConfig): PlayerEntity? {
         return event.player
     }
 

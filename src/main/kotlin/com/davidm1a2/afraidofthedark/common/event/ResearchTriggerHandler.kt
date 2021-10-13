@@ -38,7 +38,7 @@ class ResearchTriggerHandler {
         ModRegistries.RESEARCH.forEach { research ->
             try {
                 research.triggers.forEach {
-                    val hookList = hooks.computeIfAbsent(it.trigger.type) { mutableListOf() }
+                    val hookList = hooks.computeIfAbsent(it.getEventType()) { mutableListOf() }
                     @Suppress("UNCHECKED_CAST")
                     hookList.add(it as ConfiguredResearchTrigger<in Event, *, *> to research)
                 }

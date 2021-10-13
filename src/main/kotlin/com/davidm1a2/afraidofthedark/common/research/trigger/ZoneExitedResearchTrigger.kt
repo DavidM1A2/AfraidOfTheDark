@@ -7,13 +7,15 @@ import net.minecraft.entity.player.PlayerEntity
 import kotlin.reflect.KClass
 
 class ZoneExitedResearchTrigger : ResearchTrigger<PlayerExitZoneEvent, ZoneExitedResearchTriggerConfig>(ZoneExitedResearchTriggerConfig.CODEC) {
-    override val type: KClass<PlayerExitZoneEvent> = PlayerExitZoneEvent::class
-
     init {
         setRegistryName(Constants.MOD_ID, "zone_exited")
     }
 
-    override fun getAffectedPlayer(event: PlayerExitZoneEvent): PlayerEntity? {
+    override fun getEventType(config: ZoneExitedResearchTriggerConfig): KClass<PlayerExitZoneEvent> {
+        return PlayerExitZoneEvent::class
+    }
+
+    override fun getAffectedPlayer(event: PlayerExitZoneEvent, config: ZoneExitedResearchTriggerConfig): PlayerEntity? {
         return event.player
     }
 

@@ -7,13 +7,15 @@ import net.minecraftforge.event.entity.living.LivingDamageEvent
 import kotlin.reflect.KClass
 
 class PlayerHurtResearchTrigger : ResearchTrigger<LivingDamageEvent, PlayerHurtResearchTriggerConfig>(PlayerHurtResearchTriggerConfig.CODEC) {
-    override val type: KClass<LivingDamageEvent> = LivingDamageEvent::class
-
     init {
         setRegistryName(Constants.MOD_ID, "player_hurt")
     }
 
-    override fun getAffectedPlayer(event: LivingDamageEvent): PlayerEntity? {
+    override fun getEventType(config: PlayerHurtResearchTriggerConfig): KClass<LivingDamageEvent> {
+        return LivingDamageEvent::class
+    }
+
+    override fun getAffectedPlayer(event: LivingDamageEvent, config: PlayerHurtResearchTriggerConfig): PlayerEntity? {
         return event.entity as? PlayerEntity
     }
 

@@ -5,13 +5,18 @@ import com.mojang.serialization.Codec
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.eventbus.api.Event
+import kotlin.reflect.KClass
 
 class ConfiguredResearchTrigger<E : Event, C : ResearchTriggerConfig, T : ResearchTrigger<E, C>>(
-    val trigger: T,
+    private val trigger: T,
     val config: C
 ) {
+    fun getEventType(): KClass<E> {
+        return trigger.getEventType(config)
+    }
+
     fun getAffectedPlayer(event: E): PlayerEntity? {
-        return trigger.getAffectedPlayer(event)
+        return trigger.getAffectedPlayer(event, config)
     }
 
     fun shouldUnlock(player: PlayerEntity, event: E): Boolean {

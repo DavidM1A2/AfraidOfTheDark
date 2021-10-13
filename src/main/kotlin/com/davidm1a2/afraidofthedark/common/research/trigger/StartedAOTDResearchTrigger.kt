@@ -9,13 +9,15 @@ import kotlin.reflect.KClass
 
 class StartedAOTDResearchTrigger :
     ResearchTrigger<PlayerStartedAfraidOfTheDarkEvent, NoResearchTriggerConfig>(NoResearchTriggerConfig.CODEC) {
-    override val type: KClass<PlayerStartedAfraidOfTheDarkEvent> = PlayerStartedAfraidOfTheDarkEvent::class
-
     init {
         setRegistryName(Constants.MOD_ID, "started_aotd")
     }
 
-    override fun getAffectedPlayer(event: PlayerStartedAfraidOfTheDarkEvent): PlayerEntity? {
+    override fun getEventType(config: NoResearchTriggerConfig): KClass<PlayerStartedAfraidOfTheDarkEvent> {
+        return PlayerStartedAfraidOfTheDarkEvent::class
+    }
+
+    override fun getAffectedPlayer(event: PlayerStartedAfraidOfTheDarkEvent, config: NoResearchTriggerConfig): PlayerEntity? {
         return event.player
     }
 

@@ -7,13 +7,15 @@ import net.minecraft.entity.player.PlayerEntity
 import kotlin.reflect.KClass
 
 class PlayerCastResearchTrigger : ResearchTrigger<CastSpellEvent, PlayerCastResearchTriggerConfig>(PlayerCastResearchTriggerConfig.CODEC) {
-    override val type: KClass<CastSpellEvent> = CastSpellEvent::class
-
     init {
         setRegistryName(Constants.MOD_ID, "player_cast")
     }
 
-    override fun getAffectedPlayer(event: CastSpellEvent): PlayerEntity? {
+    override fun getEventType(config: PlayerCastResearchTriggerConfig): KClass<CastSpellEvent> {
+        return CastSpellEvent::class
+    }
+
+    override fun getAffectedPlayer(event: CastSpellEvent, config: PlayerCastResearchTriggerConfig): PlayerEntity? {
         return event.entity as? PlayerEntity
     }
 

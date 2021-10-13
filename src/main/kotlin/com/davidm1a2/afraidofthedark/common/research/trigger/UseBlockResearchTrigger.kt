@@ -8,13 +8,15 @@ import kotlin.reflect.KClass
 
 class UseBlockResearchTrigger :
     ResearchTrigger<PlayerInteractEvent.RightClickBlock, UseBlockResearchTriggerConfig>(UseBlockResearchTriggerConfig.CODEC) {
-    override val type: KClass<PlayerInteractEvent.RightClickBlock> = PlayerInteractEvent.RightClickBlock::class
-
     init {
         setRegistryName(Constants.MOD_ID, "use_block")
     }
 
-    override fun getAffectedPlayer(event: PlayerInteractEvent.RightClickBlock): PlayerEntity? {
+    override fun getEventType(config: UseBlockResearchTriggerConfig): KClass<PlayerInteractEvent.RightClickBlock> {
+        return PlayerInteractEvent.RightClickBlock::class
+    }
+
+    override fun getAffectedPlayer(event: PlayerInteractEvent.RightClickBlock, config: UseBlockResearchTriggerConfig): PlayerEntity? {
         return event.player
     }
 

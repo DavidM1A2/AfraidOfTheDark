@@ -7,13 +7,15 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent
 import kotlin.reflect.KClass
 
 class UseItemResearchTrigger : ResearchTrigger<PlayerInteractEvent.RightClickItem, UseItemResearchTriggerConfig>(UseItemResearchTriggerConfig.CODEC) {
-    override val type: KClass<PlayerInteractEvent.RightClickItem> = PlayerInteractEvent.RightClickItem::class
-
     init {
         setRegistryName(Constants.MOD_ID, "use_item")
     }
 
-    override fun getAffectedPlayer(event: PlayerInteractEvent.RightClickItem): PlayerEntity? {
+    override fun getEventType(config: UseItemResearchTriggerConfig): KClass<PlayerInteractEvent.RightClickItem> {
+        return PlayerInteractEvent.RightClickItem::class
+    }
+
+    override fun getAffectedPlayer(event: PlayerInteractEvent.RightClickItem, config: UseItemResearchTriggerConfig): PlayerEntity? {
         return event.player
     }
 
