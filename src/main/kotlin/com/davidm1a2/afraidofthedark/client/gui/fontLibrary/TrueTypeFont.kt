@@ -268,8 +268,11 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         RenderSystem.bindTexture(fontTextureID)
         val tessellator = Tessellator.getInstance()
         val bufferBuilder = tessellator.builder
-        bufferBuilder.begin(7, DefaultVertexFormats.POSITION_TEX)
-        RenderSystem.color4f(rgba.red / 255f, rgba.green / 255f, rgba.blue / 255f, rgba.alpha / 255f)
+        bufferBuilder.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX)
+        val red = rgba.red / 255f
+        val green = rgba.green / 255f
+        val blue = rgba.blue / 255f
+        val alpha = rgba.alpha / 255f
         for (line in stringToDraw.split("\n")) {
             // Set start position
             drawX = when (textAlignment) {
@@ -290,7 +293,11 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                     characterGlyph.storedX.toFloat(),
                     characterGlyph.storedY.toFloat(),
                     characterGlyph.storedX.toFloat() + characterGlyph.width,
-                    characterGlyph.storedY.toFloat() + characterGlyph.height
+                    characterGlyph.storedY.toFloat() + characterGlyph.height,
+                    red,
+                    green,
+                    blue,
+                    alpha
                 )
                 drawX += characterGlyph.width
             }
@@ -312,7 +319,11 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         srcX: Float,
         srcY: Float,
         srcX2: Float,
-        srcY2: Float
+        srcY2: Float,
+        r: Float,
+        g: Float,
+        b: Float,
+        a: Float
     ) {
         // Compute the width and height of the glyph to draw
         val drawWidth = abs(drawX2 - drawX)
@@ -325,15 +336,19 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
         // Add the 4 vertices that are used to draw the glyph. These must be done in this order
         bufferBuilder.vertex(drawX.toDouble(), (drawY + drawHeight).toDouble(), 0.0)
+            .color(r, g, b, a)
             .uv(srcX / textureWidth, (srcY + srcHeight) / textureHeight)
             .endVertex()
         bufferBuilder.vertex((drawX + drawWidth).toDouble(), (drawY + drawHeight).toDouble(), 0.0)
+            .color(r, g, b, a)
             .uv((srcX + srcWidth) / textureWidth, (srcY + srcHeight) / textureHeight)
             .endVertex()
         bufferBuilder.vertex((drawX + drawWidth).toDouble(), drawY.toDouble(), 0.0)
+            .color(r, g, b, a)
             .uv((srcX + srcWidth) / textureWidth, srcY / textureHeight)
             .endVertex()
         bufferBuilder.vertex(drawX.toDouble(), drawY.toDouble(), 0.0)
+            .color(r, g, b, a)
             .uv(srcX / textureWidth, srcY / textureHeight)
             .endVertex()
     }

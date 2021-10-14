@@ -24,20 +24,14 @@ open class LineComponent(lineFrom: Position, lineTo: Position, offset: Position,
 
     override fun draw(matrixStack: MatrixStack) {
         if (this.isVisible) {
-            RenderSystem.pushMatrix()
+            matrixStack.pushPose()
             RenderSystem.enableBlend()
             RenderSystem.disableTexture()
-            RenderSystem.color4f(
-                this.color.red / 255f,
-                this.color.green / 255f,
-                this.color.blue / 255f,
-                this.color.alpha / 255f
-            )
 
             val tes = Tessellator.getInstance()
             val bufferBuffer = tes.builder
 
-            bufferBuffer.begin(7, DefaultVertexFormats.POSITION)
+            bufferBuffer.begin(7, DefaultVertexFormats.POSITION_COLOR)
             val deltaX = width.toDouble()
             val deltaY = height.toDouble()
             val mag = sqrt(deltaX * deltaX + deltaY * deltaY)
@@ -61,15 +55,23 @@ open class LineComponent(lineFrom: Position, lineTo: Position, offset: Position,
             val x4 = x + (newX / 2)
             val y4 = y + (newY / 2)
 
-            bufferBuffer.vertex(x1, y1, 0.0).endVertex()
-            bufferBuffer.vertex(x2, y2, 0.0).endVertex()
-            bufferBuffer.vertex(x3, y3, 0.0).endVertex()
-            bufferBuffer.vertex(x4, y4, 0.0).endVertex()
+            bufferBuffer.vertex(x1, y1, 0.0)
+                .color(this.color.red / 255f, this.color.green / 255f, this.color.blue / 255f, this.color.alpha / 255f)
+                .endVertex()
+            bufferBuffer.vertex(x2, y2, 0.0)
+                .color(this.color.red / 255f, this.color.green / 255f, this.color.blue / 255f, this.color.alpha / 255f)
+                .endVertex()
+            bufferBuffer.vertex(x3, y3, 0.0)
+                .color(this.color.red / 255f, this.color.green / 255f, this.color.blue / 255f, this.color.alpha / 255f)
+                .endVertex()
+            bufferBuffer.vertex(x4, y4, 0.0)
+                .color(this.color.red / 255f, this.color.green / 255f, this.color.blue / 255f, this.color.alpha / 255f)
+                .endVertex()
             tes.end()
 
             RenderSystem.enableTexture()
             RenderSystem.disableBlend()
-            RenderSystem.popMatrix()
+            matrixStack.popPose()
         }
     }
 }
