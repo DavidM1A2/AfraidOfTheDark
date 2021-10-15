@@ -43,7 +43,8 @@ class ArcaneJournalItem : AOTDItem("arcane_journal", Properties().stacksTo(1)) {
         // Drop the journal
         if (player.isCrouching) {
             val playerPos = player.blockPosition()
-            if (ModBlocks.DROPPED_JOURNAL.canSurvive(world.getBlockState(playerPos), world, playerPos)) {
+            val blockState = world.getBlockState(playerPos)
+            if (blockState.isAir && ModBlocks.DROPPED_JOURNAL.canSurvive(blockState, world, playerPos)) {
                 world.setBlockAndUpdate(playerPos, ModBlocks.DROPPED_JOURNAL.defaultBlockState())
                 (world.getBlockEntity(playerPos) as? DroppedJournalTileEntity)?.journalItem = heldItemStack
                 if (!player.isCreative) {
