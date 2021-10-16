@@ -149,7 +149,7 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
         // If the damage was 'silver_damage' then we can apply it, otherwise we just do 1 'generic' damage. Out of world damage is caused by /kill
         return when (damageSource.msgId) {
             ModDamageSources.SILVER_DAMAGE, DamageSource.OUT_OF_WORLD.msgId -> super.hurt(damageSource, damage)
-            else -> super.hurt(DamageSource.GENERIC, 1f)
+            else -> super.hurt(damageSource, 1f)
         }
     }
 
