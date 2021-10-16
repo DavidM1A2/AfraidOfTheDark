@@ -27,9 +27,7 @@ import net.minecraft.entity.ai.goal.SwimGoal
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal
 import net.minecraft.entity.monster.MonsterEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.inventory.ItemStackHelper
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.DamageSource
 import net.minecraft.util.EntityDamageSource
@@ -109,19 +107,8 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
                 if (cause.entity is PlayerEntity) {
                     val killer = cause.entity as PlayerEntity
                     val playerResearch = killer.getResearch()
-
-                    // If the player has the slaying of the wolves achievement then test if the player has glass bottles to fill with werewolf blood
                     if (playerResearch.isResearched(ModResearches.WEREWOLF_BLOOD)) {
-                        // If the player is in creative mode or we can clear a glass bottle do so and add 1 werewolf blood
-                        if (killer.isCreative || ItemStackHelper.clearOrCountMatchingItems(
-                                killer.inventory,
-                                { it.item == Items.GLASS_BOTTLE },
-                                1,
-                                false
-                            ) == 1
-                        ) {
-                            killer.inventory.add(ItemStack(ModItems.WEREWOLF_BLOOD, 1))
-                        }
+                        killer.inventory.add(ItemStack(ModItems.WEREWOLF_BLOOD, 1))
                     }
                 }
             }

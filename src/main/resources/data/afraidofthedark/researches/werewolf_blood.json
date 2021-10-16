@@ -2,7 +2,7 @@
   "forge:registry_name": "afraidofthedark:werewolf_blood",
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/slaying_of_the_wolves.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/werewolf_blood.png",
   "prerequisite": "afraidofthedark:werewolves",
   "triggers": [
     {
