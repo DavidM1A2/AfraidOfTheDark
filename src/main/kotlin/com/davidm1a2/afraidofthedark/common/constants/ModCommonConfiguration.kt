@@ -1,5 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
+import net.minecraft.util.ResourceLocation
+
 /**
  * All the common configuration that AOTD gets from "afraidofthedark.cfg"
  */
@@ -22,4 +24,8 @@ object ModCommonConfiguration {
 
     // Timeout to clear structures in milliseconds if cache is set to false
     var cacheTimeout = 0L
+
+    var flaskOfSoulsBasicEntities = emptySet<ResourceLocation>()
+    var flaskOfSoulsRareEntities = emptySet<ResourceLocation>()
+    var flaskOfSoulsEpicEntities = emptySet<ResourceLocation>()
 }

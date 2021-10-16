@@ -6,7 +6,7 @@
   "pre_recipes": [
     "afraidofthedark:flask_of_souls"
   ],
-  "icon": "afraidofthedark:textures/gui/research_icons/phylactery_of_souls.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/flask_of_souls.png",
   "prerequisite": "afraidofthedark:werewolf_blood",
   "triggers": [
     {

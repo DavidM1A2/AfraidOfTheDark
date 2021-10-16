@@ -1,6 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.config
 
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
+import com.davidm1a2.afraidofthedark.common.item.FlaskOfSoulsItem
+import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.ForgeConfigSpec
 
 /**
@@ -27,6 +29,10 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
 
     // Timeout to clear structures in milliseconds if cache is set to false
     private val cacheTimeout: ForgeConfigSpec.LongValue
+
+    private val flaskOfSoulsCommonEntities: ForgeConfigSpec.ConfigValue<List<String>>
+    private val flaskOfSoulsRareEntities: ForgeConfigSpec.ConfigValue<List<String>>
+    private val flaskOfSoulsEpicEntities: ForgeConfigSpec.ConfigValue<List<String>>
 
     init {
         builder.push("dungeon_frequency")
@@ -83,6 +89,23 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
             .defineInRange("cache_timeout", 60000L, 10000L, Long.MAX_VALUE)
 
         builder.pop()
+
+        builder.push("flask_of_souls")
+
+        flaskOfSoulsCommonEntities = builder
+            .comment("A list of entities that take 32 kills to complete the flask with a 5 second cooldown.")
+            .translation("config.afraidofthedark:basic_entities")
+            .defineList("basic_entities", { FlaskOfSoulsItem.BASIC_ENTITIES }, { it is String && it.toResourceLocation() != null })
+        flaskOfSoulsRareEntities = builder
+            .comment("A list of entities that take 16 kills to complete the flask with a 10 second cooldown.")
+            .translation("config.afraidofthedark:rare_entities")
+            .defineList("rare_entities", { FlaskOfSoulsItem.RARE_ENTITIES }, { it is String && it.toResourceLocation() != null })
+        flaskOfSoulsEpicEntities = builder
+            .comment("A list of entities that take 8 kills to complete the flask with a 20 second cooldown.")
+            .translation("config.afraidofthedark:epic_entities")
+            .defineList("epic_entities", { FlaskOfSoulsItem.EPIC_ENTITIES }, { it is String && it.toResourceLocation() != null })
+
+        builder.pop()
     }
 
     fun reload() {
@@ -97,5 +120,16 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
         ModCommonConfiguration.eerieBiomeFrequency = eerieBiomeFrequency.get()
         ModCommonConfiguration.cacheStructures = cacheStructures.get()
         ModCommonConfiguration.cacheTimeout = cacheTimeout.get()
+        ModCommonConfiguration.flaskOfSoulsBasicEntities = flaskOfSoulsCommonEntities.get().mapNotNull { it.toResourceLocation() }.toSet()
+        ModCommonConfiguration.flaskOfSoulsRareEntities = flaskOfSoulsRareEntities.get().mapNotNull { it.toResourceLocation() }.toSet()
+        ModCommonConfiguration.flaskOfSoulsEpicEntities = flaskOfSoulsEpicEntities.get().mapNotNull { it.toResourceLocation() }.toSet()
+    }
+
+    private fun String.toResourceLocation(): ResourceLocation? {
+        return try {
+            ResourceLocation(this)
+        } catch (e: Exception) {
+            return null
+        }
     }
 }

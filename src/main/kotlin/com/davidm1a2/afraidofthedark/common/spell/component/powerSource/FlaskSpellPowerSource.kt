@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.common.spell.component.powerSource
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
-import com.davidm1a2.afraidofthedark.common.item.FlaskOfSoulsItem
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
 import net.minecraft.entity.Entity
@@ -31,7 +30,7 @@ class FlaskSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MO
                 if (stack.item == ModItems.FLASK_OF_SOULS) {
                     val killsRequired = ModItems.FLASK_OF_SOULS.getKillsRequired(stack)
                     val kills = ModItems.FLASK_OF_SOULS.getKills(stack)
-                    val soulPower = FlaskOfSoulsItem.FLASK_POWER / killsRequired.toDouble()
+                    val soulPower = FLASK_POWER / killsRequired.toDouble()
                     val powerAvailable = kills.times(soulPower)
                     if (remainingCost <= powerAvailable) {
                         return true
@@ -58,7 +57,7 @@ class FlaskSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MO
                 if (stack.item == ModItems.FLASK_OF_SOULS) {
                     val killsRequired = ModItems.FLASK_OF_SOULS.getKillsRequired(stack)
                     val kills = ModItems.FLASK_OF_SOULS.getKills(stack)
-                    val soulPower = FlaskOfSoulsItem.FLASK_POWER / killsRequired.toDouble()
+                    val soulPower = FLASK_POWER / killsRequired.toDouble()
                     val powerAvailable = kills.times(soulPower)
                     if (remainingCost <= powerAvailable) {
                         while (remainingCost > 0.0) {
@@ -80,7 +79,7 @@ class FlaskSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MO
      * @return A description describing how cost is computed
      */
     override fun getCostDescription(): ITextComponent {
-        return StringTextComponent("A full Flask of Souls provides ${FlaskOfSoulsItem.FLASK_POWER} spell power")
+        return StringTextComponent("A full Flask of Souls provides $FLASK_POWER spell power")
     }
 
     /**
@@ -90,5 +89,10 @@ class FlaskSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MO
      */
     override fun getOutOfPowerMsg(): ITextComponent {
         return TranslationTextComponent("message.afraidofthedark.spell.power_source.flask.invalid_msg")
+    }
+
+    companion object {
+        // Amount of energy in a fully charged flask
+        private const val FLASK_POWER = 300
     }
 }

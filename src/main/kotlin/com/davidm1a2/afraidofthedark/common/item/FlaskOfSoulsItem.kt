@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.item
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
+import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDPerItemCooldownItem
@@ -56,10 +57,10 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
             // Ensure the player has the right research
             if (player.getResearch().isResearched(ModResearches.FLASK_OF_SOULS)) {
                 // Ray trace where the player is looking
-                val rayTraceResult: RayTraceResult? = getPlayerPOVHitResult(world, player, RayTraceContext.FluidMode.NONE)
+                val rayTraceResult = getPlayerPOVHitResult(world, player, RayTraceContext.FluidMode.NONE)
 
-                // Test if we hit a block, Intellij is wrong here, ray trace CAN be null!!!
-                if (rayTraceResult != null && rayTraceResult.type == RayTraceResult.Type.BLOCK && rayTraceResult is BlockRayTraceResult) {
+                // Test if we hit a block
+                if (rayTraceResult.type == RayTraceResult.Type.BLOCK && rayTraceResult is BlockRayTraceResult) {
                     val hitPos = rayTraceResult.blockPos
                     val hitFace = rayTraceResult.direction
                     val spawnPos = hitPos.relative(hitFace)
@@ -90,7 +91,7 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
         // Server side processing only
         if (!world.isClientSide) {
             // Flask has enough charges to be used
-            if (getKills(itemStack) >= KILLS_PER_SPAWN) {
+            if (isComplete(itemStack)) {
                 // The flask is not on cooldown
                 if (!isOnCooldown(itemStack)) {
                     // Grab the spawned entity ID
@@ -105,7 +106,6 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
                             entity.moveTo(x, y, z, Random.nextDouble(0.0, 360.0).toFloat(), 0.0f)
                             world.addFreshEntity(entity)
                             setOnCooldown(itemStack, entityPlayer)
-                            addKills(itemStack, -KILLS_PER_SPAWN)
                         } else {
                             logger.error("Unknown entity: $entityToSpawnID")
                         }
@@ -128,11 +128,16 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
      * @return Value between 0 to 1 of what percent of the durability bar to show
      */
     override fun getDurabilityForDisplay(stack: ItemStack): Double {
-        // Show the flask charge if bound
-        return if (getSpawnedEntity(stack) == null) {
-            1.0
+        // If the flask is not charged then show the flask charge
+        return if (!isComplete(stack)) {
+            if (getSpawnedEntity(stack) == null) {
+                1.0
+            } else {
+                1 - getKills(stack).toDouble() / getKillsRequired(stack)
+            }
         } else {
-            1.0 - getKills(stack) / getKillsRequired(stack).toDouble()
+            // Otherwise default to the standard charge durability
+            super.getDurabilityForDisplay(stack)
         }
     }
 
@@ -143,7 +148,7 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
      * @return The number of milliseconds required to finish the cooldown
      */
     override fun getCooldownInMilliseconds(itemStack: ItemStack): Int {
-        return KILL_COUNT_TO_COOLDOWN[getKillsRequired(itemStack)] ?: DEFAULT_COOLDOWN
+        return KILL_COUNT_TO_COOLDOWN[getKillsRequired(itemStack)] ?: 0
     }
 
     /**
@@ -184,11 +189,16 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
     }
 
     fun getKillsRequired(stack: ItemStack): Int {
-        return ENTITY_TO_KILLS_REQUIRED[getSpawnedEntity(stack)] ?: DEFAULT_KILLS_REQUIRED
+        return when (getSpawnedEntity(stack)) {
+            in ModCommonConfiguration.flaskOfSoulsBasicEntities -> BASIC_ENTITY_KILL_COUNT
+            in ModCommonConfiguration.flaskOfSoulsRareEntities -> RARE_ENTITY_KILL_COUNT
+            in ModCommonConfiguration.flaskOfSoulsEpicEntities -> EPIC_ENTITY_KILL_COUNT
+            else -> 0
+        }
     }
 
     fun isComplete(stack: ItemStack): Boolean {
-        return getKills(stack) == getKillsRequired(stack)
+        return getSpawnedEntity(stack) != null && getKills(stack) == getKillsRequired(stack)
     }
 
     /**
@@ -244,6 +254,15 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
         return NBTHelper.getInteger(itemStack, NBT_FLASK_KILLS)!!
     }
 
+    fun supportsEntity(entity: ResourceLocation?): Boolean {
+        if (entity == null) {
+            return false
+        }
+        return ModCommonConfiguration.flaskOfSoulsBasicEntities.contains(entity) ||
+                ModCommonConfiguration.flaskOfSoulsRareEntities.contains(entity) ||
+                ModCommonConfiguration.flaskOfSoulsEpicEntities.contains(entity)
+    }
+
     /**
      * Sets the spawned entity of this flask. If null is passed in the spawned entity is cleared
      *
@@ -276,33 +295,95 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
         private val logger = LogManager.getLogger()
 
         // Two constants, one for the flask type and one for flask kill count
-        const val NBT_FLASK_TYPE = "flask_type"
-        const val NBT_FLASK_KILLS = "flask_kills"
-
-        // A default kills required count
-        const val DEFAULT_KILLS_REQUIRED = 32
-        const val KILLS_PER_SPAWN = 4
-        const val FLASK_POWER = 300 // Amount of energy in a fully charged flask
-
-        // A mapping of entity -> kills required. Default kills required is 32, all other entities are listed below
-        val ENTITY_TO_KILLS_REQUIRED = mapOf(
-            ModEntities.WEREWOLF.registryName to 8,
-            ModEntities.ENCHANTED_FROG.registryName to 8,
-            ResourceLocation("enderman") to 16,
-            ResourceLocation("zombie_pigman") to 16,
-            ResourceLocation("blaze") to 16,
-            ResourceLocation("magma_cube") to 16,
-            ResourceLocation("witch") to 16
-        )
-
-        // Default cooldown for unknown kill count
-        private const val DEFAULT_COOLDOWN = 60000
+        private const val NBT_FLASK_TYPE = "flask_type"
+        private const val NBT_FLASK_KILLS = "flask_kills"
 
         // A mapping of kills -> cooldown
+        private const val BASIC_ENTITY_KILL_COUNT = 32
+        private const val RARE_ENTITY_KILL_COUNT = 16
+        private const val EPIC_ENTITY_KILL_COUNT = 8
         private val KILL_COUNT_TO_COOLDOWN = mapOf(
-            8 to 120000,
-            16 to 60000,
-            32 to 30000
+            EPIC_ENTITY_KILL_COUNT to 20000,
+            RARE_ENTITY_KILL_COUNT to 10000,
+            BASIC_ENTITY_KILL_COUNT to 5000
         )
+
+        val BASIC_ENTITIES = listOf(
+            ModEntities.ENCHANTED_SKELETON,
+            ModEntities.SPLINTER_DRONE,
+            EntityType.BAT,
+            EntityType.BLAZE,
+            EntityType.CAVE_SPIDER,
+            EntityType.CHICKEN,
+            EntityType.COD,
+            EntityType.COW,
+            EntityType.CREEPER,
+            EntityType.DROWNED,
+            EntityType.ENDERMITE,
+            EntityType.HOGLIN,
+            EntityType.HUSK,
+            EntityType.LLAMA,
+            EntityType.MAGMA_CUBE,
+            EntityType.MOOSHROOM,
+            EntityType.PIG,
+            EntityType.PIGLIN,
+            EntityType.PIGLIN_BRUTE,
+            EntityType.PILLAGER,
+            EntityType.PUFFERFISH,
+            EntityType.RABBIT,
+            EntityType.RAVAGER,
+            EntityType.SALMON,
+            EntityType.SHEEP,
+            EntityType.SKELETON,
+            EntityType.SLIME,
+            EntityType.SNOW_GOLEM,
+            EntityType.SPIDER,
+            EntityType.SQUID,
+            EntityType.STRAY,
+            EntityType.TROPICAL_FISH,
+            EntityType.ZOGLIN,
+            EntityType.ZOMBIE,
+            EntityType.ZOMBIFIED_PIGLIN
+        ).map { it.registryName!!.toString() }
+        val RARE_ENTITIES = listOf(
+            ModEntities.WEREWOLF,
+            ModEntities.ENCHANTED_FROG,
+            EntityType.BEE,
+            EntityType.CAT,
+            EntityType.DOLPHIN,
+            EntityType.DONKEY,
+            EntityType.ENDERMAN,
+            EntityType.FOX,
+            EntityType.GUARDIAN,
+            EntityType.HORSE,
+            EntityType.MULE,
+            EntityType.OCELOT,
+            EntityType.PANDA,
+            EntityType.PARROT,
+            EntityType.PHANTOM,
+            EntityType.POLAR_BEAR,
+            EntityType.SHULKER,
+            EntityType.SILVERFISH,
+            EntityType.SKELETON_HORSE,
+            EntityType.STRIDER,
+            EntityType.TURTLE,
+            EntityType.VEX,
+            EntityType.TRADER_LLAMA,
+            EntityType.WITCH,
+            EntityType.WITHER_SKELETON,
+            EntityType.WOLF,
+            EntityType.ZOMBIE_HORSE
+        ).map { it.registryName!!.toString() }
+        val EPIC_ENTITIES = listOf(
+            EntityType.GHAST,
+            EntityType.ELDER_GUARDIAN,
+            EntityType.EVOKER,
+            EntityType.ILLUSIONER,
+            EntityType.IRON_GOLEM,
+            EntityType.VILLAGER,
+            EntityType.VINDICATOR,
+            EntityType.WANDERING_TRADER,
+            EntityType.ZOMBIE_VILLAGER
+        ).map { it.registryName!!.toString() }
     }
 }
