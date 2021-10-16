@@ -2,7 +2,7 @@
   "forge:registry_name": "afraidofthedark:eerie_forest",
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/eerie_forest.png",
   "prerequisite": "afraidofthedark:the_journey_begins",
   "triggers": [
     {
