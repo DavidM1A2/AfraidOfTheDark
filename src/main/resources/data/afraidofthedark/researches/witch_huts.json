@@ -2,7 +2,7 @@
   "forge:registry_name": "afraidofthedark:witch_huts",
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/witch_huts.png",
   "prerequisite": "afraidofthedark:eerie_forest",
   "triggers": [
     {
