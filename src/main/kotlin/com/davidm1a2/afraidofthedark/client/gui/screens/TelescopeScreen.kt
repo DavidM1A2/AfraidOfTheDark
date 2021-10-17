@@ -54,7 +54,7 @@ class TelescopeScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
             // Grab a random object to place meteors
             val random = entityPlayer.random
             // Create a random number of meteors to generate
-            val numberOfMeteors = 1 + random.nextInt(5)
+            val numberOfMeteors = 5 + random.nextInt(5)
             // Create one button for each meteor
             for (i in 0 until numberOfMeteors) {
                 // Create the meteor button based on if astronomy 2 is researched or not
