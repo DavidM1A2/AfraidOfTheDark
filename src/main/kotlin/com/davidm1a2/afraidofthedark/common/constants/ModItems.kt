@@ -41,9 +41,9 @@ import com.davidm1a2.afraidofthedark.common.item.VitaeLanternItem
 import com.davidm1a2.afraidofthedark.common.item.WandItem
 import com.davidm1a2.afraidofthedark.common.item.WerewolfBloodItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.WristCrossbowItem
+import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.AstralSilverBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.IgneousBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.IronBoltItem
-import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.SilverBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.StarMetalBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.WoodenBoltItem
 import com.davidm1a2.afraidofthedark.common.item.eggs.EnchantedFrogSpawnEggItem
@@ -95,7 +95,7 @@ object ModItems {
     val GNOMISH_METAL_INGOT = GnomishMetalIngotItem()
     val WOODEN_BOLT = WoodenBoltItem()
     val IRON_BOLT = IronBoltItem()
-    val SILVER_BOLT = SilverBoltItem()
+    val ASTRAL_SILVER_BOLT = AstralSilverBoltItem()
     val IGNEOUS_BOLT = IgneousBoltItem()
     val STAR_METAL_BOLT = StarMetalBoltItem()
     val DEBUG = DebugItem()
@@ -138,7 +138,7 @@ object ModItems {
         ELDRITCH_METAL_INGOT,
         WOODEN_BOLT,
         IRON_BOLT,
-        SILVER_BOLT,
+        ASTRAL_SILVER_BOLT,
         IGNEOUS_BOLT,
         STAR_METAL_BOLT,
         DEBUG,

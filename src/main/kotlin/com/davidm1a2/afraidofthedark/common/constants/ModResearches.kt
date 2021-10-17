@@ -20,7 +20,7 @@ object ModResearches {
     val BONE_SWORD = load("bone_sword")
     val CLOAK_OF_AGILITY = load("cloak_of_agility")
     val DARK_FOREST = load("dark_forest")
-    val DEMON_HUNTER = load("demon_hunter")
+    val SILVER_SLAYER = load("silver_slayer")
     val DESERT_OASIS = load("desert_oasis")
     val EERIE_FOREST = load("eerie_forest")
     val ELEMENTAL_MAGIC = load("elemental_magic")
@@ -68,7 +68,7 @@ object ModResearches {
         BONE_SWORD,
         CLOAK_OF_AGILITY,
         DARK_FOREST,
-        DEMON_HUNTER,
+        SILVER_SLAYER,
         DESERT_OASIS,
         EERIE_FOREST,
         ELEMENTAL_MAGIC,

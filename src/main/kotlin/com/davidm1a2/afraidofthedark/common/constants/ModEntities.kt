@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
+import com.davidm1a2.afraidofthedark.common.entity.bolt.AstralSilverBoltEntity
 import com.davidm1a2.afraidofthedark.common.entity.bolt.IgneousBoltEntity
 import com.davidm1a2.afraidofthedark.common.entity.bolt.IronBoltEntity
-import com.davidm1a2.afraidofthedark.common.entity.bolt.SilverBoltEntity
 import com.davidm1a2.afraidofthedark.common.entity.bolt.StarMetalBoltEntity
 import com.davidm1a2.afraidofthedark.common.entity.bolt.WoodenBoltEntity
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EnariaEntity
@@ -123,14 +123,14 @@ object ModEntities {
         .noSummon()
         .build("${Constants.MOD_ID}:iron_bolt")
         .setRegistryNameGeneric("iron_bolt")
-    val SILVER_BOLT = EntityType.Builder.of(::SilverBoltEntity, EntityClassification.MISC)
+    val ASTRAL_SILVER_BOLT = EntityType.Builder.of(::AstralSilverBoltEntity, EntityClassification.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
         .sized(0.5f, 0.5f)
         .noSummon()
-        .build("${Constants.MOD_ID}:silver_bolt")
-        .setRegistryNameGeneric("silver_bolt")
+        .build("${Constants.MOD_ID}:astral_silver_bolt")
+        .setRegistryNameGeneric("astral_silver_bolt")
     val IGNEOUS_BOLT = EntityType.Builder.of(::IgneousBoltEntity, EntityClassification.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(1)
@@ -161,7 +161,7 @@ object ModEntities {
         SPELL_LASER,
         WOODEN_BOLT,
         IRON_BOLT,
-        SILVER_BOLT,
+        ASTRAL_SILVER_BOLT,
         IGNEOUS_BOLT,
         STAR_METAL_BOLT
     )

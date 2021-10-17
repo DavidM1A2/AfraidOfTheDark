@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.constants
 import com.davidm1a2.afraidofthedark.common.research.trigger.BlockBrokenResearchTrigger
 import com.davidm1a2.afraidofthedark.common.research.trigger.InBiomeResearchTrigger
 import com.davidm1a2.afraidofthedark.common.research.trigger.ItemCraftedResearchTrigger
+import com.davidm1a2.afraidofthedark.common.research.trigger.ItemSmeltedResearchTrigger
 import com.davidm1a2.afraidofthedark.common.research.trigger.KillEntityResearchTrigger
 import com.davidm1a2.afraidofthedark.common.research.trigger.ManualResearchTrigger
 import com.davidm1a2.afraidofthedark.common.research.trigger.MultiplicityResearchTrigger
@@ -19,6 +20,7 @@ object ModResearchTriggers {
     val PLAYER_CAST = PlayerCastResearchTrigger()
     val BLOCK_BROKEN = BlockBrokenResearchTrigger()
     val ITEM_CRAFTED = ItemCraftedResearchTrigger()
+    val ITEM_SMELTED = ItemSmeltedResearchTrigger()
     val USE_BLOCK = UseBlockResearchTrigger()
     val USE_ITEM = UseItemResearchTrigger()
     val KILL_ENTITY = KillEntityResearchTrigger()
@@ -34,6 +36,7 @@ object ModResearchTriggers {
         PLAYER_CAST,
         BLOCK_BROKEN,
         ITEM_CRAFTED,
+        ITEM_SMELTED,
         USE_BLOCK,
         USE_ITEM,
         KILL_ENTITY,

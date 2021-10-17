@@ -37,7 +37,7 @@
         },
         {
           "type": "item",
-          "name": "afraidofthedark:silver_bolt",
+          "name": "afraidofthedark:astral_silver_bolt",
           "functions": [
             {
               "function": "set_count",

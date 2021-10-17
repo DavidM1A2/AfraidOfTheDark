@@ -1,0 +1,24 @@
+{
+  "forge:registry_name": "afraidofthedark:silver_slayer",
+  "recipes": [
+    "afraidofthedark:astral_silver_sword",
+    "afraidofthedark:astral_silver_bolt"
+  ],
+  "pre_recipes": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/silver_slayer.png",
+  "prerequisite": "afraidofthedark:astral_silver",
+  "triggers": [
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:silver_slayer"
+      }
+    },
+    {
+      "type": "afraidofthedark:item_smelted",
+      "config": {
+        "item": "afraidofthedark:astral_silver_ingot"
+      }
+    }
+  ]
+}

@@ -26,7 +26,7 @@ class AstralSilverSwordItem : AOTDSwordItem("astral_silver_sword", ModToolMateri
     override fun hurtEnemy(stack: ItemStack, enemy: LivingEntity, hittingEntity: LivingEntity): Boolean {
         // If the player has researched astral silver then do silver damage
         if (hittingEntity is PlayerEntity) {
-            if (hittingEntity.getResearch().isResearched(ModResearches.ASTRAL_SILVER)) {
+            if (hittingEntity.getResearch().isResearched(ModResearches.SILVER_SLAYER)) {
                 enemy.hurt(getSilverDamage(hittingEntity), damage)
             } else {
                 return true

@@ -17,12 +17,12 @@ import net.minecraft.world.World
  * @property chanceToDropHitEntity The chance that the bolt will drop its item after hitting an entity
  * @property chanceToDropHitGround The chance that the bolt will drop its item after hitting the ground
  */
-class SilverBoltEntity(entityType: EntityType<out SilverBoltEntity>, world: World) : BoltEntity(entityType, world) {
+class AstralSilverBoltEntity(entityType: EntityType<out AstralSilverBoltEntity>, world: World) : BoltEntity(entityType, world) {
     override val damageSourceProducer: (PlayerEntity) -> DamageSource = { ModDamageSources.getSilverDamage(it) }
-    override val drop = ModItems.SILVER_BOLT
+    override val drop = ModItems.ASTRAL_SILVER_BOLT
     override val damage = 16
     override val chanceToDropHitEntity = 0.4
     override val chanceToDropHitGround = 0.8
 
-    constructor(world: World) : this(ModEntities.SILVER_BOLT, world)
+    constructor(world: World) : this(ModEntities.ASTRAL_SILVER_BOLT, world)
 }
