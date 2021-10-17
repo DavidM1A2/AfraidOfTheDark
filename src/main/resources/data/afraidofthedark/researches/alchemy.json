@@ -2,13 +2,13 @@
   "forge:registry_name": "afraidofthedark:alchemy",
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/alchemy.png",
   "prerequisite": "afraidofthedark:astral_silver",
   "triggers": [
     {
-      "type": "afraidofthedark:manual",
+      "type": "afraidofthedark:player_cast",
       "config": {
-        "research": "afraidofthedark:alchemy"
+        "power_source": "afraidofthedark:vitae_lantern"
       }
     }
   ]
