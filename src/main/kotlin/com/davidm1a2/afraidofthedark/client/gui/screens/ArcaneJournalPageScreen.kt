@@ -362,6 +362,11 @@ class ArcaneJournalPageScreen(private val research: Research) : AOTDScreen(Trans
             // Update the remaining text that needs distributing
             textToDistribute = textToDistribute.substring(textToDistribute.length - leftOver.length)
 
+            // Remove \n characters from the start of the page, so we avoid empty lines on the top of a page.
+            while (textToDistribute.startsWith("\n")) {
+                textToDistribute = textToDistribute.substring(1)
+            }
+
             // Add the page of text
             textOnEachPage.add(pageText)
         }
