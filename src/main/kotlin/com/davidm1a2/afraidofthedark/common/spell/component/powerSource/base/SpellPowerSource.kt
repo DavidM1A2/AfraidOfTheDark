@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.TranslationTextComponent
 
 /**
  * Entry used to store a reference to a power source
@@ -40,14 +41,18 @@ abstract class SpellPowerSource(id: ResourceLocation) :
      *
      * @return A string describing why the power source doesn't have enough energy
      */
-    abstract fun getOutOfPowerMsg(): ITextComponent
+    fun getNotEnoughPowerMessage(): ITextComponent {
+        return TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power")
+    }
 
     /**
      * Gets a description message of how cost is computed for this power source
      *
      * @return A description describing how cost is computed
      */
-    abstract fun getCostDescription(): ITextComponent
+    fun getCostDescription(): ITextComponent {
+        return TranslationTextComponent("${getUnlocalizedBaseName()}.cost_description")
+    }
 
     /**
      * @return Gets the unlocalized name of the component

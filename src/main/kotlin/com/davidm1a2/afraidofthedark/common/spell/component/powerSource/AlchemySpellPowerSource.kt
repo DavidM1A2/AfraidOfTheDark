@@ -7,9 +7,6 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Items
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.StringTextComponent
-import net.minecraft.util.text.TranslationTextComponent
 
 /**
  * Class representing the alchemy source
@@ -56,24 +53,6 @@ class AlchemySpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.
                 if (costRemaining <= 0.0) break
             }
         }
-    }
-
-    /**
-     * Gets a description message of how cost is computed for this power source
-     *
-     * @return A description describing how cost is computed
-     */
-    override fun getCostDescription(): ITextComponent {
-        return StringTextComponent("Transmute gold ingots into magic essence at a rate of $UNIT_COST_PER_GOLD spell power per ingot")
-    }
-
-    /**
-     * Computes the message describing why the power source doesn't have enough power
-     *
-     * @return A string describing why the power source doesn't have enough energy
-     */
-    override fun getOutOfPowerMsg(): ITextComponent {
-        return TranslationTextComponent("message.afraidofthedark.spell.power_source.alchemy.invalid_msg")
     }
 
     companion object {

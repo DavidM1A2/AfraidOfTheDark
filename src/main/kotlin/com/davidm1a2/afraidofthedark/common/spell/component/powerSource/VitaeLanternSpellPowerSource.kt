@@ -7,9 +7,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOT
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.StringTextComponent
-import net.minecraft.util.text.TranslationTextComponent
 import kotlin.math.ceil
 
 class VitaeLanternSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "vitae_lantern")) {
@@ -49,13 +46,5 @@ class VitaeLanternSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Const
                 }
             }
         }
-    }
-
-    override fun getCostDescription(): ITextComponent {
-        return StringTextComponent("Consume vitae from lanterns in your inventory at a rate of one vitae per unit cost")
-    }
-
-    override fun getOutOfPowerMsg(): ITextComponent {
-        return TranslationTextComponent("message.afraidofthedark.spell.power_source.vitae_lantern.invalid_msg")
     }
 }

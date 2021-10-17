@@ -7,9 +7,6 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.DamageSource
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.StringTextComponent
-import net.minecraft.util.text.TranslationTextComponent
 
 /**
  * Class representing the experience source
@@ -40,24 +37,6 @@ class HealthSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.M
             val hpCost = spell.getCost() / UNIT_COST_PER_HP
             it.hurt(DamageSource.OUT_OF_WORLD, hpCost.toFloat())
         }
-    }
-
-    /**
-     * Gets a description message of how cost is computed for this power source
-     *
-     * @return A description describing how cost is computed
-     */
-    override fun getCostDescription(): ITextComponent {
-        return StringTextComponent("1hp for every $UNIT_COST_PER_HP units of spell cost")
-    }
-
-    /**
-     * Computes the message describing why the power source doesn't have enough power
-     *
-     * @return A string describing why the power source doesn't have enough energy
-     */
-    override fun getOutOfPowerMsg(): ITextComponent {
-        return TranslationTextComponent("message.afraidofthedark.spell.power_source.health.invalid_msg")
     }
 
     companion object {
