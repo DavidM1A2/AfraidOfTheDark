@@ -10,7 +10,9 @@ import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.item.IItemPropertyGetter
+import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
+import net.minecraft.util.NonNullList
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
@@ -76,6 +78,14 @@ class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IH
             0.0
         } else {
             1.0 - getVitae(itemStack) / getMaxVitae(itemStack).toDouble()
+        }
+    }
+
+    override fun fillItemCategory(group: ItemGroup, items: NonNullList<ItemStack>) {
+        if (allowdedIn(group)) {
+            items.add(ItemStack(this, 1))
+            // Show a filled lantern too in creative
+            items.add(ItemStack(this, 1).apply { addVitae(this, getMaxVitae(this)) })
         }
     }
 
