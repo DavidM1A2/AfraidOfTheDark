@@ -4,7 +4,9 @@
     "afraidofthedark:lens_cutter",
     "afraidofthedark:advanced_telescope"
   ],
-  "pre_recipes": [],
+  "pre_recipes": [
+    "afraidofthedark:lens_cutter"
+  ],
   "icon": "afraidofthedark:textures/gui/research_icons/optics.png",
   "prerequisite": "afraidofthedark:astronomy_1",
   "triggers": [
@@ -12,6 +14,12 @@
       "type": "afraidofthedark:use_block",
       "config": {
         "block_or_state": "afraidofthedark:lens_cutter"
+      }
+    },
+    {
+      "type": "afraidofthedark:item_crafted",
+      "config": {
+        "item": "afraidofthedark:lens_cutter"
       }
     }
   ]
