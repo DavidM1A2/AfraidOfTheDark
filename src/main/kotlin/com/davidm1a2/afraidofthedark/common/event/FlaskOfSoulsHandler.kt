@@ -37,9 +37,7 @@ class FlaskOfSoulsHandler {
                 }
 
                 // Iterate over the player's inventory and look for flasks. If we find one test if we have a flask for the killed entity
-                for (i in inventory.indices) {
-                    // Grab the current itemstack
-                    val itemStack = inventory[i]
+                for (itemStack in inventory) {
                     // If the item is a flask process it
                     if (itemStack.item == flaskOfSouls) {
                         // If the flask is not complete and the killed entity was of the right type update this flask and return

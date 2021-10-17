@@ -21,10 +21,7 @@ abstract class AOTDPerItemCooldownItem(
     baseName: String,
     properties: Properties,
     displayInCreative: Boolean = true
-) : AOTDItem(baseName, properties.apply {
-    // Cooldown items can't stack!
-    stacksTo(1)
-}, displayInCreative) {
+) : AOTDItem(baseName, properties.stacksTo(1), displayInCreative) {
     private var serverClientTimeDifference = 0L
 
     /**

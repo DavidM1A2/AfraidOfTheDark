@@ -1,0 +1,23 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    " s ",
+    "wlw"
+  ],
+  "key": {
+    "l": {
+      "item": "minecraft:lantern"
+    },
+    "w": {
+      "item": "afraidofthedark:werewolf_blood"
+    },
+    "s": {
+      "item": "minecraft:string"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:vitae_lantern",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:flask_of_souls"
+}

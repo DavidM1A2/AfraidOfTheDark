@@ -37,6 +37,7 @@ import com.davidm1a2.afraidofthedark.common.item.StarMetalKhopeshItem
 import com.davidm1a2.afraidofthedark.common.item.StarMetalPlateItem
 import com.davidm1a2.afraidofthedark.common.item.StarMetalStaffItem
 import com.davidm1a2.afraidofthedark.common.item.SunstoneFragmentItem
+import com.davidm1a2.afraidofthedark.common.item.VitaeLanternItem
 import com.davidm1a2.afraidofthedark.common.item.WandItem
 import com.davidm1a2.afraidofthedark.common.item.WerewolfBloodItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.WristCrossbowItem
@@ -114,6 +115,7 @@ object ModItems {
     val ADVANCED_TELESCOPE = AdvancedTelescopeItem()
     val MASTERCRAFTED_TELESCOPE = MastercraftedTelescopeItem()
     val LENS = LensItem()
+    val VITAE_LANTERN = VitaeLanternItem()
     val ENCHANTED_SKELETON_SPAWN_EGG = EnchantedSkeletonSpawnEggItem()
     val WEREWOLF_SPAWN_EGG = WerewolfSpawnEggItem()
     val SPLINTER_DRONE_SPAWN_EGG = SplinterDroneSpawnEggItem()
@@ -176,6 +178,7 @@ object ModItems {
         ADVANCED_TELESCOPE,
         MASTERCRAFTED_TELESCOPE,
         LENS,
+        VITAE_LANTERN,
         ENCHANTED_SKELETON_SPAWN_EGG,
         WEREWOLF_SPAWN_EGG,
         SPLINTER_DRONE_SPAWN_EGG,

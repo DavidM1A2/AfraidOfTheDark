@@ -17,6 +17,7 @@ import com.davidm1a2.afraidofthedark.common.event.SpellCharmHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellFreezeHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellStateHandler
 import com.davidm1a2.afraidofthedark.common.event.TeleportQueue
+import com.davidm1a2.afraidofthedark.common.event.VitaeLanternHandler
 import com.davidm1a2.afraidofthedark.common.event.VoidChestHandler
 import com.davidm1a2.afraidofthedark.common.event.register.BiomeRegister
 import com.davidm1a2.afraidofthedark.common.event.register.BlockRegister
@@ -70,6 +71,7 @@ class AfraidOfTheDark {
         val researchTriggerHandler = ResearchTriggerHandler()
         forgeBus.register(CapabilityHandler())
         forgeBus.register(FlaskOfSoulsHandler())
+        forgeBus.register(VitaeLanternHandler())
         forgeBus.register(NightmareHandler())
         forgeBus.register(VoidChestHandler())
         forgeBus.register(SpellStateHandler())

@@ -2,5 +2,37 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "afraidofthedark:item/vitae_lantern_empty"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "afraidofthedark:vitae_step": 0
+      },
+      "model": "afraidofthedark:item/vitae_lantern_empty"
+    },
+    {
+      "predicate": {
+        "afraidofthedark:vitae_step": 1
+      },
+      "model": "afraidofthedark:item/vitae_lantern_low"
+    },
+    {
+      "predicate": {
+        "afraidofthedark:vitae_step": 2
+      },
+      "model": "afraidofthedark:item/vitae_lantern_half"
+    },
+    {
+      "predicate": {
+        "afraidofthedark:vitae_step": 3
+      },
+      "model": "afraidofthedark:item/vitae_lantern_three_quarters"
+    },
+    {
+      "predicate": {
+        "afraidofthedark:vitae_step": 4
+      },
+      "model": "afraidofthedark:item/vitae_lantern_full"
+    }
+  ]
 }

@@ -462,6 +462,7 @@
   "tooltip.afraidofthedark.flask_of_souls.complete.line2": "Flask complete, cooldown is %1$ss",
   "tooltip.afraidofthedark.flask_of_souls.incomplete.line1": "Flask bound to: %1$s",
   "tooltip.afraidofthedark.flask_of_souls.incomplete.line2": "Kills: %1$s/%2$s",
+  "tooltip.afraidofthedark.vitae_lantern.capacity": "%1$d/%2$d vitae (%3$d%%)",
   "tooltip.afraidofthedark.igneous_armor.effect": "Knocks back enemies that hit you.",
   "tooltip.afraidofthedark.star_metal_armor.effect": "Gives you two absorption hearts per piece.",
   "tooltip.afraidofthedark.igneous_sword.line1": "Right click to use an AOE fire strike",

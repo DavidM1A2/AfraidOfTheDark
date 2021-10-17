@@ -1,14 +1,18 @@
 {
   "forge:registry_name": "afraidofthedark:vitae_lantern",
-  "recipes": [],
-  "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/vitae_1.png",
+  "recipes": [
+    "afraidofthedark:vitae_lantern"
+  ],
+  "pre_recipes": [
+    "afraidofthedark:vitae_lantern"
+  ],
+  "icon": "afraidofthedark:textures/gui/research_icons/vitae_lantern.png",
   "prerequisite": "afraidofthedark:flask_of_souls",
   "triggers": [
     {
-      "type": "afraidofthedark:manual",
+      "type": "afraidofthedark:item_crafted",
       "config": {
-        "research": "afraidofthedark:vitae_lantern"
+        "item": "afraidofthedark:vitae_lantern"
       }
     }
   ]
