@@ -2,7 +2,7 @@
   "forge:registry_name": "afraidofthedark:desert_oasis",
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/desert_oasis.png",
   "prerequisite": "afraidofthedark:the_journey_begins",
   "triggers": [
     {
