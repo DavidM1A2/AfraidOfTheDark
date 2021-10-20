@@ -2,7 +2,7 @@
   "forge:registry_name": "afraidofthedark:enchanted_frogs",
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/enchanted_frogs.png",
   "prerequisite": "afraidofthedark:desert_oasis",
   "triggers": [
     {
