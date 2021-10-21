@@ -2,7 +2,7 @@
   "forge:registry_name": "afraidofthedark:sacred_mangrove",
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/sacred_mangrove.png",
   "prerequisite": "afraidofthedark:mangrove",
   "triggers": [
     {
