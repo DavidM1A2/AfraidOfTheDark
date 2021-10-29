@@ -1,0 +1,392 @@
+<?xml  version='1.0' encoding='UTF-8'?>
+<mca.project.MCStandard.data.ProjectSavable format_version='2' savable_versions='0'>
+    <modelNode class='com.jme3.scene.Node' name='Model' savable_versions='0, 0'>
+        <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='11.5' yExtent='3.5' zExtent='17.0'>
+            <center class='com.jme3.math.Vector3f' savable_versions='0' x='-0.5' y='-0.5'/>
+        </world_bound>
+        <transform class='com.jme3.math.Transform' savable_versions='0'/>
+        <lights class='com.jme3.light.LightList' savable_versions='0'>
+            <lights size='0'/>
+        </lights>
+        <controlsList size='0'/>
+        <user_data>
+            <MapEntry key='data'>
+                <Savable Name='Journal' TextureHeight='128' TextureWidth='256' class='mca.project.MCStandard.data.ModelData' savable_versions='0'>
+                    <TextureMapAsBytes data='-119 80 78 71 13 10 26 10 0 0 0 13 73 72 68 82 0 0 1 0 0 0 0 -128 8 6 0 0 0 -28 -75 -73 10 0 0 0 -106 73 68 65 84 120 -38 -19 -63 49 1 0 0 0 -62 -96 -11 79 109 13 15 -96 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 62 12 0 -98 0 1 59 -113 -58 -64 0 0 0 0 73 69 78 68 -82 66 96 -126' size='207'/>
+                </Savable>
+            </MapEntry>
+        </user_data>
+        <children size='1'>
+            <com.jme3.scene.Node name='BoxNode6f5c629d-1872-4c82-9c65-bcc388137411' savable_versions='0, 0'>
+                <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='11.5' yExtent='3.5' zExtent='17.0'>
+                    <center class='com.jme3.math.Vector3f' savable_versions='0' x='-0.5' y='-0.5'/>
+                </world_bound>
+                <transform class='com.jme3.math.Transform' savable_versions='0'/>
+                <lights class='com.jme3.light.LightList' savable_versions='0'>
+                    <lights size='0'/>
+                </lights>
+                <controlsList size='0'/>
+                <user_data>
+                    <MapEntry key='data'>
+                        <Savable Depth='32' Height='5' ID='6f5c629d-1872-4c82-9c65-bcc388137411' LocalOffsetX='-10.0' LocalOffsetY='-3.0' LocalOffsetZ='-16.0' Name='Pages' Width='20' class='mca.project.MCStandard.data.BoxNodeData' savable_versions='0'/>
+                    </MapEntry>
+                </user_data>
+                <children size='4'>
+                    <com.jme3.scene.Geometry name='Box' queue='Translucent' savable_versions='1, 0'>
+                        <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='10.0' yExtent='2.5' zExtent='16.0'>
+                            <center class='com.jme3.math.Vector3f' savable_versions='0' y='-0.5'/>
+                        </world_bound>
+                        <transform class='com.jme3.math.Transform' savable_versions='0'>
+                            <translation class='com.jme3.math.Vector3f' savable_versions='0' x='-10.0' y='-3.0' z='-16.0'/>
+                        </transform>
+                        <lights class='com.jme3.light.LightList' savable_versions='0'>
+                            <lights size='0'/>
+                        </lights>
+                        <controlsList size='0'/>
+                        <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@752074385' savable_versions='0' vertCount='24'>
+                            <modelBound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='10.0' yExtent='2.5' zExtent='16.0'>
+                                <center class='com.jme3.math.Vector3f' savable_versions='0' x='10.0' y='2.5' z='16.0'/>
+                            </modelBound>
+                            <collisionTree class='com.jme3.collision.bih.BIHTree' savable_versions='0' tris_per_node='21'>
+                                <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@752074385'/>
+                                <root axis='3' class='com.jme3.collision.bih.BIHNode' right_index='11' savable_versions='0'/>
+                                <points data='0.0 2.0 16.0 0.0 0.0 16.0 10.0 0.0 16.0 10.0 0.0 16.0 10.0 2.0 16.0 0.0 2.0 16.0 0.0 2.0 16.0 0.0 2.0 0.0 0.0 0.0 16.0 0.0 2.0 0.0 0.0 0.0 0.0 0.0 0.0 16.0 10.0 2.0 0.0 10.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 2.0 0.0 10.0 2.0 0.0 10.0 2.0 0.0 10.0 2.0 16.0 10.0 0.0 0.0 10.0 2.0 16.0 10.0 0.0 16.0 10.0 0.0 0.0 0.0 0.0 16.0 0.0 0.0 0.0 10.0 0.0 16.0 10.0 0.0 16.0 0.0 0.0 0.0 10.0 0.0 0.0 0.0 2.0 0.0 0.0 2.0 16.0 10.0 2.0 0.0 0.0 2.0 16.0 10.0 2.0 16.0 10.0 2.0 0.0' size='108'/>
+                                <indices data='0 1 2 3 4 5 6 7 8 9 10 11' size='12'/>
+                            </collisionTree>
+                            <buffers>
+                                <MapEntry key='0'>
+                                    <Savable buffer_type='Position' class='com.jme3.scene.VertexBuffer' components='3' savable_versions='0'>
+                                        <dataFloat data='0.0 5.0 32.0 0.0 0.0 32.0 20.0 0.0 32.0 20.0 5.0 32.0 0.0 5.0 32.0 0.0 5.0 0.0 0.0 0.0 32.0 0.0 0.0 0.0 20.0 5.0 0.0 20.0 0.0 0.0 0.0 0.0 0.0 0.0 5.0 0.0 20.0 5.0 0.0 20.0 5.0 32.0 20.0 0.0 0.0 20.0 0.0 32.0 0.0 0.0 32.0 20.0 0.0 32.0 0.0 0.0 0.0 20.0 0.0 0.0 0.0 5.0 0.0 20.0 5.0 0.0 0.0 5.0 32.0 20.0 5.0 32.0' size='72'/>
+                                    </Savable>
+                                </MapEntry>
+                                <MapEntry key='2'>
+                                    <Savable buffer_type='Normal' class='com.jme3.scene.VertexBuffer' components='3' savable_versions='0'>
+                                        <dataFloat data='0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0' size='72'/>
+                                    </Savable>
+                                </MapEntry>
+                                <MapEntry key='3'>
+                                    <Savable buffer_type='TexCoord' class='com.jme3.scene.VertexBuffer' components='2' savable_versions='0'>
+                                        <dataFloat data='0.125 0.75 0.125 0.7109375 0.203125 0.7109375 0.203125 0.75 0.125 0.75 0.0 0.75 0.125 0.7109375 0.0 0.7109375 0.328125 0.75 0.328125 0.7109375 0.40625 0.7109375 0.40625 0.75 0.328125 0.75 0.203125 0.75 0.328125 0.7109375 0.203125 0.7109375 0.203125 1.0 0.28125 1.0 0.203125 0.75 0.28125 0.75 0.125 1.0 0.203125 1.0 0.125 0.75 0.203125 0.75' size='48'/>
+                                    </Savable>
+                                </MapEntry>
+                                <MapEntry key='9'>
+                                    <Savable buffer_type='Index' class='com.jme3.scene.VertexBuffer' components='1' format='UnsignedInt' savable_versions='0'>
+                                        <dataUnsignedInt data='0 1 2 2 3 0 4 5 6 5 7 6 8 9 10 10 11 8 12 13 14 13 15 14 16 18 17 17 18 19 20 22 21 22 23 21' size='36'/>
+                                    </Savable>
+                                </MapEntry>
+                            </buffers>
+                        </mesh>
+                        <material class='com.jme3.material.Material' material_def='Common/MatDefs/Light/Lighting.j3md' savable_versions='2'>
+                            <render_state applyAlphaFallOff='false' applyAlphaTest='false' applyColorWrite='false' applyDepthTest='false' applyDepthWrite='false' applyPointSprite='false' applyPolyOffset='false' applyWireFrame='false' blendMode='Alpha' class='com.jme3.material.RenderState' cullMode='Off' savable_versions='0'/>
+                            <parameters>
+                                <MapEntry key='Diffuse'>
+                                    <Savable class='com.jme3.material.MatParam' ff_binding='MaterialDiffuse' name='Diffuse' savable_versions='0' varType='Vector4'>
+                                        <value_savable a='1.0' b='0.5' class='com.jme3.math.ColorRGBA' g='0.5' r='0.5' reference_ID='com.jme3.math.ColorRGBA@-1575405744' savable_versions='0'/>
+                                    </Savable>
+                                </MapEntry>
+                                <MapEntry key='UseMaterialColors'>
+                                    <Savable class='com.jme3.material.MatParam' name='UseMaterialColors' savable_versions='0' value_bool='true' varType='Boolean'/>
+                                </MapEntry>
+                                <MapEntry key='ParallaxHeight'>
+                                    <Savable class='com.jme3.material.MatParam' name='ParallaxHeight' savable_versions='0' value_float='0.05' varType='Float'/>
+                                </MapEntry>
+                                <MapEntry key='Ambient'>
+                                    <Savable class='com.jme3.material.MatParam' ff_binding='MaterialAmbient' name='Ambient' savable_versions='0' varType='Vector4'>
+                                        <value_savable a='1.0' b='0.5' class='com.jme3.math.ColorRGBA' g='0.5' r='0.5' reference_ID='com.jme3.math.ColorRGBA@-1575405744' savable_versions='0'/>
+                                    </Savable>
+                                </MapEntry>
+                                <MapEntry key='SeparateTexCoord'>
+                                    <Savable class='com.jme3.material.MatParam' name='SeparateTexCoord' savable_versions='0' value_bool='true' varType='Boolean'/>
+                                </MapEntry>
+                                <MapEntry key='UseAlpha'>
+                                    <Savable class='com.jme3.material.MatParam' name='UseAlpha' savable_versions='0' value_bool='true' varType='Boolean'/>
+                                </MapEntry>
+                                <MapEntry key='Shininess'>
+                                    <Savable class='com.jme3.material.MatParam' ff_binding='MaterialShininess' name='Shininess' savable_versions='0' value_float='1.0' varType='Float'/>
+                                </MapEntry>
+                            </parameters>
+                        </material>
+                    </com.jme3.scene.Geometry>
+                    <com.jme3.scene.Node name='BoxNode556cbbc4-6b81-4ca7-b0e6-faf60f9cb0d4' savable_versions='0, 0'>
+                        <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='11.0' yExtent='0.5' zExtent='17.0'>
+                            <center class='com.jme3.math.Vector3f' savable_versions='0' x='-1.0' y='2.5'/>
+                        </world_bound>
+                        <transform class='com.jme3.math.Transform' savable_versions='0'>
+                            <translation class='com.jme3.math.Vector3f' savable_versions='0' x='-12.0' y='2.0' z='-17.0'/>
+                        </transform>
+                        <lights class='com.jme3.light.LightList' savable_versions='0'>
+                            <lights size='0'/>
+                        </lights>
+                        <controlsList size='0'/>
+                        <user_data>
+                            <MapEntry key='data'>
+                                <Savable Depth='34' ID='556cbbc4-6b81-4ca7-b0e6-faf60f9cb0d4' Name='FrontCover' PosX='-12.0' PosY='2.0' PosZ='-17.0' TextureOffsetY='93' Width='22' class='mca.project.MCStandard.data.BoxNodeData' savable_versions='0'/>
+                            </MapEntry>
+                        </user_data>
+                        <children size='1'>
+                            <com.jme3.scene.Geometry name='Box' queue='Translucent' savable_versions='1, 0'>
+                                <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='11.0' yExtent='0.5' zExtent='17.0'>
+                                    <center class='com.jme3.math.Vector3f' savable_versions='0' x='-1.0' y='2.5'/>
+                                </world_bound>
+                                <transform class='com.jme3.math.Transform' savable_versions='0'/>
+                                <lights class='com.jme3.light.LightList' savable_versions='0'>
+                                    <lights size='0'/>
+                                </lights>
+                                <controlsList size='0'/>
+                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@2127113761' savable_versions='0' vertCount='24'>
+                                    <modelBound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='11.0' yExtent='0.5' zExtent='17.0'>
+                                        <center class='com.jme3.math.Vector3f' savable_versions='0' x='11.0' y='0.5' z='17.0'/>
+                                    </modelBound>
+                                    <collisionTree class='com.jme3.collision.bih.BIHTree' savable_versions='0' tris_per_node='21'>
+                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@2127113761'/>
+                                        <root axis='3' class='com.jme3.collision.bih.BIHNode' right_index='11' savable_versions='0'/>
+                                        <points data='0.0 1.0 18.0 0.0 0.0 18.0 12.0 0.0 18.0 12.0 0.0 18.0 12.0 1.0 18.0 0.0 1.0 18.0 0.0 1.0 18.0 0.0 1.0 0.0 0.0 0.0 18.0 0.0 1.0 0.0 0.0 0.0 0.0 0.0 0.0 18.0 12.0 1.0 0.0 12.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 0.0 12.0 1.0 0.0 12.0 1.0 0.0 12.0 1.0 18.0 12.0 0.0 0.0 12.0 1.0 18.0 12.0 0.0 18.0 12.0 0.0 0.0 0.0 0.0 18.0 0.0 0.0 0.0 12.0 0.0 18.0 12.0 0.0 18.0 0.0 0.0 0.0 12.0 0.0 0.0 0.0 1.0 0.0 0.0 1.0 18.0 12.0 1.0 0.0 0.0 1.0 18.0 12.0 1.0 18.0 12.0 1.0 0.0' size='108'/>
+                                        <indices data='0 1 2 3 4 5 6 7 8 9 10 11' size='12'/>
+                                    </collisionTree>
+                                    <buffers>
+                                        <MapEntry key='0'>
+                                            <Savable buffer_type='Position' class='com.jme3.scene.VertexBuffer' components='3' savable_versions='0'>
+                                                <dataFloat data='0.0 1.0 34.0 0.0 0.0 34.0 22.0 0.0 34.0 22.0 1.0 34.0 0.0 1.0 34.0 0.0 1.0 0.0 0.0 0.0 34.0 0.0 0.0 0.0 22.0 1.0 0.0 22.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 0.0 22.0 1.0 0.0 22.0 1.0 34.0 22.0 0.0 0.0 22.0 0.0 34.0 0.0 0.0 34.0 22.0 0.0 34.0 0.0 0.0 0.0 22.0 0.0 0.0 0.0 1.0 0.0 22.0 1.0 0.0 0.0 1.0 34.0 22.0 1.0 34.0' size='72'/>
+                                            </Savable>
+                                        </MapEntry>
+                                        <MapEntry key='2'>
+                                            <Savable buffer_type='Normal' class='com.jme3.scene.VertexBuffer' components='3' savable_versions='0'>
+                                                <dataFloat data='0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0' size='72'/>
+                                            </Savable>
+                                        </MapEntry>
+                                        <MapEntry key='3'>
+                                            <Savable buffer_type='TexCoord' class='com.jme3.scene.VertexBuffer' components='2' savable_versions='0'>
+                                                <dataFloat data='0.1328125 0.0078125 0.1328125 0.0 0.21875 0.0 0.21875 0.0078125 0.1328125 0.0078125 0.0 0.0078125 0.1328125 0.0 0.0 0.0 0.3515625 0.0078125 0.3515625 0.0 0.4375 0.0 0.4375 0.0078125 0.3515625 0.0078125 0.21875 0.0078125 0.3515625 0.0 0.21875 0.0 0.21875 0.2734375 0.3046875 0.2734375 0.21875 0.0078125 0.3046875 0.0078125 0.1328125 0.2734375 0.21875 0.2734375 0.1328125 0.0078125 0.21875 0.0078125' size='48'/>
+                                            </Savable>
+                                        </MapEntry>
+                                        <MapEntry key='9'>
+                                            <Savable buffer_type='Index' class='com.jme3.scene.VertexBuffer' components='1' format='UnsignedInt' savable_versions='0'>
+                                                <dataUnsignedInt data='0 1 2 2 3 0 4 5 6 5 7 6 8 9 10 10 11 8 12 13 14 13 15 14 16 18 17 17 18 19 20 22 21 22 23 21' size='36'/>
+                                            </Savable>
+                                        </MapEntry>
+                                    </buffers>
+                                </mesh>
+                                <material class='com.jme3.material.Material' material_def='Common/MatDefs/Light/Lighting.j3md' savable_versions='2'>
+                                    <render_state applyAlphaFallOff='false' applyAlphaTest='false' applyColorWrite='false' applyDepthTest='false' applyDepthWrite='false' applyPointSprite='false' applyPolyOffset='false' applyWireFrame='false' blendMode='Alpha' class='com.jme3.material.RenderState' cullMode='Off' savable_versions='0'/>
+                                    <parameters>
+                                        <MapEntry key='Diffuse'>
+                                            <Savable class='com.jme3.material.MatParam' ff_binding='MaterialDiffuse' name='Diffuse' savable_versions='0' varType='Vector4'>
+                                                <value_savable class='com.jme3.math.ColorRGBA' ref='com.jme3.math.ColorRGBA@-1575405744'/>
+                                            </Savable>
+                                        </MapEntry>
+                                        <MapEntry key='UseMaterialColors'>
+                                            <Savable class='com.jme3.material.MatParam' name='UseMaterialColors' savable_versions='0' value_bool='true' varType='Boolean'/>
+                                        </MapEntry>
+                                        <MapEntry key='ParallaxHeight'>
+                                            <Savable class='com.jme3.material.MatParam' name='ParallaxHeight' savable_versions='0' value_float='0.05' varType='Float'/>
+                                        </MapEntry>
+                                        <MapEntry key='Ambient'>
+                                            <Savable class='com.jme3.material.MatParam' ff_binding='MaterialAmbient' name='Ambient' savable_versions='0' varType='Vector4'>
+                                                <value_savable class='com.jme3.math.ColorRGBA' ref='com.jme3.math.ColorRGBA@-1575405744'/>
+                                            </Savable>
+                                        </MapEntry>
+                                        <MapEntry key='SeparateTexCoord'>
+                                            <Savable class='com.jme3.material.MatParam' name='SeparateTexCoord' savable_versions='0' value_bool='true' varType='Boolean'/>
+                                        </MapEntry>
+                                        <MapEntry key='UseAlpha'>
+                                            <Savable class='com.jme3.material.MatParam' name='UseAlpha' savable_versions='0' value_bool='true' varType='Boolean'/>
+                                        </MapEntry>
+                                        <MapEntry key='Shininess'>
+                                            <Savable class='com.jme3.material.MatParam' ff_binding='MaterialShininess' name='Shininess' savable_versions='0' value_float='1.0' varType='Float'/>
+                                        </MapEntry>
+                                    </parameters>
+                                </material>
+                            </com.jme3.scene.Geometry>
+                        </children>
+                    </com.jme3.scene.Node>
+                    <com.jme3.scene.Node name='BoxNodec54cbeeb-eada-434d-b878-c5c4f66154f3' savable_versions='0, 0'>
+                        <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='11.0' yExtent='0.5' zExtent='17.0'>
+                            <center class='com.jme3.math.Vector3f' savable_versions='0' x='-1.0' y='-3.5'/>
+                        </world_bound>
+                        <transform class='com.jme3.math.Transform' savable_versions='0'>
+                            <translation class='com.jme3.math.Vector3f' savable_versions='0' x='-12.0' y='-4.0' z='-17.0'/>
+                        </transform>
+                        <lights class='com.jme3.light.LightList' savable_versions='0'>
+                            <lights size='0'/>
+                        </lights>
+                        <controlsList size='0'/>
+                        <user_data>
+                            <MapEntry key='data'>
+                                <Savable Depth='34' ID='c54cbeeb-eada-434d-b878-c5c4f66154f3' Name='BackCover' PosX='-12.0' PosY='-4.0' PosZ='-17.0' TextureOffsetX='113' TextureOffsetY='93' Width='22' class='mca.project.MCStandard.data.BoxNodeData' savable_versions='0'/>
+                            </MapEntry>
+                        </user_data>
+                        <children size='1'>
+                            <com.jme3.scene.Geometry name='Box' queue='Translucent' savable_versions='1, 0'>
+                                <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='11.0' yExtent='0.5' zExtent='17.0'>
+                                    <center class='com.jme3.math.Vector3f' savable_versions='0' x='-1.0' y='-3.5'/>
+                                </world_bound>
+                                <transform class='com.jme3.math.Transform' savable_versions='0'/>
+                                <lights class='com.jme3.light.LightList' savable_versions='0'>
+                                    <lights size='0'/>
+                                </lights>
+                                <controlsList size='0'/>
+                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@1104798855' savable_versions='0' vertCount='24'>
+                                    <modelBound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='11.0' yExtent='0.5' zExtent='17.0'>
+                                        <center class='com.jme3.math.Vector3f' savable_versions='0' x='11.0' y='0.5' z='17.0'/>
+                                    </modelBound>
+                                    <collisionTree class='com.jme3.collision.bih.BIHTree' savable_versions='0' tris_per_node='21'>
+                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@1104798855'/>
+                                        <root axis='3' class='com.jme3.collision.bih.BIHNode' right_index='11' savable_versions='0'/>
+                                        <points data='0.0 1.0 18.0 0.0 0.0 18.0 12.0 0.0 18.0 12.0 0.0 18.0 12.0 1.0 18.0 0.0 1.0 18.0 0.0 1.0 18.0 0.0 1.0 0.0 0.0 0.0 18.0 0.0 1.0 0.0 0.0 0.0 0.0 0.0 0.0 18.0 12.0 1.0 0.0 12.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 0.0 12.0 1.0 0.0 12.0 1.0 0.0 12.0 1.0 18.0 12.0 0.0 0.0 12.0 1.0 18.0 12.0 0.0 18.0 12.0 0.0 0.0 0.0 0.0 18.0 0.0 0.0 0.0 12.0 0.0 18.0 12.0 0.0 18.0 0.0 0.0 0.0 12.0 0.0 0.0 0.0 1.0 0.0 0.0 1.0 18.0 12.0 1.0 0.0 0.0 1.0 18.0 12.0 1.0 18.0 12.0 1.0 0.0' size='108'/>
+                                        <indices data='0 1 2 3 4 5 6 7 8 9 10 11' size='12'/>
+                                    </collisionTree>
+                                    <buffers>
+                                        <MapEntry key='0'>
+                                            <Savable buffer_type='Position' class='com.jme3.scene.VertexBuffer' components='3' savable_versions='0'>
+                                                <dataFloat data='0.0 1.0 34.0 0.0 0.0 34.0 22.0 0.0 34.0 22.0 1.0 34.0 0.0 1.0 34.0 0.0 1.0 0.0 0.0 0.0 34.0 0.0 0.0 0.0 22.0 1.0 0.0 22.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 0.0 22.0 1.0 0.0 22.0 1.0 34.0 22.0 0.0 0.0 22.0 0.0 34.0 0.0 0.0 34.0 22.0 0.0 34.0 0.0 0.0 0.0 22.0 0.0 0.0 0.0 1.0 0.0 22.0 1.0 0.0 0.0 1.0 34.0 22.0 1.0 34.0' size='72'/>
+                                            </Savable>
+                                        </MapEntry>
+                                        <MapEntry key='2'>
+                                            <Savable buffer_type='Normal' class='com.jme3.scene.VertexBuffer' components='3' savable_versions='0'>
+                                                <dataFloat data='0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0' size='72'/>
+                                            </Savable>
+                                        </MapEntry>
+                                        <MapEntry key='3'>
+                                            <Savable buffer_type='TexCoord' class='com.jme3.scene.VertexBuffer' components='2' savable_versions='0'>
+                                                <dataFloat data='0.57421875 0.0078125 0.57421875 0.0 0.66015625 0.0 0.66015625 0.0078125 0.57421875 0.0078125 0.44140625 0.0078125 0.57421875 0.0 0.44140625 0.0 0.79296875 0.0078125 0.79296875 0.0 0.87890625 0.0 0.87890625 0.0078125 0.79296875 0.0078125 0.66015625 0.0078125 0.79296875 0.0 0.66015625 0.0 0.66015625 0.2734375 0.74609375 0.2734375 0.66015625 0.0078125 0.74609375 0.0078125 0.57421875 0.2734375 0.66015625 0.2734375 0.57421875 0.0078125 0.66015625 0.0078125' size='48'/>
+                                            </Savable>
+                                        </MapEntry>
+                                        <MapEntry key='9'>
+                                            <Savable buffer_type='Index' class='com.jme3.scene.VertexBuffer' components='1' format='UnsignedInt' savable_versions='0'>
+                                                <dataUnsignedInt data='0 1 2 2 3 0 4 5 6 5 7 6 8 9 10 10 11 8 12 13 14 13 15 14 16 18 17 17 18 19 20 22 21 22 23 21' size='36'/>
+                                            </Savable>
+                                        </MapEntry>
+                                    </buffers>
+                                </mesh>
+                                <material class='com.jme3.material.Material' material_def='Common/MatDefs/Light/Lighting.j3md' savable_versions='2'>
+                                    <render_state applyAlphaFallOff='false' applyAlphaTest='false' applyColorWrite='false' applyDepthTest='false' applyDepthWrite='false' applyPointSprite='false' applyPolyOffset='false' applyWireFrame='false' blendMode='Alpha' class='com.jme3.material.RenderState' cullMode='Off' savable_versions='0'/>
+                                    <parameters>
+                                        <MapEntry key='Diffuse'>
+                                            <Savable class='com.jme3.material.MatParam' ff_binding='MaterialDiffuse' name='Diffuse' savable_versions='0' varType='Vector4'>
+                                                <value_savable class='com.jme3.math.ColorRGBA' ref='com.jme3.math.ColorRGBA@-1575405744'/>
+                                            </Savable>
+                                        </MapEntry>
+                                        <MapEntry key='UseMaterialColors'>
+                                            <Savable class='com.jme3.material.MatParam' name='UseMaterialColors' savable_versions='0' value_bool='true' varType='Boolean'/>
+                                        </MapEntry>
+                                        <MapEntry key='ParallaxHeight'>
+                                            <Savable class='com.jme3.material.MatParam' name='ParallaxHeight' savable_versions='0' value_float='0.05' varType='Float'/>
+                                        </MapEntry>
+                                        <MapEntry key='Ambient'>
+                                            <Savable class='com.jme3.material.MatParam' ff_binding='MaterialAmbient' name='Ambient' savable_versions='0' varType='Vector4'>
+                                                <value_savable class='com.jme3.math.ColorRGBA' ref='com.jme3.math.ColorRGBA@-1575405744'/>
+                                            </Savable>
+                                        </MapEntry>
+                                        <MapEntry key='SeparateTexCoord'>
+                                            <Savable class='com.jme3.material.MatParam' name='SeparateTexCoord' savable_versions='0' value_bool='true' varType='Boolean'/>
+                                        </MapEntry>
+                                        <MapEntry key='UseAlpha'>
+                                            <Savable class='com.jme3.material.MatParam' name='UseAlpha' savable_versions='0' value_bool='true' varType='Boolean'/>
+                                        </MapEntry>
+                                        <MapEntry key='Shininess'>
+                                            <Savable class='com.jme3.material.MatParam' ff_binding='MaterialShininess' name='Shininess' savable_versions='0' value_float='1.0' varType='Float'/>
+                                        </MapEntry>
+                                    </parameters>
+                                </material>
+                            </com.jme3.scene.Geometry>
+                        </children>
+                    </com.jme3.scene.Node>
+                    <com.jme3.scene.Node name='BoxNode04637401-be45-43e3-996e-a065b318c401' savable_versions='0, 0'>
+                        <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='0.5' yExtent='3.5' zExtent='17.0'>
+                            <center class='com.jme3.math.Vector3f' savable_versions='0' x='10.5' y='-0.5'/>
+                        </world_bound>
+                        <transform class='com.jme3.math.Transform' savable_versions='0'>
+                            <translation class='com.jme3.math.Vector3f' savable_versions='0' x='10.0' z='-17.0'/>
+                        </transform>
+                        <lights class='com.jme3.light.LightList' savable_versions='0'>
+                            <lights size='0'/>
+                        </lights>
+                        <controlsList size='0'/>
+                        <user_data>
+                            <MapEntry key='data'>
+                                <Savable Depth='34' Height='7' ID='04637401-be45-43e3-996e-a065b318c401' LocalOffsetY='-4.0' Name='Spine' PosX='10.0' PosZ='-17.0' TextureOffsetX='105' class='mca.project.MCStandard.data.BoxNodeData' savable_versions='0'/>
+                            </MapEntry>
+                        </user_data>
+                        <children size='1'>
+                            <com.jme3.scene.Geometry name='Box' queue='Translucent' savable_versions='1, 0'>
+                                <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='0.5' yExtent='3.5' zExtent='17.0'>
+                                    <center class='com.jme3.math.Vector3f' savable_versions='0' x='10.5' y='-0.5'/>
+                                </world_bound>
+                                <transform class='com.jme3.math.Transform' savable_versions='0'>
+                                    <translation class='com.jme3.math.Vector3f' savable_versions='0' y='-4.0'/>
+                                </transform>
+                                <lights class='com.jme3.light.LightList' savable_versions='0'>
+                                    <lights size='0'/>
+                                </lights>
+                                <controlsList size='0'/>
+                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@1931680934' savable_versions='0' vertCount='24'>
+                                    <modelBound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='0.5' yExtent='3.5' zExtent='17.0'>
+                                        <center class='com.jme3.math.Vector3f' savable_versions='0' x='0.5' y='3.5' z='17.0'/>
+                                    </modelBound>
+                                    <collisionTree class='com.jme3.collision.bih.BIHTree' savable_versions='0' tris_per_node='21'>
+                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@1931680934'/>
+                                        <root axis='3' class='com.jme3.collision.bih.BIHNode' right_index='11' savable_versions='0'/>
+                                        <points data='0.0 6.0 1.0 0.0 0.0 1.0 1.0 0.0 1.0 1.0 0.0 1.0 1.0 6.0 1.0 0.0 6.0 1.0 0.0 6.0 1.0 0.0 6.0 0.0 0.0 0.0 1.0 0.0 6.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 1.0 6.0 0.0 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 6.0 0.0 1.0 6.0 0.0 1.0 6.0 0.0 1.0 6.0 1.0 1.0 0.0 0.0 1.0 6.0 1.0 1.0 0.0 1.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 0.0 1.0 1.0 0.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 6.0 0.0 0.0 6.0 1.0 1.0 6.0 0.0 0.0 6.0 1.0 1.0 6.0 1.0 1.0 6.0 0.0' size='108'/>
+                                        <indices data='0 1 2 3 4 5 6 7 8 9 10 11' size='12'/>
+                                    </collisionTree>
+                                    <buffers>
+                                        <MapEntry key='0'>
+                                            <Savable buffer_type='Position' class='com.jme3.scene.VertexBuffer' components='3' savable_versions='0'>
+                                                <dataFloat data='0.0 7.0 34.0 0.0 0.0 34.0 1.0 0.0 34.0 1.0 7.0 34.0 0.0 7.0 34.0 0.0 7.0 0.0 0.0 0.0 34.0 0.0 0.0 0.0 1.0 7.0 0.0 1.0 0.0 0.0 0.0 0.0 0.0 0.0 7.0 0.0 1.0 7.0 0.0 1.0 7.0 34.0 1.0 0.0 0.0 1.0 0.0 34.0 0.0 0.0 34.0 1.0 0.0 34.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 7.0 0.0 1.0 7.0 0.0 0.0 7.0 34.0 1.0 7.0 34.0' size='72'/>
+                                            </Savable>
+                                        </MapEntry>
+                                        <MapEntry key='2'>
+                                            <Savable buffer_type='Normal' class='com.jme3.scene.VertexBuffer' components='3' savable_versions='0'>
+                                                <dataFloat data='0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 -1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0' size='72'/>
+                                            </Savable>
+                                        </MapEntry>
+                                        <MapEntry key='3'>
+                                            <Savable buffer_type='TexCoord' class='com.jme3.scene.VertexBuffer' components='2' savable_versions='0'>
+                                                <dataFloat data='0.54296875 0.734375 0.54296875 0.6796875 0.546875 0.6796875 0.546875 0.734375 0.54296875 0.734375 0.41015625 0.734375 0.54296875 0.6796875 0.41015625 0.6796875 0.6796875 0.734375 0.6796875 0.6796875 0.68359375 0.6796875 0.68359375 0.734375 0.6796875 0.734375 0.546875 0.734375 0.6796875 0.6796875 0.546875 0.6796875 0.546875 1.0 0.55078125 1.0 0.546875 0.734375 0.55078125 0.734375 0.54296875 1.0 0.546875 1.0 0.54296875 0.734375 0.546875 0.734375' size='48'/>
+                                            </Savable>
+                                        </MapEntry>
+                                        <MapEntry key='9'>
+                                            <Savable buffer_type='Index' class='com.jme3.scene.VertexBuffer' components='1' format='UnsignedInt' savable_versions='0'>
+                                                <dataUnsignedInt data='0 1 2 2 3 0 4 5 6 5 7 6 8 9 10 10 11 8 12 13 14 13 15 14 16 18 17 17 18 19 20 22 21 22 23 21' size='36'/>
+                                            </Savable>
+                                        </MapEntry>
+                                    </buffers>
+                                </mesh>
+                                <material class='com.jme3.material.Material' material_def='Common/MatDefs/Light/Lighting.j3md' savable_versions='2'>
+                                    <render_state applyAlphaFallOff='false' applyAlphaTest='false' applyColorWrite='false' applyDepthTest='false' applyDepthWrite='false' applyPointSprite='false' applyPolyOffset='false' applyWireFrame='false' blendMode='Alpha' class='com.jme3.material.RenderState' cullMode='Off' savable_versions='0'/>
+                                    <parameters>
+                                        <MapEntry key='Diffuse'>
+                                            <Savable class='com.jme3.material.MatParam' ff_binding='MaterialDiffuse' name='Diffuse' savable_versions='0' varType='Vector4'>
+                                                <value_savable class='com.jme3.math.ColorRGBA' ref='com.jme3.math.ColorRGBA@-1575405744'/>
+                                            </Savable>
+                                        </MapEntry>
+                                        <MapEntry key='UseMaterialColors'>
+                                            <Savable class='com.jme3.material.MatParam' name='UseMaterialColors' savable_versions='0' value_bool='true' varType='Boolean'/>
+                                        </MapEntry>
+                                        <MapEntry key='ParallaxHeight'>
+                                            <Savable class='com.jme3.material.MatParam' name='ParallaxHeight' savable_versions='0' value_float='0.05' varType='Float'/>
+                                        </MapEntry>
+                                        <MapEntry key='Ambient'>
+                                            <Savable class='com.jme3.material.MatParam' ff_binding='MaterialAmbient' name='Ambient' savable_versions='0' varType='Vector4'>
+                                                <value_savable class='com.jme3.math.ColorRGBA' ref='com.jme3.math.ColorRGBA@-1575405744'/>
+                                            </Savable>
+                                        </MapEntry>
+                                        <MapEntry key='SeparateTexCoord'>
+                                            <Savable class='com.jme3.material.MatParam' name='SeparateTexCoord' savable_versions='0' value_bool='true' varType='Boolean'/>
+                                        </MapEntry>
+                                        <MapEntry key='UseAlpha'>
+                                            <Savable class='com.jme3.material.MatParam' name='UseAlpha' savable_versions='0' value_bool='true' varType='Boolean'/>
+                                        </MapEntry>
+                                        <MapEntry key='Shininess'>
+                                            <Savable class='com.jme3.material.MatParam' ff_binding='MaterialShininess' name='Shininess' savable_versions='0' value_float='1.0' varType='Float'/>
+                                        </MapEntry>
+                                    </parameters>
+                                </material>
+                            </com.jme3.scene.Geometry>
+                        </children>
+                    </com.jme3.scene.Node>
+                </children>
+            </com.jme3.scene.Node>
+        </children>
+    </modelNode>
+</mca.project.MCStandard.data.ProjectSavable>
