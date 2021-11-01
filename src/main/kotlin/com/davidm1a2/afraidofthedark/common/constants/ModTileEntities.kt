@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.tileEntity.DroppedJournalTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.EnariaSpawnerTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.GhastlyEnariaSpawnerTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.ObservatoryTileEntity
+import com.davidm1a2.afraidofthedark.common.tileEntity.VitaeExtractorTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.VoidChestTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.VoidObeliskTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.WitchHutTileEntity
@@ -77,6 +78,12 @@ object ModTileEntities {
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "dropped_journal")
         }
+    val VITAE_EXTRACTOR: TileEntityType<VitaeExtractorTileEntity> = TileEntityType
+        .Builder
+        .of({ VitaeExtractorTileEntity() }, ModBlocks.VITAE_EXTRACTOR)
+        .build(null).apply {
+            setRegistryName(Constants.MOD_ID, "vitae_extractor")
+        }
 
     // A list of tile entities to register
     val TILE_ENTITY_LIST = arrayOf(
@@ -89,6 +96,7 @@ object ModTileEntities {
         DESERT_OASIS,
         ENARIAS_ALTAR,
         OBSERVATORY,
-        DROPPED_JOURNAL
+        DROPPED_JOURNAL,
+        VITAE_EXTRACTOR
     )
 }
