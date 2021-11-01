@@ -16,6 +16,9 @@ import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.Direction
 import net.minecraft.util.Mirror
 import net.minecraft.util.Rotation
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.shapes.ISelectionContext
+import net.minecraft.util.math.shapes.VoxelShape
 import net.minecraft.world.IBlockReader
 
 class VitaeExtractorBlock : AOTDTileEntityBlock(
@@ -24,6 +27,14 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
 ), AOTDUseBlockItemStackRenderer {
     init {
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH))
+    }
+
+    override fun getCollisionShape(blockState: BlockState, worldIn: IBlockReader, pos: BlockPos, context: ISelectionContext): VoxelShape {
+        return SHAPE
+    }
+
+    override fun getShape(blockState: BlockState, worldIn: IBlockReader, pos: BlockPos, context: ISelectionContext): VoxelShape {
+        return SHAPE
     }
 
     override fun getISTER(): ItemStackTileEntityRenderer {
@@ -51,6 +62,7 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
     }
 
     companion object {
+        private val SHAPE = box(0.0, 0.0, 0.0, 16.0, 10.0, 16.0)
         val FACING: DirectionProperty = HorizontalBlock.FACING
     }
 }
