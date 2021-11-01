@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDShowBlockCreative
+import com.davidm1a2.afraidofthedark.common.block.core.AOTDUseBlockItemStackRenderer
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
@@ -30,6 +31,9 @@ class ItemRegister {
             val properties = Item.Properties()
             if (block !is AOTDShowBlockCreative || block.displayInCreative()) {
                 properties.tab(Constants.AOTD_CREATIVE_TAB)
+            }
+            if (block is AOTDUseBlockItemStackRenderer) {
+                properties.setISTER(block.getWrappedISTER())
             }
             registry.register(BlockItem(block, properties).setRegistryName(block.registryName))
         }
