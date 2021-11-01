@@ -14,7 +14,7 @@ import net.minecraft.world.LightType
 import net.minecraft.world.World
 import java.util.Random
 
-class TileEntityDroppedJournalRenderer(tileEntityRendererDispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<DroppedJournalTileEntity>(tileEntityRendererDispatcher) {
+class DroppedJournalTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<DroppedJournalTileEntity>(tileEntityRendererDispatcher) {
     private val random = SharedSeedRandom()
 
     override fun render(
@@ -66,7 +66,7 @@ class TileEntityDroppedJournalRenderer(tileEntityRendererDispatcher: TileEntityR
     }
 
     companion object {
-        private val DROPPED_JOURNAL_MODEL = TileEntityDroppedJournalModel()
+        private val DROPPED_JOURNAL_MODEL = DroppedJournalTileEntityModel()
         private val DROPPED_JOURNAL_TEXTURE = ResourceLocation("afraidofthedark:textures/block/dropped_journal_te.png")
         private val RENDER_TYPE = DROPPED_JOURNAL_MODEL.renderType(DROPPED_JOURNAL_TEXTURE)
 

@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.client.event
 
-import com.davidm1a2.afraidofthedark.client.tileEntity.TileEntityVoidChestRenderer
-import com.davidm1a2.afraidofthedark.client.tileEntity.droppedJournal.TileEntityDroppedJournalRenderer
-import com.davidm1a2.afraidofthedark.client.tileEntity.enariasAltar.TileEntityEnariasAltarRenderer
-import com.davidm1a2.afraidofthedark.client.tileEntity.vitaeExtractor.TileEntityVitaeExtractorRenderer
+import com.davidm1a2.afraidofthedark.client.tileEntity.VoidChestTileEntityRenderer
+import com.davidm1a2.afraidofthedark.client.tileEntity.droppedJournal.DroppedJournalTileEntityRenderer
+import com.davidm1a2.afraidofthedark.client.tileEntity.enariasAltar.EnariasAltarTileEntityRenderer
+import com.davidm1a2.afraidofthedark.client.tileEntity.vitaeExtractor.VitaeExtractorTileEntityRenderer
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.client.registry.ClientRegistry
@@ -14,10 +14,10 @@ class BlockEntityRendererRegister {
     fun fmlClientSetupEvent(event: FMLClientSetupEvent) {
         event.enqueueWork {
             // Tell MC to render our special tile entities with the special renderer
-            ClientRegistry.bindTileEntityRenderer(ModTileEntities.VOID_CHEST) { TileEntityVoidChestRenderer(it) }
-            ClientRegistry.bindTileEntityRenderer(ModTileEntities.ENARIAS_ALTAR) { TileEntityEnariasAltarRenderer(it) }
-            ClientRegistry.bindTileEntityRenderer(ModTileEntities.DROPPED_JOURNAL) { TileEntityDroppedJournalRenderer(it) }
-            ClientRegistry.bindTileEntityRenderer(ModTileEntities.VITAE_EXTRACTOR) { TileEntityVitaeExtractorRenderer(it) }
+            ClientRegistry.bindTileEntityRenderer(ModTileEntities.VOID_CHEST) { VoidChestTileEntityRenderer(it) }
+            ClientRegistry.bindTileEntityRenderer(ModTileEntities.ENARIAS_ALTAR) { EnariasAltarTileEntityRenderer(it) }
+            ClientRegistry.bindTileEntityRenderer(ModTileEntities.DROPPED_JOURNAL) { DroppedJournalTileEntityRenderer(it) }
+            ClientRegistry.bindTileEntityRenderer(ModTileEntities.VITAE_EXTRACTOR) { VitaeExtractorTileEntityRenderer(it) }
         }
     }
 }

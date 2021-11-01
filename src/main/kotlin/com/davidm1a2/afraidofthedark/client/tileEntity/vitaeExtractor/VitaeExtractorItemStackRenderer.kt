@@ -29,7 +29,7 @@ class VitaeExtractorItemStackRenderer : ItemStackTileEntityRenderer() {
     }
 
     companion object {
-        private val VITAE_EXTRACTOR_MODEL = TileEntityVitaeExtractorModel()
+        private val VITAE_EXTRACTOR_MODEL = VitaeExtractorTileEntityModel()
         private val VITAE_EXTRACTOR_TEXTURE = ResourceLocation("afraidofthedark:textures/block/vitae_extractor_te.png")
         private val RENDER_TYPE = VITAE_EXTRACTOR_MODEL.renderType(VITAE_EXTRACTOR_TEXTURE)
     }

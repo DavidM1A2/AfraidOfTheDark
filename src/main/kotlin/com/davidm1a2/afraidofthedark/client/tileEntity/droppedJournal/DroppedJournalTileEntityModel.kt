@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.model.Model
 import net.minecraft.util.math.vector.Quaternion
 
 
-class TileEntityDroppedJournalModel internal constructor() : Model(RenderType::entityCutoutNoCull) {
+class DroppedJournalTileEntityModel internal constructor() : Model(RenderType::entityCutoutNoCull) {
     private val parts = mutableMapOf<String, MCAModelRenderer>()
     private val pages: MCAModelRenderer
 

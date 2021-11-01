@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.LightType
 import net.minecraft.world.World
 
-class TileEntityEnariasAltarRenderer(tileEntityRendererDispatcher: TileEntityRendererDispatcher) :
+class EnariasAltarTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRendererDispatcher) :
     TileEntityRenderer<EnariasAltarTileEntity>(tileEntityRendererDispatcher) {
 
     override fun render(
@@ -49,7 +49,7 @@ class TileEntityEnariasAltarRenderer(tileEntityRendererDispatcher: TileEntityRen
     }
 
     companion object {
-        private val ENARIAS_ALTAR_MODEL = TileEntityEnariasAltarModel()
+        private val ENARIAS_ALTAR_MODEL = EnariasAltarTileEntityModel()
         private val ENARIAS_ALTAR_TEXTURE = ResourceLocation("afraidofthedark:textures/block/enarias_altar_te.png")
         private val RENDER_TYPE = ENARIAS_ALTAR_MODEL.renderType(ENARIAS_ALTAR_TEXTURE)
     }

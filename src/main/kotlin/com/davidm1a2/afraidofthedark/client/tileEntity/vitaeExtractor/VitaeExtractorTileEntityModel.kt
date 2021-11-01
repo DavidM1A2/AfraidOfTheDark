@@ -15,7 +15,7 @@ import net.minecraft.util.math.vector.Quaternion
  * @property parts A map of part name to part
  * @property base The different parts of the model
  */
-class TileEntityVitaeExtractorModel internal constructor() : Model(RenderType::entityCutoutNoCull) {
+class VitaeExtractorTileEntityModel internal constructor() : Model(RenderType::entityCutoutNoCull) {
     private val parts = mutableMapOf<String, MCAModelRenderer>()
     private val base: MCAModelRenderer
 

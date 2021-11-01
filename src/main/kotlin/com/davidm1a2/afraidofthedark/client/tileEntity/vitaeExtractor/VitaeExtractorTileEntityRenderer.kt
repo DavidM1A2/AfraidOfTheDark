@@ -13,7 +13,7 @@ import net.minecraft.util.math.vector.Vector3f
 import net.minecraft.world.LightType
 import net.minecraft.world.World
 
-class TileEntityVitaeExtractorRenderer(tileEntityRendererDispatcher: TileEntityRendererDispatcher) :
+class VitaeExtractorTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRendererDispatcher) :
     TileEntityRenderer<VitaeExtractorTileEntity>(tileEntityRendererDispatcher) {
 
     override fun render(
@@ -51,7 +51,7 @@ class TileEntityVitaeExtractorRenderer(tileEntityRendererDispatcher: TileEntityR
     }
 
     companion object {
-        private val VITAE_EXTRACTOR_MODEL = TileEntityVitaeExtractorModel()
+        private val VITAE_EXTRACTOR_MODEL = VitaeExtractorTileEntityModel()
         private val VITAE_EXTRACTOR_TEXTURE = ResourceLocation("afraidofthedark:textures/block/vitae_extractor_te.png")
         private val RENDER_TYPE = VITAE_EXTRACTOR_MODEL.renderType(VITAE_EXTRACTOR_TEXTURE)
     }

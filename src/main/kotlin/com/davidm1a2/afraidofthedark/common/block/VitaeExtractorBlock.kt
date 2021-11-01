@@ -49,7 +49,7 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
         return blockState.setValue(FACING, rotation.rotate(blockState.getValue(FACING)))
     }
 
-    override fun mirror(blockState: BlockState, mirror: Mirror): BlockState? {
+    override fun mirror(blockState: BlockState, mirror: Mirror): BlockState {
         return blockState.rotate(mirror.getRotation(blockState.getValue(FACING)))
     }
 

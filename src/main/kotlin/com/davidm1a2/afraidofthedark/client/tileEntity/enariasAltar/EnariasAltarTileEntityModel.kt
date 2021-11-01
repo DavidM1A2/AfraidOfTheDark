@@ -16,7 +16,7 @@ import net.minecraft.util.math.vector.Quaternion
  * @property parts A map of part name to part
  * @property altar The different parts of the model
  */
-class TileEntityEnariasAltarModel internal constructor() : Model(RenderType::entityCutoutNoCull) {
+class EnariasAltarTileEntityModel internal constructor() : Model(RenderType::entityCutoutNoCull) {
     private val parts = mutableMapOf<String, MCAModelRenderer>()
     private val altar: MCAModelRenderer
 

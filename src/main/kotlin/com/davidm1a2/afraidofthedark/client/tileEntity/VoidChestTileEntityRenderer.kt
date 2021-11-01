@@ -15,7 +15,7 @@ import net.minecraft.util.math.vector.Vector3f
 /**
  * Code is almost completely copied from ChestTileEntityRenderer
  */
-class TileEntityVoidChestRenderer(tileEntityRendererDispatcher: TileEntityRendererDispatcher) :
+class VoidChestTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRendererDispatcher) :
     TileEntityRenderer<VoidChestTileEntity>(tileEntityRendererDispatcher) {
     private val lid: ModelRenderer
     private val bottom: ModelRenderer
