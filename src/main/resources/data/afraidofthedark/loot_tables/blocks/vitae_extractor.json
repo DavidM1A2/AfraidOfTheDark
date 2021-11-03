@@ -38,7 +38,10 @@
       ],
       "conditions": [
         {
-          "condition": "minecraft:survives_explosion"
+          "condition": "afraidofthedark:block_entity_tag",
+          "key": "lantern.id",
+          "value": "afraidofthedark:vitae_lantern",
+          "operator": "EQUALS"
         }
       ]
     }
