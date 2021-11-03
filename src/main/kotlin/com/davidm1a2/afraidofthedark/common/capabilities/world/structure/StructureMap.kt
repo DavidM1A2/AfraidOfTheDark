@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.world.structure
 
 import com.davidm1a2.afraidofthedark.common.constants.ModStructures
-import com.davidm1a2.afraidofthedark.common.feature.structure.base.AOTDStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.SharedSeedRandom
 import net.minecraft.util.math.BlockPos

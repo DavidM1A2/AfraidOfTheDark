@@ -1,19 +1,19 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.common.feature.structure.altarruins.AltarRuinsStructure
-import com.davidm1a2.afraidofthedark.common.feature.structure.base.SchematicStructurePiece
-import com.davidm1a2.afraidofthedark.common.feature.structure.crypt.CryptStructure
-import com.davidm1a2.afraidofthedark.common.feature.structure.darkforest.DarkForestStructure
-import com.davidm1a2.afraidofthedark.common.feature.structure.desertoasis.DesertOasisStructure
-import com.davidm1a2.afraidofthedark.common.feature.structure.gnomishcity.GnomishCityStairwellClipperStructurePiece
-import com.davidm1a2.afraidofthedark.common.feature.structure.gnomishcity.GnomishCityStructure
-import com.davidm1a2.afraidofthedark.common.feature.structure.nightmareisland.NightmareIslandStructure
-import com.davidm1a2.afraidofthedark.common.feature.structure.observatory.ObservatoryStructure
-import com.davidm1a2.afraidofthedark.common.feature.structure.voidchest.VoidChestStructure
-import com.davidm1a2.afraidofthedark.common.feature.structure.voidchestbox.VoidChestBoxStructure
-import com.davidm1a2.afraidofthedark.common.feature.structure.voidchestbox.VoidChestBoxStructurePiece
-import com.davidm1a2.afraidofthedark.common.feature.structure.voidchestportal.VoidChestPortalStructure
-import com.davidm1a2.afraidofthedark.common.feature.structure.witchhut.WitchHutStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.altarruins.AltarRuinsStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.base.SchematicStructurePiece
+import com.davidm1a2.afraidofthedark.common.world.structure.crypt.CryptStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.darkforest.DarkForestStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.desertoasis.DesertOasisStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.gnomishcity.GnomishCityStairwellClipperStructurePiece
+import com.davidm1a2.afraidofthedark.common.world.structure.gnomishcity.GnomishCityStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.nightmareisland.NightmareIslandStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.observatory.ObservatoryStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.voidchest.VoidChestStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.voidchestbox.VoidChestBoxStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.voidchestbox.VoidChestBoxStructurePiece
+import com.davidm1a2.afraidofthedark.common.world.structure.voidchestportal.VoidChestPortalStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.witchhut.WitchHutStructure
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.gen.feature.structure.IStructurePieceType
 

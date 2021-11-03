@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.common.feature.tree.MangroveTreeFeature
-import com.davidm1a2.afraidofthedark.common.feature.tree.SacredMangroveTreeFeature
+import com.davidm1a2.afraidofthedark.common.world.feature.tree.MangroveTreeFeature
+import com.davidm1a2.afraidofthedark.common.world.feature.tree.SacredMangroveTreeFeature
 
 /**
  * A list of features to be registered
