@@ -21,16 +21,7 @@ import kotlin.math.floor
 
 class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IHasModelProperties {
     override fun getProperties(): List<Pair<ResourceLocation, IItemPropertyGetter>> {
-        return listOf(ResourceLocation(Constants.MOD_ID, "vitae_step") to IItemPropertyGetter { itemStack, _, _ ->
-            val percentFull = getVitae(itemStack) / getMaxVitae(itemStack).toFloat()
-            when {
-                percentFull == 0f -> 0f
-                percentFull < 0.33f -> 1f
-                percentFull < 0.66f -> 2f
-                percentFull < 1f -> 3f
-                else -> 4f
-            }
-        })
+        return listOf(ResourceLocation(Constants.MOD_ID, "vitae_step") to IItemPropertyGetter { itemStack, _, _ -> getChargeLevel(itemStack).ordinal.toFloat() })
     }
 
     fun addVitae(itemStack: ItemStack, vitae: Int): Int {
@@ -58,6 +49,17 @@ class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IH
         }
         NBTHelper.setInteger(itemStack, "vitae", newVitae)
         return true
+    }
+
+    fun getChargeLevel(itemStack: ItemStack): ChargeLevel {
+        val percentFull = getVitae(itemStack) / getMaxVitae(itemStack).toFloat()
+        return when {
+            percentFull == 0f -> ChargeLevel.EMPTY
+            percentFull < 0.33f -> ChargeLevel.QUARTER
+            percentFull < 0.66f -> ChargeLevel.HALF
+            percentFull < 1f -> ChargeLevel.THREE_QUARTERS
+            else -> ChargeLevel.FULL
+        }
     }
 
     fun getVitae(itemStack: ItemStack): Int {
@@ -97,5 +99,13 @@ class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IH
         } else {
             tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
+    }
+
+    enum class ChargeLevel {
+        EMPTY,
+        QUARTER,
+        HALF,
+        THREE_QUARTERS,
+        FULL;
     }
 }

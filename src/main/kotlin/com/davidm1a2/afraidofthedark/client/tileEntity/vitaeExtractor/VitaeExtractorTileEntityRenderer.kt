@@ -1,6 +1,9 @@
 package com.davidm1a2.afraidofthedark.client.tileEntity.vitaeExtractor
 
 import com.davidm1a2.afraidofthedark.common.block.VitaeExtractorBlock
+import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModItems
+import com.davidm1a2.afraidofthedark.common.item.VitaeLanternItem
 import com.davidm1a2.afraidofthedark.common.tileEntity.VitaeExtractorTileEntity
 import com.mojang.blaze3d.matrix.MatrixStack
 import net.minecraft.client.renderer.IRenderTypeBuffer
@@ -35,7 +38,15 @@ class VitaeExtractorTileEntityRenderer(tileEntityRendererDispatcher: TileEntityR
         } else {
             packedLight
         }
-        VITAE_EXTRACTOR_MODEL.renderToBuffer(matrixStack, renderTypeBuffer.getBuffer(RENDER_TYPE), realLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f)
+        VITAE_EXTRACTOR_MODEL.renderToBuffer(matrixStack, renderTypeBuffer.getBuffer(EXTRACTOR_RENDER_TYPE), realLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f)
+
+        val lantern = te.getLantern()
+        if (!lantern.isEmpty) {
+            matrixStack.translate(0.0, 0.48, 0.0)
+            val changeLevel = ModItems.VITAE_LANTERN.getChargeLevel(lantern)
+            VITAE_LANTERN_MODEL.renderToBuffer(matrixStack, renderTypeBuffer.getBuffer(CHARGE_LEVEL_TO_RENDER_TYPE[changeLevel]!!), realLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f)
+        }
+
         matrixStack.popPose()
     }
 
@@ -53,6 +64,15 @@ class VitaeExtractorTileEntityRenderer(tileEntityRendererDispatcher: TileEntityR
     companion object {
         private val VITAE_EXTRACTOR_MODEL = VitaeExtractorTileEntityModel()
         private val VITAE_EXTRACTOR_TEXTURE = ResourceLocation("afraidofthedark:textures/block/vitae_extractor_te.png")
-        private val RENDER_TYPE = VITAE_EXTRACTOR_MODEL.renderType(VITAE_EXTRACTOR_TEXTURE)
+        private val EXTRACTOR_RENDER_TYPE = VITAE_EXTRACTOR_MODEL.renderType(VITAE_EXTRACTOR_TEXTURE)
+
+        private val VITAE_LANTERN_MODEL = VitaeLanternModel()
+        private val CHARGE_LEVEL_TO_RENDER_TYPE = mapOf(
+            VitaeLanternItem.ChargeLevel.EMPTY to VITAE_LANTERN_MODEL.renderType(ResourceLocation(Constants.MOD_ID, "textures/block/vitae_lantern/vitae_lantern_empty.png")),
+            VitaeLanternItem.ChargeLevel.QUARTER to VITAE_LANTERN_MODEL.renderType(ResourceLocation(Constants.MOD_ID, "textures/block/vitae_lantern/vitae_lantern_quarter.png")),
+            VitaeLanternItem.ChargeLevel.HALF to VITAE_LANTERN_MODEL.renderType(ResourceLocation(Constants.MOD_ID, "textures/block/vitae_lantern/vitae_lantern_half.png")),
+            VitaeLanternItem.ChargeLevel.THREE_QUARTERS to VITAE_LANTERN_MODEL.renderType(ResourceLocation(Constants.MOD_ID, "textures/block/vitae_lantern/vitae_lantern_three_quarters.png")),
+            VitaeLanternItem.ChargeLevel.FULL to VITAE_LANTERN_MODEL.renderType(ResourceLocation(Constants.MOD_ID, "textures/block/vitae_lantern/vitae_lantern_full.png"))
+        )
     }
 }
