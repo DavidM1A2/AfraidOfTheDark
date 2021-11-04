@@ -78,41 +78,41 @@ class VitaeExtractorTileEntity : AOTDTileEntity(ModTileEntities.VITAE_EXTRACTOR)
     // ISidedInventory methods to enable hopper usage
 
     override fun clearContent() {
-        lantern = ItemStack.EMPTY
+        clearLantern()
     }
 
     override fun getContainerSize(): Int {
-        return 1
+        return 1 // LANTERN_INDEX
     }
 
     override fun isEmpty(): Boolean {
-        return lantern.isEmpty
+        return getLantern().isEmpty
     }
 
     override fun getItem(index: Int): ItemStack {
-        if (index == 0) {
-            return lantern
+        if (index == LANTERN_INDEX) {
+            return getLantern()
         }
         return ItemStack.EMPTY
     }
 
     override fun removeItem(index: Int, count: Int): ItemStack {
-        if (index == 0 && count == 1) {
+        if (index == LANTERN_INDEX && count == 1) {
             return clearLantern()
         }
         return ItemStack.EMPTY
     }
 
     override fun removeItemNoUpdate(index: Int): ItemStack {
-        if (index == 0) {
+        if (index == LANTERN_INDEX) {
             return clearLantern()
         }
         return ItemStack.EMPTY
     }
 
     override fun setItem(index: Int, itemStack: ItemStack) {
-        if (index == 0 && itemStack.item == ModItems.VITAE_LANTERN) {
-            this.lantern = itemStack
+        if (index == LANTERN_INDEX) {
+            insertLantern(itemStack)
         }
     }
 
@@ -122,13 +122,13 @@ class VitaeExtractorTileEntity : AOTDTileEntity(ModTileEntities.VITAE_EXTRACTOR)
 
     override fun getSlotsForFace(direction: Direction): IntArray {
         if (direction == Direction.UP || direction == Direction.DOWN) {
-            return intArrayOf(0)
+            return intArrayOf(LANTERN_INDEX)
         }
         return intArrayOf()
     }
 
     override fun canPlaceItemThroughFace(index: Int, itemStack: ItemStack, direction: Direction?): Boolean {
-        if (index == 0 &&
+        if (index == LANTERN_INDEX &&
             itemStack.item == ModItems.VITAE_LANTERN &&
             direction == Direction.UP
         ) {
@@ -138,7 +138,7 @@ class VitaeExtractorTileEntity : AOTDTileEntity(ModTileEntities.VITAE_EXTRACTOR)
     }
 
     override fun canTakeItemThroughFace(index: Int, itemStack: ItemStack, direction: Direction): Boolean {
-        if (index == 0 &&
+        if (index == LANTERN_INDEX &&
             itemStack.item == ModItems.VITAE_LANTERN &&
             ModItems.VITAE_LANTERN.getChargeLevel(itemStack) == VitaeLanternItem.ChargeLevel.FULL &&
             direction == Direction.DOWN
@@ -146,5 +146,9 @@ class VitaeExtractorTileEntity : AOTDTileEntity(ModTileEntities.VITAE_EXTRACTOR)
             return true
         }
         return false
+    }
+
+    companion object {
+        const val LANTERN_INDEX = 0
     }
 }
