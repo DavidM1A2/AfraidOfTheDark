@@ -85,7 +85,7 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
                 }
                 ActionResultType.SUCCESS
             } else {
-                ActionResultType.FAIL
+                ActionResultType.CONSUME
             }
         } else {
             ActionResultType.CONSUME
