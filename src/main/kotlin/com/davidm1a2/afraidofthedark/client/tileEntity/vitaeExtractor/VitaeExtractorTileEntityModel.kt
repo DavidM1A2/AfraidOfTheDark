@@ -78,7 +78,7 @@ class VitaeExtractorTileEntityModel internal constructor() : Model(RenderType::e
 
         val openingSide1 = MCAModelRenderer(this, 12, 5)
         openingSide1.mirror = false
-        openingSide1.addBox(0.0f, 0.0f, 0.0f, 2f, 7f, 4f)
+        openingSide1.addBox(0.0f, 0.0f, 0.0f, 2f, 6f, 4f)
         openingSide1.setInitialRotationPoint(6.0f, 1.0f, 4.0f)
         openingSide1.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         openingSide1.setTexSize(128, 64)
@@ -87,7 +87,7 @@ class VitaeExtractorTileEntityModel internal constructor() : Model(RenderType::e
 
         val openingSide2 = MCAModelRenderer(this, 0, 5)
         openingSide2.mirror = false
-        openingSide2.addBox(0.0f, 0.0f, 0.0f, 2f, 7f, 4f)
+        openingSide2.addBox(0.0f, 0.0f, 0.0f, 2f, 6f, 4f)
         openingSide2.setInitialRotationPoint(6.0f, 1.0f, -8.0f)
         openingSide2.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
         openingSide2.setTexSize(128, 64)

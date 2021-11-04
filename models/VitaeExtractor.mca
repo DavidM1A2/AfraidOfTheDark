@@ -1,8 +1,8 @@
 <?xml  version='1.0' encoding='UTF-8'?>
 <mca.project.MCStandard.data.ProjectSavable format_version='2' savable_versions='0'>
     <modelNode class='com.jme3.scene.Node' name='Model' savable_versions='0, 0'>
-        <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='8.0' yExtent='5.0' zExtent='8.0'>
-            <center class='com.jme3.math.Vector3f' savable_versions='0' y='5.0'/>
+        <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='8.025' yExtent='5.2497973' zExtent='8.05'>
+            <center class='com.jme3.math.Vector3f' savable_versions='0' x='-0.024999857' y='4.7502027'/>
         </world_bound>
         <transform class='com.jme3.math.Transform' savable_versions='0'/>
         <lights class='com.jme3.light.LightList' savable_versions='0'>
@@ -18,8 +18,8 @@
         </user_data>
         <children size='1'>
             <com.jme3.scene.Node name='BoxNode373d2308-696d-4607-8bbb-9b23f9d9b4e1' savable_versions='0, 0'>
-                <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='8.0' yExtent='5.0' zExtent='8.0'>
-                    <center class='com.jme3.math.Vector3f' savable_versions='0' y='5.0'/>
+                <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='8.025' yExtent='5.2497973' zExtent='8.05'>
+                    <center class='com.jme3.math.Vector3f' savable_versions='0' x='-0.024999857' y='4.7502027'/>
                 </world_bound>
                 <transform class='com.jme3.math.Transform' savable_versions='0'/>
                 <lights class='com.jme3.light.LightList' savable_versions='0'>
@@ -43,12 +43,12 @@
                             <lights size='0'/>
                         </lights>
                         <controlsList size='0'/>
-                        <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@1253939812' savable_versions='0' vertCount='24'>
+                        <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@504664769' savable_versions='0' vertCount='24'>
                             <modelBound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='7.0' yExtent='3.5' zExtent='8.0'>
                                 <center class='com.jme3.math.Vector3f' savable_versions='0' x='7.0' y='3.5' z='8.0'/>
                             </modelBound>
                             <collisionTree class='com.jme3.collision.bih.BIHTree' savable_versions='0' tris_per_node='21'>
-                                <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@1253939812'/>
+                                <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@504664769'/>
                                 <root axis='3' class='com.jme3.collision.bih.BIHNode' right_index='11' savable_versions='0'/>
                                 <points data='0.0 16.0 16.0 0.0 0.0 16.0 16.0 0.0 16.0 16.0 0.0 16.0 16.0 16.0 16.0 0.0 16.0 16.0 0.0 16.0 16.0 0.0 16.0 0.0 0.0 0.0 16.0 0.0 16.0 0.0 0.0 0.0 0.0 0.0 0.0 16.0 16.0 16.0 0.0 16.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 16.0 0.0 16.0 16.0 0.0 16.0 16.0 0.0 16.0 16.0 16.0 16.0 0.0 0.0 16.0 16.0 16.0 16.0 0.0 16.0 16.0 0.0 0.0 0.0 0.0 16.0 0.0 0.0 0.0 16.0 0.0 16.0 16.0 0.0 16.0 0.0 0.0 0.0 16.0 0.0 0.0 0.0 16.0 0.0 0.0 16.0 16.0 16.0 16.0 0.0 0.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 0.0' size='108'/>
                                 <indices data='0 1 2 3 4 5 6 7 8 9 10 11' size='12'/>
@@ -133,12 +133,12 @@
                                     <lights size='0'/>
                                 </lights>
                                 <controlsList size='0'/>
-                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@1080474826' savable_versions='0' vertCount='24'>
+                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@2140043318' savable_versions='0' vertCount='24'>
                                     <modelBound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='8.0' yExtent='1.5' zExtent='2.0'>
                                         <center class='com.jme3.math.Vector3f' savable_versions='0' x='8.0' y='1.5' z='2.0'/>
                                     </modelBound>
                                     <collisionTree class='com.jme3.collision.bih.BIHTree' savable_versions='0' tris_per_node='21'>
-                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@1080474826'/>
+                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@2140043318'/>
                                         <root axis='3' class='com.jme3.collision.bih.BIHNode' right_index='11' savable_versions='0'/>
                                         <points data='0.0 1.0 1.0 0.0 0.0 1.0 16.0 0.0 1.0 16.0 0.0 1.0 16.0 1.0 1.0 0.0 1.0 1.0 0.0 1.0 1.0 0.0 1.0 0.0 0.0 0.0 1.0 0.0 1.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 16.0 1.0 0.0 16.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 0.0 16.0 1.0 0.0 16.0 1.0 0.0 16.0 1.0 1.0 16.0 0.0 0.0 16.0 1.0 1.0 16.0 0.0 1.0 16.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 16.0 0.0 1.0 16.0 0.0 1.0 0.0 0.0 0.0 16.0 0.0 0.0 0.0 1.0 0.0 0.0 1.0 1.0 16.0 1.0 0.0 0.0 1.0 1.0 16.0 1.0 1.0 16.0 1.0 0.0' size='108'/>
                                         <indices data='0 1 2 3 4 5 6 7 8 9 10 11' size='12'/>
@@ -225,12 +225,12 @@
                                     <lights size='0'/>
                                 </lights>
                                 <controlsList size='0'/>
-                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@837624273' savable_versions='0' vertCount='24'>
+                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@1525453592' savable_versions='0' vertCount='24'>
                                     <modelBound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='2.0' yExtent='1.5' zExtent='4.0'>
                                         <center class='com.jme3.math.Vector3f' savable_versions='0' x='2.0' y='1.5' z='4.0'/>
                                     </modelBound>
                                     <collisionTree class='com.jme3.collision.bih.BIHTree' savable_versions='0' tris_per_node='21'>
-                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@837624273'/>
+                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@1525453592'/>
                                         <root axis='3' class='com.jme3.collision.bih.BIHNode' right_index='11' savable_versions='0'/>
                                         <points data='0.0 2.0 2.0 0.0 0.0 2.0 16.0 0.0 2.0 16.0 0.0 2.0 16.0 2.0 2.0 0.0 2.0 2.0 0.0 2.0 2.0 0.0 2.0 0.0 0.0 0.0 2.0 0.0 2.0 0.0 0.0 0.0 0.0 0.0 0.0 2.0 16.0 2.0 0.0 16.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 2.0 0.0 16.0 2.0 0.0 16.0 2.0 0.0 16.0 2.0 2.0 16.0 0.0 0.0 16.0 2.0 2.0 16.0 0.0 2.0 16.0 0.0 0.0 0.0 0.0 2.0 0.0 0.0 0.0 16.0 0.0 2.0 16.0 0.0 2.0 0.0 0.0 0.0 16.0 0.0 0.0 0.0 2.0 0.0 0.0 2.0 2.0 16.0 2.0 0.0 0.0 2.0 2.0 16.0 2.0 2.0 16.0 2.0 0.0' size='108'/>
                                         <indices data='0 1 2 3 4 5 6 7 8 9 10 11' size='12'/>
@@ -317,12 +317,12 @@
                                     <lights size='0'/>
                                 </lights>
                                 <controlsList size='0'/>
-                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@77131501' savable_versions='0' vertCount='24'>
+                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@503281698' savable_versions='0' vertCount='24'>
                                     <modelBound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='8.0' yExtent='1.5' zExtent='2.0'>
                                         <center class='com.jme3.math.Vector3f' savable_versions='0' x='8.0' y='1.5' z='2.0'/>
                                     </modelBound>
                                     <collisionTree class='com.jme3.collision.bih.BIHTree' savable_versions='0' tris_per_node='21'>
-                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@77131501'/>
+                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@503281698'/>
                                         <root axis='3' class='com.jme3.collision.bih.BIHNode' right_index='11' savable_versions='0'/>
                                         <points data='0.0 2.0 2.0 0.0 0.0 2.0 14.0 0.0 2.0 14.0 0.0 2.0 14.0 2.0 2.0 0.0 2.0 2.0 0.0 2.0 2.0 0.0 2.0 0.0 0.0 0.0 2.0 0.0 2.0 0.0 0.0 0.0 0.0 0.0 0.0 2.0 14.0 2.0 0.0 14.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 2.0 0.0 14.0 2.0 0.0 14.0 2.0 0.0 14.0 2.0 2.0 14.0 0.0 0.0 14.0 2.0 2.0 14.0 0.0 2.0 14.0 0.0 0.0 0.0 0.0 2.0 0.0 0.0 0.0 14.0 0.0 2.0 14.0 0.0 2.0 0.0 0.0 0.0 14.0 0.0 0.0 0.0 2.0 0.0 0.0 2.0 2.0 14.0 2.0 0.0 0.0 2.0 2.0 14.0 2.0 2.0 14.0 2.0 0.0' size='108'/>
                                         <indices data='0 1 2 3 4 5 6 7 8 9 10 11' size='12'/>
@@ -409,12 +409,12 @@
                                     <lights size='0'/>
                                 </lights>
                                 <controlsList size='0'/>
-                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@1194055980' savable_versions='0' vertCount='24'>
+                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@366729569' savable_versions='0' vertCount='24'>
                                     <modelBound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='2.0' yExtent='1.5' zExtent='4.0'>
                                         <center class='com.jme3.math.Vector3f' savable_versions='0' x='2.0' y='1.5' z='4.0'/>
                                     </modelBound>
                                     <collisionTree class='com.jme3.collision.bih.BIHTree' savable_versions='0' tris_per_node='21'>
-                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@1194055980'/>
+                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@366729569'/>
                                         <root axis='3' class='com.jme3.collision.bih.BIHNode' right_index='11' savable_versions='0'/>
                                         <points data='0.0 2.0 12.0 0.0 0.0 12.0 2.0 0.0 12.0 2.0 0.0 12.0 2.0 2.0 12.0 0.0 2.0 12.0 0.0 2.0 12.0 0.0 2.0 0.0 0.0 0.0 12.0 0.0 2.0 0.0 0.0 0.0 0.0 0.0 0.0 12.0 2.0 2.0 0.0 2.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 2.0 0.0 2.0 2.0 0.0 2.0 2.0 0.0 2.0 2.0 12.0 2.0 0.0 0.0 2.0 2.0 12.0 2.0 0.0 12.0 2.0 0.0 0.0 0.0 0.0 12.0 0.0 0.0 0.0 2.0 0.0 12.0 2.0 0.0 12.0 0.0 0.0 0.0 2.0 0.0 0.0 0.0 2.0 0.0 0.0 2.0 12.0 2.0 2.0 0.0 0.0 2.0 12.0 2.0 2.0 12.0 2.0 2.0 0.0' size='108'/>
                                         <indices data='0 1 2 3 4 5 6 7 8 9 10 11' size='12'/>
@@ -501,12 +501,12 @@
                                     <lights size='0'/>
                                 </lights>
                                 <controlsList size='0'/>
-                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@1227247952' savable_versions='0' vertCount='24'>
+                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@138764129' savable_versions='0' vertCount='24'>
                                     <modelBound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='1.0' yExtent='0.5' zExtent='8.0'>
                                         <center class='com.jme3.math.Vector3f' savable_versions='0' x='1.0' y='0.5' z='8.0'/>
                                     </modelBound>
                                     <collisionTree class='com.jme3.collision.bih.BIHTree' savable_versions='0' tris_per_node='21'>
-                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@1227247952'/>
+                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@138764129'/>
                                         <root axis='3' class='com.jme3.collision.bih.BIHNode' right_index='11' savable_versions='0'/>
                                         <points data='0.0 1.0 16.0 0.0 0.0 16.0 1.0 0.0 16.0 1.0 0.0 16.0 1.0 1.0 16.0 0.0 1.0 16.0 0.0 1.0 16.0 0.0 1.0 0.0 0.0 0.0 16.0 0.0 1.0 0.0 0.0 0.0 0.0 0.0 0.0 16.0 1.0 1.0 0.0 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 0.0 1.0 1.0 0.0 1.0 1.0 0.0 1.0 1.0 16.0 1.0 0.0 0.0 1.0 1.0 16.0 1.0 0.0 16.0 1.0 0.0 0.0 0.0 0.0 16.0 0.0 0.0 0.0 1.0 0.0 16.0 1.0 0.0 16.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 1.0 16.0 1.0 1.0 0.0 0.0 1.0 16.0 1.0 1.0 16.0 1.0 1.0 0.0' size='108'/>
                                         <indices data='0 1 2 3 4 5 6 7 8 9 10 11' size='12'/>
@@ -568,8 +568,8 @@
                         </children>
                     </com.jme3.scene.Node>
                     <com.jme3.scene.Node name='BoxNoded3d76f21-5317-45b5-b6af-8ac0039e70ef' savable_versions='0, 0'>
-                        <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='1.0' yExtent='3.5' zExtent='2.0'>
-                            <center class='com.jme3.math.Vector3f' savable_versions='0' x='7.0' y='4.5' z='6.0'/>
+                        <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='1.0' yExtent='3.0' zExtent='2.0'>
+                            <center class='com.jme3.math.Vector3f' savable_versions='0' x='7.0' y='4.0' z='6.0'/>
                         </world_bound>
                         <transform class='com.jme3.math.Transform' savable_versions='0'>
                             <translation class='com.jme3.math.Vector3f' savable_versions='0' x='6.0' y='1.0' z='4.0'/>
@@ -580,13 +580,13 @@
                         <controlsList size='0'/>
                         <user_data>
                             <MapEntry key='data'>
-                                <Savable Depth='4' Height='7' ID='d3d76f21-5317-45b5-b6af-8ac0039e70ef' Name='OpeningSide1' PosX='6.0' PosY='1.0' PosZ='4.0' TextureOffsetX='12' TextureOffsetY='5' Width='2' class='mca.project.MCStandard.data.BoxNodeData' savable_versions='0'/>
+                                <Savable Depth='4' Height='6' ID='d3d76f21-5317-45b5-b6af-8ac0039e70ef' Name='OpeningSide1' PosX='6.0' PosY='1.0' PosZ='4.0' TextureOffsetX='12' TextureOffsetY='5' Width='2' class='mca.project.MCStandard.data.BoxNodeData' savable_versions='0'/>
                             </MapEntry>
                         </user_data>
                         <children size='1'>
                             <com.jme3.scene.Geometry name='Box' queue='Translucent' savable_versions='1, 0'>
-                                <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='1.0' yExtent='3.5' zExtent='2.0'>
-                                    <center class='com.jme3.math.Vector3f' savable_versions='0' x='7.0' y='4.5' z='6.0'/>
+                                <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='1.0' yExtent='3.0' zExtent='2.0'>
+                                    <center class='com.jme3.math.Vector3f' savable_versions='0' x='7.0' y='4.0' z='6.0'/>
                                 </world_bound>
                                 <transform class='com.jme3.math.Transform' savable_versions='0'/>
                                 <lights class='com.jme3.light.LightList' savable_versions='0'>
@@ -594,8 +594,8 @@
                                 </lights>
                                 <controlsList size='0'/>
                                 <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@1279712653' savable_versions='0' vertCount='24'>
-                                    <modelBound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='1.0' yExtent='3.5' zExtent='2.0'>
-                                        <center class='com.jme3.math.Vector3f' savable_versions='0' x='1.0' y='3.5' z='2.0'/>
+                                    <modelBound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='1.0' yExtent='3.0' zExtent='2.0'>
+                                        <center class='com.jme3.math.Vector3f' savable_versions='0' x='1.0' y='3.0' z='2.0'/>
                                     </modelBound>
                                     <collisionTree class='com.jme3.collision.bih.BIHTree' savable_versions='0' tris_per_node='21'>
                                         <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@1279712653'/>
@@ -606,7 +606,7 @@
                                     <buffers>
                                         <MapEntry key='0'>
                                             <Savable buffer_type='Position' class='com.jme3.scene.VertexBuffer' components='3' savable_versions='0'>
-                                                <dataFloat data='0.0 7.0 4.0 0.0 0.0 4.0 2.0 0.0 4.0 2.0 7.0 4.0 0.0 7.0 4.0 0.0 7.0 0.0 0.0 0.0 4.0 0.0 0.0 0.0 2.0 7.0 0.0 2.0 0.0 0.0 0.0 0.0 0.0 0.0 7.0 0.0 2.0 7.0 0.0 2.0 7.0 4.0 2.0 0.0 0.0 2.0 0.0 4.0 0.0 0.0 4.0 2.0 0.0 4.0 0.0 0.0 0.0 2.0 0.0 0.0 0.0 7.0 0.0 2.0 7.0 0.0 0.0 7.0 4.0 2.0 7.0 4.0' size='72'/>
+                                                <dataFloat data='0.0 6.0 4.0 0.0 0.0 4.0 2.0 0.0 4.0 2.0 6.0 4.0 0.0 6.0 4.0 0.0 6.0 0.0 0.0 0.0 4.0 0.0 0.0 0.0 2.0 6.0 0.0 2.0 0.0 0.0 0.0 0.0 0.0 0.0 6.0 0.0 2.0 6.0 0.0 2.0 6.0 4.0 2.0 0.0 0.0 2.0 0.0 4.0 0.0 0.0 4.0 2.0 0.0 4.0 0.0 0.0 0.0 2.0 0.0 0.0 0.0 6.0 0.0 2.0 6.0 0.0 0.0 6.0 4.0 2.0 6.0 4.0' size='72'/>
                                             </Savable>
                                         </MapEntry>
                                         <MapEntry key='2'>
@@ -616,7 +616,7 @@
                                         </MapEntry>
                                         <MapEntry key='3'>
                                             <Savable buffer_type='TexCoord' class='com.jme3.scene.VertexBuffer' components='2' savable_versions='0'>
-                                                <dataFloat data='0.125 0.859375 0.125 0.75 0.140625 0.75 0.140625 0.859375 0.125 0.859375 0.09375 0.859375 0.125 0.75 0.09375 0.75 0.171875 0.859375 0.171875 0.75 0.1875 0.75 0.1875 0.859375 0.171875 0.859375 0.140625 0.859375 0.171875 0.75 0.140625 0.75 0.140625 0.921875 0.15625 0.921875 0.140625 0.859375 0.15625 0.859375 0.125 0.921875 0.140625 0.921875 0.125 0.859375 0.140625 0.859375' size='48'/>
+                                                <dataFloat data='0.125 0.859375 0.125 0.765625 0.140625 0.765625 0.140625 0.859375 0.125 0.859375 0.09375 0.859375 0.125 0.765625 0.09375 0.765625 0.171875 0.859375 0.171875 0.765625 0.1875 0.765625 0.1875 0.859375 0.171875 0.859375 0.140625 0.859375 0.171875 0.765625 0.140625 0.765625 0.140625 0.921875 0.15625 0.921875 0.140625 0.859375 0.15625 0.859375 0.125 0.921875 0.140625 0.921875 0.125 0.859375 0.140625 0.859375' size='48'/>
                                             </Savable>
                                         </MapEntry>
                                         <MapEntry key='9'>
@@ -660,8 +660,8 @@
                         </children>
                     </com.jme3.scene.Node>
                     <com.jme3.scene.Node name='BoxNode2de96697-5cd1-4718-929b-5766a476b8a1' savable_versions='0, 0'>
-                        <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='1.0' yExtent='3.5' zExtent='2.0'>
-                            <center class='com.jme3.math.Vector3f' savable_versions='0' x='7.0' y='4.5' z='-6.0'/>
+                        <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='1.0' yExtent='3.0' zExtent='2.0'>
+                            <center class='com.jme3.math.Vector3f' savable_versions='0' x='7.0' y='4.0' z='-6.0'/>
                         </world_bound>
                         <transform class='com.jme3.math.Transform' savable_versions='0'>
                             <translation class='com.jme3.math.Vector3f' savable_versions='0' x='6.0' y='1.0' z='-8.0'/>
@@ -672,25 +672,25 @@
                         <controlsList size='0'/>
                         <user_data>
                             <MapEntry key='data'>
-                                <Savable Depth='4' Height='7' ID='2de96697-5cd1-4718-929b-5766a476b8a1' Name='OpeningSide2' PosX='6.0' PosY='1.0' PosZ='-8.0' TextureOffsetY='5' Width='2' class='mca.project.MCStandard.data.BoxNodeData' savable_versions='0'/>
+                                <Savable Depth='4' Height='6' ID='2de96697-5cd1-4718-929b-5766a476b8a1' Name='OpeningSide2' PosX='6.0' PosY='1.0' PosZ='-8.0' TextureOffsetY='5' Width='2' class='mca.project.MCStandard.data.BoxNodeData' savable_versions='0'/>
                             </MapEntry>
                         </user_data>
                         <children size='1'>
                             <com.jme3.scene.Geometry name='Box' queue='Translucent' savable_versions='1, 0'>
-                                <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='1.0' yExtent='3.5' zExtent='2.0'>
-                                    <center class='com.jme3.math.Vector3f' savable_versions='0' x='7.0' y='4.5' z='-6.0'/>
+                                <world_bound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='1.0' yExtent='3.0' zExtent='2.0'>
+                                    <center class='com.jme3.math.Vector3f' savable_versions='0' x='7.0' y='4.0' z='-6.0'/>
                                 </world_bound>
                                 <transform class='com.jme3.math.Transform' savable_versions='0'/>
                                 <lights class='com.jme3.light.LightList' savable_versions='0'>
                                     <lights size='0'/>
                                 </lights>
                                 <controlsList size='0'/>
-                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@708169351' savable_versions='0' vertCount='24'>
-                                    <modelBound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='1.0' yExtent='3.5' zExtent='2.0'>
-                                        <center class='com.jme3.math.Vector3f' savable_versions='0' x='1.0' y='3.5' z='2.0'/>
+                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@1162459285' savable_versions='0' vertCount='24'>
+                                    <modelBound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='1.0' yExtent='3.0' zExtent='2.0'>
+                                        <center class='com.jme3.math.Vector3f' savable_versions='0' x='1.0' y='3.0' z='2.0'/>
                                     </modelBound>
                                     <collisionTree class='com.jme3.collision.bih.BIHTree' savable_versions='0' tris_per_node='21'>
-                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@708169351'/>
+                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@1162459285'/>
                                         <root axis='3' class='com.jme3.collision.bih.BIHNode' right_index='11' savable_versions='0'/>
                                         <points data='0.0 7.0 3.0 0.0 0.0 3.0 2.0 0.0 3.0 2.0 0.0 3.0 2.0 7.0 3.0 0.0 7.0 3.0 0.0 7.0 3.0 0.0 7.0 0.0 0.0 0.0 3.0 0.0 7.0 0.0 0.0 0.0 0.0 0.0 0.0 3.0 2.0 7.0 0.0 2.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 7.0 0.0 2.0 7.0 0.0 2.0 7.0 0.0 2.0 7.0 3.0 2.0 0.0 0.0 2.0 7.0 3.0 2.0 0.0 3.0 2.0 0.0 0.0 0.0 0.0 3.0 0.0 0.0 0.0 2.0 0.0 3.0 2.0 0.0 3.0 0.0 0.0 0.0 2.0 0.0 0.0 0.0 7.0 0.0 0.0 7.0 3.0 2.0 7.0 0.0 0.0 7.0 3.0 2.0 7.0 3.0 2.0 7.0 0.0' size='108'/>
                                         <indices data='0 1 2 3 4 5 6 7 8 9 10 11' size='12'/>
@@ -698,7 +698,7 @@
                                     <buffers>
                                         <MapEntry key='0'>
                                             <Savable buffer_type='Position' class='com.jme3.scene.VertexBuffer' components='3' savable_versions='0'>
-                                                <dataFloat data='0.0 7.0 4.0 0.0 0.0 4.0 2.0 0.0 4.0 2.0 7.0 4.0 0.0 7.0 4.0 0.0 7.0 0.0 0.0 0.0 4.0 0.0 0.0 0.0 2.0 7.0 0.0 2.0 0.0 0.0 0.0 0.0 0.0 0.0 7.0 0.0 2.0 7.0 0.0 2.0 7.0 4.0 2.0 0.0 0.0 2.0 0.0 4.0 0.0 0.0 4.0 2.0 0.0 4.0 0.0 0.0 0.0 2.0 0.0 0.0 0.0 7.0 0.0 2.0 7.0 0.0 0.0 7.0 4.0 2.0 7.0 4.0' size='72'/>
+                                                <dataFloat data='0.0 6.0 4.0 0.0 0.0 4.0 2.0 0.0 4.0 2.0 6.0 4.0 0.0 6.0 4.0 0.0 6.0 0.0 0.0 0.0 4.0 0.0 0.0 0.0 2.0 6.0 0.0 2.0 0.0 0.0 0.0 0.0 0.0 0.0 6.0 0.0 2.0 6.0 0.0 2.0 6.0 4.0 2.0 0.0 0.0 2.0 0.0 4.0 0.0 0.0 4.0 2.0 0.0 4.0 0.0 0.0 0.0 2.0 0.0 0.0 0.0 6.0 0.0 2.0 6.0 0.0 0.0 6.0 4.0 2.0 6.0 4.0' size='72'/>
                                             </Savable>
                                         </MapEntry>
                                         <MapEntry key='2'>
@@ -708,7 +708,7 @@
                                         </MapEntry>
                                         <MapEntry key='3'>
                                             <Savable buffer_type='TexCoord' class='com.jme3.scene.VertexBuffer' components='2' savable_versions='0'>
-                                                <dataFloat data='0.03125 0.859375 0.03125 0.75 0.046875 0.75 0.046875 0.859375 0.03125 0.859375 0.0 0.859375 0.03125 0.75 0.0 0.75 0.078125 0.859375 0.078125 0.75 0.09375 0.75 0.09375 0.859375 0.078125 0.859375 0.046875 0.859375 0.078125 0.75 0.046875 0.75 0.046875 0.921875 0.0625 0.921875 0.046875 0.859375 0.0625 0.859375 0.03125 0.921875 0.046875 0.921875 0.03125 0.859375 0.046875 0.859375' size='48'/>
+                                                <dataFloat data='0.03125 0.859375 0.03125 0.765625 0.046875 0.765625 0.046875 0.859375 0.03125 0.859375 0.0 0.859375 0.03125 0.765625 0.0 0.765625 0.078125 0.859375 0.078125 0.765625 0.09375 0.765625 0.09375 0.859375 0.078125 0.859375 0.046875 0.859375 0.078125 0.765625 0.046875 0.765625 0.046875 0.921875 0.0625 0.921875 0.046875 0.859375 0.0625 0.859375 0.03125 0.921875 0.046875 0.921875 0.03125 0.859375 0.046875 0.859375' size='48'/>
                                             </Savable>
                                         </MapEntry>
                                         <MapEntry key='9'>
@@ -777,12 +777,12 @@
                                     <lights size='0'/>
                                 </lights>
                                 <controlsList size='0'/>
-                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@86770998' savable_versions='0' vertCount='24'>
+                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@916851844' savable_versions='0' vertCount='24'>
                                     <modelBound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='1.0' yExtent='1.0' zExtent='1.0'>
                                         <center class='com.jme3.math.Vector3f' savable_versions='0' x='1.0' y='1.0' z='1.0'/>
                                     </modelBound>
                                     <collisionTree class='com.jme3.collision.bih.BIHTree' savable_versions='0' tris_per_node='21'>
-                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@86770998'/>
+                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@916851844'/>
                                         <root axis='3' class='com.jme3.collision.bih.BIHNode' right_index='11' savable_versions='0'/>
                                         <points data='0.0 2.0 2.0 0.0 0.0 2.0 2.0 0.0 2.0 2.0 0.0 2.0 2.0 2.0 2.0 0.0 2.0 2.0 0.0 2.0 2.0 0.0 2.0 0.0 0.0 0.0 2.0 0.0 2.0 0.0 0.0 0.0 0.0 0.0 0.0 2.0 2.0 2.0 0.0 2.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 2.0 0.0 2.0 2.0 0.0 2.0 2.0 0.0 2.0 2.0 2.0 2.0 0.0 0.0 2.0 2.0 2.0 2.0 0.0 2.0 2.0 0.0 0.0 0.0 0.0 2.0 0.0 0.0 0.0 2.0 0.0 2.0 2.0 0.0 2.0 0.0 0.0 0.0 2.0 0.0 0.0 0.0 2.0 0.0 0.0 2.0 2.0 2.0 2.0 0.0 0.0 2.0 2.0 2.0 2.0 2.0 2.0 2.0 0.0' size='108'/>
                                         <indices data='0 1 2 3 4 5 6 7 8 9 10 11' size='12'/>
@@ -869,12 +869,12 @@
                                     <lights size='0'/>
                                 </lights>
                                 <controlsList size='0'/>
-                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@412107018' savable_versions='0' vertCount='24'>
+                                <mesh class='com.jme3.scene.Mesh' elementCount='12' reference_ID='com.jme3.scene.Mesh@1183284588' savable_versions='0' vertCount='24'>
                                     <modelBound class='com.jme3.bounding.BoundingBox' savable_versions='0, 0' xExtent='1.0' yExtent='1.0' zExtent='1.0'>
                                         <center class='com.jme3.math.Vector3f' savable_versions='0' x='1.0' y='1.0' z='1.0'/>
                                     </modelBound>
                                     <collisionTree class='com.jme3.collision.bih.BIHTree' savable_versions='0' tris_per_node='21'>
-                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@412107018'/>
+                                        <mesh class='com.jme3.scene.Mesh' ref='com.jme3.scene.Mesh@1183284588'/>
                                         <root axis='3' class='com.jme3.collision.bih.BIHNode' right_index='11' savable_versions='0'/>
                                         <points data='0.0 2.0 2.0 0.0 0.0 2.0 2.0 0.0 2.0 2.0 0.0 2.0 2.0 2.0 2.0 0.0 2.0 2.0 0.0 2.0 2.0 0.0 2.0 0.0 0.0 0.0 2.0 0.0 2.0 0.0 0.0 0.0 0.0 0.0 0.0 2.0 2.0 2.0 0.0 2.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 2.0 0.0 2.0 2.0 0.0 2.0 2.0 0.0 2.0 2.0 2.0 2.0 0.0 0.0 2.0 2.0 2.0 2.0 0.0 2.0 2.0 0.0 0.0 0.0 0.0 2.0 0.0 0.0 0.0 2.0 0.0 2.0 2.0 0.0 2.0 0.0 0.0 0.0 2.0 0.0 0.0 0.0 2.0 0.0 0.0 2.0 2.0 2.0 2.0 0.0 0.0 2.0 2.0 2.0 2.0 2.0 2.0 2.0 0.0' size='108'/>
                                         <indices data='0 1 2 3 4 5 6 7 8 9 10 11' size='12'/>
