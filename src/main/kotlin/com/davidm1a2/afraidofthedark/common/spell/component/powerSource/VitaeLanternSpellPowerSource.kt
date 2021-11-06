@@ -14,7 +14,7 @@ class VitaeLanternSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Const
         if (entity is PlayerEntity) {
             val inventory = entity.inventory.items + entity.inventory.offhand
             val lantern = ModItems.VITAE_LANTERN
-            var lanternVitae = 0
+            var lanternVitae = 0f
             for (stack in inventory) {
                 if (stack.item == lantern) {
                     lanternVitae = lanternVitae + lantern.getVitae(stack)
@@ -29,18 +29,18 @@ class VitaeLanternSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Const
         if (entity is PlayerEntity) {
             val inventory = entity.inventory.items + entity.inventory.offhand
             val lantern = ModItems.VITAE_LANTERN
-            var vitaeRemaining = ceil(spell.getCost()).toInt()
+            var vitaeRemaining = ceil(spell.getCost()).toFloat()
             for (stack in inventory) {
                 if (stack.item == lantern) {
                     val vitaeInLantern = lantern.getVitae(stack)
                     vitaeRemaining = if (vitaeInLantern >= vitaeRemaining) {
                         lantern.removeVitae(stack, vitaeRemaining)
-                        0
+                        0f
                     } else {
                         lantern.removeVitae(stack, vitaeInLantern)
                         vitaeRemaining - vitaeInLantern
                     }
-                    if (vitaeRemaining == 0) {
+                    if (vitaeRemaining == 0f) {
                         return
                     }
                 }

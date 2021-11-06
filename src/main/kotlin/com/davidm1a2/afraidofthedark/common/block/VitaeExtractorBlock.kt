@@ -87,6 +87,14 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
             } else {
                 ActionResultType.CONSUME
             }
+        } else if (tileEntity.isValidFuel(itemInHand)) {
+            if (!world.isClientSide && !tileEntity.isBurningFuel()) {
+                tileEntity.insertFuel(itemInHand)
+                if (!playerEntity.isCreative) {
+                    playerEntity.setItemInHand(hand, itemInHand.apply { shrink(1) })
+                }
+            }
+            ActionResultType.SUCCESS
         } else {
             ActionResultType.CONSUME
         }

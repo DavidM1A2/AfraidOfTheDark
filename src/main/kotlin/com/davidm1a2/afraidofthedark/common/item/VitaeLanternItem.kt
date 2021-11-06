@@ -24,7 +24,7 @@ class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IH
         return listOf(ResourceLocation(Constants.MOD_ID, "vitae_step") to IItemPropertyGetter { itemStack, _, _ -> getChargeLevel(itemStack).ordinal.toFloat() })
     }
 
-    fun addVitae(itemStack: ItemStack, vitae: Int): Int {
+    fun addVitae(itemStack: ItemStack, vitae: Float): Float {
         if (vitae < 0) {
             throw IllegalStateException("Can't add negative vitae to the lantern")
         }
@@ -32,12 +32,12 @@ class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IH
         val currentVitae = getVitae(itemStack)
         val maxVitae = getMaxVitae(itemStack)
         val newVitae = (currentVitae + vitae).coerceAtMost(maxVitae)
-        NBTHelper.setInteger(itemStack, "vitae", newVitae)
+        NBTHelper.setFloat(itemStack, "vitae", newVitae)
         // Return overflow vitae
         return vitae - (newVitae - currentVitae)
     }
 
-    fun removeVitae(itemStack: ItemStack, vitae: Int): Boolean {
+    fun removeVitae(itemStack: ItemStack, vitae: Float): Boolean {
         if (vitae < 0) {
             throw IllegalStateException("Can't remove negative vitae to the lantern")
         }
@@ -47,12 +47,12 @@ class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IH
         if (newVitae < 0) {
             return false
         }
-        NBTHelper.setInteger(itemStack, "vitae", newVitae)
+        NBTHelper.setFloat(itemStack, "vitae", newVitae)
         return true
     }
 
     fun getChargeLevel(itemStack: ItemStack): ChargeLevel {
-        val percentFull = getVitae(itemStack) / getMaxVitae(itemStack).toFloat()
+        val percentFull = getVitae(itemStack) / getMaxVitae(itemStack)
         return when {
             percentFull == 0f -> ChargeLevel.EMPTY
             percentFull < 0.33f -> ChargeLevel.QUARTER
@@ -62,13 +62,13 @@ class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IH
         }
     }
 
-    fun getVitae(itemStack: ItemStack): Int {
-        return NBTHelper.getInteger(itemStack, "vitae") ?: 0
+    fun getVitae(itemStack: ItemStack): Float {
+        return NBTHelper.getFloat(itemStack, "vitae") ?: 0f
     }
 
-    private fun getMaxVitae(itemStack: ItemStack): Int {
+    private fun getMaxVitae(itemStack: ItemStack): Float {
         // TODO: Make this upgradable?
-        return 300
+        return 300f
     }
 
     override fun showDurabilityBar(itemStack: ItemStack?): Boolean {
@@ -94,8 +94,8 @@ class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IH
     override fun appendHoverText(itemStack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.VITAE_LANTERN)) {
-            val percentFull = floor(getVitae(itemStack) / getMaxVitae(itemStack).toFloat() * 100).toInt()
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.vitae_lantern.capacity", getVitae(itemStack), getMaxVitae(itemStack), percentFull))
+            val percentFull = floor(getVitae(itemStack) / getMaxVitae(itemStack) * 100).toInt()
+            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.vitae_lantern.capacity", getVitae(itemStack).toInt(), getMaxVitae(itemStack).toInt(), percentFull))
         } else {
             tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }

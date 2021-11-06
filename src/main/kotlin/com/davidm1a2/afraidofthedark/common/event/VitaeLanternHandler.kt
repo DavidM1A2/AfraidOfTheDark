@@ -31,11 +31,11 @@ class VitaeLanternHandler {
             if (entityPlayer.getResearch().isResearched(ModResearches.VITAE_LANTERN)) {
                 // Grab the player's inventory
                 val inventory = entityPlayer.inventory.items + entityPlayer.inventory.offhand
-                var remainingVitaeToAdd = ceil(killedEntity.maxHealth * HP_TO_VITAE_RATIO).toInt()
+                var remainingVitaeToAdd = ceil(killedEntity.maxHealth * HP_TO_VITAE_RATIO)
                 for (itemStack in inventory) {
                     if (itemStack.item == vitaeLantern) {
                         remainingVitaeToAdd = vitaeLantern.addVitae(itemStack, remainingVitaeToAdd)
-                        if (remainingVitaeToAdd == 0) {
+                        if (remainingVitaeToAdd == 0f) {
                             return
                         }
                     }
@@ -45,6 +45,6 @@ class VitaeLanternHandler {
     }
 
     companion object {
-        private const val HP_TO_VITAE_RATIO = 1.0
+        private const val HP_TO_VITAE_RATIO = 1.0f
     }
 }
