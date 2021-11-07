@@ -207,6 +207,7 @@ class VitaeExtractorTileEntity : AOTDTickingTileEntity(ModTileEntities.VITAE_EXT
         }
         if (index == FUEL_INDEX &&
             isValidFuel(itemStack) &&
+            !getLantern().isEmpty &&
             !isBurningFuel() &&
             (direction == Direction.NORTH || direction == Direction.SOUTH || direction == Direction.EAST || direction == Direction.WEST)
         ) {

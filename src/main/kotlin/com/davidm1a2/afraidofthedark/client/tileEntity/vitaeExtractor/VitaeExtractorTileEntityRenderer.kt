@@ -38,7 +38,11 @@ class VitaeExtractorTileEntityRenderer(tileEntityRendererDispatcher: TileEntityR
         } else {
             packedLight
         }
-        VITAE_EXTRACTOR_MODEL.renderToBuffer(matrixStack, renderTypeBuffer.getBuffer(EXTRACTOR_RENDER_TYPE), realLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f)
+        if (te.isBurningFuel()) {
+            VITAE_EXTRACTOR_MODEL.renderToBuffer(matrixStack, renderTypeBuffer.getBuffer(EXTRACTOR_ACTIVE_RENDER_TYPE), realLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f)
+        } else {
+            VITAE_EXTRACTOR_MODEL.renderToBuffer(matrixStack, renderTypeBuffer.getBuffer(EXTRACTOR_RENDER_TYPE), realLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f)
+        }
 
         val lantern = te.getLantern()
         if (!lantern.isEmpty) {
@@ -64,7 +68,9 @@ class VitaeExtractorTileEntityRenderer(tileEntityRendererDispatcher: TileEntityR
     companion object {
         private val VITAE_EXTRACTOR_MODEL = VitaeExtractorTileEntityModel()
         private val VITAE_EXTRACTOR_TEXTURE = ResourceLocation("afraidofthedark:textures/block/vitae_extractor_te.png")
+        private val VITAE_EXTRACTOR_ACTIVE_TEXTURE = ResourceLocation("afraidofthedark:textures/block/vitae_extractor_active_te.png")
         private val EXTRACTOR_RENDER_TYPE = VITAE_EXTRACTOR_MODEL.renderType(VITAE_EXTRACTOR_TEXTURE)
+        private val EXTRACTOR_ACTIVE_RENDER_TYPE = VITAE_EXTRACTOR_MODEL.renderType(VITAE_EXTRACTOR_ACTIVE_TEXTURE)
 
         private val VITAE_LANTERN_MODEL = VitaeLanternModel()
         private val CHARGE_LEVEL_TO_RENDER_TYPE = mapOf(

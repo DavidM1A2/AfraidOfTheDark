@@ -4,6 +4,8 @@ import com.davidm1a2.afraidofthedark.client.tileEntity.vitaeExtractor.VitaeExtra
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDUseBlockItemStackRenderer
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
+import com.davidm1a2.afraidofthedark.common.item.VitaeLanternItem
 import com.davidm1a2.afraidofthedark.common.tileEntity.VitaeExtractorTileEntity
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -30,6 +32,7 @@ import net.minecraft.util.math.shapes.VoxelShape
 import net.minecraft.world.IBlockReader
 import net.minecraft.world.World
 import net.minecraftforge.common.ToolType
+import java.util.Random
 
 class VitaeExtractorBlock : AOTDTileEntityBlock(
     "vitae_extractor",
@@ -98,6 +101,44 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
         } else {
             ActionResultType.CONSUME
         }
+    }
+
+    override fun animateTick(blockState: BlockState, world: World, blockPos: BlockPos, random: Random) {
+        val tileEntity = world.getBlockEntity(blockPos)
+        if (tileEntity is VitaeExtractorTileEntity && tileEntity.isBurningFuel()) {
+            summonParticle(blockState, world, blockPos, random)
+            summonParticle(blockState, world, blockPos, random)
+            val lantern = tileEntity.getLantern()
+            if (!lantern.isEmpty && ModItems.VITAE_LANTERN.getChargeLevel(lantern) != VitaeLanternItem.ChargeLevel.FULL) {
+                val centerX = blockPos.x + 0.5
+                val centerY = blockPos.y + 0.5
+                val centerZ = blockPos.z + 0.5
+
+                world.addParticle(ModParticles.VITAE_EXTRACTOR_CHARGE, centerX, centerY, centerZ, 0.0, 0.0, 0.0)
+            }
+        }
+    }
+
+    private fun summonParticle(blockState: BlockState, world: World, blockPos: BlockPos, random: Random) {
+        val centerX = blockPos.x + 0.5
+        val centerY = blockPos.y.toDouble()
+        val centerZ = blockPos.z + 0.5
+
+        val facing = blockState.getValue(FACING)
+        val facingDirection = facing.axis
+        val xOffset = if (facingDirection == Direction.Axis.X) {
+            facing.stepX * 0.44
+        } else {
+            random.nextDouble() * 0.6 - 0.3
+        }
+        val yOffset = random.nextDouble() * 7.0 / 16.0
+        val zOffset = if (facingDirection == Direction.Axis.Z) {
+            facing.stepZ * 0.44
+        } else {
+            random.nextDouble() * 0.6 - 0.3
+        }
+
+        world.addParticle(ModParticles.VITAE_EXTRACTOR_BURN, centerX + xOffset, centerY + yOffset, centerZ + zOffset, 0.0, 0.0, 0.0)
     }
 
     override fun getCollisionShape(blockState: BlockState, worldIn: IBlockReader, pos: BlockPos, context: ISelectionContext): VoxelShape {
