@@ -1,0 +1,27 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    " l ",
+    "cfc",
+    "cmc"
+  ],
+  "key": {
+    "l": {
+      "item": "afraidofthedark:vitae_lantern"
+    },
+    "f": {
+      "item": "minecraft:furnace"
+    },
+    "m": {
+      "item": "afraidofthedark:mangrove"
+    },
+    "c": {
+      "item": "minecraft:cobblestone"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:vitae_extractor",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:sacred_mangrove"
+}

@@ -1,14 +1,18 @@
 {
   "forge:registry_name": "afraidofthedark:vitae_extraction",
-  "recipes": [],
-  "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "recipes": [
+    "afraidofthedark:vitae_extractor"
+  ],
+  "pre_recipes": [
+    "afraidofthedark:vitae_extractor"
+  ],
+  "icon": "afraidofthedark:textures/gui/research_icons/vitae_extraction.png",
   "prerequisite": "afraidofthedark:sacred_mangrove",
   "triggers": [
     {
-      "type": "afraidofthedark:manual",
+      "type": "afraidofthedark:item_crafted",
       "config": {
-        "research": "afraidofthedark:vitae_extraction"
+        "item": "afraidofthedark:vitae_extractor"
       }
     }
   ]
