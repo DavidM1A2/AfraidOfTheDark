@@ -13,7 +13,7 @@ import net.minecraft.tileentity.TileEntityType
  */
 abstract class AOTDTickingTileEntity(tileEntityType: TileEntityType<*>) : AOTDTileEntity(tileEntityType), ITickableTileEntity {
     // The number of ticks the tile entity has existed
-    protected var ticksExisted: Long = 0
+    var ticksExisted: Long = 0
         private set
 
     /**

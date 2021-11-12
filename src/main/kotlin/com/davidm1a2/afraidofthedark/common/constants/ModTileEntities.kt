@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.tileEntity.DesertOasisTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.DroppedJournalTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.EnariaSpawnerTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.GhastlyEnariaSpawnerTileEntity
+import com.davidm1a2.afraidofthedark.common.tileEntity.MagicCrystalTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.ObservatoryTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.VitaeExtractorTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.VoidChestTileEntity
@@ -84,6 +85,12 @@ object ModTileEntities {
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "vitae_extractor")
         }
+    val MAGIC_CRYSTAL: TileEntityType<MagicCrystalTileEntity> = TileEntityType
+        .Builder
+        .of({ MagicCrystalTileEntity() }, ModBlocks.MAGIC_CRYSTAL)
+        .build(null).apply {
+            setRegistryName(Constants.MOD_ID, "magic_crystal")
+        }
 
     // A list of tile entities to register
     val TILE_ENTITY_LIST = arrayOf(
@@ -97,6 +104,7 @@ object ModTileEntities {
         ENARIAS_ALTAR,
         OBSERVATORY,
         DROPPED_JOURNAL,
-        VITAE_EXTRACTOR
+        VITAE_EXTRACTOR,
+        MAGIC_CRYSTAL
     )
 }

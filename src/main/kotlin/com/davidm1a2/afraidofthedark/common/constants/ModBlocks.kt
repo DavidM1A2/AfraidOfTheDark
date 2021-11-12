@@ -19,6 +19,7 @@ import com.davidm1a2.afraidofthedark.common.block.IgneousBlock
 import com.davidm1a2.afraidofthedark.common.block.ImbuedCactusBlock
 import com.davidm1a2.afraidofthedark.common.block.ImbuedCactusBlossomBlock
 import com.davidm1a2.afraidofthedark.common.block.LensCutterBlock
+import com.davidm1a2.afraidofthedark.common.block.MagicCrystalBlock
 import com.davidm1a2.afraidofthedark.common.block.MeteorBlock
 import com.davidm1a2.afraidofthedark.common.block.ObservatoryBlock
 import com.davidm1a2.afraidofthedark.common.block.StarMetalOreBlock
@@ -126,6 +127,7 @@ object ModBlocks {
     val LENS_CUTTER = LensCutterBlock()
     val DROPPED_JOURNAL = DroppedJournalBlock()
     val VITAE_EXTRACTOR = VitaeExtractorBlock()
+    val MAGIC_CRYSTAL = MagicCrystalBlock()
 
     // An array containing a list of blocks that AOTD adds
     val BLOCK_LIST = arrayOf<Block>(
@@ -186,6 +188,7 @@ object ModBlocks {
         VOID_OBELISK,
         WITCH_HUT,
         DROPPED_JOURNAL,
-        VITAE_EXTRACTOR
+        VITAE_EXTRACTOR,
+        MAGIC_CRYSTAL
     )
 }
