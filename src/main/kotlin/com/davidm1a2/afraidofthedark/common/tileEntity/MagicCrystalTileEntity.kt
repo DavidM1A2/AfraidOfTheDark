@@ -138,6 +138,10 @@ class MagicCrystalTileEntity : AOTDTickingTileEntity(ModTileEntities.MAGIC_CRYST
         return super.getRenderBoundingBox().expandTowards(0.0, 16.0 * (MagicCrystalBlock.BLOCK_HEIGHT - 1), 0.0)
     }
 
+    override fun getViewDistance(): Double {
+        return 192.0
+    }
+
     override fun getUpdatePacket(): SUpdateTileEntityPacket {
         return SUpdateTileEntityPacket(blockPos, -1, save(CompoundNBT()))
     }
