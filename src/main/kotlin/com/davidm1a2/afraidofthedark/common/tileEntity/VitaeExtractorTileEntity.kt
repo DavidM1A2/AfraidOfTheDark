@@ -16,7 +16,6 @@ import net.minecraft.network.PacketDirection
 import net.minecraft.network.play.server.SUpdateTileEntityPacket
 import net.minecraft.tags.BlockTags
 import net.minecraft.util.Direction
-import net.minecraftforge.common.util.Constants
 
 class VitaeExtractorTileEntity : AOTDTickingTileEntity(ModTileEntities.VITAE_EXTRACTOR), ISidedInventory {
     private var lantern: ItemStack = ItemStack.EMPTY
@@ -90,13 +89,6 @@ class VitaeExtractorTileEntity : AOTDTickingTileEntity(ModTileEntities.VITAE_EXT
     private fun clearFuel() {
         this.fuelVitaePerTick = 0f
         this.burnTicksLeft = 0
-    }
-
-    private fun setChangedAndTellClients() {
-        setChanged()
-        if (level?.isClientSide == false) {
-            level?.sendBlockUpdated(blockPos, blockState, blockState, Constants.BlockFlags.BLOCK_UPDATE)
-        }
     }
 
     override fun getUpdatePacket(): SUpdateTileEntityPacket {

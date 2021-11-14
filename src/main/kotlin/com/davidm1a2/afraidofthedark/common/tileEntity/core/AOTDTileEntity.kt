@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.tileEntity.core
 
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.tileentity.TileEntityType
+import net.minecraftforge.common.util.Constants
 
 /**
  * Base class for all AOTD tile entities
@@ -9,4 +10,11 @@ import net.minecraft.tileentity.TileEntityType
  * @constructor initializes the tile entity fields
  * @param tileEntityType The tile entity's type
  */
-abstract class AOTDTileEntity(tileEntityType: TileEntityType<*>) : TileEntity(tileEntityType)
+abstract class AOTDTileEntity(tileEntityType: TileEntityType<*>) : TileEntity(tileEntityType) {
+    protected fun setChangedAndTellClients() {
+        setChanged()
+        if (level?.isClientSide == false) {
+            level?.sendBlockUpdated(blockPos, blockState, blockState, Constants.BlockFlags.BLOCK_UPDATE)
+        }
+    }
+}

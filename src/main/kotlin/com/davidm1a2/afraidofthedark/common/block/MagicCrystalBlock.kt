@@ -1,7 +1,11 @@
 package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.tileEntity.MagicCrystalTileEntity
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -13,13 +17,18 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.item.BlockItemUseContext
 import net.minecraft.item.ItemStack
+import net.minecraft.state.BooleanProperty
 import net.minecraft.state.StateContainer
 import net.minecraft.state.properties.BlockStateProperties
 import net.minecraft.tileentity.TileEntity
+import net.minecraft.util.ActionResultType
+import net.minecraft.util.Hand
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.BlockRayTraceResult
 import net.minecraft.util.math.shapes.ISelectionContext
 import net.minecraft.util.math.shapes.VoxelShape
+import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.Explosion
 import net.minecraft.world.IBlockReader
 import net.minecraft.world.World
@@ -48,6 +57,8 @@ class MagicCrystalBlock : AOTDTileEntityBlock(
                     world.setBlockAndUpdate(blockPos.above(i), this.defaultBlockState())
                 }
             }
+            val masterCrystal = world.getBlockEntity(blockPos) as MagicCrystalTileEntity
+            masterCrystal.setMaxVitae()
         }
         super.setPlacedBy(world, blockPos, blockState, livingEntity, itemStack)
     }
@@ -114,6 +125,30 @@ class MagicCrystalBlock : AOTDTileEntityBlock(
         return defaultBlockState().setValue(BOTTOM, true)
     }
 
+    override fun use(blockState: BlockState, world: World, blockPos: BlockPos, player: PlayerEntity, hand: Hand, rayTraceResult: BlockRayTraceResult): ActionResultType {
+        val research = player.getResearch()
+        if (!research.isResearched(ModResearches.ELEMENTAL_MAGIC)) {
+            if (!world.isClientSide) {
+                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+            }
+            return ActionResultType.FAIL
+        }
+
+        if (!world.isClientSide) {
+            val magicCrystalTileEntity = world.getBlockEntity(blockPos) as MagicCrystalTileEntity
+            val vitaePercent = magicCrystalTileEntity.getVitae() / magicCrystalTileEntity.getMaxVitae()
+            val translationKey = when {
+                vitaePercent == 0.0 -> "empty"
+                vitaePercent < 0.33 -> "one_quarter"
+                vitaePercent < 0.66 -> "half"
+                vitaePercent < 1.0 -> "three_quarters"
+                else -> "full"
+            }
+            player.sendMessage(TranslationTextComponent("message.afraidofthedark.magic_crystal.$translationKey"))
+        }
+        return ActionResultType.SUCCESS
+    }
+
     override fun getPistonPushReaction(blockState: BlockState): PushReaction {
         return PushReaction.BLOCK
     }
@@ -141,7 +176,7 @@ class MagicCrystalBlock : AOTDTileEntityBlock(
     companion object {
         private val LOG = LogManager.getLogger()
         private val SHAPE = box(1.0, 0.0, 1.0, 15.0, 16.0, 15.0)
-        private val BOTTOM = BlockStateProperties.BOTTOM
+        val BOTTOM: BooleanProperty = BlockStateProperties.BOTTOM
         const val BLOCK_HEIGHT = 5
     }
 }

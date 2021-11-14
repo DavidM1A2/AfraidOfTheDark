@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.vector.Vector3f
-import kotlin.math.sin
 
 class MagicCrystalTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<MagicCrystalTileEntity>(tileEntityRendererDispatcher) {
     override fun render(
@@ -29,10 +28,8 @@ class MagicCrystalTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRen
         }
 
         matrixStack.pushPose()
-        val timePassed = magicCrystal.ticksExisted + partialTicks
-        val yOffset = sin((timePassed) * 0.06) * 0.5 + 0.5
-        matrixStack.translate(0.5, yOffset, 0.5)
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(timePassed * 1.2f % 360))
+        matrixStack.translate(0.5, magicCrystal.getRenderHeightOffset(partialTicks), 0.5)
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(magicCrystal.getRenderRotation(partialTicks).toFloat()))
 
         MAGIC_CRYSTAL_MODEL.renderToBuffer(
             matrixStack,

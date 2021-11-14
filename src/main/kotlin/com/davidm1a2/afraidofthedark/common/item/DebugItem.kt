@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
+import com.davidm1a2.afraidofthedark.common.tileEntity.MagicCrystalTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
@@ -25,6 +26,8 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
     override fun use(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
         if (worldIn.isClientSide) {
         } else {
+            val te = worldIn.getBlockEntity(playerIn.blockPosition().relative(playerIn.direction)) as? MagicCrystalTileEntity
+            te?.consumeVitae(500.0)
         }
         return super.use(worldIn, playerIn, handIn)
     }

@@ -555,5 +555,10 @@
   "message.afraidofthedark.lens_cutter.wrong_item": "The lens cutter can only make lenses out of glass.",
   "message.afraidofthedark.bolt.dont_understand": "§oI don't understand how to use a %1$s.",
   "message.afraidofthedark.dont_understand": "§oI don't understand how this works.",
-  "message.afraidofthedark.nightmare.enderchest": "The ender chest appears to be empty here."
+  "message.afraidofthedark.nightmare.enderchest": "The ender chest appears to be empty here.",
+  "message.afraidofthedark.magic_crystal.empty": "The crystal is cold and inert. I don't feel any energy.",
+  "message.afraidofthedark.magic_crystal.one_quarter": "The crystal pulses with a faint energy.",
+  "message.afraidofthedark.magic_crystal.half": "The crystal glows with energy.",
+  "message.afraidofthedark.magic_crystal.three_quarters": "The crystal is warm to the touch and exudes an intense energy.",
+  "message.afraidofthedark.magic_crystal.full": "The crystal is brimming with energy, emitting small sparks of magic."
 }
