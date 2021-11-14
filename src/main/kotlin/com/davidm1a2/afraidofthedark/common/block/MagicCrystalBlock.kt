@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import com.davidm1a2.afraidofthedark.common.tileEntity.MagicCrystalTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.block.Block
@@ -32,6 +33,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.Explosion
 import net.minecraft.world.IBlockReader
 import net.minecraft.world.World
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.ToolType
 import org.apache.logging.log4j.LogManager
 
@@ -145,6 +147,10 @@ class MagicCrystalBlock : AOTDTileEntityBlock(
                 else -> "full"
             }
             player.sendMessage(TranslationTextComponent("message.afraidofthedark.magic_crystal.$translationKey"))
+
+            if (!research.isResearched(ModResearches.ADVANCED_MAGIC)) {
+                MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(player, ModResearches.ADVANCED_MAGIC))
+            }
         }
         return ActionResultType.SUCCESS
     }
