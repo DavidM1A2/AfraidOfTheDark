@@ -9,7 +9,6 @@ import com.davidm1a2.afraidofthedark.common.tileEntity.MagicCrystalTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.ObservatoryTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.VitaeExtractorTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.VoidChestTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.VoidObeliskTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.WitchHutTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.EnariasAltarTileEntity
 import net.minecraft.tileentity.TileEntityType
@@ -36,12 +35,6 @@ object ModTileEntities {
         .of({ ObservatoryTileEntity() }, ModBlocks.OBSERVATORY)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "observatory")
-        }
-    val VOID_OBELISK: TileEntityType<VoidObeliskTileEntity> = TileEntityType
-        .Builder
-        .of({ VoidObeliskTileEntity() }, ModBlocks.VOID_OBELISK)
-        .build(null).apply {
-            setRegistryName(Constants.MOD_ID, "void_obelisk")
         }
     val WITCH_HUT: TileEntityType<WitchHutTileEntity> = TileEntityType
         .Builder
@@ -97,7 +90,6 @@ object ModTileEntities {
         VOID_CHEST,
         DARK_FOREST,
         WITCH_HUT,
-        VOID_OBELISK,
         GHASTLY_ENARIA_SPAWNER,
         ENARIA_SPAWNER,
         DESERT_OASIS,

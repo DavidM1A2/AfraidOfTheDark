@@ -37,6 +37,9 @@ class VoidChestPortalBlock : AOTDBlock(
         if (!world.isClientSide) {
             // Test if the entity is a player
             if (entity is ServerPlayerEntity) {
+                // This is a safeguard to ensure players get the SNOWY_ANOMALY research if they mine into a void chest instead of going through the amorphous eldritch metal
+                MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(entity, ModResearches.SNOWY_ANOMALY))
+
                 // Grab the player's research and void chest data
                 val playerResearch = entity.getResearch()
                 val playerVoidChestData = entity.getVoidChestData()

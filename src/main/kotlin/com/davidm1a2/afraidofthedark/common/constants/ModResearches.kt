@@ -46,7 +46,7 @@ object ModResearches {
     val VITAE_EXTRACTION = load("vitae_extraction")
     val VITAE_LANTERN = load("vitae_lantern")
     val VOID_CHEST = load("void_chest")
-    val VOID_OBELISK = load("void_obelisk")
+    val SNOWY_ANOMALY = load("snowy_anomaly")
     val VOID_PARTY = load("void_party")
     val WEREWOLF_BLOOD = load("werewolf_blood")
     val WEREWOLVES = load("werewolves")
@@ -94,7 +94,7 @@ object ModResearches {
         VITAE_EXTRACTION,
         VITAE_LANTERN,
         VOID_CHEST,
-        VOID_OBELISK,
+        SNOWY_ANOMALY,
         VOID_PARTY,
         WEREWOLF_BLOOD,
         WEREWOLVES,

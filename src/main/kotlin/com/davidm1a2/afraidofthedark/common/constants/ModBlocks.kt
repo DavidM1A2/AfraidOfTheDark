@@ -27,7 +27,6 @@ import com.davidm1a2.afraidofthedark.common.block.SunstoneOreBlock
 import com.davidm1a2.afraidofthedark.common.block.VitaeExtractorBlock
 import com.davidm1a2.afraidofthedark.common.block.VoidChestBlock
 import com.davidm1a2.afraidofthedark.common.block.VoidChestPortalBlock
-import com.davidm1a2.afraidofthedark.common.block.VoidObeliskBlock
 import com.davidm1a2.afraidofthedark.common.block.WitchHutBlock
 import com.davidm1a2.afraidofthedark.common.block.gravewood.GravewoodBlock
 import com.davidm1a2.afraidofthedark.common.block.gravewood.GravewoodButtonBlock
@@ -117,7 +116,6 @@ object ModBlocks {
     val VOID_CHEST_PORTAL = VoidChestPortalBlock()
     val DARK_FOREST = DarkForestBlock()
     val OBSERVATORY = ObservatoryBlock()
-    val VOID_OBELISK = VoidObeliskBlock()
     val WITCH_HUT = WitchHutBlock()
     val ENARIA_SPAWNER = EnariaSpawnerBlock()
     val ENARIAS_ALTAR = EnariasAltarBlock()
@@ -185,7 +183,6 @@ object ModBlocks {
         IMBUED_CACTUS_BLOSSOM,
         DESERT_OASIS,
         LENS_CUTTER,
-        VOID_OBELISK,
         WITCH_HUT,
         DROPPED_JOURNAL,
         VITAE_EXTRACTOR,

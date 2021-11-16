@@ -5,7 +5,7 @@
     "afraidofthedark:void_chest"
   ],
   "icon": "afraidofthedark:textures/gui/research_icons/void_chest.png",
-  "prerequisite": "afraidofthedark:void_obelisk",
+  "prerequisite": "afraidofthedark:snowy_anomaly",
   "triggers": [
     {
       "type": "afraidofthedark:item_crafted",

@@ -147,10 +147,7 @@ class MagicCrystalBlock : AOTDTileEntityBlock(
                 else -> "full"
             }
             player.sendMessage(TranslationTextComponent("message.afraidofthedark.magic_crystal.$translationKey"))
-
-            if (!research.isResearched(ModResearches.ADVANCED_MAGIC)) {
-                MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(player, ModResearches.ADVANCED_MAGIC))
-            }
+            MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(player, ModResearches.ADVANCED_MAGIC))
         }
         return ActionResultType.SUCCESS
     }
