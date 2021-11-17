@@ -2,7 +2,7 @@
   "forge:registry_name": "afraidofthedark:pocket_dimension",
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/pocket_dimension.png",
   "prerequisite": "afraidofthedark:snowy_anomaly",
   "triggers": [
     {

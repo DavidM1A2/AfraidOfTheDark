@@ -31,7 +31,7 @@ class MagicCrystalTileEntity : AOTDTickingTileEntity(ModTileEntities.MAGIC_CRYST
         val world = this.level ?: return NO_MASTER
 
         // We are the master
-        if (blockState.getValue(MagicCrystalBlock.BOTTOM)) {
+        if (isMaster()) {
             return this
         }
 
@@ -52,7 +52,7 @@ class MagicCrystalTileEntity : AOTDTickingTileEntity(ModTileEntities.MAGIC_CRYST
     }
 
     private fun isMaster(): Boolean {
-        return blockState.getValue(MagicCrystalBlock.BOTTOM)
+        return blockState?.getValue(MagicCrystalBlock.BOTTOM) ?: false
     }
 
     private fun hasMaster(): Boolean {

@@ -50,7 +50,7 @@ class VoidChestPortalBlock : AOTDBlock(
                     entity.teleport(playerVoidChestData.preTeleportDimension!!)
                 } else {
                     // If the player has the void chest research then move the player
-                    if (playerResearch.isResearched(ModResearches.VOID_CHEST)) {
+                    if (playerResearch.isResearched(ModResearches.POCKET_DIMENSION.preRequisite!!)) {
                         // Make sure no friends index is set since the portal can only send to the player's dimension
                         playerVoidChestData.friendsIndex = -1
                         entity.teleport(ModDimensions.VOID_CHEST_WORLD)
