@@ -192,14 +192,7 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
                     }
                 } else {
                     openChest(entityPlayer)
-                    AfraidOfTheDark.packetHandler.sendToDimension(
-                        VoidChestPacket(
-                            entityPlayer,
-                            blockPos.x,
-                            blockPos.y,
-                            blockPos.z
-                        ), World.OVERWORLD
-                    )
+                    AfraidOfTheDark.packetHandler.sendToDimension(VoidChestPacket(entityPlayer, blockPos.x, blockPos.y, blockPos.z), World.OVERWORLD)
                 }
             } else if (friends.contains(entityPlayer.gameProfile.id)) {
                 // Test if the player is trying to edit a chest's friend list that isnt theirs

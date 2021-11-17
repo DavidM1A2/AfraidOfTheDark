@@ -56,7 +56,7 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().stacksTo
                         world,
                         NBTUtil.readBlockPos(NBTHelper.getCompound(mainhandItem, NBT_POS_1)!!),
                         NBTUtil.readBlockPos(NBTHelper.getCompound(mainhandItem, NBT_POS_2)!!),
-                        mainhandItem.displayName.string
+                        mainhandItem.hoverName.string
                     )
 
                     // If the name is empty it means the name is invalid
@@ -64,7 +64,7 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().stacksTo
                         player.sendMessage(StringTextComponent("Schematic '$schematicName' saved successfully"))
                     } else {
                         player.sendMessage(
-                            StringTextComponent("Schematic '${mainhandItem.displayName.string}' has an invalid name (No ., \\, /, or space)")
+                            StringTextComponent("Schematic '${mainhandItem.hoverName.string}' has an invalid name (No ., \\, /, or space)")
                         )
                     }
                 } else {
