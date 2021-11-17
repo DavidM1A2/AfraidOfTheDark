@@ -175,20 +175,20 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
                 val heldItem = entityPlayer.mainHandItem
                 if (heldItem.item is NameTagItem) {
                     // Grab the player's UUID
-                    val friendsUUID = getID(heldItem.displayName.string)
+                    val friendsUUID = getID(heldItem.hoverName.string)
 
                     // If it's non-null continue, otherwise tell the player the name is wrong
                     if (friendsUUID != null) {
                         // If the chest does not have the friend add the friend
                         if (!friends.contains(friendsUUID)) {
                             friends.add(friendsUUID)
-                            entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.friend_add", heldItem.displayName))
+                            entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.friend_add", heldItem.hoverName.string))
                         } else {
                             friends.remove(friendsUUID)
-                            entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.friend_remove", heldItem.displayName))
+                            entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.friend_remove", heldItem.hoverName.string))
                         }
                     } else {
-                        entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.invalid_account", heldItem.displayName))
+                        entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.invalid_account", heldItem.hoverName.string))
                     }
                 } else {
                     openChest(entityPlayer)

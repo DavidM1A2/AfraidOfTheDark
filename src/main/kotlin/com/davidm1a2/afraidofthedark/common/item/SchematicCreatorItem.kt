@@ -64,7 +64,7 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().stacksTo
                         player.sendMessage(StringTextComponent("Schematic '$schematicName' saved successfully"))
                     } else {
                         player.sendMessage(
-                            StringTextComponent("Schematic '${mainhandItem.displayName}' has an invalid name (No ., \\, /, or space)")
+                            StringTextComponent("Schematic '${mainhandItem.displayName.string}' has an invalid name (No ., \\, /, or space)")
                         )
                     }
                 } else {
