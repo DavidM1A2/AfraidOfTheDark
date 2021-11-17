@@ -278,7 +278,7 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
         super.load(blockState, compound)
 
         // Read the owner tag, it could potentially not exist...
-        owner = if (compound.contains(NBT_OWNER + "Most") && compound.contains(NBT_OWNER + "Least")) {
+        owner = if (compound.contains(NBT_OWNER)) {
             compound.getUUID(NBT_OWNER)
         } else {
             null
