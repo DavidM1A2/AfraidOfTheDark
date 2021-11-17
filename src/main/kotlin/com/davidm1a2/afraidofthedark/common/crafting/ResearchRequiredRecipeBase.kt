@@ -75,7 +75,7 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe<CraftingInventory>>(val ba
     }
 
     companion object {
-        private val logger = LogManager.getLogger()
+        private val LOG = LogManager.getLogger()
 
         /**
          * Finds the player that is crafting the recipe from the InventoryCrafting class using reflection
@@ -86,7 +86,7 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe<CraftingInventory>>(val ba
         private fun findPlayer(inventory: CraftingInventory): PlayerEntity? {
             try {
                 // Attempt to grab the container the player is crafting in
-                val container: Container? = ObfuscationReflectionHelper.getPrivateValue(CraftingInventory::class.java, inventory, "field_70465_c")!!
+                val container: Container? = ObfuscationReflectionHelper.getPrivateValue(CraftingInventory::class.java, inventory, "field_70465_c")
 
                 // Test if the container is a 2x2 grid or 'ContainerPlayer', if so return the player from the 'player' field
                 if (container is PlayerContainer) {
@@ -96,10 +96,8 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe<CraftingInventory>>(val ba
                 }
             }
             // If something goes wrong catch the exception and log it, then return null
-            catch (e: IllegalAccessException) {
-                logger.error(
-                    "Could not find the player crafting the recipe, error was: ${ExceptionUtils.getStackTrace(e)}"
-                )
+            catch (e: ObfuscationReflectionHelper.UnableToFindFieldException) {
+                LOG.error("Could not find the player crafting the recipe, error was: ${ExceptionUtils.getStackTrace(e)}")
             }
             return null
         }
