@@ -42,18 +42,15 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe<CraftingInventory>>(val ba
         val matches = baseRecipe.matches(inv, world)
 
         // Grab the player who did the crafting
-        val craftingPlayer = findPlayer(inv)
+        val craftingPlayer = findPlayer(inv) ?: return false
 
-        // Ensure the player is non-null
-        if (craftingPlayer != null) {
-            // If the player does not have the research return false
-            if (!craftingPlayer.getResearch().isResearched(preRequisite)) {
-                // Before returning false notify the player why the crafting failed if the recipe matched
-                if (matches && !craftingPlayer.level.isClientSide) {
-                    craftingPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.crafting.missing_research"))
-                }
-                return false
+        // If the player does not have the research return false
+        if (!craftingPlayer.getResearch().isResearched(preRequisite)) {
+            // Before returning false notify the player why the crafting failed if the recipe matched
+            if (matches && !craftingPlayer.level.isClientSide) {
+                craftingPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.crafting.missing_research"))
             }
+            return false
         }
 
         // The player has the research, so return true if the recipe matches or false otherwise
@@ -89,7 +86,7 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe<CraftingInventory>>(val ba
         private fun findPlayer(inventory: CraftingInventory): PlayerEntity? {
             try {
                 // Attempt to grab the container the player is crafting in
-                val container: Container = ObfuscationReflectionHelper.getPrivateValue(CraftingInventory::class.java, inventory, "field_70465_c")!!
+                val container: Container? = ObfuscationReflectionHelper.getPrivateValue(CraftingInventory::class.java, inventory, "field_70465_c")!!
 
                 // Test if the container is a 2x2 grid or 'ContainerPlayer', if so return the player from the 'player' field
                 if (container is PlayerContainer) {
