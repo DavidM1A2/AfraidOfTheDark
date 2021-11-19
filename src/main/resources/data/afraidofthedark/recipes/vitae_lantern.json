@@ -2,17 +2,21 @@
   "type": "afraidofthedark:research_required_shaped_recipe",
   "pattern": [
     " s ",
-    "wlw"
+    "ifi",
+    " t "
   ],
   "key": {
-    "l": {
-      "item": "minecraft:lantern"
+    "f": {
+      "item": "afraidofthedark:flask_of_souls"
     },
-    "w": {
-      "item": "afraidofthedark:werewolf_blood"
+    "i": {
+      "item": "minecraft:iron_ingot"
     },
     "s": {
       "item": "minecraft:string"
+    },
+    "t": {
+      "item": "minecraft:torch"
     }
   },
   "result": {
