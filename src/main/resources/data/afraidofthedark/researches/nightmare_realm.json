@@ -2,7 +2,7 @@
   "forge:registry_name": "afraidofthedark:nightmare_realm",
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/nightmare.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/nightmare_realm.png",
   "prerequisite": "afraidofthedark:dark_forest",
   "triggers": [
     {
