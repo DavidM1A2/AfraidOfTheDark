@@ -9,6 +9,10 @@ class ServerResearchOverlayHandler : ResearchOverlayHandler {
         LOG.error("Attempted to display the research ${research.registryName} on the logical server. This should never happen")
     }
 
+    override fun clearDisplayedResearches() {
+        LOG.error("Attempted to clear displayed researches on the logical server. This should never happen")
+    }
+
     companion object {
         private val LOG = LogManager.getLogger()
     }

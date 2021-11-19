@@ -7,4 +7,5 @@ import com.davidm1a2.afraidofthedark.common.research.Research
  */
 interface ResearchOverlayHandler {
     fun displayResearch(research: Research)
+    fun clearDisplayedResearches()
 }
