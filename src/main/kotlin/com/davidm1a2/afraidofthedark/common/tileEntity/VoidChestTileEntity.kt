@@ -3,9 +3,11 @@ package com.davidm1a2.afraidofthedark.common.tileEntity
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getVoidChestData
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility.getOrAssignPlayerPositionalIndex
 import com.davidm1a2.afraidofthedark.common.dimension.teleport
+import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import com.davidm1a2.afraidofthedark.common.network.packets.other.VoidChestPacket
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
@@ -24,6 +26,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.util.Constants
 import java.util.UUID
 import kotlin.math.sqrt
@@ -190,6 +193,7 @@ class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), I
                     } else {
                         entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.invalid_account", heldItem.hoverName.string))
                     }
+                    MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(entityPlayer, ModResearches.VOID_PARTY))
                 } else {
                     openChest(entityPlayer)
                     AfraidOfTheDark.packetHandler.sendToDimension(VoidChestPacket(entityPlayer, blockPos.x, blockPos.y, blockPos.z), World.OVERWORLD)

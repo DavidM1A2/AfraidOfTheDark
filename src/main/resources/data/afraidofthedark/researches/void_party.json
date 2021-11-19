@@ -2,7 +2,7 @@
   "forge:registry_name": "afraidofthedark:void_party",
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/void_party.png",
   "prerequisite": "afraidofthedark:void_chest",
   "triggers": [
     {
