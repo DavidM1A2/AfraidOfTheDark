@@ -1,14 +1,16 @@
 {
   "forge:registry_name": "afraidofthedark:sleeping_potion",
-  "recipes": [],
+  "recipes": [
+    "afraidofthedark:sleeping_potion"
+  ],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/sleeping_potion.png",
   "prerequisite": "afraidofthedark:nightmare_realm",
   "triggers": [
     {
-      "type": "afraidofthedark:item_crafted",
+      "type": "afraidofthedark:manual",
       "config": {
-        "item": "afraidofthedark:sleeping_potion"
+        "research": "afraidofthedark:sleeping_potion"
       }
     }
   ]
