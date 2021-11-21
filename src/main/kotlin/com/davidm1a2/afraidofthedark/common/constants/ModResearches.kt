@@ -10,6 +10,7 @@ import net.minecraft.util.ResourceLocation
 object ModResearches {
     val ADVANCED_MAGIC = load("advanced_magic")
     val ALCHEMY = load("alchemy")
+    val ARCH_SORCERESS = load("arch_sorceress")
     val THE_JOURNEY_BEGINS = load("the_journey_begins")
     val ASTRAL_SILVER = load("astral_silver")
     val ASTRONOMY_1 = load("astronomy_1")
@@ -58,6 +59,7 @@ object ModResearches {
     val RESEARCH_LIST = arrayOf(
         ADVANCED_MAGIC,
         ALCHEMY,
+        ARCH_SORCERESS,
         THE_JOURNEY_BEGINS,
         ASTRAL_SILVER,
         ASTRONOMY_1,
