@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.world.structure.gnomishcity
+package com.davidm1a2.afraidofthedark.common.world.structure.forbiddencity
 
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
@@ -13,12 +13,12 @@ import net.minecraft.world.gen.feature.NoFeatureConfig
 import net.minecraft.world.gen.feature.structure.Structure
 import kotlin.math.min
 
-class GnomishCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX: Int, chunkZ: Int, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
+class ForbiddenCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX: Int, chunkZ: Int, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
     AOTDStructureStart<NoFeatureConfig>(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
     override fun init(generator: ChunkGenerator, xPos: Int, zPos: Int) {
-        val gnomishCity = feature as AOTDStructure<*>
-        val width = gnomishCity.getWidth()
-        val length = gnomishCity.getLength()
+        val forbiddenCity = feature as AOTDStructure<*>
+        val width = forbiddenCity.getWidth()
+        val length = forbiddenCity.getLength()
 
         val cornerPosX = xPos - width / 2
         val cornerPosY = 5
@@ -36,7 +36,7 @@ class GnomishCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX: I
         } while (stairSurfaceTo1 == stairs1To2 || stairs2ToEnaria == stairs1To2)
         val stairs1To2Facing = Direction.Plane.HORIZONTAL.getRandomDirection(random)
 
-        val rooms = ModSchematics.GNOMISH_CITY_ROOMS
+        val rooms = ModSchematics.FORBIDDEN_CITY_ROOMS
             .flatMap { listOf(it, it) }
             .shuffled(random)
             .iterator()
@@ -68,7 +68,7 @@ class GnomishCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX: I
                                     roomPosZ,
                                     random,
                                     ModSchematics.ROOM_STAIR_UP,
-                                    ModLootTables.GNOMISH_CITY,
+                                    ModLootTables.FORBIDDEN_CITY,
                                     facing
                                 )
                             )
@@ -110,7 +110,7 @@ class GnomishCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX: I
                             }
 
                             this.pieces.add(
-                                GnomishCityStairwellClipperStructurePiece(
+                                ForbiddenCityStairwellClipperStructurePiece(
                                     stairwellX,
                                     groundHeight,
                                     stairwellTop,
@@ -128,7 +128,7 @@ class GnomishCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX: I
                                     roomPosZ,
                                     random,
                                     ModSchematics.ROOM_STAIR_DOWN,
-                                    ModLootTables.GNOMISH_CITY,
+                                    ModLootTables.FORBIDDEN_CITY,
                                     stairs1To2Facing
                                 )
                             )
@@ -142,7 +142,7 @@ class GnomishCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX: I
                                     roomPosZ,
                                     random,
                                     ModSchematics.ROOM_STAIR_UP,
-                                    ModLootTables.GNOMISH_CITY,
+                                    ModLootTables.FORBIDDEN_CITY,
                                     stairs1To2Facing
                                 )
                             )
@@ -159,7 +159,7 @@ class GnomishCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX: I
                                     roomPosZ,
                                     random,
                                     ModSchematics.ROOM_STAIR_DOWN,
-                                    ModLootTables.GNOMISH_CITY,
+                                    ModLootTables.FORBIDDEN_CITY,
                                     enariaFloorSettings.facing
                                 )
                             )
@@ -185,7 +185,7 @@ class GnomishCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX: I
                                     roomPosZ,
                                     random,
                                     rooms.next(),
-                                    ModLootTables.GNOMISH_CITY
+                                    ModLootTables.FORBIDDEN_CITY
                                 )
                             )
                         }

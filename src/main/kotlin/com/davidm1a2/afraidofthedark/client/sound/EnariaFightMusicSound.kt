@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import net.minecraft.util.SoundCategory
 
 /**
- * Class representing the enaria fight music when in the gnomish city
+ * Class representing the enaria fight music when in the forbidden city
  *
  * @constructor sets the sound event to play and sound category
  * @property enariaId The ID of the Enaria entity

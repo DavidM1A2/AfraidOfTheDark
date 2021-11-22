@@ -61,22 +61,22 @@ object ModSchematics {
     )
 
     ///
-    /// Gnomish city structure related schematics
+    /// Forbidden city structure related schematics
     ///
 
-    val ENARIA_LAIR = load("schematics/gnomish_city/enaria_lair.schematic")
-    val STAIRWELL = load("schematics/gnomish_city/stairwell.schematic")
-    val CONNECTOR = load("schematics/gnomish_city/connector.schematic")
-    val ROOM_CAVE = load("schematics/gnomish_city/room_cave.schematic")
-    val ROOM_FARM = load("schematics/gnomish_city/room_farm.schematic")
-    val ROOM_HOTEL = load("schematics/gnomish_city/room_hotel.schematic")
-    val ROOM_MEETING_HALL = load("schematics/gnomish_city/room_meeting_hall.schematic")
-    val ROOM_MUSHROOM = load("schematics/gnomish_city/room_mushroom.schematic")
-    val ROOM_RUIN = load("schematics/gnomish_city/room_ruin.schematic")
-    val ROOM_STAIR_DOWN = load("schematics/gnomish_city/room_stair_down.schematic")
-    val ROOM_STAIR_UP = load("schematics/gnomish_city/room_stair_up.schematic")
-    val ROOM_TANKS = load("schematics/gnomish_city/room_tanks.schematic")
-    val GNOMISH_CITY_ROOMS = arrayOf(
+    val ENARIA_LAIR = load("schematics/forbidden_city/enaria_lair.schematic")
+    val STAIRWELL = load("schematics/forbidden_city/stairwell.schematic")
+    val CONNECTOR = load("schematics/forbidden_city/connector.schematic")
+    val ROOM_CAVE = load("schematics/forbidden_city/room_cave.schematic")
+    val ROOM_FARM = load("schematics/forbidden_city/room_farm.schematic")
+    val ROOM_HOTEL = load("schematics/forbidden_city/room_hotel.schematic")
+    val ROOM_MEETING_HALL = load("schematics/forbidden_city/room_meeting_hall.schematic")
+    val ROOM_MUSHROOM = load("schematics/forbidden_city/room_mushroom.schematic")
+    val ROOM_RUIN = load("schematics/forbidden_city/room_ruin.schematic")
+    val ROOM_STAIR_DOWN = load("schematics/forbidden_city/room_stair_down.schematic")
+    val ROOM_STAIR_UP = load("schematics/forbidden_city/room_stair_up.schematic")
+    val ROOM_TANKS = load("schematics/forbidden_city/room_tanks.schematic")
+    val FORBIDDEN_CITY_ROOMS = arrayOf(
         ROOM_CAVE,
         ROOM_FARM,
         ROOM_HOTEL,
@@ -159,7 +159,7 @@ object ModSchematics {
         CONNECTOR,
         *DARK_FOREST_TREES,
         *DARK_FOREST_PROPS,
-        *GNOMISH_CITY_ROOMS,
+        *FORBIDDEN_CITY_ROOMS,
         ROOM_STAIR_DOWN,
         ROOM_STAIR_UP,
         *DESERT_OASIS_LARGE_PLOTS,

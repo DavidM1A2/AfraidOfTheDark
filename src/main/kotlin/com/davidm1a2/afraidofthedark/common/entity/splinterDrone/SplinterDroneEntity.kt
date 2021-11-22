@@ -26,7 +26,7 @@ import net.minecraft.world.World
 import net.minecraftforge.fml.network.PacketDistributor
 
 /**
- * The splinter drone entity in gnomish cities
+ * The splinter drone entity in forbidden cities
  *
  * @constructor sets mob's size and other properties
  * @param world The world that the splinter drone is in

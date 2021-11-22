@@ -14,7 +14,7 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
     // Multipliers for each dungeon type
     private val cryptMultiplier: ForgeConfigSpec.DoubleValue
     private val darkForestMultiplier: ForgeConfigSpec.DoubleValue
-    private val gnomishCityMultiplier: ForgeConfigSpec.DoubleValue
+    private val forbiddenCityMultiplier: ForgeConfigSpec.DoubleValue
     private val voidChestMultiplier: ForgeConfigSpec.DoubleValue
     private val witchHutMultiplier: ForgeConfigSpec.DoubleValue
     private val desertOasisMultiplier: ForgeConfigSpec.DoubleValue
@@ -45,10 +45,10 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
             .comment("Increases the number of Dark Forests in the world by the multiplier specified.")
             .translation("config.afraidofthedark:dark_forest_multiplier")
             .defineInRange("dark_forest_multiplier", 1.0, 0.0, 100.0)
-        gnomishCityMultiplier = builder
-            .comment("Increases the number of Gnomish Cities in the world by the multiplier specified.")
-            .translation("config.afraidofthedark:gnomish_city_multiplier")
-            .defineInRange("gnomish_city_multiplier", 1.0, 0.0, 100.0)
+        forbiddenCityMultiplier = builder
+            .comment("Increases the number of Forbidden Cities in the world by the multiplier specified.")
+            .translation("config.afraidofthedark:forbidden_city_multiplier")
+            .defineInRange("forbidden_city_multiplier", 1.0, 0.0, 100.0)
         voidChestMultiplier = builder
             .comment("Increases the number of Void Chests in the world by the multiplier specified.")
             .translation("config.afraidofthedark:void_chest_multiplier")
@@ -111,7 +111,7 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
     fun reload() {
         ModCommonConfiguration.cryptMultiplier = cryptMultiplier.get()
         ModCommonConfiguration.darkForestMultiplier = darkForestMultiplier.get()
-        ModCommonConfiguration.gnomishCityFrequency = gnomishCityMultiplier.get()
+        ModCommonConfiguration.forbiddenCityFrequency = forbiddenCityMultiplier.get()
         ModCommonConfiguration.voidChestMultiplier = voidChestMultiplier.get()
         ModCommonConfiguration.witchHutMultiplier = witchHutMultiplier.get()
         ModCommonConfiguration.desertOasisMultiplier = desertOasisMultiplier.get()

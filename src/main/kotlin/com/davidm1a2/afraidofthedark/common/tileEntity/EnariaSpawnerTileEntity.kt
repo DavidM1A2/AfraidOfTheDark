@@ -14,7 +14,7 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 
 /**
- * Tile entity that spawns enaria in the gnomish city
+ * Tile entity that spawns enaria in the forbidden city
  *
  * @constructor just sets the enaria spawner block
  */

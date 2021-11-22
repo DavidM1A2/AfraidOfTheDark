@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.world.structure.gnomishcity
+package com.davidm1a2.afraidofthedark.common.world.structure.forbiddencity
 
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
@@ -14,7 +14,7 @@ import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.Random
 
-class GnomishCityStructure : AOTDStructure<NoFeatureConfig>("gnomish_city", NoFeatureConfig.CODEC) {
+class ForbiddenCityStructure : AOTDStructure<NoFeatureConfig>("forbidden_city", NoFeatureConfig.CODEC) {
     private val width: Int
     private val length: Int
 
@@ -42,7 +42,7 @@ class GnomishCityStructure : AOTDStructure<NoFeatureConfig>("gnomish_city", NoFe
 
     override fun getStartFactory(): IStartFactory<NoFeatureConfig> {
         return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
-            GnomishCityStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
+            ForbiddenCityStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
         }
     }
 
@@ -59,7 +59,7 @@ class GnomishCityStructure : AOTDStructure<NoFeatureConfig>("gnomish_city", NoFe
     }
 
     override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
-        val chance = getOneInNValidChunks(3500) * ModCommonConfiguration.gnomishCityFrequency
+        val chance = getOneInNValidChunks(3500) * ModCommonConfiguration.forbiddenCityFrequency
         if (random.nextDouble() >= chance) {
             return false
         }

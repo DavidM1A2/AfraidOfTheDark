@@ -33,12 +33,12 @@ object ModLootTables {
             Items.RABBIT_HIDE to ResourceLocation(Constants.MOD_ID, "chests/nightmare/astronomy2_part4")
         )
     )
-    val GNOMISH_CITY = LootTable(
-        "gnomish_city",
+    val FORBIDDEN_CITY = LootTable(
+        "forbidden_city",
         mapOf(
-            null to ResourceLocation(Constants.MOD_ID, "chests/gnomish_city/standard"),
-            Items.GOLD_INGOT to ResourceLocation(Constants.MOD_ID, "chests/gnomish_city/cave_room"),
-            Items.DIAMOND to ResourceLocation(Constants.MOD_ID, "chests/gnomish_city/rare")
+            null to ResourceLocation(Constants.MOD_ID, "chests/forbidden_city/standard"),
+            Items.GOLD_INGOT to ResourceLocation(Constants.MOD_ID, "chests/forbidden_city/cave_room"),
+            Items.DIAMOND to ResourceLocation(Constants.MOD_ID, "chests/forbidden_city/rare")
         )
     )
     val DESERT_OASIS = LootTable(
@@ -66,7 +66,7 @@ object ModLootTables {
         DARK_FOREST,
         OBSERVATORY,
         NIGHTMARE_ISLAND,
-        GNOMISH_CITY,
+        FORBIDDEN_CITY,
         DESERT_OASIS,
     )
 
