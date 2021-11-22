@@ -146,7 +146,7 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
                 val damageSource = source.entity
                 if (damageSource is PlayerEntity) {
                     // If a player hit enaria check if they have the right research
-                    if (!damageSource.getResearch().canResearch(ModResearches.ENARIA) && !damageSource.getResearch().isResearched(ModResearches.ENARIA)) {
+                    if (!damageSource.getResearch().canResearch(ModResearches.ARCH_SORCERESS) && !damageSource.getResearch().isResearched(ModResearches.ARCH_SORCERESS)) {
                         damageSource.sendMessage(TranslationTextComponent("message.afraidofthedark.enaria.dont_understand"))
                         // Can't damage enaria without research
                         return false

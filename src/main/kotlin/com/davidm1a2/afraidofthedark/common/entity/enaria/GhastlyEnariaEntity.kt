@@ -22,7 +22,7 @@ import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.StringTextComponent
 import net.minecraft.world.World
 import net.minecraftforge.fml.network.NetworkHooks
-import java.util.*
+import java.util.UUID
 
 /**
  * Class representing the ghastly enaria entity
@@ -77,7 +77,7 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
             if (closestPlayer == null) {
                 setBenign(true)
             } else {
-                setBenign(!closestPlayer.getResearch().isResearched(ModResearches.ENARIA))
+                setBenign(!closestPlayer.getResearch().isResearched(ModResearches.ARCH_SORCERESS))
             }
         }
 

@@ -31,7 +31,7 @@ class NightmareMusicSound : PlayerFollowingSound(ModSounds.NIGHTMARE_MUSIC, Soun
      */
     override fun resolve(handler: SoundHandler): SoundEventAccessor? {
         val entityPlayer = Minecraft.getInstance().player!!
-        if (entityPlayer.getResearch().isResearched(ModResearches.ENARIA)) {
+        if (entityPlayer.getResearch().isResearched(ModResearches.ARCH_SORCERESS)) {
             stop()
         }
         return super.resolve(handler)

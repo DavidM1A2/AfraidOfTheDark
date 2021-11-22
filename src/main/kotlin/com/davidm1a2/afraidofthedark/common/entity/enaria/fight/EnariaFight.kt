@@ -28,7 +28,9 @@ import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.util.Constants
 import net.minecraftforge.common.util.INBTSerializable
-import java.util.*
+import java.util.LinkedList
+import java.util.Queue
+import java.util.UUID
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
@@ -87,7 +89,7 @@ class EnariaFight(
         playersInFight.forEach {
             val player = enaria.level.getPlayerByUUID(it)
             if (player != null) {
-                MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(player, ModResearches.ENARIA))
+                MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(player, ModResearches.ARCH_SORCERESS))
 
                 // Tell the player to stop playing the enaria combat music
                 AfraidOfTheDark.packetHandler.sendTo(PlayEnariasFightMusicPacket(), player as ServerPlayerEntity)

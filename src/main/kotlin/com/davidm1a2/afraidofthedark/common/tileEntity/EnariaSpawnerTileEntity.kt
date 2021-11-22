@@ -41,7 +41,7 @@ class EnariaSpawnerTileEntity : AOTDTickingTileEntity(ModTileEntities.ENARIA_SPA
                 if (ticksExisted >= this.fightCooldownTime) {
                     // And a player that qualifies for the fight is nearby...
                     val playersEligibleToFight = level!!.getEntitiesOfClass(PlayerEntity::class.java, enariaFightStartTriggerBox) {
-                        it.getResearch().canResearch(ModResearches.ENARIA)
+                        it.getResearch().canResearch(ModResearches.ARCH_SORCERESS) || it.getResearch().canResearch(ModResearches.INFERNO)
                     }
                     if (playersEligibleToFight.isNotEmpty()) {
                         // Start the fight

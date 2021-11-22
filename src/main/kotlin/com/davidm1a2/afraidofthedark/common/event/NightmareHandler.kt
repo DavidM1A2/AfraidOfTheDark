@@ -79,6 +79,8 @@ class NightmareHandler {
 
                                 // Send them back to their original dimension
                                 player.teleport(player.getNightmareData().preTeleportDimension!!)
+
+                                MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(player, ModResearches.ENARIA))
                             }
                             it.clearTouchedPlayer()
                         }
@@ -160,7 +162,7 @@ class NightmareHandler {
 
                                         // Spawn a new enaria
                                         val newEnaria = GhastlyEnariaEntity(ModEntities.GHASTLY_ENARIA, world)
-                                        newEnaria.setBenign(!entityPlayer.getResearch().isResearched(ModResearches.ENARIA))
+                                        newEnaria.setBenign(!entityPlayer.getResearch().isResearched(ModResearches.ARCH_SORCERESS))
                                         newEnaria.setPos(posX, entityPlayer.y, posZ)
                                         world.addFreshEntity(newEnaria)
 
@@ -462,7 +464,7 @@ class NightmareHandler {
     private fun testForEnariasAltar(entityPlayer: ServerPlayerEntity, nightmareWorld: ServerWorld, islandPos: BlockPos) {
         // Grab the player's research, if he has enaria generate the altar if needed
         val playerResearch = entityPlayer.getResearch()
-        if (playerResearch.isResearched(ModResearches.ENARIA)) {
+        if (playerResearch.isResearched(ModResearches.ARCH_SORCERESS)) {
             // If enaria's alter does not exist generate the schematic
             if (nightmareWorld.getBlockState(islandPos.offset(101, 74, 233)).block !== ModBlocks.ENARIAS_ALTAR) {
                 val posX = islandPos.x + 67

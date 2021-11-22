@@ -3,7 +3,7 @@
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
-  "prerequisite": "afraidofthedark:throne_room",
+  "prerequisite": "afraidofthedark:inferno",
   "triggers": [
     {
       "type": "afraidofthedark:manual",
