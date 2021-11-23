@@ -278,9 +278,9 @@ class Spell : INBTSerializable<CompoundNBT> {
      */
     override fun toString(): String {
         return "Spell $name\n" +
-                "Power Source: ${powerSource?.component?.registryName?.path}\n" +
-                "Spell Stages:\n" +
-                spellStages.joinToString(separator = "\n") { " -> $it" }
+            "Power Source: ${powerSource?.component?.registryName?.path}\n" +
+            "Spell Stages:\n" +
+            spellStages.joinToString(separator = "\n") { " -> $it" }
     }
 
     companion object {

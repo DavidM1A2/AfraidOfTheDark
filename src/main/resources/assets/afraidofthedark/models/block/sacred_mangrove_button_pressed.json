@@ -1,6 +1,6 @@
 {
-    "parent": "block/button_pressed",
-    "textures": {
-        "texture": "afraidofthedark:block/sacred_mangrove_planks"
-    }
+  "parent": "block/button_pressed",
+  "textures": {
+    "texture": "afraidofthedark:block/sacred_mangrove_planks"
+  }
 }

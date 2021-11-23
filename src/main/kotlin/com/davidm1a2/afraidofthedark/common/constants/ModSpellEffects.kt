@@ -1,6 +1,19 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.common.spell.component.effect.*
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.BurnSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.CharmSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.CleanseSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.DigSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.EnderPocketSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.ExplosionSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.ExtinguishSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.FeedSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.FreezeSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.GrowSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.HealSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.PotionEffectSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.SmokeScreenSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.TeleportSpellEffect
 
 /**
  * A static class containing all of our spell effect references for us

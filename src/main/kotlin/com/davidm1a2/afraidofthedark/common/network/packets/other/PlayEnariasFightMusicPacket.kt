@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.network.packets.other
 
 import com.davidm1a2.afraidofthedark.common.network.packets.EntityPacket
 import net.minecraft.entity.Entity
-import java.util.*
+import java.util.UUID
 
 class PlayEnariasFightMusicPacket(
     entityUUID: UUID,

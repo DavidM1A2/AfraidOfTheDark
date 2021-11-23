@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.network.packets
 
-import java.util.*
+import java.util.UUID
 
 /**
  * Base packet for entity synchronizing

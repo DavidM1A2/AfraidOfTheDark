@@ -9,7 +9,7 @@ import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.common.util.Constants
-import java.util.*
+import java.util.UUID
 
 class DarknessFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFightEvents.Darkness) {
     private var ticksExisted: Int = 0

@@ -77,7 +77,7 @@ open class HChainPane(val layout: Layout = Layout.SPREAD) : StackPane() {
             val gravityXOffset = 0.0    // Gravity doesn't affect the x dimension because cells are fitted to children
             val gravityYOffset = when (child.gravity) {
                 Gravity.TOP_LEFT, Gravity.TOP_CENTER, Gravity.TOP_RIGHT -> calcPadding.top
-                Gravity.CENTER_LEFT, Gravity.CENTER, Gravity.CENTER_RIGHT -> height/2 - (child.height + marginHeight)/2
+                Gravity.CENTER_LEFT, Gravity.CENTER, Gravity.CENTER_RIGHT -> height / 2 - (child.height + marginHeight) / 2
                 Gravity.BOTTOM_LEFT, Gravity.BOTTOM_CENTER, Gravity.BOTTOM_RIGHT -> height - (child.height + marginHeight) - calcPadding.bot
             }
             // Calculate offset from position in HPane, not according to child.offset
@@ -86,7 +86,7 @@ open class HChainPane(val layout: Layout = Layout.SPREAD) : StackPane() {
             child.x = (this.x + this.guiOffsetX + gravityXOffset + xOffset + calcMargins.left).toInt()
             child.y = (this.y + this.guiOffsetY + gravityYOffset + yOffset + calcMargins.top).toInt()
             // Calculate offset based on our layout
-            val layoutOffset = when(layout) {
+            val layoutOffset = when (layout) {
                 Layout.SPREAD -> if (getChildren().size == 1) 0.0 else extraSpace / (getChildren().size - 1)
                 Layout.SPREAD_INSIDE -> extraSpace / (getChildren().size + 1)
                 Layout.CLOSE -> 0.0

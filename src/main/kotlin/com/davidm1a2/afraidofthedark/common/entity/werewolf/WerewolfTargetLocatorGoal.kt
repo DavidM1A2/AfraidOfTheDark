@@ -7,7 +7,7 @@ import net.minecraft.entity.EntityPredicate
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.goal.TargetGoal
 import net.minecraft.entity.player.PlayerEntity
-import java.util.*
+import java.util.EnumSet
 
 /**
  * Target location for werewolves, this will ignore players that have not started AOTD based on a flag

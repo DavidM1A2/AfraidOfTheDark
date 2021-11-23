@@ -48,9 +48,9 @@ class ProcessSextantInputPacketProcessor : PacketProcessor<ProcessSextantInputPa
                 if (meteorEntry != null) {
                     // The meteor can drop from 15 - 500 blocks away from the player in both directions
                     var xLocOfDrop = player.x +
-                            (if (Random.nextBoolean()) -1 else 1) * (Random.nextInt(MAX_METEOR_DISTANCE - 15) + 15)
+                        (if (Random.nextBoolean()) -1 else 1) * (Random.nextInt(MAX_METEOR_DISTANCE - 15) + 15)
                     var zLocOfDrop = player.z +
-                            (if (Random.nextBoolean()) -1 else 1) * (Random.nextInt(MAX_METEOR_DISTANCE - 15) + 15)
+                        (if (Random.nextBoolean()) -1 else 1) * (Random.nextInt(MAX_METEOR_DISTANCE - 15) + 15)
 
                     // Drop the meteor
                     dropMeteor(player.level, meteorEntry, xLocOfDrop.roundToInt(), zLocOfDrop.roundToInt())

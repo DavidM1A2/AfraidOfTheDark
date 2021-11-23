@@ -55,8 +55,8 @@ abstract class AOTDArmorItem(
         val armorInventory = entityPlayer.inventory.armor
         val armorClass = this.javaClass
         return armorClass.isInstance(armorInventory[0].item) &&
-                armorClass.isInstance(armorInventory[1].item) &&
-                armorClass.isInstance(armorInventory[2].item) &&
-                armorClass.isInstance(armorInventory[3].item)
+            armorClass.isInstance(armorInventory[1].item) &&
+            armorClass.isInstance(armorInventory[2].item) &&
+            armorClass.isInstance(armorInventory[3].item)
     }
 }

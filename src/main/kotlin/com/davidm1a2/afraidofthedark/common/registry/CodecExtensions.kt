@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.registries.IForgeRegistry
 import net.minecraftforge.registries.IForgeRegistryEntry
-import java.util.*
+import java.util.Optional
 
 /**
  * Creates a codec which only deserializes its contents when needed

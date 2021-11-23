@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.network.packets
 
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
 import net.minecraft.network.PacketBuffer
-import java.util.*
+import java.util.UUID
 
 /**
  * Class used to encapsulate sending data about non-player entities

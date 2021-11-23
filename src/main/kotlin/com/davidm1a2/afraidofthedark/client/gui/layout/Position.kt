@@ -7,7 +7,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
  * A relative position is just a multiplier used on the parent's dimensions to determine a position
  */
 class Position(val x: Double = 0.0, val y: Double = 0.0, val isRelative: Boolean = true) {
-    fun getAbsolute(reference: AOTDPane) : Position {
+    fun getAbsolute(reference: AOTDPane): Position {
         return if (isRelative) {
             Position(x * reference.getInternalWidth(), y * reference.getInternalHeight(), false)
         } else {
@@ -15,7 +15,7 @@ class Position(val x: Double = 0.0, val y: Double = 0.0, val isRelative: Boolean
         }
     }
 
-    fun getRelative(reference: AOTDPane) : Position {
+    fun getRelative(reference: AOTDPane): Position {
         return if (isRelative) {
             Position(x, y, true)
         } else {
@@ -29,14 +29,14 @@ class Position(val x: Double = 0.0, val y: Double = 0.0, val isRelative: Boolean
         }
     }
 
-    fun toDimension(secondPoint: Position) : Dimensions {
+    fun toDimension(secondPoint: Position): Dimensions {
         assert(this.isRelative == secondPoint.isRelative)
         return Dimensions(secondPoint.x - this.x, secondPoint.y - this.y)
     }
 
-    fun avg(secondPoint: Position) : Position {
+    fun avg(secondPoint: Position): Position {
         assert(this.isRelative == secondPoint.isRelative)
-        return Position((this.x + secondPoint.x)/2, (this.y + secondPoint.y)/2)
+        return Position((this.x + secondPoint.x) / 2, (this.y + secondPoint.y) / 2)
     }
 
     override fun equals(other: Any?): Boolean {

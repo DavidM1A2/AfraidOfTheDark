@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.capabilities.player.spell
 
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import net.minecraft.entity.player.PlayerEntity
-import java.util.*
+import java.util.UUID
 
 /**
  * An interface that is a base for AOTD player spell capabilities

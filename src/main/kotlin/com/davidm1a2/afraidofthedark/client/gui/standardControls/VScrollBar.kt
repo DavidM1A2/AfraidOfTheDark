@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import net.minecraft.util.ResourceLocation
@@ -12,10 +12,10 @@ import java.util.function.Consumer
  * Advanced control that represents a scroll bar which can be dragged up and down
  */
 class VScrollBar @JvmOverloads constructor(
-        prefSize: Dimensions,
-        scrollBarTexture: String = "afraidofthedark:textures/gui/scroll_bar.png",
-        handleTexture: String = "afraidofthedark:textures/gui/scroll_bar_handle.png",
-        handleHoveredTexture: String = handleTexture
+    prefSize: Dimensions,
+    scrollBarTexture: String = "afraidofthedark:textures/gui/scroll_bar.png",
+    handleTexture: String = "afraidofthedark:textures/gui/scroll_bar_handle.png",
+    handleHoveredTexture: String = handleTexture
 ) : ImagePane(ResourceLocation(scrollBarTexture), DispMode.FIT_TO_PARENT) {
     var value = 0.0
         set(value) {

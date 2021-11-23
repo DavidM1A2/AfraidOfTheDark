@@ -69,9 +69,9 @@ object IslandUtility {
             val blockUpOne = world.getBlockState(blockPos.above())
             val blockUpTwo = world.getBlockState(blockPos.above(2))
             return blockUpOne.block != ModBlocks.VOID_CHEST_PORTAL &&
-                    blockUpTwo.block != ModBlocks.VOID_CHEST_PORTAL &&
-                    !blockUpOne.material.blocksMotion() &&
-                    !blockUpTwo.material.blocksMotion()
+                blockUpTwo.block != ModBlocks.VOID_CHEST_PORTAL &&
+                !blockUpOne.material.blocksMotion() &&
+                !blockUpTwo.material.blocksMotion()
         } else false
     }
 }

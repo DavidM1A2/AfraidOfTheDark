@@ -12,7 +12,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellCompon
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.fml.network.PacketDistributor
-import java.util.*
+import java.util.Collections
 
 /**
  * Creates a smoke screen at a given effect location

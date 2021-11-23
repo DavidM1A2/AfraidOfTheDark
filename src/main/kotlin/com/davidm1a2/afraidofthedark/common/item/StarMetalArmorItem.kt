@@ -104,7 +104,7 @@ class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
      */
     private fun readyToProcAbsorption(itemStack: ItemStack): Boolean {
         return !NBTHelper.hasTag(itemStack, NBT_LAST_ABSORPTION_PROC) ||
-                System.currentTimeMillis() > NBTHelper.getLong(itemStack, NBT_LAST_ABSORPTION_PROC)!! + ABSORPTION_PROC_CD_MILLIS
+            System.currentTimeMillis() > NBTHelper.getLong(itemStack, NBT_LAST_ABSORPTION_PROC)!! + ABSORPTION_PROC_CD_MILLIS
     }
 
     override fun processDamage(entity: LivingEntity, armorStack: ItemStack, source: DamageSource, amount: Float, slot: EquipmentSlotType): Double {

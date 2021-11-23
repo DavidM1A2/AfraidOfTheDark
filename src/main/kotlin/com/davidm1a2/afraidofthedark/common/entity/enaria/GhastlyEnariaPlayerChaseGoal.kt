@@ -6,7 +6,7 @@ import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
-import java.util.*
+import java.util.EnumSet
 
 /**
  * Ghastly enaria task that lets her chase players

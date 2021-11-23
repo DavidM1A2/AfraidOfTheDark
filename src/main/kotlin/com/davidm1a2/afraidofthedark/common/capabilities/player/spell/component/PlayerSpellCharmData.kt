@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component
 
-import java.util.*
+import java.util.UUID
 
 /**
  * Default implementation of the AOTD spell charm data class

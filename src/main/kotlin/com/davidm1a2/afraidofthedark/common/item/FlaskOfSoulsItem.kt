@@ -259,8 +259,8 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
             return false
         }
         return ModCommonConfiguration.flaskOfSoulsBasicEntities.contains(entity) ||
-                ModCommonConfiguration.flaskOfSoulsRareEntities.contains(entity) ||
-                ModCommonConfiguration.flaskOfSoulsEpicEntities.contains(entity)
+            ModCommonConfiguration.flaskOfSoulsRareEntities.contains(entity) ||
+            ModCommonConfiguration.flaskOfSoulsEpicEntities.contains(entity)
     }
 
     /**

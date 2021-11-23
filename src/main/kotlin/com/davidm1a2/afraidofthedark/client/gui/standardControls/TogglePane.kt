@@ -1,7 +1,10 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import java.util.function.Consumer
 
 /**

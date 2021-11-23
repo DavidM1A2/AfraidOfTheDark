@@ -93,7 +93,7 @@ open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHe
         }
     }
 
-    fun getCurrentOffset() : Position {
+    fun getCurrentOffset(): Position {
         return Position(guiOffsetX, guiOffsetY, false)
     }
 }

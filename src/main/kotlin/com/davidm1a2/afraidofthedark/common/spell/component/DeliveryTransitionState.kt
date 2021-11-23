@@ -13,7 +13,7 @@ import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.fml.server.ServerLifecycleHooks
-import java.util.*
+import java.util.UUID
 
 /**
  * Class representing a spell in the transition state. This object is immutable

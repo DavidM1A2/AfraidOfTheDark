@@ -7,10 +7,10 @@ class Spacing(val top: Double, val bot: Double, val left: Double, val right: Dou
     val width = left + right
     val height = top + bot
 
-    constructor(uniform: Double, isRelative: Boolean = true): this(uniform, uniform, uniform, uniform, isRelative)
-    constructor(): this(0.0)
+    constructor(uniform: Double, isRelative: Boolean = true) : this(uniform, uniform, uniform, uniform, isRelative)
+    constructor() : this(0.0)
 
-    fun getAbsoluteOuter(reference: AOTDGuiComponent) : Spacing {
+    fun getAbsoluteOuter(reference: AOTDGuiComponent): Spacing {
         return if (isRelative) {
             Spacing(
                 top * reference.height,
@@ -24,7 +24,7 @@ class Spacing(val top: Double, val bot: Double, val left: Double, val right: Dou
         }
     }
 
-    fun getAbsoluteInner(reference: AOTDPane) : Spacing {
+    fun getAbsoluteInner(reference: AOTDPane): Spacing {
         return if (isRelative) {
             Spacing(
                 top * reference.getInternalHeight(),

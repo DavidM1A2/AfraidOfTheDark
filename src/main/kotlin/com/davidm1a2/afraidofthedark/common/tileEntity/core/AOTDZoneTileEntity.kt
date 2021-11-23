@@ -12,7 +12,7 @@ import net.minecraft.tileentity.TileEntityType
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.util.Constants
-import java.util.*
+import java.util.UUID
 
 /**
  * Base class for all tile entities that require ticking every game tick

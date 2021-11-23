@@ -20,7 +20,7 @@ import net.minecraft.util.math.vector.Matrix4f
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.math.vector.Vector3f
 import org.lwjgl.opengl.GL11C
-import java.util.*
+import java.util.Random
 
 /**
  * Renderer class for the spell projectile entity

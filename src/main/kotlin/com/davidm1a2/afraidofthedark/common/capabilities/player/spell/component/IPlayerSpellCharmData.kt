@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component
 
-import java.util.*
+import java.util.UUID
 
 /**
  * An interface that defines any charm data stored on the player

@@ -9,7 +9,7 @@ import com.google.common.collect.HashBiMap
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import org.apache.logging.log4j.LogManager
-import java.util.*
+import java.util.UUID
 
 /**
  * Default implementation of the AOTD spell manager

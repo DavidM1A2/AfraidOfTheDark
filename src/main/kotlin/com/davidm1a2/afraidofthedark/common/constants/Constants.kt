@@ -36,7 +36,7 @@ object Constants {
 
     // The distance between nightmare and void chest islands
     const val DISTANCE_BETWEEN_ISLANDS = 1000
-    
+
     // The default time zone to use internally by the mod
     val DEFAULT_TIME_ZONE: ZoneOffset = ZoneOffset.UTC
 }

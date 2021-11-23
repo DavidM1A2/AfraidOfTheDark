@@ -8,8 +8,8 @@ import kotlin.math.roundToInt
 open class RatioPane(private val widthRatio: Int, private val heightRatio: Int) : AOTDPane() {
 
     override fun negotiateDimensions(width: Double, height: Double) {
-        val squareWidth = width/widthRatio
-        val squareHeight = height/heightRatio
+        val squareWidth = width / widthRatio
+        val squareHeight = height / heightRatio
         val squareMin = squareWidth.coerceAtMost(squareHeight)
         this.width = (squareMin * widthRatio).roundToInt()
         this.height = (squareMin * heightRatio).roundToInt()
