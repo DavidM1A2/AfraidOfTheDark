@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EnariaEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
+import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDZoneTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.toRotation
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFaceBlock
@@ -18,7 +18,7 @@ import net.minecraft.util.math.BlockPos
  *
  * @constructor just sets the enaria spawner block
  */
-class EnariaSpawnerTileEntity : AOTDTickingTileEntity(ModTileEntities.ENARIA_SPAWNER) {
+class EnariaSpawnerTileEntity : AOTDZoneTileEntity(ModTileEntities.ENARIA_SPAWNER) {
     // Unfortunately world.getBlockState() only works right before the first tick, so lazily initialize this
     private val enariaFightStartTriggerBox: AxisAlignedBB by lazy {
         val direction = level!!.getBlockState(blockPos).getValue(HorizontalFaceBlock.FACING)
@@ -26,6 +26,13 @@ class EnariaSpawnerTileEntity : AOTDTickingTileEntity(ModTileEntities.ENARIA_SPA
         val enariaFightStartTriggerBoxNegCorner = BlockPos(-11, -2, -2).rotate(rotation).offset(blockPos)
         val enariaFightStartTriggerBoxPosCorner = BlockPos(11, 11, 20).rotate(rotation).offset(blockPos)
         AxisAlignedBB(enariaFightStartTriggerBoxNegCorner, enariaFightStartTriggerBoxPosCorner)
+    }
+    override val zone: AxisAlignedBB by lazy {
+        val direction = level!!.getBlockState(blockPos).getValue(HorizontalFaceBlock.FACING)
+        val rotation = direction.toRotation()
+        val enariaArenaBoxNegCorner = BlockPos(-30, -2, -3).rotate(rotation).offset(blockPos)
+        val enariaArenaBoxPosCorner = BlockPos(30, 12, 79).rotate(rotation).offset(blockPos)
+        AxisAlignedBB(enariaArenaBoxNegCorner, enariaArenaBoxPosCorner)
     }
 
     private var fightCooldownTime: Long = 0L

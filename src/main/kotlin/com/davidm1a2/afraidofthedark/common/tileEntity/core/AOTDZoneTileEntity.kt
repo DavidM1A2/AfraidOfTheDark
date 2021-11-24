@@ -36,7 +36,7 @@ abstract class AOTDZoneTileEntity(tileEntityType: TileEntityType<*>) : AOTDTicki
     }
 
     private fun updateNearbyPlayers() {
-        // If we've existed for a multiple of 60 ticks perform a check for nearby players
+        // If we've existed for a multiple of 40 ticks perform a check for nearby players
         if (ticksExisted % TICKS_BETWEEN_PLAYER_CHECKS == 0L) {
             // Grab all nearby players
             val nearbyPlayers = level!!.getEntitiesOfClass(PlayerEntity::class.java, zone)
