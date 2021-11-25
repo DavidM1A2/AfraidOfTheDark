@@ -11,6 +11,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
 import net.minecraft.block.Blocks
+import net.minecraft.block.FlowerBlock
 import net.minecraft.command.arguments.EntityAnchorArgument
 import net.minecraft.entity.item.ItemEntity
 import net.minecraft.item.ItemStack
@@ -73,7 +74,8 @@ class GrassSkeletonFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, Enar
     private fun clearArenaGrass() {
         val world = fight.enaria.level
         iterateOverRegion(relativeToAbsolutePosition(-30, -1, -3), relativeToAbsolutePosition(30, 2, 79)) {
-            if (VALID_BLOCKS_TO_REMOVE.contains(world.getBlockState(it).block)) {
+            val block = world.getBlockState(it).block
+            if (VALID_BLOCKS_TO_REMOVE.contains(block) || block is FlowerBlock) {
                 world.setBlock(it, Blocks.AIR.defaultBlockState(), 2 or 32)
             }
         }
