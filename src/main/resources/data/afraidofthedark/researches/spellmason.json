@@ -2,7 +2,7 @@
   "forge:registry_name": "afraidofthedark:spellmason",
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/spellmason.png",
   "prerequisite": "afraidofthedark:arch_sorceress",
   "triggers": [
     {
