@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -18,7 +19,7 @@ import net.minecraft.util.text.TranslationTextComponent
 /**
  * Effect that creates an ender chest
  */
-class EnderPocketSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "ender_pocket")) {
+class EnderPocketSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "ender_pocket"), ModResearches.POCKET_DIMENSION) {
     /**
      * Performs the effect
      *

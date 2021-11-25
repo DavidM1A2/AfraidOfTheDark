@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -16,7 +17,7 @@ import net.minecraft.util.math.vector.Vector3d
 /**
  * The cleanse spell effect clears your spell effects
  */
-class CleanseSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cleanse")) {
+class CleanseSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cleanse"), ModResearches.ADVANCED_MAGIC) {
     /**
      * Performs the effect
      *

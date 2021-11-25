@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -12,7 +13,7 @@ import net.minecraft.util.ResourceLocation
 /**
  * Spell effect that causes growable blocks to grow
  */
-class GrowSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "grow")) {
+class GrowSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "grow"), ModResearches.SPELLMASON) {
     /**
      * Performs the effect
      *

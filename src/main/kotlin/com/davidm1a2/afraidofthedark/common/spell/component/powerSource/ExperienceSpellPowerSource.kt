@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.powerSource
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
 import net.minecraft.entity.Entity
@@ -11,7 +12,7 @@ import kotlin.math.ceil
 /**
  * Class representing the experience source
  */
-class ExperienceSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "experience")) {
+class ExperienceSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "experience"), ModResearches.WISDOM) {
     /**
      * True if the given spell can be cast, false otherwise
      *

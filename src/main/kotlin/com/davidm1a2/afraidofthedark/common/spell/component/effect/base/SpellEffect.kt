@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect.base
 
+import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -9,11 +10,13 @@ import net.minecraft.util.ResourceLocation
  * Entry used to store a reference to an effect
  *
  * @constructor just passes on the id and factory
- * @param id      The ID of this delivery method entry
+ * @param id The ID of this delivery method entry
+ * @param prerequisiteResearch The research required to use this component, or null if none is required
  */
-abstract class SpellEffect(id: ResourceLocation) : SpellComponent<SpellEffect>(
+abstract class SpellEffect(id: ResourceLocation, prerequisiteResearch: Research?) : SpellComponent<SpellEffect>(
     id,
-    ResourceLocation(id.namespace, "textures/gui/spell_component/effects/${id.path}.png")
+    ResourceLocation(id.namespace, "textures/gui/spell_component/effects/${id.path}.png"),
+    prerequisiteResearch
 ) {
     /**
      * Performs the effect

@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -15,7 +16,7 @@ import net.minecraft.world.Explosion
  *
  * @constructor initializes the editable properties
  */
-class ExplosionSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "explosion")) {
+class ExplosionSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "explosion"), ModResearches.MAGIC_MASTERY) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.floatProperty()

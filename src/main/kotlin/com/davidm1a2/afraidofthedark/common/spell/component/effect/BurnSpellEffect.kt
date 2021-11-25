@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -16,7 +17,7 @@ import net.minecraft.util.math.vector.Vector3d
  *
  * @constructor adds the editable prop
  */
-class BurnSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "burn")) {
+class BurnSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "burn"), ModResearches.ELEMENTAL_MAGIC) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()

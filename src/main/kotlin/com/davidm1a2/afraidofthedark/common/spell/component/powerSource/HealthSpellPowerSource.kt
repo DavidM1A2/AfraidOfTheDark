@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.powerSource
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
 import net.minecraft.entity.Entity
@@ -11,7 +12,7 @@ import net.minecraft.util.ResourceLocation
 /**
  * Class representing the experience source
  */
-class HealthSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "health")) {
+class HealthSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "health"), ModResearches.BLOOD_MAGIC) {
     /**
      * True if the given spell can be cast, false otherwise
      *

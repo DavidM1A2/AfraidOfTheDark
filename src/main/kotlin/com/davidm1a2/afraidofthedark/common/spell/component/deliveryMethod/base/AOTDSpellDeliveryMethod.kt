@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base
 
+import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -11,8 +12,9 @@ import net.minecraft.util.ResourceLocation
  *
  * @constructor calls super
  * @param id The ID of this delivery method entry
+ * @param prerequisiteResearch The research required to use this component, or null if none is required
  */
-abstract class AOTDSpellDeliveryMethod(id: ResourceLocation) : SpellDeliveryMethod(id) {
+abstract class AOTDSpellDeliveryMethod(id: ResourceLocation, prerequisiteResearch: Research? = null) : SpellDeliveryMethod(id, prerequisiteResearch) {
     /**
      * Applies a given effect given the spells current state
      *

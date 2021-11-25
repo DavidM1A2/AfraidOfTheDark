@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.powerSource
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
 import net.minecraft.entity.Entity
@@ -9,7 +10,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ResourceLocation
 import kotlin.math.ceil
 
-class VitaeLanternSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "vitae_lantern")) {
+class VitaeLanternSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "vitae_lantern"), ModResearches.VITAE_LANTERN) {
     override fun canCast(entity: Entity, spell: Spell): Boolean {
         if (entity is PlayerEntity) {
             val inventory = entity.inventory.items + entity.inventory.offhand

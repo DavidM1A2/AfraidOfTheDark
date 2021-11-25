@@ -18,6 +18,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TogglePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
@@ -59,19 +60,19 @@ class SpellScroll :
         interiorPane.add(propertyList)
         propertyList.isVisible = false
 
-        val componentsPerLine = 4
-
         // Create the power source label
-        val powerSourceHeading =
-            LabelComponent(ClientData.getOrCreate(42f), Dimensions(1.0, 0.2))
+        val powerSourceHeading = LabelComponent(ClientData.getOrCreate(42f), Dimensions(1.0, 0.2))
         powerSourceHeading.textColor = Color(140, 35, 206)
         powerSourceHeading.text = "Power Sources"
         componentList.add(powerSourceHeading)
 
+        val research = entityPlayer.getResearch()
+
         // Go over all power sources and add a slot for each
         var powerSourceHPane: HChainPane? = null
-        for ((powerSourceIndex, powerSourceEntry) in ModRegistries.SPELL_POWER_SOURCES.withIndex()) {
-            if (powerSourceIndex % componentsPerLine == 0) {
+        val unlockedPowerSources = ModRegistries.SPELL_POWER_SOURCES.filter { it.prerequisiteResearch == null || research.isResearched(it.prerequisiteResearch) }
+        for ((powerSourceIndex, powerSourceEntry) in unlockedPowerSources.withIndex()) {
+            if (powerSourceIndex % COMPONENTS_PER_LINE == 0) {
                 if (powerSourceHPane != null) componentList.add(powerSourceHPane)
                 powerSourceHPane = HChainPane(HChainPane.Layout.CLOSE)
                 powerSourceHPane.prefSize = Dimensions(1.0, 0.2)
@@ -90,8 +91,9 @@ class SpellScroll :
 
         // Go over all effects and add a slot for each
         var effectHPane: HChainPane? = null
-        for ((effectIndex, effectEntry) in ModRegistries.SPELL_EFFECTS.withIndex()) {
-            if (effectIndex % componentsPerLine == 0) {
+        val unlockedEffects = ModRegistries.SPELL_EFFECTS.filter { it.prerequisiteResearch == null || research.isResearched(it.prerequisiteResearch) }
+        for ((effectIndex, effectEntry) in unlockedEffects.withIndex()) {
+            if (effectIndex % COMPONENTS_PER_LINE == 0) {
                 if (effectHPane != null) componentList.add(effectHPane)
                 effectHPane = HChainPane(HChainPane.Layout.CLOSE)
                 effectHPane.prefSize = Dimensions(1.0, 0.2)
@@ -111,8 +113,9 @@ class SpellScroll :
 
         // Go over all delivery methods and add a slot for each
         var deliveryMethodHPane: HChainPane? = null
-        for ((deliveryMethodIndex, deliveryMethodEntry) in ModRegistries.SPELL_DELIVERY_METHODS.withIndex()) {
-            if (deliveryMethodIndex % componentsPerLine == 0) {
+        val unlockedDeliveryMethods = ModRegistries.SPELL_DELIVERY_METHODS.filter { it.prerequisiteResearch == null || research.isResearched(it.prerequisiteResearch) }
+        for ((deliveryMethodIndex, deliveryMethodEntry) in unlockedDeliveryMethods.withIndex()) {
+            if (deliveryMethodIndex % COMPONENTS_PER_LINE == 0) {
                 if (deliveryMethodHPane != null) componentList.add(deliveryMethodHPane)
                 deliveryMethodHPane = HChainPane(HChainPane.Layout.CLOSE)
                 deliveryMethodHPane.prefSize = Dimensions(1.0, 0.2)
@@ -323,5 +326,9 @@ class SpellScroll :
 
     fun isEditingProps(): Boolean {
         return propertyList.isVisible
+    }
+
+    companion object {
+        private const val COMPONENTS_PER_LINE = 4
     }
 }

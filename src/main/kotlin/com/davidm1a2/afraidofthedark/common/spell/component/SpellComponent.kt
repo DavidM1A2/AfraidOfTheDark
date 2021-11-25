@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.spell.component
 
+import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
@@ -16,8 +17,13 @@ import net.minecraftforge.registries.IForgeRegistryEntry
  * @param <V> The type that this entry will create
  * @param id The ID of the entry to register
  * @property icon A resource location containing an image file with the icon to be used by the component
+ * @property prerequisiteResearch The research required to use this component, or null if none is required
  */
-abstract class SpellComponent<T : IForgeRegistryEntry<T>>(id: ResourceLocation, val icon: ResourceLocation) : ForgeRegistryEntry<T>() {
+abstract class SpellComponent<T : IForgeRegistryEntry<T>>(
+    id: ResourceLocation,
+    val icon: ResourceLocation,
+    val prerequisiteResearch: Research?
+) : ForgeRegistryEntry<T>() {
     private val editableProperties: MutableList<SpellComponentProperty<*>> = mutableListOf()
 
     init {

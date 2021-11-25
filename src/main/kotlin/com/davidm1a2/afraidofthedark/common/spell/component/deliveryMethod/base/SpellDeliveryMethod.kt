@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base
 
+import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -11,14 +12,15 @@ import net.minecraft.util.ResourceLocation
  *
  * @constructor just passes on the id and factory
  * @param id      The ID of this delivery method entry
- * @property deliveryCustomTransitioners A map of previous delivery entry type to transitioner to fire to move from that delivery method to this one
+ * @property deliveryCustomTransitioners A map of previous delive
+ * @param prerequisiteResearch The research required to use this component, or null if none is requiredry entry type to transitioner to fire to move from that delivery method to this one
  * @property deliveryEffectCustomApplicators A map of effect entries to custom effect applicators, used to specify how effects are applied
  */
-abstract class SpellDeliveryMethod(id: ResourceLocation) :
-    SpellComponent<SpellDeliveryMethod>(
-        id,
-        ResourceLocation(id.namespace, "textures/gui/spell_component/delivery_methods/${id.path}.png")
-    ) {
+abstract class SpellDeliveryMethod(id: ResourceLocation, prerequisiteResearch: Research?) : SpellComponent<SpellDeliveryMethod>(
+    id,
+    ResourceLocation(id.namespace, "textures/gui/spell_component/delivery_methods/${id.path}.png"),
+    prerequisiteResearch
+) {
     private val deliveryCustomTransitioners = mutableMapOf<SpellDeliveryMethod, ISpellDeliveryTransitioner>()
     private val deliveryEffectCustomApplicators = mutableMapOf<SpellEffect, ISpellDeliveryEffectApplicator>()
 

@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -22,7 +23,7 @@ import net.minecraft.world.World
  *
  * @constructor initializes properties
  */
-class FreezeSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "freeze")) {
+class FreezeSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "freeze"), ModResearches.ELEMENTAL_MAGIC) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()

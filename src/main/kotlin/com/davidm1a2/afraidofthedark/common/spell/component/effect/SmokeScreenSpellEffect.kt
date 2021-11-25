@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -19,7 +20,7 @@ import java.util.Collections
  *
  * @constructor adds the editable prop
  */
-class SmokeScreenSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "smoke_screen")) {
+class SmokeScreenSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "smoke_screen"), ModResearches.POCKET_DIMENSION) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
