@@ -93,6 +93,6 @@ class ArcaneJournalResearchScreen(private val isCheatSheet: Boolean) :
         private const val RESEARCH_WIDTH = 0.03
 
         // The stored scroll pane offset
-        private var scrollOffset = Position(-0.25, -0.25)
+        private var scrollOffset = Position(-0.375, -0.375)
     }
 }

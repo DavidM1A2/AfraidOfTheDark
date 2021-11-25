@@ -26,7 +26,7 @@ class ResearchPositionHandler {
         }
         // Compute spacing from the root node
         findRoot()?.apply {
-            computeChildren(1.0 / (longestChain + 1))
+            computeChildren(RADIUS_MULTIPLIER / (longestChain + 1))
             applyPos()
         }
     }
@@ -74,10 +74,11 @@ class ResearchPositionHandler {
         }
 
         private fun computeWeight() {
-            val weightPerChild = 0.65
-            val weightRetained = 0.15
-            this.weight = 1.0 - weightPerChild
-            children.forEach { it.computeWeight(); this.weight += weightPerChild + weightRetained * (it.weight - 1.0) }
+            this.weight = 1.0 - WEIGHT_PER_CHILD
+            children.forEach {
+                it.computeWeight()
+                this.weight += WEIGHT_PER_CHILD + WEIGHT_RETAINED * (it.weight - 1.0)
+            }
             this.weight = max(weight, 1.0)
         }
 
@@ -92,5 +93,14 @@ class ResearchPositionHandler {
             research.xPosition = xPosition
             research.yPosition = yPosition
         }
+
+        companion object {
+            private const val WEIGHT_PER_CHILD = 0.65
+            private const val WEIGHT_RETAINED = 0.15
+        }
+    }
+    
+    companion object {
+        private const val RADIUS_MULTIPLIER = 0.8
     }
 }
