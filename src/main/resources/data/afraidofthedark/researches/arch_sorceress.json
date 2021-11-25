@@ -2,7 +2,7 @@
   "forge:registry_name": "afraidofthedark:arch_sorceress",
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/question_mark.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/arch_sorceress.png",
   "prerequisite": "afraidofthedark:inferno",
   "triggers": [
     {

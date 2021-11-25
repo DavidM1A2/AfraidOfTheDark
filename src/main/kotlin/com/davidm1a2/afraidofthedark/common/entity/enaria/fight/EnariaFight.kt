@@ -207,6 +207,7 @@ class EnariaFight(
             if (!playersInFight.contains(it.uuid)) {
                 playersInFight.add(it.uuid)
                 AfraidOfTheDark.packetHandler.sendTo(PlayEnariasFightMusicPacket(enaria), it as ServerPlayerEntity)
+                MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(it, ModResearches.INFERNO))
             }
         }
 

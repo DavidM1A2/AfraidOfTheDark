@@ -83,7 +83,7 @@ class SummonSentinelsFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, En
             for (y in -2..4) {
                 for (z in -3..3) {
                     val position = enariaCastPosition.offset(x, y, z)
-                    if (world.getBlockState(position).block == Blocks.ICE) {
+                    if (world.getBlockState(position).block == Blocks.PACKED_ICE) {
                         world.setBlockAndUpdate(position, Blocks.CAVE_AIR.defaultBlockState())
                     }
                 }
