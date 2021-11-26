@@ -80,23 +80,26 @@ class ArcaneJournalPage(
     }
 
     fun setIndex(index: Int) {
-        // If we have another page of text then load that page of text and clear out the recipes
+        clear()
         if (textPerPage.hasIndex(index)) {
-            textBox.setText(textPerPage[index])
-            topRecipe.setRecipe(null)
-            bottomRecipe.setRecipe(null)
+            setTextPage(index)
         } else {
-            // The adjusted index for an index into the recipe list
-            var adjustedIndexForRecipe = (index - textPerPage.size) * 2
-            textBox.setText("")
-            topRecipe.setRecipe(if (recipes.hasIndex(adjustedIndexForRecipe)) recipes[adjustedIndexForRecipe++] else null)
-            bottomRecipe.setRecipe(if (recipes.hasIndex(adjustedIndexForRecipe)) recipes[adjustedIndexForRecipe] else null)
+            setRecipePage((index - textPerPage.size) * 2)
         }
     }
 
     fun hasIndex(index: Int): Boolean {
         val maxIndex = textPerPage.size + MathHelper.ceil(recipes.size / 2.0) - 1
         return index <= maxIndex
+    }
+
+    private fun setTextPage(index: Int) {
+        textBox.setText(textPerPage[index])
+    }
+
+    private fun setRecipePage(index: Int) {
+        topRecipe.setRecipe(recipes[index])
+        bottomRecipe.setRecipe(if (recipes.hasIndex(index + 1)) recipes[index + 1] else null)
     }
 
     companion object {
