@@ -2,6 +2,14 @@
   "forge:registry_name": "afraidofthedark:dark_forest",
   "recipes": [],
   "pre_recipes": [],
+  "stickers": [
+    "afraidofthedark:textures/gui/research_stickers/dark_forest_bottom.png",
+    "afraidofthedark:textures/gui/research_stickers/dark_forest_top.png"
+  ],
+  "pre_stickers": [
+    "afraidofthedark:textures/gui/research_stickers/dark_forest_bottom.png",
+    "afraidofthedark:textures/gui/research_stickers/dark_forest_top.png"
+  ],
   "icon": "afraidofthedark:textures/gui/research_icons/dark_forest.png",
   "prerequisite": "afraidofthedark:the_journey_begins",
   "triggers": [

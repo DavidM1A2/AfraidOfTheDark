@@ -2,17 +2,20 @@ package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.RecipePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextBoxComponent
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import net.minecraft.item.crafting.IRecipe
+import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.MathHelper
 import java.awt.Color
 
 class ArcaneJournalPage(
     private val rawText: String,
-    private val recipes: List<IRecipe<*>>
+    private val recipes: List<IRecipe<*>>,
+    private val stickers: List<ResourceLocation>
 ) : StackPane() {
     // Used when the page has text
     private val textBox: TextBoxComponent
@@ -20,6 +23,9 @@ class ArcaneJournalPage(
     // Used when the page has recipe(ies) on it
     private val topRecipe: RecipePane
     private val bottomRecipe: RecipePane
+
+    // Used when the page has stickers on it
+    private val stickerBox: ImagePane
 
     private val textPerPage = mutableListOf<String>()
 
@@ -34,6 +40,9 @@ class ArcaneJournalPage(
         bottomRecipe = RecipePane(Dimensions(1.0, 0.5))
         bottomRecipe.gravity = Gravity.BOTTOM_CENTER
         add(bottomRecipe)
+
+        stickerBox = ImagePane(displayMode = ImagePane.DispMode.FIT_TO_PARENT)
+        add(stickerBox)
     }
 
     override fun invalidate() {
@@ -77,19 +86,31 @@ class ArcaneJournalPage(
         textBox.setText("")
         topRecipe.setRecipe(null)
         bottomRecipe.setRecipe(null)
+        stickerBox.imageTexture = null
     }
 
     fun setIndex(index: Int) {
         clear()
-        if (textPerPage.hasIndex(index)) {
+        if (index < 0) {
+            return
+        }
+
+        val lastTextIndex = textPerPage.size - 1
+        val firstRecipeIndex = lastTextIndex + 1
+        val lastRecipeIndex = lastTextIndex + MathHelper.ceil(recipes.size / 2.0)
+        val firstStickerIndex = lastRecipeIndex + 1
+        val lastStickerIndex = lastRecipeIndex + stickers.size
+        if (index <= lastTextIndex) {
             setTextPage(index)
-        } else {
-            setRecipePage((index - textPerPage.size) * 2)
+        } else if (index <= lastRecipeIndex) {
+            setRecipePage((index - firstRecipeIndex) * 2)
+        } else if (index <= lastStickerIndex) {
+            setStickerPage(index - firstStickerIndex)
         }
     }
 
     fun hasIndex(index: Int): Boolean {
-        val maxIndex = textPerPage.size + MathHelper.ceil(recipes.size / 2.0) - 1
+        val maxIndex = textPerPage.size + MathHelper.ceil(recipes.size / 2.0) + stickers.size - 1
         return index <= maxIndex
     }
 
@@ -100,6 +121,10 @@ class ArcaneJournalPage(
     private fun setRecipePage(index: Int) {
         topRecipe.setRecipe(recipes[index])
         bottomRecipe.setRecipe(if (recipes.hasIndex(index + 1)) recipes[index + 1] else null)
+    }
+
+    private fun setStickerPage(index: Int) {
+        stickerBox.imageTexture = stickers[index]
     }
 
     companion object {

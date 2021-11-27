@@ -6,27 +6,27 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.AbstractGui
 import net.minecraft.util.ResourceLocation
 import org.lwjgl.opengl.GL11
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 /**
  * Class representing an image to be rendered on the GUI
  */
-open class ImagePane(
-    var imageTexture: ResourceLocation,
-    var displayMode: DispMode = DispMode.STRETCH
-) : AOTDPane() {
+open class ImagePane : AOTDPane {
+    private var textureWidth: Double = -1.0
+    private var textureHeight: Double = -1.0
     var u = 0.0f
     var v = 0.0f
-    var textureWidth: Double
-    var textureHeight: Double
-
-    init {
-        Minecraft.getInstance().textureManager.bind(imageTexture)
-        textureWidth = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH).toDouble()
-        textureHeight = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_HEIGHT).toDouble()
-        if (textureWidth.isNaN() || textureHeight.isNaN()) {
-            throw IllegalStateException("Texture $imageTexture does not exist")
+    var imageTexture: ResourceLocation? = null
+        set(value) {
+            field = value
+            loadTextureDimensions()
         }
+    var displayMode: DispMode = DispMode.STRETCH
+
+    constructor(imageTexture: ResourceLocation? = null, displayMode: DispMode = DispMode.STRETCH) {
+        this.imageTexture = imageTexture
+        this.displayMode = displayMode
     }
 
     constructor(imageTexture: String, displayMode: DispMode = DispMode.STRETCH) : this(ResourceLocation(imageTexture), displayMode)
@@ -35,7 +35,7 @@ open class ImagePane(
      * Draws the GUI image given the width and height
      */
     override fun draw(matrixStack: MatrixStack) {
-        if (this.isVisible) {
+        if (this.isVisible && this.imageTexture != null) {
             matrixStack.pushPose()
             // Enable alpha blending
             RenderSystem.enableBlend()
@@ -47,7 +47,7 @@ open class ImagePane(
                 this.color.alpha / 255f
             )
             // Bind the texture to render
-            Minecraft.getInstance().textureManager.bind(this.imageTexture)
+            Minecraft.getInstance().textureManager.bind(this.imageTexture!!)
             // Check for invalid texture dimensions
             if (textureHeight > -1 && textureWidth > -1) {
                 AbstractGui.blit(matrixStack, x, y, u, v, width, height, width, height)
@@ -66,14 +66,14 @@ open class ImagePane(
             DispMode.FIT_TO_TEXTURE -> {
                 val scaleXRatio = (fitWidth / textureWidth).coerceAtMost(1.0)
                 val scaleYRatio = (fitHeight / textureHeight).coerceAtMost(1.0)
-                val scaleMinRatio = scaleXRatio.coerceAtMost(scaleYRatio)
+                val scaleMinRatio = min(scaleXRatio, scaleYRatio)
                 this.width = (textureWidth * scaleMinRatio).roundToInt()
                 this.height = (textureHeight * scaleMinRatio).roundToInt()
             }
             DispMode.FIT_TO_PARENT -> {
                 val scaleXRatio = fitWidth / textureWidth
                 val scaleYRatio = fitHeight / textureHeight
-                val scaleMinRatio = scaleXRatio.coerceAtMost(scaleYRatio)
+                val scaleMinRatio = min(scaleXRatio, scaleYRatio)
                 this.width = (textureWidth * scaleMinRatio).roundToInt()
                 this.height = (textureHeight * scaleMinRatio).roundToInt()
             }
@@ -86,6 +86,20 @@ open class ImagePane(
         }
         // Reset the inbounds flag
         inBounds = true
+    }
+
+    private fun loadTextureDimensions() {
+        if (imageTexture != null) {
+            Minecraft.getInstance().textureManager.bind(imageTexture!!)
+            textureWidth = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH).toDouble()
+            textureHeight = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_HEIGHT).toDouble()
+            if (textureWidth.isNaN() || textureHeight.isNaN()) {
+                throw IllegalStateException("Texture $imageTexture does not exist")
+            }
+        } else {
+            textureWidth = -1.0
+            textureHeight = -1.0
+        }
     }
 
     enum class DispMode {
