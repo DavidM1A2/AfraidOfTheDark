@@ -6,6 +6,12 @@
     "afraidofthedark:eldritch_obsidian"
   ],
   "pre_recipes": [],
+  "stickers": [
+    "afraidofthedark:textures/gui/research_stickers/void_chest.png"
+  ],
+  "pre_stickers": [
+    "afraidofthedark:textures/gui/research_stickers/void_chest.png"
+  ],
   "icon": "afraidofthedark:textures/gui/research_icons/snowy_anomaly.png",
   "prerequisite": "afraidofthedark:the_journey_begins",
   "triggers": [

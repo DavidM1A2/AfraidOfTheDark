@@ -1,7 +1,10 @@
-package com.davidm1a2.afraidofthedark.client.gui.standardControls
+package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ItemStackPane
 import com.mojang.blaze3d.matrix.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe

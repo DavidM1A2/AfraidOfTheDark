@@ -2,6 +2,12 @@
   "forge:registry_name": "afraidofthedark:eerie_forest",
   "recipes": [],
   "pre_recipes": [],
+  "stickers": [
+    "afraidofthedark:textures/gui/research_stickers/eerie_forest.png"
+  ],
+  "pre_stickers": [
+    "afraidofthedark:textures/gui/research_stickers/eerie_forest.png"
+  ],
   "icon": "afraidofthedark:textures/gui/research_icons/eerie_forest.png",
   "prerequisite": "afraidofthedark:the_journey_begins",
   "triggers": [

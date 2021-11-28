@@ -38,6 +38,7 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
     private var dragAndDropData: Any? = null
     private var prevMouseX = 0
     private var prevMouseY = 0
+    private var forceRedraw = false
 
     /**
      * Called to initialize the GUI screen
@@ -80,8 +81,9 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
             this.renderBackground(matrixStack)
         }
         // Do lazy updates only when the screen has changed size
-        if (contentPane.prefSize != AOTDGuiUtility.getWindowSizeInMCCoords()) {
+        if (contentPane.prefSize != AOTDGuiUtility.getWindowSizeInMCCoords() || forceRedraw) {
             this.invalidate()
+            forceRedraw = false
         }
         // Draw the content pane
         this.contentPane.draw(matrixStack)
@@ -310,6 +312,10 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
         }
 
         super.tick()
+    }
+
+    fun scheduleFullRedraw() {
+        forceRedraw = true
     }
 
     /**

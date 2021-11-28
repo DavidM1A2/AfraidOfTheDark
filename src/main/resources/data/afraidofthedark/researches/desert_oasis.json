@@ -2,6 +2,14 @@
   "forge:registry_name": "afraidofthedark:desert_oasis",
   "recipes": [],
   "pre_recipes": [],
+  "stickers": [
+    "afraidofthedark:textures/gui/research_stickers/desert_oasis_inside.png",
+    "afraidofthedark:textures/gui/research_stickers/desert_oasis_outside.png"
+  ],
+  "pre_stickers": [
+    "afraidofthedark:textures/gui/research_stickers/desert_oasis_inside.png",
+    "afraidofthedark:textures/gui/research_stickers/desert_oasis_outside.png"
+  ],
   "icon": "afraidofthedark:textures/gui/research_icons/desert_oasis.png",
   "prerequisite": "afraidofthedark:the_journey_begins",
   "triggers": [

@@ -2,6 +2,12 @@
   "forge:registry_name": "afraidofthedark:observatory",
   "recipes": [],
   "pre_recipes": [],
+  "stickers": [
+    "afraidofthedark:textures/gui/research_stickers/observatory.png"
+  ],
+  "pre_stickers": [
+    "afraidofthedark:textures/gui/research_stickers/observatory.png"
+  ],
   "icon": "afraidofthedark:textures/gui/research_icons/observatory.png",
   "prerequisite": "afraidofthedark:the_journey_begins",
   "triggers": [

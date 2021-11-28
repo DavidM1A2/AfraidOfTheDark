@@ -6,6 +6,12 @@
     "afraidofthedark:gnomish_metal_plate"
   ],
   "pre_recipes": [],
+  "stickers": [
+    "afraidofthedark:textures/gui/research_stickers/forbidden_city.png"
+  ],
+  "pre_stickers": [
+    "afraidofthedark:textures/gui/research_stickers/forbidden_city.png"
+  ],
   "icon": "afraidofthedark:textures/gui/research_icons/forbidden_city.png",
   "prerequisite": "afraidofthedark:the_journey_begins",
   "triggers": [

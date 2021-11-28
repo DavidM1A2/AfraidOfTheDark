@@ -2,6 +2,12 @@
   "forge:registry_name": "afraidofthedark:the_journey_begins",
   "recipes": [],
   "pre_recipes": [],
+  "stickers": [
+    "afraidofthedark:textures/gui/research_stickers/altar_ruins.png"
+  ],
+  "pre_stickers": [
+    "afraidofthedark:textures/gui/research_stickers/altar_ruins.png"
+  ],
   "icon": "afraidofthedark:textures/gui/research_icons/the_journey_begins.png",
   "triggers": [
     {

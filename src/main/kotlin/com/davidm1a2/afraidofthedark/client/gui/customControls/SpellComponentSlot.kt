@@ -62,7 +62,7 @@ abstract class SpellComponentSlot<T : SpellComponent<T>>(
         else {
             this.icon.isVisible = true
             this.componentInstance = instance
-            this.icon.imageTexture = instance.component.icon
+            this.icon.updateImageTexture(instance.component.icon)
         }
     }
 

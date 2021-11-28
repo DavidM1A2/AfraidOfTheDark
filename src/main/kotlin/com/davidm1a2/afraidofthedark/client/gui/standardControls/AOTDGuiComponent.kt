@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
+import com.davidm1a2.afraidofthedark.client.gui.screens.AOTDScreen
 import com.mojang.blaze3d.matrix.MatrixStack
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.player.ClientPlayerEntity
@@ -164,6 +165,13 @@ abstract class AOTDGuiComponent(
     }
 
     open fun invalidate() {}
+
+    /**
+     * Tell our screen to invalidate on the next draw cycle
+     */
+    fun scheduleFullRedraw() {
+        (Minecraft.getInstance().screen as? AOTDScreen)?.scheduleFullRedraw()
+    }
 
     companion object {
         val fontRenderer: FontRenderer = Minecraft.getInstance().font

@@ -229,8 +229,7 @@ class SpellScroll :
                             }
                         }
 
-                        val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png")).apply {
-                            displayMode = DispMode.FIT_TO_PARENT
+                        val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png"), DispMode.FIT_TO_PARENT).apply {
                             gravity = Gravity.CENTER_RIGHT
                             setHoverText(editableProp.getDescription().string)
                         }
@@ -253,8 +252,7 @@ class SpellScroll :
                         )
                         val ratioPane = RatioPane(1, 1)
                         ratioPane.add(togglePane)
-                        val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png")).apply {
-                            displayMode = DispMode.FIT_TO_PARENT
+                        val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png"), DispMode.FIT_TO_PARENT).apply {
                             gravity = Gravity.CENTER_RIGHT
                             setHoverText(editableProp.getDescription().string)
                         }
@@ -296,8 +294,7 @@ class SpellScroll :
                             }
                         }
 
-                        val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png")).apply {
-                            displayMode = DispMode.FIT_TO_PARENT
+                        val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png"), DispMode.FIT_TO_PARENT).apply {
                             gravity = Gravity.CENTER_RIGHT
                             setHoverText(editableProp.getDescription().string)
                         }

@@ -15,17 +15,14 @@ import kotlin.math.roundToInt
 open class ImagePane : AOTDPane {
     private var textureWidth: Double = -1.0
     private var textureHeight: Double = -1.0
+    private var imageTexture: ResourceLocation? = null
+    private val displayMode: DispMode
     var u = 0.0f
     var v = 0.0f
-    var imageTexture: ResourceLocation? = null
-        set(value) {
-            field = value
-            loadTextureDimensions()
-        }
-    var displayMode: DispMode = DispMode.STRETCH
 
     constructor(imageTexture: ResourceLocation? = null, displayMode: DispMode = DispMode.STRETCH) {
         this.imageTexture = imageTexture
+        loadTextureDimensions()
         this.displayMode = displayMode
     }
 
@@ -86,6 +83,15 @@ open class ImagePane : AOTDPane {
         }
         // Reset the inbounds flag
         inBounds = true
+    }
+
+    fun updateImageTexture(imageTexture: ResourceLocation?) {
+        val textureChanged = imageTexture != this.imageTexture
+        this.imageTexture = imageTexture
+        if (textureChanged) {
+            loadTextureDimensions()
+            scheduleFullRedraw()
+        }
     }
 
     private fun loadTextureDimensions() {
