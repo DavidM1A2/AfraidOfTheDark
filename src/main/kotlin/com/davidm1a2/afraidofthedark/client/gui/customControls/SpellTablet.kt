@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
+import com.davidm1a2.afraidofthedark.client.gui.FontCache
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
@@ -13,7 +14,6 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.ListPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
-import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
@@ -50,7 +50,7 @@ class SpellTablet(
     init {
 
         // Setup the spell name label
-        spellName = TextFieldPane(Position(0.2, 0.18), Dimensions(0.5, 0.1), ClientData.getOrCreate(36f))
+        spellName = TextFieldPane(Position(0.2, 0.18), Dimensions(0.5, 0.1), FontCache.getOrCreate(36f))
         spellName.setGhostText("Spell Name")
         // When we type into this slot set the spell name
         spellName.addKeyListener {
@@ -167,7 +167,7 @@ class SpellTablet(
         this.add(uiPowerSource)
 
         // Add the spell cost label
-        spellCost = LabelComponent(ClientData.getOrCreate(36f), Dimensions(0.7, 0.13))
+        spellCost = LabelComponent(FontCache.getOrCreate(36f), Dimensions(0.7, 0.13))
         spellCost.offset = Position(0.15, 0.87)
         this.add(spellCost)
 

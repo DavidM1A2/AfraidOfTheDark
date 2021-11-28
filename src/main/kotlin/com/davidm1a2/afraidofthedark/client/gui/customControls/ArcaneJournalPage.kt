@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
+import com.davidm1a2.afraidofthedark.client.gui.FontCache
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextBoxComponent
-import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import net.minecraft.item.crafting.IRecipe
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.MathHelper
@@ -28,7 +28,7 @@ class ArcaneJournalPage(
     private val bottomSticker: StickerPane
 
     init {
-        textBox = TextBoxComponent(font = ClientData.getOrCreate(38f))
+        textBox = TextBoxComponent(font = FontCache.getOrCreate(38f))
         textBox.textColor = Color(135, 70, 44)
         add(textBox)
 

@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.client.gui.FontCache
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
@@ -9,7 +10,6 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
-import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ProcessSextantInputPacket
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.util.text.TranslationTextComponent
@@ -29,7 +29,7 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
         background.padding = Spacing(0.1)
 
         // Grab the font for the text fields
-        val textFieldFont = ClientData.getOrCreate(45f)
+        val textFieldFont = FontCache.getOrCreate(45f)
 
         // Initialize fields
         angle = TextFieldPane(prefSize = Dimensions(0.4, 0.16), font = textFieldFont)
@@ -56,7 +56,7 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
             iconHovered = ImagePane("afraidofthedark:textures/gui/arcane_journal_open/open_button_hovered.png"),
             gravity = Gravity.BOTTOM_CENTER,
             prefSize = Dimensions(0.5, 0.1),
-            font = ClientData.getOrCreate(40f)
+            font = FontCache.getOrCreate(40f)
         )
         // Text just says calculate
         confirm.setText("Calculate")

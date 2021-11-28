@@ -1,8 +1,8 @@
-package com.davidm1a2.afraidofthedark.client.settings
+package com.davidm1a2.afraidofthedark.client.gui
 
+import com.davidm1a2.afraidofthedark.client.gui.FontCache.fontMap
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.FontLoader
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
-import com.davidm1a2.afraidofthedark.client.settings.ClientData.fontMap
 import net.minecraft.util.ResourceLocation
 
 /**
@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation
  *
  * @property fontMap A mapping of font size -> font object used to render text
  */
-object ClientData {
+object FontCache {
     private val fontMap = mutableMapOf<Float, TrueTypeFont>()
 
     /**

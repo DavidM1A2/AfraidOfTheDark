@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
+import com.davidm1a2.afraidofthedark.client.gui.FontCache
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
@@ -11,7 +12,6 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
-import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import net.minecraft.client.Minecraft
@@ -36,7 +36,7 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         val spellNameContainer = StackPane(Dimensions(0.8, 0.5))
 
         // The label holding the actual spell name
-        val lblSpellName = LabelComponent(ClientData.getOrCreate(36f), Dimensions(1.0, 1.0))
+        val lblSpellName = LabelComponent(FontCache.getOrCreate(36f), Dimensions(1.0, 1.0))
         // Set the name label's name and color
         lblSpellName.text = this.spell.name
         lblSpellName.textColor = Color(245, 61, 199)
@@ -85,7 +85,7 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         this.add(btnDelete)
 
         // Create a button to keybind this spell
-        lblKeybind = LabelComponent(ClientData.getOrCreate(30f), Dimensions(0.6, 0.3))
+        lblKeybind = LabelComponent(FontCache.getOrCreate(30f), Dimensions(0.6, 0.3))
         lblKeybind.textAlignment = TextAlignment.ALIGN_CENTER
         lblKeybind.offset = Position(0.2, 0.5)
         lblKeybind.addMouseListener {

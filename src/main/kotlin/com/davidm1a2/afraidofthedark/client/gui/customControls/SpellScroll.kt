@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
+import com.davidm1a2.afraidofthedark.client.gui.FontCache
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
@@ -17,7 +18,6 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextBoxComponen
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TogglePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
-import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
@@ -61,7 +61,7 @@ class SpellScroll :
         propertyList.isVisible = false
 
         // Create the power source label
-        val powerSourceHeading = LabelComponent(ClientData.getOrCreate(42f), Dimensions(1.0, 0.2))
+        val powerSourceHeading = LabelComponent(FontCache.getOrCreate(42f), Dimensions(1.0, 0.2))
         powerSourceHeading.textColor = Color(140, 35, 206)
         powerSourceHeading.text = "Power Sources"
         componentList.add(powerSourceHeading)
@@ -84,7 +84,7 @@ class SpellScroll :
         powerSourceHPane?.let { componentList.add(it) }
 
         // Create the effect label
-        val effectHeading = LabelComponent(ClientData.getOrCreate(42f), Dimensions(1.0, 0.2))
+        val effectHeading = LabelComponent(FontCache.getOrCreate(42f), Dimensions(1.0, 0.2))
         effectHeading.textColor = Color(140, 35, 206)
         effectHeading.text = "Effects"
         componentList.add(effectHeading)
@@ -106,7 +106,7 @@ class SpellScroll :
 
         // Create the delivery method label
         val deliveryMethodHeading =
-            LabelComponent(ClientData.getOrCreate(42f), Dimensions(1.0, 0.2))
+            LabelComponent(FontCache.getOrCreate(42f), Dimensions(1.0, 0.2))
         deliveryMethodHeading.textColor = Color(140, 35, 206)
         deliveryMethodHeading.text = "Delivery Methods"
         componentList.add(deliveryMethodHeading)
@@ -157,7 +157,7 @@ class SpellScroll :
 
             // Create a heading label to indicate what is currently being edited
             val heading = StackPane(Dimensions(1.0, 0.2))
-            val name = LabelComponent(ClientData.getOrCreate(32f), Dimensions(1.0, 1.0))
+            val name = LabelComponent(FontCache.getOrCreate(32f), Dimensions(1.0, 1.0))
             name.textColor = purpleText
             // This cast is required even though IntelliJ doesn't agree
             @Suppress("USELESS_CAST")
@@ -186,7 +186,7 @@ class SpellScroll :
 
             // If there are no editable properties say so with a text box
             if (editableProperties.isEmpty()) {
-                val noPropsLine = TextBoxComponent(Dimensions(1.0, 0.1), ClientData.getOrCreate(26f))
+                val noPropsLine = TextBoxComponent(Dimensions(1.0, 0.1), FontCache.getOrCreate(26f))
                 noPropsLine.textColor = purpleText
                 noPropsLine.setText("This component has no editable properties.")
                 propertyList.add(noPropsLine)
@@ -194,7 +194,7 @@ class SpellScroll :
                 // Go over each editable property and add an editor for it
                 for (editableProp in editableProperties) {
                     // Create a label that states the name of the property
-                    val propertyName = LabelComponent(ClientData.getOrCreate(26f), Dimensions(1.0, 0.1))
+                    val propertyName = LabelComponent(FontCache.getOrCreate(26f), Dimensions(1.0, 0.1))
                     propertyName.textColor = purpleText
                     propertyName.text = "${editableProp.getName().string}:"
                     propertyList.add(propertyName)
@@ -216,7 +216,7 @@ class SpellScroll :
                         val selectedIndex = editableProp.values.indexOfFirst {
                             it.name.equals(editableProp.getValue(componentInstance), true)
                         }
-                        val propertyEditor = DropdownPane(ClientData.getOrCreate(26f), dropdownValues, selectedIndex)
+                        val propertyEditor = DropdownPane(FontCache.getOrCreate(26f), dropdownValues, selectedIndex)
                         propertyEditor.prefSize = Dimensions(0.8, 1.0)
                         propertyEditor.gravity = Gravity.CENTER_LEFT
                         propertyEditor.setChangeListener { _, newVal ->
@@ -281,7 +281,7 @@ class SpellScroll :
                         propertyError.isVisible = false
 
                         val propertyEditor =
-                            TextFieldPane(prefSize = Dimensions(0.8, 1.0), font = ClientData.getOrCreate(26f))
+                            TextFieldPane(prefSize = Dimensions(0.8, 1.0), font = FontCache.getOrCreate(26f))
                         propertyEditor.setTextColor(purpleText)
                         propertyEditor.setText(editableProp.getValue(componentInstance))
                         propertyEditor.addTextChangeListener { _, newText ->

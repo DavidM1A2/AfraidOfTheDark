@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
+import com.davidm1a2.afraidofthedark.client.gui.FontCache
 import com.davidm1a2.afraidofthedark.client.gui.customControls.ArcaneJournalPage
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
@@ -12,7 +13,6 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
-import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
@@ -50,7 +50,7 @@ class ArcaneJournalPageScreen(research: Research) : AOTDScreen(TranslationTextCo
         val titleColor = Color(165, 70, 20)
 
         // Create a title label to contain the research name
-        val titleLabel = LabelComponent(ClientData.getOrCreate(80f), Dimensions(1.0, 0.1), Gravity.TOP_CENTER)
+        val titleLabel = LabelComponent(FontCache.getOrCreate(80f), Dimensions(1.0, 0.1), Gravity.TOP_CENTER)
         titleLabel.text = if (isResearched) research.getName().string else "???"
         titleLabel.textColor = titleColor
         titleLabel.textAlignment = TextAlignment.ALIGN_CENTER

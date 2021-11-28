@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
+import com.davidm1a2.afraidofthedark.client.gui.FontCache
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
@@ -7,7 +8,6 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
-import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.hasStartedAOTD
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
@@ -38,7 +38,7 @@ class ArcaneJournalOpenScreen : AOTDScreen(TranslationTextComponent("screen.afra
             iconHovered = ImagePane("afraidofthedark:textures/gui/arcane_journal_open/open_button_hovered.png"),
             prefSize = Dimensions(0.1, 0.1),
             offset = Position(-0.05, 0.0),
-            font = ClientData.getOrCreate(55f)
+            font = FontCache.getOrCreate(55f)
         )
         openButton.gravity = Gravity.BOTTOM_RIGHT
 

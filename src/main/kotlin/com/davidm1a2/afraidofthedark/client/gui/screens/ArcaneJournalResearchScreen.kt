@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
+import com.davidm1a2.afraidofthedark.client.gui.FontCache
 import com.davidm1a2.afraidofthedark.client.gui.customControls.ResearchConnector
 import com.davidm1a2.afraidofthedark.client.gui.customControls.ResearchNode
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
@@ -11,7 +12,6 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.RatioPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ScrollPane
-import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.research.Research
 import net.minecraft.util.ResourceLocation
@@ -44,7 +44,7 @@ class ArcaneJournalResearchScreen(private val isCheatSheet: Boolean) :
         // If this is a cheat sheet add a label on top to make that clear
         if (isCheatSheet) {
             // Put the label on top and set the color to white
-            val lblCheatSheet = LabelComponent(ClientData.getOrCreate(32f), Dimensions(1.0, 0.08))
+            val lblCheatSheet = LabelComponent(FontCache.getOrCreate(32f), Dimensions(1.0, 0.08))
             lblCheatSheet.textAlignment = TextAlignment.ALIGN_CENTER
             lblCheatSheet.textColor = Color(255, 255, 255)
             lblCheatSheet.text = "Cheat sheet - select researches to unlock them"
