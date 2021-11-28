@@ -17,6 +17,7 @@ class ArcaneJournalPage(
 ) : StackPane() {
     // Used when the page has text
     private val textBox: TextBoxComponent
+    private val textPerPage = mutableListOf<String>()
 
     // Used when the page has recipe(ies) on it
     private val topRecipe: RecipePane
@@ -25,8 +26,6 @@ class ArcaneJournalPage(
     // Used when the page has stickers on it
     private val topSticker: StickerPane
     private val bottomSticker: StickerPane
-
-    private val textPerPage = mutableListOf<String>()
 
     init {
         textBox = TextBoxComponent(font = ClientData.getOrCreate(38f))
