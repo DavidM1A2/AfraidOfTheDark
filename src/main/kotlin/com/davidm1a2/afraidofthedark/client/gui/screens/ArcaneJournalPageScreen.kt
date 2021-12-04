@@ -81,11 +81,12 @@ class ArcaneJournalPageScreen(research: Research) : AOTDScreen(TranslationTextCo
                 append(research.getText().string)
             }
         }
-        val recipesToShow = if (isResearched) research.researchedRecipes else research.preResearchedRecipes
+        val recipesToShow = if (isResearched) research.recipes else research.preRecipes
         val researchRecipes = entityPlayer.level.recipeManager.recipes.filter { recipesToShow.contains(it.resultItem.item) }
         val stickersToShow = if (isResearched) research.stickers else research.preStickers
-        leftPage = ArcaneJournalPage(rawText, researchRecipes, stickersToShow)
-        rightPage = ArcaneJournalPage(rawText, researchRecipes, stickersToShow)
+        val spellComponentsToShow = if (isResearched) research.spellComponents.components else research.preSpellComponents.components
+        leftPage = ArcaneJournalPage(rawText, researchRecipes, stickersToShow, spellComponentsToShow)
+        rightPage = ArcaneJournalPage(rawText, researchRecipes, stickersToShow, spellComponentsToShow)
         leftPage.gravity = Gravity.TOP_LEFT
         leftPage.prefSize = Dimensions(0.5, 1.0)
         leftPage.padding = Spacing(0.08, 0.15, 0.2, 0.05)

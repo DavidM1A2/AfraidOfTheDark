@@ -6,7 +6,7 @@ import com.davidm1a2.afraidofthedark.common.registry.getOrNull
 import com.davidm1a2.afraidofthedark.common.registry.lazy
 import com.davidm1a2.afraidofthedark.common.registry.toLazyOptional
 import com.davidm1a2.afraidofthedark.common.research.trigger.base.ConfiguredResearchTrigger
-import com.mojang.datafixers.util.Function8
+import com.mojang.datafixers.util.Function10
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.item.Item
@@ -15,16 +15,17 @@ import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.ForgeRegistryEntry
-import java.util.Optional
 
 class Research(
-    lazyResearchedRecipes: Lazy<List<Item>>,
-    lazyPreResearchedRecipes: Lazy<List<Item>>,
+    lazyRecipes: Lazy<List<Item>>,
+    lazyPreRecipes: Lazy<List<Item>>,
     val icon: ResourceLocation,
     lazyTriggers: Lazy<List<ConfiguredResearchTrigger<*, *, *>>>,
     lazyPrerequisite: Lazy<Research?>,
     val stickers: List<ResourceLocation>,
-    val preStickers: List<ResourceLocation>
+    val preStickers: List<ResourceLocation>,
+    val spellComponents: ResearchSpellComponents,
+    val preSpellComponents: ResearchSpellComponents
 ) : ForgeRegistryEntry<Research>() {
     var xPosition: Double = 0.0
     var yPosition: Double = 0.0
@@ -32,8 +33,8 @@ class Research(
     // Why do we need this lazy initializer? Because forge loads registries in random order, so the RESEARCH registry might not be valid yet
     val triggers: List<ConfiguredResearchTrigger<*, *, *>> by lazyTriggers
     val preRequisite: Research? by lazyPrerequisite
-    val researchedRecipes: List<Item> by lazyResearchedRecipes
-    val preResearchedRecipes: List<Item> by lazyPreResearchedRecipes
+    val recipes: List<Item> by lazyRecipes
+    val preRecipes: List<Item> by lazyPreRecipes
 
     fun getName(): ITextComponent {
         return TranslationTextComponent("research.${registryName!!.namespace}.${registryName!!.path}.name")
@@ -59,12 +60,12 @@ class Research(
                     .listOf()
                     .lazy()
                     .fieldOf("recipes")
-                    .forGetter { research -> lazyOf(research.researchedRecipes) },
+                    .forGetter { research -> lazyOf(research.recipes) },
                 ForgeRegistries.ITEMS.codec()
                     .listOf()
                     .lazy()
                     .fieldOf("pre_recipes")
-                    .forGetter { research -> lazyOf(research.preResearchedRecipes) },
+                    .forGetter { research -> lazyOf(research.preRecipes) },
                 ResourceLocation.CODEC.fieldOf("icon").forGetter(Research::icon),
                 ConfiguredResearchTrigger.CODEC
                     .listOf()
@@ -77,14 +78,20 @@ class Research(
                     .forGetter { research -> research.preRequisite.toLazyOptional() },
                 ResourceLocation.CODEC
                     .listOf()
-                    .optionalFieldOf("stickers")
-                    .forGetter { research -> Optional.of(research.stickers) },
+                    .optionalFieldOf("stickers", emptyList())
+                    .forGetter { research -> research.stickers },
                 ResourceLocation.CODEC
                     .listOf()
-                    .optionalFieldOf("pre_stickers")
-                    .forGetter { research -> Optional.of(research.preStickers) }
-            ).apply(it, it.stable(Function8 { name, recipes, preRecipes, icon, triggers, prerequisite, stickers, preStickers ->
-                Research(recipes, preRecipes, icon, triggers, prerequisite.getOrNull(), stickers.orElse(emptyList()), preStickers.orElse(emptyList())).setRegistryName(name)
+                    .optionalFieldOf("pre_stickers", emptyList())
+                    .forGetter { research -> research.preStickers },
+                ResearchSpellComponents.CODEC
+                    .optionalFieldOf("spell_components", ResearchSpellComponents.EMPTY)
+                    .forGetter { research -> research.spellComponents },
+                ResearchSpellComponents.CODEC
+                    .optionalFieldOf("pre_spell_components", ResearchSpellComponents.EMPTY)
+                    .forGetter { research -> research.preSpellComponents }
+            ).apply(it, it.stable(Function10 { name, recipes, preRecipes, icon, triggers, prerequisite, stickers, preStickers, spellComponents, preSpellComponents ->
+                Research(recipes, preRecipes, icon, triggers, prerequisite.getOrNull(), stickers, preStickers, spellComponents, preSpellComponents).setRegistryName(name)
             }))
         }
     }

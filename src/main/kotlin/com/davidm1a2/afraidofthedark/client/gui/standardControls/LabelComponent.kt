@@ -19,7 +19,6 @@ open class LabelComponent(val font: TrueTypeFont, prefSize: Dimensions, gravity:
             computeTextForSize()
         }
     private var fitText = ""
-    private var needsTextUpdate = true
     var textColor = Color(255, 255, 255, 255)
     var textAlignment = TextAlignment.ALIGN_LEFT
     var shortenTextToFit = true

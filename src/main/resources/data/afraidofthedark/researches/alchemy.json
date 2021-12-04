@@ -11,5 +11,13 @@
         "power_source": "afraidofthedark:vitae_lantern"
       }
     }
-  ]
+  ],
+  "spell_components": {
+    "power_sources": [
+      "afraidofthedark:alchemy"
+    ],
+    "effects": [
+      "afraidofthedark:potion_effect"
+    ]
+  }
 }

@@ -36,6 +36,10 @@ abstract class SpellComponent<T : IForgeRegistryEntry<T>>(
         return TranslationTextComponent("${getUnlocalizedBaseName()}.name")
     }
 
+    fun getDescription(): ITextComponent {
+        return TranslationTextComponent("${getUnlocalizedBaseName()}.description")
+    }
+
     fun getUnlocalizedPropertyBaseName(propertyName: String): String {
         return "${getUnlocalizedBaseName()}.$propertyName"
     }

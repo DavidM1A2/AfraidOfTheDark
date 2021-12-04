@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextBoxComponent
+import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import net.minecraft.item.crafting.IRecipe
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.MathHelper
@@ -13,7 +14,8 @@ import java.awt.Color
 class ArcaneJournalPage(
     private val rawText: String,
     private val recipes: List<IRecipe<*>>,
-    private val stickers: List<ResourceLocation>
+    private val stickers: List<ResourceLocation>,
+    private val spellComponents: List<SpellComponent<*>>
 ) : StackPane() {
     // Used when the page has text
     private val textBox: TextBoxComponent
@@ -26,6 +28,9 @@ class ArcaneJournalPage(
     // Used when the page has stickers on it
     private val topSticker: StickerPane
     private val bottomSticker: StickerPane
+
+    // Used when the page has spell components on it
+    private val spellComponent: SpellComponentPane
 
     init {
         textBox = TextBoxComponent(font = FontCache.getOrCreate(38f))
@@ -45,6 +50,9 @@ class ArcaneJournalPage(
         bottomSticker = StickerPane(Dimensions(1.0, 0.5))
         bottomSticker.gravity = Gravity.BOTTOM_CENTER
         add(bottomSticker)
+
+        spellComponent = SpellComponentPane(Dimensions(1.0, 1.0))
+        add(spellComponent)
     }
 
     override fun invalidate() {
@@ -90,6 +98,7 @@ class ArcaneJournalPage(
         bottomRecipe.setRecipe(null)
         topSticker.setSticker(null)
         bottomSticker.setSticker(null)
+        spellComponent.setComponent(null)
     }
 
     fun setIndex(index: Int) {
@@ -103,17 +112,24 @@ class ArcaneJournalPage(
         val lastRecipeIndex = lastTextIndex + MathHelper.ceil(recipes.size / 2.0)
         val firstStickerIndex = lastRecipeIndex + 1
         val lastStickerIndex = lastRecipeIndex + MathHelper.ceil(stickers.size / 2.0)
+        val firstSpellComponentIndex = lastStickerIndex + 1
+        val lastSpellComponentIndex = lastStickerIndex + spellComponents.size
         if (index <= lastTextIndex) {
             setTextPage(index)
         } else if (index <= lastRecipeIndex) {
             setRecipePage((index - firstRecipeIndex) * 2)
         } else if (index <= lastStickerIndex) {
             setStickerPage((index - firstStickerIndex) * 2)
+        } else if (index <= lastSpellComponentIndex) {
+            setSpellComponentPage(index - firstSpellComponentIndex)
         }
     }
 
     fun hasIndex(index: Int): Boolean {
-        val maxIndex = textPerPage.size + MathHelper.ceil(recipes.size / 2.0) + MathHelper.ceil(stickers.size / 2.0) - 1
+        val maxIndex = textPerPage.size +
+            MathHelper.ceil(recipes.size / 2.0) +
+            MathHelper.ceil(stickers.size / 2.0) +
+            spellComponents.size - 1
         return index <= maxIndex
     }
 
@@ -129,5 +145,9 @@ class ArcaneJournalPage(
     private fun setStickerPage(index: Int) {
         topSticker.setSticker(stickers[index])
         bottomSticker.setSticker(stickers.getOrNull(index + 1))
+    }
+
+    private fun setSpellComponentPage(index: Int) {
+        spellComponent.setComponent(spellComponents[index])
     }
 }
