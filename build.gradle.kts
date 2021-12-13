@@ -72,7 +72,7 @@ dependencies {
     shade("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", findProperty("kotlin_version").toString())
 
     val minecraft = configurations["minecraft"]
-    minecraft("net.minecraftforge", "forge", "1.16.5-36.2.0")
+    minecraft("net.minecraftforge", "forge", "1.16.5-36.2.20")
 }
 
 tasks.withType<Jar> {
