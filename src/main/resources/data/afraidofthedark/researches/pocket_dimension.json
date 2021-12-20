@@ -11,5 +11,12 @@
         "biome": "afraidofthedark:void_chest"
       }
     }
-  ]
+  ],
+  "spell_components": {
+    "effects": [
+      "afraidofthedark:ender_pocket",
+      "afraidofthedark:teleport",
+      "afraidofthedark:smoke_screen"
+    ]
+  }
 }

@@ -16,5 +16,10 @@
         "key": "afraidofthedark:spells_casted"
       }
     }
-  ]
+  ],
+  "spell_components": {
+    "effects": [
+      "afraidofthedark:explosion"
+    ]
+  }
 }

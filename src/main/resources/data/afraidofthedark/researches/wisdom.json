@@ -18,5 +18,10 @@
         "key": "afraidofthedark:enchanted_skeleton_kills"
       }
     }
-  ]
+  ],
+  "spell_components": {
+    "power_sources": [
+      "afraidofthedark:experience"
+    ]
+  }
 }

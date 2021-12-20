@@ -26,9 +26,6 @@ class CleanseSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "c
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         val entity = state.getEntity()
         if (entity != null) {
-            // Extinguish the entity
-            entity.clearFire()
-
             // Clear potion effects
             if (entity is LivingEntity) {
                 entity.activeEffectsMap.clear()

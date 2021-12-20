@@ -11,5 +11,17 @@
         "block_or_state": "afraidofthedark:enarias_altar"
       }
     }
-  ]
+  ],
+  "spell_components": {
+    "delivery_methods": [
+      "afraidofthedark:self",
+      "afraidofthedark:laser"
+    ],
+    "effects": [
+      "afraidofthedark:feed",
+      "afraidofthedark:grow",
+      "afraidofthedark:heal",
+      "afraidofthedark:dig"
+    ]
+  }
 }

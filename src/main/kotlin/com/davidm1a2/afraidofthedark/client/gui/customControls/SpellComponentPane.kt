@@ -82,7 +82,7 @@ class SpellComponentPane(prefSize: Dimensions) : AOTDPane(prefSize = prefSize) {
                     appendLine()
                     append("Editable Properties:")
                     appendLine()
-                    editableProperties.map {
+                    editableProperties.forEach {
                         append("- ")
                         append(it.getName().string)
                         append(" (")
@@ -94,6 +94,7 @@ class SpellComponentPane(prefSize: Dimensions) : AOTDPane(prefSize = prefSize) {
             }
             // Try using the larger text, if it doesn't fit use the smaller one
             largeText.setText(textBody)
+            smallText.setText("")
             if (largeText.overflowText.isNotEmpty()) {
                 largeText.setText("")
                 smallText.setText(textBody)

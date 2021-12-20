@@ -15,5 +15,10 @@
         "item": "afraidofthedark:vitae_lantern"
       }
     }
-  ]
+  ],
+  "spell_components": {
+    "power_sources": [
+      "afraidofthedark:vitae_lantern"
+    ]
+  }
 }

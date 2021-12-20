@@ -11,5 +11,10 @@
         "entity_type": "afraidofthedark:enchanted_frog"
       }
     }
-  ]
+  ],
+  "spell_components": {
+    "delivery_methods": [
+      "afraidofthedark:projectile"
+    ]
+  }
 }

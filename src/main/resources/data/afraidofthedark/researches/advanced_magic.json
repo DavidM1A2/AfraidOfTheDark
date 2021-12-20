@@ -11,5 +11,14 @@
         "research": "afraidofthedark:advanced_magic"
       }
     }
-  ]
+  ],
+  "spell_components": {
+    "delivery_methods": [
+      "afraidofthedark:aoe"
+    ],
+    "effects": [
+      "afraidofthedark:charm",
+      "afraidofthedark:cleanse"
+    ]
+  }
 }

@@ -52,8 +52,8 @@ abstract class SpellPowerSource(id: ResourceLocation, prerequisiteResearch: Rese
      *
      * @return A description describing how cost is computed
      */
-    fun getCostDescription(): ITextComponent {
-        return TranslationTextComponent("${getUnlocalizedBaseName()}.cost_description")
+    fun getCostOverview(): ITextComponent {
+        return TranslationTextComponent("${getUnlocalizedBaseName()}.cost_overview")
     }
 
     /**

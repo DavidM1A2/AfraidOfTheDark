@@ -100,7 +100,7 @@ class TextBoxComponent(
                     currentWord = "$currentWord$char"
                     if (this.font.getWidth("$currentLineText$currentWord") > width) {
                         if (currentLineText.isEmpty()) {
-                            throw IllegalStateException("Could not lay out text in text box because the word was too long and couldn't be split")
+                            throw IllegalStateException("Could not lay out text '$currentWord' in text box because the word was too long and couldn't be split")
                         }
                         this.textLines.add(currentLineText)
                         lineEndings.add(index - currentWord.length + 1)

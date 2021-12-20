@@ -11,5 +11,12 @@
         "research": "afraidofthedark:elemental_magic"
       }
     }
-  ]
+  ],
+  "spell_components": {
+    "effects": [
+      "afraidofthedark:burn",
+      "afraidofthedark:extinguish",
+      "afraidofthedark:freeze"
+    ]
+  }
 }

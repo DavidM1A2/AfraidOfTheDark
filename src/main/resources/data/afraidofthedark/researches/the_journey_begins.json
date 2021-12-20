@@ -14,5 +14,17 @@
       "type": "afraidofthedark:started_aotd",
       "config": {}
     }
-  ]
+  ],
+  "spell_components": {
+    "power_sources": [
+      "afraidofthedark:creative"
+    ],
+    "delivery_methods": [
+      "afraidofthedark:rotate",
+      "afraidofthedark:delay"
+    ],
+    "effects": [
+      "afraidofthedark:potion_effect"
+    ]
+  }
 }

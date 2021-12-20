@@ -23,7 +23,7 @@ class SpellPowerSourceSlot(offset: Position, prefSize: Dimensions, spell: Spell)
         if (componentType != null) {
             this.hoverTexts = arrayOf(
                 "Power Source (${componentType.getName().string})",
-                "Cost Meaning: ${componentType.getCostDescription().string}"
+                "Cost Meaning: ${componentType.getCostOverview().string}"
             )
         } else {
             this.setHoverText("Empty power source slot")
