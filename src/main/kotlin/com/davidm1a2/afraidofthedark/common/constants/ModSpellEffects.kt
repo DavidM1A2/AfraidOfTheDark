@@ -12,6 +12,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.FreezeSpellEf
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.GrowSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.HealSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.SmokeScreenSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.SpeedSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.TeleportSpellEffect
 
 /**
@@ -31,6 +32,7 @@ object ModSpellEffects {
     val ENDER_POCKET = EnderPocketSpellEffect()
     val FREEZE = FreezeSpellEffect()
     val CHARM = CharmSpellEffect()
+    val SPEED = SpeedSpellEffect()
 
     // An array containing a list of spell effects that AOTD adds
     val SPELL_EFFECTS = arrayOf(
@@ -46,6 +48,7 @@ object ModSpellEffects {
         EXTINGUISH,
         ENDER_POCKET,
         FREEZE,
-        CHARM
+        CHARM,
+        SPEED
     )
 }

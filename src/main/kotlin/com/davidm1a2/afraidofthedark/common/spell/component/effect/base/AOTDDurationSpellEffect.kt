@@ -8,9 +8,9 @@ import net.minecraft.util.ResourceLocation
 abstract class AOTDDurationSpellEffect(
     id: ResourceLocation,
     prerequisiteResearch: Research? = null,
-    minDuration: Int,
-    defaultDuration: Int,
-    maxDuration: Int
+    minDuration: Int? = null,
+    defaultDuration: Int? = null,
+    maxDuration: Int? = null
 ) : AOTDSpellEffect(id, prerequisiteResearch) {
     init {
         addEditableProperty(
@@ -18,9 +18,11 @@ abstract class AOTDDurationSpellEffect(
                 .withBaseName(getUnlocalizedPropertyBaseName("duration"))
                 .withSetter(::setDuration)
                 .withGetter(::getDuration)
-                .withDefaultValue(defaultDuration)
-                .withMinValue(minDuration)
-                .withMaxValue(maxDuration)
+                .apply {
+                    defaultDuration?.let { withDefaultValue(it) }
+                    minDuration?.let { withMinValue(it) }
+                    maxDuration?.let { withMaxValue(it) }
+                }
                 .build()
         )
     }

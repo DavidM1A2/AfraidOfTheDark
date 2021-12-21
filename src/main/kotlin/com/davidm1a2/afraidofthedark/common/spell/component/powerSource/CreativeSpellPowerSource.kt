@@ -19,6 +19,6 @@ class CreativeSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants
     }
 
     override fun getSourceSpecificCost(rawCost: Double): Double {
-        return 0.0
+        return rawCost
     }
 }
