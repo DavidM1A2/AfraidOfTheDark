@@ -15,7 +15,6 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
-import kotlin.math.ceil
 
 /**
  * Class representing the tablet used in the spell crafting gui on the left
@@ -138,9 +137,9 @@ class SpellTablet(private val spell: Spell) : ImagePane("afraidofthedark:texture
 
     fun refreshCostLabel() {
         val costText = if (spell.isValid()) {
-            "Cost: ${ceil(spell.getCost())}"
+            "Cost: ${spell.powerSource!!.component.getFormattedCost(spell.getCost()).string}"
         } else {
-            "Cost: Invalid Spell"
+            "Cost: Unknown (spell invalid)"
         }
         spellCost.text = costText
     }

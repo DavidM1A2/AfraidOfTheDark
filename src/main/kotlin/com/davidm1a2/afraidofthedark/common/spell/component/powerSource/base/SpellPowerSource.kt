@@ -39,6 +39,14 @@ abstract class SpellPowerSource(id: ResourceLocation, prerequisiteResearch: Rese
     abstract fun consumePowerToCast(entity: Entity, spell: Spell)
 
     /**
+     * Converts the spell cost to "power source" specific units
+     *
+     * @param rawCost The spell's cost
+     * @return The cost in "power source" specific units
+     */
+    protected abstract fun getSourceSpecificCost(rawCost: Double): Double
+
+    /**
      * Computes the message describing why the power source doesn't have enough power
      *
      * @return A string describing why the power source doesn't have enough energy
@@ -54,6 +62,16 @@ abstract class SpellPowerSource(id: ResourceLocation, prerequisiteResearch: Rese
      */
     fun getCostOverview(): ITextComponent {
         return TranslationTextComponent("${getUnlocalizedBaseName()}.cost_overview")
+    }
+
+    /**
+     * Converts the raw cost double to a formatted
+     *
+     * @param rawCost The raw spell cost
+     * @return A description of the cost as a nicely formatted string
+     */
+    fun getFormattedCost(rawCost: Double): ITextComponent {
+        return TranslationTextComponent("${getUnlocalizedBaseName()}.formatted_cost", getSourceSpecificCost(rawCost))
     }
 
     /**

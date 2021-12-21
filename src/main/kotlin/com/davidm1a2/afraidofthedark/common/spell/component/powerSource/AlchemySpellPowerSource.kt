@@ -8,18 +8,12 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Items
 import net.minecraft.util.ResourceLocation
+import kotlin.math.ceil
 
 /**
  * Class representing the alchemy source
  */
 class AlchemySpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "alchemy"), ModResearches.ALCHEMY) {
-    /**
-     * True if the given spell can be cast, false otherwise
-     *
-     * @param entity The entity that is casting the spell
-     * @param spell        The spell to attempt to cast
-     * @return True if the spell can be cast, false otherwise
-     */
     override fun canCast(entity: Entity, spell: Spell): Boolean {
         if (entity is PlayerEntity) {
             val inventory = entity.inventory.items + entity.inventory.offhand
@@ -34,12 +28,6 @@ class AlchemySpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.
         return false
     }
 
-    /**
-     * Consume gold ingots in accordance with the spell cost
-     *
-     * @param entity The entity that is casting the spell
-     * @param spell        the spell to attempt to cast
-     */
     override fun consumePowerToCast(entity: Entity, spell: Spell) {
         if (entity is PlayerEntity) {
             val inventory = entity.inventory.items + entity.inventory.offhand
@@ -54,6 +42,10 @@ class AlchemySpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.
                 if (costRemaining <= 0.0) break
             }
         }
+    }
+
+    override fun getSourceSpecificCost(rawCost: Double): Double {
+        return ceil(rawCost / UNIT_COST_PER_GOLD)
     }
 
     companion object {

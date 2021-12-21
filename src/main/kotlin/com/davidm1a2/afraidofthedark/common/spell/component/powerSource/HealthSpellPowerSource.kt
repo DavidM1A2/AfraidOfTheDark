@@ -8,18 +8,12 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.DamageSource
 import net.minecraft.util.ResourceLocation
+import kotlin.math.ceil
 
 /**
  * Class representing the experience source
  */
 class HealthSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "health"), ModResearches.BLOOD_MAGIC) {
-    /**
-     * True if the given spell can be cast, false otherwise
-     *
-     * @param entity The entity that is casting the spell
-     * @param spell        The spell to attempt to cast
-     * @return True if the spell can be cast, false otherwise
-     */
     override fun canCast(entity: Entity, spell: Spell): Boolean {
         return (entity as? PlayerEntity)?.let {
             val hpCost = spell.getCost() / UNIT_COST_PER_HP
@@ -27,17 +21,15 @@ class HealthSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.M
         } ?: false
     }
 
-    /**
-     * Does nothing, creative power sources don't use energy
-     *
-     * @param entity The entity that is casting the spell
-     * @param spell        the spell to attempt to cast
-     */
     override fun consumePowerToCast(entity: Entity, spell: Spell) {
         (entity as? PlayerEntity)?.let {
             val hpCost = spell.getCost() / UNIT_COST_PER_HP
             it.hurt(DamageSource.OUT_OF_WORLD, hpCost.toFloat())
         }
+    }
+
+    override fun getSourceSpecificCost(rawCost: Double): Double {
+        return ceil(rawCost / UNIT_COST_PER_HP) / 2.0
     }
 
     companion object {

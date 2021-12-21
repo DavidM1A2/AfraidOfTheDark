@@ -48,4 +48,8 @@ class VitaeLanternSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Const
             }
         }
     }
+
+    override fun getSourceSpecificCost(rawCost: Double): Double {
+        return ceil(rawCost)
+    }
 }
