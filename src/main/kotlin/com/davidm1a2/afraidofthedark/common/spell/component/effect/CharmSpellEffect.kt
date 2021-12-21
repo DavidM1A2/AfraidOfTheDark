@@ -5,9 +5,8 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
-import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDurationSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.particles.ParticleTypes
@@ -19,20 +18,7 @@ import java.util.concurrent.ThreadLocalRandom
  *
  * @constructor adds the editable prop
  */
-class CharmSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "charm"), ModResearches.ADVANCED_MAGIC) {
-    init {
-        addEditableProperty(
-            SpellComponentPropertyFactory.intProperty()
-                .withBaseName(getUnlocalizedPropertyBaseName("duration"))
-                .withSetter(this::setDuration)
-                .withGetter(this::getDuration)
-                .withDefaultValue(40)
-                .withMinValue(1)
-                .withMaxValue(1200)
-                .build()
-        )
-    }
-
+class CharmSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "charm"), ModResearches.ADVANCED_MAGIC, 1, 40, 1200) {
     /**
      * Performs the effect
      *
@@ -85,18 +71,5 @@ class CharmSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
         val charmDuration = getDuration(instance) / 20.0
         return 25.0 + charmDuration * charmDuration * 5.0
-    }
-
-    fun setDuration(instance: SpellComponentInstance<*>, duration: Int) {
-        instance.data.putInt(NBT_DURATION, duration)
-    }
-
-    private fun getDuration(instance: SpellComponentInstance<*>): Int {
-        return instance.data.getInt(NBT_DURATION)
-    }
-
-    companion object {
-        // NBT constants for charm duration
-        private const val NBT_DURATION = "duration"
     }
 }

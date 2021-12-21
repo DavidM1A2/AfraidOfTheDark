@@ -5,9 +5,8 @@ import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
-import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDurationSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.block.Blocks
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.vector.Vector3d
@@ -17,20 +16,7 @@ import net.minecraft.util.math.vector.Vector3d
  *
  * @constructor adds the editable prop
  */
-class BurnSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "burn"), ModResearches.ELEMENTAL_MAGIC) {
-    init {
-        addEditableProperty(
-            SpellComponentPropertyFactory.intProperty()
-                .withBaseName(getUnlocalizedPropertyBaseName("duration"))
-                .withSetter(this::setDuration)
-                .withGetter(this::getDuration)
-                .withDefaultValue(2)
-                .withMinValue(1)
-                .withMaxValue(60)
-                .build()
-        )
-    }
-
+class BurnSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "burn"), ModResearches.ELEMENTAL_MAGIC, 1, 2, 60) {
     /**
      * Performs the effect
      *
@@ -64,18 +50,5 @@ class BurnSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "burn
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
         return 10.0 + getDuration(instance) * 5.0
-    }
-
-    fun setDuration(instance: SpellComponentInstance<*>, duration: Int) {
-        instance.data.putInt(NBT_DURATION, duration)
-    }
-
-    fun getDuration(instance: SpellComponentInstance<*>): Int {
-        return instance.data.getInt(NBT_DURATION)
-    }
-
-    companion object {
-        // NBT constants for burn duration
-        private const val NBT_DURATION = "duration"
     }
 }
