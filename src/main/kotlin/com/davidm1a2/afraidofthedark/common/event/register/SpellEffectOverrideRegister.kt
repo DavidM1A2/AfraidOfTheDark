@@ -108,7 +108,6 @@ class SpellEffectOverrideRegister {
             }
         }
         ModSpellDeliveryMethods.AOE.addCustomEffectApplicator(ModSpellEffects.EXPLOSION, customAOEApplicator)
-        ModSpellDeliveryMethods.AOE.addCustomEffectApplicator(ModSpellEffects.POTION_EFFECT, customAOEApplicator)
     }
 
     /**

@@ -11,7 +11,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.FeedSpellEffe
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.FreezeSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.GrowSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.HealSpellEffect
-import com.davidm1a2.afraidofthedark.common.spell.component.effect.PotionEffectSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.SmokeScreenSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.TeleportSpellEffect
 
@@ -26,7 +25,6 @@ object ModSpellEffects {
     val HEAL = HealSpellEffect()
     val FEED = FeedSpellEffect()
     val BURN = BurnSpellEffect()
-    val POTION_EFFECT = PotionEffectSpellEffect()
     val SMOKE_SCREEN = SmokeScreenSpellEffect()
     val CLEANSE = CleanseSpellEffect()
     val EXTINGUISH = ExtinguishSpellEffect()
@@ -43,7 +41,6 @@ object ModSpellEffects {
         HEAL,
         FEED,
         BURN,
-        POTION_EFFECT,
         SMOKE_SCREEN,
         CLEANSE,
         EXTINGUISH,

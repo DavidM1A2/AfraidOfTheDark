@@ -22,9 +22,6 @@
     "delivery_methods": [
       "afraidofthedark:rotate",
       "afraidofthedark:delay"
-    ],
-    "effects": [
-      "afraidofthedark:potion_effect"
     ]
   }
 }
