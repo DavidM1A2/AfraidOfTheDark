@@ -578,7 +578,6 @@
   "message.afraidofthedark.enaria.dont_understand": "I can't understand who I'm fighting...",
   "message.afraidofthedark.spell.wrong_dimension": "My mind is too clouded to cast spells here.",
   "message.afraidofthedark.spell.invalid": "Invalid spell. Make sure to have delivery methods on each spell stage and a power source!",
-  "message.afraidofthedark.spell.save_successful": "Spell '%1$s' saved successfully.",
   "message.afraidofthedark.insanitys_heights.dont_understand": "§oThe book appears to be empty.",
   "message.afraidofthedark.lens_cutter.wrong_item": "The lens cutter can only make lenses out of glass.",
   "message.afraidofthedark.bolt.dont_understand": "§oI don't understand how to use a %1$s.",

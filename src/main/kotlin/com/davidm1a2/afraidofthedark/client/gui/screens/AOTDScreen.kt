@@ -229,7 +229,6 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
             for (consumer in consumers) {
                 dragAndDropData?.let { consumer.consume(it) }
             }
-            dndPane.invalidate()
         } else {
             // Fire the release event
             contentPane.processMouseInput(

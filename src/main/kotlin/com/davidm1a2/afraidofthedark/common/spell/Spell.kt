@@ -161,7 +161,7 @@ class Spell : INBTSerializable<CompoundNBT> {
      *
      * @return True if the power source method is non-null and at least one spell stage is registered
      */
-    private fun isValid(): Boolean {
+    fun isValid(): Boolean {
         // Ensure the power source is valid and the spell stages are non-empty, and all spell stages are valid
         return powerSource != null && spellStages.isNotEmpty() && spellStages.all { it.isValid() }
     }

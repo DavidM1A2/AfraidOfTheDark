@@ -12,7 +12,7 @@ import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 /**
  * Class representing the gui version of a spell stage
  */
-class GuiSpellStage(private val spellStage: SpellStage, val spell: Spell, var componentEditCallback: ((SpellComponentSlot<*>) -> Unit)?) :
+class GuiSpellStage(private val spellStage: SpellStage, val spell: Spell, var componentEditCallback: ((SpellComponentSlot<*>) -> Unit)) :
     AOTDPane(prefSize = Dimensions(1.0, 0.2), margins = Spacing(0.0, 0.15, 0.0, 0.0)) {
 
     private val slotSize = Dimensions(0.16, 0.65)
@@ -33,7 +33,7 @@ class GuiSpellStage(private val spellStage: SpellStage, val spell: Spell, var co
         deliveryMethod.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
                 if (deliveryMethod.inBounds && deliveryMethod.isHovered && deliveryMethod.isVisible) {
-                    componentEditCallback?.invoke(deliveryMethod)
+                    componentEditCallback(deliveryMethod)
                 }
             }
         }
@@ -44,7 +44,7 @@ class GuiSpellStage(private val spellStage: SpellStage, val spell: Spell, var co
             effect.addMouseListener {
                 if (it.eventType == MouseEvent.EventType.Click && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
                     if (effect.inBounds && effect.isHovered && effect.isVisible) {
-                        componentEditCallback?.invoke(effect)
+                        componentEditCallback(effect)
                     }
                 }
             }

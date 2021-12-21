@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableConsumer
-import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.common.spell.Spell
@@ -11,18 +10,10 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 /**
  * Class used to create a delivery method slot UI component
  */
-class SpellDeliveryMethodSlot(offset: Position, prefSize: Dimensions, spell: Spell, val stageIndex: Int) :
-    SpellComponentSlot<SpellDeliveryMethod>("afraidofthedark:textures/gui/spell_editor/delivery_method_holder.png", offset, prefSize, spell),
-    DraggableConsumer<SpellDeliveryMethod> {
-
-    init {
-        this.addMouseListener {
-            if (it.eventType == MouseEvent.EventType.Click && it.clickedButton == MouseEvent.RIGHT_MOUSE_BUTTON) {
-                if (this.isHovered && this.inBounds && this.isVisible) {
-                    this.spell.spellStages[stageIndex].deliveryInstance = null
-                }
-            }
-        }
+class SpellDeliveryMethodSlot(offset: Position, prefSize: Dimensions, spell: Spell, private val stageIndex: Int) :
+    SpellComponentSlot<SpellDeliveryMethod>("afraidofthedark:textures/gui/spell_editor/delivery_method_holder.png", offset, prefSize, spell), DraggableConsumer<SpellDeliveryMethod> {
+    override fun updateSpell() {
+        this.spell.spellStages[stageIndex].deliveryInstance = getComponentInstance()
     }
 
     override fun refreshHoverText() {
@@ -47,6 +38,7 @@ class SpellDeliveryMethodSlot(offset: Position, prefSize: Dimensions, spell: Spe
             this.setSpellComponent(inst)
             this.spell.spellStages[stageIndex].deliveryInstance = inst
             this.refreshHoverText()
+            invalidate()
         }
     }
 

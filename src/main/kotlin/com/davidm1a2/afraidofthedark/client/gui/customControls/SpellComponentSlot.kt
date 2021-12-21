@@ -53,18 +53,21 @@ abstract class SpellComponentSlot<T : SpellComponent<T>>(
      * @param instance The component instance to show
      */
     fun setSpellComponent(instance: SpellComponentInstance<T>?) {
-        // If the component type is null hide the icon and set the instance to null too
+        // If the component type is null hide the icon and set the instance to null too,
+        //                       is non-null show the right icon
         if (instance == null) {
             this.icon.isVisible = false
             this.componentInstance = null
-        }
-        // If the component type is non-null show the the right icon
-        else {
+        } else {
             this.icon.isVisible = true
             this.componentInstance = instance
             this.icon.updateImageTexture(instance.component.icon)
         }
+        updateSpell()
+        scheduleFullRedraw()
     }
+
+    internal abstract fun updateSpell()
 
     internal abstract fun refreshHoverText()
 

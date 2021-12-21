@@ -11,8 +11,10 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.Spe
  * Class used to create a power source slot UI component
  */
 class SpellPowerSourceSlot(offset: Position, prefSize: Dimensions, spell: Spell) :
-    SpellComponentSlot<SpellPowerSource>("afraidofthedark:textures/gui/spell_editor/power_source_holder.png", offset, prefSize, spell),
-    DraggableConsumer<SpellPowerSource> {
+    SpellComponentSlot<SpellPowerSource>("afraidofthedark:textures/gui/spell_editor/power_source_holder.png", offset, prefSize, spell), DraggableConsumer<SpellPowerSource> {
+    override fun updateSpell() {
+        this.spell.powerSource = getComponentInstance()
+    }
 
     /**
      * Refreshes the text that gets displayed when the slot is hovered
@@ -40,6 +42,7 @@ class SpellPowerSourceSlot(offset: Position, prefSize: Dimensions, spell: Spell)
             this.setSpellComponent(inst)
             this.spell.powerSource = inst
             this.refreshHoverText()
+            invalidate()
         }
     }
 

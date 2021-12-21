@@ -33,8 +33,7 @@ import java.awt.Color
 /**
  * Compliment control to the tablet, allows players to click spell components up
  */
-class SpellScroll :
-    ImagePane("afraidofthedark:textures/gui/spell_editor/effect_list_scroll.png", DispMode.FIT_TO_PARENT) {
+class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_list_scroll.png", DispMode.FIT_TO_PARENT) {
 
     private val interiorPane: StackPane = StackPane()
     private val componentScrollBar = VScrollBar(Dimensions(0.05, 1.0))
@@ -42,6 +41,7 @@ class SpellScroll :
     private val componentList: ListPane = ListPane(ListPane.ExpandDirection.DOWN, componentScrollBar)
     private val propertyList: ListPane = ListPane(ListPane.ExpandDirection.DOWN, propertyScrollBar)
     private val currentPropEditors = mutableListOf<Pair<SpellComponentProperty<*>, AOTDPane>>()
+    internal var componentPropModifiedCallback: () -> Unit = {}
 
     init {
         // Put everything that isn't the scroll bar into a padded pane
@@ -227,6 +227,7 @@ class SpellScroll :
                                 propertyError.isVisible = true
                                 propertyError.setHoverText("§4Error: ${e.reason.string}")
                             }
+                            componentPropModifiedCallback()
                         }
 
                         val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png"), DispMode.FIT_TO_PARENT).apply {
@@ -262,6 +263,7 @@ class SpellScroll :
                         togglePane.toggled = editableProp.getValue(componentInstance).toBoolean()
                         togglePane.setToggleListener { newVal ->
                             editableProp.setValue(componentInstance, newVal.toString())
+                            componentPropModifiedCallback()
                         }
 
                         propertyList.add(propertyPane)
@@ -292,6 +294,7 @@ class SpellScroll :
                                 propertyError.isVisible = true
                                 propertyError.setHoverText("§4Error: ${e.reason.string}")
                             }
+                            componentPropModifiedCallback()
                         }
 
                         val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png"), DispMode.FIT_TO_PARENT).apply {

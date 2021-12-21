@@ -19,6 +19,7 @@ import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 import java.util.UUID
+import kotlin.math.ceil
 
 /**
  * Item representing a wand used to cast spells with an item
@@ -181,7 +182,7 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
                 // If the spell is non-null show the spell's stats
                 if (spell != null) {
                     tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.wand.spell_name", spell.name))
-                    tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.wand.spell_cost", spell.getCost()))
+                    tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.wand.spell_cost", ceil(spell.getCost())))
                 } else {
                     tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.wand.spell_invalid"))
                 }

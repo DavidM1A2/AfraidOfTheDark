@@ -5,7 +5,6 @@ import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.davidm1a2.afraidofthedark.client.gui.screens.SpellListScreen
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.HChainPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
@@ -14,20 +13,14 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.ListPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
-import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
-import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import net.minecraft.client.Minecraft
-import net.minecraft.util.text.TranslationTextComponent
-import kotlin.math.roundToInt
+import kotlin.math.ceil
 
 /**
  * Class representing the tablet used in the spell crafting gui on the left
  */
-class SpellTablet(
-    private val spell: Spell
-) : ImagePane("afraidofthedark:textures/gui/spell_editor/tablet_background.png", DispMode.FIT_TO_PARENT) {
+class SpellTablet(private val spell: Spell) : ImagePane("afraidofthedark:textures/gui/spell_editor/tablet_background.png", DispMode.FIT_TO_PARENT) {
 
     private val spellName: TextFieldPane
     private val spellStagePanel: StackPane
@@ -40,15 +33,13 @@ class SpellTablet(
     private val addButton: ButtonPane
     private val removeButton: ButtonPane
     private val buttonLayout: HChainPane
-    var onHelp: (() -> Unit)? = null
-    var componentEditCallback: ((SpellComponentSlot<*>) -> Unit)? = null
+    internal var componentClickCallback: ((SpellComponentSlot<*>) -> Unit) = {}
         set(value) {
+            uiSpellStages.forEach { it.componentEditCallback = value }
             field = value
-            uiSpellStages.forEach { it.componentEditCallback = field }
         }
 
     init {
-
         // Setup the spell name label
         spellName = TextFieldPane(Position(0.2, 0.18), Dimensions(0.5, 0.1), FontCache.getOrCreate(36f))
         spellName.setGhostText("Spell Name")
@@ -111,56 +102,6 @@ class SpellTablet(
         buttonLayout.add(removeButton)
         spellStageList.add(buttonLayout)
 
-        // Create a save spell button
-        val saveButton =
-            ButtonPane(
-                icon = ImagePane("afraidofthedark:textures/gui/spell_editor/save.png"),
-                iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/save_hovered.png"),
-                prefSize = Dimensions(0.13, 0.1),
-                offset = Position(0.76, 0.4)
-            )
-        saveButton.setHoverText("Save Spell")
-        saveButton.addOnClick {
-            // Grab the player's spell manager
-            val spellManager = entityPlayer.getSpellManager()
-            // Clone the spell so we don't modify it further
-            val spellClone = Spell(spell.serializeNBT())
-            // Update the spell
-            spellManager.addOrUpdateSpell(spellClone)
-            // Sync the spell server side
-            spellManager.sync(entityPlayer, spellClone)
-            // Tell the player the save was successful
-            entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.save_successful", spellClone.name))
-        }
-        this.add(saveButton)
-
-        // Create a close UI and don't save button
-        val closeButton =
-            ButtonPane(
-                icon = ImagePane("afraidofthedark:textures/gui/spell_editor/delete.png"),
-                iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/delete_hovered.png"),
-                prefSize = Dimensions(0.13, 0.1),
-                offset = Position(0.76, 0.52)
-            )
-        closeButton.setHoverText("Exit (Without Saving)")
-        closeButton.addOnClick {
-            // Open the list gui without saving
-            Minecraft.getInstance().setScreen(SpellListScreen())
-        }
-        this.add(closeButton)
-
-        // Create a help button
-        val helpButton = ButtonPane(
-            icon = ImagePane("afraidofthedark:textures/gui/spell_editor/question.png"),
-            iconHovered = ImagePane("afraidofthedark:textures/gui/spell_editor/question_hovered.png"),
-            prefSize = Dimensions(0.13, 0.1),
-            offset = Position(0.76, 0.64)
-        )
-        helpButton.setHoverText("Help")
-        // When pressing help execute our on help runnable
-        helpButton.addOnClick { onHelp?.invoke() }
-        this.add(helpButton)
-
         // Create the power source spell slot
         uiPowerSource = SpellPowerSourceSlot(Position(0.57, 0.07), Dimensions(0.13, 0.1), spell)
         uiPowerSource.setSpellComponent(spell.powerSource)
@@ -192,11 +133,16 @@ class SpellTablet(
         // Refresh each gui stage
         uiSpellStages.forEach { it.refresh() }
         // Update the spell cost label
-        refreshCost()
+        refreshCostLabel()
     }
 
-    private fun refreshCost() {
-        spellCost.text = "Cost: ${spell.getCost().roundToInt()}"
+    fun refreshCostLabel() {
+        val costText = if (spell.isValid()) {
+            "Cost: ${ceil(spell.getCost())}"
+        } else {
+            "Cost: Invalid Spell"
+        }
+        spellCost.text = costText
     }
 
     /**
@@ -206,7 +152,7 @@ class SpellTablet(
      */
     private fun addGuiSpellStage(spellStage: SpellStage) {
         // Create the spell stage GUI
-        val spellStageGui = GuiSpellStage(spellStage, spell, componentEditCallback)
+        val spellStageGui = GuiSpellStage(spellStage, spell, this.componentClickCallback)
         // Add the spell stage to the panel
         spellStageList.remove(buttonLayout)
         spellStageList.add(spellStageGui)
@@ -236,7 +182,7 @@ class SpellTablet(
     override fun calcChildrenBounds() {
         super.calcChildrenBounds()
         // Safe call is necessary here because calcChildrenBounds gets called in the constructor before the label is added
-        spellCost?.let { this.refreshCost() }   // Refresh the cost every UI update
+        spellCost?.let { this.refreshCostLabel() }   // Refresh the cost every UI update
     }
 
     /**
