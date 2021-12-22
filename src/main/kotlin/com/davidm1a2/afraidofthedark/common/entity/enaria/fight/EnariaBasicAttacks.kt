@@ -11,7 +11,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
 import net.minecraft.command.arguments.EntityAnchorArgument
-import net.minecraft.potion.Effects
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.SoundEvents
 import java.awt.Color
@@ -193,11 +192,10 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                     setDefaults()
                     ModSpellDeliveryMethods.LASER.setRange(this, 100.0)
                 }
-                effects[0] = SpellEffectInstance(ModSpellEffects.POTION_EFFECT).apply {
+                effects[0] = SpellEffectInstance(ModSpellEffects.SPEED).apply {
                     setDefaults()
-                    ModSpellEffects.POTION_EFFECT.setType(this, Effects.MOVEMENT_SLOWDOWN)
-                    ModSpellEffects.POTION_EFFECT.setStrength(this, 2)
-                    ModSpellEffects.POTION_EFFECT.setDuration(this, 20 * 15)
+                    ModSpellEffects.SPEED.setMultiplier(this, -2)
+                    ModSpellEffects.SPEED.setDuration(this, 20 * 15)
                 }
             })
         }
@@ -241,12 +239,14 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                     setDefaults()
                     ModSpellDeliveryMethods.LASER.setRange(this, 100.0)
                 }
+                /*
                 effects[0] = SpellEffectInstance(ModSpellEffects.POTION_EFFECT).apply {
                     setDefaults()
                     ModSpellEffects.POTION_EFFECT.setType(this, Effects.HARM)
                     ModSpellEffects.POTION_EFFECT.setStrength(this, 1)
                     ModSpellEffects.POTION_EFFECT.setDuration(this, 1)
                 }
+                 */
             })
         }
         private val SMOKE_SCREEN_SELF_SPELL = Spell().apply {

@@ -14,6 +14,7 @@ object ModDamageSources {
     // Constant names for the damage sources
     const val SILVER_DAMAGE = "silver_damage"
     const val PLASMA_BALL = "plasma_ball"
+    const val SPELL_DAMAGE = "spell_damage"
 
     /**
      * Returns a silver damage source given an entity to cause the damage
@@ -37,5 +38,9 @@ object ModDamageSources {
         indirectSource: SplinterDroneEntity?
     ): DamageSource {
         return IndirectEntityDamageSource(PLASMA_BALL, source, indirectSource).setProjectile()
+    }
+
+    fun getSpellDamage(spellCaster: Entity?): DamageSource {
+        return EntityDamageSource(SPELL_DAMAGE, spellCaster)
     }
 }

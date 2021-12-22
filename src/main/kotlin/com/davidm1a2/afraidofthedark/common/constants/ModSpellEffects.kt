@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.BurnSpellEffe
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.CharmSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.CleanseSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.DigSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.DisintegrateSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.EnderPocketSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.ExplosionSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.ExtinguishSpellEffect
@@ -33,6 +34,7 @@ object ModSpellEffects {
     val FREEZE = FreezeSpellEffect()
     val CHARM = CharmSpellEffect()
     val SPEED = SpeedSpellEffect()
+    val DISINTEGRATE = DisintegrateSpellEffect()
 
     // An array containing a list of spell effects that AOTD adds
     val SPELL_EFFECTS = arrayOf(
@@ -49,6 +51,7 @@ object ModSpellEffects {
         ENDER_POCKET,
         FREEZE,
         CHARM,
-        SPEED
+        SPEED,
+        DISINTEGRATE
     )
 }
