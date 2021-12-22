@@ -48,13 +48,8 @@ class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Const
         val finalDir = forwardBackwardDir.rotateAround(upDownDir, yaw).rotateAround(leftRightDir, pitch)
 
         val newState = DeliveryTransitionStateBuilder()
-            .withSpell(state.spell)
-            .withStageIndex(state.stageIndex)
-            .withWorld(state.world)
-            .withPosition(state.position)
-            .withBlockPosition(state.blockPosition)
+            .copyOf(state)
             .withDirection(finalDir)
-            .withCasterEntity(state.getCasterEntity())
             .build()
 
         procEffects(newState)
