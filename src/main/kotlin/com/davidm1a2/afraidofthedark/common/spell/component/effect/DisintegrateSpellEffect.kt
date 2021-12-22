@@ -33,9 +33,10 @@ class DisintegrateSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
         if (entityHit != null) {
             entityHit.hurt(ModDamageSources.getSpellDamage(state.getCasterEntity()), strength)
         } else {
-            val blockHit = world.getBlockState(state.blockPosition)
-            if (blockHit.harvestLevel <= strength) {
-                world.setBlockAndUpdate(state.blockPosition, Blocks.AIR.defaultBlockState())
+            val blockPosition = state.blockPosition
+            val blockHit = world.getBlockState(blockPosition)
+            if (blockHit.harvestLevel <= strength && blockHit.getDestroySpeed(world, blockPosition) != -1f) {
+                world.setBlockAndUpdate(blockPosition, Blocks.AIR.defaultBlockState())
             }
         }
     }

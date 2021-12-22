@@ -239,14 +239,10 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                     setDefaults()
                     ModSpellDeliveryMethods.LASER.setRange(this, 100.0)
                 }
-                /*
-                effects[0] = SpellEffectInstance(ModSpellEffects.POTION_EFFECT).apply {
+                effects[0] = SpellEffectInstance(ModSpellEffects.DISINTEGRATE).apply {
                     setDefaults()
-                    ModSpellEffects.POTION_EFFECT.setType(this, Effects.HARM)
-                    ModSpellEffects.POTION_EFFECT.setStrength(this, 1)
-                    ModSpellEffects.POTION_EFFECT.setDuration(this, 1)
+                    ModSpellEffects.DISINTEGRATE.setStrength(this, 20f)
                 }
-                 */
             })
         }
         private val SMOKE_SCREEN_SELF_SPELL = Spell().apply {
