@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOT
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ResourceLocation
+import kotlin.math.ceil
 
 /**
  * Class representing the creative power source
@@ -19,6 +20,6 @@ class CreativeSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants
     }
 
     override fun getSourceSpecificCost(rawCost: Double): Double {
-        return rawCost
+        return ceil(rawCost)
     }
 }

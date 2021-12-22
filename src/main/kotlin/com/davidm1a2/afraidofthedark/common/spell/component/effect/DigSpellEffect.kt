@@ -5,17 +5,35 @@ import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
-import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDurationSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
+import net.minecraft.entity.LivingEntity
+import net.minecraft.potion.EffectInstance
+import net.minecraft.potion.Effects
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import kotlin.math.abs
 import kotlin.random.Random
 
 /**
  * Dig effect digs a block
  */
-class DigSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "dig"), ModResearches.SPELLMASON) {
+class DigSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "dig"), ModResearches.SPELLMASON, 0, 0) {
+    init {
+        addEditableProperty(
+            SpellComponentPropertyFactory.intProperty()
+                .withBaseName(getUnlocalizedPropertyBaseName("speed"))
+                .withSetter(this::setSpeed)
+                .withGetter(this::getSpeed)
+                .withDefaultValue(0)
+                .withMinValue(-10)
+                .withMaxValue(10)
+                .build()
+        )
+    }
+
     /**
      * Performs the effect
      *
@@ -27,12 +45,13 @@ class DigSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "dig")
         val entity = state.getEntity()
         val min = if (reducedParticles) 0 else 5
         val max = if (reducedParticles) 1 else 10
-        if (entity != null) {
-            // Digs the block under the entity
-            val blockPos = entity.blockPosition().below()
-            if (canBlockBeDestroyed(world, blockPos)) {
-                createParticlesAt(min, max, entity.position(), entity.level.dimension(), ModParticles.DIG)
-                world.destroyBlock(blockPos, true)
+        if (entity is LivingEntity) {
+            createParticlesAt(min, max, state.position, world.dimension(), ModParticles.DIG)
+            val speed = getSpeed(instance)
+            if (speed != 0) {
+                val effectType = if (speed >= 0) Effects.DIG_SPEED else Effects.DIG_SLOWDOWN
+                val effect = EffectInstance(effectType, getDuration(instance), abs(speed) - 1)
+                entity.addEffect(effect)
             }
         } else {
             // Digs the block at the position
@@ -67,6 +86,20 @@ class DigSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "dig")
      * @return The cost of dig is 14
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 10.0
+        val speed = getSpeed(instance)
+        return 10.0 + if (speed != 0) speed * 15 + getDuration(instance) * 0.1 else 0.0
+    }
+
+    fun setSpeed(instance: SpellComponentInstance<*>, amount: Int) {
+        instance.data.putInt(NBT_SPEED, amount)
+    }
+
+    fun getSpeed(instance: SpellComponentInstance<*>): Int {
+        return instance.data.getInt(NBT_SPEED)
+    }
+
+    companion object {
+        // NBT constants for dig speed
+        private const val NBT_SPEED = "speed"
     }
 }
