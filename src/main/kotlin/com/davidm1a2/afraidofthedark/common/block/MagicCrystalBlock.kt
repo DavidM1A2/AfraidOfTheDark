@@ -10,12 +10,10 @@ import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
-import net.minecraft.block.Blocks
 import net.minecraft.block.material.Material
 import net.minecraft.block.material.PushReaction
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.fluid.FluidState
 import net.minecraft.item.BlockItemUseContext
 import net.minecraft.item.ItemStack
 import net.minecraft.state.BooleanProperty
@@ -23,6 +21,7 @@ import net.minecraft.state.StateContainer
 import net.minecraft.state.properties.BlockStateProperties
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.ActionResultType
+import net.minecraft.util.Direction
 import net.minecraft.util.Hand
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
@@ -30,12 +29,14 @@ import net.minecraft.util.math.BlockRayTraceResult
 import net.minecraft.util.math.shapes.ISelectionContext
 import net.minecraft.util.math.shapes.VoxelShape
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.Explosion
 import net.minecraft.world.IBlockReader
+import net.minecraft.world.IWorld
 import net.minecraft.world.World
+import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.ToolType
 import org.apache.logging.log4j.LogManager
+import java.util.Random
 
 class MagicCrystalBlock : AOTDTileEntityBlock(
     "magic_crystal",
@@ -65,44 +66,50 @@ class MagicCrystalBlock : AOTDTileEntityBlock(
         super.setPlacedBy(world, blockPos, blockState, livingEntity, itemStack)
     }
 
-    override fun removedByPlayer(blockState: BlockState, world: World, blockPos: BlockPos, playerEntity: PlayerEntity, willHarvest: Boolean, ffluidStateuid: FluidState): Boolean {
-        clearCrystal(world, blockPos)
-        return super.removedByPlayer(blockState, world, blockPos, playerEntity, willHarvest, ffluidStateuid)
+    override fun updateShape(
+        state: BlockState,
+        facing: Direction,
+        facingState: BlockState,
+        world: IWorld,
+        currentPos: BlockPos,
+        facingPos: BlockPos
+    ): BlockState {
+        if (!isValid(world, currentPos)) {
+            world.blockTicks.scheduleTick(currentPos, this, 1)
+        }
+
+        @Suppress("DEPRECATION")
+        return super.updateShape(state, facing, facingState, world, currentPos, facingPos)
     }
 
-    override fun onBlockExploded(blockState: BlockState, world: World, blockPos: BlockPos, explosion: Explosion) {
-        clearCrystal(world, blockPos)
-        super.onBlockExploded(blockState, world, blockPos, explosion)
+    override fun tick(state: BlockState, world: ServerWorld, pos: BlockPos, rand: Random) {
+        if (!isValid(world, pos)) {
+            world.destroyBlock(pos, true)
+        }
     }
 
-    private fun clearCrystal(world: World, blockPos: BlockPos, clearBlockPos: Boolean = false) {
-        if (!world.isClientSide) {
-            var bottomBlockPos = blockPos
-            // While the current block is not the bottom, and it is a magic crystal
-            while (world.getBlockState(bottomBlockPos).let { !isBottom(it) && it.block == this }) {
-                bottomBlockPos = bottomBlockPos.below()
-            }
-
-            val bottomState = world.getBlockState(bottomBlockPos)
-            if (bottomState.block != this) {
-                LOG.error("Invalid magic crystal detected")
-                return
-            }
-
-            var ascendingBlockPos = bottomBlockPos
-            for (i in 0 until BLOCK_HEIGHT) {
-                if (ascendingBlockPos == blockPos && !clearBlockPos) {
-                    // Don't do anything special for the current block, just break the ones above and below
-                    ascendingBlockPos = ascendingBlockPos.above()
-                    continue
+    private fun isValid(world: IBlockReader, pos: BlockPos): Boolean {
+        if (isBottom(world.getBlockState(pos))) {
+            for (i in 1 until BLOCK_HEIGHT) {
+                if (world.getBlockState(pos.above(i)).block != this) {
+                    return false
                 }
-
-                val blockAbove = world.getBlockState(ascendingBlockPos)
-                if (blockAbove.block == this) {
-                    world.setBlockAndUpdate(ascendingBlockPos, Blocks.AIR.defaultBlockState())
-                }
-                ascendingBlockPos = ascendingBlockPos.above()
             }
+            return true
+        } else {
+            for (i in 1 until BLOCK_HEIGHT) {
+                val belowPos = pos.below(i)
+                val blockState = world.getBlockState(belowPos)
+                // No bottom = invalid
+                if (blockState.block != this) {
+                    return false
+                }
+                // Delegate to the bottom
+                if (isBottom(blockState)) {
+                    return isValid(world, belowPos)
+                }
+            }
+            return false
         }
     }
 
