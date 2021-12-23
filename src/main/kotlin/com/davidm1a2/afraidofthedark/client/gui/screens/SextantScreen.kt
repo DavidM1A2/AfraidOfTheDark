@@ -32,38 +32,38 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
         val textFieldFont = FontCache.getOrCreate(45f)
 
         // Initialize fields
-        angle = TextFieldPane(prefSize = Dimensions(0.4, 0.16), font = textFieldFont)
-        latitude = TextFieldPane(prefSize = Dimensions(0.4, 0.16), font = textFieldFont)
-        longitude = TextFieldPane(prefSize = Dimensions(0.4, 0.16), font = textFieldFont)
+        angle = TextFieldPane(prefSize = Dimensions(0.5, 0.16), font = textFieldFont)
+        latitude = TextFieldPane(prefSize = Dimensions(0.5, 0.16), font = textFieldFont)
+        longitude = TextFieldPane(prefSize = Dimensions(0.5, 0.16), font = textFieldFont)
 
         // All fields are white and contain ghost text based on what they represent
         angle.setTextColor(Color(255, 255, 255))
         angle.setGhostText("Angle")
-        angle.offset = Position(0.1, 0.1)
+        angle.offset = Position(0.04, 0.1)
         background.add(angle)
         latitude.setTextColor(Color(255, 255, 255))
         latitude.setGhostText("Latitude")
-        latitude.offset = Position(0.1, 0.3)
+        latitude.offset = Position(0.04, 0.3)
         background.add(latitude)
         longitude.setTextColor(Color(255, 255, 255))
         longitude.setGhostText("Longitude")
-        longitude.offset = Position(0.1, 0.5)
+        longitude.offset = Position(0.04, 0.5)
         background.add(longitude)
 
         // Create a calculate button that performs the math and returns drop location coordinates
-        val confirm = ButtonPane(
-            icon = ImagePane("afraidofthedark:textures/gui/arcane_journal_open/open_button.png"),
-            iconHovered = ImagePane("afraidofthedark:textures/gui/arcane_journal_open/open_button_hovered.png"),
+        val calculate = ButtonPane(
+            icon = ImagePane("afraidofthedark:textures/gui/sextant/calculate_button.png"),
+            iconHovered = ImagePane("afraidofthedark:textures/gui/sextant/calculate_button_hovered.png"),
             gravity = Gravity.BOTTOM_CENTER,
-            prefSize = Dimensions(0.5, 0.1),
+            prefSize = Dimensions(0.4, 0.1),
             font = FontCache.getOrCreate(40f)
         )
         // Text just says calculate
-        confirm.setText("Calculate")
+        calculate.setText("Calculate")
         // Center the text
-        confirm.setTextAlignment(TextAlignment.ALIGN_CENTER)
+        calculate.setTextAlignment(TextAlignment.ALIGN_CENTER)
         // When clicked tell the server to validate the numbers and create a meteor if possible
-        confirm.addOnClick {
+        calculate.addOnClick {
             // Grab the text fron the text fields
             val dropAngleText = angle.getText()
             val latitudeText = latitude.getText()
@@ -87,7 +87,7 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
             }
             onClose()
         }
-        background.add(confirm)
+        background.add(calculate)
         background.gravity = Gravity.CENTER
         contentPane.padding = Spacing(0.125)
         contentPane.add(background)
