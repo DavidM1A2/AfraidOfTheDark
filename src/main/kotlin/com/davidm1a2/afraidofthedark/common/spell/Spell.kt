@@ -6,12 +6,13 @@ import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.event.custom.CastSpellEvent
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
-import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
+import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
+import com.davidm1a2.afraidofthedark.common.utility.getLookNormal
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
@@ -20,6 +21,7 @@ import net.minecraft.nbt.ListNBT
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.particles.IParticleData
 import net.minecraft.util.SoundCategory
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraftforge.common.MinecraftForge
@@ -122,18 +124,23 @@ class Spell : INBTSerializable<CompoundNBT> {
                             )
                         )
 
+                        val position = entity.getEyePosition(1.0f)
                         // Tell the first delivery method to fire
                         getStage(0)!!
                             .deliveryInstance!!
                             .component
                             .executeDelivery(
-                                DeliveryTransitionStateBuilder()
-                                    .withSpell(this)
-                                    .withStageIndex(0)
-                                    .withCasterEntity(entity)
-                                    .withEntity(entity)
-                                    .withDirection(direction)
-                                    .build()
+                                DeliveryTransitionState(
+                                    spell = this,
+                                    stageIndex = 0,
+                                    world = entity.level,
+                                    position = position,
+                                    blockPosition = BlockPos(position),
+                                    direction = direction,
+                                    normal = entity.getLookNormal(),
+                                    entity = entity,
+                                    casterEntity = entity
+                                )
                             )
                     } else {
                         entity.sendMessage(powerSource!!.component.getNotEnoughPowerMessage())

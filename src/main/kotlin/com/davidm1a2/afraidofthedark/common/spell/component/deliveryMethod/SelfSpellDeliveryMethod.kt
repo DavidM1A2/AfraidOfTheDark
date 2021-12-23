@@ -21,7 +21,7 @@ class SelfSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constan
      */
     override fun executeDelivery(state: DeliveryTransitionState) {
         // Self just procs the effects and transitions at the target entity
-        if (state.getEntity() != null) {
+        if (state.entity != null) {
             this.procEffects(state)
             this.transitionFrom(state)
         }

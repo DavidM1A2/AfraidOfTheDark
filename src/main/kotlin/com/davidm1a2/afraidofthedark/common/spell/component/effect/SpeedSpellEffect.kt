@@ -30,7 +30,7 @@ class SpeedSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_
 
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         val exactPosition = state.position
-        val entityHit = state.getEntity()
+        val entityHit = state.entity
 
         val multiplier = getMultiplier(instance)
         val effectType = if (multiplier >= 0) Effects.MOVEMENT_SPEED else Effects.MOVEMENT_SLOWDOWN
@@ -44,7 +44,7 @@ class SpeedSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_
             val world = state.world
             val aoePotion = AreaEffectCloudEntity(world, exactPosition.x, exactPosition.y, exactPosition.z)
             aoePotion.addEffect(effect)
-            aoePotion.owner = state.getCasterEntity() as? LivingEntity
+            aoePotion.owner = state.casterEntity as? LivingEntity
             aoePotion.setRadiusPerTick(0f)
             aoePotion.duration = getDuration(instance)
             world.addFreshEntity(aoePotion)

@@ -42,7 +42,7 @@ class DigSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         val world = state.world
-        val entity = state.getEntity()
+        val entity = state.entity
         val min = if (reducedParticles) 0 else 5
         val max = if (reducedParticles) 1 else 10
         if (entity is LivingEntity) {

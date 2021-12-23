@@ -1,9 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.world.spell
 
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
-import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.DelaySpellDeliveryMethod
+import com.davidm1a2.afraidofthedark.common.utility.getLookNormal
 import net.minecraft.nbt.CompoundNBT
+import net.minecraft.util.math.BlockPos
 
 /**
  * Class representing the delay delivery method that is waiting to go off
@@ -72,11 +73,15 @@ class DelayedDeliveryEntry {
     fun fire() {
         val deliveryMethod = state.getCurrentStage().deliveryInstance?.component!!
         // Update the state to reflect the current world position if the entity targeted has moved
-        if (state.getEntity() != null) {
-            state = DeliveryTransitionStateBuilder()
-                .copyOf(state) // With entity updates the pos and direction
-                .withEntity(state.getEntity()!!)
-                .build()
+        val entity = state.entity
+        if (entity != null) {
+            val position = entity.getEyePosition(1.0f)
+            state = state.copy(
+                position = position,
+                blockPosition = BlockPos(position),
+                direction = entity.lookAngle,
+                normal = entity.getLookNormal()
+            )
         }
         // Proc effects and transition, then return true since we delivered
         deliveryMethod.procEffects(state)

@@ -15,73 +15,55 @@ import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.fml.server.ServerLifecycleHooks
 import java.util.UUID
 
-/**
- * Class representing a spell in the transition state. This object is immutable
- *
- * @property spell The spell that is transitioning
- * @property stageIndex The index of the spell stage that is transitioning
- * @property lazyWorld A lazy initialized version of world. Used in deserialization to postpone the computation of the world object
- * @property world The world that the transition is happening in
- * @property position The exact double vector position the transition occurred
- * @property blockPosition A rounded for of getPosition() that estimates the block the transition occurred in
- * @property direction A normalized vector pointing in the direction the transition was in
- * @property casterEntityId The entity that cast the spell originally
- * @property entityId The entity being delivered to, can be null
- * @property deliveryEntityId The entity delivering the spell, can be null
- */
 class DeliveryTransitionState {
     val spell: Spell
     val stageIndex: Int
-    private val lazyWorld: Lazy<ServerWorld>
-    val world: ServerWorld
-        get() = lazyWorld.value
     val position: Vector3d
     val blockPosition: BlockPos
     val direction: Vector3d
-    private val casterEntityId: UUID?
-    private val entityId: UUID?
-    private val deliveryEntityId: UUID?
+    val normal: Vector3d
 
-    /**
-     * Constructor initializes all final fields
-     *
-     * @param spell          The spell being transitioned
-     * @param stageIndex     The current stage that finished firing. The next stage to fire is stageIndex + 1
-     * @param world          The world that the spell is transitioning in
-     * @param position       The position the transition is happening at
-     * @param direction      The direction the transition is toward
-     * @param casterEntity   The entity that cast the spell initially
-     * @param entity         The entity being transitioned through
-     * @param deliveryEntity The entity that caused the transition
-     */
-    internal constructor(
+    private val lazyWorld: Lazy<ServerWorld>
+    val world: ServerWorld
+        get() = lazyWorld.value
+
+    private val casterEntityId: UUID?
+    val casterEntity: Entity?
+        get() = casterEntityId?.let { world.getEntity(it) }
+
+    private val entityId: UUID?
+    val entity: Entity?
+        get() = entityId?.let { world.getEntity(it) }
+
+    private val deliveryEntityId: UUID?
+    val deliveryEntity: Entity?
+        get() = deliveryEntityId?.let { world.getEntity(it) }
+
+    constructor(
         spell: Spell,
         stageIndex: Int,
         world: World,
         position: Vector3d,
-        blockPos: BlockPos,
+        blockPosition: BlockPos,
         direction: Vector3d,
-        casterEntity: Entity?,
-        entity: Entity?,
-        deliveryEntity: Entity?
+        normal: Vector3d,
+        casterEntity: Entity? = null,
+        entity: Entity? = null,
+        deliveryEntity: Entity? = null
     ) {
         this.spell = spell
         this.stageIndex = stageIndex
+        this.position = position
+        this.blockPosition = blockPosition
+        this.direction = direction
+        this.normal = normal
         // This should only be created server side, so we can cast safely
         this.lazyWorld = lazyOf(world as ServerWorld)
-        this.position = position
-        blockPosition = blockPos
-        this.direction = direction
         casterEntityId = casterEntity?.uuid
         entityId = entity?.uuid
         deliveryEntityId = deliveryEntity?.uuid
     }
 
-    /**
-     * Initializes the state from NBT
-     *
-     * @param nbt The NBT containing the delivery state
-     */
     constructor(nbt: CompoundNBT) {
         spell = Spell(nbt.getCompound(NBT_SPELL))
         stageIndex = nbt.getInt(NBT_STAGE_INDEX)
@@ -93,6 +75,11 @@ class DeliveryTransitionState {
             nbt.getDouble(NBT_POSITION + "_x"),
             nbt.getDouble(NBT_POSITION + "_y"),
             nbt.getDouble(NBT_POSITION + "_z")
+        )
+        normal = Vector3d(
+            nbt.getDouble(NBT_NORMAL + "_x"),
+            nbt.getDouble(NBT_NORMAL + "_y"),
+            nbt.getDouble(NBT_NORMAL + "_z")
         )
         blockPosition = NBTUtil.readBlockPos(nbt.getCompound(NBT_BLOCK_POSITION))
         direction = Vector3d(
@@ -132,6 +119,9 @@ class DeliveryTransitionState {
         nbt.putDouble(NBT_DIRECTION + "_x", direction.x)
         nbt.putDouble(NBT_DIRECTION + "_y", direction.y)
         nbt.putDouble(NBT_DIRECTION + "_z", direction.z)
+        nbt.putDouble(NBT_NORMAL + "_x", normal.x)
+        nbt.putDouble(NBT_NORMAL + "_y", normal.y)
+        nbt.putDouble(NBT_NORMAL + "_z", normal.z)
         if (casterEntityId != null) {
             nbt.put(NBT_CASTER_ENTITY_ID, NBTUtil.createUUID(casterEntityId))
         }
@@ -154,28 +144,30 @@ class DeliveryTransitionState {
             ?: throw IllegalArgumentException("Current spell state is null, that shouldn't be possible. Spell: \n${spell.name}")
     }
 
-    /**
-     * @return The entity that cast this spell originally
-     */
-    fun getCasterEntity(): Entity? {
-        // If the entity is non null we get the entity in the world, otherwise we return null
-        return this.casterEntityId?.let { world.getEntity(this.casterEntityId) }
-    }
-
-    /**
-     * @return The entity that this state was transitioning through
-     */
-    fun getEntity(): Entity? {
-        // If the entity is non null we get the entity in the world, otherwise we return null
-        return this.entityId?.let { world.getEntity(it) }
-    }
-
-    /**
-     * @return The entity that performed the delivery and transition
-     */
-    fun getDeliveryEntity(): Entity? {
-        // If the entity is non null we get the entity in the world, otherwise we return null
-        return deliveryEntityId?.let { world.getEntity(it) }
+    fun copy(
+        spell: Spell? = null,
+        stageIndex: Int? = null,
+        world: World? = null,
+        position: Vector3d? = null,
+        blockPosition: BlockPos? = null,
+        direction: Vector3d? = null,
+        normal: Vector3d? = null,
+        casterEntity: Entity? = null,
+        entity: Entity? = null,
+        deliveryEntity: Entity? = null
+    ): DeliveryTransitionState {
+        return DeliveryTransitionState(
+            spell ?: this.spell,
+            stageIndex ?: this.stageIndex,
+            world ?: this.world,
+            position ?: this.position,
+            blockPosition ?: this.blockPosition,
+            direction ?: this.direction,
+            normal ?: this.normal,
+            casterEntity ?: this.casterEntity,
+            entity ?: this.entity,
+            deliveryEntity ?: this.deliveryEntity
+        )
     }
 
     companion object {
@@ -184,6 +176,7 @@ class DeliveryTransitionState {
         private const val NBT_STAGE_INDEX = "stage_index"
         private const val NBT_WORLD = "world"
         private const val NBT_POSITION = "position"
+        private const val NBT_NORMAL = "normal"
         private const val NBT_BLOCK_POSITION = "block_position"
         private const val NBT_DIRECTION = "direction"
         private const val NBT_CASTER_ENTITY_ID = "caster_entity_id"

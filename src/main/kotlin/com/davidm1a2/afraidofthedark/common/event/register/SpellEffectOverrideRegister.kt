@@ -4,13 +4,13 @@ import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellDeliveryMethods
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellEffects
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
-import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.AOESpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.ISpellDeliveryEffectApplicator
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.helper.TargetType
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
+import com.davidm1a2.afraidofthedark.common.utility.getNormal
 import net.minecraft.block.Blocks
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.SoundEvents
@@ -61,11 +61,6 @@ class SpellEffectOverrideRegister {
                         // Don't apply big AOE effects to every spot in the AOE, otherwise we lag hard. Pick sqrt(radius) random points inside the AOE
                         val maxExplosions = ceil(sqrt(radius)).toInt().coerceIn(1, Int.MAX_VALUE)
                         val basePos = BlockPos(state.position)
-                        val transitionBuilder = DeliveryTransitionStateBuilder()
-                            .withSpell(state.spell)
-                            .withStageIndex(state.stageIndex)
-                            .withWorld(state.world)
-                            .withCasterEntity(state.getCasterEntity())
 
                         var explosionCount = 0
                         while (explosionCount < maxExplosions) {
@@ -79,25 +74,26 @@ class SpellEffectOverrideRegister {
                             // Test to see if the block is within the radius
                             if (aoePos.distSqr(basePos) < radius * radius) {
                                 // Apply the effect at the position
+                                val position = Vector3d.atCenterOf(aoePos)
+                                val direction = position.subtract(state.position).normalize()
+                                var normal = direction.getNormal()
+                                // Straight up means we can't know our normal. Just use 1, 0, 0
+                                if (normal == Vector3d.ZERO) {
+                                    normal = Vector3d(1.0, 0.0, 0.0)
+                                }
                                 effect.component.procEffect(
-                                    transitionBuilder.withPosition(
-                                        Vector3d(
-                                            aoePos.x.toDouble(),
-                                            aoePos.y.toDouble(),
-                                            aoePos.z.toDouble()
-                                        )
-                                    )
-                                        .withBlockPosition(aoePos)
-                                        // Random direction, AOE has no direction
-                                        .withDirection(
-                                            Vector3d(
-                                                Math.random() - 0.5,
-                                                Math.random() - 0.5,
-                                                Math.random() - 0.5
-                                            ).normalize()
-                                        )
-                                        .build(),
-                                    effect
+                                    DeliveryTransitionState(
+                                        spell = state.spell,
+                                        stageIndex = state.stageIndex,
+                                        world = state.world,
+                                        position = position,
+                                        blockPosition = aoePos,
+                                        direction = direction,
+                                        normal = normal,
+                                        casterEntity = state.casterEntity
+                                    ),
+                                    effect,
+                                    reducedParticles = true
                                 )
                                 explosionCount++
                             }
@@ -123,7 +119,7 @@ class SpellEffectOverrideRegister {
                 ): Boolean {
                     val world = state.world
 
-                    val spellCaster = state.getCasterEntity()
+                    val spellCaster = state.casterEntity
                     if (spellCaster != null) {
                         // Get the delivery method instance
                         val deliveryInstance = state.getCurrentStage().deliveryInstance!!

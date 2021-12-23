@@ -31,7 +31,7 @@ class FreezeSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         val world: World = state.world
         val blockPos = state.blockPosition
-        val entity = state.getEntity()
+        val entity = state.entity
 
         // If the entity hit is living freeze it in place
         if (entity != null) {

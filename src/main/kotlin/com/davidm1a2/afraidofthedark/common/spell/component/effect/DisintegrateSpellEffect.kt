@@ -28,10 +28,10 @@ class DisintegrateSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
         val exactPosition = state.position
         val world = state.world
         val strength = getStrength(instance)
-        val entityHit = state.getEntity()
+        val entityHit = state.entity
         createParticlesAt(2, 6, exactPosition, world.dimension(), ModParticles.SPELL_HIT)
         if (entityHit != null) {
-            entityHit.hurt(ModDamageSources.getSpellDamage(state.getCasterEntity()), strength)
+            entityHit.hurt(ModDamageSources.getSpellDamage(state.casterEntity), strength)
         } else {
             val blockPosition = state.blockPosition
             val blockHit = world.getBlockState(blockPosition)

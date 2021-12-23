@@ -28,7 +28,7 @@ class EnderPocketSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         // If we hit a player open the ender chest GUI
-        val entity = state.getEntity()
+        val entity = state.entity
         if (entity is PlayerEntity) {
             createParticlesAround(10, 20, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), ModParticles.ENDER, 1.0)
             val enderChest = entity.enderChestInventory

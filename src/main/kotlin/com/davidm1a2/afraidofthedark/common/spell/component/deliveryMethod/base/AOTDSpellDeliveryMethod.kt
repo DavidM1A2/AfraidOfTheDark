@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base
 
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
-import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import net.minecraft.util.ResourceLocation
@@ -33,13 +32,11 @@ abstract class AOTDSpellDeliveryMethod(id: ResourceLocation, prerequisiteResearc
      */
     override fun performDefaultTransition(state: DeliveryTransitionState) {
         val spell = state.spell
-        val spellIndex = state.stageIndex
+        val nextStageIndex = state.stageIndex + 1
         // Perform the transition between the next delivery method and the current delivery method
-        spell.getStage(spellIndex + 1)!!.deliveryInstance!!.component.executeDelivery(
-            DeliveryTransitionStateBuilder()
-                .copyOf(state)
-                .withStageIndex(spellIndex + 1)
-                .build()
-        )
+        spell.getStage(nextStageIndex)!!
+            .deliveryInstance!!
+            .component
+            .executeDelivery(state.copy(stageIndex = nextStageIndex))
     }
 }

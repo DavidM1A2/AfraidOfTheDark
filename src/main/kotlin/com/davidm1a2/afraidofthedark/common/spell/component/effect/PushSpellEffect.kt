@@ -28,7 +28,7 @@ class PushSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "push
         val world = state.world
         // Divide by 10 to make it roughly the number of blocks to move
         val strength = getStrength(instance) / 10.0
-        val entityHit = state.getEntity()
+        val entityHit = state.entity
         createParticlesAt(2, 6, exactPosition, world.dimension(), ModParticles.SPELL_HIT)
         if (entityHit != null) {
             val pushDirection = state.direction.scale(strength)

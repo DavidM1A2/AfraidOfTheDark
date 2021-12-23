@@ -4,14 +4,15 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.spell.laser.SpellLaserEntity
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
-import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
+import com.davidm1a2.afraidofthedark.common.utility.getLookNormal
 import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.AxisAlignedBB
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.RayTraceContext
 import java.awt.Color
 
@@ -58,7 +59,7 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
     override fun executeDelivery(state: DeliveryTransitionState) {
         // Perform a ray trace to try and find a hit point
         val world = state.world
-        val entity = state.getEntity()
+        val entity = state.entity
 
         // Start at entity eye height if it's from an entity
         val startPos = entity?.getEyePosition(1.0f) ?: state.position
@@ -90,34 +91,50 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
             .filter { it.boundingBox.clip(startPos, endPos).isPresent }
             // Find the closest entity
             .minWithOrNull(Comparator.comparing { it.distanceToSqr(startPos) })
-        hitPos = hitEntity?.position() ?: hitPos
 
         // The entity contains no logic, it's just for rendering a beam
         world.addFreshEntity(SpellLaserEntity(world, startPos, hitPos, getColor(state.getCurrentStage().deliveryInstance!!)))
 
         // Begin performing effects and transition
         val currentState = if (hitEntity != null) {
-            // Apply the effect to the hit entity
-            DeliveryTransitionStateBuilder()
-                .withSpell(state.spell)
-                .withStageIndex(state.stageIndex)
-                .withCasterEntity(state.getCasterEntity())
-                .withEntity(hitEntity)
-                .build()
+            DeliveryTransitionState(
+                spell = state.spell,
+                stageIndex = state.stageIndex,
+                world = state.world,
+                position = hitPos,
+                blockPosition = hitBlockPos,
+                direction = endPos.subtract(startPos).normalize(),
+                normal = state.normal,
+                casterEntity = state.casterEntity,
+                entity = state.entity
+            )
         } else {
-            // Apply the effect at the hit position
-            DeliveryTransitionStateBuilder()
-                .withSpell(state.spell)
-                .withStageIndex(state.stageIndex)
-                .withWorld(state.world)
-                .withPosition(hitPos)
-                .withBlockPosition(hitBlockPos)
-                .withDirection(hitPos.subtract(startPos).normalize())
-                .withCasterEntity(state.getCasterEntity())
-                .build()
+            DeliveryTransitionState(
+                spell = state.spell,
+                stageIndex = state.stageIndex,
+                world = state.world,
+                position = hitPos,
+                blockPosition = hitBlockPos,
+                direction = hitPos.subtract(startPos).normalize(),
+                normal = state.normal,
+                casterEntity = state.casterEntity
+            )
         }
         procEffects(currentState)
-        transitionFrom(currentState)
+
+        val nextState = if (hitEntity != null) {
+            val position = hitEntity.getEyePosition(1.0f)
+            // The spell continues from the entity's look angle and position
+            currentState.copy(
+                position = position,
+                blockPosition = BlockPos(position),
+                direction = hitEntity.lookAngle,
+                normal = hitEntity.getLookNormal()
+            )
+        } else {
+            currentState
+        }
+        transitionFrom(nextState)
     }
 
     /**

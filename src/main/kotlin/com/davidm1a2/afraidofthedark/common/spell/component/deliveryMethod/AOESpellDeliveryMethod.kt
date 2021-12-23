@@ -3,13 +3,14 @@ package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
-import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.helper.TargetType
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
+import com.davidm1a2.afraidofthedark.common.utility.getLookNormal
+import com.davidm1a2.afraidofthedark.common.utility.getNormal
 import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.AxisAlignedBB
@@ -77,12 +78,17 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
             entitiesWithinAABB.forEach {
                 // Apply it to the entity
                 effect.component.procEffect(
-                    DeliveryTransitionStateBuilder()
-                        .withSpell(state.spell)
-                        .withStageIndex(state.stageIndex)
-                        .withCasterEntity(state.getCasterEntity())
-                        .withEntity(it!!)
-                        .build(),
+                    DeliveryTransitionState(
+                        spell = state.spell,
+                        stageIndex = state.stageIndex,
+                        world = state.world,
+                        position = it.position(),
+                        blockPosition = it.blockPosition(),
+                        direction = it.lookAngle,
+                        normal = it.getLookNormal(),
+                        casterEntity = state.casterEntity,
+                        entity = it
+                    ),
                     effect
                 )
             }
@@ -92,11 +98,6 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
 
             // Compute the radius in blocks
             val blockRadius = floor(radius).toInt()
-            val transitionBuilder = DeliveryTransitionStateBuilder()
-                .withSpell(state.spell)
-                .withStageIndex(state.stageIndex)
-                .withWorld(state.world)
-                .withCasterEntity(state.getCasterEntity())
 
             // Go over every block in the radius
             for (x in -blockRadius..blockRadius) {
@@ -107,19 +108,24 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
                         // Test to see if the block is within the radius
                         if (aoePos.distSqr(basePos) < radius * radius) {
                             // Apply the effect at the position
+                            val position = Vector3d.atCenterOf(aoePos)
+                            val direction = position.subtract(state.position).normalize()
+                            var normal = direction.getNormal()
+                            // Straight up means we can't know our normal. Just use 1, 0, 0
+                            if (normal == Vector3d.ZERO) {
+                                normal = Vector3d(1.0, 0.0, 0.0)
+                            }
                             effect.component.procEffect(
-                                transitionBuilder
-                                    .withPosition(Vector3d(aoePos.x.toDouble(), aoePos.y.toDouble(), aoePos.z.toDouble()))
-                                    .withBlockPosition(aoePos)
-                                    // Random direction, AOE has no direction
-                                    .withDirection(
-                                        Vector3d(
-                                            Math.random() - 0.5,
-                                            Math.random() - 0.5,
-                                            Math.random() - 0.5
-                                        ).normalize()
-                                    )
-                                    .build(),
+                                DeliveryTransitionState(
+                                    spell = state.spell,
+                                    stageIndex = state.stageIndex,
+                                    world = state.world,
+                                    position = position,
+                                    blockPosition = aoePos,
+                                    direction = direction,
+                                    normal = normal,
+                                    casterEntity = state.casterEntity
+                                ),
                                 effect,
                                 reducedParticles = true
                             )
@@ -150,22 +156,19 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
             entitiesWithinAABB.forEach {
                 // Perform the transition between the next delivery method and the current delivery method
                 spell.getStage(spellIndex + 1)!!.deliveryInstance!!.component.executeDelivery(
-                    DeliveryTransitionStateBuilder()
-                        .withSpell(state.spell)
-                        .withStageIndex(spellIndex + 1)
-                        .withCasterEntity(state.getCasterEntity())
-                        .withEntity(it!!)
-                        .build()
+                    DeliveryTransitionState(
+                        spell = state.spell,
+                        stageIndex = state.stageIndex + 1,
+                        world = state.world,
+                        position = it.getEyePosition(1.0f),
+                        blockPosition = BlockPos(it.getEyePosition(1.0f)),
+                        direction = it.lookAngle,
+                        normal = it.getLookNormal(),
+                        casterEntity = state.casterEntity
+                    )
                 )
             }
         } else {
-            val deliveryTransitionStateBuilder = DeliveryTransitionStateBuilder()
-                .withSpell(state.spell)
-                .withStageIndex(spellIndex + 1)
-                .withWorld(state.world)
-                .withBlockPosition(state.blockPosition)
-                .withCasterEntity(state.getCasterEntity())
-
             // Send out deliveries in all 6 possible directions around the hit point
             // Randomize which order the directions get applied in
             val cardinalDirections = mutableListOf(
@@ -178,12 +181,22 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
             ).apply { shuffle() }.toList()
 
             cardinalDirections.forEach {
+                var normal = it.getNormal()
+                if (normal == Vector3d.ZERO) {
+                    normal = Vector3d(1.0, 0.0, 0.0)
+                }
                 // Perform the transition between the next delivery method and the current delivery method
                 spell.getStage(spellIndex + 1)!!.deliveryInstance!!.component.executeDelivery(
-                    deliveryTransitionStateBuilder
-                        .withPosition(state.position.add(it.scale(0.2)))
-                        .withDirection(it)
-                        .build()
+                    DeliveryTransitionState(
+                        spell = state.spell,
+                        stageIndex = state.stageIndex + 1,
+                        world = state.world,
+                        position = state.position.add(it.scale(0.2)),
+                        blockPosition = state.blockPosition,
+                        direction = it,
+                        normal = normal,
+                        casterEntity = state.casterEntity
+                    )
                 )
             }
         }

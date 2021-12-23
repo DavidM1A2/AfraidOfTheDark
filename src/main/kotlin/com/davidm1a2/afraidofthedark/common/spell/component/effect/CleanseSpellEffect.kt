@@ -24,7 +24,7 @@ class CleanseSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "c
      * @param state The state that the spell is in
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
-        val entity = state.getEntity()
+        val entity = state.entity
         if (entity != null) {
             // Clear potion effects
             if (entity is LivingEntity) {

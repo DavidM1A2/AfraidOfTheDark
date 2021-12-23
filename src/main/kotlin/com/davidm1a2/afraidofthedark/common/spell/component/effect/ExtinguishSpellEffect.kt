@@ -24,7 +24,7 @@ class ExtinguishSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID,
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         // If we hit an entity extinguish them
-        val entity = state.getEntity()
+        val entity = state.entity
         if (entity != null) {
             createParticlesAt(3, 5, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), ModParticles.FIRE)
             entity.clearFire()

@@ -4,8 +4,10 @@ import com.davidm1a2.afraidofthedark.common.constants.ModDataSerializers
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellDeliveryMethods
 import com.davidm1a2.afraidofthedark.common.spell.Spell
-import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
+import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.ProjectileSpellDeliveryMethod
+import com.davidm1a2.afraidofthedark.common.utility.getLookNormal
+import com.davidm1a2.afraidofthedark.common.utility.getNormal
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.projectile.ProjectileHelper
@@ -134,16 +136,17 @@ class SpellProjectileEntity(
 
                 // Update spell logic server side
                 if (!level.isClientSide) {
-                    val state = DeliveryTransitionStateBuilder()
-                        .withSpell(spell)
-                        .withStageIndex(spellIndex)
-                        .withWorld(level)
-                        .withPosition(this.position())
-                        .withBlockPosition(this.blockPosition())
-                        .withDirection(deltaMovement.normalize())
-                        .withCasterEntity(this.casterEntityId?.let { (level as? ServerWorld)?.getEntity(it) })
-                        .withDeliveryEntity(this)
-                        .build()
+                    val state = DeliveryTransitionState(
+                        spell = spell,
+                        stageIndex = spellIndex,
+                        world = level,
+                        position = position(),
+                        blockPosition = blockPosition(),
+                        direction = deltaMovement.normalize(),
+                        normal = deltaMovement.getNormal(),
+                        casterEntity = casterEntityId?.let { (level as? ServerWorld)?.getEntity(it) },
+                        deliveryEntity = this
+                    )
 
                     // Proc the effects and transition
                     val currentDeliveryMethod = spell.getStage(spellIndex)!!.deliveryInstance!!.component
@@ -183,32 +186,47 @@ class SpellProjectileEntity(
                     if (level.isEmptyBlock(hitPos)) {
                         hitPos = hitPos.relative(result.direction.opposite)
                     }
-                    val state = DeliveryTransitionStateBuilder()
-                        .withSpell(spell)
-                        .withStageIndex(spellIndex)
-                        .withWorld(level)
-                        .withPosition(result.location)
-                        .withBlockPosition(hitPos)
-                        .withDirection(deltaMovement.normalize())
-                        .withCasterEntity(this.casterEntityId?.let { (level as? ServerWorld)?.getEntity(it) })
-                        .withDeliveryEntity(this)
-                        .build()
+                    val state = DeliveryTransitionState(
+                        spell = spell,
+                        stageIndex = spellIndex,
+                        world = level,
+                        position = result.location,
+                        blockPosition = hitPos,
+                        direction = deltaMovement.normalize(),
+                        normal = deltaMovement.getNormal(),
+                        casterEntity = this.casterEntityId?.let { (level as? ServerWorld)?.getEntity(it) },
+                        deliveryEntity = this
+                    )
 
                     // Proc the effects and transition
                     currentDeliveryMethod.procEffects(state)
                     currentDeliveryMethod.transitionFrom(state)
                 } else if (result.type == RayTraceResult.Type.ENTITY && result is EntityRayTraceResult) {
-                    val state = DeliveryTransitionStateBuilder()
-                        .withSpell(spell)
-                        .withStageIndex(spellIndex)
-                        .withEntity(result.entity)
-                        .withCasterEntity(this.casterEntityId?.let { (level as? ServerWorld)?.getEntity(it) })
-                        .withDeliveryEntity(this)
-                        .build()
+                    val entityHit = result.entity
+                    val state = DeliveryTransitionState(
+                        spell = spell,
+                        stageIndex = spellIndex,
+                        world = level,
+                        position = result.location,
+                        blockPosition = BlockPos(result.location),
+                        direction = deltaMovement.normalize(),
+                        normal = deltaMovement.getNormal(),
+                        casterEntity = this.casterEntityId?.let { (level as? ServerWorld)?.getEntity(it) },
+                        entity = entityHit,
+                        deliveryEntity = this
+                    )
 
                     // Proc the effects and transition
                     currentDeliveryMethod.procEffects(state)
-                    currentDeliveryMethod.transitionFrom(state)
+
+                    val position = entityHit.getEyePosition(1.0f)
+                    val transitionState = state.copy(
+                        position = position,
+                        blockPosition = BlockPos(position),
+                        direction = entityHit.lookAngle,
+                        normal = entityHit.getLookNormal()
+                    )
+                    currentDeliveryMethod.transitionFrom(transitionState)
                 }
             }
 

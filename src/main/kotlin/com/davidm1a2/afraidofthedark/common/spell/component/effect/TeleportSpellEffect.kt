@@ -24,7 +24,7 @@ class TeleportSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
         val world: World = state.world
-        val spellCaster = state.getCasterEntity()
+        val spellCaster = state.casterEntity
         if (spellCaster != null) {
             val position = state.position
             // Create particles at the pre and post teleport position

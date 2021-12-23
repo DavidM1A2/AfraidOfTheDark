@@ -4,7 +4,6 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.SpellProjectileEntity
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
-import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
@@ -59,10 +58,10 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
             state.world,
             state.spell,
             state.stageIndex,
-            state.getCasterEntity(),
+            state.casterEntity,
             state.position,
             state.direction,
-            state.getEntity()
+            state.entity
         )
         state.world.addFreshEntity(spellProjectile)
     }
@@ -74,15 +73,11 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
      */
     override fun performDefaultTransition(state: DeliveryTransitionState) {
         val spell = state.spell
-        val spellIndex = state.stageIndex
+        val nextStageIndex = state.stageIndex + 1
 
         // Perform the transition between the next delivery method and the current delivery method
-        spell.getStage(spellIndex + 1)!!.deliveryInstance!!.component.executeDelivery(
-            DeliveryTransitionStateBuilder()
-                .copyOf(state)
-                .withStageIndex(spellIndex + 1)
-                .withDeliveryEntity(null)
-                .build()
+        spell.getStage(nextStageIndex)!!.deliveryInstance!!.component.executeDelivery(
+            state.copy(stageIndex = nextStageIndex, deliveryEntity = null)
         )
     }
 

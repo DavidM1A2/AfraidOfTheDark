@@ -25,8 +25,8 @@ class CharmSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_
      * @param state The state that the spell is in
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
-        val entity = state.getEntity()
-        val spellOwner = state.getCasterEntity()
+        val entity = state.entity
+        val spellOwner = state.casterEntity
         // If we hit an entity that is an animal set them in love
         if (entity is AnimalEntity) {
             entity.setInLove(spellOwner as? PlayerEntity)

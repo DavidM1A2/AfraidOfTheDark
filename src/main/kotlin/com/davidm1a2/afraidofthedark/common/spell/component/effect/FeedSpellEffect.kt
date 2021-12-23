@@ -46,7 +46,7 @@ class FeedSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "feed
      * @param instance The instance of the effect
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
-        val entity = state.getEntity()
+        val entity = state.entity
         if (entity is PlayerEntity) {
             createParticlesAt(1, 2, state.position, entity.level.dimension(), ModParticles.GROW)
             val foodStats = entity.foodData

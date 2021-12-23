@@ -23,8 +23,8 @@ class BurnSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_I
      * @param state The state that the spell is in
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
-        if (state.getEntity() != null) {
-            val entity = state.getEntity()
+        if (state.entity != null) {
+            val entity = state.entity
             createParticlesAt(5, 10, Vector3d(entity!!.x, entity.y, entity.z), entity.level.dimension(), ModParticles.FIRE)
             entity.remainingFireTicks = entity.remainingFireTicks + getDuration(instance)
         } else {
