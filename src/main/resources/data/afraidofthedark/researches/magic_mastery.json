@@ -19,7 +19,8 @@
   ],
   "spell_components": {
     "effects": [
-      "afraidofthedark:explosion"
+      "afraidofthedark:explosion",
+      "afraidofthedark:disintegrate"
     ]
   }
 }

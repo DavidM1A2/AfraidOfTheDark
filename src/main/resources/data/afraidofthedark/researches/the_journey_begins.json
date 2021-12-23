@@ -25,7 +25,6 @@
     ],
     "effects": [
       "afraidofthedark:speed",
-      "afraidofthedark:disintegrate",
       "afraidofthedark:push",
       "afraidofthedark:lightning"
     ]
