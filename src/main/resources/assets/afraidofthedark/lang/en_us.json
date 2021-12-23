@@ -401,6 +401,8 @@
   "effect.afraidofthedark.explosion.description": "Creates an explosion centered at the block or entity hit.",
   "effect.afraidofthedark.explosion.radius.name": "Radius",
   "effect.afraidofthedark.explosion.radius.description": "The explosion's radius in blocks.",
+  "effect.afraidofthedark.lightning.name": "Lightning",
+  "effect.afraidofthedark.lightning.description": "Strikes the block or entity hit with lightning.",
   "effect.afraidofthedark.teleport.name": "Teleport",
   "effect.afraidofthedark.teleport.description": "Teleports the caster of the spell to the block or entity hit.",
   "effect.afraidofthedark.grow.name": "Grow",

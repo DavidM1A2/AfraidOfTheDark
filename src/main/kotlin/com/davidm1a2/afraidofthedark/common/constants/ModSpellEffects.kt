@@ -12,6 +12,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.FeedSpellEffe
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.FreezeSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.GrowSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.HealSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.LightningSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.PushSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.SmokeScreenSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.SpeedSpellEffect
@@ -37,6 +38,7 @@ object ModSpellEffects {
     val SPEED = SpeedSpellEffect()
     val DISINTEGRATE = DisintegrateSpellEffect()
     val PUSH = PushSpellEffect()
+    val LIGHTNING = LightningSpellEffect()
 
     // An array containing a list of spell effects that AOTD adds
     val SPELL_EFFECTS = arrayOf(
@@ -55,6 +57,7 @@ object ModSpellEffects {
         CHARM,
         SPEED,
         DISINTEGRATE,
-        PUSH
+        PUSH,
+        LIGHTNING
     )
 }
