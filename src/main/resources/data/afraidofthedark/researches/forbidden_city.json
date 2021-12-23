@@ -21,5 +21,10 @@
         "entity_type": "afraidofthedark:splinter_drone"
       }
     }
-  ]
+  ],
+  "spell_components": {
+    "delivery_methods": [
+      "afraidofthedark:rotate"
+    ]
+  }
 }
