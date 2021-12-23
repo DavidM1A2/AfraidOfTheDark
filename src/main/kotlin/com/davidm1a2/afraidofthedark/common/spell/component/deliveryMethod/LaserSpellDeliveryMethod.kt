@@ -91,6 +91,7 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
             .filter { it.boundingBox.clip(startPos, endPos).isPresent }
             // Find the closest entity
             .minWithOrNull(Comparator.comparing { it.distanceToSqr(startPos) })
+        hitPos = hitEntity?.boundingBox?.clip(startPos, endPos)?.orElse(null) ?: hitPos
 
         // The entity contains no logic, it's just for rendering a beam
         world.addFreshEntity(SpellLaserEntity(world, startPos, hitPos, getColor(state.getCurrentStage().deliveryInstance!!)))
@@ -106,7 +107,7 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
                 direction = endPos.subtract(startPos).normalize(),
                 normal = state.normal,
                 casterEntity = state.casterEntity,
-                entity = state.entity
+                entity = hitEntity
             )
         } else {
             DeliveryTransitionState(
