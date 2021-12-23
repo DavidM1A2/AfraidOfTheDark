@@ -26,7 +26,7 @@ class BurnSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_I
         if (state.entity != null) {
             val entity = state.entity
             createParticlesAt(5, 10, Vector3d(entity!!.x, entity.y, entity.z), entity.level.dimension(), ModParticles.FIRE)
-            entity.remainingFireTicks = entity.remainingFireTicks + getDuration(instance)
+            entity.remainingFireTicks = entity.remainingFireTicks + getDuration(instance) * 20
         } else {
             val world = state.world
             val position = state.blockPosition
