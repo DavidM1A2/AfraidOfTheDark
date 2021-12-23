@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
+import com.davidm1a2.afraidofthedark.common.tileEntity.CryptTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.DarkForestTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.DesertOasisTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.DroppedJournalTileEntity
@@ -23,6 +24,12 @@ object ModTileEntities {
         .of({ VoidChestTileEntity() }, ModBlocks.VOID_CHEST)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "void_chest")
+        }
+    val CRYPT: TileEntityType<CryptTileEntity> = TileEntityType
+        .Builder
+        .of({ CryptTileEntity() }, ModBlocks.CRYPT)
+        .build(null).apply {
+            setRegistryName(Constants.MOD_ID, "crypt")
         }
     val DARK_FOREST: TileEntityType<DarkForestTileEntity> = TileEntityType
         .Builder
@@ -88,6 +95,7 @@ object ModTileEntities {
     // A list of tile entities to register
     val TILE_ENTITY_LIST = arrayOf(
         VOID_CHEST,
+        CRYPT,
         DARK_FOREST,
         WITCH_HUT,
         GHASTLY_ENARIA_SPAWNER,

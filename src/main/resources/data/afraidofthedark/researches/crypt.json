@@ -1,0 +1,21 @@
+{
+  "forge:registry_name": "afraidofthedark:crypt",
+  "recipes": [],
+  "pre_recipes": [],
+  "stickers": [
+    "afraidofthedark:textures/gui/research_stickers/crypt.png"
+  ],
+  "pre_stickers": [
+    "afraidofthedark:textures/gui/research_stickers/crypt.png"
+  ],
+  "icon": "afraidofthedark:textures/gui/research_icons/crypt.png",
+  "prerequisite": "afraidofthedark:the_journey_begins",
+  "triggers": [
+    {
+      "type": "afraidofthedark:zone_entered",
+      "config": {
+        "tile_entity": "afraidofthedark:crypt"
+      }
+    }
+  ]
+}

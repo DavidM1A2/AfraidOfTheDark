@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.block.AmorphousEldritchMetalBlock
 import com.davidm1a2.afraidofthedark.common.block.AstralSilverOreBlock
+import com.davidm1a2.afraidofthedark.common.block.CryptBlock
 import com.davidm1a2.afraidofthedark.common.block.DarkForestBlock
 import com.davidm1a2.afraidofthedark.common.block.DesertOasisBlock
 import com.davidm1a2.afraidofthedark.common.block.DroppedJournalBlock
@@ -114,6 +115,7 @@ object ModBlocks {
     val AMORPHOUS_ELDRITCH_METAL = AmorphousEldritchMetalBlock()
     val VOID_CHEST = VoidChestBlock()
     val VOID_CHEST_PORTAL = VoidChestPortalBlock()
+    val CRYPT = CryptBlock()
     val DARK_FOREST = DarkForestBlock()
     val OBSERVATORY = ObservatoryBlock()
     val WITCH_HUT = WitchHutBlock()
@@ -169,6 +171,7 @@ object ModBlocks {
         AMORPHOUS_ELDRITCH_METAL,
         VOID_CHEST,
         VOID_CHEST_PORTAL,
+        CRYPT,
         DARK_FOREST,
         OBSERVATORY,
         ENARIA_SPAWNER,

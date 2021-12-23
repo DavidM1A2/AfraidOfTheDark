@@ -3,7 +3,7 @@
   "recipes": [],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/enchanted_skeleton.png",
-  "prerequisite": "afraidofthedark:the_journey_begins",
+  "prerequisite": "afraidofthedark:crypt",
   "triggers": [
     {
       "type": "afraidofthedark:kill_entity",
