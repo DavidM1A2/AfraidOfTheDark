@@ -261,7 +261,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
                         propertyPane.add(infoPane)
 
                         togglePane.toggled = editableProp.getValue(componentInstance).toBoolean()
-                        togglePane.setToggleListener { newVal ->
+                        togglePane.toggleListener = { newVal ->
                             editableProp.setValue(componentInstance, newVal.toString())
                             componentPropModifiedCallback()
                         }

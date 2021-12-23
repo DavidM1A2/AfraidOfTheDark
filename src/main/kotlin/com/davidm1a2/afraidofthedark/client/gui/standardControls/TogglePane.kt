@@ -5,7 +5,6 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import java.util.function.Consumer
 
 /**
  * Class representing a GUI button to be used by AOTD
@@ -23,19 +22,13 @@ class TogglePane(
     offset: Position = Position(0.0, 0.0),
     font: TrueTypeFont? = null
 ) : ButtonPane(bkgIcon, bkgIconHovered, silent, margins, gravity, hoverTexts, padding, prefSize, offset, font) {
-
+    var toggleListener: (Boolean) -> Unit = {}
     var toggled = false
         set(value) {
             field = value
             toggleIcon.isVisible = field
-            toggleListener?.accept(field)
+            toggleListener(field)
         }
-
-    private var toggleListener: Consumer<Boolean>? = null
-
-    fun setToggleListener(listener: Consumer<Boolean>?) {
-        this.toggleListener = listener
-    }
 
     init {
         add(toggleIcon)

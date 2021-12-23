@@ -16,7 +16,7 @@ import java.awt.Color
  */
 open class ButtonPane(
     private val icon: ImagePane?,
-    private val iconHovered: ImagePane? = icon,
+    private val iconHovered: ImagePane? = null,
     silent: Boolean = false,
     margins: Spacing = Spacing(),
     gravity: Gravity = Gravity.TOP_LEFT,
@@ -59,7 +59,7 @@ open class ButtonPane(
         if (this.isVisible) {
             super.draw(matrixStack)
             iconHovered?.isVisible = isHovered
-            icon?.isVisible = !isHovered
+            icon?.isVisible = iconHovered == null || !isHovered
         }
     }
 
