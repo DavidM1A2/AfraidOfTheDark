@@ -3,7 +3,6 @@ package com.davidm1a2.afraidofthedark.common.capabilities
 import net.minecraft.nbt.INBT
 import net.minecraft.util.Direction
 import net.minecraftforge.common.capabilities.Capability
-import net.minecraftforge.common.capabilities.ICapabilitySerializable
 import net.minecraftforge.common.util.LazyOptional
 
 /**
@@ -12,7 +11,7 @@ import net.minecraftforge.common.util.LazyOptional
  * @property capability The capability
  * @property capabilityInstance The default instance of the capability
  */
-class CapabilityProvider<T>(private val capability: Capability<T>) : ICapabilitySerializable<INBT> {
+class CapabilityProvider<T>(private val capability: Capability<T>) : INullableCapabilitySerializable<INBT> {
     private val capabilityInstance = capability.defaultInstance
 
     /**
@@ -23,7 +22,7 @@ class CapabilityProvider<T>(private val capability: Capability<T>) : ICapability
      * @param <T>        The type of capability
      * @return The capability or null if it was the wrong type
      */
-    override fun <V> getCapability(capability: Capability<V>, facing: Direction?): LazyOptional<V> {
+    override fun <V> getCapability(capability: Capability<V>?, facing: Direction?): LazyOptional<V> {
         @Suppress("NULLABLE_TYPE_PARAMETER_AGAINST_NOT_NULL_TYPE_PARAMETER")
         val instance = capabilityInstance?.let { LazyOptional.of { it } } ?: LazyOptional.empty()
         return if (capability == this.capability) instance.cast() else LazyOptional.empty()
