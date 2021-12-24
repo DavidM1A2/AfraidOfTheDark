@@ -51,7 +51,7 @@ class MagicCrystalTileEntity : AOTDTickingTileEntity(ModTileEntities.MAGIC_CRYST
         return NO_MASTER
     }
 
-    private fun isMaster(): Boolean {
+    fun isMaster(): Boolean {
         return blockState?.getValue(MagicCrystalBlock.BOTTOM) ?: false
     }
 
