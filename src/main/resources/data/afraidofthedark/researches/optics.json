@@ -2,6 +2,7 @@
   "forge:registry_name": "afraidofthedark:optics",
   "recipes": [
     "afraidofthedark:lens_cutter",
+    "afraidofthedark:compound_lens",
     "afraidofthedark:advanced_telescope",
     "afraidofthedark:mastercrafted_telescope"
   ],

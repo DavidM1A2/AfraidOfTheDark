@@ -51,10 +51,12 @@ import com.davidm1a2.afraidofthedark.common.item.eggs.EnchantedSkeletonSpawnEggI
 import com.davidm1a2.afraidofthedark.common.item.eggs.SplinterDroneSpawnEggItem
 import com.davidm1a2.afraidofthedark.common.item.eggs.WerewolfSpawnEggItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.AdvancedTelescopeItem
-import com.davidm1a2.afraidofthedark.common.item.telescope.LensItem
+import com.davidm1a2.afraidofthedark.common.item.telescope.CompoundLensItem
+import com.davidm1a2.afraidofthedark.common.item.telescope.DiamondLensItem
+import com.davidm1a2.afraidofthedark.common.item.telescope.GlassLensItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.MastercraftedTelescopeItem
-import com.davidm1a2.afraidofthedark.common.item.telescope.PerfectedLensItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.TelescopeItem
+import com.davidm1a2.afraidofthedark.common.item.telescope.TopazLensItem
 import net.minecraft.inventory.EquipmentSlotType
 
 /**
@@ -115,8 +117,10 @@ object ModItems {
     val CULTIST_TOME = CultistTomeItem()
     val ADVANCED_TELESCOPE = AdvancedTelescopeItem()
     val MASTERCRAFTED_TELESCOPE = MastercraftedTelescopeItem()
-    val LENS = LensItem()
-    val PERFECTED_LENS = PerfectedLensItem()
+    val GLASS_LENS = GlassLensItem()
+    val DIAMOND_LENS = DiamondLensItem()
+    val TOPAZ_LENS = TopazLensItem()
+    val COMPOUND_LENS = CompoundLensItem()
     val VITAE_LANTERN = VitaeLanternItem()
     val ENCHANTED_SKELETON_SPAWN_EGG = EnchantedSkeletonSpawnEggItem()
     val WEREWOLF_SPAWN_EGG = WerewolfSpawnEggItem()
@@ -179,8 +183,10 @@ object ModItems {
         CULTIST_TOME,
         ADVANCED_TELESCOPE,
         MASTERCRAFTED_TELESCOPE,
-        LENS,
-        PERFECTED_LENS,
+        GLASS_LENS,
+        DIAMOND_LENS,
+        TOPAZ_LENS,
+        COMPOUND_LENS,
         VITAE_LANTERN,
         ENCHANTED_SKELETON_SPAWN_EGG,
         WEREWOLF_SPAWN_EGG,

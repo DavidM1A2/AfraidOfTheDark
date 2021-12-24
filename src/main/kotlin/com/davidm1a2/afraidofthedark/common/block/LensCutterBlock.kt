@@ -49,13 +49,12 @@ class LensCutterBlock : AOTDBlock(
                 val heldItemStack = playerIn.getItemInHand(hand)
                 val heldItem = heldItemStack.item
                 // If they're holding glass reduce the stack size by one and add a lens item
-                if (heldItem == Blocks.GLASS.asItem() || heldItem == Items.DIAMOND) {
+                if (RECIPES.containsKey(heldItem)) {
                     if (!playerIn.isCreative) {
                         heldItemStack.shrink(1)
                     }
                     worldIn.playSound(null, pos, ModSounds.LENS_CUTTER, SoundCategory.BLOCKS, 0.5f, Random.nextDouble(0.8, 1.2).toFloat())
-                    val lensToAdd = if (heldItem == Items.DIAMOND) ModItems.PERFECTED_LENS else ModItems.LENS
-                    playerIn.addItem(ItemStack(lensToAdd))
+                    playerIn.addItem(ItemStack(RECIPES[heldItem]!!))
                 } else {
                     playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.lens_cutter.wrong_item"))
                 }
@@ -65,5 +64,13 @@ class LensCutterBlock : AOTDBlock(
         }
 
         return ActionResultType.SUCCESS
+    }
+
+    companion object {
+        private val RECIPES = mapOf(
+            Blocks.GLASS.asItem() to ModItems.GLASS_LENS,
+            Items.DIAMOND to ModItems.DIAMOND_LENS,
+            ModItems.MYSTIC_TOPAZ to ModItems.TOPAZ_LENS
+        )
     }
 }

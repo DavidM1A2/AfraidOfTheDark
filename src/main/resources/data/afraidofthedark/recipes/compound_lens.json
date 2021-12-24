@@ -1,0 +1,19 @@
+{
+  "type": "afraidofthedark:research_required_shapeless_recipe",
+  "result": {
+    "item": "afraidofthedark:compound_lens",
+    "count": 1
+  },
+  "ingredients": [
+    {
+      "item": "afraidofthedark:glass_lens"
+    },
+    {
+      "item": "afraidofthedark:diamond_lens"
+    },
+    {
+      "item": "afraidofthedark:topaz_lens"
+    }
+  ],
+  "required_research": "afraidofthedark:optics"
+}
