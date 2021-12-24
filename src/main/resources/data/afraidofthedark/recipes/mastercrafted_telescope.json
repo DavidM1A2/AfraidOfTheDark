@@ -1,0 +1,24 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "ls ",
+    "sts",
+    " sl"
+  ],
+  "key": {
+    "l": {
+      "item": "afraidofthedark:perfected_lens"
+    },
+    "t": {
+      "item": "afraidofthedark:advanced_telescope"
+    },
+    "s": {
+      "item": "minecraft:string"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:mastercrafted_telescope",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:optics"
+}

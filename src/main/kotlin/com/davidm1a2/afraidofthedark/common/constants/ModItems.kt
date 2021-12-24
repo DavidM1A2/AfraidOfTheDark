@@ -53,6 +53,7 @@ import com.davidm1a2.afraidofthedark.common.item.eggs.WerewolfSpawnEggItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.AdvancedTelescopeItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.LensItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.MastercraftedTelescopeItem
+import com.davidm1a2.afraidofthedark.common.item.telescope.PerfectedLensItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.TelescopeItem
 import net.minecraft.inventory.EquipmentSlotType
 
@@ -115,6 +116,7 @@ object ModItems {
     val ADVANCED_TELESCOPE = AdvancedTelescopeItem()
     val MASTERCRAFTED_TELESCOPE = MastercraftedTelescopeItem()
     val LENS = LensItem()
+    val PERFECTED_LENS = PerfectedLensItem()
     val VITAE_LANTERN = VitaeLanternItem()
     val ENCHANTED_SKELETON_SPAWN_EGG = EnchantedSkeletonSpawnEggItem()
     val WEREWOLF_SPAWN_EGG = WerewolfSpawnEggItem()
@@ -178,6 +180,7 @@ object ModItems {
         ADVANCED_TELESCOPE,
         MASTERCRAFTED_TELESCOPE,
         LENS,
+        PERFECTED_LENS,
         VITAE_LANTERN,
         ENCHANTED_SKELETON_SPAWN_EGG,
         WEREWOLF_SPAWN_EGG,

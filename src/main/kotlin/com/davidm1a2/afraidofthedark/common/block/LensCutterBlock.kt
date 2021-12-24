@@ -13,6 +13,7 @@ import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.util.SoundCategory
@@ -45,12 +46,16 @@ class LensCutterBlock : AOTDBlock(
 
             // Check if the player has the research to use the block
             if (research.isResearched(ModResearches.OPTICS)) {
-                val heldItem = playerIn.getItemInHand(hand)
+                val heldItemStack = playerIn.getItemInHand(hand)
+                val heldItem = heldItemStack.item
                 // If they're holding glass reduce the stack size by one and add a lens item
-                if (heldItem.item == Blocks.GLASS.asItem()) {
-                    heldItem.shrink(1)
+                if (heldItem == Blocks.GLASS.asItem() || heldItem == Items.DIAMOND) {
+                    if (!playerIn.isCreative) {
+                        heldItemStack.shrink(1)
+                    }
                     worldIn.playSound(null, pos, ModSounds.LENS_CUTTER, SoundCategory.BLOCKS, 0.5f, Random.nextDouble(0.8, 1.2).toFloat())
-                    playerIn.addItem(ItemStack(ModItems.LENS))
+                    val lensToAdd = if (heldItem == Items.DIAMOND) ModItems.PERFECTED_LENS else ModItems.LENS
+                    playerIn.addItem(ItemStack(lensToAdd))
                 } else {
                     playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.lens_cutter.wrong_item"))
                 }
