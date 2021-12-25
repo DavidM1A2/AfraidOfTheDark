@@ -8,7 +8,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.Spe
 /**
  * The icon for a spell power source on the scroll panel
  */
-class SpellPowerSourceIcon(val powerSource: SpellPowerSource) :
+class SpellPowerSourceIcon(private val powerSource: SpellPowerSource) :
     ImagePane("afraidofthedark:textures/gui/spell_editor/power_source_holder.png", DispMode.FIT_TO_PARENT),
     DraggableProducer<SpellPowerSource> {
 
