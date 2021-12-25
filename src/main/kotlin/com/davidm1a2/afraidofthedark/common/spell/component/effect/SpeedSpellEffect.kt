@@ -34,8 +34,8 @@ class SpeedSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_
 
         val multiplier = getMultiplier(instance)
         val effectType = if (multiplier >= 0) Effects.MOVEMENT_SPEED else Effects.MOVEMENT_SLOWDOWN
-        val effectDuration = if (multiplier == 0) 0 else abs(multiplier) - 1
-        val effect = EffectInstance(effectType, getDuration(instance), effectDuration)
+        val effectAmplifier = if (multiplier == 0) 0 else abs(multiplier) - 1
+        val effect = EffectInstance(effectType, getDuration(instance), effectAmplifier)
 
         if (entityHit is LivingEntity) {
             createParticlesAt(1, 3, exactPosition, entityHit.level.dimension(), ModParticles.SPELL_HIT)

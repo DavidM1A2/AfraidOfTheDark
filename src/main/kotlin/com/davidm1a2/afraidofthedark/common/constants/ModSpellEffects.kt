@@ -17,6 +17,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.PushSpellEffe
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.SmokeScreenSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.SpeedSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.TeleportSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.WardSpellEffect
 
 /**
  * A static class containing all of our spell effect references for us
@@ -39,6 +40,7 @@ object ModSpellEffects {
     val DISINTEGRATE = DisintegrateSpellEffect()
     val PUSH = PushSpellEffect()
     val LIGHTNING = LightningSpellEffect()
+    val WARD = WardSpellEffect()
 
     // An array containing a list of spell effects that AOTD adds
     val SPELL_EFFECTS = arrayOf(
@@ -58,6 +60,7 @@ object ModSpellEffects {
         SPEED,
         DISINTEGRATE,
         PUSH,
-        LIGHTNING
+        LIGHTNING,
+        WARD
     )
 }
