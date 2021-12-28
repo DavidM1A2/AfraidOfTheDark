@@ -1,5 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
+import com.davidm1a2.afraidofthedark.common.capabilities.chunk.ward.IWardedBlockMap
+import com.davidm1a2.afraidofthedark.common.capabilities.chunk.ward.WardedBlockMap
+import com.davidm1a2.afraidofthedark.common.capabilities.chunk.ward.WardedBlockMapStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.IAOTDPlayerBasics
@@ -81,6 +84,10 @@ class CapabilityRegister {
                 IWorldStructureMapper::class.java,
                 WorldStructureMapperStorage()
             ) { WorldStructureMapper() }
+            CapabilityManager.INSTANCE.register(
+                IWardedBlockMap::class.java,
+                WardedBlockMapStorage()
+            ) { WardedBlockMap() }
         }
     }
 }

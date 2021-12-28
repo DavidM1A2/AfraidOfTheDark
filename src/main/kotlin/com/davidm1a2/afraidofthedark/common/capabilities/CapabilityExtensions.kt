@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.capabilities
 
+import com.davidm1a2.afraidofthedark.common.capabilities.chunk.ward.IWardedBlockMap
 import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.IAOTDPlayerBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.IPlayerNightmareData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.IPlayerVoidChestData
@@ -14,6 +15,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.world.World
+import net.minecraft.world.chunk.Chunk
 
 // Extension functions to access these player capabilities more easily
 
@@ -105,5 +107,11 @@ fun World.getIslandVisitors(): IWorldIslandVisitors {
 fun World.getStructureMapper(): IWorldStructureMapper {
     return this.getCapability(ModCapabilities.WORLD_STRUCTURE_MAPPER).orElseThrow {
         IllegalStateException("Could not get world's structure mapper data")
+    }
+}
+
+fun Chunk.getWardedBlockMap(): IWardedBlockMap {
+    return this.getCapability(ModCapabilities.WARDED_BLOCK_MAP).orElseThrow {
+        IllegalStateException("Could not get chunk's warded block map")
     }
 }

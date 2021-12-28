@@ -6,6 +6,7 @@ import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.util.RegistryKey
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
+import net.minecraft.world.chunk.Chunk
 import net.minecraftforge.fml.network.NetworkRegistry
 import net.minecraftforge.fml.network.PacketDistributor
 
@@ -114,6 +115,16 @@ class PacketHandler {
      */
     fun <C> sendToDimension(packet: C, dimensionType: RegistryKey<World>) {
         sendRaw(packet, PacketDistributor.DIMENSION.with { dimensionType })
+    }
+
+    /**
+     * Sends the given packet to every player who has loaded a given chunk.
+     *
+     * @param packet the packet to send.
+     * @param chunk  the chunk to send the packet to.
+     */
+    fun <C> sendToChunk(packet: C, chunk: Chunk) {
+        sendRaw(packet, PacketDistributor.TRACKING_CHUNK.with { chunk })
     }
 
     /**
