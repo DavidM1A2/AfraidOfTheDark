@@ -1,14 +1,19 @@
 package com.davidm1a2.afraidofthedark.common.event
 
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getWardedBlockMap
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.WardSpellEffect
 import net.minecraft.block.Blocks
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.MathHelper
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.chunk.ChunkPrimerWrapper
@@ -29,11 +34,16 @@ class SpellWardHandler {
     // Events related to break speed
 
     @SubscribeEvent
-    fun onBreakSpeed(event: PlayerEvent.BreakSpeed) {
-        val strength = getWardStrength(event.entity.level, event.pos)
+    fun onBreakSpeedEvent(event: PlayerEvent.BreakSpeed) {
+        val blockPos = event.pos
+        val strength = getWardStrength(event.entity.level, blockPos)
+        val world = event.entity.level
         if (strength != null) {
             val speedMultiplier = 1f - strength / WardSpellEffect.MAX_STRENGTH.toFloat()
             event.newSpeed = event.originalSpeed * MathHelper.lerp(speedMultiplier, LOWEST_MINING_SPEED, 1.0f)
+            if (!world.isClientSide && event.entity.tickCount % 20 == 0) {
+                spawnWardParticle(world, blockPos, Direction.values().toList())
+            }
         }
     }
 
@@ -49,6 +59,7 @@ class SpellWardHandler {
             if (wardStrength != null) {
                 wardedBlockMap.wardBlock(blockPos, null)
                 wardedBlockMap.sync(world, chunkPos, blockPos = blockPos)
+                spawnWardParticle(world, blockPos, Direction.values().toList())
             }
         }
     }
@@ -61,17 +72,26 @@ class SpellWardHandler {
 
             // Check if the piston arm is warded
             if (event.pistonMoveType == PistonEvent.PistonMoveType.RETRACT) {
-                val wardStrength = getWardStrength(world, blockPos.relative(event.direction, 1))
+                val armPos = blockPos.relative(event.direction, 1)
+                val wardStrength = getWardStrength(world, armPos)
                 if (wardStrength != null && wardStrength > 0) {
                     event.isCanceled = true
+                    spawnWardParticle(world, armPos, Direction.values().toList())
                     return
                 }
-            }
-
-            // Retracting a normal piston is fine if the arm isn't warded
-            val isStickyPiston = world.getBlockState(blockPos).block == Blocks.STICKY_PISTON
-            if (!isStickyPiston && event.pistonMoveType == PistonEvent.PistonMoveType.RETRACT) {
-                return
+                val isStickyPiston = world.getBlockState(blockPos).block == Blocks.STICKY_PISTON
+                // Retracting a normal piston is fine if the arm isn't warded
+                if (isStickyPiston) {
+                    val blockPosToPull = blockPos.relative(event.direction, 2)
+                    val blockToPullStrength = getWardStrength(world, blockPosToPull)
+                    if (blockToPullStrength != null && blockToPullStrength > 0) {
+                        event.isCanceled = true
+                        spawnWardParticle(world, blockPosToPull, Direction.values().toList())
+                        return
+                    }
+                } else {
+                    return
+                }
             }
 
             val pistonHelper = event.structureHelper
@@ -85,6 +105,7 @@ class SpellWardHandler {
                 // Block is warded, so cancel the piston movement
                 if (wardStrength != null && wardStrength > 0) {
                     event.isCanceled = true
+                    spawnWardParticle(world, blockToChange, Direction.values().toList())
                     return
                 }
             }
@@ -104,6 +125,7 @@ class SpellWardHandler {
                 if (wardedBlockMap.getWardStrength(blockPos) != null) {
                     wardedBlockMap.wardBlock(blockPos, null)
                     wardedBlockMap.sync(world, chunkPos, blockPos = blockPos)
+                    spawnWardParticle(world, blockPos, Direction.values().toList())
                 }
             }
         }
@@ -119,7 +141,11 @@ class SpellWardHandler {
                 if (wardStrength == null) {
                     false
                 } else {
-                    Random.nextDouble() <= (wardStrength.toDouble() / WardSpellEffect.MAX_STRENGTH)
+                    val didNotExplode = Random.nextDouble() <= (wardStrength.toDouble() / WardSpellEffect.MAX_STRENGTH)
+                    if (didNotExplode) {
+                        spawnWardParticle(world, it, Direction.values().toList())
+                    }
+                    didNotExplode
                 }
             }
         }
@@ -129,6 +155,25 @@ class SpellWardHandler {
         val chunk = world.getChunk(blockPos.x shr 4, blockPos.z shr 4)
         val wardedBlockMap = chunk.getWardedBlockMap()
         return wardedBlockMap.getWardStrength(blockPos)
+    }
+
+    private fun spawnWardParticle(world: World, blockPos: BlockPos, directions: List<Direction> = Direction.values().toList()) {
+        val positions = directions.map {
+            val offset = it.step().apply { mul(0.505f) }
+            Vector3d(blockPos.x + 0.5, blockPos.y + 0.5, blockPos.z + 0.5)
+                .add(offset.x().toDouble(), offset.y().toDouble(), offset.z().toDouble())
+        }
+        val speeds = directions.map {
+            Vector3d(it.ordinal.toDouble(), 0.0, 0.0)
+        }
+        AfraidOfTheDark.packetHandler.sendToAllAround(
+            ParticlePacket(ModParticles.WARD, positions, speeds),
+            world.dimension(),
+            blockPos.x + 0.5,
+            blockPos.y + 0.5,
+            blockPos.z + 0.5,
+            50.0
+        )
     }
 
     // Events related to ward server <-> client synchronization
@@ -194,7 +239,7 @@ class SpellWardHandler {
     )
 
     companion object {
-        private const val LOWEST_MINING_SPEED = 0.01f
+        private const val LOWEST_MINING_SPEED = 0.005f
         private const val TICKS_PER_WARD_SYNC_ATTEMPT = 60
     }
 }
