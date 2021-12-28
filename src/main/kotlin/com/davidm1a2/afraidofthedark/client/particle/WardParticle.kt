@@ -59,7 +59,6 @@ class WardParticle(
         )
 
         val quadSize = getQuadSize(partialTicks)
-        println(quadSize)
         for (i in 0..3) {
             val position = positions[i]
             position.transform(quaternion)

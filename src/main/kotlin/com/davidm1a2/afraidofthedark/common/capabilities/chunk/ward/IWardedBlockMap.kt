@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.chunk.ward
 
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.helper.WardStrength
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
@@ -17,7 +18,7 @@ interface IWardedBlockMap {
      * @param blockPos The block position to get the ward strength for
      * @return The ward strength, or null if the block isn't warded
      */
-    fun getWardStrength(blockPos: BlockPos): Byte?
+    fun getWardStrength(blockPos: BlockPos): WardStrength?
 
     /**
      * Wards a given block with a given strength, or clears the ward if strength is null
@@ -25,7 +26,7 @@ interface IWardedBlockMap {
      * @param blockPos The block position to ward
      * @param strength The strength to ward the position at, or null to clear it
      */
-    fun wardBlock(blockPos: BlockPos, strength: Byte? = null)
+    fun wardBlock(blockPos: BlockPos, strength: WardStrength? = null)
 
     /**
      * Syncs a given warded block with the client. Can also sync all warded blocks if null is specified

@@ -5,14 +5,13 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getWardedBlockMap
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
-import com.davidm1a2.afraidofthedark.common.spell.component.effect.WardSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.helper.WardStrength
 import net.minecraft.block.Blocks
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
-import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 import net.minecraft.world.chunk.Chunk
@@ -36,11 +35,10 @@ class SpellWardHandler {
     @SubscribeEvent
     fun onBreakSpeedEvent(event: PlayerEvent.BreakSpeed) {
         val blockPos = event.pos
-        val strength = getWardStrength(event.entity.level, blockPos)
+        val speedReductionPercent = getWardStrength(event.entity.level, blockPos)?.miningSpeedReductionPercent
         val world = event.entity.level
-        if (strength != null) {
-            val speedMultiplier = 1f - strength / WardSpellEffect.MAX_STRENGTH.toFloat()
-            event.newSpeed = event.originalSpeed * MathHelper.lerp(speedMultiplier, LOWEST_MINING_SPEED, 1.0f)
+        if (speedReductionPercent != null) {
+            event.newSpeed = event.originalSpeed * (1f - speedReductionPercent)
             if (!world.isClientSide && event.entity.tickCount % 24 == 0) {
                 spawnWardParticle(world, blockPos, Direction.values().toList())
             }
@@ -74,7 +72,7 @@ class SpellWardHandler {
             if (event.pistonMoveType == PistonEvent.PistonMoveType.RETRACT) {
                 val armPos = blockPos.relative(event.direction, 1)
                 val wardStrength = getWardStrength(world, armPos)
-                if (wardStrength != null && wardStrength > 0) {
+                if (wardStrength != null) {
                     event.isCanceled = true
                     spawnWardParticle(world, armPos, Direction.values().toList())
                     return
@@ -84,7 +82,7 @@ class SpellWardHandler {
                 if (isStickyPiston) {
                     val blockPosToPull = blockPos.relative(event.direction, 2)
                     val blockToPullStrength = getWardStrength(world, blockPosToPull)
-                    if (blockToPullStrength != null && blockToPullStrength > 0) {
+                    if (blockToPullStrength != null) {
                         event.isCanceled = true
                         spawnWardParticle(world, blockPosToPull, Direction.values().toList())
                         return
@@ -103,7 +101,7 @@ class SpellWardHandler {
             for (blockToChange in blocksToChange) {
                 val wardStrength = getWardStrength(world, blockToChange)
                 // Block is warded, so cancel the piston movement
-                if (wardStrength != null && wardStrength > 0) {
+                if (wardStrength != null) {
                     event.isCanceled = true
                     spawnWardParticle(world, blockToChange, Direction.values().toList())
                     return
@@ -141,7 +139,7 @@ class SpellWardHandler {
                 if (wardStrength == null) {
                     false
                 } else {
-                    val didNotExplode = Random.nextDouble() <= (wardStrength.toDouble() / WardSpellEffect.MAX_STRENGTH)
+                    val didNotExplode = Random.nextDouble() <= (1f - wardStrength.explodeChance)
                     if (didNotExplode) {
                         spawnWardParticle(world, it, Direction.values().toList())
                     }
@@ -151,7 +149,7 @@ class SpellWardHandler {
         }
     }
 
-    private fun getWardStrength(world: World, blockPos: BlockPos): Byte? {
+    private fun getWardStrength(world: World, blockPos: BlockPos): WardStrength? {
         val chunk = world.getChunk(blockPos.x shr 4, blockPos.z shr 4)
         val wardedBlockMap = chunk.getWardedBlockMap()
         return wardedBlockMap.getWardStrength(blockPos)
