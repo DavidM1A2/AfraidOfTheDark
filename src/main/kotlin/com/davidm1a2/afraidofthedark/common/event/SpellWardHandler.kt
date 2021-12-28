@@ -17,9 +17,11 @@ import net.minecraftforge.event.TickEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.event.world.BlockEvent
 import net.minecraftforge.event.world.ChunkWatchEvent
+import net.minecraftforge.event.world.ExplosionEvent
 import net.minecraftforge.event.world.PistonEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.LogicalSide
+import kotlin.random.Random
 
 class SpellWardHandler {
     private val chunksToSync = mutableMapOf<PlayerEntity, DelayedWardSyncEntry>()
@@ -102,6 +104,22 @@ class SpellWardHandler {
                 if (wardedBlockMap.getWardStrength(blockPos) != null) {
                     wardedBlockMap.wardBlock(blockPos, null)
                     wardedBlockMap.sync(world, chunkPos, blockPos = blockPos)
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    fun onExplosionEvent(event: ExplosionEvent.Detonate) {
+        val world = event.world
+        if (!world.isClientSide) {
+            val blocks = event.affectedBlocks
+            blocks.removeIf {
+                val wardStrength = getWardStrength(world, it)
+                if (wardStrength == null) {
+                    false
+                } else {
+                    Random.nextDouble() <= (wardStrength.toDouble() / WardSpellEffect.MAX_STRENGTH)
                 }
             }
         }
