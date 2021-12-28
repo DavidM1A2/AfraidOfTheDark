@@ -50,8 +50,8 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         // Create a button to edit the spell
         val btnEdit =
             ButtonPane(
-                icon = ImagePane("afraidofthedark:textures/gui/spell_list/spell_edit.png"),
-                iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/spell_edit_hovered.png"),
+                icon = ImagePane("afraidofthedark:textures/gui/spell_list/edit_button.png"),
+                iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/edit_button_hovered.png"),
                 prefSize = Dimensions(0.145, 0.35),
                 offset = Position(0.82, 0.52)
             )
@@ -68,8 +68,8 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
 
         // Create a button to delete a spell
         val btnDelete = ButtonPane(
-            icon = ImagePane("afraidofthedark:textures/gui/spell_list/spell_delete.png"),
-            iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/spell_delete_hovered.png"),
+            icon = ImagePane("afraidofthedark:textures/gui/spell_list/delete_button.png"),
+            iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/delete_button_hovered.png"),
             prefSize = Dimensions(0.145, 0.35),
             offset = Position(0.035, 0.52)
         )

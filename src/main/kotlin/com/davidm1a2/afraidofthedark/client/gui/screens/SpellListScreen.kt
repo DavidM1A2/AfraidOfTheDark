@@ -82,8 +82,8 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
 
         // Add a button to create a new spell, center it under the scrollPanel spell entries
         btnCreateSpell = ButtonPane(
-            icon = ImagePane("afraidofthedark:textures/gui/spell_list/create_spell.png"),
-            iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/create_spell_hovered.png"),
+            icon = ImagePane("afraidofthedark:textures/gui/spell_list/add_button.png"),
+            iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/add_button_hovered.png"),
             prefSize = Dimensions(0.2, 0.15)
         )
         btnCreateSpell.margins = Spacing(0.01, 0.1, 0.0, 0.0)
