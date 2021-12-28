@@ -57,7 +57,6 @@ class SpellWardHandler {
             if (wardStrength != null) {
                 wardedBlockMap.wardBlock(blockPos, null)
                 wardedBlockMap.sync(world, chunkPos, blockPos = blockPos)
-                spawnWardParticle(world, blockPos, Direction.values().toList())
             }
         }
     }
