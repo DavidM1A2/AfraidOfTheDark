@@ -41,7 +41,7 @@ class SpellWardHandler {
         if (strength != null) {
             val speedMultiplier = 1f - strength / WardSpellEffect.MAX_STRENGTH.toFloat()
             event.newSpeed = event.originalSpeed * MathHelper.lerp(speedMultiplier, LOWEST_MINING_SPEED, 1.0f)
-            if (!world.isClientSide && event.entity.tickCount % 20 == 0) {
+            if (!world.isClientSide && event.entity.tickCount % 24 == 0) {
                 spawnWardParticle(world, blockPos, Direction.values().toList())
             }
         }

@@ -21,9 +21,10 @@ class WardParticle(
     z: Double
 ) : AOTDParticle(world, x, y, z) {
     init {
-        // 1 second lifespan
-        lifetime = 20
+        // 1.25 second lifespan
+        lifetime = 25
         scale(0.5f)
+        quadSize = 0.5f
         // No motion
         xd = 0.0
         yd = 0.0
@@ -58,6 +59,7 @@ class WardParticle(
         )
 
         val quadSize = getQuadSize(partialTicks)
+        println(quadSize)
         for (i in 0..3) {
             val position = positions[i]
             position.transform(quaternion)
