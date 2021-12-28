@@ -39,16 +39,17 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
 
         // Create the scroll bar
         val scrollBar = VScrollBar(
-            Dimensions(0.1, 1.0),
+            Dimensions(0.2, 1.0),
             "afraidofthedark:textures/gui/spell_list/scroll_bar.png",
             "afraidofthedark:textures/gui/spell_list/scroll_bar_handle.png",
             "afraidofthedark:textures/gui/spell_list/scroll_bar_handle_hovered.png"
         )
+        scrollBar.margins = Spacing(0.0, 0.0, 0.5, 0.0)
 
         // Create the scroll panel to add spells to, position it centered on the background image
         scrollPanel = ListPane(ListPane.ExpandDirection.DOWN, scrollBar)
         scrollPanel.gravity = Gravity.CENTER
-        scrollPanel.prefSize = Dimensions(0.8, 0.8)
+        scrollPanel.prefSize = Dimensions(0.9, 0.9)
         // Add the panel the the background and the scroll bar
         mainGui.add(scrollPanel)
 
@@ -84,9 +85,9 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         btnCreateSpell = ButtonPane(
             icon = ImagePane("afraidofthedark:textures/gui/spell_list/add_button.png"),
             iconHovered = ImagePane("afraidofthedark:textures/gui/spell_list/add_button_hovered.png"),
-            prefSize = Dimensions(0.2, 0.15)
+            prefSize = Dimensions(0.12, 0.1)
         )
-        btnCreateSpell.margins = Spacing(0.01, 0.1, 0.0, 0.0)
+        btnCreateSpell.margins = Spacing(0.1, 0.1, 0.0, 0.0)
         btnCreateSpell.setHoverText("Create a new spell")
         btnCreateSpell.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click) {
@@ -129,6 +130,7 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
                 guiSpell.refreshLabels()
             }
         }
+        guiSpell.margins = Spacing(0.1, 0.1, 0.0, 0.0)
         // Add the gui spell to the panel
         scrollPanel.remove(btnCreateSpell)
         scrollPanel.add(guiSpell)
