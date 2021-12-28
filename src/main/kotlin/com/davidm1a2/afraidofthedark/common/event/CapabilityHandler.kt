@@ -15,6 +15,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
+import net.minecraft.world.chunk.Chunk
 import net.minecraftforge.event.AttachCapabilitiesEvent
 import net.minecraftforge.event.entity.EntityJoinWorldEvent
 import net.minecraftforge.event.entity.player.PlayerEvent.Clone
@@ -24,6 +25,19 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
  * Class used to register all of our mod capabilities
  */
 class CapabilityHandler {
+    /**
+     * When we get an attach capabilities event we attach our chunk capabilities
+     *
+     * @param event The attach event that we will add to
+     */
+    @SubscribeEvent
+    fun onAttachCapabilitiesChunk(event: AttachCapabilitiesEvent<Chunk>) {
+        event.addCapability(
+            ResourceLocation(Constants.MOD_ID, "warded_block_map"),
+            CapabilityProvider(ModCapabilities.WARDED_BLOCK_MAP)
+        )
+    }
+
     /**
      * When we get an attach capabilities event we attach our world capabilities
      *

@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
+import com.davidm1a2.afraidofthedark.common.capabilities.chunk.ward.IWardedBlockMap
 import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.IAOTDPlayerBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.IPlayerNightmareData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.IPlayerVoidChestData
@@ -66,4 +67,9 @@ object ModCapabilities {
     @JvmStatic
     @CapabilityInject(IWorldStructureMapper::class)
     lateinit var WORLD_STRUCTURE_MAPPER: Capability<IWorldStructureMapper>
+
+    // Capability that a chunk gets containing the chunk's warded block map
+    @JvmStatic
+    @CapabilityInject(IWardedBlockMap::class)
+    lateinit var WARDED_BLOCK_MAP: Capability<IWardedBlockMap>
 }

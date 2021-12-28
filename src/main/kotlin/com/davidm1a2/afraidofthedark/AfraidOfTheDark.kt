@@ -16,6 +16,7 @@ import com.davidm1a2.afraidofthedark.common.event.ResearchTriggerHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellCharmHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellFreezeHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellStateHandler
+import com.davidm1a2.afraidofthedark.common.event.SpellWardHandler
 import com.davidm1a2.afraidofthedark.common.event.TeleportQueue
 import com.davidm1a2.afraidofthedark.common.event.VitaeLanternHandler
 import com.davidm1a2.afraidofthedark.common.event.VoidChestHandler
@@ -86,6 +87,7 @@ class AfraidOfTheDark {
         forgeBus.register(researchTriggerHandler)
         forgeBus.register(StructureGenerationRegister())
         forgeBus.register(PlayerBiomeEventHandler())
+        forgeBus.register(SpellWardHandler())
 
         modBus.register(RegistryRegister())
         modBus.register(BlockRegister())

@@ -18,6 +18,8 @@ import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellPack
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.StartAOTDPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.StartAOTDPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.WardBlocksPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.WardBlocksPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.other.CheatSheetUnlockPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.other.CheatSheetUnlockPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.other.CooldownSyncPacket
@@ -67,6 +69,7 @@ class PacketRegister(private val researchOverlayHandler: ResearchOverlayHandler)
             packetHandler.registerPacket(SelectedWristCrossbowBoltPacket::class.java, SelectedWristCrossbowBoltPacketProcessor())
             packetHandler.registerPacket(SpellKeyPressPacket::class.java, SpellKeyPressPacketProcessor())
             packetHandler.registerPacket(CheatSheetUnlockPacket::class.java, CheatSheetUnlockPacketProcessor())
+            packetHandler.registerPacket(WardBlocksPacket::class.java, WardBlocksPacketProcessor())
         }
     }
 }

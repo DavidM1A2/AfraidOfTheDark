@@ -1,14 +1,15 @@
 package com.davidm1a2.afraidofthedark.common.item
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getWardedBlockMap
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
-import com.davidm1a2.afraidofthedark.common.tileEntity.MagicCrystalTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.text.StringTextComponent
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
@@ -26,8 +27,11 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
     override fun use(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
         if (worldIn.isClientSide) {
         } else {
-            val te = worldIn.getBlockEntity(playerIn.blockPosition().relative(playerIn.direction)) as? MagicCrystalTileEntity
-            te?.consumeVitae(500.0)
+            val pos = playerIn.blockPosition().below()
+            val chunk = worldIn.getChunk(pos.x shr 4, pos.z shr 4)
+            val map = chunk.getWardedBlockMap()
+            map.wardBlock(pos)
+            map.sync(worldIn, ChunkPos(pos.x shr 4, pos.z shr 4), blockPos = pos)
         }
         return super.use(worldIn, playerIn, handIn)
     }
