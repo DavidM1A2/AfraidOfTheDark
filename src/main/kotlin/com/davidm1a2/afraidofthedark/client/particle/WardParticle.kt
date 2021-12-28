@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.ActiveRenderInfo
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
 import net.minecraft.util.Direction
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.vector.Quaternion
 import net.minecraft.util.math.vector.Vector3f
@@ -29,6 +30,13 @@ class WardParticle(
         xd = 0.0
         yd = 0.0
         zd = 0.0
+    }
+
+    override fun tick() {
+        super.tick()
+        if (level.getBlockState(BlockPos(x, y, z).relative(direction.opposite)).isAir) {
+            remove()
+        }
     }
 
     override fun render(vertexBuilder: IVertexBuilder, activeRenderInfo: ActiveRenderInfo, partialTicks: Float) {
