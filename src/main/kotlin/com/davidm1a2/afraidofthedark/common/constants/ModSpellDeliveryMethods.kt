@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.AOESpellDeliveryMethod
+import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.ChainSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.DelaySpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.LaserSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.ProjectileSpellDeliveryMethod
@@ -17,6 +18,7 @@ object ModSpellDeliveryMethods {
     val LASER = LaserSpellDeliveryMethod()
     val DELAY = DelaySpellDeliveryMethod()
     val ROTATE = RotateSpellDeliveryMethod()
+    val CHAIN = ChainSpellDeliveryMethod()
 
     // An array containing a list of spell delivery methods that AOTD adds
     val SPELL_DELIVERY_METHODS = arrayOf(
@@ -25,6 +27,7 @@ object ModSpellDeliveryMethods {
         AOE,
         LASER,
         DELAY,
-        ROTATE
+        ROTATE,
+        CHAIN
     )
 }

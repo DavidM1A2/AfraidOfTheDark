@@ -20,7 +20,8 @@
       "afraidofthedark:creative"
     ],
     "delivery_methods": [
-      "afraidofthedark:delay"
+      "afraidofthedark:delay",
+      "afraidofthedark:chain"
     ],
     "effects": [
       "afraidofthedark:speed",
