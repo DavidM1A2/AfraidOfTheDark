@@ -39,7 +39,6 @@ class CleanseSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "c
 
                 val charmData = entity.getSpellCharmData()
                 charmData.charmTicks = 0
-                freezeData.sync(entity)
             }
 
             if (reducedParticles) {

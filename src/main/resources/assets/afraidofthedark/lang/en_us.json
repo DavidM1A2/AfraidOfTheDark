@@ -478,8 +478,6 @@
   "delivery_method.afraidofthedark.aoe.description": "Applies the effects in a sphere around the block or entity hit by the previous spell stage.",
   "delivery_method.afraidofthedark.aoe.radius.name": "Radius",
   "delivery_method.afraidofthedark.aoe.radius.description": "The area of effect radius in blocks.",
-  "delivery_method.afraidofthedark.aoe.target_type.name": "Target Type",
-  "delivery_method.afraidofthedark.aoe.target_type.description": "Should be either 'entity' or 'block'. If the target type is 'block' all nearby blocks will be affected, if it is 'entity' all nearby entities will be affected.",
   "delivery_method.afraidofthedark.laser.name": "Laser",
   "delivery_method.afraidofthedark.laser.description": "Shoots a laser beam that applies the effects to block or entity hit.",
   "delivery_method.afraidofthedark.laser.range.name": "Range",
