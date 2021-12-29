@@ -21,6 +21,7 @@ import com.davidm1a2.afraidofthedark.client.particle.SpellLaserParticle
 import com.davidm1a2.afraidofthedark.client.particle.StrengthParticle
 import com.davidm1a2.afraidofthedark.client.particle.VitaeExtractorBurnParticle
 import com.davidm1a2.afraidofthedark.client.particle.VitaeExtractorChargeParticle
+import com.davidm1a2.afraidofthedark.client.particle.WardParticle
 import com.davidm1a2.afraidofthedark.client.particle.WeaknessParticle
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import net.minecraft.client.Minecraft
@@ -70,5 +71,6 @@ class ParticleRegister {
         particleManager.register(ModParticles.WEAKNESS, WeaknessParticle::Factory)
         particleManager.register(ModParticles.VITAE_EXTRACTOR_BURN, VitaeExtractorBurnParticle::Factory)
         particleManager.register(ModParticles.VITAE_EXTRACTOR_CHARGE, VitaeExtractorChargeParticle::Factory)
+        particleManager.register(ModParticles.WARD, WardParticle::Factory)
     }
 }

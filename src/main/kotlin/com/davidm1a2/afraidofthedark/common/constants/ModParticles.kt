@@ -21,6 +21,7 @@ import com.davidm1a2.afraidofthedark.common.particle.SpellLaserParticleType
 import com.davidm1a2.afraidofthedark.common.particle.StrengthParticleType
 import com.davidm1a2.afraidofthedark.common.particle.VitaeExtractorBurnParticleType
 import com.davidm1a2.afraidofthedark.common.particle.VitaeExtractorChargeParticleType
+import com.davidm1a2.afraidofthedark.common.particle.WardParticleType
 import com.davidm1a2.afraidofthedark.common.particle.WeaknessParticleType
 
 object ModParticles {
@@ -46,6 +47,7 @@ object ModParticles {
     val WEAKNESS = WeaknessParticleType()
     val VITAE_EXTRACTOR_BURN = VitaeExtractorBurnParticleType()
     val VITAE_EXTRACTOR_CHARGE = VitaeExtractorChargeParticleType()
+    val WARD = WardParticleType()
 
     val PARTICLE_LIST = arrayOf(
         ENARIAS_ALTAR,
@@ -69,6 +71,7 @@ object ModParticles {
         STRENGTH,
         WEAKNESS,
         VITAE_EXTRACTOR_BURN,
-        VITAE_EXTRACTOR_CHARGE
+        VITAE_EXTRACTOR_CHARGE,
+        WARD
     )
 }

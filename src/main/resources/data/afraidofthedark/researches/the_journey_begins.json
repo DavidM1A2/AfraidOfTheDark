@@ -25,7 +25,8 @@
     "effects": [
       "afraidofthedark:speed",
       "afraidofthedark:push",
-      "afraidofthedark:lightning"
+      "afraidofthedark:lightning",
+      "afraidofthedark:ward"
     ]
   }
 }

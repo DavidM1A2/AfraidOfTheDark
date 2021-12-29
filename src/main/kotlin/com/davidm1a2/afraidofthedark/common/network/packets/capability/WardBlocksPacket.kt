@@ -1,9 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.network.packets.capability
 
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.helper.WardStrength
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 
 class WardBlocksPacket(
     internal val chunkPos: ChunkPos,
-    internal val wardedBlockMap: List<Pair<BlockPos, Byte?>>
+    internal val wardedBlockMap: List<Pair<BlockPos, WardStrength?>>
 )
