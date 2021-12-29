@@ -34,7 +34,8 @@ class WardParticle(
 
     override fun tick() {
         super.tick()
-        if (level.getBlockState(BlockPos(x, y, z).relative(direction.opposite)).isAir) {
+        val blockState = level.getBlockState(BlockPos(x, y, z).relative(direction.opposite))
+        if (blockState.isAir) {
             remove()
         }
     }
