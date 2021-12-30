@@ -223,39 +223,44 @@ class VitaeExtractorTileEntity : AOTDTickingTileEntity(ModTileEntities.VITAE_EXT
         private const val LANTERN_INDEX = 0
         private const val FUEL_INDEX = 1
         private const val MAX_BURN_TICKS = 20 * 10
+
+        private const val SACRED_MANGROVE_VALUE = 10f
+        private const val MANGROVE_VALUE = 0.5f
+        private const val NATURE_VALUE = 0.1f
+
         private val FUEL_ITEM_TO_VITAE_PER_TICK = mapOf(
-            ModBlocks.SACRED_MANGROVE.asItem() to 3f,
-            ModBlocks.SACRED_MANGROVE_LEAVES.asItem() to 3f,
-            ModBlocks.SACRED_MANGROVE_SAPLING.asItem() to 3f,
-            ModBlocks.SACRED_MANGROVE_BUTTON.asItem() to 3f,
-            ModBlocks.SACRED_MANGROVE_DOOR.asItem() to 3f,
-            ModBlocks.SACRED_MANGROVE_FENCE.asItem() to 3f,
-            ModBlocks.SACRED_MANGROVE_FENCE_GATE.asItem() to 3f,
-            ModBlocks.SACRED_MANGROVE_PLANKS.asItem() to 3f,
-            ModBlocks.SACRED_MANGROVE_SLAB.asItem() to 3f,
-            ModBlocks.SACRED_MANGROVE_STAIRS.asItem() to 3f,
-            ModBlocks.MANGROVE.asItem() to 0.1f,
-            ModBlocks.MANGROVE_LEAVES.asItem() to 0.1f,
-            ModBlocks.MANGROVE_SAPLING.asItem() to 0.1f,
-            ModBlocks.MANGROVE_BUTTON.asItem() to 0.1f,
-            ModBlocks.MANGROVE_DOOR.asItem() to 0.1f,
-            ModBlocks.MANGROVE_FENCE.asItem() to 0.1f,
-            ModBlocks.MANGROVE_FENCE_GATE.asItem() to 0.1f,
-            ModBlocks.MANGROVE_PLANKS.asItem() to 0.1f,
-            ModBlocks.MANGROVE_SLAB.asItem() to 0.1f,
-            ModBlocks.MANGROVE_STAIRS.asItem() to 0.1f
+            ModBlocks.SACRED_MANGROVE.asItem() to SACRED_MANGROVE_VALUE * 4f,
+            ModBlocks.SACRED_MANGROVE_LEAVES.asItem() to SACRED_MANGROVE_VALUE * 0.5f,
+            ModBlocks.SACRED_MANGROVE_SAPLING.asItem() to SACRED_MANGROVE_VALUE,
+            ModBlocks.SACRED_MANGROVE_BUTTON.asItem() to SACRED_MANGROVE_VALUE,
+            ModBlocks.SACRED_MANGROVE_DOOR.asItem() to SACRED_MANGROVE_VALUE * 2f,
+            ModBlocks.SACRED_MANGROVE_FENCE.asItem() to SACRED_MANGROVE_VALUE,
+            ModBlocks.SACRED_MANGROVE_FENCE_GATE.asItem() to SACRED_MANGROVE_VALUE * 4f,
+            ModBlocks.SACRED_MANGROVE_PLANKS.asItem() to SACRED_MANGROVE_VALUE,
+            ModBlocks.SACRED_MANGROVE_SLAB.asItem() to SACRED_MANGROVE_VALUE * 0.5f,
+            ModBlocks.SACRED_MANGROVE_STAIRS.asItem() to SACRED_MANGROVE_VALUE,
+            ModBlocks.MANGROVE.asItem() to MANGROVE_VALUE * 4f,
+            ModBlocks.MANGROVE_LEAVES.asItem() to MANGROVE_VALUE * 0.5f,
+            ModBlocks.MANGROVE_SAPLING.asItem() to MANGROVE_VALUE,
+            ModBlocks.MANGROVE_BUTTON.asItem() to MANGROVE_VALUE,
+            ModBlocks.MANGROVE_DOOR.asItem() to MANGROVE_VALUE * 2f,
+            ModBlocks.MANGROVE_FENCE.asItem() to MANGROVE_VALUE,
+            ModBlocks.MANGROVE_FENCE_GATE.asItem() to MANGROVE_VALUE * 4f,
+            ModBlocks.MANGROVE_PLANKS.asItem() to MANGROVE_VALUE,
+            ModBlocks.MANGROVE_SLAB.asItem() to MANGROVE_VALUE * 0.5f,
+            ModBlocks.MANGROVE_STAIRS.asItem() to MANGROVE_VALUE
         )
         private val FUEL_TAG_TO_VITAE_PER_TICK = listOf(
-            BlockTags.LOGS to 0.02f,
-            BlockTags.LEAVES to 0.02f,
-            BlockTags.SAPLINGS to 0.02f,
-            BlockTags.WOODEN_BUTTONS to 0.02f,
-            BlockTags.WOODEN_DOORS to 0.02f,
-            BlockTags.WOODEN_FENCES to 0.02f,
-            BlockTags.FENCE_GATES to 0.02f,
-            BlockTags.PLANKS to 0.02f,
-            BlockTags.WOODEN_SLABS to 0.02f,
-            BlockTags.WOODEN_STAIRS to 0.02f
+            BlockTags.LOGS to NATURE_VALUE * 4f,
+            BlockTags.LEAVES to NATURE_VALUE * 0.5f,
+            BlockTags.SAPLINGS to NATURE_VALUE,
+            BlockTags.WOODEN_BUTTONS to NATURE_VALUE,
+            BlockTags.WOODEN_DOORS to NATURE_VALUE * 2f,
+            BlockTags.WOODEN_FENCES to NATURE_VALUE,
+            BlockTags.FENCE_GATES to NATURE_VALUE * 4f,
+            BlockTags.PLANKS to NATURE_VALUE,
+            BlockTags.WOODEN_SLABS to NATURE_VALUE * 0.5f,
+            BlockTags.WOODEN_STAIRS to NATURE_VALUE
         ).map {
             it.first.values.map(Block::asItem).toSet() to it.second
         }

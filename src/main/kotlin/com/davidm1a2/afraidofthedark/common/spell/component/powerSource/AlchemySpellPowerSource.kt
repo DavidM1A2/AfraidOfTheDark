@@ -50,6 +50,6 @@ class AlchemySpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.
 
     companion object {
         // The number of units each gold ingot
-        private const val UNIT_COST_PER_GOLD = 5.0
+        private const val UNIT_COST_PER_GOLD = 10.0
     }
 }

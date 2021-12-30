@@ -176,7 +176,7 @@ class MagicCrystalTileEntity : AOTDTickingTileEntity(ModTileEntities.MAGIC_CRYST
     companion object {
         private const val BOB_SPEED = 0.1
         private const val SPIN_SPEED = 1.2
-        private const val MAX_VITAE = 10000.0
+        private const val MAX_VITAE = 100000.0
         private val NO_MASTER = MagicCrystalTileEntity()
     }
 }

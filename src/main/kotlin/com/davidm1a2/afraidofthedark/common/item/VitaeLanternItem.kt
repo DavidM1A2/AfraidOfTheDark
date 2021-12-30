@@ -68,7 +68,7 @@ class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IH
 
     private fun getMaxVitae(itemStack: ItemStack): Float {
         // TODO: Make this upgradable?
-        return 300f
+        return 1000f
     }
 
     override fun showDurabilityBar(itemStack: ItemStack?): Boolean {
