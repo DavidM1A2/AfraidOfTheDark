@@ -41,7 +41,6 @@ import com.davidm1a2.afraidofthedark.common.event.register.ResearchRegister
 import com.davidm1a2.afraidofthedark.common.event.register.ResearchTriggerRegister
 import com.davidm1a2.afraidofthedark.common.event.register.SoundRegister
 import com.davidm1a2.afraidofthedark.common.event.register.SpellDeliveryMethodRegister
-import com.davidm1a2.afraidofthedark.common.event.register.SpellEffectOverrideRegister
 import com.davidm1a2.afraidofthedark.common.event.register.SpellEffectRegister
 import com.davidm1a2.afraidofthedark.common.event.register.SpellPowerSourceRegister
 import com.davidm1a2.afraidofthedark.common.event.register.StructureGenerationRegister
@@ -111,7 +110,6 @@ class AfraidOfTheDark {
         modBus.register(EntitySpawnPlacementRegister())
         modBus.register(DataSerializerRegister())
         modBus.register(ChunkGeneratorRegister())
-        modBus.register(SpellEffectOverrideRegister())
         modBus.register(BiomeRegister())
         modBus.register(ResearchTriggerRegister(researchTriggerHandler))
         modBus.register(LootConditionRegister())
