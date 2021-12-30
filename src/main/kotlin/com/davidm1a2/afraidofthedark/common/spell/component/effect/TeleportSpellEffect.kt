@@ -57,12 +57,6 @@ class TeleportSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "
         }
     }
 
-    /**
-     * Gets the cost of the delivery method
-     *
-     * @param instance The instance of the spell effect to grab the cost of
-     * @return The cost of the delivery method
-     */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
         return 15.0
     }

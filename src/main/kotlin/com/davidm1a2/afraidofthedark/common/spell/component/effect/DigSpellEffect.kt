@@ -20,14 +20,14 @@ import kotlin.random.Random
 /**
  * Dig effect digs a block
  */
-class DigSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "dig"), ModResearches.SPELLMASON, 0, 0) {
+class DigSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "dig"), ModResearches.SPELLMASON, 0, 5) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("speed"))
                 .withSetter(this::setSpeed)
                 .withGetter(this::getSpeed)
-                .withDefaultValue(0)
+                .withDefaultValue(1)
                 .withMinValue(-10)
                 .withMaxValue(10)
                 .build()
@@ -50,7 +50,7 @@ class DigSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID
             val speed = getSpeed(instance)
             if (speed != 0) {
                 val effectType = if (speed >= 0) Effects.DIG_SPEED else Effects.DIG_SLOWDOWN
-                val effect = EffectInstance(effectType, getDuration(instance), abs(speed) - 1)
+                val effect = EffectInstance(effectType, getDuration(instance) * 20, abs(speed) - 1)
                 entity.addEffect(effect)
             }
         } else {
@@ -79,15 +79,15 @@ class DigSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID
         return blockState.getDestroySpeed(world, blockPos) != -1f
     }
 
-    /**
-     * Gets the cost of the effect given the state of the effect
-     *
-     * @param instance The instance of the spell effect to grab the cost of
-     * @return The cost of dig is 14
-     */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
         val speed = getSpeed(instance)
-        return 1.0 + if (speed != 0) abs(speed) * 1.5 + getDuration(instance) * 0.05 else 0.0
+        // Digging a block costs 1
+        val baseCost = 1.0
+        // Each second of duration costs 0.25, but the first 5 seconds are free
+        val durationCost = ((getDuration(instance) - 5) * 0.25).coerceAtLeast(0.0)
+        // Each level of speed costs 0.5 per second
+        val speedCost = abs(speed) * 0.5
+        return baseCost + speedCost * durationCost
     }
 
     fun setSpeed(instance: SpellComponentInstance<*>, amount: Int) {

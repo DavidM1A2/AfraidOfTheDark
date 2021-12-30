@@ -14,7 +14,7 @@ import net.minecraft.potion.Effects
 import net.minecraft.util.ResourceLocation
 import kotlin.math.abs
 
-class SpeedSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "speed"), null, 1, 20) {
+class SpeedSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "speed"), null, 1, 10) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
@@ -33,9 +33,10 @@ class SpeedSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_
         val entityHit = state.entity
 
         val multiplier = getMultiplier(instance)
+        val duration = getDuration(instance) * 20
         val effectType = if (multiplier >= 0) Effects.MOVEMENT_SPEED else Effects.MOVEMENT_SLOWDOWN
         val effectAmplifier = if (multiplier == 0) 0 else abs(multiplier) - 1
-        val effect = EffectInstance(effectType, getDuration(instance), effectAmplifier)
+        val effect = EffectInstance(effectType, duration, effectAmplifier)
 
         if (entityHit is LivingEntity) {
             createParticlesAt(1, 3, exactPosition, entityHit.level.dimension(), ModParticles.SPELL_HIT)
@@ -46,14 +47,18 @@ class SpeedSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_
             aoePotion.addEffect(effect)
             aoePotion.owner = state.casterEntity as? LivingEntity
             aoePotion.setRadiusPerTick(0f)
-            aoePotion.duration = getDuration(instance)
+            aoePotion.duration = duration
             world.addFreshEntity(aoePotion)
             createParticlesAt(2, 6, exactPosition, world.dimension(), ModParticles.SPELL_HIT)
         }
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return abs(getMultiplier(instance)) * 4 + getDuration(instance) * 0.1
+        // Each second of speed costs 0.2
+        val durationCost = getDuration(instance) * 0.2
+        // Each level of speed costs 1.0 per second
+        val speedCost = abs(getMultiplier(instance)) * 1.0
+        return speedCost * durationCost
     }
 
     fun setMultiplier(instance: SpellComponentInstance<*>, amount: Int) {

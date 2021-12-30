@@ -22,7 +22,7 @@ import net.minecraft.world.World
  *
  * @constructor initializes properties
  */
-class FreezeSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "freeze"), ModResearches.ELEMENTAL_MAGIC, 1, 20, 1200) {
+class FreezeSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "freeze"), ModResearches.ELEMENTAL_MAGIC, 1, 2, 60) {
     /**
      * Performs the effect
      *
@@ -40,19 +40,19 @@ class FreezeSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD
                 // If we hit a player, freeze their position and direction
                 if (entity is PlayerEntity) {
                     val freezeData = entity.getSpellFreezeData()
-                    freezeData.freezeTicks = getDuration(instance)
+                    freezeData.freezeTicks = getDuration(instance) * 20
                     freezeData.freezePosition = Vector3d(entity.x, entity.y, entity.z)
                     freezeData.freezeYaw = entity.yRot
                     freezeData.freezePitch = entity.xRot
                 } else {
-                    entity.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, getDuration(instance), 99))
+                    entity.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, getDuration(instance) * 20, 99))
                 }
                 createParticlesAround(5, 10, entity.position(), entity.level.dimension(), ModParticles.FREEZE, 1.0)
             }
         } else {
             val hitBlock = world.getBlockState(blockPos)
             if (hitBlock.block == Blocks.WATER || hitBlock.isAir) {
-                world.setBlockAndUpdate(blockPos, Blocks.ICE.defaultBlockState())
+                world.setBlockAndUpdate(blockPos, Blocks.PACKED_ICE.defaultBlockState())
                 createParticlesAround(5, 10, state.position, world.dimension(), ModParticles.FREEZE, 1.0)
             }
         }
@@ -65,7 +65,10 @@ class FreezeSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        val freezeDuration = getDuration(instance) / 20.0
-        return 25.0 + freezeDuration * freezeDuration * 5.0
+        // Freezing a block costs 3
+        val baseCost = 3.0
+        // Each second of duration costs 7.0, but the first 2 seconds are free
+        val durationCost = ((getDuration(instance) - 2) * 7.0).coerceAtLeast(0.0)
+        return baseCost + durationCost
     }
 }

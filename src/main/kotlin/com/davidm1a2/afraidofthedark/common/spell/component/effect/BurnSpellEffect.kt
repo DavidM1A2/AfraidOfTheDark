@@ -43,12 +43,11 @@ class BurnSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_I
         }
     }
 
-    /**
-     * Gets the cost of the delivery method
-     *
-     * @return The cost of the delivery method
-     */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 10.0 + getDuration(instance) * 5.0
+        // 2 vitae to light a block or entity on fire
+        val baseCost = 2.0
+        // If burning an entity, add 1.0 cost per second
+        val durationCost = getDuration(instance) * 1.0
+        return baseCost + durationCost
     }
 }

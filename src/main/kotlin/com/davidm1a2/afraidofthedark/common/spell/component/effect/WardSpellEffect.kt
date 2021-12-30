@@ -15,7 +15,7 @@ import net.minecraft.potion.Effects
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.ChunkPos
 
-class WardSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "ward"), null, 0, 0) {
+class WardSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "ward"), null, 0, 5) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.enumProperty<WardStrength>()
@@ -32,7 +32,7 @@ class WardSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_I
         val world = state.world
         if (entityHit is LivingEntity) {
             createParticlesAt(2, 6, state.position, world.dimension(), ModParticles.SPELL_HIT)
-            entityHit.addEffect(EffectInstance(Effects.DAMAGE_RESISTANCE, getDuration(instance), getStrength(instance).ordinal))
+            entityHit.addEffect(EffectInstance(Effects.DAMAGE_RESISTANCE, getDuration(instance) * 20, getStrength(instance).ordinal))
         }
         if (entityHit == null) {
             val blockPosition = state.blockPosition
@@ -50,7 +50,13 @@ class WardSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_I
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return getStrength(instance).ordinal * 7.0 + getDuration(instance) * 0.1
+        // Base cost is 7 vitae
+        val baseCost = 7.0
+        // 7 cost per strength/second
+        val strengthCost = (getStrength(instance).ordinal + 1) * 7.0
+        // Each second of duration costs 0.5, but the first 5 seconds are free
+        val durationCost = ((getDuration(instance) - 5.0) * 0.5).coerceAtLeast(0.0)
+        return baseCost + strengthCost * durationCost
     }
 
     fun setStrength(instance: SpellComponentInstance<*>, strength: WardStrength) {

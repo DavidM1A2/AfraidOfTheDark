@@ -27,7 +27,7 @@ class SmokeScreenSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
                 .withBaseName(getUnlocalizedPropertyBaseName("density"))
                 .withSetter(this::setDensity)
                 .withGetter(this::getDensity)
-                .withDefaultValue(10)
+                .withDefaultValue(6)
                 .withMinValue(1)
                 .build()
         )
@@ -58,14 +58,11 @@ class SmokeScreenSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
         )
     }
 
-    /**
-     * Gets the cost of the delivery method
-     *
-     * @param instance The instance of the spell effect to grab the cost of
-     * @return The cost of the delivery method
-     */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 10.0 + getDensity(instance) / 5.0
+        // 1 vitae just to use smoke screen
+        val baseCost = 1.0
+        // Each additional smoke particle adds 1.5 vitae
+        return baseCost + getDensity(instance) * 1.5
     }
 
     fun setDensity(instance: SpellComponentInstance<*>, density: Int) {

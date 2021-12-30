@@ -43,7 +43,7 @@ class DisintegrateSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return getStrength(instance) * 2.0
+        return getStrength(instance) * 0.5
     }
 
     fun setStrength(instance: SpellComponentInstance<*>, amount: Float) {

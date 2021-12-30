@@ -25,10 +25,14 @@ class GrowSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "grow
         var position = state.blockPosition
         var blockState = world.getBlockState(position)
 
-        // If we hit a block that crops might be on check the block above and see if we can grow on that instead
+        // If we hit a block that crops might be on check the block above and below and to if we can grow on that instead
         if (blockState.block !is IGrowable) {
             position = position.above()
             blockState = world.getBlockState(position)
+            if (blockState.block !is IGrowable) {
+                position = position.below(2)
+                blockState = world.getBlockState(position)
+            }
         }
 
         // Grob the block at the current position if it's a type 'IGrowable'
@@ -49,6 +53,6 @@ class GrowSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "grow
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 15.0
+        return 3.0
     }
 }

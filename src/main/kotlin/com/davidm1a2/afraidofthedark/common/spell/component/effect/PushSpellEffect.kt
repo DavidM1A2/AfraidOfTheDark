@@ -18,7 +18,7 @@ class PushSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "push
                 .withBaseName(getUnlocalizedPropertyBaseName("strength"))
                 .withSetter(this::setStrength)
                 .withGetter(this::getStrength)
-                .withDefaultValue(2f)
+                .withDefaultValue(8f)
                 .build()
         )
     }
@@ -40,7 +40,7 @@ class PushSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "push
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return getStrength(instance).toDouble()
+        return getStrength(instance) * 0.25
     }
 
     fun setStrength(instance: SpellComponentInstance<*>, amount: Float) {
