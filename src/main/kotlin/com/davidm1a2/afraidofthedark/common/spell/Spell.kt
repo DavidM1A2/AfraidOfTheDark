@@ -181,15 +181,10 @@ class Spell : INBTSerializable<CompoundNBT> {
     fun getCost(): Double {
         var cost = 0.0
 
-        // Keep a multiplier that will make each spell stage more and more expensive
-        var costMultiplier = 1.0
-
-        // Go over each spell stage and add up costs
+        // Go over each spell stage and add up costs. The last stage has no
         for (spellStage in spellStages) {
-            // Add the cost of the stage times the multiplier
-            cost += spellStage.getCost() * costMultiplier
-            // Increase the cost of the next spell stage by 5% by default
-            costMultiplier += 0.05
+            // Add the cost of the stage
+            cost = cost + spellStage.getCost()
         }
 
         // If cost overflowed then set it to max double

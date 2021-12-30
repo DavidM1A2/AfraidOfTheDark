@@ -87,7 +87,7 @@ class DigSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
         val speed = getSpeed(instance)
-        return 10.0 + if (speed != 0) speed * 15 + getDuration(instance) * 0.1 else 0.0
+        return 1.0 + if (speed != 0) abs(speed) * 1.5 + getDuration(instance) * 0.05 else 0.0
     }
 
     fun setSpeed(instance: SpellComponentInstance<*>, amount: Int) {

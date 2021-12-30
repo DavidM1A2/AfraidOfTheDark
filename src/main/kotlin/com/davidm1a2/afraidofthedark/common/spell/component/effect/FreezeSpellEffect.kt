@@ -51,7 +51,7 @@ class FreezeSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD
             }
         } else {
             val hitBlock = world.getBlockState(blockPos)
-            if (hitBlock.block == Blocks.WATER) {
+            if (hitBlock.block == Blocks.WATER || hitBlock.isAir) {
                 world.setBlockAndUpdate(blockPos, Blocks.ICE.defaultBlockState())
                 createParticlesAround(5, 10, state.position, world.dimension(), ModParticles.FREEZE, 1.0)
             }

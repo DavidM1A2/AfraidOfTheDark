@@ -478,6 +478,8 @@
   "delivery_method.afraidofthedark.aoe.description": "Applies the effects in a sphere around the block or entity hit by the previous spell stage.",
   "delivery_method.afraidofthedark.aoe.radius.name": "Radius",
   "delivery_method.afraidofthedark.aoe.radius.description": "The area of effect radius in blocks.",
+  "delivery_method.afraidofthedark.aoe.shell_only.name": "Shell Only",
+  "delivery_method.afraidofthedark.aoe.shell_only.description": "Checked means effects should only be applied at the outer shell of the AOE, and not at the center.",
   "delivery_method.afraidofthedark.chain.name": "Chain",
   "delivery_method.afraidofthedark.chain.description": "Applies the effects to a chain of entities.",
   "delivery_method.afraidofthedark.chain.max_distance.name": "Max Distance",
