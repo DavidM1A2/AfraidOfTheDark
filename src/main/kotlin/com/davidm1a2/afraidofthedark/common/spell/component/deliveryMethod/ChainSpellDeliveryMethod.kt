@@ -132,7 +132,12 @@ class ChainSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        return getMaxHops(instance) + getMaxDistance(instance) * 2.0
+        val baseCost = 5.0
+        // Each hop adds one vitae
+        val hopsCost = getMaxHops(instance)
+        // 2 blocks of distance per vitae
+        val distanceCost = getMaxDistance(instance) * 0.5
+        return baseCost + hopsCost + distanceCost
     }
 
     override fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {

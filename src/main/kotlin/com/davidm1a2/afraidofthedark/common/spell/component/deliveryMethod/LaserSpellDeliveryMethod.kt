@@ -144,7 +144,10 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        return 10 + instance.data.getDouble(NBT_RANGE) / 10.0
+        val baseCost = 15
+        // 50 range per vitae
+        val rangeCost = getRange(instance) * 0.02
+        return baseCost + rangeCost
     }
 
     /**
@@ -153,7 +156,7 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
      * @return The spell stage multiplier for cost
      */
     override fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        return 2.0
+        return 1.0
     }
 
     fun setRange(instance: SpellComponentInstance<*>, range: Double) {

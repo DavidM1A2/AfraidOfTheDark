@@ -11,8 +11,7 @@ import com.davidm1a2.afraidofthedark.common.utility.getNormal
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
-import kotlin.math.floor
-import kotlin.math.sqrt
+import kotlin.math.ceil
 
 /**
  * AOE method delivers the spell to the target in a circle
@@ -51,22 +50,23 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
         val radius = getRadius(deliveryMethod)
         val shellOnly = getShellOnly(deliveryMethod)
 
-        val basePos = BlockPos(state.position)
-        val blockRadius = floor(radius).toInt()
+        val centerPos = state.position
+        val blockRadius = ceil(radius).toInt()
 
         // Go over every block in the radius
         for (x in -blockRadius..blockRadius) {
             for (y in -blockRadius..blockRadius) {
                 for (z in -blockRadius..blockRadius) {
-                    // Grab the blockpos
-                    val aoePos = basePos.offset(x, y, z)
-                    val distance = sqrt(aoePos.distSqr(basePos))
+                    val aoePos = centerPos.add(x.toDouble(), y.toDouble(), z.toDouble())
+                    val distance = aoePos.distanceTo(centerPos)
 
-                    // Test to see if the block is within the radius
-                    if (distance < radius && (!shellOnly || (radius - distance) < 1)) {
-                        // Apply the effect at the position
-                        val position = Vector3d.atCenterOf(aoePos)
-                        val direction = position.subtract(state.position).normalize()
+                    // Test to see if the block is within the radius. If we're in "shellOnly" mode, only take the outer ~1.5 blocks of shell
+                    if (distance < radius && (!shellOnly || (radius - distance) < 1.5)) {
+                        var direction = aoePos.subtract(centerPos).normalize()
+                        // Direction may be 0 if aoePos = centerPos. In this case, move it up
+                        if (direction == Vector3d.ZERO) {
+                            direction = Vector3d(0.0, 1.0, 0.0)
+                        }
                         var normal = direction.getNormal()
                         // Straight up means we can't know our normal. Just use 1, 0, 0
                         if (normal == Vector3d.ZERO) {
@@ -77,8 +77,8 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
                             spell = state.spell,
                             stageIndex = state.stageIndex,
                             world = state.world,
-                            position = position,
-                            blockPosition = aoePos,
+                            position = aoePos,
+                            blockPosition = BlockPos(aoePos),
                             direction = direction,
                             normal = normal,
                             casterEntity = state.casterEntity
@@ -92,9 +92,9 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        val blocksHit = estimateBlocksHit(instance)
-        // 5 is an arbitrary base cost
-        return 5 + blocksHit
+        val baseCost = 5.0
+        val blockHitCost = estimateBlocksHit(instance).coerceAtLeast(1.0)
+        return baseCost + blockHitCost
     }
 
     override fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
@@ -104,10 +104,13 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
     private fun estimateBlocksHit(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         val shellOnly = getShellOnly(instance)
         val radius = getRadius(instance)
+        val volume = 4.0 / 3.0 * Math.PI * radius * radius * radius
         return if (shellOnly) {
-            4.0 * Math.PI * radius * radius
+            val innerVolume = 4.0 / 3.0 * Math.PI * (radius - 1) * (radius - 1) * (radius - 1)
+            // Subtract out the inner volume to just leave the "shell"
+            volume - innerVolume
         } else {
-            4.0 / 3.0 * Math.PI * radius * radius * radius
+            volume
         }
     }
 
