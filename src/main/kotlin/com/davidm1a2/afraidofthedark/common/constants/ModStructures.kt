@@ -7,6 +7,7 @@ import com.davidm1a2.afraidofthedark.common.world.structure.darkforest.DarkFores
 import com.davidm1a2.afraidofthedark.common.world.structure.desertoasis.DesertOasisStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.forbiddencity.ForbiddenCityStairwellClipperStructurePiece
 import com.davidm1a2.afraidofthedark.common.world.structure.forbiddencity.ForbiddenCityStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.magiccrystal.MagicCrystalStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.nightmareisland.NightmareIslandStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.observatory.ObservatoryStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.voidchest.VoidChestStructure
@@ -32,6 +33,7 @@ object ModStructures {
     val FORBIDDEN_CITY = ForbiddenCityStructure()
     val DESERT_OASIS = DesertOasisStructure()
     val ALTAR_RUINS = AltarRuinsStructure()
+    val MAGIC_CRYSTAL = MagicCrystalStructure()
 
     val STRUCTURES = arrayOf(
         CRYPT,
@@ -44,7 +46,8 @@ object ModStructures {
         NIGHTMARE_ISLAND,
         FORBIDDEN_CITY,
         DESERT_OASIS,
-        ALTAR_RUINS
+        ALTAR_RUINS,
+        MAGIC_CRYSTAL
     )
 
     val SCHEMATIC_STRUCTURE_PIECE = IStructurePieceType { _, nbt -> SchematicStructurePiece(nbt) }

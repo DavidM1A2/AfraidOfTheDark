@@ -20,6 +20,7 @@ object ModSchematics {
     val ENARIAS_ALTAR = load("schematics/enarias_altar.schematic")
     val OBSERVATORY = load("schematics/observatory.schematic")
     val ALTAR_RUINS = load("schematics/altar_ruins.schematic")
+    val MAGIC_CRYSTAL = load("schematics/magic_crystal.schematic")
 
     ///
     /// Dark Forest structure related schematics
@@ -166,10 +167,11 @@ object ModSchematics {
         *DESERT_OASIS_SMALL_PLOTS,
         *DESERT_OASIS_MEDIUM_PLOTS,
         DESERT_OASIS,
-        ALTAR_RUINS
+        ALTAR_RUINS,
+        MAGIC_CRYSTAL
     )
 
-    val NAME_TO_SCHEMATIC = LIST.map { it.getName() to it }.toMap()
+    val NAME_TO_SCHEMATIC = LIST.associateBy { it.getName() }
 
     /**
      * Creates a schematic from the file path
