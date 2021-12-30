@@ -1,9 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base
 
 import com.davidm1a2.afraidofthedark.common.research.Research
-import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
-import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
-import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import net.minecraft.util.ResourceLocation
 
 /**
@@ -13,30 +10,4 @@ import net.minecraft.util.ResourceLocation
  * @param id The ID of this delivery method entry
  * @param prerequisiteResearch The research required to use this component, or null if none is required
  */
-abstract class AOTDSpellDeliveryMethod(id: ResourceLocation, prerequisiteResearch: Research? = null) : SpellDeliveryMethod(id, prerequisiteResearch) {
-    /**
-     * Applies a given effect given the spells current state
-     *
-     * @param state  The state of the spell at the current delivery method
-     * @param effect The effect that needs to be applied
-     */
-    override fun defaultEffectProc(state: DeliveryTransitionState, effect: SpellComponentInstance<SpellEffect>) {
-        // The effect is just applied to the target
-        effect.component.procEffect(state, effect)
-    }
-
-    /**
-     * Performs the default transition from this delivery method to the next
-     *
-     * @param state The state of the spell to transition
-     */
-    override fun performDefaultTransition(state: DeliveryTransitionState) {
-        val spell = state.spell
-        val nextStageIndex = state.stageIndex + 1
-        // Perform the transition between the next delivery method and the current delivery method
-        spell.getStage(nextStageIndex)!!
-            .deliveryInstance!!
-            .component
-            .executeDelivery(state.copy(stageIndex = nextStageIndex))
-    }
-}
+abstract class AOTDSpellDeliveryMethod(id: ResourceLocation, prerequisiteResearch: Research? = null) : SpellDeliveryMethod(id, prerequisiteResearch)

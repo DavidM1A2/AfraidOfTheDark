@@ -67,21 +67,6 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
     }
 
     /**
-     * Performs the default transition from this delivery method to the next
-     *
-     * @param state The state of the spell to transition
-     */
-    override fun performDefaultTransition(state: DeliveryTransitionState) {
-        val spell = state.spell
-        val nextStageIndex = state.stageIndex + 1
-
-        // Perform the transition between the next delivery method and the current delivery method
-        spell.getStage(nextStageIndex)!!.deliveryInstance!!.component.executeDelivery(
-            state.copy(stageIndex = nextStageIndex, deliveryEntity = null)
-        )
-    }
-
-    /**
      * Gets the cost of the delivery method
      *
      * @return The cost of the delivery method
