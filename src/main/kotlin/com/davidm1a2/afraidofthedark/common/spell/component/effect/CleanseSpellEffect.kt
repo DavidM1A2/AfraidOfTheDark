@@ -42,9 +42,9 @@ class CleanseSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "c
             }
 
             if (reducedParticles) {
-                createParticlesAt(0, 1, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), ModParticles.HEAL)
+                createParticlesAt(0, 1, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), ModParticles.CLEANSE)
             } else {
-                createParticlesAt(2, 4, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), ModParticles.HEAL)
+                createParticlesAt(2, 4, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), ModParticles.CLEANSE)
             }
         }
     }

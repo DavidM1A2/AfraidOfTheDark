@@ -31,7 +31,6 @@ abstract class SpellDeliveryMethod(id: ResourceLocation, prerequisiteResearch: R
      * @param state The state of the spell at the current delivery method
      */
     fun procEffects(state: DeliveryTransitionState) {
-        // Go over each effect
         for (effect in state.getCurrentStage().effects) {
             effect?.component?.procEffect(state, effect)
         }

@@ -1,6 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
+import com.davidm1a2.afraidofthedark.client.particle.CleanseParticle
 import com.davidm1a2.afraidofthedark.client.particle.DigParticle
+import com.davidm1a2.afraidofthedark.client.particle.DisintegrateParticle
 import com.davidm1a2.afraidofthedark.client.particle.EnariaFightEventParticle
 import com.davidm1a2.afraidofthedark.client.particle.EnariasAltarParticle
 import com.davidm1a2.afraidofthedark.client.particle.EnchantedFrogSpawnParticle
@@ -72,5 +74,7 @@ class ParticleRegister {
         particleManager.register(ModParticles.VITAE_EXTRACTOR_BURN, VitaeExtractorBurnParticle::Factory)
         particleManager.register(ModParticles.VITAE_EXTRACTOR_CHARGE, VitaeExtractorChargeParticle::Factory)
         particleManager.register(ModParticles.WARD, WardParticle::Factory)
+        particleManager.register(ModParticles.CLEANSE, CleanseParticle::Factory)
+        particleManager.register(ModParticles.DISINTEGRATE, DisintegrateParticle::Factory)
     }
 }

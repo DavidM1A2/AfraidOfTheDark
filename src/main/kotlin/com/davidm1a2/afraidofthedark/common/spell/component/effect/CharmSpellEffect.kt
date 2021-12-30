@@ -48,7 +48,7 @@ class CharmSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_
                     ParticleTypes.HEART,
                     // The position will be somewhere inside the player's hitbox
                     state.position.x + random.nextFloat() * width * 2.0f - width,
-                    state.position.y + 0.5 + random.nextFloat() * height,
+                    state.position.y + random.nextFloat() * height,
                     state.position.z + random.nextFloat() * width * 2.0f - width,
                     // Spawn one particle
                     1,

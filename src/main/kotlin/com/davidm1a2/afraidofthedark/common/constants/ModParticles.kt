@@ -1,6 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
+import com.davidm1a2.afraidofthedark.common.particle.CleanseParticleType
 import com.davidm1a2.afraidofthedark.common.particle.DigParticleType
+import com.davidm1a2.afraidofthedark.common.particle.DisintegrateParticleType
 import com.davidm1a2.afraidofthedark.common.particle.EnariaFightEventParticleType
 import com.davidm1a2.afraidofthedark.common.particle.EnariasAltarParticleType
 import com.davidm1a2.afraidofthedark.common.particle.EnchantedFrogSpawnParticleType
@@ -48,6 +50,8 @@ object ModParticles {
     val VITAE_EXTRACTOR_BURN = VitaeExtractorBurnParticleType()
     val VITAE_EXTRACTOR_CHARGE = VitaeExtractorChargeParticleType()
     val WARD = WardParticleType()
+    val CLEANSE = CleanseParticleType()
+    val DISINTEGRATE = DisintegrateParticleType()
 
     val PARTICLE_LIST = arrayOf(
         ENARIAS_ALTAR,
@@ -72,6 +76,8 @@ object ModParticles {
         WEAKNESS,
         VITAE_EXTRACTOR_BURN,
         VITAE_EXTRACTOR_CHARGE,
-        WARD
+        WARD,
+        CLEANSE,
+        DISINTEGRATE
     )
 }
