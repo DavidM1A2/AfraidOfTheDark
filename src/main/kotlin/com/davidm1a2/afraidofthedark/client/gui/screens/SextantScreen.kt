@@ -25,7 +25,7 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
 
     init {
         // Add an image to the background of the sextant texture
-        val background = ImagePane("afraidofthedark:textures/gui/telescope/sextant.png", ImagePane.DispMode.FIT_TO_PARENT)
+        val background = ImagePane("afraidofthedark:textures/gui/sextant/sextant.png", ImagePane.DispMode.FIT_TO_PARENT)
         background.padding = Spacing(0.1)
 
         // Grab the font for the text fields
