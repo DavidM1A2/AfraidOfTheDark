@@ -13,6 +13,7 @@ import com.davidm1a2.afraidofthedark.common.network.packets.other.CheatSheetUnlo
 import com.davidm1a2.afraidofthedark.common.research.Research
 import net.minecraft.client.Minecraft
 import net.minecraft.util.text.TextFormatting
+import net.minecraft.util.text.TranslationTextComponent
 
 /**
  * Button that represents a research in the research GUI
@@ -71,7 +72,10 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
         hoverTexts = if (forceShowUnlocked || playerResearch.isResearched(this.research)) {
             arrayOf(research.getName().string, "${TextFormatting.ITALIC}${research.getTooltip().string}")
         } else {
-            arrayOf("?", "${TextFormatting.ITALIC}Unknown Research")
+            arrayOf(
+                TranslationTextComponent("tooltip.afraidofthedark.gui.journal_research.question_mark").string,
+                TranslationTextComponent("tooltip.afraidofthedark.gui.journal_research.unknown_research").string,
+            )
         }
     }
 }

@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
+import net.minecraft.util.text.TranslationTextComponent
 
 /**
  * Class used to create a power source slot UI component
@@ -24,11 +25,11 @@ class SpellPowerSourceSlot(offset: Position, prefSize: Dimensions, spell: Spell)
         val componentType = this.getComponentType()
         if (componentType != null) {
             this.hoverTexts = arrayOf(
-                "Power Source (${componentType.getName().string})",
-                "Cost Meaning: ${componentType.getCostOverview().string}"
+                TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.power_source", componentType.getName()).string,
+                TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.cost_meaning", componentType.getCostOverview()).string
             )
         } else {
-            this.setHoverText("Empty power source slot")
+            this.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.empty_slot", "power source").string)
         }
     }
 

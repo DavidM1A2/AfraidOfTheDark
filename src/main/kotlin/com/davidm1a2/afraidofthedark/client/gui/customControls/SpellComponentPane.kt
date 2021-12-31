@@ -16,6 +16,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
 import com.mojang.blaze3d.matrix.MatrixStack
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.text.TranslationTextComponent
 import java.awt.Color
 
 /**
@@ -62,15 +63,15 @@ class SpellComponentPane(prefSize: Dimensions) : AOTDPane(prefSize = prefSize) {
             componentSlot.updateImageTexture(spellComponent.icon)
             when (spellComponent) {
                 is SpellPowerSource -> {
-                    componentSlot.setHoverText("${spellComponent.getName().string} Power Source")
+                    componentSlot.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.power_source", spellComponent.getName()).string)
                     componentSocket.updateImageTexture(POWER_SOURCE_SOCKET_TEXTURE)
                 }
                 is SpellDeliveryMethod -> {
-                    componentSlot.setHoverText("${spellComponent.getName().string} Delivery Method")
+                    componentSlot.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.delivery_method", spellComponent.getName()).string)
                     componentSocket.updateImageTexture(DELIVERY_METHOD_SOCKET_TEXTURE)
                 }
                 else -> {
-                    componentSlot.setHoverText("${spellComponent.getName().string} Effect")
+                    componentSlot.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.effect", spellComponent.getName()).string)
                     componentSocket.updateImageTexture(EFFECT_SOCKET_TEXTURE)
                 }
             }
@@ -80,15 +81,9 @@ class SpellComponentPane(prefSize: Dimensions) : AOTDPane(prefSize = prefSize) {
                 val editableProperties = spellComponent.getEditableProperties()
                 if (editableProperties.isNotEmpty()) {
                     appendLine()
-                    append("Editable Properties:")
-                    appendLine()
+                    appendLine(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.editable_properties_header").string)
                     editableProperties.forEach {
-                        append("- ")
-                        append(it.getName().string)
-                        append(" (")
-                        append(it.getDescription().string)
-                        append(")")
-                        appendLine()
+                        appendLine(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.editable_property", it.getName(), it.getDescription()).string)
                     }
                 }
             }

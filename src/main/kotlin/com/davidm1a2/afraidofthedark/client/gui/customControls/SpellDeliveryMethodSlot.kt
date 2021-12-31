@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
+import net.minecraft.util.text.TranslationTextComponent
 
 /**
  * Class used to create a delivery method slot UI component
@@ -22,12 +23,12 @@ class SpellDeliveryMethodSlot(offset: Position, prefSize: Dimensions, spell: Spe
         if (componentType != null) {
             val componentInstance = this.getComponentInstance()!!
             this.hoverTexts = arrayOf(
-                "Delivery Method (${componentType.getName().string})",
-                "Cost Multiplier: %.1f".format(componentType.getMultiplicity(componentInstance)),
-                "Cost: %.1f".format(componentType.getDeliveryCost(componentInstance))
+                TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.delivery_method", componentType.getName()).string,
+                TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.cost_multiplier", componentType.getMultiplicity(componentInstance)).string,
+                TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", componentType.getDeliveryCost(componentInstance)).string
             )
         } else {
-            this.setHoverText("Empty delivery method slot")
+            this.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.empty_slot", "delivery method").string)
         }
     }
 

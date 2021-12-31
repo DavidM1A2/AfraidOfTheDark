@@ -27,6 +27,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.property.BooleanSpel
 import com.davidm1a2.afraidofthedark.common.spell.component.property.EnumSpellComponentProperty
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.text.TranslationTextComponent
 import org.apache.commons.lang3.tuple.Pair
 import java.awt.Color
 
@@ -162,7 +163,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
             // This cast is required even though IntelliJ doesn't agree
             @Suppress("USELESS_CAST")
             val spellComponent = componentInstance.component as SpellComponent<*>
-            name.text = "${spellComponent.getName().string} Properties"
+            name.text = TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.component_properties", spellComponent.getName()).string
 
             val closeEditor = ButtonPane(
                 ImagePane(ResourceLocation("afraidofthedark:textures/gui/spell_editor/editor_back.png")),
@@ -188,7 +189,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
             if (editableProperties.isEmpty()) {
                 val noPropsLine = TextBoxComponent(Dimensions(1.0, 0.1), FontCache.getOrCreate(26f))
                 noPropsLine.textColor = purpleText
-                noPropsLine.setText("This component has no editable properties.")
+                noPropsLine.setText(TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.no_component_properties").string)
                 propertyList.add(noPropsLine)
             } else {
                 // Go over each editable property and add an editor for it
@@ -225,7 +226,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
                                 propertyError.isVisible = false
                             } catch (e: InvalidValueException) {
                                 propertyError.isVisible = true
-                                propertyError.setHoverText("§4Error: ${e.reason.string}")
+                                propertyError.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.component_property_error", e.reason).string)
                             }
                             componentPropModifiedCallback()
                         }
@@ -292,7 +293,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
                                 propertyError.isVisible = false
                             } catch (e: InvalidValueException) {
                                 propertyError.isVisible = true
-                                propertyError.setHoverText("§4Error: ${e.reason.string}")
+                                propertyError.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.component_property_error", e.reason).string)
                             }
                             componentPropModifiedCallback()
                         }

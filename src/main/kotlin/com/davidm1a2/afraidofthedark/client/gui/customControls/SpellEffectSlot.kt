@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
+import net.minecraft.util.text.TranslationTextComponent
 
 /**
  * Class used to create an effect slot UI component
@@ -27,11 +28,11 @@ class SpellEffectSlot(
         if (componentType != null) {
             val componentInstance = this.getComponentInstance()!!
             this.hoverTexts = arrayOf(
-                "Effect (${componentType.getName().string})",
-                "Cost: %.1f".format(componentType.getCost(componentInstance))
+                TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.effect", componentType.getName()).string,
+                TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", componentType.getCost(componentInstance)).string
             )
         } else {
-            this.setHoverText("Empty effect slot")
+            this.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.empty_slot", "effect").string)
         }
     }
 

@@ -51,7 +51,7 @@ class ArcaneJournalPageScreen(research: Research) : AOTDScreen(TranslationTextCo
 
         // Create a title label to contain the research name
         val titleLabel = LabelComponent(FontCache.getOrCreate(80f), Dimensions(1.0, 0.1), Gravity.TOP_CENTER)
-        titleLabel.text = if (isResearched) research.getName().string else "???"
+        titleLabel.text = if (isResearched) research.getName().string else TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.question_marks").string
         titleLabel.textColor = titleColor
         titleLabel.textAlignment = TextAlignment.ALIGN_CENTER
         contentPane.add(titleLabel)

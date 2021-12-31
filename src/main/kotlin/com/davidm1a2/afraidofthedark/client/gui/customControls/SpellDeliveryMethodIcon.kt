@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
+import net.minecraft.util.text.TranslationTextComponent
 
 /**
  * The icon for a spell delivery method on the scroll panel
@@ -20,8 +21,8 @@ class SpellDeliveryMethodIcon(private val deliveryMethod: SpellDeliveryMethod) :
         componentInstance.setDefaults()
         this.hoverTexts = arrayOf(
             deliveryMethod.getName().string,
-            "Cost Multiplier: %.1f".format(deliveryMethod.getMultiplicity(componentInstance)),
-            "Cost: %.1f".format(deliveryMethod.getDeliveryCost(componentInstance))
+            TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.cost_multiplier", deliveryMethod.getMultiplicity(componentInstance)).string,
+            TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", deliveryMethod.getDeliveryCost(componentInstance)).string
         )
     }
 
