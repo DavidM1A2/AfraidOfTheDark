@@ -91,13 +91,12 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
         }
     }
 
-    override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        val baseCost = 5.0
-        val blockHitCost = estimateBlocksHit(instance).coerceAtLeast(1.0)
-        return baseCost + blockHitCost
+    override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
+        // AOE cost comes in its ability to apply affects more than once, so "delivery cost" is low
+        return 1.0
     }
 
-    override fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
+    override fun getMultiplicity(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         return estimateBlocksHit(instance).coerceAtLeast(1.0)
     }
 

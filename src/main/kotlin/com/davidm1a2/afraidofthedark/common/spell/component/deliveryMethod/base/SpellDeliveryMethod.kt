@@ -55,18 +55,18 @@ abstract class SpellDeliveryMethod(id: ResourceLocation, prerequisiteResearch: R
     }
 
     /**
-     * Gets the cost of the delivery method
+     * Gets the cost of specifically delivering the effects to the target
      *
-     * @return The cost of the delivery method
+     * @return The cost of delivering the effects
      */
-    abstract fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double
+    abstract fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double
 
     /**
-     * Gets the multiplier that this delivery method will apply to the stage it's in
+     * Gets the number of times this spell will proc effects and the next delivery method
      *
-     * @return The spell stage multiplier for cost
+     * @return The delivery method effect & delivery multiplicity
      */
-    abstract fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double
+    abstract fun getMultiplicity(instance: SpellComponentInstance<SpellDeliveryMethod>): Double
 
     /**
      * @return Gets the unlocalized name of the component

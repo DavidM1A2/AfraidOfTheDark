@@ -23,8 +23,8 @@ class SpellDeliveryMethodSlot(offset: Position, prefSize: Dimensions, spell: Spe
             val componentInstance = this.getComponentInstance()!!
             this.hoverTexts = arrayOf(
                 "Delivery Method (${componentType.getName().string})",
-                "Cost Multiplier: %.1f".format(componentType.getStageCostMultiplier(componentInstance)),
-                "Cost: %.1f".format(componentType.getCost(componentInstance))
+                "Cost Multiplier: %.1f".format(componentType.getMultiplicity(componentInstance)),
+                "Cost: %.1f".format(componentType.getDeliveryCost(componentInstance))
             )
         } else {
             this.setHoverText("Empty delivery method slot")

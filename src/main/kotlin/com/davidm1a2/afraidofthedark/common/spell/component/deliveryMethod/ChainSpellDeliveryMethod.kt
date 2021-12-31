@@ -131,7 +131,7 @@ class ChainSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         }
     }
 
-    override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
+    override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         val baseCost = 5.0
         // Each hop adds one vitae
         val hopsCost = getMaxHops(instance)
@@ -140,7 +140,7 @@ class ChainSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         return baseCost + hopsCost + distanceCost
     }
 
-    override fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
+    override fun getMultiplicity(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         return getMaxHops(instance).toDouble()
     }
 

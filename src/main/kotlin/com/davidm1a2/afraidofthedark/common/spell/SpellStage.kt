@@ -45,12 +45,12 @@ class SpellStage : INBTSerializable<CompoundNBT> {
         if (this.isValid()) {
             val deliveryType = this.deliveryInstance!!.component
             // Grab the cost of the delivery method
-            var cost = deliveryType.getCost(this.deliveryInstance!!)
+            var cost = deliveryType.getDeliveryCost(this.deliveryInstance!!)
             // Go over every effect and add its cost
             for (effect in effects) {
                 if (effect != null) {
-                    // Multiply each effect's cost by the delivery method multiplier
-                    cost = cost + deliveryType.getStageCostMultiplier(this.deliveryInstance!!) * effect.component.getCost(effect)
+                    // Multiply each effect's cost by the number of times it will get proc'd
+                    cost = cost + deliveryType.getMultiplicity(this.deliveryInstance!!) * effect.component.getCost(effect)
                 }
             }
             return cost

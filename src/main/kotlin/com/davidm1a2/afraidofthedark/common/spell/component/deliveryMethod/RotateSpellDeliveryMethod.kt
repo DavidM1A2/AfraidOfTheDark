@@ -50,11 +50,11 @@ class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Const
         transitionFrom(newState)
     }
 
-    override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
+    override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         return 1.0
     }
 
-    override fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
+    override fun getMultiplicity(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         return 1.0
     }
 

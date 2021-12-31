@@ -181,10 +181,14 @@ class Spell : INBTSerializable<CompoundNBT> {
     fun getCost(): Double {
         var cost = 0.0
 
+        var currentDeliveryMultiplicity = 1.0
         // Go over each spell stage and add up costs. The last stage has no
         for (spellStage in spellStages) {
             // Add the cost of the stage
-            cost = cost + spellStage.getCost()
+            cost = cost + spellStage.getCost() * currentDeliveryMultiplicity
+            val deliveryInstance = spellStage.deliveryInstance!!
+            // Each stage after will cost "Multiplicity" more since it gets proc'd "Multiplicity" times
+            currentDeliveryMultiplicity = currentDeliveryMultiplicity + deliveryInstance.component.getMultiplicity(deliveryInstance)
         }
 
         // If cost overflowed then set it to max double

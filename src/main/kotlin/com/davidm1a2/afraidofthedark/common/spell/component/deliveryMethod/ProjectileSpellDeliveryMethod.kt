@@ -71,7 +71,7 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
      *
      * @return The cost of the delivery method
      */
-    override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
+    override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         // Cost of using the delivery method
         val baseCost = 1.0
         // 4 vitae per speed
@@ -86,7 +86,7 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
      *
      * @return The spell stage multiplier for cost
      */
-    override fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
+    override fun getMultiplicity(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         return 1.0
     }
 

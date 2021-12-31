@@ -32,7 +32,7 @@ class SelfSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constan
      *
      * @return The cost of the delivery method
      */
-    override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
+    override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         return 0.0
     }
 
@@ -41,7 +41,7 @@ class SelfSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constan
      *
      * @return The spell stage multiplier for cost
      */
-    override fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
+    override fun getMultiplicity(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         return 1.0
     }
 }

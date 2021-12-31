@@ -43,7 +43,7 @@ class DelaySpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
      * @param instance The spell delivery method instance
      * @return The cost of the delivery method
      */
-    override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
+    override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         // Base cost of using delay
         val baseCost = 10
         // Each second of delay costs 0.5 vitae
@@ -57,7 +57,7 @@ class DelaySpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
      * @param instance The spell delivery method instance
      * @return The spell stage multiplier for cost
      */
-    override fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
+    override fun getMultiplicity(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         return 1.0
     }
 
