@@ -73,7 +73,7 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(C
      */
     override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         // Cost of using the delivery method
-        val baseCost = 5
+        val baseCost = 1.0
         // 4 vitae per speed
         val speedCost = getSpeed(instance) * 4.0
         // 50 range per vitae

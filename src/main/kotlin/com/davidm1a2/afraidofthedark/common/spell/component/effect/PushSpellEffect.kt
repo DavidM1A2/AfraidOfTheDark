@@ -40,7 +40,7 @@ class PushSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "push
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return getStrength(instance) * 0.25
+        return getStrength(instance) * 0.2
     }
 
     fun setStrength(instance: SpellComponentInstance<*>, amount: Float) {

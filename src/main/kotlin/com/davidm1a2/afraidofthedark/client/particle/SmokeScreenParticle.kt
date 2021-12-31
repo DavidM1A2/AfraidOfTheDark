@@ -22,8 +22,8 @@ class SmokeScreenParticle(
     z: Double
 ) : AOTDParticle(world, x, y, z, 0.0, 0.0, 0.0) {
     init {
-        // 10-20 second lifespan
-        lifetime = random.nextInt(200) + 200
+        // 15-20 second lifespan
+        lifetime = random.nextInt(100) + 300
 
         // Blinding size teleport particles
         scale(1f + random.nextFloat() * 2f)

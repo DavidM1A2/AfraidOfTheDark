@@ -61,7 +61,7 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constant
                     val distance = aoePos.distanceTo(centerPos)
 
                     // Test to see if the block is within the radius. If we're in "shellOnly" mode, only take the outer ~1.5 blocks of shell
-                    if (distance < radius && (!shellOnly || (radius - distance) < 1.5)) {
+                    if (distance <= radius && (!shellOnly || (radius - distance) < 1.5)) {
                         var direction = aoePos.subtract(centerPos).normalize()
                         // Direction may be 0 if aoePos = centerPos. In this case, move it up
                         if (direction == Vector3d.ZERO) {

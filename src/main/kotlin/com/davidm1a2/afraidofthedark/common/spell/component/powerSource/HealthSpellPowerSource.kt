@@ -34,6 +34,6 @@ class HealthSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.M
 
     companion object {
         // The number of units each hp supplies
-        private const val UNIT_COST_PER_HP = 3.0
+        private const val UNIT_COST_PER_HP = 5.0
     }
 }

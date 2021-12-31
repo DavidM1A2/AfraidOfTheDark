@@ -61,10 +61,10 @@ class FeedSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "feed
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        // Each half-drumstick is 0.5 vitae
-        val hungerCost = getHungerAmount(instance) * 0.5
-        // Each saturation half-drumstick is 1 vitae
-        val saturationCost = getSaturationAmount(instance)
+        // Each half-drumstick is 1.0 vitae
+        val hungerCost = getHungerAmount(instance) * 1.0
+        // Each saturation half-drumstick is 4 vitae
+        val saturationCost = getSaturationAmount(instance) * 4.0
         return hungerCost + saturationCost
     }
 

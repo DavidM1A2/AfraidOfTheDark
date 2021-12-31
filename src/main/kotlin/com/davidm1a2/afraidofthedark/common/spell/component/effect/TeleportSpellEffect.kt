@@ -58,6 +58,6 @@ class TeleportSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 15.0
+        return 30.0
     }
 }

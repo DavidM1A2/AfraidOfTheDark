@@ -22,7 +22,7 @@ class SpeedSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_
                 .withSetter(this::setMultiplier)
                 .withGetter(this::getMultiplier)
                 .withDefaultValue(1)
-                .withMinValue(-10)
+                .withMinValue(-6)
                 .withMaxValue(10)
                 .build()
         )
@@ -33,9 +33,13 @@ class SpeedSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_
         val entityHit = state.entity
 
         val multiplier = getMultiplier(instance)
+        if (multiplier == 0) {
+            return
+        }
+
         val duration = getDuration(instance) * 20
         val effectType = if (multiplier >= 0) Effects.MOVEMENT_SPEED else Effects.MOVEMENT_SLOWDOWN
-        val effectAmplifier = if (multiplier == 0) 0 else abs(multiplier) - 1
+        val effectAmplifier = abs(multiplier) - 1
         val effect = EffectInstance(effectType, duration, effectAmplifier)
 
         if (entityHit is LivingEntity) {
@@ -54,8 +58,8 @@ class SpeedSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        // Each second of speed costs 0.2
-        val durationCost = getDuration(instance) * 0.2
+        // Each second of speed costs 0.1
+        val durationCost = getDuration(instance) * 0.1
         // Each level of speed costs 1.0 per second
         val speedCost = abs(getMultiplier(instance)) * 1.0
         return speedCost * durationCost

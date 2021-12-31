@@ -18,7 +18,7 @@ import java.util.concurrent.ThreadLocalRandom
  *
  * @constructor adds the editable prop
  */
-class CharmSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "charm"), ModResearches.ADVANCED_MAGIC, 1, 2, 60) {
+class CharmSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "charm"), ModResearches.ADVANCED_MAGIC, 1, 1, 60) {
     /**
      * Performs the effect
      *
@@ -63,10 +63,10 @@ class CharmSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        // Charming an entity costs 10
-        val baseCost = 10
-        // Each second of duration costs 5.0, but the first 2 seconds are free
-        val durationCost = ((getDuration(instance) - 2) * 5.0).coerceAtLeast(0.0)
-        return baseCost + durationCost
+        // Charming an entity costs 3
+        val baseCost = 3
+        // Each second of duration costs 2.0, but the first 1 seconds are free
+        val durationCost = ((getDuration(instance) - 1) * 2.0).coerceAtLeast(0.0)
+        return baseCost + durationCost * durationCost
     }
 }

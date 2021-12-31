@@ -22,6 +22,6 @@ class LightningSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, 
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 30.0
+        return 5.0
     }
 }

@@ -224,9 +224,9 @@ class VitaeExtractorTileEntity : AOTDTickingTileEntity(ModTileEntities.VITAE_EXT
         private const val FUEL_INDEX = 1
         private const val MAX_BURN_TICKS = 20 * 10
 
-        private const val SACRED_MANGROVE_VALUE = 10f
-        private const val MANGROVE_VALUE = 0.5f
-        private const val NATURE_VALUE = 0.1f
+        private const val SACRED_MANGROVE_VALUE = 1f
+        private const val MANGROVE_VALUE = 0.05f
+        private const val NATURE_VALUE = 0.01f
 
         private val FUEL_ITEM_TO_VITAE_PER_TICK = mapOf(
             ModBlocks.SACRED_MANGROVE.asItem() to SACRED_MANGROVE_VALUE * 4f,

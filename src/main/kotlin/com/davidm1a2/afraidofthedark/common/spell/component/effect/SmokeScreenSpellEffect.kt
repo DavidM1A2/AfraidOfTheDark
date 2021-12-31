@@ -29,6 +29,7 @@ class SmokeScreenSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
                 .withGetter(this::getDensity)
                 .withDefaultValue(6)
                 .withMinValue(1)
+                .withMaxValue(25)
                 .build()
         )
     }
@@ -60,9 +61,9 @@ class SmokeScreenSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
         // 1 vitae just to use smoke screen
-        val baseCost = 1.0
-        // Each additional smoke particle adds 1.5 vitae
-        return baseCost + getDensity(instance) * 1.5
+        val baseCost = 3.0
+        // Each additional smoke particle adds 0.5 vitae
+        return baseCost + getDensity(instance) * 0.5
     }
 
     fun setDensity(instance: SpellComponentInstance<*>, density: Int) {

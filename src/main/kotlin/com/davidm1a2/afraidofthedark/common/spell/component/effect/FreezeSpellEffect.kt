@@ -16,13 +16,14 @@ import net.minecraft.potion.Effects
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
+import kotlin.math.max
 
 /**
  * Spell effect that causes water to freeze and creates ice
  *
  * @constructor initializes properties
  */
-class FreezeSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "freeze"), ModResearches.ELEMENTAL_MAGIC, 1, 2, 60) {
+class FreezeSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "freeze"), ModResearches.ELEMENTAL_MAGIC, 1, 1, 60) {
     /**
      * Performs the effect
      *
@@ -40,7 +41,7 @@ class FreezeSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD
                 // If we hit a player, freeze their position and direction
                 if (entity is PlayerEntity) {
                     val freezeData = entity.getSpellFreezeData()
-                    freezeData.freezeTicks = getDuration(instance) * 20
+                    freezeData.freezeTicks = max(freezeData.freezeTicks, getDuration(instance) * 20)
                     freezeData.freezePosition = Vector3d(entity.x, entity.y, entity.z)
                     freezeData.freezeYaw = entity.yRot
                     freezeData.freezePitch = entity.xRot
@@ -67,8 +68,8 @@ class FreezeSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
         // Freezing a block costs 3
         val baseCost = 3.0
-        // Each second of duration costs 7.0, but the first 2 seconds are free
-        val durationCost = ((getDuration(instance) - 2) * 7.0).coerceAtLeast(0.0)
-        return baseCost + durationCost
+        // Each second of duration costs 3.0, but the first 1 seconds are free
+        val durationCost = ((getDuration(instance) - 1) * 3.0).coerceAtLeast(0.0)
+        return baseCost + durationCost * durationCost
     }
 }
