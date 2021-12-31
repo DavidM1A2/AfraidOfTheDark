@@ -27,8 +27,8 @@ class ExperienceSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constan
         }
     }
 
-    override fun getSourceSpecificCost(rawCost: Double): Double {
-        return ceil(rawCost / UNIT_COST_PER_XP)
+    override fun getSourceSpecificCost(rawCost: Double): Int {
+        return ceil(rawCost / UNIT_COST_PER_XP).toInt()
     }
 
     companion object {

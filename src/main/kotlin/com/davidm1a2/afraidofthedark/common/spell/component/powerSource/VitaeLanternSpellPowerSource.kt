@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
+import com.davidm1a2.afraidofthedark.common.utility.round
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ResourceLocation
@@ -50,6 +51,6 @@ class VitaeLanternSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Const
     }
 
     override fun getSourceSpecificCost(rawCost: Double): Double {
-        return ceil(rawCost)
+        return rawCost.round(1)
     }
 }

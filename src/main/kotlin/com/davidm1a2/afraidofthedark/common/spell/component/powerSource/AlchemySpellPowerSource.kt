@@ -44,8 +44,8 @@ class AlchemySpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.
         }
     }
 
-    override fun getSourceSpecificCost(rawCost: Double): Double {
-        return ceil(rawCost / UNIT_COST_PER_GOLD)
+    override fun getSourceSpecificCost(rawCost: Double): Number {
+        return ceil(rawCost / UNIT_COST_PER_GOLD).toInt()
     }
 
     companion object {

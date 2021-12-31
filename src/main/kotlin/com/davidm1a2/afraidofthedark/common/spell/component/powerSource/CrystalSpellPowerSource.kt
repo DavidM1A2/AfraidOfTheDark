@@ -6,11 +6,11 @@ import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
 import com.davidm1a2.afraidofthedark.common.tileEntity.MagicCrystalTileEntity
+import com.davidm1a2.afraidofthedark.common.utility.round
 import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
 import java.util.stream.Stream
-import kotlin.math.ceil
 
 class CrystalSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "crystal"), ModResearches.ADVANCED_MAGIC) {
     override fun canCast(entity: Entity, spell: Spell): Boolean {
@@ -54,7 +54,7 @@ class CrystalSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.
     }
 
     override fun getSourceSpecificCost(rawCost: Double): Double {
-        return ceil(rawCost)
+        return rawCost.round(1)
     }
 
     companion object {

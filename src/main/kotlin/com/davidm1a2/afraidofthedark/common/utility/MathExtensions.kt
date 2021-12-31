@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.utility
 
 import net.minecraft.util.math.vector.Vector3d
 import kotlin.math.cos
+import kotlin.math.pow
 import kotlin.math.sin
 
 fun Vector3d.rotateAround(axis: Vector3d, radians: Double): Vector3d {
@@ -34,4 +35,20 @@ fun Vector3d.getNormal(upBasis: Vector3d = Vector3d(0.0, 1.0, 0.0)): Vector3d {
         return Vector3d.ZERO
     }
     return leftRightDir.cross(this).normalize()
+}
+
+fun Double.round(decimalPlaces: Int): Double {
+    if (decimalPlaces < 0) {
+        return this
+    }
+    val power = 10.0.pow(decimalPlaces)
+    return (this * power).toLong() / power
+}
+
+fun Float.round(decimalPlaces: Int): Float {
+    if (decimalPlaces < 0) {
+        return this
+    }
+    val power = 10f.pow(decimalPlaces)
+    return (this * power).toInt() / power
 }

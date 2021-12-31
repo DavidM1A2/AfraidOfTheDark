@@ -44,7 +44,7 @@ abstract class SpellPowerSource(id: ResourceLocation, prerequisiteResearch: Rese
      * @param rawCost The spell's cost
      * @return The cost in "power source" specific units
      */
-    protected abstract fun getSourceSpecificCost(rawCost: Double): Double
+    protected abstract fun getSourceSpecificCost(rawCost: Double): Number
 
     /**
      * Computes the message describing why the power source doesn't have enough power
