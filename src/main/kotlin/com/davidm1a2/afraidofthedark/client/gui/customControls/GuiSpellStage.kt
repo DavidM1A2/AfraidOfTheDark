@@ -15,11 +15,11 @@ import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 class GuiSpellStage(private val spellStage: SpellStage, val spell: Spell, var componentEditCallback: ((SpellComponentSlot<*>) -> Unit)) :
     AOTDPane(prefSize = Dimensions(1.0, 0.2), margins = Spacing(0.0, 0.15, 0.0, 0.0)) {
 
-    private val slotSize = Dimensions(0.16, 0.65)
+    private val slotSize = Dimensions(0.17, 0.7)
 
     val deliveryMethod: SpellDeliveryMethodSlot
     val effects = Array(4) {
-        SpellEffectSlot(Position(0.25 + it * 0.18, 0.175), slotSize, spell, spell.spellStages.indexOf(spellStage), it)
+        SpellEffectSlot(Position(0.22 + it * 0.19, 0.15), slotSize, spell, spell.spellStages.indexOf(spellStage), it)
     }
 
     init {
@@ -28,7 +28,7 @@ class GuiSpellStage(private val spellStage: SpellStage, val spell: Spell, var co
         this.add(background)
 
         // Create the delivery method slot
-        deliveryMethod = SpellDeliveryMethodSlot(Position(0.06, 0.175), slotSize, spell, spell.spellStages.indexOf(spellStage))
+        deliveryMethod = SpellDeliveryMethodSlot(Position(0.04, 0.15), slotSize, spell, spell.spellStages.indexOf(spellStage))
         this.add(deliveryMethod)
         deliveryMethod.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {

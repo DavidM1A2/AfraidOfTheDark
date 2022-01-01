@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.client.gui.FontCache
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
@@ -34,20 +35,19 @@ import java.awt.Color
 /**
  * Compliment control to the tablet, allows players to click spell components up
  */
-class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_list_scroll.png", DispMode.FIT_TO_PARENT) {
+class SpellScroll : StackPane() {
 
-    private val interiorPane: StackPane = StackPane()
-    private val componentScrollBar = VScrollBar(Dimensions(0.05, 1.0))
-    private val propertyScrollBar = VScrollBar(Dimensions(0.05, 1.0))
+    private val componentScrollBar = VScrollBar(Dimensions(0.1, 1.0))
+    private val propertyScrollBar = VScrollBar(Dimensions(0.1, 1.0))
     private val componentList: ListPane = ListPane(ListPane.ExpandDirection.DOWN, componentScrollBar)
     private val propertyList: ListPane = ListPane(ListPane.ExpandDirection.DOWN, propertyScrollBar)
     private val currentPropEditors = mutableListOf<Pair<SpellComponentProperty<*>, AOTDPane>>()
     internal var componentPropModifiedCallback: () -> Unit = {}
 
     init {
-        // Put everything that isn't the scroll bar into a padded pane
-        interiorPane.padding = Spacing(0.2)
-        this.add(interiorPane)
+        this.prefSize = Dimensions(0.32, 0.7)
+        this.gravity = Gravity.CENTER_RIGHT
+        this.offset = Position(-0.13, 0.0)
 
         // Add a scroll bar to the right of the scroll
         componentScrollBar.gravity = Gravity.CENTER_RIGHT
@@ -56,9 +56,13 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
         this.add(propertyScrollBar)
         propertyScrollBar.isVisible = false
 
+        // Set properties of the lists
+        componentList.prefSize = Dimensions(0.9, 1.0)
+        propertyList.prefSize = Dimensions(0.9, 1.0)
+
         // Add the two lists that may be displayed
-        interiorPane.add(componentList)
-        interiorPane.add(propertyList)
+        this.add(componentList)
+        this.add(propertyList)
         propertyList.isVisible = false
 
         // Create the power source label
@@ -76,7 +80,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
             if (powerSourceIndex % COMPONENTS_PER_LINE == 0) {
                 if (powerSourceHPane != null) componentList.add(powerSourceHPane)
                 powerSourceHPane = HChainPane(HChainPane.Layout.CLOSE)
-                powerSourceHPane.prefSize = Dimensions(1.0, 0.2)
+                powerSourceHPane.prefSize = Dimensions(1.0, 0.15)
             }
             val powerSource = SpellPowerSourceIcon(powerSourceEntry)
             powerSource.margins = Spacing(2.0, false)
@@ -97,7 +101,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
             if (effectIndex % COMPONENTS_PER_LINE == 0) {
                 if (effectHPane != null) componentList.add(effectHPane)
                 effectHPane = HChainPane(HChainPane.Layout.CLOSE)
-                effectHPane.prefSize = Dimensions(1.0, 0.2)
+                effectHPane.prefSize = Dimensions(1.0, 0.15)
             }
             val effect = SpellEffectIcon(effectEntry)
             effect.margins = Spacing(2.0, false)
@@ -119,7 +123,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
             if (deliveryMethodIndex % COMPONENTS_PER_LINE == 0) {
                 if (deliveryMethodHPane != null) componentList.add(deliveryMethodHPane)
                 deliveryMethodHPane = HChainPane(HChainPane.Layout.CLOSE)
-                deliveryMethodHPane.prefSize = Dimensions(1.0, 0.2)
+                deliveryMethodHPane.prefSize = Dimensions(1.0, 0.15)
             }
             val deliveryMethod = SpellDeliveryMethodIcon(deliveryMethodEntry)
             deliveryMethod.margins = Spacing(2.0, false)
@@ -166,8 +170,8 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
             name.text = TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.component_properties", spellComponent.getName()).string
 
             val closeEditor = ButtonPane(
-                ImagePane(ResourceLocation("afraidofthedark:textures/gui/spell_editor/editor_back.png")),
-                ImagePane(ResourceLocation("afraidofthedark:textures/gui/spell_editor/editor_back_hovered.png")),
+                ImagePane(ResourceLocation("afraidofthedark:textures/gui/backward_button.png")),
+                ImagePane(ResourceLocation("afraidofthedark:textures/gui/backward_button_hovered.png")),
                 gravity = Gravity.TOP_RIGHT,
                 prefSize = Dimensions(16.0, 16.0, false)
             )
@@ -204,8 +208,8 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
                         // Create a dropdown selector that edits the property value
                         val propertyPane = StackPane(Dimensions(1.0, 0.1))
                         val propertyError = ImagePane(
-                            "afraidofthedark:textures/gui/spell_editor/property_error.png",
-                            DispMode.FIT_TO_TEXTURE
+                            "afraidofthedark:textures/gui/error.png",
+                            ImagePane.DispMode.FIT_TO_TEXTURE
                         )
                         propertyError.gravity = Gravity.CENTER_RIGHT
                         propertyError.margins = Spacing(0.0, 0.0, 0.0, 7.0, false)
@@ -231,7 +235,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
                             componentPropModifiedCallback()
                         }
 
-                        val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png"), DispMode.FIT_TO_PARENT).apply {
+                        val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png"), ImagePane.DispMode.FIT_TO_PARENT).apply {
                             gravity = Gravity.CENTER_RIGHT
                             setHoverText(editableProp.getDescription().string)
                         }
@@ -254,7 +258,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
                         )
                         val ratioPane = RatioPane(1, 1)
                         ratioPane.add(togglePane)
-                        val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png"), DispMode.FIT_TO_PARENT).apply {
+                        val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png"), ImagePane.DispMode.FIT_TO_PARENT).apply {
                             gravity = Gravity.CENTER_RIGHT
                             setHoverText(editableProp.getDescription().string)
                         }
@@ -276,8 +280,8 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
                         // Create a text field that edits the property value
                         val propertyPane = StackPane(Dimensions(1.0, 0.1))
                         val propertyError = ImagePane(
-                            "afraidofthedark:textures/gui/spell_editor/property_error.png",
-                            DispMode.FIT_TO_TEXTURE
+                            "afraidofthedark:textures/gui/error.png",
+                            ImagePane.DispMode.FIT_TO_TEXTURE
                         )
                         propertyError.gravity = Gravity.CENTER_RIGHT
                         propertyError.margins = Spacing(0.0, 0.0, 0.0, 7.0, false)
@@ -298,7 +302,7 @@ class SpellScroll : ImagePane("afraidofthedark:textures/gui/spell_editor/effect_
                             componentPropModifiedCallback()
                         }
 
-                        val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png"), DispMode.FIT_TO_PARENT).apply {
+                        val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png"), ImagePane.DispMode.FIT_TO_PARENT).apply {
                             gravity = Gravity.CENTER_RIGHT
                             setHoverText(editableProp.getDescription().string)
                         }

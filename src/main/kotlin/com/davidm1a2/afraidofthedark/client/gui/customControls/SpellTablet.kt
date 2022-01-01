@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.client.gui.customControls
 import com.davidm1a2.afraidofthedark.client.gui.FontCache
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
@@ -20,12 +21,11 @@ import net.minecraft.util.text.TranslationTextComponent
 /**
  * Class representing the tablet used in the spell crafting gui on the left
  */
-class SpellTablet(private val spell: Spell) : ImagePane("afraidofthedark:textures/gui/spell_editor/tablet_background.png", DispMode.FIT_TO_PARENT) {
+class SpellTablet(private val spell: Spell) : StackPane() {
 
     private val spellName: TextFieldPane
     private val spellStagePanel: StackPane
     private val spellStageList: ListPane
-    private val spellStageBackground: ImagePane
     private val uiSpellStages: MutableList<GuiSpellStage> = mutableListOf()
     private val uiPowerSource: SpellPowerSourceSlot
     private val spellCost: LabelComponent
@@ -40,8 +40,12 @@ class SpellTablet(private val spell: Spell) : ImagePane("afraidofthedark:texture
         }
 
     init {
+        this.prefSize = Dimensions(0.35, 0.8)
+        this.gravity = Gravity.CENTER_LEFT
+        this.offset = Position(0.1, 0.0)
+
         // Setup the spell name label
-        spellName = TextFieldPane(Position(0.2, 0.18), Dimensions(0.5, 0.1), FontCache.getOrCreate(36f))
+        spellName = TextFieldPane(Position(0.0, 0.1), Dimensions(0.75, 0.12), FontCache.getOrCreate(36f))
         spellName.setGhostText("Spell Name")
         // When we type into this slot set the spell name
         spellName.addKeyListener {
@@ -52,20 +56,14 @@ class SpellTablet(private val spell: Spell) : ImagePane("afraidofthedark:texture
         this.add(spellName)
 
         // Add a scroll bar on the left to scroll through spell stages
-        scrollBar = VScrollBar(Dimensions(0.08, 0.6))
-        scrollBar.offset = Position(0.05, 0.3)
+        scrollBar = VScrollBar(Dimensions(0.08, 0.65))
+        scrollBar.offset = Position(0.0, 0.25)
         this.add(scrollBar)
 
         // Make the spell stage panel
-        spellStagePanel = StackPane(Dimensions(0.6, 0.6))
-        spellStagePanel.offset = Position(0.15, 0.3)
+        spellStagePanel = StackPane(Dimensions(0.8, 0.65))
+        spellStagePanel.offset = Position(0.1, 0.25)
         this.add(spellStagePanel)
-
-        // Add the background for the spell stages
-        spellStageBackground =
-            ImagePane("afraidofthedark:textures/gui/spell_editor/spell_stage_panel_background.png", DispMode.STRETCH)
-        spellStageBackground.prefSize = Dimensions(1.0, 1.0)
-        spellStagePanel.add(spellStageBackground)
 
         // Add the spell stage scroll panel
         spellStageList = ListPane(ListPane.ExpandDirection.DOWN, scrollBar)
@@ -97,19 +95,19 @@ class SpellTablet(private val spell: Spell) : ImagePane("afraidofthedark:texture
             removeButton.isHovered = false // Button moves, so un-hover it
         }
         buttonLayout = HChainPane()
-        buttonLayout.prefSize = Dimensions(0.25, 0.08)
+        buttonLayout.prefSize = Dimensions(0.25, 0.1)
         buttonLayout.add(addButton)
         buttonLayout.add(removeButton)
         spellStageList.add(buttonLayout)
 
         // Create the power source spell slot
-        uiPowerSource = SpellPowerSourceSlot(Position(0.57, 0.07), Dimensions(0.13, 0.1), spell)
+        uiPowerSource = SpellPowerSourceSlot(Position(0.8, 0.1), Dimensions(0.18, 0.12), spell)
         uiPowerSource.setSpellComponent(spell.powerSource)
         this.add(uiPowerSource)
 
         // Add the spell cost label
-        spellCost = LabelComponent(FontCache.getOrCreate(36f), Dimensions(0.7, 0.13))
-        spellCost.offset = Position(0.15, 0.87)
+        spellCost = LabelComponent(FontCache.getOrCreate(36f), Dimensions(1.0, 0.1))
+        spellCost.offset = Position(0.0, 0.9)
         this.add(spellCost)
 
         // Update all the gui components from our spell

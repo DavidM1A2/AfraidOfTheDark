@@ -3,8 +3,10 @@ package com.davidm1a2.afraidofthedark.client.gui.screens
 import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellScroll
 import com.davidm1a2.afraidofthedark.client.gui.customControls.SpellTablet
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.HChainPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
@@ -24,18 +26,19 @@ class SpellCraftingScreen(private val spell: Spell) : AOTDScreen(TranslationText
             spell.spellStages.add(SpellStage())
         }
 
-        // Make an HPane to organize the different parts of the GUI
-        val layoutPane = HChainPane(HChainPane.Layout.CLOSE)
-        contentPane.add(layoutPane)
+        // Add the background image
+        val bkgPane = ImagePane("afraidofthedark:textures/gui/spell_editor/spell_crafting_table.png", ImagePane.DispMode.FIT_TO_PARENT)
+        bkgPane.gravity = Gravity.CENTER
+        contentPane.add(bkgPane)
         contentPane.padding = Spacing(0.1)
 
         // Create the left side tablet to hold the current spell settings
         tablet = SpellTablet(spell)
-        layoutPane.add(tablet)
+        bkgPane.add(tablet)
 
         // Create the right side scroll to hold the current spell components available
         scroll = SpellScroll()
-        layoutPane.add(scroll)
+        bkgPane.add(scroll)
 
         // Cross component listeners
         tablet.componentClickCallback = { scroll.setEditing(it.getComponentInstance()) }

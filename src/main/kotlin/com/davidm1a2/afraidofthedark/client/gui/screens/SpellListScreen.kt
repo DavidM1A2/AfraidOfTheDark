@@ -49,7 +49,7 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         // Create the scroll panel to add spells to, position it centered on the background image
         scrollPanel = ListPane(ListPane.ExpandDirection.DOWN, scrollBar)
         scrollPanel.gravity = Gravity.CENTER
-        scrollPanel.prefSize = Dimensions(0.9, 0.9)
+        scrollPanel.prefSize = Dimensions(0.9, 0.93)
         // Add the panel the the background and the scroll bar
         mainGui.add(scrollPanel)
 
