@@ -141,6 +141,11 @@ class SpellTablet(private val spell: Spell) : StackPane() {
             TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.unknown_cost").string
         }
         spellCost.text = costText
+        uiPowerSource.refreshHoverText()
+        uiSpellStages.forEach {
+            it.deliveryMethod.refreshHoverText()
+            it.effects.forEach { effect -> effect.refreshHoverText() }
+        }
     }
 
     /**
