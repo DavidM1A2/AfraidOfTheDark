@@ -55,7 +55,7 @@ class WardSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_I
         // 7 cost per strength/second
         val strengthCost = (getStrength(instance).ordinal + 1) * 7.0
         // Each second of duration costs 0.5, but the first 5 seconds are free
-        val durationCost = ((getDuration(instance) - 5.0) * 0.5).coerceAtLeast(0.0)
+        val durationCost = 1.0 + ((getDuration(instance) - 5.0) * 0.5).coerceAtLeast(0.0)
         return baseCost + strengthCost * durationCost
     }
 
