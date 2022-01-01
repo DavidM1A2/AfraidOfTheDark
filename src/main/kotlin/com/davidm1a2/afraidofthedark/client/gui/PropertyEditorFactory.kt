@@ -109,10 +109,10 @@ object PropertyEditorFactory {
         val propertyPane = StackPane(Dimensions(1.0, 0.1))
         val propertyError = ImagePane(
             "afraidofthedark:textures/gui/error.png",
-            ImagePane.DispMode.FIT_TO_TEXTURE
+            ImagePane.DispMode.FIT_TO_PARENT
         )
         propertyError.gravity = Gravity.CENTER_RIGHT
-        propertyError.margins = Spacing(0.0, 0.0, 0.0, 7.0, false)
+        propertyError.margins = Spacing(4.0, 4.0, 0.0, 5.0, false)
         propertyError.isVisible = false
 
         val propertyEditor =
