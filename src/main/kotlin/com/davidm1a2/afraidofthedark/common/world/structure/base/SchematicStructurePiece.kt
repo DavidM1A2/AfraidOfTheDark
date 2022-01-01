@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.world.structure.base
 
-import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.constants.ModStructures
@@ -25,6 +24,7 @@ import net.minecraft.world.ISeedReader
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.StructureManager
 import net.minecraft.world.gen.feature.structure.StructurePiece
+import net.minecraftforge.registries.ForgeRegistries
 import java.util.Random
 import java.util.UUID
 
@@ -34,30 +34,11 @@ class SchematicStructurePiece : StructurePiece {
     private var mirror = Mirror.NONE
 
     // Some blocks aren't mirrored correctly by MC. Fix them here
-    private val mirrorBlockFixer = mapOf<Block, (BlockState) -> BlockState>(
-        *setOf(
-            Blocks.ACACIA_STAIRS,
-            Blocks.BIRCH_STAIRS,
-            Blocks.OAK_STAIRS,
-            Blocks.SPRUCE_STAIRS,
-            Blocks.DARK_OAK_STAIRS,
-            Blocks.JUNGLE_STAIRS,
-            Blocks.PRISMARINE_BRICK_STAIRS,
-            Blocks.NETHER_BRICK_STAIRS,
-            Blocks.DARK_PRISMARINE_STAIRS,
-            Blocks.COBBLESTONE_STAIRS,
-            Blocks.BRICK_STAIRS,
-            Blocks.PRISMARINE_STAIRS,
-            Blocks.PURPUR_STAIRS,
-            Blocks.QUARTZ_STAIRS,
-            Blocks.SANDSTONE_STAIRS,
-            Blocks.RED_SANDSTONE_STAIRS,
-            Blocks.STONE_BRICK_STAIRS,
-            ModBlocks.GRAVEWOOD_STAIRS,
-            ModBlocks.MANGROVE_STAIRS,
-            ModBlocks.SACRED_MANGROVE_STAIRS
-        ).map { it to this::fixStairState }.toTypedArray()
-    )
+    private val mirrorBlockFixer: Map<Block, (BlockState) -> BlockState> by lazy {
+        ForgeRegistries.BLOCKS
+            .filterIsInstance<StairsBlock>()
+            .associateWith { this::fixStairState }
+    }
 
     constructor(nbt: CompoundNBT) : super(ModStructures.SCHEMATIC_STRUCTURE_PIECE, nbt) {
         val schematicName = nbt.getString(NBT_SCHEMATIC_NAME)
