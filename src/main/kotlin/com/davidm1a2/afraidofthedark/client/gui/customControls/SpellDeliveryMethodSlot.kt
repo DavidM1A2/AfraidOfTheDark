@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
+import com.davidm1a2.afraidofthedark.common.utility.round
 import net.minecraft.util.text.TranslationTextComponent
 
 /**
@@ -24,8 +25,8 @@ class SpellDeliveryMethodSlot(offset: Position, prefSize: Dimensions, spell: Spe
             val componentInstance = this.getComponentInstance()!!
             this.hoverTexts = arrayOf(
                 TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.delivery_method", componentType.getName()).string,
-                TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.cost_multiplier", componentType.getMultiplicity(componentInstance)).string,
-                TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", componentType.getDeliveryCost(componentInstance)).string
+                TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.cost_multiplier", componentType.getMultiplicity(componentInstance).round(1)).string,
+                TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", componentType.getDeliveryCost(componentInstance).round(1)).string
             )
         } else {
             this.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.empty_slot", "delivery method").string)

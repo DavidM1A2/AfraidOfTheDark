@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
+import com.davidm1a2.afraidofthedark.common.utility.round
 import net.minecraft.util.text.TranslationTextComponent
 
 /**
@@ -29,7 +30,7 @@ class SpellEffectSlot(
             val componentInstance = this.getComponentInstance()!!
             this.hoverTexts = arrayOf(
                 TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.effect", componentType.getName()).string,
-                TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", componentType.getCost(componentInstance)).string
+                TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", componentType.getCost(componentInstance).round(1)).string
             )
         } else {
             this.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.empty_slot", "effect").string)
