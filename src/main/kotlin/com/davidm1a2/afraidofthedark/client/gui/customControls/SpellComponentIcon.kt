@@ -14,7 +14,7 @@ abstract class SpellComponentIcon<T : SpellComponent<T>>(
     init {
         val icon = ImagePane(component.icon, DispMode.FIT_TO_PARENT)
         icon.gravity = Gravity.CENTER
-        icon.margins = Spacing(0.08)
+        icon.margins = Spacing(0.075)
         this.add(icon)
     }
 

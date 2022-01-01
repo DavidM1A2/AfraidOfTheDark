@@ -39,7 +39,7 @@ abstract class SpellComponentSlot<T : SpellComponent<T>>(
         this.icon = ImagePane("afraidofthedark:textures/gui/spell_editor/blank_slot.png", ImagePane.DispMode.FIT_TO_PARENT)
         this.icon.isVisible = false
         this.icon.gravity = Gravity.CENTER
-        this.icon.margins = Spacing(0.08)
+        this.icon.margins = Spacing(0.075)
         this.add(icon)
 
         this.addMouseListener {
