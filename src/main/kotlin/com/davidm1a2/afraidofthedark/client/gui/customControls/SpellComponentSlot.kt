@@ -2,7 +2,9 @@ package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.spell.Spell
@@ -34,8 +36,10 @@ abstract class SpellComponentSlot<T : SpellComponent<T>>(
         this.add(highlight)
 
         // Set the icon to be blank
-        this.icon = ImagePane("afraidofthedark:textures/gui/spell_editor/blank_slot.png")
+        this.icon = ImagePane("afraidofthedark:textures/gui/spell_editor/blank_slot.png", ImagePane.DispMode.FIT_TO_PARENT)
         this.icon.isVisible = false
+        this.icon.gravity = Gravity.CENTER
+        this.icon.margins = Spacing(0.08)
         this.add(icon)
 
         this.addMouseListener {

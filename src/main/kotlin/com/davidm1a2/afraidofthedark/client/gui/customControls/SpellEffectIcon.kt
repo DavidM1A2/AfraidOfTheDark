@@ -2,6 +2,8 @@ package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableProducer
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
@@ -15,7 +17,11 @@ class SpellEffectIcon(private val effect: SpellEffect) :
     DraggableProducer<SpellEffect> {
 
     init {
-        this.add(ImagePane(effect.icon, DispMode.STRETCH))
+        val icon = ImagePane(effect.icon, DispMode.FIT_TO_PARENT)
+        icon.gravity = Gravity.CENTER
+        icon.margins = Spacing(0.08)
+        this.add(icon)
+
         val componentInstance = SpellComponentInstance(effect)
         componentInstance.setDefaults()
         this.hoverTexts = arrayOf(
@@ -29,8 +35,8 @@ class SpellEffectIcon(private val effect: SpellEffect) :
     }
 
     override fun getIcon(): ImagePane {
-        val ret = ImagePane(effect.icon, DispMode.FIT_TO_PARENT)
-        ret.prefSize = Dimensions(0.1, 0.1)
-        return ret
+        val icon = ImagePane(effect.icon, DispMode.FIT_TO_PARENT)
+        icon.prefSize = Dimensions(0.06, 0.06)
+        return icon
     }
 }

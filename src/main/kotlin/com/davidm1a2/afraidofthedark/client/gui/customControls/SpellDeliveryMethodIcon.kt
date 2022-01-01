@@ -2,6 +2,8 @@ package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableProducer
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
@@ -15,7 +17,11 @@ class SpellDeliveryMethodIcon(private val deliveryMethod: SpellDeliveryMethod) :
     DraggableProducer<SpellDeliveryMethod> {
 
     init {
-        this.add(ImagePane(deliveryMethod.icon, DispMode.STRETCH))
+        val icon = ImagePane(deliveryMethod.icon, DispMode.FIT_TO_PARENT)
+        icon.gravity = Gravity.CENTER
+        icon.margins = Spacing(0.08)
+        this.add(icon)
+
         // Show the delivery method and stats
         val componentInstance = SpellComponentInstance(deliveryMethod)
         componentInstance.setDefaults()
@@ -31,8 +37,8 @@ class SpellDeliveryMethodIcon(private val deliveryMethod: SpellDeliveryMethod) :
     }
 
     override fun getIcon(): ImagePane {
-        val ret = ImagePane(deliveryMethod.icon, DispMode.FIT_TO_PARENT)
-        ret.prefSize = Dimensions(0.1, 0.1)
-        return ret
+        val icon = ImagePane(deliveryMethod.icon, DispMode.FIT_TO_PARENT)
+        icon.prefSize = Dimensions(0.06, 0.06)
+        return icon
     }
 }
