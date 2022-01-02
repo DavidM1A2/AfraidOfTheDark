@@ -35,7 +35,6 @@ import net.minecraft.world.World
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.ToolType
-import org.apache.logging.log4j.LogManager
 import java.util.Random
 
 class MagicCrystalBlock : AOTDTileEntityBlock(
@@ -140,7 +139,7 @@ class MagicCrystalBlock : AOTDTileEntityBlock(
             if (!world.isClientSide) {
                 player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
-            return ActionResultType.FAIL
+            return ActionResultType.CONSUME
         }
 
         if (!world.isClientSide) {
@@ -184,7 +183,6 @@ class MagicCrystalBlock : AOTDTileEntityBlock(
     }
 
     companion object {
-        private val LOG = LogManager.getLogger()
         private val SHAPE = box(1.0, 0.0, 1.0, 15.0, 16.0, 15.0)
         val BOTTOM: BooleanProperty = BlockStateProperties.BOTTOM
         const val BLOCK_HEIGHT = 5
