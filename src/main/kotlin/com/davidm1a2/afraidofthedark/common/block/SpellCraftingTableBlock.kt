@@ -5,9 +5,11 @@ import com.davidm1a2.afraidofthedark.client.tileEntity.spellCraftingTable.SpellC
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDUseBlockItemStackRenderer
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.tileEntity.SpellCraftingTableTileEntity
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.client.Minecraft
@@ -29,6 +31,7 @@ import net.minecraft.util.math.BlockRayTraceResult
 import net.minecraft.util.math.shapes.ISelectionContext
 import net.minecraft.util.math.shapes.VoxelShape
 import net.minecraft.util.math.shapes.VoxelShapes
+import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.IBlockReader
 import net.minecraft.world.World
 import java.util.Random
@@ -47,8 +50,12 @@ class SpellCraftingTableBlock : AOTDTileEntityBlock("spell_crafting_table", Prop
         hit: BlockRayTraceResult
     ): ActionResultType {
         val research = playerIn.getResearch()
-        if (worldIn.isClientSide && research.isResearched(ModResearches.THE_JOURNEY_BEGINS)) {
+        val hasResearch = research.isResearched(ModResearches.THE_JOURNEY_BEGINS)
+        if (worldIn.isClientSide && hasResearch) {
             Minecraft.getInstance().setScreen(SpellListScreen())
+        }
+        if (!worldIn.isClientSide && !hasResearch) {
+            playerIn.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
         }
         return ActionResultType.SUCCESS
     }
