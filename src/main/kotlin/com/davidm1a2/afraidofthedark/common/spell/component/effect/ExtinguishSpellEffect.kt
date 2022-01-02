@@ -22,7 +22,7 @@ class ExtinguishSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID,
      *
      * @param state The state that the spell is in
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         // If we hit an entity extinguish them
         val entity = state.entity
         if (entity != null) {

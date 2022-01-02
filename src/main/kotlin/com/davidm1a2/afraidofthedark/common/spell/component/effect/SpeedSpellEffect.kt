@@ -28,7 +28,7 @@ class SpeedSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_
         )
     }
 
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val exactPosition = state.position
         val entityHit = state.entity
 

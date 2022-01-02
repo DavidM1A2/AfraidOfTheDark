@@ -12,7 +12,7 @@ import net.minecraft.entity.effect.LightningBoltEntity
 import net.minecraft.util.ResourceLocation
 
 class LightningSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "lightning"), null) {
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val position = state.position
         createParticlesAt(2, 6, position, state.world.dimension(), ModParticles.SPELL_HIT)
         val lightningBolt = LightningBoltEntity(EntityType.LIGHTNING_BOLT, state.world)

@@ -22,14 +22,14 @@ class TeleportSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "
      * @param state The state that the spell is in
      * @param instance The instance of the effect
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val world: World = state.world
         val spellCaster = state.casterEntity
         if (spellCaster != null) {
             val position = state.position
             // Create particles at the pre and post teleport position
-            // Play sound at the pre and post teleport position
             createParticlesAt(2, 4, position, spellCaster.level.dimension(), ModParticles.ENDER)
+            // Play sound at the pre and post teleport position
             world.playSound(
                 null,
                 position.x,

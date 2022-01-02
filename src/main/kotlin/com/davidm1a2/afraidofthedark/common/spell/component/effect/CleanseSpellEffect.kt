@@ -60,7 +60,7 @@ class CleanseSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "c
      *
      * @param state The state that the spell is in
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val entity = state.entity
         if (entity != null) {
             // Clear potion effects
@@ -93,11 +93,7 @@ class CleanseSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "c
                 charmData.charmTicks = 0
             }
 
-            if (reducedParticles) {
-                createParticlesAt(0, 1, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), ModParticles.CLEANSE)
-            } else {
-                createParticlesAt(2, 4, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), ModParticles.CLEANSE)
-            }
+            createParticlesAt(2, 4, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), ModParticles.CLEANSE)
         }
     }
 

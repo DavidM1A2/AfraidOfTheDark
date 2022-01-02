@@ -22,7 +22,7 @@ class BurnSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_I
      *
      * @param state The state that the spell is in
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         if (state.entity != null) {
             val entity = state.entity
             createParticlesAt(5, 10, Vector3d(entity!!.x, entity.y, entity.z), entity.level.dimension(), ModParticles.FIRE)
@@ -32,11 +32,7 @@ class BurnSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_I
             val position = state.blockPosition
             if (world.isEmptyBlock(position.above())) {
                 if (!world.isEmptyBlock(position)) {
-                    if (reducedParticles) {
-                        createParticlesAround(0, 1, state.position, world.dimension(), ModParticles.FIRE, 0.5)
-                    } else {
-                        createParticlesAround(2, 4, state.position, world.dimension(), ModParticles.FIRE, 0.5)
-                    }
+                    createParticlesAround(2, 4, state.position, world.dimension(), ModParticles.FIRE, 0.5)
                     world.setBlockAndUpdate(position.above(), Blocks.FIRE.defaultBlockState())
                 }
             }

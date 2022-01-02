@@ -15,7 +15,6 @@ import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import kotlin.math.abs
-import kotlin.random.Random
 
 /**
  * Dig effect digs a block
@@ -40,13 +39,11 @@ class DigSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID
      * @param state The state that the spell is in
      * @param instance The instance of the effect
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val world = state.world
         val entity = state.entity
-        val min = if (reducedParticles) 0 else 5
-        val max = if (reducedParticles) 1 else 10
         if (entity is LivingEntity) {
-            createParticlesAt(min, max, state.position, world.dimension(), ModParticles.DIG)
+            createParticlesAt(5, 10, state.position, world.dimension(), ModParticles.DIG)
             val speed = getSpeed(instance)
             if (speed != 0) {
                 val effectType = if (speed >= 0) Effects.DIG_SPEED else Effects.DIG_SLOWDOWN
@@ -57,11 +54,7 @@ class DigSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID
             // Digs the block at the position
             val position = state.blockPosition
             if (canBlockBeDestroyed(world, position)) {
-                if (!reducedParticles) {
-                    createParticlesAt(min, max, state.position, world.dimension(), ModParticles.DIG)
-                } else if (Random.nextDouble() > 0.6) {
-                    createParticlesAt(min, max, state.position, world.dimension(), ModParticles.DIG)
-                }
+                createParticlesAt(5, 10, state.position, world.dimension(), ModParticles.DIG)
                 world.destroyBlock(position, true)
             }
         }

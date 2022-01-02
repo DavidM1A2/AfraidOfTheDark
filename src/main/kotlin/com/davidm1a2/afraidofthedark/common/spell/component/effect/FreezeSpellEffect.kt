@@ -29,7 +29,7 @@ class FreezeSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD
      *
      * @param state The state that the spell is in
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val world: World = state.world
         val blockPos = state.blockPosition
         val entity = state.entity

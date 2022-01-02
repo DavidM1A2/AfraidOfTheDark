@@ -23,9 +23,8 @@ abstract class SpellEffect(id: ResourceLocation, prerequisiteResearch: Research?
      *
      * @param state The state that the spell is in
      * @param instance The instance of the effect
-     * @param reducedParticles Boolean flag to reduce the particle count of the effect
      */
-    abstract fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean = false)
+    abstract fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>)
 
     /**
      * Gets the cost of the delivery method

@@ -25,7 +25,7 @@ class DisintegrateSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
         )
     }
 
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val exactPosition = state.position
         val world = state.world
         val strength = getStrength(instance)

@@ -23,7 +23,7 @@ class PushSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "push
         )
     }
 
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val exactPosition = state.position
         val world = state.world
         // Divide by 10 to make it roughly the number of blocks to move

@@ -27,7 +27,7 @@ class WardSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_I
         )
     }
 
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>, reducedParticles: Boolean) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val entityHit = state.entity
         val world = state.world
         if (entityHit is LivingEntity) {
