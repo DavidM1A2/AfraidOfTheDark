@@ -438,7 +438,9 @@ class NightmareHandler {
         entityPlayer.health = 20f
         entityPlayer.foodData.foodLevel = 20
         // Clear active potion effects
-        entityPlayer.activeEffectsMap.clear()
+        entityPlayer.activeEffects.forEach {
+            entityPlayer.removeEffect(it.effect)
+        }
     }
 
     /**
