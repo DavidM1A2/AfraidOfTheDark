@@ -52,7 +52,7 @@ class MagicCrystalTileEntity : AOTDTickingTileEntity(ModTileEntities.MAGIC_CRYST
     }
 
     fun isMaster(): Boolean {
-        return blockState?.getValue(MagicCrystalBlock.BOTTOM) ?: false
+        return blockState.getValue(MagicCrystalBlock.BOTTOM)
     }
 
     private fun hasMaster(): Boolean {
@@ -159,18 +159,13 @@ class MagicCrystalTileEntity : AOTDTickingTileEntity(ModTileEntities.MAGIC_CRYST
 
     override fun save(compound: CompoundNBT): CompoundNBT {
         super.save(compound)
-        // No need to serialize slaves
-        if (isMaster()) {
-            compound.putDouble("vitae", vitae)
-        }
+        compound.putDouble("vitae", vitae)
         return compound
     }
 
     override fun load(blockState: BlockState, compound: CompoundNBT) {
         super.load(blockState, compound)
-        if (compound.contains("vitae")) {
-            vitae = compound.getDouble("vitae")
-        }
+        vitae = compound.getDouble("vitae")
     }
 
     companion object {
