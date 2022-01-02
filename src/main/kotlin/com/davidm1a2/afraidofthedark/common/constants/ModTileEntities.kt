@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.common.tileEntity.EnariaSpawnerTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.GhastlyEnariaSpawnerTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.MagicCrystalTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.ObservatoryTileEntity
+import com.davidm1a2.afraidofthedark.common.tileEntity.SpellCraftingTableTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.VitaeExtractorTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.VoidChestTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.WitchHutTileEntity
@@ -91,6 +92,12 @@ object ModTileEntities {
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "magic_crystal")
         }
+    val SPELL_CRAFTING_TABLE: TileEntityType<SpellCraftingTableTileEntity> = TileEntityType
+        .Builder
+        .of({ SpellCraftingTableTileEntity() }, ModBlocks.SPELL_CRAFTING_TABLE)
+        .build(null).apply {
+            setRegistryName(Constants.MOD_ID, "spell_crafting_table")
+        }
 
     // A list of tile entities to register
     val TILE_ENTITY_LIST = arrayOf(
@@ -105,6 +112,7 @@ object ModTileEntities {
         OBSERVATORY,
         DROPPED_JOURNAL,
         VITAE_EXTRACTOR,
-        MAGIC_CRYSTAL
+        MAGIC_CRYSTAL,
+        SPELL_CRAFTING_TABLE
     )
 }

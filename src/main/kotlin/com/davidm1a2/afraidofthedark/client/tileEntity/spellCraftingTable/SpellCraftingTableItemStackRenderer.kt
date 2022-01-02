@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.client.tileEntity.vitaeExtractor
+package com.davidm1a2.afraidofthedark.client.tileEntity.spellCraftingTable
 
 import com.mojang.blaze3d.matrix.MatrixStack
 import net.minecraft.client.renderer.IRenderTypeBuffer
@@ -9,7 +9,7 @@ import net.minecraft.util.Direction
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.vector.Vector3f
 
-class VitaeExtractorItemStackRenderer : ItemStackTileEntityRenderer() {
+class SpellCraftingTableItemStackRenderer : ItemStackTileEntityRenderer() {
     override fun renderByItem(
         itemStack: ItemStack,
         ignored: ItemCameraTransforms.TransformType,
@@ -19,10 +19,11 @@ class VitaeExtractorItemStackRenderer : ItemStackTileEntityRenderer() {
         packedOverlay: Int
     ) {
         matrixStack.pushPose()
-        matrixStack.translate(0.5, 0.0, 0.5)
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(-(Direction.NORTH.toYRot() + 90) % 360))
+        matrixStack.translate(0.5, 1.0, 0.5)
+        matrixStack.scale(0.5f, 0.5f, 0.5f)
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(-(Direction.NORTH.toYRot() + 270) % 360))
 
-        VITAE_EXTRACTOR_MODEL.renderToBuffer(
+        SPELL_CRAFTING_TABLE_MODEL.renderToBuffer(
             matrixStack,
             renderTypeBuffer.getBuffer(RENDER_TYPE),
             packedLight,
@@ -36,8 +37,8 @@ class VitaeExtractorItemStackRenderer : ItemStackTileEntityRenderer() {
     }
 
     companion object {
-        private val VITAE_EXTRACTOR_MODEL = VitaeExtractorTileEntityModel()
-        private val VITAE_EXTRACTOR_TEXTURE = ResourceLocation("afraidofthedark:textures/block/vitae_extractor_te.png")
-        private val RENDER_TYPE = VITAE_EXTRACTOR_MODEL.renderType(VITAE_EXTRACTOR_TEXTURE)
+        private val SPELL_CRAFTING_TABLE_MODEL = SpellCraftingTableModel()
+        private val SPELL_CRAFTING_TABLE_TEXTURE = ResourceLocation("afraidofthedark:textures/block/spell_crafting_table_te.png")
+        private val RENDER_TYPE = SPELL_CRAFTING_TABLE_MODEL.renderType(SPELL_CRAFTING_TABLE_TEXTURE)
     }
 }

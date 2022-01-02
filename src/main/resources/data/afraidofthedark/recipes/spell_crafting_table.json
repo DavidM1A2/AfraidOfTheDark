@@ -1,0 +1,24 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    " p ",
+    "ggg",
+    "f f"
+  ],
+  "key": {
+    "p": {
+      "item": "minecraft:paper"
+    },
+    "f": {
+      "item": "afraidofthedark:gravewood_fence"
+    },
+    "g": {
+      "item": "afraidofthedark:gravewood_planks"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:spell_crafting_table",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:the_journey_begins"
+}
