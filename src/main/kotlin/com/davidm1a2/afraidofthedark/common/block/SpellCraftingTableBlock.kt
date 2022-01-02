@@ -4,7 +4,9 @@ import com.davidm1a2.afraidofthedark.client.gui.screens.SpellListScreen
 import com.davidm1a2.afraidofthedark.client.tileEntity.spellCraftingTable.SpellCraftingTableItemStackRenderer
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDUseBlockItemStackRenderer
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.tileEntity.SpellCraftingTableTileEntity
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -44,7 +46,8 @@ class SpellCraftingTableBlock : AOTDTileEntityBlock("spell_crafting_table", Prop
         hand: Hand,
         hit: BlockRayTraceResult
     ): ActionResultType {
-        if (worldIn.isClientSide) {
+        val research = playerIn.getResearch()
+        if (worldIn.isClientSide && research.isResearched(ModResearches.THE_JOURNEY_BEGINS)) {
             Minecraft.getInstance().setScreen(SpellListScreen())
         }
         return ActionResultType.SUCCESS

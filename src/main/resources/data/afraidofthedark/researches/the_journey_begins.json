@@ -1,6 +1,8 @@
 {
   "forge:registry_name": "afraidofthedark:the_journey_begins",
-  "recipes": [],
+  "recipes": [
+    "afraidofthedark:spell_crafting_table"
+  ],
   "pre_recipes": [],
   "stickers": [
     "afraidofthedark:textures/gui/research_stickers/altar_ruins.png"
