@@ -156,9 +156,8 @@ class SpellWardHandler {
 
     private fun spawnWardParticle(world: World, blockPos: BlockPos, directions: List<Direction> = Direction.values().toList()) {
         val positions = directions.map {
-            val offset = it.step().apply { mul(0.505f) }
             Vector3d(blockPos.x + 0.5, blockPos.y + 0.5, blockPos.z + 0.5)
-                .add(offset.x().toDouble(), offset.y().toDouble(), offset.z().toDouble())
+                .add(it.stepX * 0.505, it.stepY * 0.505, it.stepZ * 0.505)
         }
         val speeds = directions.map {
             Vector3d(it.ordinal.toDouble(), 0.0, 0.0)
