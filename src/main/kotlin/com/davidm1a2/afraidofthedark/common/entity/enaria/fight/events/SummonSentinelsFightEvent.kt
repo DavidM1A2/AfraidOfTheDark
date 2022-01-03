@@ -135,6 +135,7 @@ class SummonSentinelsFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, En
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.AOE).apply {
                     setDefaults()
                     ModSpellDeliveryMethods.AOE.setRadius(this, 3.0)
+                    ModSpellDeliveryMethods.AOE.setShellOnly(this, true)
                 }
                 effects[0] = SpellEffectInstance(ModSpellEffects.FREEZE).apply { setDefaults() }
             })
