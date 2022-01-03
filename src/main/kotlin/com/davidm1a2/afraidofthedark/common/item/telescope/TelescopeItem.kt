@@ -42,6 +42,7 @@ class TelescopeItem : TelescopeBaseItem(130, "telescope") {
 
         // The research required
         val research = getRequiredResearch()
+        val canUseItem = playerResearch.canResearch(research) || playerResearch.isResearched(research)
 
         if (!world.isClientSide) {
             // If the player can research the research research it
@@ -50,7 +51,7 @@ class TelescopeItem : TelescopeBaseItem(130, "telescope") {
             }
 
             // If the research is researched then test if the player is high enough
-            if (playerResearch.isResearched(research)) {
+            if (canUseItem) {
                 // Tell the player that they need to be higher to see through the clouds
                 if (!highEnough) {
                     player.sendMessage(TranslationTextComponent("message.afraidofthedark.telescope.not_high_enough"))
@@ -61,10 +62,8 @@ class TelescopeItem : TelescopeBaseItem(130, "telescope") {
         }
 
         // Also allow showing the gui if the player can research the telescope research
-        if (world.isClientSide && highEnough) {
-            if (playerResearch.isResearched(research) || playerResearch.canResearch(research)) {
-                Minecraft.getInstance().setScreen(TelescopeScreen())
-            }
+        if (world.isClientSide && highEnough && canUseItem) {
+            Minecraft.getInstance().setScreen(TelescopeScreen())
         }
 
         return ActionResult.success(itemStack)

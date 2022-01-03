@@ -1,9 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
-import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
@@ -173,7 +171,7 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
         val player = Minecraft.getInstance().player
 
         // Need to test if player is null during client init
-        if (player != null && player.getResearch().isResearched(ModResearches.SPELLMASON)) {
+        if (player != null) {
             // Test if the wand has a spell ID
             if (hasSpellId(stack)) {
                 // Grab the spell by ID
