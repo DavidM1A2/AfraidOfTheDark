@@ -10,13 +10,10 @@ import com.davidm1a2.afraidofthedark.common.utility.round
 import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
-import java.util.stream.Stream
 
 class CrystalSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "crystal"), ModResearches.ADVANCED_MAGIC) {
     override fun canCast(entity: Entity, spell: Spell): Boolean {
-        val totalNearbyVitae = getNearbyCrystals(entity.level, entity.x, entity.y, entity.z)
-            .mapToDouble { it.getVitae() }
-            .sum()
+        val totalNearbyVitae = getNearbyCrystals(entity.level, entity.x, entity.y, entity.z).sumOf { it.getVitae() }
         return totalNearbyVitae >= spell.getCost()
     }
 
@@ -26,7 +23,7 @@ class CrystalSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.
         val z = entity.z
         var vitaeRemaining = spell.getCost()
         val nearestCrystals = getNearbyCrystals(entity.level, x, y, z)
-            .sorted { first, second ->
+            .sortedWith { first, second ->
                 val firstDistance = first.blockPos.distSqr(x, y, z, true)
                 val secondDistance = second.blockPos.distSqr(x, y, z, true)
                 firstDistance.compareTo(secondDistance)
@@ -42,11 +39,10 @@ class CrystalSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.
         }
     }
 
-    private fun getNearbyCrystals(world: World, x: Double, y: Double, z: Double): Stream<MagicCrystalTileEntity> {
+    private fun getNearbyCrystals(world: World, x: Double, y: Double, z: Double): Sequence<MagicCrystalTileEntity> {
         return world
             .blockEntityList
-            // Use java streams to get parallel processing
-            .parallelStream()
+            .asSequence()
             .filter { it.type == ModTileEntities.MAGIC_CRYSTAL }
             .map { it as MagicCrystalTileEntity }
             .filter { it.isMaster() }
