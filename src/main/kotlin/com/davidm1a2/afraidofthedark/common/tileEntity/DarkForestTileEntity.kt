@@ -37,9 +37,10 @@ class DarkForestTileEntity : AOTDZoneTileEntity(ModTileEntities.DARK_FOREST) {
     override fun playerInZone(player: PlayerEntity) {
         val playerResearch = player.getResearch()
 
+        // 6 seconds of sleeping potion effect
+        player.addEffect(EffectInstance(ModEffects.SLEEPING, 120, 0, true, false))
+
         if (playerResearch.isResearched(ModResearches.SLEEPING_POTION)) {
-            // 6 seconds of sleeping potion effect
-            player.addEffect(EffectInstance(ModEffects.SLEEPING, 120, 0, true, false))
             // Replace all water bottles with sleeping potions
             for (i in player.inventory.items.indices) {
                 val itemStack = player.inventory.getItem(i)
