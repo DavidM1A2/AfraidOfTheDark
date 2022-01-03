@@ -197,6 +197,10 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                     ModSpellEffects.SPEED.setMultiplier(this, -2)
                     ModSpellEffects.SPEED.setDuration(this, 15)
                 }
+                effects[1] = SpellEffectInstance(ModSpellEffects.DISINTEGRATE).apply {
+                    setDefaults()
+                    ModSpellEffects.DISINTEGRATE.setStrength(this, 10f)
+                }
             })
         }
         private val FREEZE_PROJECTILE_SPELL = Spell().apply {
@@ -212,6 +216,10 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 effects[0] = SpellEffectInstance(ModSpellEffects.FREEZE).apply {
                     setDefaults()
                     ModSpellEffects.FREEZE.setDuration(this, 5)
+                }
+                effects[1] = SpellEffectInstance(ModSpellEffects.DISINTEGRATE).apply {
+                    setDefaults()
+                    ModSpellEffects.DISINTEGRATE.setStrength(this, 10f)
                 }
             })
         }
@@ -229,6 +237,10 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                     setDefaults()
                     ModSpellEffects.CHARM.setDuration(this, 5)
                 }
+                effects[1] = SpellEffectInstance(ModSpellEffects.DISINTEGRATE).apply {
+                    setDefaults()
+                    ModSpellEffects.DISINTEGRATE.setStrength(this, 10f)
+                }
             })
         }
         private val DAMAGE_LASER_SPELL = Spell().apply {
@@ -241,7 +253,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 }
                 effects[0] = SpellEffectInstance(ModSpellEffects.DISINTEGRATE).apply {
                     setDefaults()
-                    ModSpellEffects.DISINTEGRATE.setStrength(this, 20f)
+                    ModSpellEffects.DISINTEGRATE.setStrength(this, 35f)
                 }
             })
         }
@@ -260,7 +272,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.SELF).apply { setDefaults() }
                 effects[0] = SpellEffectInstance(ModSpellEffects.HEAL).apply {
                     setDefaults()
-                    ModSpellEffects.HEAL.setAmount(this, 15)
+                    ModSpellEffects.HEAL.setAmount(this, 30)
                 }
             })
         }
