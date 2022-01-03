@@ -76,9 +76,9 @@ class CleanseSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "c
                     effectTypesToClear.add(EffectType.HARMFUL)
                 }
 
-                entity.activeEffects.forEach {
-                    if (it.effect.category in effectTypesToClear) {
-                        entity.removeEffect(it.effect)
+                entity.activeEffects.map { it.effect }.forEach {
+                    if (it.category in effectTypesToClear) {
+                        entity.removeEffect(it)
                     }
                 }
             }
