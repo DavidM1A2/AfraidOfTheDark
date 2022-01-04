@@ -199,7 +199,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 }
                 effects[1] = SpellEffectInstance(ModSpellEffects.DISINTEGRATE).apply {
                     setDefaults()
-                    ModSpellEffects.DISINTEGRATE.setStrength(this, 10f)
+                    ModSpellEffects.DISINTEGRATE.setStrength(this, 30f)
                 }
             })
         }
@@ -219,7 +219,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 }
                 effects[1] = SpellEffectInstance(ModSpellEffects.DISINTEGRATE).apply {
                     setDefaults()
-                    ModSpellEffects.DISINTEGRATE.setStrength(this, 10f)
+                    ModSpellEffects.DISINTEGRATE.setStrength(this, 30f)
                 }
             })
         }
@@ -239,7 +239,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 }
                 effects[1] = SpellEffectInstance(ModSpellEffects.DISINTEGRATE).apply {
                     setDefaults()
-                    ModSpellEffects.DISINTEGRATE.setStrength(this, 10f)
+                    ModSpellEffects.DISINTEGRATE.setStrength(this, 30f)
                 }
             })
         }
@@ -253,7 +253,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 }
                 effects[0] = SpellEffectInstance(ModSpellEffects.DISINTEGRATE).apply {
                     setDefaults()
-                    ModSpellEffects.DISINTEGRATE.setStrength(this, 35f)
+                    ModSpellEffects.DISINTEGRATE.setStrength(this, 80f)
                 }
             })
         }
