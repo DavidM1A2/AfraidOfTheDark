@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.ArmthrowChannel
@@ -13,6 +12,7 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedMode
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.tileEntity.EnariaSpawnerTileEntity
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.AstralSilverDamageSource
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
@@ -154,7 +154,7 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
                 }
 
                 // If the damage source is silver damage inflict heavy damage
-                if (source.msgId.equals(ModDamageSources.SILVER_DAMAGE, ignoreCase = true)) {
+                if (source is AstralSilverDamageSource) {
                     // If its been more than a second since the last attack do full damage, otherwise scale the damage
                     val amountModifier = min(1.0f, timeBetweenHits / 1000.0f)
 

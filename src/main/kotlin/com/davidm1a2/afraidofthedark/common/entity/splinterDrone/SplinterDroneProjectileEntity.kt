@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.entity.splinterDrone
 
-import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources.causePlasmaBallDamage
+import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources.getPlasmaBallDamage
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
@@ -138,7 +138,7 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
             // Only do something if we hit an entity
             if (result is EntityRayTraceResult) {
                 // Cause a slight amount of damage
-                if (result.entity.hurt(causePlasmaBallDamage(this, shootingEntity), 1.0f)) {
+                if (result.entity.hurt(getPlasmaBallDamage(this, shootingEntity), 1.0f)) {
                     // If we hit a player slow them
                     if (result.entity is PlayerEntity) {
                         // The player that was hit, add slowness

@@ -3,7 +3,6 @@ package com.davidm1a2.afraidofthedark.common.entity.werewolf
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.capabilities.hasStartedAOTD
-import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
@@ -14,6 +13,7 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Chann
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.animation.BiteChannel
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.animation.RunChannel
 import com.davidm1a2.afraidofthedark.common.network.packets.animation.AnimationPacket
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.AstralSilverDamageSource
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.Pose
@@ -134,8 +134,8 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
         }
 
         // If the damage was 'silver_damage' then we can apply it, otherwise we just do 1 'generic' damage. Out of world damage is caused by /kill
-        return when (damageSource.msgId) {
-            ModDamageSources.SILVER_DAMAGE, DamageSource.OUT_OF_WORLD.msgId -> super.hurt(damageSource, damage)
+        return when (damageSource) {
+            is AstralSilverDamageSource, DamageSource.OUT_OF_WORLD -> super.hurt(damageSource, damage)
             else -> super.hurt(damageSource, 1f)
         }
     }

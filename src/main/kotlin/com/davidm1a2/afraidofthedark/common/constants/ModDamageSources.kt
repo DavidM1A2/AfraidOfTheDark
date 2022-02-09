@@ -2,45 +2,29 @@ package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneEntity
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneProjectileEntity
+import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.AstralSilverDamageSource
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.PlasmaBallDamageSource
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.SpellDamageSource
 import net.minecraft.entity.Entity
 import net.minecraft.util.DamageSource
-import net.minecraft.util.EntityDamageSource
-import net.minecraft.util.IndirectEntityDamageSource
 
 /**
  * Class containing definitions for AOTD damage sources
  */
 object ModDamageSources {
-    // Constant names for the damage sources
-    const val SILVER_DAMAGE = "silver_damage"
-    const val PLASMA_BALL = "plasma_ball"
-    const val SPELL_DAMAGE = "spell_damage"
-
-    /**
-     * Returns a silver damage source given an entity to cause the damage
-     *
-     * @param entity The entity hitting
-     * @return The silver damage source
-     */
     fun getSilverDamage(entity: Entity?): DamageSource {
-        return EntityDamageSource(SILVER_DAMAGE, entity)
+        return AstralSilverDamageSource(entity)
     }
 
-    /**
-     * Returns a plasma ball damage source given an entity source and target
-     *
-     * @param source         The projectile that hit the entity
-     * @param indirectSource The drone that fired the shot
-     * @return The damage source to apply
-     */
-    fun causePlasmaBallDamage(
+    fun getPlasmaBallDamage(
         source: SplinterDroneProjectileEntity,
         indirectSource: SplinterDroneEntity?
     ): DamageSource {
-        return IndirectEntityDamageSource(PLASMA_BALL, source, indirectSource).setProjectile()
+        return PlasmaBallDamageSource(source, indirectSource)
     }
 
-    fun getSpellDamage(spellCaster: Entity?): DamageSource {
-        return EntityDamageSource(SPELL_DAMAGE, spellCaster)
+    fun getSpellDamage(spellDamageState: DeliveryTransitionState): DamageSource {
+        return SpellDamageSource(spellDamageState)
     }
 }

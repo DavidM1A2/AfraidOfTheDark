@@ -55,7 +55,7 @@ class SmokeScreenSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
                 positions,
                 Collections.nCopies(positions.size, Vector3d.ZERO)
             ),
-            PacketDistributor.TargetPoint(position.x, position.y, position.z, 100.0, state.world.dimension())
+            PacketDistributor.TargetPoint(position.x, position.y, position.z, 128.0, state.world.dimension())
         )
     }
 

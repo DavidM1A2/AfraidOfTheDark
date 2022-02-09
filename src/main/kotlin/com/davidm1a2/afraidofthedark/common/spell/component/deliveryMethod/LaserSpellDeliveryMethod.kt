@@ -29,7 +29,7 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
                 .withSetter(this::setRange)
                 .withGetter(this::getRange)
                 .withDefaultValue(50.0)
-                .withMinValue(1.0)
+                .withMinValue(0.0)
                 .withMaxValue(300.0)
                 .build()
         )
