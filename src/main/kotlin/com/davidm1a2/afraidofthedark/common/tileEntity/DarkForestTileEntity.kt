@@ -1,19 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.tileEntity
 
-import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModEffects
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
-import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDZoneTileEntity
 import net.minecraft.entity.item.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.network.play.server.SSetSlotPacket
 import net.minecraft.potion.EffectInstance
-import net.minecraft.potion.PotionUtils
-import net.minecraft.potion.Potions
 import net.minecraft.util.math.AxisAlignedBB
 import kotlin.random.Random
 
@@ -35,23 +29,8 @@ class DarkForestTileEntity : AOTDZoneTileEntity(ModTileEntities.DARK_FOREST) {
     }
 
     override fun playerInZone(player: PlayerEntity) {
-        val playerResearch = player.getResearch()
-
         // 6 seconds of sleeping potion effect
         player.addEffect(EffectInstance(ModEffects.SLEEPING, 120, 0, true, false))
-
-        if (playerResearch.isResearched(ModResearches.SLEEPING_POTION)) {
-            // Replace all water bottles with sleeping potions
-            for (i in player.inventory.items.indices) {
-                val itemStack = player.inventory.getItem(i)
-
-                // If it's a potion with type water replace water bottles with sleeping potions
-                if (PotionUtils.getPotion(itemStack) == Potions.WATER) {
-                    player.inventory.setItem(i, ItemStack(ModItems.SLEEPING_POTION, itemStack.count))
-                    (player as ServerPlayerEntity).connection.send(SSetSlotPacket(-2, i, itemStack))
-                }
-            }
-        }
     }
 
     override fun tick() {
