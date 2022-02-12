@@ -14,14 +14,16 @@
   ],
   "spell_components": {
     "delivery_methods": [
-      "afraidofthedark:self",
-      "afraidofthedark:laser"
+      "afraidofthedark:laser",
+      "afraidofthedark:delay",
+      "afraidofthedark:chain"
     ],
     "effects": [
       "afraidofthedark:feed",
       "afraidofthedark:grow",
       "afraidofthedark:heal",
-      "afraidofthedark:dig"
+      "afraidofthedark:dig",
+      "afraidofthedark:ward"
     ]
   }
 }

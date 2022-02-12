@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation
  *
  * @constructor does not initialize anything
  */
-class SelfSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "self"), ModResearches.SPELLMASON) {
+class SelfSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "self"), ModResearches.THE_JOURNEY_BEGINS) {
     /**
      * Called to begin delivering the effects to the target by whatever means necessary
      *

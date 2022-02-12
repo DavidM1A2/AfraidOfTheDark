@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -11,7 +12,7 @@ import net.minecraft.entity.EntityType
 import net.minecraft.entity.effect.LightningBoltEntity
 import net.minecraft.util.ResourceLocation
 
-class LightningSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "lightning"), null) {
+class LightningSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "lightning"), ModResearches.INSANITY) {
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val position = state.position
         createParticlesAt(2, 6, position, state.world.dimension(), ModParticles.SPELL_HIT)

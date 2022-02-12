@@ -33,6 +33,7 @@ object ModResearches {
     val FORBIDDEN_CITY = load("forbidden_city")
     val IGNEOUS = load("igneous")
     val INFERNO = load("inferno")
+    val INSANITY = load("insanity");
     val MAGIC_MASTERY = load("magic_mastery")
     val MANGROVE = load("mangrove")
     val NIGHTMARE_REALM = load("nightmare_realm")
@@ -83,6 +84,7 @@ object ModResearches {
         FORBIDDEN_CITY,
         IGNEOUS,
         INFERNO,
+        INSANITY,
         MAGIC_MASTERY,
         MANGROVE,
         NIGHTMARE_REALM,

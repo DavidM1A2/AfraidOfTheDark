@@ -22,14 +22,11 @@
       "afraidofthedark:creative"
     ],
     "delivery_methods": [
-      "afraidofthedark:delay",
-      "afraidofthedark:chain"
+      "afraidofthedark:self"
     ],
     "effects": [
       "afraidofthedark:speed",
-      "afraidofthedark:push",
-      "afraidofthedark:lightning",
-      "afraidofthedark:ward"
+      "afraidofthedark:push"
     ]
   }
 }

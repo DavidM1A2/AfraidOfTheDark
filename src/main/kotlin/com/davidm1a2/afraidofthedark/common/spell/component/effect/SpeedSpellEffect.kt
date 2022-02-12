@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDurationSpellEffect
@@ -14,7 +15,7 @@ import net.minecraft.potion.Effects
 import net.minecraft.util.ResourceLocation
 import kotlin.math.abs
 
-class SpeedSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "speed"), null, 1, 10) {
+class SpeedSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "speed"), ModResearches.THE_JOURNEY_BEGINS, 1, 10) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()

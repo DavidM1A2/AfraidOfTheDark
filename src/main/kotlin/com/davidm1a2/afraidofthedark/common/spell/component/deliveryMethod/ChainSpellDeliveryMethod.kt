@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -19,7 +20,7 @@ import net.minecraft.util.math.RayTraceResult
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 
-class ChainSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "chain")) {
+class ChainSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "chain"), ModResearches.SPELLMASON) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()

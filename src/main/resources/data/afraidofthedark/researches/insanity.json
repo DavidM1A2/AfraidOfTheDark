@@ -1,0 +1,20 @@
+{
+  "forge:registry_name": "afraidofthedark:insanity",
+  "recipes": [],
+  "pre_recipes": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/insanity.png",
+  "prerequisite": "afraidofthedark:nightmare_realm",
+  "triggers": [
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:insanity"
+      }
+    }
+  ],
+  "spell_components": {
+    "effects": [
+      "afraidofthedark:lightning"
+    ]
+  }
+}
