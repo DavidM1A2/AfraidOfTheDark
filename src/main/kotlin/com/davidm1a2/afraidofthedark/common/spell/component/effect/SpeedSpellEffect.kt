@@ -15,7 +15,7 @@ import net.minecraft.potion.Effects
 import net.minecraft.util.ResourceLocation
 import kotlin.math.abs
 
-class SpeedSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "speed"), ModResearches.THE_JOURNEY_BEGINS, 1, 10) {
+class SpeedSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "speed"), ModResearches.CLOAK_OF_AGILITY, 1, 10) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()

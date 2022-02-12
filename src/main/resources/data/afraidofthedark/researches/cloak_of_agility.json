@@ -13,5 +13,11 @@
         "research": "afraidofthedark:cloak_of_agility"
       }
     }
-  ]
+  ],
+  "spell_components": {
+    "effects": [
+      "afraidofthedark:speed",
+      "afraidofthedark:push"
+    ]
+  }
 }

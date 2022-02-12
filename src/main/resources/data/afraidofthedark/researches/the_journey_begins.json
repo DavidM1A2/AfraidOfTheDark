@@ -23,10 +23,6 @@
     ],
     "delivery_methods": [
       "afraidofthedark:self"
-    ],
-    "effects": [
-      "afraidofthedark:speed",
-      "afraidofthedark:push"
     ]
   }
 }

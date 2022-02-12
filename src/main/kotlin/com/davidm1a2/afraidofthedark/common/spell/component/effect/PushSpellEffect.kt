@@ -12,7 +12,7 @@ import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.network.play.server.SEntityVelocityPacket
 import net.minecraft.util.ResourceLocation
 
-class PushSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "push"), ModResearches.THE_JOURNEY_BEGINS) {
+class PushSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "push"), ModResearches.CLOAK_OF_AGILITY) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.floatProperty()
