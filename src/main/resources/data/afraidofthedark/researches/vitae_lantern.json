@@ -3,16 +3,14 @@
   "recipes": [
     "afraidofthedark:vitae_lantern"
   ],
-  "pre_recipes": [
-    "afraidofthedark:vitae_lantern"
-  ],
+  "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/vitae_lantern.png",
   "prerequisite": "afraidofthedark:flask_of_souls",
   "triggers": [
     {
-      "type": "afraidofthedark:item_crafted",
+      "type": "afraidofthedark:manual",
       "config": {
-        "item": "afraidofthedark:vitae_lantern"
+        "research": "afraidofthedark:vitae_lantern"
       }
     }
   ],
