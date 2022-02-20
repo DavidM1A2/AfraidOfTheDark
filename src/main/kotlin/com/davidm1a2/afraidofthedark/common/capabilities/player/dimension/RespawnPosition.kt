@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class RespawnPosition(
+data class RespawnPosition(
     val respawnPosition: BlockPos?,
     val respawnDimension: RegistryKey<World>,
     val respawnAngle: Float,

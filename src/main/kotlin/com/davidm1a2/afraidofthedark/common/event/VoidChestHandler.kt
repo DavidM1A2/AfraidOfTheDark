@@ -143,6 +143,7 @@ class VoidChestHandler {
             val playerXBase = indexToGoTo * Constants.DISTANCE_BETWEEN_ISLANDS
             // Set the player's position and rotation for some reason we have to use the connection object to send a packet instead of just using entityplayer#setPosition
             entityPlayer.connection.teleport(playerXBase + 24.5, 104.0, 3.0, 0f, 0f)
+            entityPlayer.fallDistance = 0f
 
             // Ensure the player respawns in the void chest if they die there
             entityPlayer.setRespawnPosition(
@@ -165,6 +166,7 @@ class VoidChestHandler {
                 0f,
                 0f
             )
+            entityPlayer.fallDistance = 0f
 
             // Reset the player's respawn point to the original
             val respawnPosition = entityPlayer.getVoidChestData().preTeleportRespawnPosition!!

@@ -356,6 +356,7 @@ class NightmareHandler {
 
             // Set the player's position and rotation for some reason we have to use the connection object to send a packet instead of just using entityplayer#setPosition
             entityPlayer.connection.teleport(playerXBase + 21.5, 74.0, 44.5, 0f, 0f)
+            entityPlayer.fallDistance = 0f
 
             // Reset the player's stats so that they don't die from low hp in the new dimension
             resetPlayerStats(entityPlayer)
@@ -370,7 +371,8 @@ class NightmareHandler {
             // Ensure the player respawns here before teleporting back
             entityPlayer.setRespawnPosition(
                 ModDimensions.NIGHTMARE_WORLD,
-                entityPlayer.blockPosition(),
+                // Respawn the player in the sky, so they don't accidentally spawn within Enaria
+                entityPlayer.blockPosition().above(1024),
                 0f,
                 true,
                 false
@@ -393,6 +395,7 @@ class NightmareHandler {
                 0f,
                 0f
             )
+            entityPlayer.fallDistance = 0f
 
             // Reset the player's stats so that they don't die from low hp in the new dimension
             resetPlayerStats(entityPlayer)
@@ -404,10 +407,10 @@ class NightmareHandler {
             // Clear the nightmare junk out of the player's inventory
             entityPlayer.inventory.clearContent()
 
-            // Update the player's inventory with the original things
+            // Restore the player's inventory
             entityPlayer.inventory.load(playerNightmareData.preTeleportPlayerInventory!!)
 
-            // Update the player's respawn point with the original
+            // Restore the player's respawn point
             val respawnPosition = playerNightmareData.preTeleportRespawnPosition!!
             entityPlayer.setRespawnPosition(
                 respawnPosition.respawnDimension,
