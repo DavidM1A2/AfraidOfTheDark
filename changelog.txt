@@ -1,9 +1,30 @@
+NOTE: This is NOT compatible with previous Afraid of the Dark versions. Too much was changed in this update. Sorry :(
+
 Major:
--
+- All researches have been rewritten, and many new researches were added. Researches are now achievable in a non-linear fashion which is represented by the spiral research tree.
+- All interface textures have been redone to look more "minecrafty" in 16x16.
+- Added a new "Altar ruins" structure. It will contain the new "arcane journal" (replaces the "blood stained journal") which is where you start the mod now. The crypt has been repurposed for other researches.
+- Spell casting is now available from the start of the mod, and you can unlock new spell components by doing researches. Spell crafting is very basic at the moment, and will be updated in the future.
+- Added new "Magic Crystals" that spawn around the world. These can be used to cast spells.
+- Added new spell components, and rebalanced all old ones. All spell component costs have been updated to be balanced. Brief overview of the new components:
+-> Vitae Lantern power source: Power spells with vitae in your lanterns
+-> Crystal power source: Power spells with vitae in nearby "Magic Crystals"
+-> Speed effect: Run or dig faster
+-> Disintegrate effect: Deal damage. Destroy stuff
+-> Push effect: Push an entity (yes, you can fly with this!)
+-> Lightning effect: Strike a position with lightning
+-> Ward effect: Make a block harder to break
+-> Chain delivery method: Apply effects to nearby entities
 
 Minor:
 - Laser has a new fancy look and can be colored
-- Researches are laid out in a spiral instead of a top-down tree
+- Added localization for lots of mod text
+- Removed the mod crossbow, and updated bolts to work with the vanilla crossbow instead.
+- The "arcane journal" no longer requires "signing" to start the mod. This should help players with non-English keyboards.
+- Added many new particle FX for various spell components
+- Reworked the journal pages to have clearer text and show spell components. It will also give you a preview of each structure to help you find them.
 
 Bug Fixes:
--
+- Fix an incompatibility with the Tinkers Construct mod crafting table.
+- Fix an incompatibility with the Danny's Expansion mod.
+- The spell crafting interface now shows accurate and up-to-date spell costs. yay
