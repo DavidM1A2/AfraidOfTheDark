@@ -369,7 +369,7 @@
   "death.attack.afraidofthedark.plasma_ball.item": "%1$s was shot by %2$s using %3$s",
   "death.attack.afraidofthedark.spell": "%1$s was slain by the spell %2$s",
   "death.attack.afraidofthedark.spell.suicide": "%1$s played with dangerous magic",
-  "death.attack.afraidofthedark.spell.player": "%1$s was slain by %2$s casting the spell %3$s",
+  "death.attack.afraidofthedark.spell.player": "%1$s was slain by %2$s casting %3$s",
   "_comment": "Spell components",
   "power_source.afraidofthedark.creative.name": "Creative",
   "power_source.afraidofthedark.creative.description": "Cast spells of any cost while in creative mode.",
