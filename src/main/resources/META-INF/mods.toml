@@ -17,7 +17,7 @@ issueTrackerURL = "https://github.com/DavidM1A2/AfraidOfTheDark/issues"
 # The modid of the mod
 modId = "afraidofthedark"
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version = "1.7.0"
+version = "1.8.0"
 # A display name for the mod
 displayName = "Afraid of the Dark"
 # A URL for the "homepage" for this mod, displayed in the mod UI
