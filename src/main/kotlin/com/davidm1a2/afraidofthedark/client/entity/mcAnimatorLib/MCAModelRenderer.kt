@@ -32,15 +32,6 @@ class MCAModelRenderer(
     var defaultRotation: Quaternion = Quaternion.ONE.copy()
         private set
 
-    override fun copyFrom(modelRenderer: ModelRenderer) {
-        xRot = modelRenderer.xRot
-        yRot = modelRenderer.yRot
-        zRot = modelRenderer.zRot
-        x = modelRenderer.x
-        y = modelRenderer.y
-        z = modelRenderer.z
-    }
-
     /**
      * Sets the current box's rotation points and rotation angles to another box.
      */
@@ -254,22 +245,15 @@ class MCAModelRenderer(
         texWidth: Float,
         texHeight: Float
     ) {
-        internal val quads: Array<TexturedQuad?>
-        private val posX1: Float
-        private val posY1: Float
-        private val posZ1: Float
-        private val posX2: Float
-        private val posY2: Float
-        private val posZ2: Float
+        internal val quads: Array<TexturedQuad?> = arrayOfNulls(6)
+        private val posX1: Float = x
+        private val posY1: Float = y
+        private val posZ1: Float = z
+        private val posX2: Float = x + width
+        private val posY2: Float = y + height
+        private val posZ2: Float = z + depth
 
         init {
-            posX1 = x
-            posY1 = y
-            posZ1 = z
-            posX2 = x + width
-            posY2 = y + height
-            posZ2 = z + depth
-            quads = arrayOfNulls(6)
             var endX = x + width
             var endY = y + height
             var endZ = z + depth
@@ -293,6 +277,38 @@ class MCAModelRenderer(
             val ptvFRT = PositionTextureVertex(endX, endY, endZ, 8.0f, 8.0f)
             val ptvFLT = PositionTextureVertex(x, endY, endZ, 8.0f, 0.0f)
 
+            quads[0] = TexturedQuad(
+                arrayOf(
+                    ptvBLT,
+                    ptvBRT,
+                    ptvBRB,
+                    ptvBLB
+                ),
+                texOffX + depth + width + depth,
+                texOffY + depth,
+                texOffX + depth + width + depth + width,
+                texOffY + depth + height,
+                texWidth,
+                texHeight,
+                mirorIn,
+                Direction.NORTH
+            )
+            quads[1] = TexturedQuad(
+                arrayOf(
+                    ptvFRB,
+                    ptvFLB,
+                    ptvBLB,
+                    ptvBRB
+                ),
+                texOffX + depth + width,
+                texOffY.toFloat(),
+                texOffX + depth + width + width,
+                texOffY + depth,
+                texWidth,
+                texHeight,
+                mirorIn,
+                Direction.DOWN
+            )
             quads[2] = TexturedQuad(
                 arrayOf(
                     ptvBRT,
@@ -325,22 +341,6 @@ class MCAModelRenderer(
                 mirorIn,
                 Direction.WEST
             )
-            quads[1] = TexturedQuad(
-                arrayOf(
-                    ptvFRB,
-                    ptvFLB,
-                    ptvBLB,
-                    ptvBRB
-                ),
-                texOffX + depth + width,
-                texOffY.toFloat(),
-                texOffX + depth + width + width,
-                texOffY + depth,
-                texWidth,
-                texHeight,
-                mirorIn,
-                Direction.DOWN
-            )
             quads[4] = TexturedQuad(
                 arrayOf(
                     ptvBRT,
@@ -356,22 +356,6 @@ class MCAModelRenderer(
                 texHeight,
                 mirorIn,
                 Direction.UP
-            )
-            quads[0] = TexturedQuad(
-                arrayOf(
-                    ptvBLT,
-                    ptvBRT,
-                    ptvBRB,
-                    ptvBLB
-                ),
-                texOffX + depth + width + depth,
-                texOffY + depth,
-                texOffX + depth + width + depth + width,
-                texOffY + depth + height,
-                texWidth,
-                texHeight,
-                mirorIn,
-                Direction.NORTH
             )
             quads[5] = TexturedQuad(
                 arrayOf(
@@ -414,12 +398,10 @@ class MCAModelRenderer(
         val normal: Vector3f
 
         init {
-            val f = 0.0f / texWidth
-            val f1 = 0.0f / texHeight
-            vertexPositions[0] = vertexPositions[0].setTextureUV(u2 / texWidth - f, v1 / texHeight + f1)
-            vertexPositions[1] = vertexPositions[1].setTextureUV(u1 / texWidth + f, v1 / texHeight + f1)
-            vertexPositions[2] = vertexPositions[2].setTextureUV(u1 / texWidth + f, v2 / texHeight - f1)
-            vertexPositions[3] = vertexPositions[3].setTextureUV(u2 / texWidth - f, v2 / texHeight - f1)
+            vertexPositions[0] = vertexPositions[0].setTextureUV(u2 / texWidth, v1 / texHeight)
+            vertexPositions[1] = vertexPositions[1].setTextureUV(u1 / texWidth, v1 / texHeight)
+            vertexPositions[2] = vertexPositions[2].setTextureUV(u1 / texWidth, v2 / texHeight)
+            vertexPositions[3] = vertexPositions[3].setTextureUV(u2 / texWidth, v2 / texHeight)
             if (mirrorIn) {
                 val i = vertexPositions.size
                 for (j in 0 until i / 2) {
