@@ -17,6 +17,8 @@ class BlockRenderTypeRegister {
             RenderTypeLookup.setRenderLayer(ModBlocks.GRAVEWOOD_SAPLING, RenderType.cutout())
             RenderTypeLookup.setRenderLayer(ModBlocks.MANGROVE_SAPLING, RenderType.cutout())
             RenderTypeLookup.setRenderLayer(ModBlocks.SACRED_MANGROVE_SAPLING, RenderType.cutout())
+            RenderTypeLookup.setRenderLayer(ModBlocks.GRAVEWOOD_DOOR, RenderType.cutout())
+            RenderTypeLookup.setRenderLayer(ModBlocks.MANGROVE_DOOR, RenderType.cutout())
         }
     }
 }
