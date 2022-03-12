@@ -17,6 +17,11 @@ class LunarSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MO
             return false
         }
 
+        val canSeeSky = entity.level.canSeeSky(entity.blockPosition())
+        if (!canSeeSky) {
+            return false
+        }
+
         val lunarData = entity.getSpellLunarData()
         return lunarData.vitae >= spell.getCost()
     }
