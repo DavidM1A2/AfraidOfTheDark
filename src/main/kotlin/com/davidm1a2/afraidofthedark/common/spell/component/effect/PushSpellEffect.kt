@@ -34,6 +34,9 @@ class PushSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "push
         if (entityHit != null) {
             val pushDirection = state.direction.scale(strength)
             entityHit.push(pushDirection.x, pushDirection.y, pushDirection.z)
+            if (entityHit.deltaMovement.y >= 0) {
+                entityHit.fallDistance = 0f
+            }
             if (entityHit is ServerPlayerEntity) {
                 entityHit.connection.send(SEntityVelocityPacket(entityHit))
             }
