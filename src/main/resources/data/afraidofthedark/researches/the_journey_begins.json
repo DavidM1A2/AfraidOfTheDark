@@ -19,7 +19,8 @@
   ],
   "spell_components": {
     "power_sources": [
-      "afraidofthedark:creative"
+      "afraidofthedark:creative",
+      "afraidofthedark:lunar"
     ],
     "delivery_methods": [
       "afraidofthedark:self"

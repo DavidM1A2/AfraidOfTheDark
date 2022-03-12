@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.research.IPlayer
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IPlayerSpellManager
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellFreezeData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellLunarData
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IWorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.IWorldSpellStates
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.IWorldStructureMapper
@@ -83,6 +84,15 @@ fun PlayerEntity.getSpellFreezeData(): IPlayerSpellFreezeData {
 fun PlayerEntity.getSpellCharmData(): IPlayerSpellCharmData {
     return this.getCapability(ModCapabilities.PLAYER_SPELL_CHARM_DATA).orElseThrow {
         IllegalStateException("Could not get player's charm data")
+    }
+}
+
+/**
+ * @return The player's 'PLAYER_SPELL_LUNAR_DATA' capability
+ */
+fun PlayerEntity.getSpellLunarData(): IPlayerSpellLunarData {
+    return this.getCapability(ModCapabilities.PLAYER_SPELL_LUNAR_DATA).orElseThrow {
+        IllegalStateException("Could not get player's lunar data")
     }
 }
 

@@ -10,6 +10,8 @@ import com.davidm1a2.afraidofthedark.common.network.packets.capability.ClearSpel
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.ClearSpellsPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.FreezeDataPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.FreezeDataPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.LunarDataPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.LunarDataPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.ResearchPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.ResearchPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.SelectedWristCrossbowBoltPacket
@@ -70,6 +72,7 @@ class PacketRegister(private val researchOverlayHandler: ResearchOverlayHandler)
             packetHandler.registerPacket(SpellKeyPressPacket::class.java, SpellKeyPressPacketProcessor())
             packetHandler.registerPacket(CheatSheetUnlockPacket::class.java, CheatSheetUnlockPacketProcessor())
             packetHandler.registerPacket(WardBlocksPacket::class.java, WardBlocksPacketProcessor())
+            packetHandler.registerPacket(LunarDataPacket::class.java, LunarDataPacketProcessor())
         }
     }
 }

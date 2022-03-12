@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.getNightmareData
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellLunarData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.capabilities.getVoidChestData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
@@ -103,6 +104,10 @@ class CapabilityHandler {
                 ResourceLocation(Constants.MOD_ID, "player_spell_charm_data"),
                 CapabilityProvider(ModCapabilities.PLAYER_SPELL_CHARM_DATA)
             )
+            event.addCapability(
+                ResourceLocation(Constants.MOD_ID, "player_spell_lunar_data"),
+                CapabilityProvider(ModCapabilities.PLAYER_SPELL_LUNAR_DATA)
+            )
         }
     }
 
@@ -125,6 +130,7 @@ class CapabilityHandler {
                 entityPlayer.getSpellManager().syncAll(entityPlayer)
                 entityPlayer.getSpellFreezeData().sync(entityPlayer)
                 // Dont sync PLAYER_SPELL_CHARM_DATA because it's server side only storage!
+                entityPlayer.getSpellLunarData().sync(entityPlayer)
             }
         }
     }
@@ -163,6 +169,8 @@ class CapabilityHandler {
             // Don't copy PLAYER_SPELL_FREEZE_DATA, if the player dies they aren't frozen anymore
 
             // Don't copy PLAYER_SPELL_CHARM_DATA, if the player dies they aren't charmed anymore
+
+            // Don't copy PLAYER_SPELL_LUNAR_DATA, if the player dies they aren't charmed anymore
 
             // Grab the NBT compound off of the original capabilities
             val originalPlayerBasicsNBT = ModCapabilities.PLAYER_BASICS.storage.writeNBT(
