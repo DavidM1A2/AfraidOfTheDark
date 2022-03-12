@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.capabilities.getSpellLunarData
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellSolarData
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
@@ -26,11 +26,7 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
     override fun use(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
         if (worldIn.isClientSide) {
         } else {
-            if (playerIn.isShiftKeyDown) {
-                playerIn.getSpellLunarData().vitae = 0.0
-                playerIn.getSpellLunarData().sync(playerIn)
-            }
-            playerIn.sendMessage(StringTextComponent("Lunar Vitae: " + playerIn.getSpellLunarData().vitae))
+            playerIn.sendMessage(StringTextComponent("Solar Vitae: " + playerIn.getSpellSolarData().vitae))
         }
         return super.use(worldIn, playerIn, handIn)
     }

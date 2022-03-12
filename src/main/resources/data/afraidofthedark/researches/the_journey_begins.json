@@ -20,7 +20,8 @@
   "spell_components": {
     "power_sources": [
       "afraidofthedark:creative",
-      "afraidofthedark:lunar"
+      "afraidofthedark:lunar",
+      "afraidofthedark:solar"
     ],
     "delivery_methods": [
       "afraidofthedark:self"

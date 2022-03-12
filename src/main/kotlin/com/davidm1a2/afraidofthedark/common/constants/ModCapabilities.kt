@@ -9,6 +9,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IPlayerSpe
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellLunarData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellSolarData
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IWorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.IWorldSpellStates
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.IWorldStructureMapper
@@ -58,6 +59,11 @@ object ModCapabilities {
     @JvmStatic
     @CapabilityInject(IPlayerSpellLunarData::class)
     lateinit var PLAYER_SPELL_LUNAR_DATA: Capability<IPlayerSpellLunarData>
+
+    // Capability that all players get which allows them to have "solar" vitae
+    @JvmStatic
+    @CapabilityInject(IPlayerSpellSolarData::class)
+    lateinit var PLAYER_SPELL_SOLAR_DATA: Capability<IPlayerSpellSolarData>
 
     // Capability that all worlds get which allows them to store spell state data
     @JvmStatic

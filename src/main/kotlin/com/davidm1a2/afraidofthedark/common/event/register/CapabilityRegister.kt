@@ -21,12 +21,15 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.PlayerSpel
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellLunarData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellSolarData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellCharmDataStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellFreezeDataStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellLunarData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellLunarDataStorage
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellSolarData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellSolarDataStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IWorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.WorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.WorldIslandVisitorsStorage
@@ -79,6 +82,10 @@ class CapabilityRegister {
                 IPlayerSpellLunarData::class.java,
                 PlayerSpellLunarDataStorage()
             ) { PlayerSpellLunarData() }
+            CapabilityManager.INSTANCE.register(
+                IPlayerSpellSolarData::class.java,
+                PlayerSpellSolarDataStorage()
+            ) { PlayerSpellSolarData() }
             CapabilityManager.INSTANCE.register(
                 IWorldSpellStates::class.java,
                 WorldSpellStatesStorage()

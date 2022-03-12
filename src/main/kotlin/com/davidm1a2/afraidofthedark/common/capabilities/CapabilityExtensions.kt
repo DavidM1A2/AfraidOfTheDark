@@ -9,6 +9,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IPlayerSpe
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellLunarData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellSolarData
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IWorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.IWorldSpellStates
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.IWorldStructureMapper
@@ -93,6 +94,15 @@ fun PlayerEntity.getSpellCharmData(): IPlayerSpellCharmData {
 fun PlayerEntity.getSpellLunarData(): IPlayerSpellLunarData {
     return this.getCapability(ModCapabilities.PLAYER_SPELL_LUNAR_DATA).orElseThrow {
         IllegalStateException("Could not get player's lunar data")
+    }
+}
+
+/**
+ * @return The player's 'PLAYER_SPELL_SOLAR_DATA' capability
+ */
+fun PlayerEntity.getSpellSolarData(): IPlayerSpellSolarData {
+    return this.getCapability(ModCapabilities.PLAYER_SPELL_SOLAR_DATA).orElseThrow {
+        IllegalStateException("Could not get player's solar data")
     }
 }
 

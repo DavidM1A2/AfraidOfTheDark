@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.CrystalS
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.ExperienceSpellPowerSource
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.HealthSpellPowerSource
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.LunarSpellPowerSource
+import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.SolarSpellPowerSource
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.VitaeLanternSpellPowerSource
 
 /**
@@ -19,6 +20,7 @@ object ModSpellPowerSources {
     val VITAE_LANTERN = VitaeLanternSpellPowerSource()
     val CRYSTAL = CrystalSpellPowerSource()
     val LUNAR = LunarSpellPowerSource()
+    val SOLAR = SolarSpellPowerSource()
 
     // An array containing a list of spell power sources that AOTD adds
     val SPELL_POWER_SOURCES = arrayOf(
@@ -28,6 +30,7 @@ object ModSpellPowerSources {
         ALCHEMY,
         VITAE_LANTERN,
         CRYSTAL,
-        LUNAR
+        LUNAR,
+        SOLAR
     )
 }
