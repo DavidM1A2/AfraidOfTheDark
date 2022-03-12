@@ -46,13 +46,13 @@ class SpellLunarHandler {
     }
 
     companion object {
-        private const val VITAE_TICK_INTERVAL = 100
+        private const val VITAE_TICK_INTERVAL = 20
 
-        // Nighttime is about 10,000 ticks. That means we will fill our cap 10000 / 100 [tick interval] * 0.05 = 5 times
-        private const val VITAE_GAIN_PERCENT_PER_INTERVAL = 0.05
+        // Nighttime is about 10,000 ticks. That means we will fill our cap 10000 / 20 [tick interval] * 0.01 = 5 times
+        private const val VITAE_GAIN_PERCENT_PER_INTERVAL = 0.01
 
-        // Decay 100 vitae per interval. After a full moon it will take a max of 1000 / 100 = 10 intervals = 50 seconds
-        private const val VITAE_DECAY_PER_INTERVAL = 100.0
+        // Decay 20 vitae per interval. After a full moon it will take a max of 2000 / 50 = 40 intervals = 40 seconds
+        private const val VITAE_DECAY_PER_INTERVAL = 50.0
 
         // The maximum amount of vitae we can store in each moon phase
         private val VITAE_CAP_BY_MOON_PHASE = mapOf(
