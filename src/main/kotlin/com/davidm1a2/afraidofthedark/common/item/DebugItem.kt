@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.capabilities.getSpellSolarData
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellThermalData
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
@@ -26,7 +26,7 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
     override fun use(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
         if (worldIn.isClientSide) {
         } else {
-            playerIn.sendMessage(StringTextComponent("Solar Vitae: " + playerIn.getSpellSolarData().vitae))
+            playerIn.sendMessage(StringTextComponent("Thermal Vitae: " + playerIn.getSpellThermalData().vitae))
         }
         return super.use(worldIn, playerIn, handIn)
     }

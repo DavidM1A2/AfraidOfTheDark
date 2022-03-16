@@ -10,6 +10,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellLunarData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellSolarData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellThermalData
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IWorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.IWorldSpellStates
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.IWorldStructureMapper
@@ -103,6 +104,15 @@ fun PlayerEntity.getSpellLunarData(): IPlayerSpellLunarData {
 fun PlayerEntity.getSpellSolarData(): IPlayerSpellSolarData {
     return this.getCapability(ModCapabilities.PLAYER_SPELL_SOLAR_DATA).orElseThrow {
         IllegalStateException("Could not get player's solar data")
+    }
+}
+
+/**
+ * @return The player's 'PLAYER_SPELL_THERMAL_DATA' capability
+ */
+fun PlayerEntity.getSpellThermalData(): IPlayerSpellThermalData {
+    return this.getCapability(ModCapabilities.PLAYER_SPELL_THERMAL_DATA).orElseThrow {
+        IllegalStateException("Could not get player's thermal data")
     }
 }
 

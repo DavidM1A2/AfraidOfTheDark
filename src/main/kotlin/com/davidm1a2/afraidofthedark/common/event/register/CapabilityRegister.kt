@@ -22,6 +22,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellLunarData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellSolarData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellThermalData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellCharmDataStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellFreezeData
@@ -30,6 +31,8 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellLunarDataStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellSolarData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellSolarDataStorage
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellThermalData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.PlayerSpellThermalDataStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IWorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.WorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.WorldIslandVisitorsStorage
@@ -86,6 +89,10 @@ class CapabilityRegister {
                 IPlayerSpellSolarData::class.java,
                 PlayerSpellSolarDataStorage()
             ) { PlayerSpellSolarData() }
+            CapabilityManager.INSTANCE.register(
+                IPlayerSpellThermalData::class.java,
+                PlayerSpellThermalDataStorage()
+            ) { PlayerSpellThermalData() }
             CapabilityManager.INSTANCE.register(
                 IWorldSpellStates::class.java,
                 WorldSpellStatesStorage()

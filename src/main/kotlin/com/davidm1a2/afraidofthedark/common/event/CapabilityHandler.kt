@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellLunarData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellSolarData
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellThermalData
 import com.davidm1a2.afraidofthedark.common.capabilities.getVoidChestData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
@@ -113,6 +114,10 @@ class CapabilityHandler {
                 ResourceLocation(Constants.MOD_ID, "player_spell_solar_data"),
                 CapabilityProvider(ModCapabilities.PLAYER_SPELL_SOLAR_DATA)
             )
+            event.addCapability(
+                ResourceLocation(Constants.MOD_ID, "player_spell_thermal_data"),
+                CapabilityProvider(ModCapabilities.PLAYER_SPELL_THERMAL_DATA)
+            )
         }
     }
 
@@ -137,6 +142,7 @@ class CapabilityHandler {
                 // Dont sync PLAYER_SPELL_CHARM_DATA because it's server side only storage!
                 entityPlayer.getSpellLunarData().sync(entityPlayer)
                 entityPlayer.getSpellSolarData().sync(entityPlayer)
+                entityPlayer.getSpellThermalData().sync(entityPlayer)
             }
         }
     }
@@ -179,6 +185,8 @@ class CapabilityHandler {
             // Don't copy PLAYER_SPELL_LUNAR_DATA, if the player dies they lose all lunar vitae
 
             // Don't copy PLAYER_SPELL_SOLAR_DATA, if the player dies they lose all solar vitae
+
+            // Don't copy PLAYER_SPELL_THERMAL_DATA, if the player dies they lose all thermal vitae/heat
 
             // Grab the NBT compound off of the original capabilities
             val originalPlayerBasicsNBT = ModCapabilities.PLAYER_BASICS.storage.writeNBT(

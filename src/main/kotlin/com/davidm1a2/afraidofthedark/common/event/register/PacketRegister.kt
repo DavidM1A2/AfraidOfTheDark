@@ -22,6 +22,8 @@ import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellPack
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.StartAOTDPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.StartAOTDPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.ThermalDataPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.ThermalDataPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.WardBlocksPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.WardBlocksPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.other.CheatSheetUnlockPacket
@@ -76,6 +78,7 @@ class PacketRegister(private val researchOverlayHandler: ResearchOverlayHandler)
             packetHandler.registerPacket(WardBlocksPacket::class.java, WardBlocksPacketProcessor())
             packetHandler.registerPacket(LunarDataPacket::class.java, LunarDataPacketProcessor())
             packetHandler.registerPacket(SolarDataPacket::class.java, SolarDataPacketProcessor())
+            packetHandler.registerPacket(ThermalDataPacket::class.java, ThermalDataPacketProcessor())
         }
     }
 }

@@ -21,7 +21,8 @@
     "power_sources": [
       "afraidofthedark:creative",
       "afraidofthedark:lunar",
-      "afraidofthedark:solar"
+      "afraidofthedark:solar",
+      "afraidofthedark:thermal"
     ],
     "delivery_methods": [
       "afraidofthedark:self"
