@@ -48,6 +48,7 @@ import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.StarMetalBoltIte
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.WoodenBoltItem
 import com.davidm1a2.afraidofthedark.common.item.eggs.EnchantedFrogSpawnEggItem
 import com.davidm1a2.afraidofthedark.common.item.eggs.EnchantedSkeletonSpawnEggItem
+import com.davidm1a2.afraidofthedark.common.item.eggs.FrostPhoenixSpawnEggItem
 import com.davidm1a2.afraidofthedark.common.item.eggs.SplinterDroneSpawnEggItem
 import com.davidm1a2.afraidofthedark.common.item.eggs.WerewolfSpawnEggItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.AdvancedTelescopeItem
@@ -126,6 +127,7 @@ object ModItems {
     val WEREWOLF_SPAWN_EGG = WerewolfSpawnEggItem()
     val SPLINTER_DRONE_SPAWN_EGG = SplinterDroneSpawnEggItem()
     val ENCHANTED_FROG_SPAWN_EGG = EnchantedFrogSpawnEggItem()
+    val FROST_PHOENIX_SPAWN_EGG = FrostPhoenixSpawnEggItem()
 
     // An array containing a list of items that AOTD adds
     var ITEM_LIST = arrayOf(
@@ -191,6 +193,7 @@ object ModItems {
         ENCHANTED_SKELETON_SPAWN_EGG,
         WEREWOLF_SPAWN_EGG,
         SPLINTER_DRONE_SPAWN_EGG,
-        ENCHANTED_FROG_SPAWN_EGG
+        ENCHANTED_FROG_SPAWN_EGG,
+        FROST_PHOENIX_SPAWN_EGG
     )
 }

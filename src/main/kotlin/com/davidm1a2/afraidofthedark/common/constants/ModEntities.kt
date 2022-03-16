@@ -9,6 +9,7 @@ import com.davidm1a2.afraidofthedark.common.entity.enaria.EnariaEntity
 import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSkeletonEntity
+import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.FrostPhoenixEntity
 import com.davidm1a2.afraidofthedark.common.entity.spell.laser.SpellLaserEntity
 import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.SpellProjectileEntity
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneEntity
@@ -88,6 +89,14 @@ object ModEntities {
         .build("${Constants.MOD_ID}:enchanted_frog")
         .setRegistryNameGeneric("enchanted_frog")
 
+    val FROST_PHOENIX = EntityType.Builder.of(::FrostPhoenixEntity, EntityClassification.MONSTER)
+        .setTrackingRange(50)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .sized(0.8f, 2.8f)
+        .build("${Constants.MOD_ID}:frost_phoenix")
+        .setRegistryNameGeneric("frost_phoenix")
+
     // Spell entities
     val SPELL_PROJECTILE = EntityType.Builder.of(::SpellProjectileEntity, EntityClassification.MISC)
         .setTrackingRange(50)
@@ -157,6 +166,7 @@ object ModEntities {
         SPLINTER_DRONE_PROJECTILE,
         ENARIA,
         ENCHANTED_FROG,
+        FROST_PHOENIX,
         SPELL_PROJECTILE,
         SPELL_LASER,
         WOODEN_BOLT,
@@ -174,7 +184,8 @@ object ModEntities {
             ENCHANTED_FROG to EnchantedFrogEntity.buildAttributeModifiers().build(),
             ENCHANTED_SKELETON to EnchantedSkeletonEntity.buildAttributeModifiers().build(),
             SPLINTER_DRONE to SplinterDroneEntity.buildAttributeModifiers().build(),
-            WEREWOLF to WerewolfEntity.buildAttributeModifiers().build()
+            WEREWOLF to WerewolfEntity.buildAttributeModifiers().build(),
+            FROST_PHOENIX to FrostPhoenixEntity.buildAttributeModifiers().build()
         )
     }
 
