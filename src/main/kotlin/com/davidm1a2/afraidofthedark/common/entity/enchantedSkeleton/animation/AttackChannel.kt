@@ -27,7 +27,7 @@ class AttackChannel internal constructor(name: String, fps: Float, totalFrames: 
      *
      * All code below is created by the MC animator software
      */
-    override fun initializeAllFrames() {
+    init {
         val frame0 = KeyFrame()
         frame0.modelRotations["rightarm"] = Quaternion(-0.67559016f, 0.0f, 0.0f, 0.7372773f)
         frame0.modelRotations["leftarm"] = Quaternion(-0.7372773f, 0.0f, 0.0f, 0.6755902f)

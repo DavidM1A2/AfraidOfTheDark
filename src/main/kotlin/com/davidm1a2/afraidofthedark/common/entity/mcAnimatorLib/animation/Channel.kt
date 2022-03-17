@@ -18,16 +18,7 @@ abstract class Channel(
     val totalFrames: Int = 0,
     val mode: ChannelMode = ChannelMode.LINEAR
 ) {
-    val keyFrames: BiMap<Int, KeyFrame> = HashBiMap.create()
-
-    init {
-        initializeAllFrames()
-    }
-
-    /**
-     * Create all the frames and add them in the list in the correct order.
-     */
-    protected abstract fun initializeAllFrames()
+    protected val keyFrames: BiMap<Int, KeyFrame> = HashBiMap.create()
 
     /**
      * Return the previous rotation KeyFrame before this frame that uses this box, if it exists. If currentFrame is a
@@ -38,8 +29,19 @@ abstract class Channel(
      * @return The key frame
      */
     open fun getPreviousRotationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
-        return keyFrames.asSequence().filter { it.key <= currentFrame && it.value.useBoxInRotation(boxName) }
-            .maxByOrNull { it.key }?.value
+        var previousRotationKeyFrame: KeyFrame? = null
+        var previousRotationKeyFrameIndex: Int = -1
+
+        for ((index, keyFrame) in keyFrames) {
+            if (index > previousRotationKeyFrameIndex) {
+                if (index <= currentFrame && keyFrame.useBoxInRotation(boxName)) {
+                    previousRotationKeyFrame = keyFrame
+                    previousRotationKeyFrameIndex = index
+                }
+            }
+        }
+
+        return previousRotationKeyFrame
     }
 
     /**
@@ -51,8 +53,19 @@ abstract class Channel(
      * @return The key frame
      */
     open fun getNextRotationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
-        return keyFrames.asSequence().filter { it.key > currentFrame && it.value.useBoxInRotation(boxName) }
-            .minByOrNull { it.key }?.value
+        var nextRotationKeyFrame: KeyFrame? = null
+        var nextRotationKeyFrameIndex: Int = Int.MAX_VALUE
+
+        for ((index, keyFrame) in keyFrames) {
+            if (index < nextRotationKeyFrameIndex) {
+                if (index > currentFrame && keyFrame.useBoxInRotation(boxName)) {
+                    nextRotationKeyFrame = keyFrame
+                    nextRotationKeyFrameIndex = index
+                }
+            }
+        }
+
+        return nextRotationKeyFrame
     }
 
     /**
@@ -64,8 +77,19 @@ abstract class Channel(
      * @return The key frame
      */
     open fun getPreviousTranslationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
-        return keyFrames.asSequence().filter { it.key <= currentFrame && it.value.useBoxInTranslation(boxName) }
-            .maxByOrNull { it.key }?.value
+        var previousTranslationKeyFrame: KeyFrame? = null
+        var previousTranslationKeyFrameIndex: Int = -1
+
+        for ((index, keyFrame) in keyFrames) {
+            if (index > previousTranslationKeyFrameIndex) {
+                if (index <= currentFrame && keyFrame.useBoxInTranslation(boxName)) {
+                    previousTranslationKeyFrame = keyFrame
+                    previousTranslationKeyFrameIndex = index
+                }
+            }
+        }
+
+        return previousTranslationKeyFrame
     }
 
     /**
@@ -77,8 +101,19 @@ abstract class Channel(
      * @return The key frame
      */
     open fun getNextTranslationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
-        return keyFrames.asSequence().filter { it.key > currentFrame && it.value.useBoxInTranslation(boxName) }
-            .minByOrNull { it.key }?.value
+        var nextTranslationKeyFrame: KeyFrame? = null
+        var nextTranslationKeyFrameIndex: Int = Int.MAX_VALUE
+
+        for ((index, keyFrame) in keyFrames) {
+            if (index < nextTranslationKeyFrameIndex) {
+                if (index > currentFrame && keyFrame.useBoxInTranslation(boxName)) {
+                    nextTranslationKeyFrame = keyFrame
+                    nextTranslationKeyFrameIndex = index
+                }
+            }
+        }
+
+        return nextTranslationKeyFrame
     }
 
     /**

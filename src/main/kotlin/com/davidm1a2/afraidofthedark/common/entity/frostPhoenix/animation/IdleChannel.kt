@@ -9,7 +9,7 @@ import net.minecraft.util.math.vector.Vector3f
 
 class IdleChannel internal constructor(name: String, fps: Float, totalFrames: Int, mode: ChannelMode) :
     Channel(name, fps, totalFrames, mode) {
-    override fun initializeAllFrames() {
+    init {
         val frame0 = KeyFrame()
         frame0.modelRotations["phoenixRWingtip"] = Quaternion(0.83871186f, 0.019565567f, 0.03239297f, 0.54325897f)
         frame0.modelRotations["phoenixRLowerWing"] = Quaternion(0.19949791f, 0.02541694f, -0.045272544f, 0.9785218f)

@@ -22,7 +22,7 @@ class WalkChannel internal constructor(name: String, fps: Float, totalFrames: In
      *
      * All code below is created by the MC animator software
      */
-    override fun initializeAllFrames() {
+    init {
         val frame0 = KeyFrame()
         frame0.modelRotations["body"] = Quaternion(0.0f, 0.0f, 0.0f, 1.0f)
         frame0.modelRotations["leftarm"] = Quaternion(0.0f, 0.0f, 0.0f, 1.0f)

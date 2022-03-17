@@ -22,7 +22,7 @@ class BiteChannel internal constructor(name: String, fps: Float, totalFrames: In
      *
      * All code below is created by the MC animator software
      */
-    override fun initializeAllFrames() {
+    init {
         val frame0 = KeyFrame()
         frame0.modelRotations["Head"] = Quaternion(0.0784591f, 0.0f, 0.0f, 0.9969173f)
         frame0.modelTranslations["Head"] = Vector3f(0.0f, 3.0f, 10.0f)

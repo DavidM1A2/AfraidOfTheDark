@@ -9,7 +9,7 @@ import net.minecraft.util.math.vector.Vector3f
 
 class FlyChannel internal constructor(name: String, fps: Float, totalFrames: Int, mode: ChannelMode) :
     Channel(name, fps, totalFrames, mode) {
-    override fun initializeAllFrames() {
+    init {
         val frame0 = KeyFrame()
         frame0.modelRotations["phoenixTail"] = Quaternion(0.0f, 0.0f, -0.65143657f, 0.7587031f)
         frame0.modelRotations["phoenixBreast"] = Quaternion(0.0f, 0.0f, -0.5714299f, 0.8206509f)

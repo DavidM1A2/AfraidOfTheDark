@@ -27,7 +27,7 @@ class SpawnChannel internal constructor(name: String, fps: Float, totalFrames: I
      *
      * All code below is created by the MC animator software
      */
-    override fun initializeAllFrames() {
+    init {
         val frame0 = KeyFrame()
         frame0.modelRotations["rightarm"] = Quaternion(0.1830127f, -0.1830127f, -0.68301266f, 0.68301266f)
         frame0.modelRotations["rightleg"] = Quaternion(0.0f, 0.0f, -0.70710677f, 0.70710677f)

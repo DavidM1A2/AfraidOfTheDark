@@ -22,7 +22,7 @@ class RunChannel internal constructor(name: String, fps: Float, totalFrames: Int
      *
      * All code below is created by the MC animator software
      */
-    override fun initializeAllFrames() {
+    init {
         val frame21 = KeyFrame()
         frame21.modelRotations["LeftFrontLeg"] = Quaternion(-0.5983246f, 0.0f, 0.0f, 0.8012538f)
         frame21.modelRotations["LeftBackLeg"] = Quaternion(0.3632512f, 0.0f, 0.0f, 0.9316912f)

@@ -23,7 +23,7 @@ class CastChannel internal constructor(name: String, fps: Float, totalFrames: In
      *
      * All code below is created by the MC animator software
      */
-    override fun initializeAllFrames() {
+    init {
         val frame0 = KeyFrame()
         frame0.modelRotations["frogLLeg"] = Quaternion(
             0.27059805f,

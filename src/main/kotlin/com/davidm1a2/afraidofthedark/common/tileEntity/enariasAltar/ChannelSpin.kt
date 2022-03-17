@@ -23,7 +23,7 @@ class ChannelSpin(name: String, fps: Float, totalFrames: Int, mode: ChannelMode)
      *
      * All code below is created by the MC animator software
      */
-    override fun initializeAllFrames() {
+    init {
         val frame0 = KeyFrame()
         frame0.modelRotations["spike4"] = Quaternion(0.0f, -1.0f, 0.0f, -4.371139E-8f)
         frame0.modelRotations["spike3"] = Quaternion(0.0f, -1.0f, 0.0f, -4.371139E-8f)

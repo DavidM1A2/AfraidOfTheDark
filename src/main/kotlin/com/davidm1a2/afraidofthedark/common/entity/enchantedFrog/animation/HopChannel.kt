@@ -23,7 +23,7 @@ class HopChannel internal constructor(name: String, fps: Float, totalFrames: Int
      *
      * All code below is created by the MC animator software
      */
-    override fun initializeAllFrames() {
+    init {
         val frame0 = KeyFrame()
         frame0.modelRotations["frogBody"] = Quaternion(0.0f, 0.0f, 0.0f, 1.0f)
         frame0.modelRotations["frogLLeg"] = Quaternion(

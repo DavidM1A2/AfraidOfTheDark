@@ -22,7 +22,7 @@ class SpingChannel internal constructor(name: String, fps: Float, totalFrames: I
      *
      * All code below is created by the MC animator software
      */
-    override fun initializeAllFrames() {
+    init {
         val frame0 = KeyFrame()
         frame0.modelRotations["body"] = Quaternion(0.083405174f, -0.372392f, 0.21956569f, 0.8978634f)
         frame0.modelTranslations["body"] = Vector3f(0.0f, 0.0f, 0.0f)

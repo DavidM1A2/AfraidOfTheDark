@@ -22,7 +22,7 @@ class IdleChannel internal constructor(name: String, fps: Float, totalFrames: In
      *
      * All code below is created by the MC animator software
      */
-    override fun initializeAllFrames() {
+    init {
         val frame0 = KeyFrame()
         frame0.modelRotations["Pillar2"] = Quaternion(0.0f, 0.38268346f, 0.0f, 0.9238795f)
         frame0.modelRotations["Pillar4"] = Quaternion(0.0f, 0.9238795f, 0.0f, 0.38268343f)
