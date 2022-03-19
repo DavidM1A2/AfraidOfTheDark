@@ -1,8 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation
 
-import com.google.common.collect.BiMap
-import com.google.common.collect.HashBiMap
-
 /**
  * Channel was provided by the MC animator library and updated by myself
  *
@@ -18,7 +15,7 @@ abstract class Channel(
     val totalFrames: Int = 0,
     val mode: ChannelMode = ChannelMode.LINEAR
 ) {
-    protected val keyFrames: BiMap<Int, KeyFrame> = HashBiMap.create()
+    protected val keyFrames = mutableMapOf<Int, KeyFrame>()
 
     /**
      * Return the previous rotation KeyFrame before this frame that uses this box, if it exists. If currentFrame is a
@@ -28,7 +25,7 @@ abstract class Channel(
      * @param currentFrame The current frame
      * @return The key frame
      */
-    open fun getPreviousRotationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
+    open fun getPreviousRotationKeyFrameForBox(boxName: String, currentFrame: Float): Pair<Int, KeyFrame?> {
         var previousRotationKeyFrame: KeyFrame? = null
         var previousRotationKeyFrameIndex: Int = -1
 
@@ -41,7 +38,7 @@ abstract class Channel(
             }
         }
 
-        return previousRotationKeyFrame
+        return previousRotationKeyFrameIndex to previousRotationKeyFrame
     }
 
     /**
@@ -52,7 +49,7 @@ abstract class Channel(
      * @param currentFrame The current frame
      * @return The key frame
      */
-    open fun getNextRotationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
+    open fun getNextRotationKeyFrameForBox(boxName: String, currentFrame: Float): Pair<Int, KeyFrame?> {
         var nextRotationKeyFrame: KeyFrame? = null
         var nextRotationKeyFrameIndex: Int = Int.MAX_VALUE
 
@@ -65,7 +62,7 @@ abstract class Channel(
             }
         }
 
-        return nextRotationKeyFrame
+        return nextRotationKeyFrameIndex to nextRotationKeyFrame
     }
 
     /**
@@ -76,7 +73,7 @@ abstract class Channel(
      * @param currentFrame The current frame
      * @return The key frame
      */
-    open fun getPreviousTranslationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
+    open fun getPreviousTranslationKeyFrameForBox(boxName: String, currentFrame: Float): Pair<Int, KeyFrame?> {
         var previousTranslationKeyFrame: KeyFrame? = null
         var previousTranslationKeyFrameIndex: Int = -1
 
@@ -89,7 +86,7 @@ abstract class Channel(
             }
         }
 
-        return previousTranslationKeyFrame
+        return previousTranslationKeyFrameIndex to previousTranslationKeyFrame
     }
 
     /**
@@ -100,7 +97,7 @@ abstract class Channel(
      * @param currentFrame The current frame
      * @return The key frame
      */
-    open fun getNextTranslationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
+    open fun getNextTranslationKeyFrameForBox(boxName: String, currentFrame: Float): Pair<Int, KeyFrame?> {
         var nextTranslationKeyFrame: KeyFrame? = null
         var nextTranslationKeyFrameIndex: Int = Int.MAX_VALUE
 
@@ -113,16 +110,6 @@ abstract class Channel(
             }
         }
 
-        return nextTranslationKeyFrame
-    }
-
-    /**
-     * Get the position of the keyframe in this animation, if the keyframe exists.
-     *
-     * @param keyFrame The key frame to test
-     * @return The position of the frame
-     */
-    open fun getKeyFramePosition(keyFrame: KeyFrame?): Int {
-        return keyFrame?.let { keyFrames.inverse()[it] } ?: -1
+        return nextTranslationKeyFrameIndex to nextTranslationKeyFrame
     }
 }

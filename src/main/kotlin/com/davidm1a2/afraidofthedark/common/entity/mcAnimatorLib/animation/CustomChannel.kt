@@ -24,8 +24,8 @@ abstract class CustomChannel(name: String) : Channel(name) {
      * @param currentFrame The current frame
      * @return null, this isn't used for custom channels
      */
-    override fun getPreviousRotationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
-        return null
+    override fun getPreviousRotationKeyFrameForBox(boxName: String, currentFrame: Float): Pair<Int, KeyFrame?> {
+        return 0 to null
     }
 
     /**
@@ -36,8 +36,8 @@ abstract class CustomChannel(name: String) : Channel(name) {
      * @param currentFrame The current frame
      * @return null, this isn't used for custom channels
      */
-    override fun getNextRotationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
-        return null
+    override fun getNextRotationKeyFrameForBox(boxName: String, currentFrame: Float): Pair<Int, KeyFrame?> {
+        return 0 to null
     }
 
     /**
@@ -48,8 +48,8 @@ abstract class CustomChannel(name: String) : Channel(name) {
      * @param currentFrame The current frame
      * @return null, this isn't used for custom channels
      */
-    override fun getPreviousTranslationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
-        return null
+    override fun getPreviousTranslationKeyFrameForBox(boxName: String, currentFrame: Float): Pair<Int, KeyFrame?> {
+        return 0 to null
     }
 
     /**
@@ -60,17 +60,7 @@ abstract class CustomChannel(name: String) : Channel(name) {
      * @param currentFrame The current frame
      * @return null, this isn't used for custom channels
      */
-    override fun getNextTranslationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
-        return null
-    }
-
-    /**
-     * Get the position of the keyframe in this animation, if the keyframe exists.
-     *
-     * @param keyFrame The key frame to test
-     * @return -1, this isn't used for custom channels
-     */
-    override fun getKeyFramePosition(keyFrame: KeyFrame?): Int {
-        return -1
+    override fun getNextTranslationKeyFrameForBox(boxName: String, currentFrame: Float): Pair<Int, KeyFrame?> {
+        return 0 to null
     }
 }

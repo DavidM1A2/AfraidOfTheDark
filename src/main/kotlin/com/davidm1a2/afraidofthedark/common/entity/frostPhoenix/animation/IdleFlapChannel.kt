@@ -7,7 +7,7 @@ import net.minecraft.util.math.vector.Quaternion
 import net.minecraft.util.math.vector.Vector3f
 
 
-class IdleChannel internal constructor(name: String, fps: Float, totalFrames: Int, mode: ChannelMode) :
+class IdleFlapChannel internal constructor(name: String, fps: Float, totalFrames: Int, mode: ChannelMode) :
     Channel(name, fps, totalFrames, mode) {
     init {
         val frame0 = KeyFrame()

@@ -2,7 +2,8 @@ package com.davidm1a2.afraidofthedark.common.entity.frostPhoenix
 
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.AttackChannel
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.FlyChannel
-import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.IdleChannel
+import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.IdleFlapChannel
+import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.IdleLookChannel
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.LandChannel
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.LaunchChannel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
@@ -10,24 +11,26 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Anima
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.FlyingEntity
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.MobEntity
 import net.minecraft.entity.Pose
 import net.minecraft.entity.ai.attributes.AttributeModifierMap
 import net.minecraft.entity.ai.attributes.Attributes
 import net.minecraft.entity.ai.goal.LookAtGoal
 import net.minecraft.entity.ai.goal.LookRandomlyGoal
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.util.SoundCategory
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: World) : MobEntity(entityType, world), IMCAnimatedModel {
+class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: World) : FlyingEntity(entityType, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(
-        IdleChannel("Idle", .1F, 21, ChannelMode.LINEAR),
+        IdleFlapChannel("IdleFlap", 24.0F, 21, ChannelMode.LINEAR),
         LaunchChannel("Launch", 24.0F, 21, ChannelMode.LINEAR),
-        FlyChannel("Fly", 24.0F, 21, ChannelMode.LINEAR),
-        LandChannel("Land", 24.0F, 41, ChannelMode.LINEAR),
-        AttackChannel("Attack", 24.0F, 11, ChannelMode.LINEAR)
+        FlyChannel("Fly", 30.0F, 21, ChannelMode.LOOP),
+        IdleLookChannel("IdleLook", 24.0F, 41, ChannelMode.LINEAR),
+        AttackChannel("Attack", 24.0F, 11, ChannelMode.LINEAR),
+        LandChannel("Land", 24.0F, 21, ChannelMode.LINEAR)
     )
 
     /**
@@ -44,20 +47,11 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         super.baseTick()
 
         if (level.isClientSide) {
-            animHandler.stopAnimation("Idle")
-            //if (!animHandler.isAnimationActive("Idle")) {
-            //    animHandler.playAnimation("Idle")
-            //}
+            // animHandler.stopAnimation("Fly")
+            if (!animHandler.isAnimationActive("Fly")) {
+                animHandler.playAnimation("Fly")
+            }
         }
-    }
-
-    /**
-     * Don't play a step sound for the phoenix
-     *
-     * @param pos The position
-     * @param state The block's state
-     */
-    override fun playStepSound(pos: BlockPos, state: BlockState) {
     }
 
     /**
@@ -74,10 +68,23 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         return 1.5f
     }
 
+    /**
+     * Don't play a step sound for the phoenix
+     *
+     * @param pos The position
+     * @param state The block's state
+     */
+    override fun playStepSound(pos: BlockPos, state: BlockState) {
+    }
+
+    override fun getSoundSource(): SoundCategory {
+        return SoundCategory.HOSTILE
+    }
+
     companion object {
         // Constants defining phoenix parameters
         private const val MOVE_SPEED = 0.25
-        private const val FOLLOW_RANGE = 32.0
+        private const val FOLLOW_RANGE = 64.0
         private const val MAX_HEALTH = 7.0
         private const val KNOCKBACK_RESISTANCE = 0.5
 
