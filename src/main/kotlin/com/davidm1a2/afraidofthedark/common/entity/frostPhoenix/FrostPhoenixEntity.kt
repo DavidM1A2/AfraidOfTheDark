@@ -1,7 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.entity.frostPhoenix
 
+import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.AttackChannel
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.FlyChannel
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.IdleChannel
+import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.LandChannel
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.LaunchChannel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
@@ -21,10 +23,11 @@ import net.minecraft.world.World
 
 class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: World) : MobEntity(entityType, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(
-        IdleChannel("Idle", 24.0F, 120, ChannelMode.LINEAR),
-        LaunchChannel("Launch", 24.0F, 60, ChannelMode.LINEAR),
-        FlyChannel("Fly", 24.0F, 60, ChannelMode.LINEAR),
-        IdleChannel("Land", 24.0F, 30, ChannelMode.LINEAR)
+        IdleChannel("Idle", .1F, 21, ChannelMode.LINEAR),
+        LaunchChannel("Launch", 24.0F, 21, ChannelMode.LINEAR),
+        FlyChannel("Fly", 24.0F, 21, ChannelMode.LINEAR),
+        LandChannel("Land", 24.0F, 41, ChannelMode.LINEAR),
+        AttackChannel("Attack", 24.0F, 11, ChannelMode.LINEAR)
     )
 
     /**
@@ -41,9 +44,10 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         super.baseTick()
 
         if (level.isClientSide) {
-            if (!animHandler.isAnimationActive("Fly")) {
-                animHandler.playAnimation("Fly")
-            }
+            animHandler.stopAnimation("Idle")
+            //if (!animHandler.isAnimationActive("Idle")) {
+            //    animHandler.playAnimation("Idle")
+            //}
         }
     }
 

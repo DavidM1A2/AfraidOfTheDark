@@ -12,8 +12,9 @@ class FrostPhoenixRenderer(renderManager: EntityRendererManager) :
     MobRenderer<FrostPhoenixEntity, FrostPhoenixModel>(renderManager, FROST_PHOENIX_MODEL, MODEL_SHADOW_SIZE) {
     override fun setupRotations(entity: FrostPhoenixEntity, matrixStack: MatrixStack, bob: Float, yOffset: Float, partialTicks: Float) {
         super.setupRotations(entity, matrixStack, bob, yOffset, partialTicks)
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(180f))
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(180f - 90f))
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180f))
+        matrixStack.scale(2f, 2f, 2f)
         matrixStack.translate(0.0, -MODEL_HEIGHT, 0.0)
     }
 
