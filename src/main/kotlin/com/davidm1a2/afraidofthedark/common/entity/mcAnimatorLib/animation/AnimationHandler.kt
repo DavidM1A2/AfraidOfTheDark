@@ -138,10 +138,6 @@ class AnimationHandler(vararg animChannels: Channel) {
      */
     fun performAnimationInModel(parts: Map<String, MCAModelRenderer>) {
         for ((boxName, box) in parts) {
-            var anyRotationApplied = false
-            var anyTranslationApplied = false
-            var anyCustomAnimationRunning = false
-
             for (channel in animCurrentChannels) {
                 if (channel.mode != ChannelMode.CUSTOM) {
                     val currentFrame = animCurrentFrame[channel.name]!!
@@ -164,11 +160,9 @@ class AnimationHandler(vararg animChannels: Channel) {
                             slerpProgress
                         )
                         box.rotation.set(currentQuat.i(), currentQuat.j(), currentQuat.k(), currentQuat.r())
-                        anyRotationApplied = true
                     } else if (prevRotationKeyFrame != null && nextRotationKeyFrame == null) { // After the last keyframe
                         val currentQuat = prevRotationKeyFrame.modelRotations[boxName]!!
                         box.rotation.set(currentQuat.i(), currentQuat.j(), currentQuat.k(), currentQuat.r())
-                        anyRotationApplied = true
                     } else if (prevRotationKeyFrame != null && nextRotationKeyFrame != null) { // Between keyframes
                         val currentQuat = Quaternion(0f, 0f, 0f, 0f)
                         currentQuat.slerp(
@@ -177,7 +171,8 @@ class AnimationHandler(vararg animChannels: Channel) {
                             slerpProgress
                         )
                         box.rotation.set(currentQuat.i(), currentQuat.j(), currentQuat.k(), currentQuat.r())
-                        anyRotationApplied = true
+                    } else { // There are no key frames
+                        box.resetRotationQuaternion()
                     }
 
                     // Translations
@@ -196,31 +191,21 @@ class AnimationHandler(vararg animChannels: Channel) {
                         val currentPosition = startPosition.copy()
                         currentPosition.interpolate(endPosition, lerpProgress)
                         box.setRotationPoint(currentPosition.x(), currentPosition.y(), currentPosition.z())
-                        anyTranslationApplied = true
                     } else if (prevTranslationKeyFrame != null && nextTranslationKeyFrame == null) { // After the last keyframe
                         val currentPosition = prevTranslationKeyFrame.modelTranslations[boxName]!!
                         box.setRotationPoint(currentPosition.x(), currentPosition.y(), currentPosition.z())
-                        anyTranslationApplied = true
                     } else if (prevTranslationKeyFrame != null && nextTranslationKeyFrame != null) { // Between keyframes
                         val startPosition = prevTranslationKeyFrame.modelTranslations[boxName]!!
                         val endPosition = nextTranslationKeyFrame.modelTranslations[boxName]!!
                         val currentPosition = startPosition.copy()
                         currentPosition.interpolate(endPosition, lerpProgress)
                         box.setRotationPoint(currentPosition.x(), currentPosition.y(), currentPosition.z())
-                        anyTranslationApplied = true
+                    } else { // There are no key frames
+                        box.resetRotationPoint()
                     }
                 } else {
-                    anyCustomAnimationRunning = true
                     (channel as CustomChannel).update(parts, this)
                 }
-            }
-
-            // Set the initial values for each box if necessary
-            if (!anyRotationApplied && !anyCustomAnimationRunning) {
-                box.resetRotationQuaternion()
-            }
-            if (!anyTranslationApplied && !anyCustomAnimationRunning) {
-                box.resetRotationPoint()
             }
         }
     }

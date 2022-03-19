@@ -6,6 +6,5 @@ package com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation
 enum class ChannelMode {
     LINEAR,
     LOOP,
-    CYCLE,
     CUSTOM
 }
