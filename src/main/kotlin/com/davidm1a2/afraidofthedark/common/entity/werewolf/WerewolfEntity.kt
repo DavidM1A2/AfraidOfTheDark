@@ -43,10 +43,7 @@ import net.minecraftforge.fml.network.PacketDistributor
  * @property animHandler Animation handler used by the werewolf
  */
 class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) : MonsterEntity(entityType, world), IMCAnimatedModel {
-    private val animHandler = AnimationHandler(
-        BiteChannel("Bite", 50.0f, 21, ChannelMode.LINEAR),
-        RunChannel("Run", 60.0f, 32, ChannelMode.LINEAR)
-    )
+    private val animHandler = AnimationHandler(BITE_CHANNEL, RUN_CHANNEL)
 
     var canAttackAnyone: Boolean = false
 
@@ -235,6 +232,9 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
         private const val KNOCKBACK_RESISTANCE = 0.5
         private const val ATTACK_DAMAGE = 20.0
         private const val ATTACK_KNOCKBACK = 1.5
+
+        private val BITE_CHANNEL = BiteChannel("Bite", 50.0f, 21, ChannelMode.LINEAR)
+        private val RUN_CHANNEL = RunChannel("Run", 60.0f, 32, ChannelMode.LINEAR)
 
         /**
          * Sets entity attributes such as max health and movespeed

@@ -33,11 +33,7 @@ import net.minecraftforge.fml.network.PacketDistributor
  * @property animHandler The animation handler used to manage animations
  */
 class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world: World) : FlyingEntity(entityType, world), IMob, IMCAnimatedModel {
-    private val animHandler = AnimationHandler(
-        ActivateChannel("Activate", 25.0f, 100, ChannelMode.LINEAR),
-        ChargeChannel("Charge", 100.0f, 100, ChannelMode.LINEAR),
-        IdleChannel("Idle", 25.0f, 100, ChannelMode.LINEAR)
-    )
+    private val animHandler = AnimationHandler(ACTIVATE_CHANNEL, CHARGE_CHANNEL, IDLE_CHANNEL)
     private var playedSpawnAnimation = false
 
     constructor(world: World) : this(ModEntities.SPLINTER_DRONE, world)
@@ -137,6 +133,10 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
         private const val ATTACK_DAMAGE = 2.0
         private const val KNOCKBACK_RESISTANCE = 0.5
         private const val ATTACK_KNOCKBACK = 0.0
+
+        private val ACTIVATE_CHANNEL = ActivateChannel("Activate", 25.0f, 100, ChannelMode.LINEAR)
+        private val CHARGE_CHANNEL = ChargeChannel("Charge", 100.0f, 100, ChannelMode.LINEAR)
+        private val IDLE_CHANNEL = IdleChannel("Idle", 25.0f, 100, ChannelMode.LINEAR)
 
         /**
          * Sets entity attributes such as max health and movespeed

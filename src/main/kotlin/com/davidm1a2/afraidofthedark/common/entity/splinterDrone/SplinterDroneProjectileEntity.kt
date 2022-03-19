@@ -33,7 +33,7 @@ import kotlin.math.sqrt
 class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProjectileEntity>, world: World) : Entity(entityType, world),
     IMCAnimatedModel {
     private var shootingEntity: SplinterDroneEntity? = null
-    private val animHandler = AnimationHandler(SpingChannel("Sping", 100.0f, 100, ChannelMode.LINEAR))
+    private val animHandler = AnimationHandler(SPING_CHANNEL)
     private var ticksInAir = 0
 
     /**
@@ -225,5 +225,7 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
     companion object {
         // The speed of the projectile
         private const val PROJECTILE_SPEED = 0.5
+
+        private val SPING_CHANNEL = SpingChannel("Sping", 100.0f, 100, ChannelMode.LINEAR)
     }
 }

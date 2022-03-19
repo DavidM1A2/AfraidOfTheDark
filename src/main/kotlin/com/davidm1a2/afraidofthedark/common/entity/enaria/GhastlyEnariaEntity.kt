@@ -31,7 +31,7 @@ import java.util.UUID
  * @property animHandler The animation handler used to manage animations
  */
 class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world: World) : FlyingEntity(entityType, world), IMCAnimatedModel {
-    private val animHandler = AnimationHandler(DanceChannel("dance", 30.0f, 300, ChannelMode.LINEAR))
+    private val animHandler = AnimationHandler(DANCE_CHANNEL)
 
     private var touchedPlayer: UUID? = null
 
@@ -210,6 +210,8 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
         private const val KNOCKBACK_RESISTANCE = 1.0
         private const val PLAYER_DISTANCE_CHECK_FREQUENCY = 10.0
         private const val PLAYER_BENIGN_CHECK_FREQUENCY = 200.0
+
+        private val DANCE_CHANNEL = DanceChannel("dance", 30.0f, 300, ChannelMode.LINEAR)
 
         /**
          * Sets entity attributes such as max health and movespeed

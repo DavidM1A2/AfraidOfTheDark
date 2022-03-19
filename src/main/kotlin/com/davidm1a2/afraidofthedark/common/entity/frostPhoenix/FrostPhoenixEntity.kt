@@ -25,12 +25,12 @@ import net.minecraft.world.World
 
 class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: World) : FlyingEntity(entityType, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(
-        IdleFlapChannel("IdleFlap", 24.0F, 21, ChannelMode.LINEAR),
-        LaunchChannel("Launch", 24.0F, 21, ChannelMode.LINEAR),
-        FlyChannel("Fly", 30.0F, 21, ChannelMode.LOOP),
-        IdleLookChannel("IdleLook", 24.0F, 41, ChannelMode.LINEAR),
-        AttackChannel("Attack", 24.0F, 11, ChannelMode.LINEAR),
-        LandChannel("Land", 24.0F, 21, ChannelMode.LINEAR)
+        IDLE_FLAP_CHANNEL,
+        LAUNCH_CHANNEL,
+        FLY_CHANNEL,
+        IDLE_LOOK_CHANNEL,
+        ATTACK_CHANNEL,
+        LAND_CHANNEL
     )
 
     /**
@@ -87,6 +87,13 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         private const val FOLLOW_RANGE = 64.0
         private const val MAX_HEALTH = 7.0
         private const val KNOCKBACK_RESISTANCE = 0.5
+
+        private val IDLE_FLAP_CHANNEL = IdleFlapChannel("IdleFlap", 24.0F, 21, ChannelMode.LINEAR)
+        private val LAUNCH_CHANNEL = LaunchChannel("Launch", 24.0F, 21, ChannelMode.LINEAR)
+        private val FLY_CHANNEL = FlyChannel("Fly", 30.0F, 21, ChannelMode.LOOP)
+        private val IDLE_LOOK_CHANNEL = IdleLookChannel("IdleLook", 24.0F, 41, ChannelMode.LINEAR)
+        private val ATTACK_CHANNEL = AttackChannel("Attack", 24.0F, 11, ChannelMode.LINEAR)
+        private val LAND_CHANNEL = LandChannel("Land", 24.0F, 21, ChannelMode.LINEAR)
 
         /**
          * Gives the phoenix its entity attributes like movespeed

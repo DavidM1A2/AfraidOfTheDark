@@ -39,12 +39,7 @@ import net.minecraftforge.fml.network.NetworkHooks
 import kotlin.math.min
 
 class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : MobEntity(entityType, world), IMCAnimatedModel {
-    private val animHandler = AnimationHandler(
-        WalkChannel("walk", 59.0f, 59, ChannelMode.LINEAR),
-        ArmthrowChannel("armthrow", 61.0f, 61, ChannelMode.LINEAR),
-        AutoattackChannel("autoattack", 70.0f, 51, ChannelMode.LINEAR),
-        SpellChannel("spell", 50.0f, 121, ChannelMode.LINEAR)
-    )
+    private val animHandler = AnimationHandler(WALK_CHANNEL, ARMTHROW_CHANNEL, AUTOATTACK_CHANNEL, SPELL_CHANNEL)
     private val bossInfo = ServerBossInfo(
         StringTextComponent("placeholder"),
         BossInfo.Color.PURPLE,
@@ -280,6 +275,11 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
 
         // The maximum amount of damage done in a single shot
         private const val MAX_DAMAGE_IN_1_HIT = 10
+
+        private val WALK_CHANNEL = WalkChannel("walk", 59.0f, 59, ChannelMode.LINEAR)
+        private val ARMTHROW_CHANNEL = ArmthrowChannel("armthrow", 61.0f, 61, ChannelMode.LINEAR)
+        private val AUTOATTACK_CHANNEL = AutoattackChannel("autoattack", 70.0f, 51, ChannelMode.LINEAR)
+        private val SPELL_CHANNEL = SpellChannel("spell", 50.0f, 121, ChannelMode.LINEAR)
 
         /**
          * Gives enaria her entity attributes like damage and movespeed

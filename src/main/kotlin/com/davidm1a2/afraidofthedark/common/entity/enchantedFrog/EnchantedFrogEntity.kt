@@ -44,10 +44,7 @@ import kotlin.random.Random
 class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world: World) : CreatureEntity(entityType, world), IMCAnimatedModel {
     // We don't need to write this to NBT data, it's not important to persist
     private var ticksUntilNextCastAttempt = MAX_TICKS_BETWEEN_CASTS
-    private val animHandler = AnimationHandler(
-        HopChannel("hop", 120.0f, 80, ChannelMode.LINEAR),
-        CastChannel("cast", 120.0f, 60, ChannelMode.LINEAR)
-    )
+    private val animHandler = AnimationHandler(HOP_CHANNEL, CAST_CHANNEL)
     var spell = createRandomSpell()
         private set
 
@@ -222,6 +219,9 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
         private const val FOLLOW_RANGE = 32.0
         private const val MAX_HEALTH = 7.0
         private const val KNOCKBACK_RESISTANCE = 0.5
+
+        private val HOP_CHANNEL = HopChannel("hop", 120.0f, 80, ChannelMode.LINEAR)
+        private val CAST_CHANNEL = CastChannel("cast", 120.0f, 60, ChannelMode.LINEAR)
 
         /**
          * Gives the enchanted frog its entity attributes like movespeed

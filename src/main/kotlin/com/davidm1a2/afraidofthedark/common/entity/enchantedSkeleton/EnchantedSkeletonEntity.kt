@@ -48,12 +48,7 @@ import net.minecraftforge.fml.network.PacketDistributor
  * @property animHandler The animation handler used to manage animations
  */
 class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity>, world: World) : MonsterEntity(entityType, world), IMCAnimatedModel {
-    private val animHandler = AnimationHandler(
-        WalkChannel("Walk", 20.0f, 40, ChannelMode.LINEAR),
-        AttackChannel("Attack", 30.0f, 20, ChannelMode.LINEAR),
-        SpawnChannel("Spawn", 20.0f, 40, ChannelMode.LINEAR),
-        IdleChannel("Idle", 10.0f, 20, ChannelMode.LOOP)
-    )
+    private val animHandler = AnimationHandler(WALK_CHANNEL, ATTACK_CHANNEL, SPAWN_CHANNEL, IDLE_CHANNEL)
     private var playedSpawnAnimation = false
 
     init {
@@ -244,6 +239,11 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
         private const val ATTACK_DAMAGE = 4.0
         private const val KNOCKBACK_RESISTANCE = 0.5
         private const val ATTACK_KNOCKBACK = 0.0
+
+        private val WALK_CHANNEL = WalkChannel("Walk", 20.0f, 40, ChannelMode.LINEAR)
+        private val ATTACK_CHANNEL = AttackChannel("Attack", 30.0f, 20, ChannelMode.LINEAR)
+        private val SPAWN_CHANNEL = SpawnChannel("Spawn", 20.0f, 40, ChannelMode.LINEAR)
+        private val IDLE_CHANNEL = IdleChannel("Idle", 10.0f, 20, ChannelMode.LOOP)
 
         /**
          * Gives the enchanted skeleton entity attributes like damage and movespeed

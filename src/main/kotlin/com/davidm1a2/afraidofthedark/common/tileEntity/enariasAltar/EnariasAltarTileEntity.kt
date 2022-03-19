@@ -14,11 +14,7 @@ import kotlin.random.Random
  */
 class EnariasAltarTileEntity : AOTDAnimatedTileEntity(
     ModTileEntities.ENARIAS_ALTAR,
-    AnimationHandler(
-        ChannelSpin("SpinSlow", 5f, 60, ChannelMode.LINEAR),
-        ChannelSpin("SpinMedium", 15f, 60, ChannelMode.LINEAR),
-        ChannelSpin("SpinFast", 30f, 60, ChannelMode.LINEAR)
-    )
+    AnimationHandler(SLOW_CHANNEL, MEDIUM_CHANNEL, FAST_CHANNEL)
 ) {
     /**
      * Called every tick to update the tile entity's state
@@ -75,5 +71,9 @@ class EnariasAltarTileEntity : AOTDAnimatedTileEntity(
     companion object {
         private const val FAST_DISTANCE = 5.0
         private const val MEDIUM_DISTANCE = 15.0
+
+        private val SLOW_CHANNEL = ChannelSpin("SpinSlow", 5f, 60, ChannelMode.LINEAR)
+        private val MEDIUM_CHANNEL = ChannelSpin("SpinMedium", 15f, 60, ChannelMode.LINEAR)
+        private val FAST_CHANNEL = ChannelSpin("SpinFast", 30f, 60, ChannelMode.LINEAR)
     }
 }
