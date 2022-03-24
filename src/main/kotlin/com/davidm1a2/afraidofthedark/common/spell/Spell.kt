@@ -79,75 +79,76 @@ class Spell : INBTSerializable<CompoundNBT> {
             if (entity.level.dimension() != ModDimensions.NIGHTMARE_WORLD) {
                 // If the spell is valid continue, if not print an error
                 if (isValid()) {
-                    // Test if the spell can be cast, if not tell the player why
-                    if (powerSource!!.component.canCast(entity, this)) {
-                        // Consumer the power to cast the spell
-                        powerSource!!.component.consumePowerToCast(entity, this)
+                    // Try casting the spell
+                    val castResult = powerSource!!.component.cast(entity, this)
 
-                        // Send an event for the spell being cast
-                        MinecraftForge.EVENT_BUS.post(CastSpellEvent(entity, this))
-
-                        // Play a cast sound
-                        entity.level.playSound(
-                            null,
-                            entity.blockPosition(),
-                            ModSounds.SPELL_CAST,
-                            SoundCategory.PLAYERS,
-                            1.0f,
-                            (0.8f + Math.random() * 0.4).toFloat()
-                        )
-
-                        // Determine the particles from the strength of the spell
-                        val spellPower = this.getCost()
-                        var spellParticle: IParticleData = ModParticles.SPELL_CAST
-                        if (spellPower > SPELL_TIER2_CUTOFF) spellParticle = ModParticles.SPELL_CAST2
-                        if (spellPower > SPELL_TIER3_CUTOFF) spellParticle = ModParticles.SPELL_CAST3
-                        // Spawn 3-5 particles
-                        val positions: MutableList<Vector3d> = ArrayList()
-                        for (i in 0 until Random.nextInt(2, 6)) {
-                            positions.add(Vector3d(entity.x, entity.y, entity.z))
-                        }
-
-                        // Send the particle packet
-                        AfraidOfTheDark.packetHandler.sendToAllAround(
-                            ParticlePacket(
-                                spellParticle,
-                                positions,
-                                List<Vector3d>(positions.size) { Vector3d.ZERO }
-                            ),
-                            PacketDistributor.TargetPoint(
-                                entity.x,
-                                entity.y,
-                                entity.z,
-                                100.0,
-                                entity.level.dimension()
-                            )
-                        )
-
-                        val position = entity.getEyePosition(1.0f)
-                        // Tell the first delivery method to fire
-                        getStage(0)!!
-                            .deliveryInstance!!
-                            .component
-                            .executeDelivery(
-                                DeliveryTransitionState(
-                                    spell = this,
-                                    stageIndex = 0,
-                                    world = entity.level,
-                                    position = position,
-                                    blockPosition = BlockPos(position),
-                                    direction = direction,
-                                    normal = entity.getLookNormal(),
-                                    entity = entity,
-                                    casterEntity = entity
-                                )
-                            )
-                    } else {
-                        entity.sendMessage(powerSource!!.component.getNotEnoughPowerMessage())
+                    // If we failed for some reason, let the entity know
+                    if (!castResult.wasSuccessful()) {
+                        entity.sendMessage(castResult.failureMessage!!)
                         if (entity !is PlayerEntity) {
                             logger.info("Entity '${entity.name}' attempted to cast a spell without enough power?")
                         }
+                        return
                     }
+
+                    // Send an event for the spell being cast
+                    MinecraftForge.EVENT_BUS.post(CastSpellEvent(entity, this))
+
+                    // Play a cast sound
+                    entity.level.playSound(
+                        null,
+                        entity.blockPosition(),
+                        ModSounds.SPELL_CAST,
+                        SoundCategory.PLAYERS,
+                        1.0f,
+                        (0.8f + Math.random() * 0.4).toFloat()
+                    )
+
+                    // Determine the particles from the strength of the spell
+                    val spellPower = this.getCost()
+                    var spellParticle: IParticleData = ModParticles.SPELL_CAST
+                    if (spellPower > SPELL_TIER2_CUTOFF) spellParticle = ModParticles.SPELL_CAST2
+                    if (spellPower > SPELL_TIER3_CUTOFF) spellParticle = ModParticles.SPELL_CAST3
+                    // Spawn 3-5 particles
+                    val positions: MutableList<Vector3d> = ArrayList()
+                    for (i in 0 until Random.nextInt(2, 6)) {
+                        positions.add(Vector3d(entity.x, entity.y, entity.z))
+                    }
+
+                    // Send the particle packet
+                    AfraidOfTheDark.packetHandler.sendToAllAround(
+                        ParticlePacket(
+                            spellParticle,
+                            positions,
+                            List<Vector3d>(positions.size) { Vector3d.ZERO }
+                        ),
+                        PacketDistributor.TargetPoint(
+                            entity.x,
+                            entity.y,
+                            entity.z,
+                            100.0,
+                            entity.level.dimension()
+                        )
+                    )
+
+                    val position = entity.getEyePosition(1.0f)
+                    // Tell the first delivery method to fire
+                    getStage(0)!!
+                        .deliveryInstance!!
+                        .component
+                        .executeDelivery(
+                            DeliveryTransitionState(
+                                spell = this,
+                                stageIndex = 0,
+                                world = entity.level,
+                                position = position,
+                                blockPosition = BlockPos(position),
+                                direction = direction,
+                                normal = entity.getLookNormal(),
+                                entity = entity,
+                                casterEntity = entity
+                            )
+                        )
                 } else {
                     entity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.invalid"))
                     if (entity !is PlayerEntity) {

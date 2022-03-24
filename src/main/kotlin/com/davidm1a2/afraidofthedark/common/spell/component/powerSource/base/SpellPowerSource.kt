@@ -21,22 +21,13 @@ abstract class SpellPowerSource(id: ResourceLocation, prerequisiteResearch: Rese
     prerequisiteResearch
 ) {
     /**
-     * True if the given spell can be cast, false otherwise
+     * Tries to case a given spell from an entity using this power source
      *
-     * @param entity The entity that is casting the spell
-     * @param spell The spell to attempt to cast
-     * @return True if the spell can be cast, false otherwise
+     * @param entity The entity to case from
+     * @param spell The spell to cast
+     * @return The result of the cast
      */
-    abstract fun canCast(entity: Entity, spell: Spell): Boolean
-
-    /**
-     * Consumes power to cast a given spell. canCast must return true first to ensure there is
-     * enough power to cast the spell
-     *
-     * @param entity The entity that is casting the spell
-     * @param spell the spell to attempt to cast
-     */
-    abstract fun consumePowerToCast(entity: Entity, spell: Spell)
+    abstract fun cast(entity: Entity, spell: Spell): SpellCastResult
 
     /**
      * Converts the spell cost to "power source" specific units
@@ -45,15 +36,6 @@ abstract class SpellPowerSource(id: ResourceLocation, prerequisiteResearch: Rese
      * @return The cost in "power source" specific units
      */
     protected abstract fun getSourceSpecificCost(rawCost: Double): Number
-
-    /**
-     * Computes the message describing why the power source doesn't have enough power
-     *
-     * @return A string describing why the power source doesn't have enough energy
-     */
-    fun getNotEnoughPowerMessage(): ITextComponent {
-        return TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power")
-    }
 
     /**
      * Gets a description message of how cost is computed for this power source
