@@ -29,4 +29,6 @@ object ModCommonConfiguration {
     var flaskOfSoulsBasicEntities = emptySet<ResourceLocation>()
     var flaskOfSoulsRareEntities = emptySet<ResourceLocation>()
     var flaskOfSoulsEpicEntities = emptySet<ResourceLocation>()
+
+    var leechPowerSourceEntities = emptySet<ResourceLocation>()
 }

@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.config
 
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.item.FlaskOfSoulsItem
+import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.LeechSpellPowerSource
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.ForgeConfigSpec
 
@@ -34,6 +35,8 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
     private val flaskOfSoulsCommonEntities: ForgeConfigSpec.ConfigValue<List<String>>
     private val flaskOfSoulsRareEntities: ForgeConfigSpec.ConfigValue<List<String>>
     private val flaskOfSoulsEpicEntities: ForgeConfigSpec.ConfigValue<List<String>>
+
+    private val leechPowerSourceEntities: ForgeConfigSpec.ConfigValue<List<String>>
 
     init {
         builder.push("dungeon_frequency")
@@ -111,6 +114,15 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
             .defineList("epic_entities", { FlaskOfSoulsItem.EPIC_ENTITIES }, { it is String && it.toResourceLocation() != null })
 
         builder.pop()
+
+        builder.push("leech_power_source")
+
+        leechPowerSourceEntities = builder
+            .comment("A list of entities that can be damaged by the leech spell power source.")
+            .translation("config.afraidofthedark:leech_power_source_entities")
+            .defineList("leech_power_source_entities", { LeechSpellPowerSource.LEECH_ENTITIES }, { it is String && it.toResourceLocation() != null })
+
+        builder.pop()
     }
 
     fun reload() {
@@ -129,6 +141,7 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
         ModCommonConfiguration.flaskOfSoulsBasicEntities = flaskOfSoulsCommonEntities.get().mapNotNull { it.toResourceLocation() }.toSet()
         ModCommonConfiguration.flaskOfSoulsRareEntities = flaskOfSoulsRareEntities.get().mapNotNull { it.toResourceLocation() }.toSet()
         ModCommonConfiguration.flaskOfSoulsEpicEntities = flaskOfSoulsEpicEntities.get().mapNotNull { it.toResourceLocation() }.toSet()
+        ModCommonConfiguration.leechPowerSourceEntities = leechPowerSourceEntities.get().mapNotNull { it.toResourceLocation() }.toSet()
     }
 
     private fun String.toResourceLocation(): ResourceLocation? {

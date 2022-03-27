@@ -33,6 +33,10 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         LAND_CHANNEL
     )
 
+    init {
+        xpReward = 30
+    }
+
     /**
      * Creates the AI used by hostile or passive entities
      */
