@@ -26,7 +26,8 @@
       "afraidofthedark:leech"
     ],
     "delivery_methods": [
-      "afraidofthedark:self"
+      "afraidofthedark:self",
+      "afraidofthedark:imbue"
     ]
   }
 }

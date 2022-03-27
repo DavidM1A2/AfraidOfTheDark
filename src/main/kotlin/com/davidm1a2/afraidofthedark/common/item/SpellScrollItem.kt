@@ -65,6 +65,10 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
         return NBTHelper.getCompound(itemStack, NBT_SPELL)?.let { Spell(it) }
     }
 
+    fun isEmpty(itemStack: ItemStack): Boolean {
+        return !NBTHelper.hasTag(itemStack, NBT_SPELL)
+    }
+
     fun setUses(itemStack: ItemStack, uses: Int) {
         NBTHelper.setInteger(itemStack, NBT_USES, uses)
     }
