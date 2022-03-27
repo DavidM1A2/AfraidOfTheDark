@@ -40,7 +40,9 @@ class ImbueSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
             for (itemStack in inventory.items + inventory.offhand) {
                 if (itemStack.item == ModItems.SPELL_SCROLL) {
                     if (ModItems.SPELL_SCROLL.isEmpty(itemStack)) {
-                        ModItems.SPELL_SCROLL.setUses(itemStack, getUses(state.getCurrentStage().deliveryInstance!!))
+                        val uses = getUses(state.getCurrentStage().deliveryInstance!!)
+                        ModItems.SPELL_SCROLL.setUses(itemStack, uses)
+                        ModItems.SPELL_SCROLL.setMaxUses(itemStack, uses)
                         val oldSpellStages = state.spell.spellStages
                         val newSpellStages = oldSpellStages.subList(state.stageIndex, oldSpellStages.size).map {
                             SpellStage(it.serializeNBT())

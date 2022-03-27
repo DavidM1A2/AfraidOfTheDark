@@ -56,6 +56,28 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
         return ActionResult.success(itemStack)
     }
 
+    override fun getDurabilityForDisplay(stack: ItemStack): Double {
+        return if (isEmpty(stack)) {
+            0.0
+        } else {
+            val uses = getUses(stack)
+            val maxUses = getMaxUses(stack)
+            if (maxUses == 0 || uses > maxUses || uses < 0) {
+                0.0
+            } else {
+                1 - (uses.toDouble() / maxUses.toDouble())
+            }
+        }
+    }
+
+    override fun isFoil(stack: ItemStack): Boolean {
+        return !isEmpty(stack)
+    }
+
+    override fun showDurabilityBar(stack: ItemStack): Boolean {
+        return !isEmpty(stack)
+    }
+
     fun setSpell(itemStack: ItemStack, spell: Spell) {
         NBTHelper.setCompound(itemStack, NBT_SPELL, spell.serializeNBT())
         itemStack.hoverName = TranslationTextComponent("tooltip.afraidofthedark.spell_scroll.spell_name", spell.name)
@@ -66,7 +88,7 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
     }
 
     fun isEmpty(itemStack: ItemStack): Boolean {
-        return !NBTHelper.hasTag(itemStack, NBT_SPELL)
+        return !NBTHelper.hasTag(itemStack, NBT_SPELL) || !NBTHelper.hasTag(itemStack, NBT_USES) || !NBTHelper.hasTag(itemStack, NBT_MAX_USES)
     }
 
     fun setUses(itemStack: ItemStack, uses: Int) {
@@ -75,6 +97,14 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
 
     fun getUses(itemStack: ItemStack): Int {
         return NBTHelper.getInteger(itemStack, NBT_USES) ?: 0
+    }
+
+    fun setMaxUses(itemStack: ItemStack, uses: Int) {
+        NBTHelper.setInteger(itemStack, NBT_MAX_USES, uses)
+    }
+
+    fun getMaxUses(itemStack: ItemStack): Int {
+        return NBTHelper.getInteger(itemStack, NBT_MAX_USES) ?: 1
     }
 
     override fun appendHoverText(itemStack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
@@ -96,5 +126,6 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
     companion object {
         private const val NBT_SPELL = "spell"
         private const val NBT_USES = "uses"
+        private const val NBT_MAX_USES = "max_uses"
     }
 }
