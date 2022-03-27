@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.HealthSp
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.LeechSpellPowerSource
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.LunarSpellPowerSource
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.SolarSpellPowerSource
+import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.SpellScrollPowerSource
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.ThermalSpellPowerSource
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.VitaeLanternSpellPowerSource
 
@@ -25,6 +26,7 @@ object ModSpellPowerSources {
     val SOLAR = SolarSpellPowerSource()
     val THERMAL = ThermalSpellPowerSource()
     val LEECH = LeechSpellPowerSource()
+    val SPELL_SCROLL = SpellScrollPowerSource()
 
     // An array containing a list of spell power sources that AOTD adds
     val SPELL_POWER_SOURCES = arrayOf(
@@ -37,6 +39,7 @@ object ModSpellPowerSources {
         LUNAR,
         SOLAR,
         THERMAL,
-        LEECH
+        LEECH,
+        SPELL_SCROLL
     )
 }
