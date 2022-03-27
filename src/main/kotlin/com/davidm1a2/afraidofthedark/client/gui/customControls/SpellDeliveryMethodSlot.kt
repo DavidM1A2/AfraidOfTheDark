@@ -4,8 +4,8 @@ import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableConsumer
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.common.spell.Spell
-import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
+import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
 import com.davidm1a2.afraidofthedark.common.utility.round
 import net.minecraft.util.text.TranslationTextComponent
 
@@ -35,7 +35,7 @@ class SpellDeliveryMethodSlot(offset: Position, prefSize: Dimensions, spell: Spe
 
     override fun consume(data: Any) {
         if (data is SpellDeliveryMethod) {
-            val inst = SpellComponentInstance(data)
+            val inst = SpellDeliveryMethodInstance(data)
             inst.setDefaults()
             this.setSpellComponent(inst)
             this.spell.spellStages[stageIndex].deliveryInstance = inst

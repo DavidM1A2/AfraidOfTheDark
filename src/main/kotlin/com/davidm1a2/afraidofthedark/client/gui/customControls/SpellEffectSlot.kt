@@ -4,8 +4,8 @@ import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableConsumer
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.common.spell.Spell
-import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
 import com.davidm1a2.afraidofthedark.common.utility.round
 import net.minecraft.util.text.TranslationTextComponent
 
@@ -39,7 +39,7 @@ class SpellEffectSlot(
 
     override fun consume(data: Any) {
         if (data is SpellEffect) {
-            val inst = SpellComponentInstance(data)
+            val inst = SpellEffectInstance(data)
             inst.setDefaults()
             this.setSpellComponent(inst)
             this.spell.spellStages[stageIndex].effects[effectIndex] = inst

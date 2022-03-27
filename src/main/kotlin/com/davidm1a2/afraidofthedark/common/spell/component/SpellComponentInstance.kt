@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component
 import net.minecraft.nbt.CompoundNBT
 import net.minecraftforge.common.util.INBTSerializable
 
-open class SpellComponentInstance<T : SpellComponent<T>>(val component: T) : INBTSerializable<CompoundNBT> {
+abstract class SpellComponentInstance<T : SpellComponent<T>>(val component: T) : INBTSerializable<CompoundNBT> {
     var data: CompoundNBT = CompoundNBT()
         private set
 

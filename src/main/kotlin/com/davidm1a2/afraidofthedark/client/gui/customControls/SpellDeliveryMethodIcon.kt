@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
-import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
+import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
 import com.davidm1a2.afraidofthedark.common.utility.round
 import net.minecraft.util.text.TranslationTextComponent
 
@@ -11,7 +11,7 @@ import net.minecraft.util.text.TranslationTextComponent
 class SpellDeliveryMethodIcon(deliveryMethod: SpellDeliveryMethod) : SpellComponentIcon<SpellDeliveryMethod>(deliveryMethod, "delivery_method_holder") {
     init {
         // Show the delivery method and stats
-        val componentInstance = SpellComponentInstance(deliveryMethod)
+        val componentInstance = SpellDeliveryMethodInstance(deliveryMethod)
         componentInstance.setDefaults()
         this.hoverTexts = arrayOf(
             deliveryMethod.getName().string,

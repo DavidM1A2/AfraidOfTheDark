@@ -66,6 +66,7 @@
   "item.afraidofthedark.diamond_lens": "Diamond Lens",
   "item.afraidofthedark.topaz_lens": "Topaz Lens",
   "item.afraidofthedark.compound_lens": "Compound Lens",
+  "item.afraidofthedark.spell_scroll": "Spell Scroll",
   "_comment": "Blocks",
   "block.afraidofthedark.darkness": "Darkness",
   "block.afraidofthedark.gravewood": "Gravewood",
@@ -605,6 +606,8 @@
   "tooltip.afraidofthedark.bolt.requires_crossbow": "Bolts can only be shot from a crossbow.",
   "tooltip.afraidofthedark.telescope.directions": "Right click above y=128 to find meteors",
   "tooltip.afraidofthedark.telescope.accuracy": "Accurate to %1$s blocks",
+  "tooltip.afraidofthedark.spell_scroll.spell_name": "Spell Scroll (%1$s)",
+  "tooltip.afraidofthedark.spell_scroll.empty": "Scroll is blank.",
   "tooltip.afraidofthedark.gui.journal_research.question_mark": "?",
   "tooltip.afraidofthedark.gui.journal_research.unknown_research": "§oUnknown Research",
   "tooltip.afraidofthedark.gui.journal_page.power_source": "%1$s Power Source",
@@ -681,5 +684,6 @@
   "message.afraidofthedark.magic_crystal.one_quarter": "The crystal pulses with a faint energy.",
   "message.afraidofthedark.magic_crystal.half": "The crystal glows with energy.",
   "message.afraidofthedark.magic_crystal.three_quarters": "The crystal is warm to the touch and exudes an intense energy.",
-  "message.afraidofthedark.magic_crystal.full": "The crystal is brimming with energy, emitting small sparks of magic."
+  "message.afraidofthedark.magic_crystal.full": "The crystal is brimming with energy, emitting small sparks of magic.",
+  "message.afraidofthedark.spell_scroll.empty": "The spell scroll is blank."
 }

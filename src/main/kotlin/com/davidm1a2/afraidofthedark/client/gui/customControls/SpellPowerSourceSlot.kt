@@ -4,8 +4,8 @@ import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableConsumer
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.common.spell.Spell
-import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
+import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
 import net.minecraft.util.text.TranslationTextComponent
 
 /**
@@ -38,7 +38,7 @@ class SpellPowerSourceSlot(offset: Position, prefSize: Dimensions, spell: Spell)
      */
     override fun consume(data: Any) {
         if (data is SpellPowerSource) {
-            val inst = SpellComponentInstance(data)
+            val inst = SpellPowerSourceInstance(data)
             inst.setDefaults()
             this.setSpellComponent(inst)
             this.spell.powerSource = inst

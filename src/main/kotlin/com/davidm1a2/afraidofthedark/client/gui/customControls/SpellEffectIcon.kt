@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.customControls
 
-import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
 import com.davidm1a2.afraidofthedark.common.utility.round
 import net.minecraft.util.text.TranslationTextComponent
 
@@ -10,7 +10,7 @@ import net.minecraft.util.text.TranslationTextComponent
  */
 class SpellEffectIcon(effect: SpellEffect) : SpellComponentIcon<SpellEffect>(effect, "effect_holder") {
     init {
-        val componentInstance = SpellComponentInstance(effect)
+        val componentInstance = SpellEffectInstance(effect)
         componentInstance.setDefaults()
         this.hoverTexts = arrayOf(
             effect.getName().string,

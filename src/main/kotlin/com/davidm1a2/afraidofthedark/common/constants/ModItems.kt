@@ -30,6 +30,7 @@ import com.davidm1a2.afraidofthedark.common.item.SchematicCreatorItem
 import com.davidm1a2.afraidofthedark.common.item.SextantItem
 import com.davidm1a2.afraidofthedark.common.item.SleepingPotionItem
 import com.davidm1a2.afraidofthedark.common.item.SmokeyQuartzItem
+import com.davidm1a2.afraidofthedark.common.item.SpellScrollItem
 import com.davidm1a2.afraidofthedark.common.item.StarMetalArmorItem
 import com.davidm1a2.afraidofthedark.common.item.StarMetalFragmentItem
 import com.davidm1a2.afraidofthedark.common.item.StarMetalIngotItem
@@ -123,6 +124,7 @@ object ModItems {
     val TOPAZ_LENS = TopazLensItem()
     val COMPOUND_LENS = CompoundLensItem()
     val VITAE_LANTERN = VitaeLanternItem()
+    val SPELL_SCROLL = SpellScrollItem()
     val ENCHANTED_SKELETON_SPAWN_EGG = EnchantedSkeletonSpawnEggItem()
     val WEREWOLF_SPAWN_EGG = WerewolfSpawnEggItem()
     val SPLINTER_DRONE_SPAWN_EGG = SplinterDroneSpawnEggItem()
@@ -190,6 +192,7 @@ object ModItems {
         TOPAZ_LENS,
         COMPOUND_LENS,
         VITAE_LANTERN,
+        SPELL_SCROLL,
         ENCHANTED_SKELETON_SPAWN_EGG,
         WEREWOLF_SPAWN_EGG,
         SPLINTER_DRONE_SPAWN_EGG,
