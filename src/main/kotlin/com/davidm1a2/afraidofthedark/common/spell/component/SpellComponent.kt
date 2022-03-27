@@ -1,7 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.spell.component
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
@@ -31,6 +33,10 @@ abstract class SpellComponent<T : IForgeRegistryEntry<T>>(
     }
 
     abstract fun getUnlocalizedBaseName(): String
+
+    open fun shouldShowInSpellEditor(player: PlayerEntity): Boolean {
+        return prerequisiteResearch == null || player.getResearch().isResearched(prerequisiteResearch)
+    }
 
     fun getName(): ITextComponent {
         return TranslationTextComponent("${getUnlocalizedBaseName()}.name")

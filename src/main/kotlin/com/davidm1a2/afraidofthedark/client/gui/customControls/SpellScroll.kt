@@ -17,7 +17,6 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextBoxComponent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
-import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -65,12 +64,10 @@ class SpellScroll : StackPane() {
         powerSourceHeading.text = "Power Sources"
         componentList.add(powerSourceHeading)
 
-        val research = entityPlayer.getResearch()
-
         // Go over all power sources and add a slot for each
         var powerSourceHPane: HChainPane? = null
-        val unlockedPowerSources = ModRegistries.SPELL_POWER_SOURCES.filter { it.prerequisiteResearch == null || research.isResearched(it.prerequisiteResearch) }
-        for ((powerSourceIndex, powerSourceEntry) in unlockedPowerSources.withIndex()) {
+        val availablePowerSources = ModRegistries.SPELL_POWER_SOURCES.filter { it.shouldShowInSpellEditor(entityPlayer) }
+        for ((powerSourceIndex, powerSourceEntry) in availablePowerSources.withIndex()) {
             if (powerSourceIndex % COMPONENTS_PER_LINE == 0) {
                 if (powerSourceHPane != null) componentList.add(powerSourceHPane)
                 powerSourceHPane = HChainPane(HChainPane.Layout.CLOSE)
@@ -90,8 +87,8 @@ class SpellScroll : StackPane() {
 
         // Go over all effects and add a slot for each
         var effectHPane: HChainPane? = null
-        val unlockedEffects = ModRegistries.SPELL_EFFECTS.filter { it.prerequisiteResearch == null || research.isResearched(it.prerequisiteResearch) }
-        for ((effectIndex, effectEntry) in unlockedEffects.withIndex()) {
+        val availableEffects = ModRegistries.SPELL_EFFECTS.filter { it.shouldShowInSpellEditor(entityPlayer) }
+        for ((effectIndex, effectEntry) in availableEffects.withIndex()) {
             if (effectIndex % COMPONENTS_PER_LINE == 0) {
                 if (effectHPane != null) componentList.add(effectHPane)
                 effectHPane = HChainPane(HChainPane.Layout.CLOSE)
@@ -112,8 +109,8 @@ class SpellScroll : StackPane() {
 
         // Go over all delivery methods and add a slot for each
         var deliveryMethodHPane: HChainPane? = null
-        val unlockedDeliveryMethods = ModRegistries.SPELL_DELIVERY_METHODS.filter { it.prerequisiteResearch == null || research.isResearched(it.prerequisiteResearch) }
-        for ((deliveryMethodIndex, deliveryMethodEntry) in unlockedDeliveryMethods.withIndex()) {
+        val availableDeliveryMethods = ModRegistries.SPELL_DELIVERY_METHODS.filter { it.shouldShowInSpellEditor(entityPlayer) }
+        for ((deliveryMethodIndex, deliveryMethodEntry) in availableDeliveryMethods.withIndex()) {
             if (deliveryMethodIndex % COMPONENTS_PER_LINE == 0) {
                 if (deliveryMethodHPane != null) componentList.add(deliveryMethodHPane)
                 deliveryMethodHPane = HChainPane(HChainPane.Layout.CLOSE)

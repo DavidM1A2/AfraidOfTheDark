@@ -26,4 +26,12 @@ class CreativeSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants
     override fun getSourceSpecificCost(rawCost: Double): Double {
         return rawCost.round(1)
     }
+
+    override fun shouldShowInSpellEditor(player: PlayerEntity): Boolean {
+        if (!player.isCreative) {
+            return false
+        }
+
+        return super.shouldShowInSpellEditor(player)
+    }
 }
