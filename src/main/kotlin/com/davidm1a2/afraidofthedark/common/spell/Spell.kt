@@ -261,7 +261,12 @@ class Spell : INBTSerializable<CompoundNBT> {
     override fun deserializeNBT(nbt: CompoundNBT) {
         // Read each field from NBT
         name = nbt.getString(NBT_NAME)
-        id = NBTUtil.loadUUID(nbt.get(NBT_ID)!!)
+        id = if (nbt.hasUUID(NBT_ID)) {
+            nbt.getUUID(NBT_ID)
+        } else {
+            // Special case where the spell is from a scroll. Generate a UUID
+            UUID.randomUUID()
+        }
 
         // The spell power source can be null, double check that it exists before reading it and its state
         if (nbt.contains(NBT_POWER_SOURCE)) {

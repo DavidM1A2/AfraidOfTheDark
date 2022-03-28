@@ -44,10 +44,14 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
             return ActionResult.success(itemStack)
         }
 
-        val newUses = uses - 1
+        val newUses = if (playerEntity.isCreative) {
+            uses
+        } else {
+            uses - 1
+        }
         setUses(itemStack, newUses)
         if (!world.isClientSide) {
-            if (!playerEntity.isCreative && newUses == 0) {
+            if (newUses == 0) {
                 itemStack.shrink(1)
             }
             spell.attemptToCast(playerEntity)
