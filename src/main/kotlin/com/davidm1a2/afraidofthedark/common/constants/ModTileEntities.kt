@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.tileEntity.DarkForestTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.DesertOasisTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.DroppedJournalTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.EnariaSpawnerTileEntity
+import com.davidm1a2.afraidofthedark.common.tileEntity.FrostPhoenixSpawnerTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.GhastlyEnariaSpawnerTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.MagicCrystalTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.ObservatoryTileEntity
@@ -98,6 +99,12 @@ object ModTileEntities {
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "spell_crafting_table")
         }
+    val FROST_PHOENIX_SPAWNER: TileEntityType<FrostPhoenixSpawnerTileEntity> = TileEntityType
+        .Builder
+        .of({ FrostPhoenixSpawnerTileEntity() }, ModBlocks.FROST_PHOENIX_SPAWNER)
+        .build(null).apply {
+            setRegistryName(Constants.MOD_ID, "frost_phoenix_spawner")
+        }
 
     // A list of tile entities to register
     val TILE_ENTITY_LIST = arrayOf(
@@ -113,6 +120,7 @@ object ModTileEntities {
         DROPPED_JOURNAL,
         VITAE_EXTRACTOR,
         MAGIC_CRYSTAL,
-        SPELL_CRAFTING_TABLE
+        SPELL_CRAFTING_TABLE,
+        FROST_PHOENIX_SPAWNER
     )
 }

@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.entity.frostPhoenix
 
+import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.AttackChannel
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.FlyChannel
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.IdleFlapChannel
@@ -9,6 +10,7 @@ import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.Launch
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
+import com.davidm1a2.afraidofthedark.common.tileEntity.FrostPhoenixSpawnerTileEntity
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.FlyingEntity
@@ -19,6 +21,10 @@ import net.minecraft.entity.ai.attributes.Attributes
 import net.minecraft.entity.ai.goal.LookAtGoal
 import net.minecraft.entity.ai.goal.LookRandomlyGoal
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.nbt.CompoundNBT
+import net.minecraft.network.datasync.DataSerializers
+import net.minecraft.network.datasync.EntityDataManager
+import net.minecraft.util.DamageSource
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
@@ -33,8 +39,21 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         LAND_CHANNEL
     )
 
+    private var spawnerPos: BlockPos
+        set(value) = entityData.set(SPAWNER_POS, value)
+        get() = entityData.get(SPAWNER_POS)
+
     init {
         xpReward = 30
+    }
+
+    constructor(world: World, spawnerPos: BlockPos) : this(ModEntities.FROST_PHOENIX, world) {
+        this.spawnerPos = spawnerPos
+    }
+
+    override fun defineSynchedData() {
+        super.defineSynchedData()
+        entityData.define(SPAWNER_POS, BlockPos.ZERO)
     }
 
     /**
@@ -55,6 +74,17 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
             if (!animHandler.isAnimationActive("Fly")) {
                 animHandler.playAnimation("Fly")
             }
+        }
+    }
+
+    override fun die(damageSource: DamageSource) {
+        super.die(damageSource)
+        if (!level.isClientSide) {
+            val tileEntity = level.getBlockEntity(spawnerPos)
+            if (tileEntity is FrostPhoenixSpawnerTileEntity) {
+                tileEntity.reportPhoenixDeath()
+            }
+            // Else the tileEntity was broken
         }
     }
 
@@ -85,7 +115,25 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         return SoundCategory.HOSTILE
     }
 
+    override fun readAdditionalSaveData(compound: CompoundNBT) {
+        super.readAdditionalSaveData(compound)
+        this.spawnerPos = BlockPos(
+            compound.getInt("spawner_pos_x"),
+            compound.getInt("spawner_pos_y"),
+            compound.getInt("spawner_pos_z")
+        )
+    }
+
+    override fun addAdditionalSaveData(compound: CompoundNBT) {
+        super.addAdditionalSaveData(compound)
+        compound.putInt("spawner_pos_x", this.spawnerPos.x)
+        compound.putInt("spawner_pos_y", this.spawnerPos.y)
+        compound.putInt("spawner_pos_z", this.spawnerPos.z)
+    }
+
     companion object {
+        private val SPAWNER_POS = EntityDataManager.defineId(FrostPhoenixEntity::class.java, DataSerializers.BLOCK_POS)
+
         // Constants defining phoenix parameters
         private const val MOVE_SPEED = 0.25
         private const val FOLLOW_RANGE = 64.0
