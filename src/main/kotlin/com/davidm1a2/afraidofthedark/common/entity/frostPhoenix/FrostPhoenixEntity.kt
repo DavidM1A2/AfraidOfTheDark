@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.entity.frostPhoenix
 
+import com.davidm1a2.afraidofthedark.common.constants.ModDataSerializers
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.AttackChannel
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.FlyChannel
@@ -12,9 +13,10 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Anima
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.tileEntity.FrostPhoenixSpawnerTileEntity
 import net.minecraft.block.BlockState
+import net.minecraft.entity.EntitySize
 import net.minecraft.entity.EntityType
-import net.minecraft.entity.FlyingEntity
-import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.MobEntity
+import net.minecraft.entity.MoverType
 import net.minecraft.entity.Pose
 import net.minecraft.entity.ai.attributes.AttributeModifierMap
 import net.minecraft.entity.ai.attributes.Attributes
@@ -22,14 +24,16 @@ import net.minecraft.entity.ai.goal.LookAtGoal
 import net.minecraft.entity.ai.goal.LookRandomlyGoal
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
+import net.minecraft.network.datasync.DataParameter
 import net.minecraft.network.datasync.DataSerializers
 import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.util.DamageSource
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 
-class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: World) : FlyingEntity(entityType, world), IMCAnimatedModel {
+class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: World) : MobEntity(entityType, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(
         IDLE_FLAP_CHANNEL,
         LAUNCH_CHANNEL,
@@ -43,6 +47,10 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         set(value) = entityData.set(SPAWNER_POS, value)
         get() = entityData.get(SPAWNER_POS)
 
+    var stance: FrostPhoenixStance
+        private set(value) = entityData.set(STANCE, value)
+        get() = entityData.get(STANCE)
+
     init {
         xpReward = 30
     }
@@ -54,6 +62,25 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
     override fun defineSynchedData() {
         super.defineSynchedData()
         entityData.define(SPAWNER_POS, BlockPos.ZERO)
+        entityData.define(STANCE, FrostPhoenixStance.STANDING)
+    }
+
+    override fun onSyncedDataUpdated(dataParameter: DataParameter<*>) {
+        super.onSyncedDataUpdated(dataParameter)
+        if (dataParameter == STANCE) {
+            refreshDimensions()
+            if (animHandler.getActiveAnimations().contains(FLY_CHANNEL)) {
+                animHandler.stopAnimation(FLY_CHANNEL.name)
+            }
+        }
+    }
+
+    override fun refreshDimensions() {
+        val oldX = this.x
+        val oldY = this.y
+        val oldZ = this.z
+        super.refreshDimensions()
+        setPos(oldX, oldY, oldZ)
     }
 
     /**
@@ -70,9 +97,25 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         super.baseTick()
 
         if (level.isClientSide) {
-            // animHandler.stopAnimation("Fly")
-            if (!animHandler.isAnimationActive("Fly")) {
-                animHandler.playAnimation("Fly")
+            val animationName = when (stance) {
+                FrostPhoenixStance.FLYING -> FLY_CHANNEL.name
+                FrostPhoenixStance.LANDING -> LAND_CHANNEL.name
+                FrostPhoenixStance.TAKING_OFF -> LAUNCH_CHANNEL.name
+                FrostPhoenixStance.STANDING -> {
+                    if (random.nextInt(40) == 0) {
+                        if (random.nextBoolean()) {
+                            IDLE_LOOK_CHANNEL.name
+                        } else {
+                            IDLE_FLAP_CHANNEL.name
+                        }
+                    } else {
+                        null
+                    }
+                }
+            }
+
+            if (animationName != null && !animHandler.isAnimationActive(animationName)) {
+                animHandler.playAnimation(animationName)
             }
         }
     }
@@ -95,11 +138,16 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         return animHandler
     }
 
-    /**
-     * @return The eye height of the frog which is used in path finding and looking around
-     */
     override fun getEyeHeight(pose: Pose): Float {
         return 1.5f
+    }
+
+    override fun getDimensions(pose: Pose): EntitySize {
+        return if (stance == FrostPhoenixStance.STANDING || stance == FrostPhoenixStance.LANDING) {
+            STANDING_DIMENSIONS
+        } else {
+            FLYING_DIMENSIONS
+        }
     }
 
     /**
@@ -115,6 +163,49 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         return SoundCategory.HOSTILE
     }
 
+    override fun causeFallDamage(distance: Float, damageMultiplier: Float): Boolean {
+        return false
+    }
+
+    override fun checkFallDamage(distance: Double, onGround: Boolean, blockState: BlockState, location: BlockPos) {}
+
+    override fun travel(location: Vector3d) {
+        if (stance == FrostPhoenixStance.STANDING) {
+            super.travel(location)
+        } else {
+            flyingTravel(location)
+        }
+    }
+
+    /**
+     * Special version of travel() that flying entities use. It's a copy of FlyingEntity's travel()
+     *
+     * @param location Location to go to
+     */
+    private fun flyingTravel(location: Vector3d) {
+        if (this.isInWater) {
+            moveRelative(0.02f, location)
+            move(MoverType.SELF, deltaMovement)
+            deltaMovement = deltaMovement.scale(0.8)
+        } else if (this.isInLava) {
+            moveRelative(0.02f, location)
+            move(MoverType.SELF, deltaMovement)
+            deltaMovement = deltaMovement.scale(0.5)
+        } else {
+            val ground = BlockPos(this.x, this.y - 1.0, this.z)
+            var movementModifier = 0.91f
+            if (onGround) {
+                movementModifier = level.getBlockState(ground).getSlipperiness(level, ground, this) * 0.91f
+            }
+            val slipperinessModifier = 0.16277137f / (movementModifier * movementModifier * movementModifier)
+            moveRelative(if (onGround) 0.1f * slipperinessModifier else 0.02f, location)
+            move(MoverType.SELF, deltaMovement)
+            deltaMovement = deltaMovement.scale(movementModifier.toDouble())
+        }
+
+        calculateEntityAnimation(this, false)
+    }
+
     override fun readAdditionalSaveData(compound: CompoundNBT) {
         super.readAdditionalSaveData(compound)
         this.spawnerPos = BlockPos(
@@ -122,6 +213,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
             compound.getInt("spawner_pos_y"),
             compound.getInt("spawner_pos_z")
         )
+        this.stance = FrostPhoenixStance.valueOf(compound.getString("stance"))
     }
 
     override fun addAdditionalSaveData(compound: CompoundNBT) {
@@ -129,16 +221,21 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         compound.putInt("spawner_pos_x", this.spawnerPos.x)
         compound.putInt("spawner_pos_y", this.spawnerPos.y)
         compound.putInt("spawner_pos_z", this.spawnerPos.z)
+        compound.putString("stance", this.stance.name)
     }
 
     companion object {
         private val SPAWNER_POS = EntityDataManager.defineId(FrostPhoenixEntity::class.java, DataSerializers.BLOCK_POS)
+        private val STANCE = EntityDataManager.defineId(FrostPhoenixEntity::class.java, ModDataSerializers.FROST_PHOENIX_STANCE)
 
         // Constants defining phoenix parameters
         private const val MOVE_SPEED = 0.25
         private const val FOLLOW_RANGE = 64.0
         private const val MAX_HEALTH = 7.0
-        private const val KNOCKBACK_RESISTANCE = 0.5
+        private const val KNOCKBACK_RESISTANCE = 1.0
+
+        private val STANDING_DIMENSIONS = EntitySize.scalable(1.6f, 5.0f)
+        private val FLYING_DIMENSIONS = EntitySize.scalable(4.0f, 2.0f)
 
         private val IDLE_FLAP_CHANNEL = IdleFlapChannel("IdleFlap", 24.0F, 21, ChannelMode.LINEAR)
         private val LAUNCH_CHANNEL = LaunchChannel("Launch", 24.0F, 21, ChannelMode.LINEAR)
@@ -151,7 +248,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
          * Gives the phoenix its entity attributes like movespeed
          */
         fun buildAttributeModifiers(): AttributeModifierMap.MutableAttribute {
-            return LivingEntity.createLivingAttributes()
+            return createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, MAX_HEALTH)
                 .add(Attributes.FOLLOW_RANGE, FOLLOW_RANGE)
                 .add(Attributes.KNOCKBACK_RESISTANCE, KNOCKBACK_RESISTANCE)

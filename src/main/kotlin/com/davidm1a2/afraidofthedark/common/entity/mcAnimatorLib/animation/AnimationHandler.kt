@@ -76,6 +76,13 @@ class AnimationHandler(vararg animChannels: Channel) {
     }
 
     /**
+     * @return All active animations
+     */
+    fun getActiveAnimations(): Set<Channel> {
+        return animCurrentChannels
+    }
+
+    /**
      * Tests if a given animation is active
      *
      * @param name The animation to test
