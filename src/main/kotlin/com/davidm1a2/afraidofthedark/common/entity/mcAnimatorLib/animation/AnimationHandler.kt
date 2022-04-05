@@ -22,6 +22,8 @@ class AnimationHandler(vararg animChannels: Channel) {
     private val animPrevTime = mutableMapOf<String, Long>()
     private val animCurrentFrame = mutableMapOf<String, Float>()
     private val availableAnimChannels = animChannels.associateBy { it.name }
+    private val finishedAnimations = mutableSetOf<Channel>()
+    var animationFinishedCallback: ((Channel) -> Unit)? = null
 
     /**
      * Performs one "tick" of the animation
@@ -33,11 +35,17 @@ class AnimationHandler(vararg animChannels: Channel) {
             val anim = it.next()
             val animStatus = updateAnimation(anim)
             if (!animStatus) {
+                finishedAnimations.add(anim)
                 animPrevTime.remove(anim.name)
                 animCurrentFrame.remove(anim.name)
                 it.remove()
             }
         }
+
+        for (finishedAnimation in finishedAnimations) {
+            animationFinishedCallback?.invoke(finishedAnimation)
+        }
+        finishedAnimations.clear()
     }
 
     /**
@@ -69,6 +77,7 @@ class AnimationHandler(vararg animChannels: Channel) {
                 animCurrentChannels.remove(channel)
                 animPrevTime.remove(name)
                 animCurrentFrame.remove(name)
+                animationFinishedCallback?.invoke(channel)
             }
         } else {
             println("The animation called $name doesn't exist!")
@@ -124,8 +133,7 @@ class AnimationHandler(vararg animChannels: Channel) {
                 true
             }
         } else {
-            val currentTime = System.nanoTime()
-            animPrevTime[channel.name] = currentTime
+            animPrevTime[channel.name] = System.nanoTime()
             true
         }
     }

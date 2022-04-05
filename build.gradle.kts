@@ -10,7 +10,7 @@ repositories {
 buildscript {
     repositories {
         maven {
-            url = uri("https://files.minecraftforge.net/maven")
+            url = uri("https://maven.minecraftforge.net")
         }
         maven {
             url = uri("https://plugins.gradle.org/m2/")

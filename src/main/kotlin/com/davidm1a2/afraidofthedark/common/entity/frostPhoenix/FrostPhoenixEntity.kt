@@ -52,7 +52,18 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
     init {
         xpReward = 30
         moveControl = FrostPhoenixMovementController(this)
-        spawnerPos = blockPosition()
+        animHandler.animationFinishedCallback = {
+            when (it) {
+                FLY_CHANNEL -> {
+                    if (stance == FrostPhoenixStance.FLYING) {
+                        animHandler.playAnimation(FLY_CHANNEL.name)
+                    } else if (stance == FrostPhoenixStance.LANDING) {
+                        animHandler.playAnimation(LAND_CHANNEL.name)
+                    }
+                }
+                LAUNCH_CHANNEL -> animHandler.playAnimation(FLY_CHANNEL.name)
+            }
+        }
     }
 
     constructor(world: World, spawnerPos: BlockPos) : this(ModEntities.FROST_PHOENIX, world) {
@@ -69,15 +80,9 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         super.onSyncedDataUpdated(dataParameter)
         if (dataParameter == STANCE) {
             refreshDimensions()
-            if (animHandler.getActiveAnimations().contains(FLY_CHANNEL)) {
-                animHandler.stopAnimation(FLY_CHANNEL.name)
-            }
             if (level.isClientSide) {
-                when (stance) {
-                    FrostPhoenixStance.FLYING -> animHandler.playAnimation(FLY_CHANNEL.name)
-                    FrostPhoenixStance.LANDING -> animHandler.playAnimation(LAND_CHANNEL.name)
-                    FrostPhoenixStance.TAKING_OFF -> animHandler.playAnimation(LAUNCH_CHANNEL.name)
-                    else -> {}
+                if (stance == FrostPhoenixStance.TAKING_OFF) {
+                    animHandler.playAnimation(LAUNCH_CHANNEL.name)
                 }
             }
         }
@@ -109,7 +114,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
 
         if (level.isClientSide) {
             if (stance == FrostPhoenixStance.STANDING) {
-                if (random.nextInt(40) == 0) {
+                if (random.nextInt(60) == 0) {
                     val animationName = if (random.nextBoolean()) {
                         IDLE_LOOK_CHANNEL.name
                     } else {
@@ -199,7 +204,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
 
         private val IDLE_FLAP_CHANNEL = IdleFlapChannel("IdleFlap", 24.0F, 21, ChannelMode.LINEAR)
         private val LAUNCH_CHANNEL = LaunchChannel("Launch", 24.0F, 21, ChannelMode.LINEAR)
-        private val FLY_CHANNEL = FlyChannel("Fly", 30.0F, 21, ChannelMode.LOOP)
+        private val FLY_CHANNEL = FlyChannel("Fly", 30.0F, 21, ChannelMode.LINEAR)
         private val IDLE_LOOK_CHANNEL = IdleLookChannel("IdleLook", 24.0F, 41, ChannelMode.LINEAR)
         private val ATTACK_CHANNEL = AttackChannel("Attack", 24.0F, 11, ChannelMode.LINEAR)
         private val LAND_CHANNEL = LandChannel("Land", 24.0F, 21, ChannelMode.LINEAR)
