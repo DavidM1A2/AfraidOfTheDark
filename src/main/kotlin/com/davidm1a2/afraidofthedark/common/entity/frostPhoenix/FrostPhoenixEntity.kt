@@ -15,7 +15,8 @@ import com.davidm1a2.afraidofthedark.common.tileEntity.FrostPhoenixSpawnerTileEn
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntitySize
 import net.minecraft.entity.EntityType
-import net.minecraft.entity.FlyingEntity
+import net.minecraft.entity.MobEntity
+import net.minecraft.entity.MoverType
 import net.minecraft.entity.Pose
 import net.minecraft.entity.ai.attributes.AttributeModifierMap
 import net.minecraft.entity.ai.attributes.Attributes
@@ -29,9 +30,10 @@ import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.util.DamageSource
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 
-class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: World) : FlyingEntity(entityType, world), IMCAnimatedModel {
+class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: World) : MobEntity(entityType, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(
         IDLE_FLAP_CHANNEL,
         LAUNCH_CHANNEL,
@@ -171,6 +173,49 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         return SoundCategory.HOSTILE
     }
 
+    override fun causeFallDamage(distance: Float, damageMultiplier: Float): Boolean {
+        return false
+    }
+
+    override fun checkFallDamage(distance: Double, onGround: Boolean, blockState: BlockState, location: BlockPos) {}
+
+    override fun travel(location: Vector3d) {
+        if (stance == FrostPhoenixStance.STANDING) {
+            super.travel(location)
+        } else {
+            flyingTravel(location)
+        }
+    }
+
+    /**
+     * Special version of travel() that flying entities use. It's a copy of FlyingEntity's travel()
+     *
+     * @param location Location to go to
+     */
+    private fun flyingTravel(location: Vector3d) {
+        if (this.isInWater) {
+            moveRelative(0.02f, location)
+            move(MoverType.SELF, deltaMovement)
+            deltaMovement = deltaMovement.scale(0.8)
+        } else if (this.isInLava) {
+            moveRelative(0.02f, location)
+            move(MoverType.SELF, deltaMovement)
+            deltaMovement = deltaMovement.scale(0.5)
+        } else {
+            val ground = BlockPos(this.x, this.y - 1.0, this.z)
+            var movementModifier = 0.91f
+            if (onGround) {
+                movementModifier = level.getBlockState(ground).getSlipperiness(level, ground, this) * 0.91f
+            }
+            val slipperinessModifier = 0.16277137f / (movementModifier * movementModifier * movementModifier)
+            moveRelative(if (onGround) 0.1f * slipperinessModifier else 0.02f, location)
+            move(MoverType.SELF, deltaMovement)
+            deltaMovement = deltaMovement.scale(movementModifier.toDouble())
+        }
+
+        calculateEntityAnimation(this, false)
+    }
+
     override fun readAdditionalSaveData(compound: CompoundNBT) {
         super.readAdditionalSaveData(compound)
         this.spawnerPos = BlockPos(
@@ -199,8 +244,8 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         private const val MAX_HEALTH = 7.0
         private const val KNOCKBACK_RESISTANCE = 1.0
 
-        private val STANDING_DIMENSIONS = EntitySize.scalable(1.6f, 5.0f)
-        private val FLYING_DIMENSIONS = EntitySize.scalable(4.0f, 2.0f)
+        private val STANDING_DIMENSIONS = EntitySize.scalable(1.3f, 5.8f)
+        private val FLYING_DIMENSIONS = EntitySize.scalable(3.8f, 1.6f)
 
         private val IDLE_FLAP_CHANNEL = IdleFlapChannel("IdleFlap", 24.0F, 21, ChannelMode.LINEAR)
         private val LAUNCH_CHANNEL = LaunchChannel("Launch", 24.0F, 21, ChannelMode.LINEAR)

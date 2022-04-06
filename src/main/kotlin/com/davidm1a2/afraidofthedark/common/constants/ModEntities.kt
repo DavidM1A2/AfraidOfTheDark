@@ -93,7 +93,7 @@ object ModEntities {
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
-        .sized(1.6f, 2.7f)
+        .sized(1.3f, 5.8f)
         .build("${Constants.MOD_ID}:frost_phoenix")
         .setRegistryNameGeneric("frost_phoenix")
 
