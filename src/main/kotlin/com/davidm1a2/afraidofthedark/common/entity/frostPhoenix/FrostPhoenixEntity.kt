@@ -245,7 +245,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         private const val KNOCKBACK_RESISTANCE = 1.0
 
         private val STANDING_DIMENSIONS = EntitySize.scalable(1.3f, 5.8f)
-        private val FLYING_DIMENSIONS = EntitySize.scalable(3.8f, 1.6f)
+        private val FLYING_DIMENSIONS = EntitySize.scalable(3.8f, 1.9f)
 
         private val IDLE_FLAP_CHANNEL = IdleFlapChannel("IdleFlap", 24.0F, 21, ChannelMode.LINEAR)
         private val LAUNCH_CHANNEL = LaunchChannel("Launch", 24.0F, 21, ChannelMode.LINEAR)
