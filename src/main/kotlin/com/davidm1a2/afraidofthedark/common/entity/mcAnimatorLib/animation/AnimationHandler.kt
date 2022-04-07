@@ -143,7 +143,7 @@ class AnimationHandler(vararg animChannels: Channel) {
      */
     private fun isGamePaused(): Boolean {
         val minecraft = Minecraft.getInstance()
-        return minecraft.hasSingleplayerServer() && minecraft.screen != null && minecraft.screen!!.isPauseScreen && !minecraft.singleplayerServer!!.isSingleplayer
+        return minecraft.hasSingleplayerServer() && minecraft.screen != null && minecraft.screen!!.isPauseScreen && minecraft.singleplayerServer!!.isSingleplayer
     }
 
     /**
