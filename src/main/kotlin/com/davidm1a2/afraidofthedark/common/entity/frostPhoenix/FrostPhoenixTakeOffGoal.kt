@@ -14,6 +14,8 @@ class FrostPhoenixTakeOffGoal(phoenix: FrostPhoenixEntity) : FrostPhoenixMoveBas
     override fun tick() {
         super.tick()
         ticksUntilTakenOff = ticksUntilTakenOff - 1
+        val currentTargetPosition = getCurrentTargetPosition()
+        flyTo(currentTargetPosition.x, currentTargetPosition.y, currentTargetPosition.z)
     }
 
     override fun canContinueToUse(): Boolean {
@@ -23,8 +25,6 @@ class FrostPhoenixTakeOffGoal(phoenix: FrostPhoenixEntity) : FrostPhoenixMoveBas
     override fun start() {
         phoenix.stance = FrostPhoenixStance.TAKING_OFF
         ticksUntilTakenOff = TAKE_OFF_TICKS
-        val spawnerPos = phoenix.spawnerPos
-        flyTo(spawnerPos.x + 0.5, spawnerPos.y + 0.5 + MAX_FLY_HEIGHT, spawnerPos.z + 0.5)
     }
 
     companion object {

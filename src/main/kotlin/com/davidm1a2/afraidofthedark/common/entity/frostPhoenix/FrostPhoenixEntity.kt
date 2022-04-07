@@ -117,12 +117,12 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         if (level.isClientSide) {
             if (stance == FrostPhoenixStance.STANDING) {
                 if (random.nextInt(60) == 0) {
-                    val animationName = if (random.nextBoolean()) {
-                        IDLE_LOOK_CHANNEL.name
-                    } else {
-                        IDLE_FLAP_CHANNEL.name
-                    }
-                    if (!animHandler.isAnimationActive(animationName)) {
+                    if (animHandler.getActiveAnimations().isEmpty()) {
+                        val animationName = if (random.nextBoolean()) {
+                            IDLE_LOOK_CHANNEL.name
+                        } else {
+                            IDLE_FLAP_CHANNEL.name
+                        }
                         animHandler.playAnimation(animationName)
                     }
                 }

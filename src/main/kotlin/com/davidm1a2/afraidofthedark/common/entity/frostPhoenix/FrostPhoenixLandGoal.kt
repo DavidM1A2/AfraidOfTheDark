@@ -10,9 +10,11 @@ class FrostPhoenixLandGoal(phoenix: FrostPhoenixEntity) : FrostPhoenixMoveBaseGo
     override fun tick() {
         super.tick()
         ticksUntilGivingUp = ticksUntilGivingUp - 1
-        if (phoenix.stance == FrostPhoenixStance.FLYING && getDistanceToLandingSpotSquared() < 16) {
+        if (phoenix.stance == FrostPhoenixStance.FLYING && getDistanceToLandingSpotSquared() < 100) {
             phoenix.stance = FrostPhoenixStance.LANDING
         }
+        val spawnerPos = phoenix.spawnerPos
+        lookAt(spawnerPos.x + 0.5, spawnerPos.y + 1.0, spawnerPos.z + 0.5)
     }
 
     override fun canContinueToUse(): Boolean {
@@ -35,7 +37,7 @@ class FrostPhoenixLandGoal(phoenix: FrostPhoenixEntity) : FrostPhoenixMoveBaseGo
     private fun getDistanceToLandingSpotSquared(): Double {
         val spawnerPos = phoenix.spawnerPos
         val x = spawnerPos.x + 0.5
-        val y = spawnerPos.y + 0.5 + 2.5
+        val y = spawnerPos.y + 1.0
         val z = spawnerPos.z + 0.5
         return phoenix.position().distanceToSqr(x, y, z)
     }

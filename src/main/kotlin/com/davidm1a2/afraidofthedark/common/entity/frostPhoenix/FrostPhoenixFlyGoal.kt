@@ -13,9 +13,7 @@ class FrostPhoenixFlyGoal(phoenix: FrostPhoenixEntity) : FrostPhoenixMoveBaseGoa
     override fun tick() {
         super.tick()
         ticksUntilLanding = ticksUntilLanding - 1
-        if (ticksUntilLanding % 4 == 0) {
-            updateFlyPosition()
-        }
+        updateFlyPosition()
     }
 
     override fun canContinueToUse(): Boolean {
@@ -31,15 +29,15 @@ class FrostPhoenixFlyGoal(phoenix: FrostPhoenixEntity) : FrostPhoenixMoveBaseGoa
     private fun updateFlyPosition() {
         val spawnerPos = phoenix.spawnerPos
         val ticksAlive = phoenix.tickCount
-        val x = spawnerPos.x + 0.5 + sin(ticksAlive / 40.0) * FLY_DIAMETER
+        val x = spawnerPos.x + 0.5 + sin(ticksAlive / 45.0) * FLY_DIAMETER
         val y = spawnerPos.y + 0.5 + MAX_FLY_HEIGHT
-        val z = spawnerPos.z + 0.5 + cos(ticksAlive / 40.0) * FLY_DIAMETER
+        val z = spawnerPos.z + 0.5 + cos(ticksAlive / 45.0) * FLY_DIAMETER
         flyTo(x, y, z)
     }
 
     companion object {
         private const val MIN_FLYING_TICKS = 20 * 15
         private const val MAX_FLYING_TICKS = 20 * 25
-        private const val FLY_DIAMETER = 40
+        internal const val FLY_DIAMETER = 40
     }
 }
