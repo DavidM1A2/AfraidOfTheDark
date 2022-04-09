@@ -21,7 +21,6 @@ import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal
 import net.minecraft.entity.monster.IMob
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
-import net.minecraft.world.Difficulty
 import net.minecraft.world.World
 import net.minecraftforge.fml.network.PacketDistributor
 
@@ -59,18 +58,6 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
         targetSelector.addGoal(1, SplinterDroneAttackGoal(this))
         // Find the nearest player to target and hit
         targetSelector.addGoal(2, NearestAttackableTargetGoal(this, PlayerEntity::class.java, true))
-    }
-
-    /**
-     * Update animations for this entity when update is called, also kill the entity if it's peaceful
-     */
-    override fun tick() {
-        super.tick()
-
-        // If we're on peaceful and server side kill the entity
-        if (!level.isClientSide && level.difficulty == Difficulty.PEACEFUL) {
-            remove()
-        }
     }
 
     /**
@@ -112,6 +99,10 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
      */
     override fun getEyeHeight(pose: Pose): Float {
         return 1.5f
+    }
+
+    override fun shouldDespawnInPeaceful(): Boolean {
+        return true
     }
 
     override fun readAdditionalSaveData(compound: CompoundNBT) {

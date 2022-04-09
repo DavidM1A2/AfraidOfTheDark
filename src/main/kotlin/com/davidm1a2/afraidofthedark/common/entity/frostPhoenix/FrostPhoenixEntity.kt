@@ -66,6 +66,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
                 LAUNCH_CHANNEL -> animHandler.playAnimation(FLY_CHANNEL.name)
             }
         }
+        setPersistenceRequired()
     }
 
     constructor(world: World, spawnerPos: BlockPos) : this(ModEntities.FROST_PHOENIX, world) {
@@ -224,6 +225,10 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
             compound.getInt("spawner_pos_z")
         )
         this.stance = FrostPhoenixStance.valueOf(compound.getString("stance"))
+    }
+
+    override fun shouldDespawnInPeaceful(): Boolean {
+        return true
     }
 
     override fun addAdditionalSaveData(compound: CompoundNBT) {

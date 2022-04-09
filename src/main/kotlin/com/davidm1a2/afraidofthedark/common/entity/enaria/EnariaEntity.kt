@@ -57,6 +57,8 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
         this.customName = StringTextComponent("Enaria")
         bossInfo.name = this.displayName
         xpReward = 300
+        // Can't despawn
+        setPersistenceRequired()
     }
 
     /**
@@ -227,8 +229,9 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
         return false
     }
 
-    override fun checkDespawn() {
+    override fun shouldDespawnInPeaceful(): Boolean {
         // Can't despawn
+        return false
     }
 
     override fun removeWhenFarAway(distanceToClosestPlayer: Double): Boolean {

@@ -42,6 +42,8 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
         noPhysics = true
         // Add a custom move helper that moves her through walls
         moveControl = GhastlyEnariaMovementController(this)
+        // Can't despawn
+        setPersistenceRequired()
     }
 
     /**
@@ -134,6 +136,11 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
      * @return False, enaria can't ride any entities
      */
     override fun canRide(entityIn: Entity): Boolean {
+        return false
+    }
+
+    override fun shouldDespawnInPeaceful(): Boolean {
+        // Can't despawn
         return false
     }
 
