@@ -19,5 +19,10 @@
         "tile_entity": "afraidofthedark:desert_oasis"
       }
     }
-  ]
+  ],
+  "spell_components": {
+    "power_sources": [
+      "afraidofthedark:thermal"
+    ]
+  }
 }

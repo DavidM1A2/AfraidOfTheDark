@@ -13,7 +13,7 @@ import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
 
-class ThermalSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "thermal"), ModResearches.THE_JOURNEY_BEGINS) {
+class ThermalSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "thermal"), ModResearches.DESERT_OASIS) {
     override fun cast(entity: Entity, spell: Spell): SpellCastResult {
         if (entity !is PlayerEntity) {
             return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))
