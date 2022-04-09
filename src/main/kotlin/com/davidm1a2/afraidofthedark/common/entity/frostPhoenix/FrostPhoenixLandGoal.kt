@@ -4,7 +4,8 @@ class FrostPhoenixLandGoal(phoenix: FrostPhoenixEntity) : FrostPhoenixMoveBaseGo
     private var ticksUntilGivingUp = 0
 
     override fun canUse(): Boolean {
-        return phoenix.stance == FrostPhoenixStance.FLYING
+        // If we're in state landing or flying then we can perform the land goal
+        return phoenix.stance == FrostPhoenixStance.FLYING || phoenix.stance == FrostPhoenixStance.LANDING
     }
 
     override fun tick() {

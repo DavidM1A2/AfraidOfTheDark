@@ -43,6 +43,8 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         LAND_CHANNEL
     )
 
+    private var performedInitialAnimationSync = false
+
     var spawnerPos: BlockPos
         private set(value) = entityData.set(SPAWNER_POS, value)
         get() = entityData.get(SPAWNER_POS)
@@ -84,6 +86,19 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         if (dataParameter == STANCE) {
             refreshDimensions()
             if (level.isClientSide) {
+                // When we first learn what stance the phoenix should have, update the animation
+                if (!performedInitialAnimationSync) {
+                    // Make sure to start the correct animation once we load in for fly and land. These are normally controlled via a state machine, but the
+                    // client might not be in sync yet with that state machine.
+                    when (stance) {
+                        FrostPhoenixStance.FLYING -> animHandler.playAnimation(FLY_CHANNEL.name)
+                        FrostPhoenixStance.LANDING -> animHandler.playAnimation(LAND_CHANNEL.name)
+                        else -> {}
+                    }
+                    performedInitialAnimationSync = true
+                }
+
+                // When the server decides the phoenix should take off, play the animation
                 if (stance == FrostPhoenixStance.TAKING_OFF) {
                     animHandler.playAnimation(LAUNCH_CHANNEL.name)
                 }
@@ -140,6 +155,11 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
             }
             // Else the tileEntity was broken
         }
+    }
+
+    override fun onAddedToWorld() {
+        super.onAddedToWorld()
+        performedInitialAnimationSync = false
     }
 
     /**
