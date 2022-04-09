@@ -144,9 +144,9 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Consta
      * @return The cost of the delivery method
      */
     override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        val baseCost = 15
-        // 50 range per vitae
-        val rangeCost = getRange(instance) * 0.02
+        val baseCost = 1
+        // 5 range per vitae
+        val rangeCost = getRange(instance) * 0.2
         return baseCost + rangeCost
     }
 
