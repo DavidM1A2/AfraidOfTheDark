@@ -13,7 +13,7 @@ import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
 
-class SolarSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "solar"), ModResearches.THE_JOURNEY_BEGINS) {
+class SolarSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "solar"), ModResearches.MAGIC_MASTERY) {
     override fun cast(entity: Entity, spell: Spell): SpellCastResult {
         if (entity !is PlayerEntity) {
             return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))

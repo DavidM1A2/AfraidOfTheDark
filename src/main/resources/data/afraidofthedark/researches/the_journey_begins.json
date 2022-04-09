@@ -20,8 +20,6 @@
   "spell_components": {
     "power_sources": [
       "afraidofthedark:creative",
-      "afraidofthedark:lunar",
-      "afraidofthedark:solar",
       "afraidofthedark:leech"
     ],
     "delivery_methods": [

@@ -18,6 +18,10 @@
     }
   ],
   "spell_components": {
+    "power_sources": [
+      "afraidofthedark:lunar",
+      "afraidofthedark:solar"
+    ],
     "effects": [
       "afraidofthedark:explosion",
       "afraidofthedark:disintegrate"

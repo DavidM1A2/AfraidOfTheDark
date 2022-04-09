@@ -13,7 +13,7 @@ import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
 
-class LunarSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "lunar"), ModResearches.THE_JOURNEY_BEGINS) {
+class LunarSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "lunar"), ModResearches.MAGIC_MASTERY) {
     override fun cast(entity: Entity, spell: Spell): SpellCastResult {
         if (entity !is PlayerEntity) {
             return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))
