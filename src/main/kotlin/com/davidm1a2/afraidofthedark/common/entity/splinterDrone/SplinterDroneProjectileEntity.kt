@@ -86,11 +86,6 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
     override fun tick() {
         super.tick()
 
-        // Animations only update client side
-        if (level.isClientSide) {
-            animHandler.update()
-        }
-
         // Update logic server side
         if (!level.isClientSide) {
             // Ensure the shooting entity is null or not dead, and that the area the projectile is in is loaded
