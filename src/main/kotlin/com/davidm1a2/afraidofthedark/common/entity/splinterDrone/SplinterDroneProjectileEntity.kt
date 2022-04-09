@@ -73,6 +73,13 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
     override fun defineSynchedData() {
     }
 
+    override fun onAddedToWorld() {
+        super.onAddedToWorld()
+        if (level.isClientSide) {
+            animHandler.playAnimation(SPING_CHANNEL.name)
+        }
+    }
+
     /**
      * Called every tick to update the entity's logic
      */
@@ -114,20 +121,6 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
     }
 
     /**
-     * Called from onUpdate to update entity specific logic
-     */
-    override fun baseTick() {
-        super.baseTick()
-
-        // If we're client side and no animation is active play the sping animation
-        if (level.isClientSide) {
-            if (!animHandler.isAnimationActive("Sping")) {
-                animHandler.playAnimation("Sping")
-            }
-        }
-    }
-
-    /**
      * Called when this Entity hits a block or entity.
      *
      * @param result The result of the ray hitting an object
@@ -158,6 +151,10 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
      */
     override fun canBeCollidedWith(): Boolean {
         return true
+    }
+
+    override fun isPushedByFluid(): Boolean {
+        return false;
     }
 
     override fun isPickable(): Boolean {
@@ -226,6 +223,6 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
         // The speed of the projectile
         private const val PROJECTILE_SPEED = 0.5
 
-        private val SPING_CHANNEL = SpingChannel("Sping", 100.0f, 100, ChannelMode.LINEAR)
+        private val SPING_CHANNEL = SpingChannel("Sping", 100.0f, 100, ChannelMode.LOOP)
     }
 }
