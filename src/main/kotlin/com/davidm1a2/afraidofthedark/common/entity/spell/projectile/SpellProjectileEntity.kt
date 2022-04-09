@@ -17,9 +17,11 @@ import net.minecraft.network.PacketBuffer
 import net.minecraft.network.datasync.DataSerializers
 import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.util.DamageSource
+import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.BlockRayTraceResult
 import net.minecraft.util.math.EntityRayTraceResult
+import net.minecraft.util.math.RayTraceContext
 import net.minecraft.util.math.RayTraceResult
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
@@ -28,6 +30,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData
 import net.minecraftforge.fml.network.NetworkHooks
 import java.awt.Color
 import java.util.UUID
+import java.util.function.Predicate
 
 /**
  * Class representing the projectile delivery method
@@ -107,14 +110,7 @@ class SpellProjectileEntity(
 
             // Process hit detection server side
             if (!level.isClientSide) {
-                // Perform a ray case to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
-                val rayTraceResult = ProjectileHelper.getHitResult(this) {
-                    if (ticksInAir > 25) {
-                        true
-                    } else {
-                        it != shooter
-                    }
-                }
+                val rayTraceResult = checkCollision()
 
                 // If the ray trace hit something, perform the hit effect
                 if (rayTraceResult.type != RayTraceResult.Type.MISS) {
@@ -158,6 +154,43 @@ class SpellProjectileEntity(
             }
         } else {
             remove()
+        }
+    }
+
+    private fun checkCollision(): RayTraceResult {
+        val entityHitPredicate = Predicate<Entity> {
+            if (ticksInAir > 25) {
+                true
+            } else {
+                it != shooter
+            }
+        }
+
+        // < 0.001 speed causes collision detection to break. Use custom logic
+        if (deltaMovement.lengthSqr() < 0.000001) {
+            val blockResult = level.clip(
+                RayTraceContext(
+                    position(),
+                    position().add(0.0, 0.001, 0.0),
+                    RayTraceContext.BlockMode.COLLIDER,
+                    RayTraceContext.FluidMode.NONE,
+                    this
+                )
+            )
+            if (blockResult.type != RayTraceResult.Type.MISS) {
+                return blockResult
+            }
+
+            val entities = level.getEntities(this, boundingBox)
+            for (entity in entities) {
+                if (entityHitPredicate.test(entity)) {
+                    return EntityRayTraceResult(entity)
+                }
+            }
+            return BlockRayTraceResult.miss(position(), Direction.NORTH, blockPosition())
+        } else {
+            // Perform a ray case to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
+            return ProjectileHelper.getHitResult(this, entityHitPredicate)
         }
     }
 
