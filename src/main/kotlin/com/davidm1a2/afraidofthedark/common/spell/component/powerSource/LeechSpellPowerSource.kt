@@ -20,7 +20,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 import kotlin.math.min
 
-class LeechSpellPowerSource : SpellPowerSource(ResourceLocation(Constants.MOD_ID, "leech"), ModResearches.THE_JOURNEY_BEGINS) {
+class LeechSpellPowerSource : SpellPowerSource(ResourceLocation(Constants.MOD_ID, "leech"), ModResearches.BLOODBATH) {
     override fun cast(entity: Entity, spell: Spell): SpellCastResult {
         val nearbyBlockToVitae = mutableMapOf<BlockPos, Double>()
         val grassPositions = mutableSetOf<BlockPos>()

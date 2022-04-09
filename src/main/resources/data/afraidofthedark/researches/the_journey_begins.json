@@ -19,8 +19,7 @@
   ],
   "spell_components": {
     "power_sources": [
-      "afraidofthedark:creative",
-      "afraidofthedark:leech"
+      "afraidofthedark:creative"
     ],
     "delivery_methods": [
       "afraidofthedark:self",

@@ -11,5 +11,10 @@
         "power_source": "afraidofthedark:health"
       }
     }
-  ]
+  ],
+  "spell_components": {
+    "power_sources": [
+      "afraidofthedark:leech"
+    ]
+  }
 }
