@@ -44,7 +44,7 @@ class FrostPhoenixRenderer(renderManager: EntityRendererManager) :
         private val FROST_PHOENIX_MODEL = FrostPhoenixModel()
 
         // The height of the phoenix model
-        private const val MODEL_HEIGHT = 2.15
+        private const val MODEL_HEIGHT = 2.13
 
         // The size of the shadow of the model
         private const val MODEL_SHADOW_SIZE = 0.8f

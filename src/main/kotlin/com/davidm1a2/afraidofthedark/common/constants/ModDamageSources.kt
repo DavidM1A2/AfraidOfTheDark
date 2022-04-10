@@ -1,11 +1,14 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
+import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.FrostPhoenixEntity
+import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.FrostPhoenixProjectileEntity
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneEntity
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneProjectileEntity
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.utility.damagesource.AstralSilverDamageSource
-import com.davidm1a2.afraidofthedark.common.utility.damagesource.PlasmaBallDamageSource
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.FrostPhoenixProjectileDamageSource
 import com.davidm1a2.afraidofthedark.common.utility.damagesource.SpellDamageSource
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.SplinterDroneProjectileDamageSource
 import net.minecraft.entity.Entity
 import net.minecraft.util.DamageSource
 
@@ -17,11 +20,18 @@ object ModDamageSources {
         return AstralSilverDamageSource(entity)
     }
 
-    fun getPlasmaBallDamage(
+    fun getSplinterDroneProjectileDamage(
         source: SplinterDroneProjectileEntity,
         indirectSource: SplinterDroneEntity?
     ): DamageSource {
-        return PlasmaBallDamageSource(source, indirectSource)
+        return SplinterDroneProjectileDamageSource(source, indirectSource)
+    }
+
+    fun getFrostPhoenixProjectileDamage(
+        source: FrostPhoenixProjectileEntity,
+        indirectSource: FrostPhoenixEntity?
+    ): DamageSource {
+        return FrostPhoenixProjectileDamageSource(source, indirectSource)
     }
 
     fun getSpellDamage(spellDamageState: DeliveryTransitionState): DamageSource {

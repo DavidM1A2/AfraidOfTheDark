@@ -1,21 +1,33 @@
 package com.davidm1a2.afraidofthedark.common.entity.frostPhoenix
 
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.ProjectileFlyChannel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
+import net.minecraft.block.Blocks
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.projectile.ProjectileHelper
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.IPacket
+import net.minecraft.potion.EffectInstance
+import net.minecraft.potion.Effects
 import net.minecraft.util.DamageSource
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.RayTraceResult
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 import net.minecraftforge.fml.network.NetworkHooks
+import net.minecraftforge.fml.network.PacketDistributor
+import kotlin.math.ceil
 import kotlin.math.sqrt
+import kotlin.random.Random
 
 class FrostPhoenixProjectileEntity(entityType: EntityType<out FrostPhoenixProjectileEntity>, world: World) : Entity(entityType, world), IMCAnimatedModel {
     private var shootingEntity: FrostPhoenixEntity? = null
@@ -88,20 +100,51 @@ class FrostPhoenixProjectileEntity(entityType: EntityType<out FrostPhoenixProjec
     private fun onImpact(result: RayTraceResult) {
         // Only process server side
         if (!level.isClientSide) {
-            /*
-            // Only do something if we hit an entity
-            if (result is EntityRayTraceResult) {
-                // Cause a slight amount of damage
-                if (result.entity.hurt(ModDamageSources.getPlasmaBallDamage(this, shootingEntity), 1.0f)) {
-                    // If we hit a player slow them
-                    if (result.entity is PlayerEntity) {
-                        // The player that was hit, add slowness
-                        val entityPlayer = result.entity as PlayerEntity
-                        entityPlayer.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, 60, 2, false, false))
+            val nearbyEntities = level.getEntitiesOfClass(LivingEntity::class.java, boundingBox.inflate(HIT_RADIUS)) { it.distanceTo(this) < HIT_RADIUS }
+
+            // Spawn freeze particles
+            val centerPosition = result.location
+            val positions = List(40) {
+                centerPosition.add(
+                    Random.nextDouble(-HIT_RADIUS, HIT_RADIUS),
+                    Random.nextDouble(-HIT_RADIUS, HIT_RADIUS),
+                    Random.nextDouble(-HIT_RADIUS, HIT_RADIUS)
+                )
+            }
+
+            // Send the particle packet
+            AfraidOfTheDark.packetHandler.sendToAllAround(
+                ParticlePacket(
+                    ModParticles.FREEZE,
+                    positions,
+                    List(positions.size) { Vector3d.ZERO }),
+                PacketDistributor.TargetPoint(centerPosition.x, centerPosition.y, centerPosition.z, 100.0, level.dimension())
+            )
+
+            // Slow all impacted entities
+            for (nearbyEntity in nearbyEntities) {
+                if (nearbyEntity.hurt(ModDamageSources.getFrostPhoenixProjectileDamage(this, shootingEntity), 8f)) {
+                    nearbyEntity.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, 120, 2, false, false))
+                }
+            }
+
+            // Freeze nearby snow/ice blocks
+            val intRadius = ceil(HIT_RADIUS).toInt()
+            val centerBlockPos = BlockPos(centerPosition)
+            for (x in -intRadius..intRadius) {
+                for (y in -intRadius..intRadius) {
+                    for (z in -intRadius..intRadius) {
+                        if (x * x + y * y + z * z < HIT_RADIUS_SQUARED) {
+                            val blockPos = centerBlockPos.offset(x, y, z)
+                            when (level.getBlockState(blockPos).block) {
+                                Blocks.SNOW_BLOCK -> level.setBlockAndUpdate(blockPos, Blocks.ICE.defaultBlockState())
+                                Blocks.ICE -> level.setBlockAndUpdate(blockPos, Blocks.PACKED_ICE.defaultBlockState())
+                                Blocks.PACKED_ICE -> level.setBlockAndUpdate(blockPos, Blocks.BLUE_ICE.defaultBlockState())
+                            }
+                        }
                     }
                 }
             }
-             */
 
             // Kill the projectile
             remove()
@@ -154,6 +197,8 @@ class FrostPhoenixProjectileEntity(entityType: EntityType<out FrostPhoenixProjec
     companion object {
         // The speed of the projectile
         private const val PROJECTILE_SPEED = 0.9
+        private const val HIT_RADIUS = 4.0
+        private const val HIT_RADIUS_SQUARED = HIT_RADIUS * HIT_RADIUS
 
         private val FLY_CHANNEL = ProjectileFlyChannel("Fly", 20.0f, 31, ChannelMode.LOOP)
     }
