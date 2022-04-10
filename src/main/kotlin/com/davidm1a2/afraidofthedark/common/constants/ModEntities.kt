@@ -100,7 +100,7 @@ object ModEntities {
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
-        .sized(0.4f, 0.4f)
+        .sized(1.2f, 1.2f)
         .fireImmune()
         .noSummon()
         .build("${Constants.MOD_ID}:frost_phoenix_projectile")

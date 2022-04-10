@@ -48,16 +48,16 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
      * Sets up the entity's AI tasks
      */
     override fun registerGoals() {
+        // First task is shooting the target if possible
+        goalSelector.addGoal(0, SplinterDroneAttackGoal(this))
         // Task one is always to face the nearest player
         goalSelector.addGoal(1, LookAtGoal(this, PlayerEntity::class.java, AGRO_RANGE.toFloat()))
         // Task two is to hover over the ground and fly around
         goalSelector.addGoal(2, SplinterDroneHoverGoal(this))
         // Task three is to look idle and look around
         goalSelector.addGoal(3, LookRandomlyGoal(this))
-        // Set target tasks for shooting the player
-        targetSelector.addGoal(1, SplinterDroneAttackGoal(this))
-        // Find the nearest player to target and hit
-        targetSelector.addGoal(2, NearestAttackableTargetGoal(this, PlayerEntity::class.java, true))
+        // Find the nearest player to target
+        targetSelector.addGoal(0, NearestAttackableTargetGoal(this, PlayerEntity::class.java, true))
     }
 
     /**

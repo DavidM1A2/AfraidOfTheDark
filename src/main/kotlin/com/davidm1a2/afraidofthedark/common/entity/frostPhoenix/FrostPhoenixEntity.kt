@@ -120,13 +120,23 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
      * Creates the AI used by hostile or passive entities
      */
     override fun registerGoals() {
-        goalSelector.addGoal(0, FrostPhoenixTakeOffGoal(this))
-        goalSelector.addGoal(1, FrostPhoenixFlyGoal(this))
-        goalSelector.addGoal(2, FrostPhoenixLandGoal(this))
-        // If the entity isn't wandering then try to watch whatever entity is nearby
-        goalSelector.addGoal(3, LookAtGoal(this, PlayerEntity::class.java, FOLLOW_RANGE.toFloat()))
-        // If the entity isn't walking, attacking, or watching anything look idle
-        goalSelector.addGoal(4, LookRandomlyGoal(this))
+        /*
+        AI goes as follows from highest priority to lowest:
+        1. Try to attack the nearest target with an ice ball if ready
+        2. Try to take off the ground
+        3. Try to fly around
+        4. Try to land
+        5. Look around at nearby players
+        6. Randomly look around
+         */
+
+        goalSelector.addGoal(0, FrostPhoenixProjectileAttackGoal(this))
+        goalSelector.addGoal(1, FrostPhoenixTakeOffGoal(this))
+        goalSelector.addGoal(2, FrostPhoenixFlyGoal(this))
+        goalSelector.addGoal(3, FrostPhoenixLandGoal(this))
+        goalSelector.addGoal(4, LookAtGoal(this, PlayerEntity::class.java, FOLLOW_RANGE.toFloat()))
+        goalSelector.addGoal(5, LookRandomlyGoal(this))
+        targetSelector.addGoal(0, FrostPhoenixHurtByPlayerTargetGoal(this))
     }
 
     override fun baseTick() {
@@ -144,6 +154,10 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
                         animHandler.playAnimation(animationName)
                     }
                 }
+            }
+        } else {
+            if (tickCount % 20 == 0) {
+                println("Target: $target")
             }
         }
     }
@@ -272,7 +286,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         // Constants defining phoenix parameters
         private const val MOVE_SPEED = 0.15
         private const val FOLLOW_RANGE = 64.0
-        private const val MAX_HEALTH = 7.0
+        private const val MAX_HEALTH = 30.0
         private const val KNOCKBACK_RESISTANCE = 1.0
 
         private val STANDING_DIMENSIONS = EntitySize.scalable(1.3f, 5.8f)

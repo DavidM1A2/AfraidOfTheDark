@@ -7,6 +7,10 @@ class FrostPhoenixTakeOffGoal(phoenix: FrostPhoenixEntity) : FrostPhoenixMoveBas
         if (phoenix.stance != FrostPhoenixStance.STANDING) {
             return false
         }
+        // Take off if we have a target to attack
+        if (phoenix.target != null) {
+            return true
+        }
         // Take off every ~20 seconds
         return phoenix.random.nextDouble() < 0.01
     }

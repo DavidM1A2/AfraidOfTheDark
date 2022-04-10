@@ -23,24 +23,23 @@ class FrostPhoenixProjectileEntity(entityType: EntityType<out FrostPhoenixProjec
     private var ticksInAir = 0
 
     constructor(
-        world: World,
         shootingEntity: FrostPhoenixEntity,
-        xVelocity: Double,
-        yVelocity: Double,
-        zVelocity: Double
-    ) : this(ModEntities.FROST_PHOENIX_PROJECTILE, world) {
+        xDirection: Double,
+        yDirection: Double,
+        zDirection: Double
+    ) : this(ModEntities.FROST_PHOENIX_PROJECTILE, shootingEntity.level) {
         // Update the entity that fired this projectile
         this.shootingEntity = shootingEntity
 
         // Position the entity at the center of the phoenix
         moveTo(shootingEntity.x, shootingEntity.y + shootingEntity.eyeHeight, shootingEntity.z, shootingEntity.yRot, shootingEntity.xRot)
 
-        val velocityMagnitude = sqrt(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity)
+        val directionMagnitude = sqrt(xDirection * xDirection + yDirection * yDirection + zDirection * zDirection)
         // Update the acceleration vector by normalizing it and multiplying by speed
         deltaMovement = Vector3d(
-            xVelocity / velocityMagnitude * PROJECTILE_SPEED,
-            yVelocity / velocityMagnitude * PROJECTILE_SPEED,
-            zVelocity / velocityMagnitude * PROJECTILE_SPEED
+            xDirection / directionMagnitude * PROJECTILE_SPEED,
+            yDirection / directionMagnitude * PROJECTILE_SPEED,
+            zDirection / directionMagnitude * PROJECTILE_SPEED
         )
     }
 
@@ -154,7 +153,7 @@ class FrostPhoenixProjectileEntity(entityType: EntityType<out FrostPhoenixProjec
 
     companion object {
         // The speed of the projectile
-        private const val PROJECTILE_SPEED = 1.2
+        private const val PROJECTILE_SPEED = 0.9
 
         private val FLY_CHANNEL = ProjectileFlyChannel("Fly", 20.0f, 31, ChannelMode.LOOP)
     }

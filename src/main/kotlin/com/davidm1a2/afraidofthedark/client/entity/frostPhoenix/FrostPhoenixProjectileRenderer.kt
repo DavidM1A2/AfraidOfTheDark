@@ -30,6 +30,7 @@ class FrostPhoenixProjectileRenderer(renderManager: EntityRendererManager) :
 
         matrixStack.pushPose()
         matrixStack.translate(0.0, entity.boundingBox.ysize / 2, 0.0)
+        matrixStack.scale(3f, 3f, 3f)
         FROST_PHOENIX_PROJECTILE_MODEL.renderToBuffer(
             matrixStack,
             renderTypeBuffer.getBuffer(RENDER_TYPE),

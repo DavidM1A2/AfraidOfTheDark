@@ -17,7 +17,8 @@ class FrostPhoenixFlyGoal(phoenix: FrostPhoenixEntity) : FrostPhoenixMoveBaseGoa
     }
 
     override fun canContinueToUse(): Boolean {
-        return ticksUntilLanding > 0
+        // Use it if we have flying ticks left or we're attacking a target
+        return ticksUntilLanding > 0 || phoenix.target != null
     }
 
     override fun start() {
@@ -29,9 +30,14 @@ class FrostPhoenixFlyGoal(phoenix: FrostPhoenixEntity) : FrostPhoenixMoveBaseGoa
     private fun updateFlyPosition() {
         val spawnerPos = phoenix.spawnerPos
         val ticksAlive = phoenix.tickCount
-        val x = spawnerPos.x + 0.5 + sin(ticksAlive / 45.0) * FLY_DIAMETER
-        val y = spawnerPos.y + 0.5 + MAX_FLY_HEIGHT
-        val z = spawnerPos.z + 0.5 + cos(ticksAlive / 45.0) * FLY_DIAMETER
+        val currentTarget = phoenix.target
+        val centerX = currentTarget?.x ?: (spawnerPos.x + 0.5)
+        val centerY = currentTarget?.y ?: (spawnerPos.y + 0.5)
+        val centerZ = currentTarget?.z ?: (spawnerPos.z + 0.5)
+
+        val x = centerX + sin(ticksAlive / 45.0) * FLY_DIAMETER
+        val y = centerY + MAX_FLY_HEIGHT
+        val z = centerZ + cos(ticksAlive / 45.0) * FLY_DIAMETER
         flyTo(x, y, z)
     }
 
