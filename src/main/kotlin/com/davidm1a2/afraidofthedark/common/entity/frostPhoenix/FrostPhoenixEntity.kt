@@ -176,6 +176,10 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
     override fun onAddedToWorld() {
         super.onAddedToWorld()
         performedInitialAnimationSync = false
+        // If we were created with a spawn egg then circle this position
+        if (spawnerPos == BlockPos.ZERO) {
+            spawnerPos = blockPosition()
+        }
     }
 
     /**
