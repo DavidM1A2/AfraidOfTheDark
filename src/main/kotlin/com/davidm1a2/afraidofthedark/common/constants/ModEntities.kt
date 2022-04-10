@@ -10,6 +10,7 @@ import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSkeletonEntity
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.FrostPhoenixEntity
+import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.FrostPhoenixProjectileEntity
 import com.davidm1a2.afraidofthedark.common.entity.spell.laser.SpellLaserEntity
 import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.SpellProjectileEntity
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneEntity
@@ -60,7 +61,6 @@ object ModEntities {
         .fireImmune()
         .build("${Constants.MOD_ID}:splinter_drone")
         .setRegistryNameGeneric("splinter_drone")
-
     val SPLINTER_DRONE_PROJECTILE = EntityType.Builder.of(::SplinterDroneProjectileEntity, EntityClassification.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(1)
@@ -96,6 +96,15 @@ object ModEntities {
         .sized(1.3f, 5.8f)
         .build("${Constants.MOD_ID}:frost_phoenix")
         .setRegistryNameGeneric("frost_phoenix")
+    val FROST_PHOENIX_PROJECTILE = EntityType.Builder.of(::FrostPhoenixProjectileEntity, EntityClassification.MISC)
+        .setTrackingRange(50)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .sized(0.4f, 0.4f)
+        .fireImmune()
+        .noSummon()
+        .build("${Constants.MOD_ID}:frost_phoenix_projectile")
+        .setRegistryNameGeneric("frost_phoenix_projectile")
 
     // Spell entities
     val SPELL_PROJECTILE = EntityType.Builder.of(::SpellProjectileEntity, EntityClassification.MISC)
@@ -167,6 +176,7 @@ object ModEntities {
         ENARIA,
         ENCHANTED_FROG,
         FROST_PHOENIX,
+        FROST_PHOENIX_PROJECTILE,
         SPELL_PROJECTILE,
         SPELL_LASER,
         WOODEN_BOLT,

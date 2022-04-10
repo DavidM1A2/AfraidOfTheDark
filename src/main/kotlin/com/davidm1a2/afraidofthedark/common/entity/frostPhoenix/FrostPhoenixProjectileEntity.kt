@@ -1,61 +1,38 @@
-package com.davidm1a2.afraidofthedark.common.entity.splinterDrone
+package com.davidm1a2.afraidofthedark.common.entity.frostPhoenix
 
-import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources.getPlasmaBallDamage
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
+import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.ProjectileFlyChannel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
-import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.SpingChannel
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.ProjectileHelper
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.IPacket
-import net.minecraft.potion.EffectInstance
-import net.minecraft.potion.Effects
 import net.minecraft.util.DamageSource
-import net.minecraft.util.math.EntityRayTraceResult
 import net.minecraft.util.math.RayTraceResult
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 import net.minecraftforge.fml.network.NetworkHooks
 import kotlin.math.sqrt
 
-/**
- * Class representing the splinter drone projectile which gets fired by the splinter drone
- *
- * @constructor creates the entity without motion in the world
- * @param world The world the entity was created in
- * @property shootingEntity The entity that fired the projectile
- * @property animHandler The animation handler used to manage animations
- */
-class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProjectileEntity>, world: World) : Entity(entityType, world),
-    IMCAnimatedModel {
-    private var shootingEntity: SplinterDroneEntity? = null
-    private val animHandler = AnimationHandler(SPING_CHANNEL)
+class FrostPhoenixProjectileEntity(entityType: EntityType<out FrostPhoenixProjectileEntity>, world: World) : Entity(entityType, world), IMCAnimatedModel {
+    private var shootingEntity: FrostPhoenixEntity? = null
+    private val animHandler = AnimationHandler(FLY_CHANNEL)
     private var ticksInAir = 0
 
-    /**
-     * Recommended constructor that sets the projectile in motion given a velocity vector and shooting entity
-     *
-     * @param world          The world the entity is being spawned in
-     * @param shootingEntity The entity that fired this projectile
-     * @param xVelocity      The x component of velocity of the projectile
-     * @param yVelocity      The y component of velocity of the projectile
-     * @param zVelocity      The z component of velocity of the projectile
-     */
     constructor(
         world: World,
-        shootingEntity: SplinterDroneEntity,
+        shootingEntity: FrostPhoenixEntity,
         xVelocity: Double,
         yVelocity: Double,
         zVelocity: Double
-    ) : this(ModEntities.SPLINTER_DRONE_PROJECTILE, world) {
+    ) : this(ModEntities.FROST_PHOENIX_PROJECTILE, world) {
         // Update the entity that fired this projectile
         this.shootingEntity = shootingEntity
 
-        // Position the entity at the center of the drone
+        // Position the entity at the center of the phoenix
         moveTo(shootingEntity.x, shootingEntity.y + shootingEntity.eyeHeight, shootingEntity.z, shootingEntity.yRot, shootingEntity.xRot)
 
         val velocityMagnitude = sqrt(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity)
@@ -67,22 +44,16 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
         )
     }
 
-    /**
-     * Register any entity data. Anything registered here is automatically synced from Server -> Client
-     */
     override fun defineSynchedData() {
     }
 
     override fun onAddedToWorld() {
         super.onAddedToWorld()
         if (level.isClientSide) {
-            animHandler.playAnimation(SPING_CHANNEL.name)
+            animHandler.playAnimation(FLY_CHANNEL.name)
         }
     }
 
-    /**
-     * Called every tick to update the entity's logic
-     */
     override fun tick() {
         super.tick()
 
@@ -115,18 +86,14 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
         }
     }
 
-    /**
-     * Called when this Entity hits a block or entity.
-     *
-     * @param result The result of the ray hitting an object
-     */
     private fun onImpact(result: RayTraceResult) {
         // Only process server side
         if (!level.isClientSide) {
+            /*
             // Only do something if we hit an entity
             if (result is EntityRayTraceResult) {
                 // Cause a slight amount of damage
-                if (result.entity.hurt(getPlasmaBallDamage(this, shootingEntity), 1.0f)) {
+                if (result.entity.hurt(ModDamageSources.getPlasmaBallDamage(this, shootingEntity), 1.0f)) {
                     // If we hit a player slow them
                     if (result.entity is PlayerEntity) {
                         // The player that was hit, add slowness
@@ -135,6 +102,7 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
                     }
                 }
             }
+             */
 
             // Kill the projectile
             remove()
@@ -142,7 +110,7 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
     }
 
     override fun isPushedByFluid(): Boolean {
-        return false
+        return false;
     }
 
     override fun isPickable(): Boolean {
@@ -153,13 +121,6 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
         return 0.4f
     }
 
-    /**
-     * Called when the entity is attacked.
-     *
-     * @param source The damage source that hit the projectile
-     * @param amount The amount of damage inflicted
-     * @return False, this projectile cannot be attacked
-     */
     override fun hurt(source: DamageSource, amount: Float): Boolean {
         if (source == DamageSource.OUT_OF_WORLD) {
             return super.hurt(source, amount)
@@ -167,30 +128,14 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
         return false
     }
 
-    /**
-     * Gets how bright this entity is.
-     *
-     * @return 1.0, max brightness so the projectile isn't too dar
-     */
     override fun getBrightness(): Float {
         return 1.0f
     }
 
-    /**
-     * The splinter drone projectile can't ride anything
-     *
-     * @param entityIn The entity to test
-     * @return False
-     */
     override fun canRide(entityIn: Entity): Boolean {
         return false
     }
 
-    /**
-     * Gets the animation handler which makes the projectile spin
-     *
-     * @return The animation handler for the projectile
-     */
     override fun getAnimationHandler(): AnimationHandler {
         return animHandler
     }
@@ -209,8 +154,8 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
 
     companion object {
         // The speed of the projectile
-        private const val PROJECTILE_SPEED = 0.5
+        private const val PROJECTILE_SPEED = 1.2
 
-        private val SPING_CHANNEL = SpingChannel("Sping", 100.0f, 100, ChannelMode.LOOP)
+        private val FLY_CHANNEL = ProjectileFlyChannel("Fly", 20.0f, 31, ChannelMode.LOOP)
     }
 }

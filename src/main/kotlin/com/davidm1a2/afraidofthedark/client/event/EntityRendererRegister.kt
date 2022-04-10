@@ -9,6 +9,7 @@ import com.davidm1a2.afraidofthedark.client.entity.enaria.EnariaRenderer
 import com.davidm1a2.afraidofthedark.client.entity.enaria.GhastlyEnariaRenderer
 import com.davidm1a2.afraidofthedark.client.entity.enchantedFrog.EnchantedFrogRenderer
 import com.davidm1a2.afraidofthedark.client.entity.enchantedSkeleton.EnchantedSkeletonRenderer
+import com.davidm1a2.afraidofthedark.client.entity.frostPhoenix.FrostPhoenixProjectileRenderer
 import com.davidm1a2.afraidofthedark.client.entity.frostPhoenix.FrostPhoenixRenderer
 import com.davidm1a2.afraidofthedark.client.entity.spell.laser.SpellLaserRenderer
 import com.davidm1a2.afraidofthedark.client.entity.spell.projectile.SpellProjectileRenderer
@@ -39,5 +40,6 @@ class EntityRendererRegister {
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_LASER) { SpellLaserRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.ENCHANTED_FROG) { EnchantedFrogRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.FROST_PHOENIX) { FrostPhoenixRenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.FROST_PHOENIX_PROJECTILE) { FrostPhoenixProjectileRenderer(it) }
     }
 }

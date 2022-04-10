@@ -1,7 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.capabilities.getSpellThermalData
+import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
+import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.FrostPhoenixProjectileEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.entity.Entity
@@ -9,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.text.StringTextComponent
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
@@ -26,7 +28,10 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
     override fun use(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
         if (worldIn.isClientSide) {
         } else {
-            playerIn.sendMessage(StringTextComponent("Thermal Vitae: " + playerIn.getSpellThermalData().vitae))
+            val entity = FrostPhoenixProjectileEntity(ModEntities.FROST_PHOENIX_PROJECTILE, worldIn)
+            entity.setPos(playerIn.x + 1.0, playerIn.y, playerIn.z)
+            entity.deltaMovement = Vector3d(0.1, 0.0, 0.0)
+            worldIn.addFreshEntity(entity)
         }
         return super.use(worldIn, playerIn, handIn)
     }
