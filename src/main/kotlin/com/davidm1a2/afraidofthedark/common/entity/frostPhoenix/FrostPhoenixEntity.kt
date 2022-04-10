@@ -155,19 +155,27 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
                     }
                 }
             }
-        } else {
-            if (tickCount % 20 == 0) {
-                println("Target: $target")
-            }
         }
     }
 
     override fun die(damageSource: DamageSource) {
         super.die(damageSource)
+        reportPhoenixGone()
+    }
+
+    override fun checkDespawn() {
+        val wasAlive = isAlive
+        super.checkDespawn()
+        if (!isAlive && wasAlive) {
+            reportPhoenixGone()
+        }
+    }
+
+    private fun reportPhoenixGone() {
         if (!level.isClientSide) {
             val tileEntity = level.getBlockEntity(spawnerPos)
             if (tileEntity is FrostPhoenixSpawnerTileEntity) {
-                tileEntity.reportPhoenixDeath()
+                tileEntity.reportPhoenixGone()
             }
             // Else the tileEntity was broken
         }

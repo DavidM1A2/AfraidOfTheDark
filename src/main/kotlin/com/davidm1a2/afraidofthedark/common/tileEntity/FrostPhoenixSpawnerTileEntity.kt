@@ -28,7 +28,7 @@ class FrostPhoenixSpawnerTileEntity : AOTDTickingTileEntity(ModTileEntities.FROS
         level!!.addFreshEntity(phoenix)
     }
 
-    fun reportPhoenixDeath() {
+    fun reportPhoenixGone() {
         phoenixIsAlive = false
         respawnTime = ticksExisted + RESPAWN_COOLDOWN_TICKS
     }
