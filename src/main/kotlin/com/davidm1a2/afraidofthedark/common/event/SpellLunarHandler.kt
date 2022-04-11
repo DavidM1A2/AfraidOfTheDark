@@ -24,12 +24,14 @@ class SpellLunarHandler {
         val lunarData = entityPlayer.getSpellLunarData()
 
         val oldLunarVitae = lunarData.vitae
-        if (entityPlayer.level.isDay) {
+        val world = entityPlayer.level
+        if (world.isDay) {
             // Decay vitae during the day
             lunarData.vitae = (lunarData.vitae - VITAE_DECAY_PER_INTERVAL).coerceAtLeast(0.0)
         } else {
             // Work towards our vitae cap at night
-            val currentVitaeCap = VITAE_CAP_BY_MOON_PHASE[entityPlayer.level.moonPhase] ?: 0.0
+            val moonPhase = world.dimensionType().moonPhase(world.dayTime())
+            val currentVitaeCap = VITAE_CAP_BY_MOON_PHASE[moonPhase] ?: 0.0
             if (lunarData.vitae > currentVitaeCap) {
                 // Decay to the cap. This avoid players "cheesing" the power source by logging off after a full moon to preserve vitae
                 lunarData.vitae = (lunarData.vitae - VITAE_DECAY_PER_INTERVAL).coerceAtLeast(currentVitaeCap)
