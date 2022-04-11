@@ -22,6 +22,7 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
     private val observatoryMultiplier: ForgeConfigSpec.DoubleValue
     private val altarRuinsMultiplier: ForgeConfigSpec.DoubleValue
     private val magicCrystalMultiplier: ForgeConfigSpec.DoubleValue
+    private val frostPhoenixPerchSmallMultiplier: ForgeConfigSpec.DoubleValue
 
     // The eerie biome frequency
     private val eerieBiomeFrequency: ForgeConfigSpec.IntValue
@@ -77,6 +78,10 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
             .comment("Increases the number of Magic Crystals in the world by the multiplier specified.")
             .translation("config.afraidofthedark:magic_crystals_multiplier")
             .defineInRange("magic_crystals_multiplier", 1.0, 0.0, 100.0)
+        frostPhoenixPerchSmallMultiplier = builder
+            .comment("Increases the number of Small Frost Phoenix Perches in the world by the multiplier specified.")
+            .translation("config.afraidofthedark:frost_phoenix_perch_small_multiplier")
+            .defineInRange("frost_phoenix_perch_small", 1.0, 0.0, 100.0)
 
         builder.pop()
 
@@ -135,6 +140,7 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
         ModCommonConfiguration.observatoryMultiplier = observatoryMultiplier.get()
         ModCommonConfiguration.altarRuinsMultiplier = altarRuinsMultiplier.get()
         ModCommonConfiguration.magicCrystalMultiplier = magicCrystalMultiplier.get()
+        ModCommonConfiguration.frostPhoenixPerchSmallMultiplier = frostPhoenixPerchSmallMultiplier.get()
         ModCommonConfiguration.eerieBiomeFrequency = eerieBiomeFrequency.get()
         ModCommonConfiguration.cacheStructures = cacheStructures.get()
         ModCommonConfiguration.cacheTimeout = cacheTimeout.get()

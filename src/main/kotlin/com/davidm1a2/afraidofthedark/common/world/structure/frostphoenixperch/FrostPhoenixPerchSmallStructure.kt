@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.world.structure.voidchest
+package com.davidm1a2.afraidofthedark.common.world.structure.frostphoenixperch
 
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
@@ -14,18 +14,18 @@ import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
 import java.util.Random
 
-class VoidChestStructure : AOTDStructure<BooleanConfig>("void_chest", BooleanConfig.CODEC) {
+class FrostPhoenixPerchSmallStructure : AOTDStructure<BooleanConfig>("frost_phoenix_perch_small", BooleanConfig.CODEC) {
     override fun getWidth(): Int {
-        return ModSchematics.VOID_CHEST.getWidth().toInt()
+        return ModSchematics.FROST_PHOENIX_PERCH_SMALL.getWidth().toInt()
     }
 
     override fun getLength(): Int {
-        return ModSchematics.VOID_CHEST.getLength().toInt()
+        return ModSchematics.FROST_PHOENIX_PERCH_SMALL.getLength().toInt()
     }
 
     override fun getStartFactory(): IStartFactory<BooleanConfig> {
         return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
-            VoidChestStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
+            FrostPhoenixPerchSmallStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
         }
     }
 
@@ -42,7 +42,7 @@ class VoidChestStructure : AOTDStructure<BooleanConfig>("void_chest", BooleanCon
     }
 
     override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
-        val chance = getOneInNValidChunks(150) * ModCommonConfiguration.voidChestMultiplier
+        val chance = getOneInNValidChunks(300) * ModCommonConfiguration.frostPhoenixPerchSmallMultiplier
         if (random.nextDouble() >= chance) {
             return false
         }
@@ -55,7 +55,7 @@ class VoidChestStructure : AOTDStructure<BooleanConfig>("void_chest", BooleanCon
         val heights = getEdgeHeights(xPos, zPos, chunkGen)
         val maxHeight = heights.maxOrNull()!!
         val minHeight = heights.minOrNull()!!
-        if (maxHeight - minHeight > 8) {
+        if (maxHeight - minHeight > 4) {
             return false
         }
         return true

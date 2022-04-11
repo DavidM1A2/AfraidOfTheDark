@@ -16,6 +16,7 @@ object ModCommonConfiguration {
     var observatoryMultiplier = 1.0
     var altarRuinsMultiplier = 1.0
     var magicCrystalMultiplier = 1.0
+    var frostPhoenixPerchSmallMultiplier = 1.0
 
     // The eerie biome frequency
     var eerieBiomeFrequency = 10

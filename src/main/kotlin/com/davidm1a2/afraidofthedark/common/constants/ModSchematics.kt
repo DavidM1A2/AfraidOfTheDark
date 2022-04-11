@@ -145,6 +145,12 @@ object ModSchematics {
         STABLES
     )
 
+    ///
+    /// Frost Phoenix Perch related schematics
+    ///
+
+    val FROST_PHOENIX_PERCH_SMALL = load("schematics/frost_phoenix_perch/small.schematic")
+
     // A list of all schematics present in AOTD
     val LIST = arrayOf(
         CRYPT,
@@ -168,7 +174,8 @@ object ModSchematics {
         *DESERT_OASIS_MEDIUM_PLOTS,
         DESERT_OASIS,
         ALTAR_RUINS,
-        MAGIC_CRYSTAL
+        MAGIC_CRYSTAL,
+        FROST_PHOENIX_PERCH_SMALL
     )
 
     val NAME_TO_SCHEMATIC = LIST.associateBy { it.getName() }

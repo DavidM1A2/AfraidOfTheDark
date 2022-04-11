@@ -154,16 +154,24 @@ class StructureMap : INBTSerializable<CompoundNBT> {
             val gridSizeBlocks = gridSize.blockSize
             val wiggleRoom = gridSizeBlocks - structureSize
 
-            val numPlacementAttempts = 4.0.powOptimized(gridSize.ordinal).toInt()
-            for (i in 0 until numPlacementAttempts) {
-                val xPosOffset = random.nextInt(wiggleRoom) - wiggleRoom / 2
-                val zPosOffset = random.nextInt(wiggleRoom) - wiggleRoom / 2
-                val xPos = centerXPos + xPosOffset
-                val zPos = centerZPos + zPosOffset
-
-                if (structure.canFitAt(chunkGenerator, biomeProvider, random, xPos, zPos)) {
-                    node.insertStructure(structure, BlockPos(xPos, 0, zPos))
+            // When we don't have any wiggle room to place the structure only try the one time
+            if (wiggleRoom == 0) {
+                if (structure.canFitAt(chunkGenerator, biomeProvider, random, centerXPos, centerZPos)) {
+                    node.insertStructure(structure, BlockPos(centerXPos, 0, centerZPos))
                     return
+                }
+            } else {
+                val numPlacementAttempts = 4.0.powOptimized(gridSize.ordinal).toInt()
+                for (i in 0 until numPlacementAttempts) {
+                    val xPosOffset = random.nextInt(wiggleRoom) - wiggleRoom / 2
+                    val zPosOffset = random.nextInt(wiggleRoom) - wiggleRoom / 2
+                    val xPos = centerXPos + xPosOffset
+                    val zPos = centerZPos + zPosOffset
+
+                    if (structure.canFitAt(chunkGenerator, biomeProvider, random, xPos, zPos)) {
+                        node.insertStructure(structure, BlockPos(xPos, 0, zPos))
+                        return
+                    }
                 }
             }
         }

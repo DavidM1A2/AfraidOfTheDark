@@ -24,7 +24,7 @@ class FrostPhoenixSpawnerTileEntity : AOTDTickingTileEntity(ModTileEntities.FROS
     private fun spawnFrostPhoenix() {
         phoenixIsAlive = true
         val phoenix = FrostPhoenixEntity(level!!, blockPos)
-        phoenix.setPos(blockPos.x + 0.5, blockPos.y + 1.0, blockPos.z + 0.5)
+        phoenix.setPos(blockPos.x + 0.5, blockPos.y + 2.0, blockPos.z + 0.5)
         level!!.addFreshEntity(phoenix)
     }
 
