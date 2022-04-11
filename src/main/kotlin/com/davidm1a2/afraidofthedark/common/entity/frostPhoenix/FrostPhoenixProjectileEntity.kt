@@ -137,6 +137,7 @@ class FrostPhoenixProjectileEntity(entityType: EntityType<out FrostPhoenixProjec
                         if (x * x + y * y + z * z < HIT_RADIUS_SQUARED) {
                             val blockPos = centerBlockPos.offset(x, y, z)
                             when (level.getBlockState(blockPos).block) {
+                                Blocks.WATER -> level.setBlockAndUpdate(blockPos, Blocks.ICE.defaultBlockState())
                                 Blocks.SNOW_BLOCK -> level.setBlockAndUpdate(blockPos, Blocks.ICE.defaultBlockState())
                                 Blocks.ICE -> level.setBlockAndUpdate(blockPos, Blocks.PACKED_ICE.defaultBlockState())
                                 Blocks.PACKED_ICE -> level.setBlockAndUpdate(blockPos, Blocks.BLUE_ICE.defaultBlockState())
