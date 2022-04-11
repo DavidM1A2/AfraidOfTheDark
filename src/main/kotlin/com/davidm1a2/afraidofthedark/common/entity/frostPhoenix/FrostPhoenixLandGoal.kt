@@ -1,5 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.entity.frostPhoenix
 
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
+
 class FrostPhoenixLandGoal(phoenix: FrostPhoenixEntity) : FrostPhoenixMoveBaseGoal(phoenix) {
     private var ticksUntilGivingUp = 0
 
@@ -23,7 +26,8 @@ class FrostPhoenixLandGoal(phoenix: FrostPhoenixEntity) : FrostPhoenixMoveBaseGo
     }
 
     override fun start() {
-        ticksUntilGivingUp = MAX_TIME_TO_LAND
+        // Take time to land based on the distance to the landing spot. Give 5 ticks per block
+        ticksUntilGivingUp = sqrt(getDistanceToLandingSpotSquared()).roundToInt() * 5
         val spawnerPos = phoenix.spawnerPos
         val x = spawnerPos.x + 0.5
         val y = spawnerPos.y + 1.0
@@ -41,9 +45,5 @@ class FrostPhoenixLandGoal(phoenix: FrostPhoenixEntity) : FrostPhoenixMoveBaseGo
         val y = spawnerPos.y + 1.0
         val z = spawnerPos.z + 0.5
         return phoenix.position().distanceToSqr(x, y, z)
-    }
-
-    companion object {
-        private const val MAX_TIME_TO_LAND = 20 * 10
     }
 }
