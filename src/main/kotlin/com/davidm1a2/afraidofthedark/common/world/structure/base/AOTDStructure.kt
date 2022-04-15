@@ -116,17 +116,29 @@ abstract class AOTDStructure<T : IFeatureConfig>(name: String, codec: Codec<T>) 
         width: Int = getWidth(),
         length: Int = getLength()
     ): Sequence<T> {
+        return getInteriorBiomeEstimate(x, z, biomeProvider, width, length)
+            .map { getStructureConfig(it) ?: defaultIfAbsent }
+            .filterNotNull()
+    }
+
+    protected fun getInteriorBiomeEstimate(
+        x: Int,
+        z: Int,
+        biomeProvider: BiomeProvider,
+        width: Int = getWidth(),
+        length: Int = getLength()
+    ): Sequence<Biome> {
         return sequence {
-            yield(getStructureConfig(biomeProvider.getNoiseBiomeAbsolute(x - width / 2, 0, z - length / 2)) ?: defaultIfAbsent)
-            yield(getStructureConfig(biomeProvider.getNoiseBiomeAbsolute(x + width / 2, 0, z - length / 2)) ?: defaultIfAbsent)
-            yield(getStructureConfig(biomeProvider.getNoiseBiomeAbsolute(x - width / 2, 0, z + length / 2)) ?: defaultIfAbsent)
-            yield(getStructureConfig(biomeProvider.getNoiseBiomeAbsolute(x + width / 2, 0, z + length / 2)) ?: defaultIfAbsent)
-            yield(getStructureConfig(biomeProvider.getNoiseBiomeAbsolute(x, 0, z - length / 2)) ?: defaultIfAbsent)
-            yield(getStructureConfig(biomeProvider.getNoiseBiomeAbsolute(x, 0, z + length / 2)) ?: defaultIfAbsent)
-            yield(getStructureConfig(biomeProvider.getNoiseBiomeAbsolute(x - width / 2, 0, z)) ?: defaultIfAbsent)
-            yield(getStructureConfig(biomeProvider.getNoiseBiomeAbsolute(x + width / 2, 0, z)) ?: defaultIfAbsent)
-            yield(getStructureConfig(biomeProvider.getNoiseBiomeAbsolute(x, 0, z)) ?: defaultIfAbsent)
-        }.filterNotNull()
+            yield(biomeProvider.getNoiseBiomeAbsolute(x - width / 2, 0, z - length / 2))
+            yield(biomeProvider.getNoiseBiomeAbsolute(x + width / 2, 0, z - length / 2))
+            yield(biomeProvider.getNoiseBiomeAbsolute(x - width / 2, 0, z + length / 2))
+            yield(biomeProvider.getNoiseBiomeAbsolute(x + width / 2, 0, z + length / 2))
+            yield(biomeProvider.getNoiseBiomeAbsolute(x, 0, z - length / 2))
+            yield(biomeProvider.getNoiseBiomeAbsolute(x, 0, z + length / 2))
+            yield(biomeProvider.getNoiseBiomeAbsolute(x - width / 2, 0, z))
+            yield(biomeProvider.getNoiseBiomeAbsolute(x + width / 2, 0, z))
+            yield(biomeProvider.getNoiseBiomeAbsolute(x, 0, z))
+        }
     }
 
     private fun BiomeProvider.getNoiseBiomeAbsolute(x: Int, y: Int, z: Int): Biome {

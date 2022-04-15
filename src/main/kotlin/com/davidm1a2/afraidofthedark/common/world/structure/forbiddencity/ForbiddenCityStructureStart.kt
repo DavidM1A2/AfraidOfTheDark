@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.base.SchematicStructurePiece
 import net.minecraft.util.Direction
+import net.minecraft.util.SharedSeedRandom
 import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.Heightmap
@@ -25,7 +26,7 @@ class ForbiddenCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX:
         val cornerPosZ = zPos - length / 2
 
         // Compute the stairs from surface to level 1, can be a random room
-        val stairSurfaceTo1 = random.nextInt(9)
+        val stairSurfaceTo1 = getSurfaceStairIndex(xPos, zPos)
 
         val stairs2ToEnaria = listOf(1, 3, 5, 7)[random.nextInt(4)]
 
@@ -246,5 +247,11 @@ class ForbiddenCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX:
 
     companion object {
         private const val ROOMS_PER_ROW = 3
+        private val SEEDABLE_RANDOM = SharedSeedRandom()
+
+        internal fun getSurfaceStairIndex(xPos: Int, zPos: Int): Int {
+            SEEDABLE_RANDOM.setBaseChunkSeed(xPos shr 4, zPos shr 4)
+            return SEEDABLE_RANDOM.nextInt(9)
+        }
     }
 }

@@ -64,12 +64,23 @@ class ForbiddenCityStructure : AOTDStructure<NoFeatureConfig>("forbidden_city", 
             return false
         }
 
-        return true
+        val surfaceStairIndex = ForbiddenCityStructureStart.getSurfaceStairIndex(xPos, zPos)
+        val surfaceStairXIndex = surfaceStairIndex % 3
+        val surfaceStairZIndex = surfaceStairIndex / 3
+
+        val stairCenterPosX = xPos - width / 2 + surfaceStairXIndex * 50
+        val stairCenterPosZ = zPos - length / 2 + surfaceStairZIndex * 50
+
+        return getInteriorBiomeEstimate(stairCenterPosX, stairCenterPosZ, biomeProvider, STAIRWELL_WIDTH, STAIRWELL_LENGTH)
+            .all { it.biomeCategory in VALID_STAIR_BIOME_CATEGORIES }
     }
 
 
     companion object {
-        private val VALID_BIOME_CATEGORIES = listOf(
+        private val STAIRWELL_WIDTH = ModSchematics.STAIRWELL.getWidth().toInt()
+        private val STAIRWELL_LENGTH = ModSchematics.STAIRWELL.getLength().toInt()
+
+        private val VALID_BIOME_CATEGORIES = setOf(
             Biome.Category.TAIGA,
             Biome.Category.EXTREME_HILLS,
             Biome.Category.JUNGLE,
@@ -83,6 +94,18 @@ class ForbiddenCityStructure : AOTDStructure<NoFeatureConfig>("forbidden_city", 
             Biome.Category.DESERT,
             Biome.Category.RIVER,
             Biome.Category.SWAMP,
+            Biome.Category.MUSHROOM
+        )
+        private val VALID_STAIR_BIOME_CATEGORIES = setOf(
+            Biome.Category.TAIGA,
+            Biome.Category.EXTREME_HILLS,
+            Biome.Category.JUNGLE,
+            Biome.Category.MESA,
+            Biome.Category.PLAINS,
+            Biome.Category.SAVANNA,
+            Biome.Category.ICY,
+            Biome.Category.FOREST,
+            Biome.Category.DESERT,
             Biome.Category.MUSHROOM
         )
     }
