@@ -74,9 +74,9 @@ class ForbiddenCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX:
                                 )
                             )
 
-                            val stairwellX = roomPosX + 13
+                            val stairwellX = roomPosX + STAIR_OFFSET
                             val stairwellY = roomPosY + 15
-                            val stairwellZ = roomPosZ + 13
+                            val stairwellZ = roomPosZ + STAIR_OFFSET
                             val stairwell = ModSchematics.STAIRWELL
 
                             val groundHeight = listOf(
@@ -246,6 +246,8 @@ class ForbiddenCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX:
     }
 
     companion object {
+        internal const val STAIR_OFFSET = 13
+
         private const val ROOMS_PER_ROW = 3
         private val SEEDABLE_RANDOM = SharedSeedRandom()
 

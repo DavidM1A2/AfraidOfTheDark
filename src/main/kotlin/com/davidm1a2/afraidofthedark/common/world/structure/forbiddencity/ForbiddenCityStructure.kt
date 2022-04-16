@@ -68,8 +68,10 @@ class ForbiddenCityStructure : AOTDStructure<NoFeatureConfig>("forbidden_city", 
         val surfaceStairXIndex = surfaceStairIndex % 3
         val surfaceStairZIndex = surfaceStairIndex / 3
 
-        val stairCenterPosX = xPos - width / 2 + surfaceStairXIndex * 50
-        val stairCenterPosZ = zPos - length / 2 + surfaceStairZIndex * 50
+        val stairRoomPosX = xPos - width / 2 + surfaceStairXIndex * 50
+        val stairRoomPosZ = zPos - length / 2 + surfaceStairZIndex * 50
+        val stairCenterPosX = stairRoomPosX + ForbiddenCityStructureStart.STAIR_OFFSET + STAIRWELL_WIDTH / 2
+        val stairCenterPosZ = stairRoomPosZ + ForbiddenCityStructureStart.STAIR_OFFSET + STAIRWELL_LENGTH / 2
 
         return getInteriorBiomeEstimate(stairCenterPosX, stairCenterPosZ, biomeProvider, STAIRWELL_WIDTH, STAIRWELL_LENGTH)
             .all { it.biomeCategory in VALID_STAIR_BIOME_CATEGORIES }
