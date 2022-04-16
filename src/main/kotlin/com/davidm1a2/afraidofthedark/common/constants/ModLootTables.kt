@@ -58,6 +58,13 @@ object ModLootTables {
             )
         )
     )
+    val FROST_PHOENIX_PERCH_SMALL = LootTable(
+        "frost_phoenix_perch_small",
+        mapOf(
+            null to ResourceLocation(Constants.MOD_ID, "chests/frost_phoenix_perch_small/standard"),
+            Items.DIAMOND to ResourceLocation(Constants.MOD_ID, "chests/frost_phoenix_perch_small/rare")
+        )
+    )
 
     private val LOOT_TABLES = listOf(
         CRYPT,

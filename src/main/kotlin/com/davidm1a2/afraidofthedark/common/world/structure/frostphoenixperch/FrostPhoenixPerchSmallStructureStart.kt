@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.world.structure.frostphoenixperch
 
+import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructureStart
@@ -22,7 +23,8 @@ class FrostPhoenixPerchSmallStructureStart(structure: Structure<BooleanConfig>, 
                 yPos,
                 zPos - ModSchematics.FROST_PHOENIX_PERCH_SMALL.getLength() / 2,
                 random,
-                ModSchematics.FROST_PHOENIX_PERCH_SMALL
+                ModSchematics.FROST_PHOENIX_PERCH_SMALL,
+                ModLootTables.FROST_PHOENIX_PERCH_SMALL
             )
         )
         this.calculateBoundingBox()

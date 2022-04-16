@@ -1,8 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.item
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
+import com.google.gson.Gson
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -25,6 +27,10 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
     override fun use(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
         if (worldIn.isClientSide) {
         } else {
+            val gson = Gson()
+            playerIn.getSpellManager().getSpells().forEach {
+                println(gson.toJson(it.serializeNBT()))
+            }
         }
         return super.use(worldIn, playerIn, handIn)
     }
