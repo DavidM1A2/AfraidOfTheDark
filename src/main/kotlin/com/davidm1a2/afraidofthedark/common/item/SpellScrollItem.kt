@@ -121,6 +121,19 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
             } else {
                 tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.spell_scroll.spell_name", spell.name))
                 tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.spell_scroll.uses_remaining", getUses(itemStack)))
+                for ((index, spellStage) in spell.spellStages.withIndex()) {
+                    tooltip.add(
+                        TranslationTextComponent(
+                            "tooltip.afraidofthedark.spell_scroll.spell_stage",
+                            index + 1,
+                            spellStage.deliveryInstance?.component?.getName() ?: "-",
+                            spellStage.effects[0]?.component?.getName() ?: "-",
+                            spellStage.effects[1]?.component?.getName() ?: "-",
+                            spellStage.effects[2]?.component?.getName() ?: "-",
+                            spellStage.effects[3]?.component?.getName() ?: "-"
+                        )
+                    )
+                }
             }
         } else {
             tooltip.add(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))

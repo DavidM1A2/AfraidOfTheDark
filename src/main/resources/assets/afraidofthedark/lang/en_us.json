@@ -620,6 +620,7 @@
   "tooltip.afraidofthedark.spell_scroll.spell_name": "Spell Scroll (%1$s)",
   "tooltip.afraidofthedark.spell_scroll.uses_remaining": "Uses Remaining: %1$s",
   "tooltip.afraidofthedark.spell_scroll.empty": "Scroll is blank.",
+  "tooltip.afraidofthedark.spell_scroll.spell_stage": "%1$s -> %2$s (%3$s, %4$s, %5$s, %6$s)",
   "tooltip.afraidofthedark.gui.journal_research.question_mark": "?",
   "tooltip.afraidofthedark.gui.journal_research.unknown_research": "§oUnknown Research",
   "tooltip.afraidofthedark.gui.journal_page.power_source": "%1$s Power Source",
