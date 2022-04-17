@@ -59,16 +59,16 @@
               "name": {
                 "translate": "tooltip.afraidofthedark.spell_scroll.spell_name",
                 "with": [
-                  "Disintegration Ray"
+                  "Rejuvenation Beam"
                 ]
               }
             },
             {
               "function": "set_nbt",
-              "tag": "{\"spell\":{\"name\":\"Disintegration Ray\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"180 0 0\",\"range\":60.0,\"hit_liquids\":false},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{\"strength\":8.0},\"id\":\"afraidofthedark:disintegrate\"}}],\"power_source\":{\"extra_data\":{},\"id\":\"afraidofthedark:spell_scroll\"}},\"uses\":1,\"max_uses\":1}"
+              "tag": "{\"spell\":{\"name\":\"Rejuvenation Beam\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"40 255 40\",\"range\":40.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"}},{\"delivery_method\":{\"extra_data\":{\"shell_only\":0,\"radius\":3.5},\"id\":\"afraidofthedark:aoe\"},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:grow\"}}],\"power_source\":{\"extra_data\":{},\"id\":\"afraidofthedark:spell_scroll\"}},\"uses\":1,\"max_uses\":1}"
             }
           ],
-          "weight": 10
+          "weight": 5
         },
         {
           "type": "minecraft:item",
@@ -92,7 +92,7 @@
               "tag": "{\"spell\":{\"name\":\"Diggy Diggy Hole\",\"spell_stages\":[{\"delivery_method\":{\"id\":\"afraidofthedark:projectile\",\"extra_data\":{\"color\":\"162 42 42\",\"range\":40.0,\"speed\":0.5}}},{\"delivery_method\":{\"id\":\"afraidofthedark:aoe\",\"extra_data\":{\"radius\":3.5,\"shell_only\":false,}},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:dig\"}}],\"power_source\":{\"extra_data\":{},\"id\":\"afraidofthedark:spell_scroll\"}},\"uses\":2,\"max_uses\":2}"
             }
           ],
-          "weight": 10
+          "weight": 5
         }
       ]
     }
