@@ -1,6 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.event
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellThermalData
+import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
+import com.davidm1a2.afraidofthedark.common.research.Research
 import net.minecraft.block.Blocks
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
@@ -10,6 +13,10 @@ import net.minecraftforge.fml.LogicalSide
 import kotlin.math.max
 
 class SpellThermalHandler {
+    private val requiredResearch: Research? by lazy {
+        ModSpellPowerSources.THERMAL.prerequisiteResearch
+    }
+
     @SubscribeEvent
     fun onPlayerTick(event: TickEvent.PlayerTickEvent) {
         // Server side processing
@@ -17,7 +24,9 @@ class SpellThermalHandler {
             val entityPlayer = event.player
             // Dead players don't have capabilities
             if (entityPlayer.tickCount % VITAE_TICK_INTERVAL == 0 && entityPlayer.isAlive) {
-                tickThermalVitae(entityPlayer)
+                if (requiredResearch == null || entityPlayer.getResearch().isResearched(requiredResearch!!)) {
+                    tickThermalVitae(entityPlayer)
+                }
             }
         }
     }

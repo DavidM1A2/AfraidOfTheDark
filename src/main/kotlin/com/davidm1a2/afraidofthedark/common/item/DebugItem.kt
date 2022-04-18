@@ -1,6 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.item
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellLunarData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellSolarData
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellThermalData
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
@@ -31,6 +34,9 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
             playerIn.getSpellManager().getSpells().forEach {
                 println(gson.toJson(it.serializeNBT()))
             }
+            println(playerIn.getSpellLunarData().vitae)
+            println(playerIn.getSpellSolarData().vitae)
+            println(playerIn.getSpellThermalData().vitae)
         }
         return super.use(worldIn, playerIn, handIn)
     }

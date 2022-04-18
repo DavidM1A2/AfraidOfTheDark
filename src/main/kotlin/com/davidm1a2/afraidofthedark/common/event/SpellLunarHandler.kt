@@ -1,6 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.event
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellLunarData
+import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
+import com.davidm1a2.afraidofthedark.common.research.Research
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraftforge.event.TickEvent
@@ -8,6 +11,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.LogicalSide
 
 class SpellLunarHandler {
+    private val requiredResearch: Research? by lazy {
+        ModSpellPowerSources.LUNAR.prerequisiteResearch
+    }
+
     @SubscribeEvent
     fun onPlayerTick(event: TickEvent.PlayerTickEvent) {
         // Server side processing
@@ -15,7 +22,9 @@ class SpellLunarHandler {
             val entityPlayer = event.player
             // Dead players don't have capabilities
             if (entityPlayer.tickCount % VITAE_TICK_INTERVAL == 0 && entityPlayer.isAlive) {
-                tickLunarVitae(entityPlayer)
+                if (requiredResearch == null || entityPlayer.getResearch().isResearched(requiredResearch!!)) {
+                    tickLunarVitae(entityPlayer)
+                }
             }
         }
     }
