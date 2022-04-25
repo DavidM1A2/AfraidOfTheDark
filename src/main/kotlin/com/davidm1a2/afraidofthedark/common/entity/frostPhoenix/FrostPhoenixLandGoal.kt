@@ -26,6 +26,7 @@ class FrostPhoenixLandGoal(phoenix: FrostPhoenixEntity) : FrostPhoenixMoveBaseGo
     }
 
     override fun start() {
+        super.start()
         // Take time to land based on the distance to the landing spot. Give 5 ticks per block
         ticksUntilGivingUp = sqrt(getDistanceToLandingSpotSquared()).roundToInt() * 5
         val spawnerPos = phoenix.spawnerPos

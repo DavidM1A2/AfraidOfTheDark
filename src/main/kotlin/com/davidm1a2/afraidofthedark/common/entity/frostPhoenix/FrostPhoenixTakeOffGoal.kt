@@ -27,6 +27,7 @@ class FrostPhoenixTakeOffGoal(phoenix: FrostPhoenixEntity) : FrostPhoenixMoveBas
     }
 
     override fun start() {
+        super.start()
         phoenix.stance = FrostPhoenixStance.TAKING_OFF
         ticksUntilTakenOff = TAKE_OFF_TICKS
     }
