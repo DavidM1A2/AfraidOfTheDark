@@ -215,7 +215,11 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
 
     override fun readAdditionalSaveData(compound: CompoundNBT) {
         super.readAdditionalSaveData(compound)
-        this.canAttackAnyone = compound.getBoolean("can_attack_anyone")
+        this.canAttackAnyone = if (compound.contains("can_attack_anyone")) {
+            compound.getBoolean("can_attack_anyone")
+        } else {
+            false
+        }
     }
 
     override fun addAdditionalSaveData(compound: CompoundNBT) {

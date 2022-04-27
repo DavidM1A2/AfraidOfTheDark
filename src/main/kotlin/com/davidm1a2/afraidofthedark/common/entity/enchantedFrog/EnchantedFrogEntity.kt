@@ -202,7 +202,9 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
 
     override fun readAdditionalSaveData(compound: CompoundNBT) {
         super.readAdditionalSaveData(compound)
-        this.spell = Spell(compound.getCompound("spell"))
+        if (compound.contains("spell")) {
+            this.spell = Spell(compound.getCompound("spell"))
+        }
     }
 
     override fun addAdditionalSaveData(compound: CompoundNBT) {

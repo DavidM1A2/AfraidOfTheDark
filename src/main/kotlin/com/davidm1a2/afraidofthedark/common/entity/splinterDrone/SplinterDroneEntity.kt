@@ -107,7 +107,11 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
 
     override fun readAdditionalSaveData(compound: CompoundNBT) {
         super.readAdditionalSaveData(compound)
-        this.playedSpawnAnimation = compound.getBoolean("played_spawn_animation")
+        this.playedSpawnAnimation = if (compound.contains("played_spawn_animation")) {
+            compound.getBoolean("played_spawn_animation")
+        } else {
+            false
+        }
     }
 
     override fun addAdditionalSaveData(compound: CompoundNBT) {
