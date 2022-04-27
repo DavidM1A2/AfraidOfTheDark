@@ -11,6 +11,7 @@ import com.davidm1a2.afraidofthedark.client.particle.ExplosionParticle
 import com.davidm1a2.afraidofthedark.client.particle.FireParticle
 import com.davidm1a2.afraidofthedark.client.particle.FlyParticle
 import com.davidm1a2.afraidofthedark.client.particle.FreezeParticle
+import com.davidm1a2.afraidofthedark.client.particle.FrostPhoenixStormParticle
 import com.davidm1a2.afraidofthedark.client.particle.GrowParticle
 import com.davidm1a2.afraidofthedark.client.particle.HealParticle
 import com.davidm1a2.afraidofthedark.client.particle.PoisonParticle
@@ -76,5 +77,6 @@ class ParticleRegister {
         particleManager.register(ModParticles.WARD, WardParticle::Factory)
         particleManager.register(ModParticles.CLEANSE, CleanseParticle::Factory)
         particleManager.register(ModParticles.DISINTEGRATE, DisintegrateParticle::Factory)
+        particleManager.register(ModParticles.FROST_PHOENIX_STORM, FrostPhoenixStormParticle::Factory)
     }
 }

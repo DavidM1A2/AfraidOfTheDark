@@ -7,6 +7,7 @@ import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDronePr
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.utility.damagesource.AstralSilverDamageSource
 import com.davidm1a2.afraidofthedark.common.utility.damagesource.FrostPhoenixProjectileDamageSource
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.FrostPhoenixStormDamageSource
 import com.davidm1a2.afraidofthedark.common.utility.damagesource.SpellDamageSource
 import com.davidm1a2.afraidofthedark.common.utility.damagesource.SplinterDroneProjectileDamageSource
 import net.minecraft.entity.Entity
@@ -32,6 +33,12 @@ object ModDamageSources {
         indirectSource: FrostPhoenixEntity?
     ): DamageSource {
         return FrostPhoenixProjectileDamageSource(source, indirectSource)
+    }
+
+    fun getFrostPhoenixStormDamage(
+        source: FrostPhoenixEntity
+    ): DamageSource {
+        return FrostPhoenixStormDamageSource(source)
     }
 
     fun getSpellDamage(spellDamageState: DeliveryTransitionState): DamageSource {

@@ -1,7 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.entity.frostPhoenix
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.network.packets.animation.AnimationPacket
 import net.minecraft.entity.ai.goal.Goal
 
 class FrostPhoenixProjectileAttackGoal(private val frostPhoenix: FrostPhoenixEntity) : Goal() {
@@ -21,22 +19,7 @@ class FrostPhoenixProjectileAttackGoal(private val frostPhoenix: FrostPhoenixEnt
     }
 
     override fun start() {
-        val target = frostPhoenix.target!!
-
-        val shootPosition = frostPhoenix.position()
-            .add(frostPhoenix.lookAngle.scale(frostPhoenix.boundingBox.zsize))
-            .add(0.0, frostPhoenix.eyeHeight.toDouble(), 0.0)
-
-        val targetPosition = target.position()
-            .add(0.0, target.eyeHeight.toDouble(), 0.0)
-
-        val direction = targetPosition.subtract(shootPosition).normalize()
-        val projectile = FrostPhoenixProjectileEntity(frostPhoenix, direction.x, direction.y, direction.z)
-        projectile.setPos(shootPosition.x, shootPosition.y, shootPosition.z)
-        frostPhoenix.level.addFreshEntity(projectile)
-
-        AfraidOfTheDark.packetHandler
-            .sendToChunk(AnimationPacket(frostPhoenix, "Attack"), frostPhoenix.level.getChunkAt(frostPhoenix.blockPosition()))
+        frostPhoenix.combatManager.shootFireballAtTarget()
     }
 
     companion object {

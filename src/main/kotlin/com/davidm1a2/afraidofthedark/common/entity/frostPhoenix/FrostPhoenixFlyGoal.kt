@@ -4,7 +4,8 @@ class FrostPhoenixFlyGoal(phoenix: FrostPhoenixEntity) : FrostPhoenixMoveBaseGoa
     private var ticksUntilLanding = 0
 
     override fun canUse(): Boolean {
-        return phoenix.stance == FrostPhoenixStance.TAKING_OFF
+        // We just finished storming or taking off
+        return phoenix.stance == FrostPhoenixStance.TAKING_OFF || phoenix.stance == FrostPhoenixStance.STORMING
     }
 
     override fun tick() {
@@ -15,7 +16,7 @@ class FrostPhoenixFlyGoal(phoenix: FrostPhoenixEntity) : FrostPhoenixMoveBaseGoa
     }
 
     override fun canContinueToUse(): Boolean {
-        // Use it if we have flying ticks left or we're attacking a target
+        // Use it if we have flying ticks left, or we're attacking a target
         return ticksUntilLanding > 0 || phoenix.target != null
     }
 

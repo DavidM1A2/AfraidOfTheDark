@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.entity.frostPhoenix
 
 import com.davidm1a2.afraidofthedark.common.constants.ModDataSerializers
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.AttackChannel
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.FlyChannel
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.IdleFlapChannel
@@ -13,8 +14,10 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Anima
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.tileEntity.FrostPhoenixSpawnerTileEntity
 import net.minecraft.block.BlockState
+import net.minecraft.client.Minecraft
 import net.minecraft.entity.EntitySize
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.MobEntity
 import net.minecraft.entity.MoverType
 import net.minecraft.entity.Pose
@@ -33,6 +36,7 @@ import net.minecraft.util.SoundCategory
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
+import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.fml.network.NetworkHooks
 
 class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: World) : MobEntity(entityType, world), IMCAnimatedModel {
@@ -42,10 +46,12 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         FLY_CHANNEL,
         IDLE_LOOK_CHANNEL,
         ATTACK_CHANNEL,
-        LAND_CHANNEL
+        LAND_CHANNEL,
+        STORM_CHANNEL
     )
 
     private var performedInitialAnimationSync = false
+    internal val combatManager = FrostPhoenixCombatManager(this)
 
     var spawnerPos: BlockPos
         private set(value) = entityData.set(SPAWNER_POS, value)
@@ -60,12 +66,16 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         moveControl = FrostPhoenixMovementController(this)
         animHandler.animationFinishedCallback = {
             when (it) {
-                FLY_CHANNEL -> {
-                    if (stance == FrostPhoenixStance.FLYING) {
-                        animHandler.playAnimation(FLY_CHANNEL.name)
-                    } else if (stance == FrostPhoenixStance.LANDING) {
-                        animHandler.playAnimation(LAND_CHANNEL.name)
-                    }
+                FLY_CHANNEL -> when (stance) {
+                    FrostPhoenixStance.FLYING -> animHandler.playAnimation(FLY_CHANNEL.name)
+                    FrostPhoenixStance.LANDING -> animHandler.playAnimation(LAND_CHANNEL.name)
+                    FrostPhoenixStance.STORMING -> animHandler.playAnimation(STORM_CHANNEL.name)
+                    else -> {}
+                }
+                STORM_CHANNEL -> when (stance) {
+                    FrostPhoenixStance.FLYING -> animHandler.playAnimation(FLY_CHANNEL.name)
+                    FrostPhoenixStance.STORMING -> animHandler.playAnimation(STORM_CHANNEL.name)
+                    else -> {}
                 }
                 LAUNCH_CHANNEL -> animHandler.playAnimation(FLY_CHANNEL.name)
             }
@@ -94,6 +104,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
                     // client might not be in sync yet with that state machine.
                     when (stance) {
                         FrostPhoenixStance.FLYING -> animHandler.playAnimation(FLY_CHANNEL.name)
+                        FrostPhoenixStance.STORMING -> animHandler.playAnimation(STORM_CHANNEL.name)
                         FrostPhoenixStance.LANDING -> animHandler.playAnimation(LAND_CHANNEL.name)
                         else -> {}
                     }
@@ -122,20 +133,22 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
     override fun registerGoals() {
         /*
         AI goes as follows from highest priority to lowest:
-        1. Try to attack the nearest target with an ice ball if ready
-        2. Try to take off the ground
-        3. Try to fly around
-        4. Try to land
-        5. Look around at nearby players
-        6. Randomly look around
+        1. Try to flap, heal, and make an ice storm if ready
+        2. Try to attack the nearest target with an ice ball if ready
+        3. Try to take off the ground
+        4. Try to fly around
+        5. Try to land
+        6. Look around at nearby players
+        7. Randomly look around
          */
 
-        goalSelector.addGoal(0, FrostPhoenixProjectileAttackGoal(this))
-        goalSelector.addGoal(1, FrostPhoenixTakeOffGoal(this))
-        goalSelector.addGoal(2, FrostPhoenixFlyGoal(this))
-        goalSelector.addGoal(3, FrostPhoenixLandGoal(this))
-        goalSelector.addGoal(4, LookAtGoal(this, PlayerEntity::class.java, FOLLOW_RANGE.toFloat()))
-        goalSelector.addGoal(5, LookRandomlyGoal(this))
+        goalSelector.addGoal(0, FrostPhoenixFlapHealStormGoal(this))
+        goalSelector.addGoal(1, FrostPhoenixProjectileAttackGoal(this))
+        goalSelector.addGoal(2, FrostPhoenixTakeOffGoal(this))
+        goalSelector.addGoal(3, FrostPhoenixFlyGoal(this))
+        goalSelector.addGoal(4, FrostPhoenixLandGoal(this))
+        goalSelector.addGoal(5, LookAtGoal(this, PlayerEntity::class.java, FOLLOW_RANGE.toFloat()))
+        goalSelector.addGoal(6, LookRandomlyGoal(this))
         targetSelector.addGoal(0, FrostPhoenixHurtByPlayerTargetGoal(this))
     }
 
@@ -153,6 +166,20 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
                         }
                         animHandler.playAnimation(animationName)
                     }
+                }
+            }
+
+            if (stance == FrostPhoenixStance.STORMING) {
+                for (i in 0..STORM_PARTICLES_PER_TICK) {
+                    Minecraft.getInstance().level!!.addParticle(
+                        ModParticles.FROST_PHOENIX_STORM,
+                        boundingBox.center.x,
+                        boundingBox.center.y + random.nextGaussian() * 6.0 - 2.0,
+                        boundingBox.center.z,
+                        3.0 + (FrostPhoenixCombatManager.STORM_RADIUS_BLOCKS - 4.5) * random.nextDouble(),
+                        0.0,
+                        0.0,
+                    )
                 }
             }
         }
@@ -267,12 +294,23 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
 
     override fun readAdditionalSaveData(compound: CompoundNBT) {
         super.readAdditionalSaveData(compound)
-        this.spawnerPos = BlockPos(
-            compound.getInt("spawner_pos_x"),
-            compound.getInt("spawner_pos_y"),
-            compound.getInt("spawner_pos_z")
-        )
-        this.stance = FrostPhoenixStance.valueOf(compound.getString("stance"))
+        if (compound.contains("spawner_pos_x") && compound.contains("spawner_pos_y") && compound.contains("spawner_pos_z")) {
+            this.spawnerPos = BlockPos(
+                compound.getInt("spawner_pos_x"),
+                compound.getInt("spawner_pos_y"),
+                compound.getInt("spawner_pos_z")
+            )
+        }
+        if (compound.contains("stance")) {
+            this.stance = FrostPhoenixStance.valueOf(compound.getString("stance"))
+        }
+        if (compound.contains("combat_manager")) {
+            this.combatManager.deserializeNBT(compound.getCompound("combat_manager"))
+        }
+        val world = level
+        if (compound.hasUUID("target_uuid") && world is ServerWorld) {
+            target = world.getEntity(compound.getUUID("target_uuid")) as? LivingEntity?
+        }
     }
 
     override fun shouldDespawnInPeaceful(): Boolean {
@@ -289,6 +327,8 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         compound.putInt("spawner_pos_y", this.spawnerPos.y)
         compound.putInt("spawner_pos_z", this.spawnerPos.z)
         compound.putString("stance", this.stance.name)
+        compound.put("combat_manager", this.combatManager.serializeNBT())
+        target?.let { compound.putUUID("target_uuid", it.uuid) }
     }
 
     companion object {
@@ -297,7 +337,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
 
         // Constants defining phoenix parameters
         private const val MOVE_SPEED = 0.15
-        private const val FOLLOW_RANGE = 64.0
+        private const val FOLLOW_RANGE = 120.0
         private const val MAX_HEALTH = 30.0
         private const val KNOCKBACK_RESISTANCE = 1.0
 
@@ -307,9 +347,12 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         private val IDLE_FLAP_CHANNEL = IdleFlapChannel("IdleFlap", 24.0F, 21, ChannelMode.LINEAR)
         private val LAUNCH_CHANNEL = LaunchChannel("Launch", 24.0F, 21, ChannelMode.LINEAR)
         private val FLY_CHANNEL = FlyChannel("Fly", 30.0F, 21, ChannelMode.LINEAR)
+        private val STORM_CHANNEL = FlyChannel("Storm", 90.0F, 21, ChannelMode.LINEAR)
         private val IDLE_LOOK_CHANNEL = IdleLookChannel("IdleLook", 24.0F, 41, ChannelMode.LINEAR)
         private val ATTACK_CHANNEL = AttackChannel("Attack", 24.0F, 11, ChannelMode.LINEAR)
         private val LAND_CHANNEL = LandChannel("Land", 24.0F, 21, ChannelMode.LINEAR)
+
+        private const val STORM_PARTICLES_PER_TICK = 3
 
         /**
          * Gives the phoenix its entity attributes like movespeed

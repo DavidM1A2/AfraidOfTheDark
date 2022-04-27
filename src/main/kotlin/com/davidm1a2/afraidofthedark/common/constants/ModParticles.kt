@@ -11,6 +11,7 @@ import com.davidm1a2.afraidofthedark.common.particle.ExplosionParticleType
 import com.davidm1a2.afraidofthedark.common.particle.FireParticleType
 import com.davidm1a2.afraidofthedark.common.particle.FlyParticleType
 import com.davidm1a2.afraidofthedark.common.particle.FreezeParticleType
+import com.davidm1a2.afraidofthedark.common.particle.FrostPhoenixStormParticleType
 import com.davidm1a2.afraidofthedark.common.particle.GrowParticleType
 import com.davidm1a2.afraidofthedark.common.particle.HealParticleType
 import com.davidm1a2.afraidofthedark.common.particle.PoisonParticleType
@@ -52,6 +53,7 @@ object ModParticles {
     val WARD = WardParticleType()
     val CLEANSE = CleanseParticleType()
     val DISINTEGRATE = DisintegrateParticleType()
+    val FROST_PHOENIX_STORM = FrostPhoenixStormParticleType()
 
     val PARTICLE_LIST = arrayOf(
         ENARIAS_ALTAR,
@@ -78,6 +80,7 @@ object ModParticles {
         VITAE_EXTRACTOR_CHARGE,
         WARD,
         CLEANSE,
-        DISINTEGRATE
+        DISINTEGRATE,
+        FROST_PHOENIX_STORM
     )
 }

@@ -75,6 +75,7 @@ object ModLootTables {
         NIGHTMARE_ISLAND,
         FORBIDDEN_CITY,
         DESERT_OASIS,
+        FROST_PHOENIX_PERCH_SMALL
     )
 
     val NAME_TO_LOOT_TABLE = LOOT_TABLES.associateBy { it.name }

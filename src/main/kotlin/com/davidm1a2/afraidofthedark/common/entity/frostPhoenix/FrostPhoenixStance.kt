@@ -4,5 +4,6 @@ enum class FrostPhoenixStance {
     STANDING,
     FLYING,
     TAKING_OFF,
-    LANDING
+    LANDING,
+    STORMING
 }
