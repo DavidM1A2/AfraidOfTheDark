@@ -52,8 +52,7 @@ class FrostPhoenixCombatManager(private val phoenix: FrostPhoenixEntity) : INBTS
         stormTicksLeft = MAX_STORM_TICKS
 
         stormCenter = phoenix.boundingBox.center
-        val position = phoenix.position()
-        phoenix.moveControl.setWantedPosition(position.x, position.y, position.z, phoenix.getAttributeValue(Attributes.MOVEMENT_SPEED))
+        phoenix.moveControl.setWantedPosition(stormCenter.x, stormCenter.y, stormCenter.z, phoenix.getAttributeValue(Attributes.MOVEMENT_SPEED))
 
         // Push away nearby entities
         val level = phoenix.level
@@ -164,8 +163,8 @@ class FrostPhoenixCombatManager(private val phoenix: FrostPhoenixEntity) : INBTS
         // 30 seconds
         private const val MAX_STORM_TICKS = 20 * 30
 
-        // 1/8 heart per tick
-        private const val HEALTH_PER_TICK = 0.125f
+        // 1/5 heart per tick, or 60 hearts over 30 seconds
+        private const val HEALTH_PER_TICK = 0.2f
 
         internal const val STORM_RADIUS_BLOCKS = 13
         private const val KNOCKBACK_RADIUS_BLOCKS = STORM_RADIUS_BLOCKS + 5

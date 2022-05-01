@@ -11,8 +11,8 @@ class FrostPhoenixTakeOffGoal(phoenix: FrostPhoenixEntity) : FrostPhoenixMoveBas
         if (phoenix.target != null) {
             return true
         }
-        // Take off every ~20 seconds
-        return phoenix.random.nextDouble() < 0.01
+
+        return phoenix.random.nextDouble() < 0.003
     }
 
     override fun tick() {

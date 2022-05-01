@@ -338,7 +338,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         // Constants defining phoenix parameters
         private const val MOVE_SPEED = 0.15
         private const val FOLLOW_RANGE = 120.0
-        private const val MAX_HEALTH = 30.0
+        private const val MAX_HEALTH = 240.0
         private const val KNOCKBACK_RESISTANCE = 1.0
 
         private val STANDING_DIMENSIONS = EntitySize.scalable(1.3f, 5.8f)
