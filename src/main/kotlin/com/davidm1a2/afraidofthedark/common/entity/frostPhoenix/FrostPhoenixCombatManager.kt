@@ -42,6 +42,9 @@ class FrostPhoenixCombatManager(private val phoenix: FrostPhoenixEntity) : INBTS
 
         AfraidOfTheDark.packetHandler
             .sendToChunk(AnimationPacket(phoenix, "Attack"), phoenix.level.getChunkAt(phoenix.blockPosition()))
+
+        // Play the shoot "fireball" sound effect
+        phoenix.level.levelEvent(null, 1018, phoenix.blockPosition(), 0)
     }
 
     fun isStorming(): Boolean {

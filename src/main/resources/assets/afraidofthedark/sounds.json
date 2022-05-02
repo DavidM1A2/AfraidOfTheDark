@@ -77,6 +77,46 @@
       }
     ]
   },
+  "frost_phoenix_hurt": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "afraidofthedark:frost_phoenix_hurt",
+        "stream": false
+      }
+    ],
+    "subtitle": "Frost Phoenix Hurt"
+  },
+  "frost_phoenix_fly": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "afraidofthedark:frost_phoenix_fly",
+        "stream": false
+      }
+    ],
+    "subtitle": "Frost Phoenix Fly"
+  },
+  "frost_phoenix_ambient": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "afraidofthedark:frost_phoenix_ambient",
+        "stream": false
+      }
+    ],
+    "subtitle": "Frost Phoenix Ambie"
+  },
+  "frost_phoenix_projectile_break": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "afraidofthedark:frost_phoenix_projectile_break",
+        "stream": false
+      }
+    ],
+    "subtitle": "Frost Phoenix Projectile Break"
+  },
   "arcane_journal_open": {
     "category": "player",
     "sounds": [

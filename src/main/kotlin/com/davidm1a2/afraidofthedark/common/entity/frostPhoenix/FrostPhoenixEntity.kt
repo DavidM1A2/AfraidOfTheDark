@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.entity.frostPhoenix
 import com.davidm1a2.afraidofthedark.common.constants.ModDataSerializers
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
+import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.AttackChannel
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.FlyChannel
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.IdleFlapChannel
@@ -33,11 +34,13 @@ import net.minecraft.network.datasync.DataSerializers
 import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.util.DamageSource
 import net.minecraft.util.SoundCategory
+import net.minecraft.util.SoundEvent
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.fml.network.NetworkHooks
+import kotlin.math.sin
 
 class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: World) : MobEntity(entityType, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(
@@ -182,7 +185,27 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
                     )
                 }
             }
+
+            val player = Minecraft.getInstance().player!!
+            if (stance == FrostPhoenixStance.FLYING || stance == FrostPhoenixStance.TAKING_OFF || stance == FrostPhoenixStance.LANDING) {
+                if (tickCount % 14 == 0) {
+                    level.playSound(player, blockPosition(), ModSounds.FROST_PHOENIX_FLY, SoundCategory.NEUTRAL, getVolumeByDistance(player), random.nextFloat() * 0.1f + 0.95f)
+                }
+            } else if (stance == FrostPhoenixStance.STORMING) {
+                if (tickCount % 5 == 0) {
+                    level.playSound(player, blockPosition(), ModSounds.FROST_PHOENIX_FLY, SoundCategory.NEUTRAL, getVolumeByDistance(player), random.nextFloat() * 0.1f + 1.0f)
+                }
+            }
         }
+    }
+
+    private fun getVolumeByDistance(playerEntity: PlayerEntity): Float {
+        val distance = playerEntity.distanceTo(this)
+        if (distance >= 40) {
+            return 0f
+        }
+        // w * sin(0.1 * x + PI / 2) + w = w at x=0, and 0 at x=45
+        return 0.5f * sin(0.075f * distance + Math.PI.toFloat() / 2f) + 0.5f
     }
 
     override fun die(damageSource: DamageSource) {
@@ -247,6 +270,25 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
 
     override fun getSoundSource(): SoundCategory {
         return SoundCategory.HOSTILE
+    }
+
+    override fun playAmbientSound() {
+        if (level.isClientSide) {
+            val player = Minecraft.getInstance().player!!
+            level.playSound(player, blockPosition(), ModSounds.FROST_PHOENIX_AMBIENT, SoundCategory.NEUTRAL, getVolumeByDistance(player), random.nextFloat() * 0.1f + 0.8f)
+        }
+    }
+
+    override fun getAmbientSoundInterval(): Int {
+        return 20 * 20 // 20 seconds
+    }
+
+    override fun getDeathSound(): SoundEvent {
+        return ModSounds.FROST_PHOENIX_DEATH
+    }
+
+    override fun getHurtSound(damageSource: DamageSource): SoundEvent {
+        return ModSounds.FROST_PHOENIX_HURT
     }
 
     override fun causeFallDamage(distance: Float, damageMultiplier: Float): Boolean {

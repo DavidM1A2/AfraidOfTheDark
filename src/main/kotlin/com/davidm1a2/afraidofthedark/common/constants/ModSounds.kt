@@ -15,6 +15,11 @@ object ModSounds {
     val ENCHANTED_FROG_CROAK = create("enchanted_frog_croak")
     val ENCHANTED_FROG_DEATH = create("enchanted_frog_death")
     val ENCHANTED_FROG_HURT = create("enchanted_frog_hurt")
+    val FROST_PHOENIX_HURT = create("frost_phoenix_hurt")
+    val FROST_PHOENIX_FLY = create("frost_phoenix_fly")
+    val FROST_PHOENIX_DEATH = create("frost_phoenix_death")
+    val FROST_PHOENIX_AMBIENT = create("frost_phoenix_ambient")
+    val FROST_PHOENIX_PROJECTILE_BREAK = create("frost_phoenix_projectile_break")
     val ARCANE_JOURNAL_OPEN = create("arcane_journal_open")
     val RESEARCH_UNLOCKED = create("research_unlocked")
     val PAGE_TURN = create("page_turn")
@@ -34,6 +39,13 @@ object ModSounds {
         WEREWOLF_DEATH,
         WEREWOLF_HURT,
         ENCHANTED_FROG_CROAK,
+        ENCHANTED_FROG_DEATH,
+        ENCHANTED_FROG_HURT,
+        FROST_PHOENIX_HURT,
+        FROST_PHOENIX_FLY,
+        FROST_PHOENIX_DEATH,
+        FROST_PHOENIX_AMBIENT,
+        FROST_PHOENIX_PROJECTILE_BREAK,
         ARCANE_JOURNAL_OPEN,
         RESEARCH_UNLOCKED,
         PAGE_TURN,

@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
+import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.ProjectileFlyChannel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
@@ -146,6 +147,8 @@ class FrostPhoenixProjectileEntity(entityType: EntityType<out FrostPhoenixProjec
                     }
                 }
             }
+
+            playSound(ModSounds.FROST_PHOENIX_PROJECTILE_BREAK, 1.0f, random.nextFloat() * 0.2f + 1.0f)
 
             // Kill the projectile
             remove()

@@ -13,6 +13,9 @@ class FrostPhoenixHurtByPlayerTargetGoal(private val frostPhoenix: FrostPhoenixE
     }
 
     override fun canUse(): Boolean {
+        if (frostPhoenix.target != null) {
+            return true
+        }
         val lastHurtTime = mob.lastHurtByMobTimestamp
         val lastHurtMob = mob.lastHurtByMob
         return if (lastHurtTime != this.lastRunTime && lastHurtMob != null) {
