@@ -92,6 +92,7 @@
     "sounds": [
       {
         "name": "afraidofthedark:frost_phoenix_fly",
+        "attenuation_distance": 45,
         "stream": false
       }
     ],
@@ -102,10 +103,11 @@
     "sounds": [
       {
         "name": "afraidofthedark:frost_phoenix_ambient",
+        "attenuation_distance": 100,
         "stream": false
       }
     ],
-    "subtitle": "Frost Phoenix Ambie"
+    "subtitle": "Frost Phoenix Ambient"
   },
   "frost_phoenix_projectile_break": {
     "category": "neutral",

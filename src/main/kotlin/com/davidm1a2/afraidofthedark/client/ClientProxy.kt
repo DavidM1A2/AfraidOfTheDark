@@ -14,9 +14,16 @@ import com.davidm1a2.afraidofthedark.client.event.ModColorRegister
 import com.davidm1a2.afraidofthedark.client.event.ResearchPositionHandler
 import com.davidm1a2.afraidofthedark.common.IProxy
 import com.davidm1a2.afraidofthedark.common.event.ResearchOverlayHandler
+import net.minecraft.client.Minecraft
+import net.minecraft.client.audio.EntityTickableSound
+import net.minecraft.entity.Entity
+import net.minecraft.util.SoundCategory
+import net.minecraft.util.SoundEvent
+import net.minecraftforge.event.ForgeEventFactory
 import net.minecraftforge.eventbus.api.IEventBus
 
 class ClientProxy : IProxy {
+    private val minecraft = Minecraft.getInstance()
     override val researchOverlayHandler: ResearchOverlayHandler = ClientResearchOverlayHandler()
 
     override fun registerSidedHandlers(forgeBus: IEventBus, modBus: IEventBus) {
@@ -33,5 +40,12 @@ class ClientProxy : IProxy {
         modBus.register(ItemModelPropertyRegister())
         modBus.register(KeybindingRegister())
         modBus.register(ResearchPositionHandler())
+    }
+
+    override fun playSoundFixed(entity: Entity, event: SoundEvent, category: SoundCategory, volume: Float, pitch: Float) {
+        val eventResult = ForgeEventFactory.onPlaySoundAtEntity(entity, event, category, volume, pitch)
+        if (eventResult.isCanceled || eventResult.sound == null) return
+
+        this.minecraft.soundManager.play(EntityTickableSound(eventResult.sound, eventResult.category, eventResult.volume, eventResult.pitch, eventResult.entity))
     }
 }

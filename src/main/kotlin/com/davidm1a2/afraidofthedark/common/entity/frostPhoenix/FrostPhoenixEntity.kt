@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.entity.frostPhoenix
 
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModDataSerializers
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
@@ -189,23 +190,23 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
             val player = Minecraft.getInstance().player!!
             if (stance == FrostPhoenixStance.FLYING || stance == FrostPhoenixStance.TAKING_OFF || stance == FrostPhoenixStance.LANDING) {
                 if (tickCount % 14 == 0) {
-                    level.playSound(player, blockPosition(), ModSounds.FROST_PHOENIX_FLY, SoundCategory.NEUTRAL, getVolumeByDistance(player), random.nextFloat() * 0.1f + 0.95f)
+                    AfraidOfTheDark.proxy.playSoundFixed(this, ModSounds.FROST_PHOENIX_FLY, SoundCategory.NEUTRAL, getVolumeByDistance(player, 45f), random.nextFloat() * 0.1f + 0.95f)
                 }
             } else if (stance == FrostPhoenixStance.STORMING) {
                 if (tickCount % 5 == 0) {
-                    level.playSound(player, blockPosition(), ModSounds.FROST_PHOENIX_FLY, SoundCategory.NEUTRAL, getVolumeByDistance(player), random.nextFloat() * 0.1f + 1.0f)
+                    AfraidOfTheDark.proxy.playSoundFixed(this, ModSounds.FROST_PHOENIX_FLY, SoundCategory.NEUTRAL, getVolumeByDistance(player, 45f), random.nextFloat() * 0.1f + 1.0f)
                 }
             }
         }
     }
 
-    private fun getVolumeByDistance(playerEntity: PlayerEntity): Float {
+    private fun getVolumeByDistance(playerEntity: PlayerEntity, maxDistanceBlocks: Float): Float {
         val distance = playerEntity.distanceTo(this)
-        if (distance >= 40) {
+        if (distance >= maxDistanceBlocks) {
             return 0f
         }
-        // w * sin(0.1 * x + PI / 2) + w = w at x=0, and 0 at x=45
-        return 0.5f * sin(0.075f * distance + Math.PI.toFloat() / 2f) + 0.5f
+        // w * sin(PI / distance * x + PI / 2) + w = w at x=0, and 0 at x=45
+        return 0.5f * sin(Math.PI.toFloat() / maxDistanceBlocks * distance + Math.PI.toFloat() / 2f) + 0.5f
     }
 
     override fun die(damageSource: DamageSource) {
@@ -275,7 +276,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
     override fun playAmbientSound() {
         if (level.isClientSide) {
             val player = Minecraft.getInstance().player!!
-            level.playSound(player, blockPosition(), ModSounds.FROST_PHOENIX_AMBIENT, SoundCategory.NEUTRAL, getVolumeByDistance(player), random.nextFloat() * 0.1f + 0.8f)
+            AfraidOfTheDark.proxy.playSoundFixed(this, ModSounds.FROST_PHOENIX_AMBIENT, SoundCategory.NEUTRAL, getVolumeByDistance(player, 100f), random.nextFloat() * 0.1f + 0.8f)
         }
     }
 
