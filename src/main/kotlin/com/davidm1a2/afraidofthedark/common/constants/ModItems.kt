@@ -1,12 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.item.ArcaneJournalItem
-import com.davidm1a2.afraidofthedark.common.item.AstralSilverAxeItem
-import com.davidm1a2.afraidofthedark.common.item.AstralSilverHoeItem
-import com.davidm1a2.afraidofthedark.common.item.AstralSilverIngotItem
-import com.davidm1a2.afraidofthedark.common.item.AstralSilverPickaxeItem
-import com.davidm1a2.afraidofthedark.common.item.AstralSilverShovelItem
-import com.davidm1a2.afraidofthedark.common.item.AstralSilverSwordItem
 import com.davidm1a2.afraidofthedark.common.item.BoneDustItem
 import com.davidm1a2.afraidofthedark.common.item.BoneSwordItem
 import com.davidm1a2.afraidofthedark.common.item.CloakOfAgilityItem
@@ -45,6 +39,12 @@ import com.davidm1a2.afraidofthedark.common.item.SunstoneFragmentItem
 import com.davidm1a2.afraidofthedark.common.item.VitaeLanternItem
 import com.davidm1a2.afraidofthedark.common.item.WandItem
 import com.davidm1a2.afraidofthedark.common.item.WerewolfBloodItem
+import com.davidm1a2.afraidofthedark.common.item.astralsilver.AstralSilverAxeItem
+import com.davidm1a2.afraidofthedark.common.item.astralsilver.AstralSilverHoeItem
+import com.davidm1a2.afraidofthedark.common.item.astralsilver.AstralSilverIngotItem
+import com.davidm1a2.afraidofthedark.common.item.astralsilver.AstralSilverPickaxeItem
+import com.davidm1a2.afraidofthedark.common.item.astralsilver.AstralSilverShovelItem
+import com.davidm1a2.afraidofthedark.common.item.astralsilver.AstralSilverSwordItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.WristCrossbowItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.AstralSilverBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.IgneousBoltItem

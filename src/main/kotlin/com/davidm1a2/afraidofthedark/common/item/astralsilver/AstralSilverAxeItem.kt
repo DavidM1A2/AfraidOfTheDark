@@ -1,10 +1,10 @@
-package com.davidm1a2.afraidofthedark.common.item
+package com.davidm1a2.afraidofthedark.common.item.astralsilver
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
-import com.davidm1a2.afraidofthedark.common.item.core.AOTDShovelItem
+import com.davidm1a2.afraidofthedark.common.item.core.AOTDAxeItem
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.block.BlockState
 import net.minecraft.client.Minecraft
@@ -16,7 +16,7 @@ import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 
-class AstralSilverShovelItem : AOTDShovelItem("astral_silver_shovel", ModToolMaterials.ASTRAL_SILVER, 1.5f, -1.5f, Properties()) {
+class AstralSilverAxeItem : AOTDAxeItem("astral_silver_axe", ModToolMaterials.ASTRAL_SILVER, 5.0f, -1.5f, Properties()) {
     override fun canAttackBlock(blockState: BlockState, world: World, blockPos: BlockPos, player: PlayerEntity): Boolean {
         return if (player.getResearch().isResearched(ModResearches.SILVER_SLAYER)) {
             super.canAttackBlock(blockState, world, blockPos, player)
