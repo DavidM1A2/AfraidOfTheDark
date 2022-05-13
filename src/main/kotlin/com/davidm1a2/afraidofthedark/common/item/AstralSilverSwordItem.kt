@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack
  *
  * @constructor sets up the item's properties
  */
-class AstralSilverSwordItem : AOTDSwordItem("astral_silver_sword", ModToolMaterials.ASTRAL_SILVER, 3, -2.4f, Properties()) {
+class AstralSilverSwordItem : AOTDSwordItem("astral_silver_sword", ModToolMaterials.ASTRAL_SILVER, 3, -1.2f, Properties()) {
     /**
      * Called when the player left clicks an entity with the sword
      *

@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "afraidofthedark:item/astral_silver_pickaxe"
+  }
+}

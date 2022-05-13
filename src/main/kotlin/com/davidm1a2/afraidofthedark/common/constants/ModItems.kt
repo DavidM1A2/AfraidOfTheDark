@@ -1,7 +1,11 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.item.ArcaneJournalItem
+import com.davidm1a2.afraidofthedark.common.item.AstralSilverAxeItem
+import com.davidm1a2.afraidofthedark.common.item.AstralSilverHoeItem
 import com.davidm1a2.afraidofthedark.common.item.AstralSilverIngotItem
+import com.davidm1a2.afraidofthedark.common.item.AstralSilverPickaxeItem
+import com.davidm1a2.afraidofthedark.common.item.AstralSilverShovelItem
 import com.davidm1a2.afraidofthedark.common.item.AstralSilverSwordItem
 import com.davidm1a2.afraidofthedark.common.item.BoneDustItem
 import com.davidm1a2.afraidofthedark.common.item.BoneSwordItem
@@ -74,6 +78,10 @@ object ModItems {
     val SEXTANT = SextantItem()
     val ASTRAL_SILVER_INGOT = AstralSilverIngotItem()
     val ASTRAL_SILVER_SWORD = AstralSilverSwordItem()
+    val ASTRAL_SILVER_AXE = AstralSilverAxeItem()
+    val ASTRAL_SILVER_HOE = AstralSilverHoeItem()
+    val ASTRAL_SILVER_PICKAXE = AstralSilverPickaxeItem()
+    val ASTRAL_SILVER_SHOVEL = AstralSilverShovelItem()
     val WEREWOLF_BLOOD = WerewolfBloodItem()
     val FLASK_OF_SOULS = FlaskOfSoulsItem()
     val CLOAK_OF_AGILITY = CloakOfAgilityItem()
@@ -142,6 +150,10 @@ object ModItems {
         SEXTANT,
         ASTRAL_SILVER_INGOT,
         ASTRAL_SILVER_SWORD,
+        ASTRAL_SILVER_AXE,
+        ASTRAL_SILVER_HOE,
+        ASTRAL_SILVER_PICKAXE,
+        ASTRAL_SILVER_SHOVEL,
         WEREWOLF_BLOOD,
         FLASK_OF_SOULS,
         CLOAK_OF_AGILITY,

@@ -1,0 +1,21 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "a",
+    "s",
+    "s"
+  ],
+  "key": {
+    "a": {
+      "item": "afraidofthedark:astral_silver_ingot"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:astral_silver_shovel",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:silver_slayer"
+}

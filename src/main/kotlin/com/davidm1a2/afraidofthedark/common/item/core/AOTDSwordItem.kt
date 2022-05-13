@@ -12,7 +12,7 @@ import net.minecraft.item.SwordItem
  * @param toolMaterial The tool material to be used for the sword
  * @param displayInCreative True if this item should be displayed in creative mode, false otherwise
  */
-open class AOTDSwordItem(
+abstract class AOTDSwordItem(
     baseName: String,
     toolMaterial: IItemTier,
     damageAmplifier: Int,

@@ -2,6 +2,10 @@
   "forge:registry_name": "afraidofthedark:silver_slayer",
   "recipes": [
     "afraidofthedark:astral_silver_sword",
+    "afraidofthedark:astral_silver_axe",
+    "afraidofthedark:astral_silver_hoe",
+    "afraidofthedark:astral_silver_pickaxe",
+    "afraidofthedark:astral_silver_shovel",
     "afraidofthedark:astral_silver_bolt"
   ],
   "pre_recipes": [],
