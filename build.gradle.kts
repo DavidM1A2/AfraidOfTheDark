@@ -34,7 +34,7 @@ apply {
 
 configurations["implementation"].extendsFrom(configurations.create("shade"))
 
-version = "1.16.5-1.8.0"
+version = "1.16.5-1.8.1"
 group = "com.davidm1a2.afraidofthedark"
 project.setProperty("archivesBaseName", "afraidofthedark")
 
