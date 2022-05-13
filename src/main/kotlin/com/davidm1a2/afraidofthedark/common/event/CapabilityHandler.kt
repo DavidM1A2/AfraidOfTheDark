@@ -2,27 +2,26 @@ package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.capabilities.CapabilityProvider
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
-import com.davidm1a2.afraidofthedark.common.capabilities.getNightmareData
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellLunarData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellSolarData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellThermalData
-import com.davidm1a2.afraidofthedark.common.capabilities.getVoidChestData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
 import net.minecraft.world.chunk.Chunk
+import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.event.AttachCapabilitiesEvent
 import net.minecraftforge.event.entity.EntityJoinWorldEvent
 import net.minecraftforge.event.entity.player.PlayerEvent.Clone
 import net.minecraftforge.eventbus.api.SubscribeEvent
+import org.apache.logging.log4j.LogManager
 
 /**
  * Class used to register all of our mod capabilities
@@ -148,104 +147,43 @@ class CapabilityHandler {
     }
 
     /**
-     * When the player dies, he is cloned but no capabilities are copied by default, so we need to manually do that here
+     * When the player is cloned no capabilities are copied by default, so we need to manually do that here
      *
      * @param event The clone event
      */
     @SubscribeEvent
     fun onClonePlayer(event: Clone) {
-        // The player only loses capabilities upon death
-        if (event.isWasDeath) {
-            // The player needs to be "Alive" to read capabilities
-            event.original.revive()
+        // Save off data that persists when entering the end portal, and also across deaths
+        copyCapability(event.original, event.player, ModCapabilities.PLAYER_BASICS)
+        copyCapability(event.original, event.player, ModCapabilities.PLAYER_RESEARCH)
+        copyCapability(event.original, event.player, ModCapabilities.PLAYER_VOID_CHEST_DATA)
+        copyCapability(event.original, event.player, ModCapabilities.PLAYER_NIGHTMARE_DATA)
+        copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_MANAGER)
 
-            // Grab new and original player capabilities
-            val originalPlayerBasics = event.original.getBasics()
-            val newPlayerBasics = event.player.getBasics()
-
-            val originalPlayerResearch = event.original.getResearch()
-            val newPlayerResearch = event.player.getResearch()
-
-            val originalPlayerVoidChestData = event.original.getVoidChestData()
-            val newPlayerVoidChestData = event.player.getVoidChestData()
-
-            val originalPlayerNightmareData = event.original.getNightmareData()
-            val newPlayerNightmareData = event.player.getNightmareData()
-
-            val originalPlayerSpellManager = event.original.getSpellManager()
-            val newPlayerSpellManager = event.player.getSpellManager()
-
-            // Kill the player again
-            event.original.remove()
-
-            // Don't copy PLAYER_SPELL_FREEZE_DATA, if the player dies they aren't frozen anymore
-
-            // Don't copy PLAYER_SPELL_CHARM_DATA, if the player dies they aren't charmed anymore
-
-            // Don't copy PLAYER_SPELL_LUNAR_DATA, if the player dies they lose all lunar vitae
-
-            // Don't copy PLAYER_SPELL_SOLAR_DATA, if the player dies they lose all solar vitae
-
-            // Don't copy PLAYER_SPELL_THERMAL_DATA, if the player dies they lose all thermal vitae/heat
-
-            // Grab the NBT compound off of the original capabilities
-            val originalPlayerBasicsNBT = ModCapabilities.PLAYER_BASICS.storage.writeNBT(
-                ModCapabilities.PLAYER_BASICS,
-                originalPlayerBasics,
-                null
-            ) as CompoundNBT
-            val originalPlayerResearchNBT = ModCapabilities.PLAYER_RESEARCH.storage.writeNBT(
-                ModCapabilities.PLAYER_RESEARCH,
-                originalPlayerResearch,
-                null
-            ) as CompoundNBT
-            val originalPlayerVoidChestDataNBT = ModCapabilities.PLAYER_VOID_CHEST_DATA.storage.writeNBT(
-                ModCapabilities.PLAYER_VOID_CHEST_DATA,
-                originalPlayerVoidChestData,
-                null
-            ) as CompoundNBT
-            val originalPlayerNightmareDataNBT = ModCapabilities.PLAYER_NIGHTMARE_DATA.storage.writeNBT(
-                ModCapabilities.PLAYER_NIGHTMARE_DATA,
-                originalPlayerNightmareData,
-                null
-            ) as CompoundNBT
-            val originalPlayerSpellManagerNBT = ModCapabilities.PLAYER_SPELL_MANAGER.storage.writeNBT(
-                ModCapabilities.PLAYER_SPELL_MANAGER,
-                originalPlayerSpellManager,
-                null
-            ) as CompoundNBT
-
-            // Copy the NBT compound onto the new capabilities
-            ModCapabilities.PLAYER_BASICS.storage.readNBT(
-                ModCapabilities.PLAYER_BASICS,
-                newPlayerBasics,
-                null,
-                originalPlayerBasicsNBT
-            )
-            ModCapabilities.PLAYER_RESEARCH.storage.readNBT(
-                ModCapabilities.PLAYER_RESEARCH,
-                newPlayerResearch,
-                null,
-                originalPlayerResearchNBT
-            )
-            ModCapabilities.PLAYER_VOID_CHEST_DATA.storage.readNBT(
-                ModCapabilities.PLAYER_VOID_CHEST_DATA,
-                newPlayerVoidChestData,
-                null,
-                originalPlayerVoidChestDataNBT
-            )
-            ModCapabilities.PLAYER_NIGHTMARE_DATA.storage.readNBT(
-                ModCapabilities.PLAYER_NIGHTMARE_DATA,
-                newPlayerNightmareData,
-                null,
-                originalPlayerNightmareDataNBT
-            )
-            ModCapabilities.PLAYER_SPELL_MANAGER.storage.readNBT(
-                ModCapabilities.PLAYER_SPELL_MANAGER,
-                newPlayerSpellManager,
-                null,
-                originalPlayerSpellManagerNBT
-            )
+        // Save off data that ONLY persists when entering the end portal, but not deaths
+        if (!event.isWasDeath) {
+            copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_FREEZE_DATA)
+            copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_CHARM_DATA)
+            copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_LUNAR_DATA)
+            copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_SOLAR_DATA)
+            copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_THERMAL_DATA)
         }
+    }
+
+    private fun <T> copyCapability(oldPlayer: PlayerEntity, newPlayer: PlayerEntity, capability: Capability<T>) {
+        val oldCapability = oldPlayer.getCapability(capability).resolve().get()
+        val newCapability = newPlayer.getCapability(capability).resolve().get()
+        if (oldCapability == null || newCapability == null) {
+            LOG.warn("Player was cloned without required capabilities? Missing: ${capability.name}")
+            return
+        }
+        val storage = capability.storage
+        // Write the old capability to NBT, then read it right back into the new capability
+        val oldCapabilityNbt = storage.writeNBT(capability, oldCapability, null)
+        storage.readNBT(capability, newCapability, null, oldCapabilityNbt)
+    }
+
+    companion object {
+        private val LOG = LogManager.getLogger()
     }
 }
