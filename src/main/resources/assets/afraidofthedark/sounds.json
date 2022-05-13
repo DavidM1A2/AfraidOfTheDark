@@ -77,6 +77,15 @@
       }
     ]
   },
+  "frost_phoenix_death": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "afraidofthedark:frost_phoenix_death",
+        "stream": false
+      }
+    ]
+  },
   "frost_phoenix_hurt": {
     "category": "neutral",
     "sounds": [
