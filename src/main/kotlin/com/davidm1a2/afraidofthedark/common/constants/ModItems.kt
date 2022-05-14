@@ -13,9 +13,6 @@ import com.davidm1a2.afraidofthedark.common.item.EldritchMetalIngotItem
 import com.davidm1a2.afraidofthedark.common.item.EnchantedSkeletonBoneItem
 import com.davidm1a2.afraidofthedark.common.item.FlaskOfSoulsItem
 import com.davidm1a2.afraidofthedark.common.item.GnomishMetalIngotItem
-import com.davidm1a2.afraidofthedark.common.item.IgneousArmorItem
-import com.davidm1a2.afraidofthedark.common.item.IgneousGemItem
-import com.davidm1a2.afraidofthedark.common.item.IgneousSwordItem
 import com.davidm1a2.afraidofthedark.common.item.InsanitysHeightsItem
 import com.davidm1a2.afraidofthedark.common.item.MagicEssenceItem
 import com.davidm1a2.afraidofthedark.common.item.MysticOpalItem
@@ -56,6 +53,13 @@ import com.davidm1a2.afraidofthedark.common.item.eggs.EnchantedSkeletonSpawnEggI
 import com.davidm1a2.afraidofthedark.common.item.eggs.FrostPhoenixSpawnEggItem
 import com.davidm1a2.afraidofthedark.common.item.eggs.SplinterDroneSpawnEggItem
 import com.davidm1a2.afraidofthedark.common.item.eggs.WerewolfSpawnEggItem
+import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousArmorItem
+import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousAxeItem
+import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousGemItem
+import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousHoeItem
+import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousPickaxeItem
+import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousShovelItem
+import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousSwordItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.AdvancedTelescopeItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.CompoundLensItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.DiamondLensItem
@@ -92,6 +96,10 @@ object ModItems {
     val SUNSTONE_FRAGMENT = SunstoneFragmentItem()
     val IGNEOUS_GEM = IgneousGemItem()
     val IGNEOUS_SWORD = IgneousSwordItem()
+    val IGNEOUS_AXE = IgneousAxeItem()
+    val IGNEOUS_HOE = IgneousHoeItem()
+    val IGNEOUS_PICKAXE = IgneousPickaxeItem()
+    val IGNEOUS_SHOVEL = IgneousShovelItem()
     val IGNEOUS_HELMET = IgneousArmorItem("igneous_helmet", EquipmentSlotType.HEAD)
     val IGNEOUS_CHESTPLATE = IgneousArmorItem("igneous_chestplate", EquipmentSlotType.CHEST)
     val IGNEOUS_LEGGINGS = IgneousArmorItem("igneous_leggings", EquipmentSlotType.LEGS)
@@ -171,6 +179,10 @@ object ModItems {
         SUNSTONE_FRAGMENT,
         IGNEOUS_GEM,
         IGNEOUS_SWORD,
+        IGNEOUS_AXE,
+        IGNEOUS_HOE,
+        IGNEOUS_PICKAXE,
+        IGNEOUS_SHOVEL,
         IGNEOUS_HELMET,
         IGNEOUS_CHESTPLATE,
         IGNEOUS_LEGGINGS,

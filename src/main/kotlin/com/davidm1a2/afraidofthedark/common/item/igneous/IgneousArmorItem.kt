@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.item
+package com.davidm1a2.afraidofthedark.common.item.igneous
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
@@ -25,7 +25,7 @@ import net.minecraft.world.World
  * @param equipmentSlot The slot that this armor pieces goes on, can be one of 4 options
  */
 class IgneousArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
-    AOTDArmorItem(baseName, ModArmorMaterials.IGNEOUS, equipmentSlot, Properties().defaultDurability(0)) {
+    AOTDArmorItem(baseName, ModArmorMaterials.IGNEOUS, equipmentSlot, Properties()) {
     /**
      * Gets the resource location path of the texture for the armor when worn by the player
      *
@@ -157,6 +157,14 @@ class IgneousArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
             EquipmentSlotType.CHEST -> 8.0 / totalProtection
             else -> 0.0
         }
+    }
+
+    override fun canBeDepleted(): Boolean {
+        return false
+    }
+
+    override fun isEnchantable(itemStack: ItemStack): Boolean {
+        return true
     }
 
     companion object {

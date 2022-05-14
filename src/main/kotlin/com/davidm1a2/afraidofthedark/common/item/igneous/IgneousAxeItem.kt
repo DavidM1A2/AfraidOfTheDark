@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.item.astralsilver
+package com.davidm1a2.afraidofthedark.common.item.igneous
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
@@ -18,7 +18,7 @@ import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 
-class AstralSilverAxeItem : AOTDAxeItem("astral_silver_axe", ModToolMaterials.ASTRAL_SILVER, 5.0f, -1.5f, Properties()) {
+class IgneousAxeItem : AOTDAxeItem("igneous_axe", ModToolMaterials.IGNEOUS, 5.0f, -3.0f, Properties()) {
     override fun useOn(context: ItemUseContext): ActionResultType {
         val player = context.player
         if (player != null) {
@@ -34,7 +34,7 @@ class AstralSilverAxeItem : AOTDAxeItem("astral_silver_axe", ModToolMaterials.AS
     }
 
     override fun canAttackBlock(blockState: BlockState, world: World, blockPos: BlockPos, player: PlayerEntity): Boolean {
-        return if (player.getResearch().isResearched(ModResearches.SILVER_SLAYER)) {
+        return if (player.getResearch().isResearched(ModResearches.IGNEOUS)) {
             super.canAttackBlock(blockState, world, blockPos, player)
         } else {
             if (!world.isClientSide) {
@@ -44,10 +44,20 @@ class AstralSilverAxeItem : AOTDAxeItem("astral_silver_axe", ModToolMaterials.AS
         }
     }
 
+    override fun canBeDepleted(): Boolean {
+        return false
+    }
+
+    override fun isEnchantable(itemStack: ItemStack): Boolean {
+        return true
+    }
+
     override fun appendHoverText(itemStack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
 
-        if (player != null && !player.getResearch().isResearched(ModResearches.SILVER_SLAYER)) {
+        if (player != null && player.getResearch().isResearched(ModResearches.IGNEOUS)) {
+            tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
+        } else {
             tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }

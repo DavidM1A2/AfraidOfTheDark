@@ -32,10 +32,7 @@ abstract class AOTDChargeableSwordItem(
     attackSpeed: Float,
     properties: Properties,
     displayInCreative: Boolean = true
-) : AOTDSwordItem(baseName, toolMaterial, damageAmplifier, attackSpeed, properties.apply {
-    // This is required to make the sword unbreakable
-    defaultDurability(0)
-}, displayInCreative), IHasModelProperties {
+) : AOTDSwordItem(baseName, toolMaterial, damageAmplifier, attackSpeed, properties, displayInCreative), IHasModelProperties {
     protected var percentChargePerAttack = 5.0
 
     override fun getProperties(): List<Pair<ResourceLocation, IItemPropertyGetter>> {
@@ -169,6 +166,14 @@ abstract class AOTDChargeableSwordItem(
         if (!NBTHelper.hasTag(itemStack, NBT_CHARGE)) {
             NBTHelper.setDouble(itemStack, NBT_CHARGE, 0.0)
         }
+    }
+
+    override fun canBeDepleted(): Boolean {
+        return false
+    }
+
+    override fun isEnchantable(itemStack: ItemStack): Boolean {
+        return true
     }
 
     companion object {

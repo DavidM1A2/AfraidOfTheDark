@@ -1,0 +1,21 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "gg",
+    "ig",
+    "i "
+  ],
+  "key": {
+    "g": {
+      "item": "afraidofthedark:igneous_gem"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:igneous_axe",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:igneous"
+}

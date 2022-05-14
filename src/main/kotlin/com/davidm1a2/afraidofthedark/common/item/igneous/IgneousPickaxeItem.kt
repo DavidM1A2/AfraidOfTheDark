@@ -1,40 +1,24 @@
-package com.davidm1a2.afraidofthedark.common.item.astralsilver
+package com.davidm1a2.afraidofthedark.common.item.igneous
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
-import com.davidm1a2.afraidofthedark.common.item.core.AOTDAxeItem
+import com.davidm1a2.afraidofthedark.common.item.core.AOTDPickaxeItem
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.block.BlockState
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.item.ItemUseContext
-import net.minecraft.util.ActionResultType
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 
-class AstralSilverAxeItem : AOTDAxeItem("astral_silver_axe", ModToolMaterials.ASTRAL_SILVER, 5.0f, -1.5f, Properties()) {
-    override fun useOn(context: ItemUseContext): ActionResultType {
-        val player = context.player
-        if (player != null) {
-            if (player.getResearch().isResearched(ModResearches.SILVER_SLAYER)) {
-                return super.useOn(context)
-            } else {
-                if (!context.level.isClientSide) {
-                    player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
-                }
-            }
-        }
-        return ActionResultType.FAIL
-    }
-
+class IgneousPickaxeItem : AOTDPickaxeItem("igneous_pickaxe", ModToolMaterials.IGNEOUS, 1, -2.8f, Properties()) {
     override fun canAttackBlock(blockState: BlockState, world: World, blockPos: BlockPos, player: PlayerEntity): Boolean {
-        return if (player.getResearch().isResearched(ModResearches.SILVER_SLAYER)) {
+        return if (player.getResearch().isResearched(ModResearches.IGNEOUS)) {
             super.canAttackBlock(blockState, world, blockPos, player)
         } else {
             if (!world.isClientSide) {
@@ -44,10 +28,24 @@ class AstralSilverAxeItem : AOTDAxeItem("astral_silver_axe", ModToolMaterials.AS
         }
     }
 
+    override fun isCorrectToolForDrops(p_150897_1_: BlockState): Boolean {
+        return super.isCorrectToolForDrops(p_150897_1_)
+    }
+
+    override fun canBeDepleted(): Boolean {
+        return false
+    }
+
+    override fun isEnchantable(itemStack: ItemStack): Boolean {
+        return true
+    }
+
     override fun appendHoverText(itemStack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
 
-        if (player != null && !player.getResearch().isResearched(ModResearches.SILVER_SLAYER)) {
+        if (player != null && player.getResearch().isResearched(ModResearches.IGNEOUS)) {
+            tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
+        } else {
             tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
