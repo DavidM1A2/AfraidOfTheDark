@@ -1,0 +1,21 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "ss",
+    "is",
+    "i "
+  ],
+  "key": {
+    "s": {
+      "item": "afraidofthedark:star_metal_plate"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:star_metal_axe",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:star_metal"
+}

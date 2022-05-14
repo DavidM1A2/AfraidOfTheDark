@@ -55,10 +55,14 @@ import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousShovelItem
 import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousSwordItem
 import com.davidm1a2.afraidofthedark.common.item.igneous.SunstoneFragmentItem
 import com.davidm1a2.afraidofthedark.common.item.starmetal.StarMetalArmorItem
+import com.davidm1a2.afraidofthedark.common.item.starmetal.StarMetalAxeItem
 import com.davidm1a2.afraidofthedark.common.item.starmetal.StarMetalFragmentItem
+import com.davidm1a2.afraidofthedark.common.item.starmetal.StarMetalHoeItem
 import com.davidm1a2.afraidofthedark.common.item.starmetal.StarMetalIngotItem
 import com.davidm1a2.afraidofthedark.common.item.starmetal.StarMetalKhopeshItem
+import com.davidm1a2.afraidofthedark.common.item.starmetal.StarMetalPickaxeItem
 import com.davidm1a2.afraidofthedark.common.item.starmetal.StarMetalPlateItem
+import com.davidm1a2.afraidofthedark.common.item.starmetal.StarMetalShovelItem
 import com.davidm1a2.afraidofthedark.common.item.starmetal.StarMetalStaffItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.AdvancedTelescopeItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.CompoundLensItem
@@ -108,6 +112,10 @@ object ModItems {
     val STAR_METAL_INGOT = StarMetalIngotItem()
     val STAR_METAL_PLATE = StarMetalPlateItem()
     val STAR_METAL_KHOPESH = StarMetalKhopeshItem()
+    val STAR_METAL_AXE = StarMetalAxeItem()
+    val STAR_METAL_HOE = StarMetalHoeItem()
+    val STAR_METAL_PICKAXE = StarMetalPickaxeItem()
+    val STAR_METAL_SHOVEL = StarMetalShovelItem()
     val STAR_METAL_STAFF = StarMetalStaffItem()
     val STAR_METAL_HELMET = StarMetalArmorItem("star_metal_helmet", EquipmentSlotType.HEAD)
     val STAR_METAL_CHESTPLATE = StarMetalArmorItem("star_metal_chestplate", EquipmentSlotType.CHEST)
@@ -191,6 +199,10 @@ object ModItems {
         STAR_METAL_INGOT,
         STAR_METAL_PLATE,
         STAR_METAL_KHOPESH,
+        STAR_METAL_AXE,
+        STAR_METAL_HOE,
+        STAR_METAL_PICKAXE,
+        STAR_METAL_SHOVEL,
         STAR_METAL_STAFF,
         STAR_METAL_HELMET,
         STAR_METAL_CHESTPLATE,

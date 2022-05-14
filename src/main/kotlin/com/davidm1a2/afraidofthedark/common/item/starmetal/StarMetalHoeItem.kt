@@ -1,31 +1,33 @@
-package com.davidm1a2.afraidofthedark.common.item.igneous
+package com.davidm1a2.afraidofthedark.common.item.starmetal
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
-import com.davidm1a2.afraidofthedark.common.item.core.AOTDPickaxeItem
+import com.davidm1a2.afraidofthedark.common.item.core.AOTDHoeItem
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import net.minecraft.block.BlockState
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.util.math.BlockPos
+import net.minecraft.item.ItemUseContext
+import net.minecraft.util.ActionResultType
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 
-class IgneousPickaxeItem : AOTDPickaxeItem("igneous_pickaxe", ModToolMaterials.IGNEOUS, 1, -2.8f, Properties()) {
-    override fun canAttackBlock(blockState: BlockState, world: World, blockPos: BlockPos, player: PlayerEntity): Boolean {
-        return if (player.getResearch().isResearched(ModResearches.IGNEOUS)) {
-            super.canAttackBlock(blockState, world, blockPos, player)
-        } else {
-            if (!world.isClientSide) {
-                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+class StarMetalHoeItem : AOTDHoeItem("star_metal_hoe", ModToolMaterials.STAR_METAL, -8, 0.0f, Properties()) {
+    override fun useOn(context: ItemUseContext): ActionResultType {
+        val player = context.player
+        if (player != null) {
+            if (player.getResearch().isResearched(ModResearches.STAR_METAL)) {
+                return super.useOn(context)
+            } else {
+                if (!context.level.isClientSide) {
+                    player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+                }
             }
-            false
         }
+        return ActionResultType.FAIL
     }
 
     override fun canBeDepleted(): Boolean {
@@ -39,9 +41,8 @@ class IgneousPickaxeItem : AOTDPickaxeItem("igneous_pickaxe", ModToolMaterials.I
     override fun appendHoverText(itemStack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
 
-        if (player != null && player.getResearch().isResearched(ModResearches.IGNEOUS)) {
+        if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL)) {
             tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.igneous_tool.autosmelt"))
         } else {
             tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
