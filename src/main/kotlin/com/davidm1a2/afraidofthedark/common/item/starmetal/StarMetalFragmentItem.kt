@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.item
+package com.davidm1a2.afraidofthedark.common.item.starmetal
 
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 

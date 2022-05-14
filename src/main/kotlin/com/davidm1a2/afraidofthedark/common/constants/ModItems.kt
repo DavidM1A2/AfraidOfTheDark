@@ -26,13 +26,6 @@ import com.davidm1a2.afraidofthedark.common.item.SextantItem
 import com.davidm1a2.afraidofthedark.common.item.SleepingPotionItem
 import com.davidm1a2.afraidofthedark.common.item.SmokeyQuartzItem
 import com.davidm1a2.afraidofthedark.common.item.SpellScrollItem
-import com.davidm1a2.afraidofthedark.common.item.StarMetalArmorItem
-import com.davidm1a2.afraidofthedark.common.item.StarMetalFragmentItem
-import com.davidm1a2.afraidofthedark.common.item.StarMetalIngotItem
-import com.davidm1a2.afraidofthedark.common.item.StarMetalKhopeshItem
-import com.davidm1a2.afraidofthedark.common.item.StarMetalPlateItem
-import com.davidm1a2.afraidofthedark.common.item.StarMetalStaffItem
-import com.davidm1a2.afraidofthedark.common.item.SunstoneFragmentItem
 import com.davidm1a2.afraidofthedark.common.item.VitaeLanternItem
 import com.davidm1a2.afraidofthedark.common.item.WandItem
 import com.davidm1a2.afraidofthedark.common.item.WerewolfBloodItem
@@ -60,6 +53,13 @@ import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousHoeItem
 import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousPickaxeItem
 import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousShovelItem
 import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousSwordItem
+import com.davidm1a2.afraidofthedark.common.item.igneous.SunstoneFragmentItem
+import com.davidm1a2.afraidofthedark.common.item.starmetal.StarMetalArmorItem
+import com.davidm1a2.afraidofthedark.common.item.starmetal.StarMetalFragmentItem
+import com.davidm1a2.afraidofthedark.common.item.starmetal.StarMetalIngotItem
+import com.davidm1a2.afraidofthedark.common.item.starmetal.StarMetalKhopeshItem
+import com.davidm1a2.afraidofthedark.common.item.starmetal.StarMetalPlateItem
+import com.davidm1a2.afraidofthedark.common.item.starmetal.StarMetalStaffItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.AdvancedTelescopeItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.CompoundLensItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.DiamondLensItem
