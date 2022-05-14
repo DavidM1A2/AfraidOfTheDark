@@ -53,18 +53,6 @@ abstract class AOTDChargeableSwordItem(
     }
 
     /**
-     * Called when you hit an entity with the sword
-     *
-     * @param stack    THe itemstack that was hit with
-     * @param target   The target of the attack
-     * @param attacker The attacker that initiated the attack
-     * @return True to let the attack happen, false otherwise
-     */
-    override fun hurtEnemy(stack: ItemStack, target: LivingEntity, attacker: LivingEntity): Boolean {
-        return true
-    }
-
-    /**
      * Gets the durability to display for the itemstack which will be the inverse of charge (since charge goes from 0 -> 100
      * and durability goes from 1 -> 0
      *
