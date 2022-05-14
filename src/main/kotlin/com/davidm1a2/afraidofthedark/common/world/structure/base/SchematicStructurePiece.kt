@@ -3,9 +3,9 @@ package com.davidm1a2.afraidofthedark.common.world.structure.base
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.constants.ModStructures
+import com.davidm1a2.afraidofthedark.common.loot.loottable.LootTable
 import com.davidm1a2.afraidofthedark.common.schematic.Schematic
 import com.davidm1a2.afraidofthedark.common.schematic.SchematicUtils
-import com.davidm1a2.afraidofthedark.common.world.loottable.LootTable
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks

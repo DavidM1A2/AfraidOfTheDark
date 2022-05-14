@@ -41,6 +41,7 @@ class IgneousShovelItem : AOTDShovelItem("igneous_shovel", ModToolMaterials.IGNE
 
         if (player != null && player.getResearch().isResearched(ModResearches.IGNEOUS)) {
             tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
+            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.igneous_tool.autosmelt"))
         } else {
             tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }

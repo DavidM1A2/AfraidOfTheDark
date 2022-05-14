@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.world.loottable
+package com.davidm1a2.afraidofthedark.common.loot.loottable
 
 import com.davidm1a2.afraidofthedark.common.constants.ModLootConditions
 import com.google.gson.JsonDeserializationContext

@@ -35,6 +35,7 @@ import com.davidm1a2.afraidofthedark.common.event.register.FeatureRegister
 import com.davidm1a2.afraidofthedark.common.event.register.FurnaceFuelRegister
 import com.davidm1a2.afraidofthedark.common.event.register.ItemRegister
 import com.davidm1a2.afraidofthedark.common.event.register.LootConditionRegister
+import com.davidm1a2.afraidofthedark.common.event.register.LootModifierSerializerRegister
 import com.davidm1a2.afraidofthedark.common.event.register.MeteorEntryRegister
 import com.davidm1a2.afraidofthedark.common.event.register.PacketRegister
 import com.davidm1a2.afraidofthedark.common.event.register.ParticleRegister
@@ -118,6 +119,7 @@ class AfraidOfTheDark {
         modBus.register(BiomeRegister())
         modBus.register(ResearchTriggerRegister(researchTriggerHandler))
         modBus.register(LootConditionRegister())
+        modBus.register(LootModifierSerializerRegister())
 
         context.registerConfig(ModConfig.Type.CLIENT, ModConfigHolder.CLIENT_SPEC)
         context.registerConfig(ModConfig.Type.COMMON, ModConfigHolder.COMMON_SPEC)

@@ -607,6 +607,7 @@
   "tooltip.afraidofthedark.igneous_sword.line1": "Right click to use an AOE fire strike",
   "tooltip.afraidofthedark.igneous_sword.line2": "centered on the block you are looking",
   "tooltip.afraidofthedark.igneous_sword.line3": "at when charged to 100%%",
+  "tooltip.afraidofthedark.igneous_tool.autosmelt": "§6Autosmelts!",
   "tooltip.afraidofthedark.arcane_journal.owned": "Owned by %1$s",
   "tooltip.afraidofthedark.arcane_journal.unowned": "Unowned",
   "tooltip.afraidofthedark.arcane_journal.drop": "You can drop the journal by crouching and right clicking",
