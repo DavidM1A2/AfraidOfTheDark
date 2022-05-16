@@ -15,7 +15,7 @@ import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 
-class StarMetalHoeItem : AOTDHoeItem("star_metal_hoe", ModToolMaterials.STAR_METAL, -8, 0.0f, Properties()) {
+class StarMetalHoeItem : AOTDHoeItem("star_metal_hoe", ModToolMaterials.STAR_METAL, -7, 0.0f, Properties()) {
     override fun useOn(context: ItemUseContext): ActionResultType {
         val player = context.player
         if (player != null) {
