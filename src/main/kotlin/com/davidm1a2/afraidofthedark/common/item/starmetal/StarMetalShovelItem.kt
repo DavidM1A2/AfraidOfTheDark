@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.item.starmetal
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
+import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDShovelItem
@@ -9,6 +10,7 @@ import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.block.BlockState
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
+import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
@@ -26,6 +28,16 @@ class StarMetalShovelItem : AOTDShovelItem("star_metal_shovel", ModToolMaterials
             }
             false
         }
+    }
+
+    override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, target: Entity): Boolean {
+        if (player.getResearch().isResearched(ModResearches.STAR_METAL)) {
+            target.hurt(ModDamageSources.getSilverDamage(player), attackDamage)
+        } else {
+            return true
+        }
+
+        return super.onLeftClickEntity(stack, player, target)
     }
 
     override fun canBeDepleted(): Boolean {
