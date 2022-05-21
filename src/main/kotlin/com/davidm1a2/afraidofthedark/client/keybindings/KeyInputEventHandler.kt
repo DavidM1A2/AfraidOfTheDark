@@ -191,6 +191,7 @@ class KeyInputEventHandler {
                         }
                     }
                 }
+                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.cloak_of_agility.no_cloak"))
             } else {
                 entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.cloak_of_agility.not_grounded"))
             }
