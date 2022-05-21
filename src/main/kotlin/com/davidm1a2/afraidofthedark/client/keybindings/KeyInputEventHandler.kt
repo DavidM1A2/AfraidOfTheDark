@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.keybindings
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.client.gui.screens.PowerSourceSelectionScreen
 import com.davidm1a2.afraidofthedark.client.keybindings.KeyInputEventHandler.Companion.ROLL_VELOCITY
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
@@ -50,6 +51,11 @@ class KeyInputEventHandler {
         }
 
         // Process input
+        if (ModKeybindings.POWER_SOURCE_SELECTOR.isDown && event.action == GLFW.GLFW_PRESS) {
+            Minecraft.getInstance().setScreen(PowerSourceSelectionScreen())
+            // GLFW.glfwSetInputMode(Minecraft.getInstance().window.window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED)
+        }
+
         if (ModKeybindings.FIRE_WRIST_CROSSBOW.isDown) {
             fireWristCrossbow()
         }
