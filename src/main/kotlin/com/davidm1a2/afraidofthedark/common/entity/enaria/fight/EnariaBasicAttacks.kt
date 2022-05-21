@@ -153,7 +153,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
     companion object {
         private val EXPLOSIVE_PROJECTILE_SPELL = Spell().apply {
             name = "Enaria Explosive Projectile Attack"
-            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.CREATIVE).apply { setDefaults() }
+            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.SPELL_SCROLL).apply { setDefaults() }
             spellStages.add(SpellStage().apply {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.PROJECTILE).apply {
                     setDefaults()
@@ -169,7 +169,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
         }
         private val FIRE_LASER_SPELL = Spell().apply {
             name = "Enaria Fire Laser Attack"
-            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.CREATIVE).apply { setDefaults() }
+            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.SPELL_SCROLL).apply { setDefaults() }
             spellStages.add(SpellStage().apply {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.LASER).apply {
                     setDefaults()
@@ -186,7 +186,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
         }
         private val SLOW_LASER_SPELL = Spell().apply {
             name = "Enaria Slow Laser Attack"
-            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.CREATIVE).apply { setDefaults() }
+            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.SPELL_SCROLL).apply { setDefaults() }
             spellStages.add(SpellStage().apply {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.LASER).apply {
                     setDefaults()
@@ -205,7 +205,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
         }
         private val FREEZE_PROJECTILE_SPELL = Spell().apply {
             name = "Enaria Freeze Projectile Attack"
-            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.CREATIVE).apply { setDefaults() }
+            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.SPELL_SCROLL).apply { setDefaults() }
             spellStages.add(SpellStage().apply {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.PROJECTILE).apply {
                     setDefaults()
@@ -225,7 +225,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
         }
         private val CHARM_PROJECTILE_SPELL = Spell().apply {
             name = "Enaria Charm Projectile Attack"
-            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.CREATIVE).apply { setDefaults() }
+            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.SPELL_SCROLL).apply { setDefaults() }
             spellStages.add(SpellStage().apply {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.PROJECTILE).apply {
                     setDefaults()
@@ -245,7 +245,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
         }
         private val DAMAGE_LASER_SPELL = Spell().apply {
             name = "Enaria Damage Laser Attack"
-            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.CREATIVE).apply { setDefaults() }
+            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.SPELL_SCROLL).apply { setDefaults() }
             spellStages.add(SpellStage().apply {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.LASER).apply {
                     setDefaults()
@@ -259,7 +259,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
         }
         private val SMOKE_SCREEN_SELF_SPELL = Spell().apply {
             name = "Enaria Smoke Screen Self"
-            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.CREATIVE).apply { setDefaults() }
+            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.SPELL_SCROLL).apply { setDefaults() }
             spellStages.add(SpellStage().apply {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.SELF).apply { setDefaults() }
                 effects[0] = SpellEffectInstance(ModSpellEffects.SMOKE_SCREEN).apply { setDefaults() }
@@ -267,7 +267,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
         }
         private val HEAL_SELF_SPELL = Spell().apply {
             name = "Enaria Heal Self"
-            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.CREATIVE).apply { setDefaults() }
+            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.SPELL_SCROLL).apply { setDefaults() }
             spellStages.add(SpellStage().apply {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.SELF).apply { setDefaults() }
                 effects[0] = SpellEffectInstance(ModSpellEffects.HEAL).apply {

@@ -111,7 +111,7 @@ class GrassSkeletonFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, Enar
 
         private val GROW_SPELL = Spell().apply {
             name = "Enaria Grass Skeleton Event"
-            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.CREATIVE).apply { setDefaults() }
+            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.SPELL_SCROLL).apply { setDefaults() }
             spellStages.add(SpellStage().apply {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.PROJECTILE).apply {
                     setDefaults()

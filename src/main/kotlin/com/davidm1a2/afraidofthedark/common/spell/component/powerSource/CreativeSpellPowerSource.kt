@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.powerSource
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellCastResult
@@ -16,7 +17,8 @@ import net.minecraft.util.text.TranslationTextComponent
  */
 class CreativeSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "creative"), ModResearches.THE_JOURNEY_BEGINS) {
     override fun cast(entity: Entity, spell: Spell): SpellCastResult {
-        return if ((entity as? PlayerEntity)?.isCreative != false) {
+        // Need to check "is EnchantedFrogEntity" for backward compatibility :(
+        return if ((entity is PlayerEntity && entity.isCreative) || entity is EnchantedFrogEntity) {
             SpellCastResult.success()
         } else {
             SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))

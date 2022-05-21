@@ -130,7 +130,7 @@ class SummonSentinelsFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, En
 
         private val FREEZE_SPELL = Spell().apply {
             name = "Enaria Sentinels Fight Event"
-            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.CREATIVE).apply { setDefaults() }
+            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.SPELL_SCROLL).apply { setDefaults() }
             spellStages.add(SpellStage().apply {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.AOE).apply {
                     setDefaults()

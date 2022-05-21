@@ -76,7 +76,7 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
     private fun createRandomSpell(): Spell {
         val frogsSpell = Spell()
         frogsSpell.name = "Froggie's magic spell"
-        frogsSpell.powerSource = SpellPowerSourceInstance(ModSpellPowerSources.CREATIVE).apply { setDefaults() }
+        frogsSpell.powerSource = SpellPowerSourceInstance(ModSpellPowerSources.SPELL_SCROLL).apply { setDefaults() }
         frogsSpell.spellStages.add(createRandomSpellStage())
         // A max of 20 spell stages, but odds are few will be added
         for (ignored in 0..20) {
