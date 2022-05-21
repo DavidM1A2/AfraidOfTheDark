@@ -2,20 +2,12 @@ package com.davidm1a2.afraidofthedark.client.keybindings
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.screens.PowerSourceSelectionScreen
-import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
-import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
-import com.davidm1a2.afraidofthedark.common.capabilities.player.research.IPlayerResearch
-import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
-import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDBoltItem
-import com.davidm1a2.afraidofthedark.common.item.crossbow.WristCrossbowItem
-import com.davidm1a2.afraidofthedark.common.network.packets.other.FireWristCrossbowPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.other.SpellKeyPressPacket
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
-import net.minecraft.item.ItemStack
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraftforge.client.event.InputEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -77,60 +69,7 @@ class KeyInputEventHandler {
         // Grab a player reference
         val entityPlayer = Minecraft.getInstance().player!!
 
-        // Grab the player's bolt of choice
-        val playerBasics = entityPlayer.getBasics()
-
-        // If the player is sneaking change the mode
-        if (entityPlayer.isCrouching) {
-            // Advance the current index
-            var currentBoltIndex = playerBasics.selectedWristCrossbowBoltIndex
-            // Compute the next bolt index
-            currentBoltIndex = boltItems.getNextBoltItem(currentBoltIndex, entityPlayer.getResearch())
-            // Set the selected index and sync the index
-            playerBasics.selectedWristCrossbowBoltIndex = currentBoltIndex
-            playerBasics.syncSelectedWristCrossbowBoltIndex(entityPlayer)
-
-            // Tell the player what type of bolt will be fired now
-            entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wrist_crossbow.bolt_change", boltItems[currentBoltIndex].description))
-        } else {
-            // Test if the player has the correct research
-            if (entityPlayer.getResearch().isResearched(ModResearches.WRIST_CROSSBOW)) {
-                // Test if the player has a wrist crossbow to shoot with
-                if (entityPlayer.inventory.contains(ItemStack(ModItems.WRIST_CROSSBOW))) {
-                    // Grab the currently selected bolt type
-                    val boltType = boltItems[playerBasics.selectedWristCrossbowBoltIndex]
-
-                    // Ensure the player has a bolt of the right type in his/her inventory or is in creative mode
-                    if (entityPlayer.inventory.contains(ItemStack(boltType.item)) || entityPlayer.isCreative) {
-                        // Find the wrist crossbow item in the player's inventory
-                        for (itemStack in entityPlayer.inventory.items) {
-                            if (itemStack.item is WristCrossbowItem) {
-                                // Grab the crossbow item reference
-                                val wristCrossbow = itemStack.item as WristCrossbowItem
-
-                                // Test if the crossbow is on CD or not. If it is fire, if it is not continue searching
-                                if (!wristCrossbow.isOnCooldown(itemStack)) {
-                                    // Tell the server to fire the crossbow
-                                    AfraidOfTheDark.packetHandler.sendToServer(FireWristCrossbowPacket(boltType))
-                                    // Set the item on CD
-                                    wristCrossbow.setOnCooldown(itemStack, entityPlayer)
-                                    // Return, we fired the bolt
-                                    return
-                                }
-                            }
-                        }
-                        // No valid wrist crossbow found
-                        entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wrist_crossbow.reloading"))
-                    } else {
-                        entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wrist_crossbow.no_bolt", boltType.description))
-                    }
-                } else {
-                    entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wrist_crossbow.no_crossbow"))
-                }
-            } else {
-                entityPlayer.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
-            }
-        }
+        ModItems.WRIST_CROSSBOW.shoot(entityPlayer)
     }
 
     /**
@@ -147,18 +86,5 @@ class KeyInputEventHandler {
             }
         }
         entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.cloak_of_agility.no_cloak"))
-    }
-
-    private fun List<AOTDBoltItem>.getNextBoltItem(currentIndex: Int, research: IPlayerResearch): Int {
-        var nextIndex = currentIndex + 1
-        if (nextIndex >= this.size) {
-            nextIndex = 0
-        }
-        val nextBoltResearch = this[nextIndex].requiredResearch
-        return if (nextBoltResearch == null || research.isResearched(nextBoltResearch)) {
-            nextIndex
-        } else {
-            getNextBoltItem(nextIndex, research)
-        }
     }
 }

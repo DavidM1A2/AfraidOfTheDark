@@ -3,7 +3,6 @@ package com.davidm1a2.afraidofthedark.common.capabilities.player.basics
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.event.custom.PlayerStartedAfraidOfTheDarkEvent
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.AOTDPlayerBasicsPacket
-import com.davidm1a2.afraidofthedark.common.network.packets.capability.SelectedWristCrossbowBoltPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.StartAOTDPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.other.UpdateWatchedMeteorPacket
 import net.minecraft.entity.player.PlayerEntity
@@ -14,11 +13,9 @@ import net.minecraftforge.common.MinecraftForge
 /**
  * Default implementation of the AOTD player basics capability
  *
- * @property selectedWristCrossbowBoltIndex Integer telling us what bolt the wrist crossbow is currently set to fire
  * @property watchedMeteor The meteor the player is currently observing (was last clicked in telescope)
  */
 class AOTDPlayerBasics : IAOTDPlayerBasics {
-    override var selectedWristCrossbowBoltIndex = 0
     override var watchedMeteor: WatchedMeteor? = null
     private val multiplicities = mutableMapOf<ResourceLocation, Int>()
 
@@ -45,17 +42,6 @@ class AOTDPlayerBasics : IAOTDPlayerBasics {
 
     override fun listMultiplicities(): List<ResourceLocation> {
         return multiplicities.keys.toList()
-    }
-
-    override fun syncSelectedWristCrossbowBoltIndex(entityPlayer: PlayerEntity) {
-        // Can only send this client -> server side
-        if (!isServerSide(entityPlayer)) {
-            AfraidOfTheDark.packetHandler.sendToServer(
-                SelectedWristCrossbowBoltPacket(
-                    selectedWristCrossbowBoltIndex
-                )
-            )
-        }
     }
 
     override fun syncWatchedMeteor(entityPlayer: PlayerEntity) {

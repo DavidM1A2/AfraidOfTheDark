@@ -5,11 +5,8 @@ import net.minecraft.util.ResourceLocation
 
 /**
  * An interface that is a base for AOTD player basic capabilities
- *
- * @property selectedWristCrossbowBoltIndex the selected wrist crossbow bolt index
  */
 interface IAOTDPlayerBasics {
-    var selectedWristCrossbowBoltIndex: Int
     var watchedMeteor: WatchedMeteor?
 
     /**
@@ -41,13 +38,6 @@ interface IAOTDPlayerBasics {
      * @return A list of all multiplicity keys
      */
     fun listMultiplicities(): List<ResourceLocation>
-
-    /**
-     * Syncs the newly selected crossbow bolt to the server
-     *
-     * @param entityPlayer The player to sync for
-     */
-    fun syncSelectedWristCrossbowBoltIndex(entityPlayer: PlayerEntity)
 
     /**
      * Syncs all the watched meteor data

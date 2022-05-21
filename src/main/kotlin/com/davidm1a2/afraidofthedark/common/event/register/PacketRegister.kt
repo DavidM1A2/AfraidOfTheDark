@@ -14,8 +14,6 @@ import com.davidm1a2.afraidofthedark.common.network.packets.capability.LunarData
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.LunarDataPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.ResearchPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.ResearchPacketProcessor
-import com.davidm1a2.afraidofthedark.common.network.packets.capability.SelectedWristCrossbowBoltPacket
-import com.davidm1a2.afraidofthedark.common.network.packets.capability.SelectedWristCrossbowBoltPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.SolarDataPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.SolarDataPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellPacket
@@ -72,7 +70,6 @@ class PacketRegister(private val researchOverlayHandler: ResearchOverlayHandler)
             packetHandler.registerPacket(PlayEnariasFightMusicPacket::class.java, PlayEnariasFightMusicPacketProcessor())
             packetHandler.registerPacket(FireWristCrossbowPacket::class.java, FireWristCrossbowPacketProcessor())
             packetHandler.registerPacket(ProcessSextantInputPacket::class.java, ProcessSextantInputPacketProcessor())
-            packetHandler.registerPacket(SelectedWristCrossbowBoltPacket::class.java, SelectedWristCrossbowBoltPacketProcessor())
             packetHandler.registerPacket(SpellKeyPressPacket::class.java, SpellKeyPressPacketProcessor())
             packetHandler.registerPacket(CheatSheetUnlockPacket::class.java, CheatSheetUnlockPacketProcessor())
             packetHandler.registerPacket(WardBlocksPacket::class.java, WardBlocksPacketProcessor())
