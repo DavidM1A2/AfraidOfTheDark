@@ -5,15 +5,19 @@ import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.RadialPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.RatioPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings
+import net.minecraft.client.util.InputMappings
 import net.minecraft.util.text.TranslationTextComponent
+import org.lwjgl.glfw.GLFW
+import java.awt.Color
+import kotlin.math.PI
+import kotlin.math.atan2
 
 class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.power_source_selection")) {
     init {
+        val mouseQueue = ArrayDeque<Pair<Double, Double>>(MOUSE_QUEUE_SIZE)
+
         // Close the screen when TOGGLE_POWER_SOURCE_SELECTOR is released. It must be pressed to open this screen
         this.contentPane.addKeyListener {
             if (it.eventType == KeyEvent.KeyEventType.Release && it.key == ModKeybindings.POWER_SOURCE_SELECTOR.key.value) {
@@ -31,14 +35,50 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
         radialMenuPane.gravity = Gravity.CENTER
         this.contentPane.add(radialMenuPane)
 
-        for (i in 0..RADIAL_SIZE) {
-            val temp = RatioPane(1, 1)
-            temp.gravity = Gravity.CENTER
-            temp.offset = Position(0.5, i.toDouble()/RADIAL_SIZE)
-            temp.prefSize = Dimensions(0.1, 0.1)
-            temp.add(ImagePane("afraidofthedark:textures/gui/arcane_journal_tech_tree/research_background.png", ImagePane.DispMode.FIT_TO_PARENT))
-            radialMenuPane.add(temp)
+
+        val options = ArrayList<ButtonPane>()
+        val optionsHovered = ArrayList<ButtonPane>()
+        for (i in 0 until RADIAL_SIZE) {
+            val img = ImagePane("afraidofthedark:textures/gui/arcane_journal_tech_tree/research_background.png", ImagePane.DispMode.FIT_TO_PARENT)
+            val imgHovered = ImagePane("afraidofthedark:textures/gui/arcane_journal_tech_tree/research_background_hovered.png", ImagePane.DispMode.FIT_TO_PARENT)
+            imgHovered.color = Color(200, 200, 200)
+            val buttonPane = ButtonPane(img, gravity = Gravity.CENTER, prefSize = Dimensions(0.1, 0.1), offset = Position(0.5, i.toDouble()/RADIAL_SIZE))
+            val hoverButtonPane = ButtonPane(imgHovered, gravity = Gravity.CENTER, prefSize = Dimensions(0.1, 0.1), offset = Position(0.5, i.toDouble()/RADIAL_SIZE))
+            hoverButtonPane.isVisible = false
+            radialMenuPane.add(buttonPane)
+            radialMenuPane.add(hoverButtonPane)
+            options.add(buttonPane)
+            optionsHovered.add(hoverButtonPane)
         }
+
+        // Highlight selection based on mouse movement
+        this.contentPane.addMouseMoveListener { mouseEvent ->
+            if (mouseQueue.size >= MOUSE_QUEUE_SIZE) {
+                mouseQueue.removeLast()
+            }
+            mouseQueue.addFirst(Pair(mouseEvent.mouseX.toDouble(), mouseEvent.mouseY.toDouble()))
+            var sumX = 0.0
+            var sumY = 0.0
+            for (p in mouseQueue) {
+                sumX += p.first
+                sumY += p.second
+            }
+            val theta = (-atan2(sumY, sumX) + PI/2).mod(2*PI)
+            val sectionIndex = ((theta + PI/RADIAL_SIZE)/(2*PI)*RADIAL_SIZE).mod(RADIAL_SIZE.toDouble()).toInt()
+            println(theta)
+            println(sectionIndex)
+            options.forEach { it.isVisible = true }
+            optionsHovered.forEach { it.isVisible = false }
+            options[sectionIndex].isVisible = false
+            optionsHovered[sectionIndex].isVisible = true
+            this.contentPane.invalidate()
+            GLFW.glfwSetCursorPos(minecraft!!.window.window, 0.0, 0.0)
+        }
+    }
+
+    override fun init() {
+        InputMappings.grabOrReleaseMouse(minecraft!!.window.window, 212995, 0.0, 0.0)
+        super.init()
     }
 
     override fun drawGradientBackground(): Boolean {
@@ -50,6 +90,7 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
     }
 
     companion object {
-        val RADIAL_SIZE = 8
+        const val RADIAL_SIZE = 8
+        const val MOUSE_QUEUE_SIZE = 5
     }
 }
