@@ -598,7 +598,7 @@
   "tooltip.afraidofthedark.dont_know_how_to_use": "I'm not sure how to use this",
   "tooltip.afraidofthedark.magic_items_never_break": "Magical items will never break.",
   "tooltip.afraidofthedark.magic_armor_never_breaks": "Magical armor will never break.",
-  "tooltip.afraidofthedark.cloak_of_agility.line1": "Use %1$s to perform a roll in",
+  "tooltip.afraidofthedark.cloak_of_agility.line1": "Use %1$s or right click to roll in",
   "tooltip.afraidofthedark.cloak_of_agility.line2": "the current direction of movement",
   "tooltip.afraidofthedark.flask_of_souls.empty.line1": "Flask unbound",
   "tooltip.afraidofthedark.flask_of_souls.empty.line2": "Hold this in your hotbar while",

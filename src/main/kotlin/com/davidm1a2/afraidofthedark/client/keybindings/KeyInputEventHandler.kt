@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.client.keybindings
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.screens.PowerSourceSelectionScreen
-import com.davidm1a2.afraidofthedark.client.keybindings.KeyInputEventHandler.Companion.ROLL_VELOCITY
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
@@ -10,7 +9,6 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.research.IPlayer
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.item.CloakOfAgilityItem
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.WristCrossbowItem
 import com.davidm1a2.afraidofthedark.common.network.packets.other.FireWristCrossbowPacket
@@ -18,7 +16,6 @@ import com.davidm1a2.afraidofthedark.common.network.packets.other.SpellKeyPressP
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.item.ItemStack
-import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraftforge.client.event.InputEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -27,8 +24,6 @@ import org.lwjgl.glfw.GLFW
 
 /**
  * Class that receives all keyboard events and processes them accordingly
- *
- * @property ROLL_VELOCITY The velocity which the player rolls with the cloak of agility
  */
 class KeyInputEventHandler {
     private val boltItems: List<AOTDBoltItem> by lazy {
@@ -145,59 +140,13 @@ class KeyInputEventHandler {
         // Grab a player reference
         val entityPlayer = Minecraft.getInstance().player!!
 
-        // Test if the player has the correct research
-        if (entityPlayer.getResearch().isResearched(ModResearches.CLOAK_OF_AGILITY)) {
-            // Ensure the player is on the ground
-            if (entityPlayer.isOnGround) {
-                // Test if the player has a cloak of agility in their inventory
-                for (itemStack in entityPlayer.inventory.items) {
-                    // If the itemstack is a cloak set it on cooldown and dash
-                    if (itemStack.item is CloakOfAgilityItem) {
-                        val cloakOfAgility = itemStack.item as CloakOfAgilityItem
-                        // Ensure the cloak is not on cooldown
-                        if (!cloakOfAgility.isOnCooldown(itemStack)) {
-                            // Set the cloak on CD
-                            cloakOfAgility.setOnCooldown(itemStack, entityPlayer)
-
-                            // If the player is not moving roll in the direction the player is looking, otherwise roll in the direction the player is moving
-                            var motionDirection =
-                                if (entityPlayer.deltaMovement.x <= 0.01 && entityPlayer.deltaMovement.x >= -0.01 && entityPlayer.deltaMovement.z <= 0.01 && entityPlayer.deltaMovement.z >= -0.01) {
-                                    val lookDirection = entityPlayer.lookAngle
-                                    Vector3d(lookDirection.x, 0.0, lookDirection.z)
-                                } else {
-                                    Vector3d(entityPlayer.deltaMovement.x, 0.0, entityPlayer.deltaMovement.z)
-                                }
-
-                            // Normalize the motion vector
-                            motionDirection = motionDirection.normalize()
-
-                            // Update the player's motion in the new direction
-                            entityPlayer.setDeltaMovement(
-                                motionDirection.x * ROLL_VELOCITY,
-                                0.2,
-                                motionDirection.z * ROLL_VELOCITY
-                            )
-
-                            return
-                        } else {
-                            entityPlayer.sendMessage(
-                                TranslationTextComponent(
-                                    "message.afraidofthedark.cloak_of_agility.too_tired",
-                                    cloakOfAgility.cooldownRemainingInSeconds(itemStack)
-                                )
-                            )
-                            // If one cloak is on cooldown they all are, return
-                            return
-                        }
-                    }
-                }
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.cloak_of_agility.no_cloak"))
-            } else {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.cloak_of_agility.not_grounded"))
+        for (itemStack in entityPlayer.inventory.items) {
+            if (itemStack.item == ModItems.CLOAK_OF_AGILITY) {
+                ModItems.CLOAK_OF_AGILITY.roll(entityPlayer, itemStack)
+                return
             }
-        } else {
-            entityPlayer.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
         }
+        entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.cloak_of_agility.no_cloak"))
     }
 
     private fun List<AOTDBoltItem>.getNextBoltItem(currentIndex: Int, research: IPlayerResearch): Int {
@@ -211,9 +160,5 @@ class KeyInputEventHandler {
         } else {
             getNextBoltItem(nextIndex, research)
         }
-    }
-
-    companion object {
-        private const val ROLL_VELOCITY = 3.0
     }
 }
