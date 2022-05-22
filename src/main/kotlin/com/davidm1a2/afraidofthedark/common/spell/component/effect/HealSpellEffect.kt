@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
@@ -10,14 +9,13 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEff
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.item.ArmorStandEntity
-import net.minecraft.util.ResourceLocation
 
 /**
  * Effect that heals a hit entity
  *
  * @constructor adds the editable prop
  */
-class HealSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "heal"), ModResearches.SPELLMASON) {
+class HealSpellEffect : AOTDSpellEffect("heal", ModResearches.SPELLMASON) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()

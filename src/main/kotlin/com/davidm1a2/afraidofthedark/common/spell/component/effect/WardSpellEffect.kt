@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getWardedBlockMap
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
@@ -13,10 +12,9 @@ import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellCompon
 import net.minecraft.entity.LivingEntity
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
-import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.ChunkPos
 
-class WardSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "ward"), ModResearches.SPELLMASON, 0, 5) {
+class WardSpellEffect : AOTDDurationSpellEffect("ward", ModResearches.SPELLMASON, 0, 5) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.enumProperty<WardStrength>()

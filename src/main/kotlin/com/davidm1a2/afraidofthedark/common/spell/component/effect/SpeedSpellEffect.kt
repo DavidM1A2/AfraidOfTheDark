@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
@@ -12,10 +11,9 @@ import net.minecraft.entity.AreaEffectCloudEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
-import net.minecraft.util.ResourceLocation
 import kotlin.math.abs
 
-class SpeedSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "speed"), ModResearches.CLOAK_OF_AGILITY, 1, 10) {
+class SpeedSpellEffect : AOTDDurationSpellEffect("speed", ModResearches.CLOAK_OF_AGILITY, 1, 10) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()

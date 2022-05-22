@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
@@ -10,7 +9,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.fml.network.PacketDistributor
 import java.util.Collections
@@ -20,7 +18,7 @@ import java.util.Collections
  *
  * @constructor adds the editable prop
  */
-class SmokeScreenSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "smoke_screen"), ModResearches.POCKET_DIMENSION) {
+class SmokeScreenSpellEffect : AOTDSpellEffect("smoke_screen", ModResearches.POCKET_DIMENSION) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()

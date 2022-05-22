@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.spell.laser.SpellLaserEntity
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
@@ -10,7 +9,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import com.davidm1a2.afraidofthedark.common.utility.getLookNormal
 import net.minecraft.entity.Entity
-import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.RayTraceContext
@@ -21,7 +19,7 @@ import java.awt.Color
  *
  * @constructor initializes the editable properties
  */
-class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "laser"), ModResearches.SPELLMASON) {
+class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod("laser", ModResearches.SPELLMASON) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()

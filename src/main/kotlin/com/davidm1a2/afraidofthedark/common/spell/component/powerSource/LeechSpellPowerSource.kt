@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.powerSource
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
@@ -15,13 +14,12 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.DamageSource
-import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 import kotlin.math.min
 
-class LeechSpellPowerSource : AOTDSpellPowerSource<LeechSpellPowerSource.LeechContext>(ResourceLocation(Constants.MOD_ID, "leech"), ModResearches.BLOODBATH) {
+class LeechSpellPowerSource : AOTDSpellPowerSource<LeechSpellPowerSource.LeechContext>("leech", ModResearches.BLOODBATH) {
     override fun cast(entity: Entity, spell: Spell, environment: CastEnvironment<LeechContext>): SpellCastResult {
         if (environment.vitaeAvailable < spell.getCost()) {
             return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))

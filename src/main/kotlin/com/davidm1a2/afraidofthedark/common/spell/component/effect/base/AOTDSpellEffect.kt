@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect.base
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.particle.AOTDParticleType
 import com.davidm1a2.afraidofthedark.common.research.Research
@@ -11,14 +12,7 @@ import net.minecraft.world.World
 import net.minecraftforge.fml.network.PacketDistributor
 import kotlin.random.Random
 
-/**
- * Base class for all AOTD effects
- *
- * @param id The id of the spell effect
- * @param prerequisiteResearch The research required to use this component, or null if none is required
- * @constructor just calls super currently
- */
-abstract class AOTDSpellEffect(id: ResourceLocation, prerequisiteResearch: Research? = null) : SpellEffect(id, prerequisiteResearch) {
+abstract class AOTDSpellEffect(name: String, prerequisiteResearch: Research? = null) : SpellEffect(ResourceLocation(Constants.MOD_ID, name), prerequisiteResearch) {
     companion object {
         /**
          * Creates particles at the position. This is static so overridden effects can still use it

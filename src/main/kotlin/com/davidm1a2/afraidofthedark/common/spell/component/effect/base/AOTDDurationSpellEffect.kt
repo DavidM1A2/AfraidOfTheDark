@@ -3,15 +3,14 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect.base
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import net.minecraft.util.ResourceLocation
 
 abstract class AOTDDurationSpellEffect(
-    id: ResourceLocation,
+    name: String,
     prerequisiteResearch: Research? = null,
     minDuration: Int? = null,
     defaultDuration: Int? = null,
     maxDuration: Int? = null
-) : AOTDSpellEffect(id, prerequisiteResearch) {
+) : AOTDSpellEffect(name, prerequisiteResearch) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()

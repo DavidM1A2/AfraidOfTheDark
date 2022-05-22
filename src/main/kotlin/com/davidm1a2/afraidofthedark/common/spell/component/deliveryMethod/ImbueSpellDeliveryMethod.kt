@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellDeliveryMethods
@@ -15,9 +14,8 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.ResourceLocation
 
-class ImbueSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "imbue"), ModResearches.THE_JOURNEY_BEGINS) {
+class ImbueSpellDeliveryMethod : AOTDSpellDeliveryMethod("imbue", ModResearches.THE_JOURNEY_BEGINS) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()

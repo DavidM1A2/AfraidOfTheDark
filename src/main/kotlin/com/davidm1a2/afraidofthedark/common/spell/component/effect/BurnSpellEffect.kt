@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
@@ -8,7 +7,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDurationSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import net.minecraft.block.Blocks
-import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.vector.Vector3d
 
 /**
@@ -16,7 +14,7 @@ import net.minecraft.util.math.vector.Vector3d
  *
  * @constructor adds the editable prop
  */
-class BurnSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "burn"), ModResearches.ELEMENTAL_MAGIC, 1, 2, 60) {
+class BurnSpellEffect : AOTDDurationSpellEffect("burn", ModResearches.ELEMENTAL_MAGIC, 1, 2, 60) {
     /**
      * Performs the effect
      *

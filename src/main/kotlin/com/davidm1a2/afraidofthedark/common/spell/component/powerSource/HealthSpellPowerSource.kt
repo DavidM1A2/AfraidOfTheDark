@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.powerSource
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
@@ -10,14 +9,13 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.DamageSource
-import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
 import kotlin.math.ceil
 
 /**
  * Class representing the experience source
  */
-class HealthSpellPowerSource : AOTDSpellPowerSource<Unit>(ResourceLocation(Constants.MOD_ID, "health"), ModResearches.BLOOD_MAGIC) {
+class HealthSpellPowerSource : AOTDSpellPowerSource<Unit>("health", ModResearches.BLOOD_MAGIC) {
     override fun cast(entity: Entity, spell: Spell, environment: CastEnvironment<Unit>): SpellCastResult {
         if (entity !is LivingEntity) {
             return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))

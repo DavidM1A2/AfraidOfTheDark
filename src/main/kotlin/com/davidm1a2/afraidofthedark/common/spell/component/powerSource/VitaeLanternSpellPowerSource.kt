@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.powerSource
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.Spell
@@ -10,11 +9,10 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.Spe
 import com.davidm1a2.afraidofthedark.common.utility.round
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
 import kotlin.math.ceil
 
-class VitaeLanternSpellPowerSource : AOTDSpellPowerSource<Unit>(ResourceLocation(Constants.MOD_ID, "vitae_lantern"), ModResearches.VITAE_LANTERN) {
+class VitaeLanternSpellPowerSource : AOTDSpellPowerSource<Unit>("vitae_lantern", ModResearches.VITAE_LANTERN) {
     override fun cast(entity: Entity, spell: Spell, environment: CastEnvironment<Unit>): SpellCastResult {
         if (entity !is PlayerEntity) {
             return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))

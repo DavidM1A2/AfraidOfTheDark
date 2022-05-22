@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellCharmData
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -10,7 +9,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEff
 import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.particles.ParticleTypes
-import net.minecraft.util.ResourceLocation
 import java.util.concurrent.ThreadLocalRandom
 
 /**
@@ -18,7 +16,7 @@ import java.util.concurrent.ThreadLocalRandom
  *
  * @constructor adds the editable prop
  */
-class CharmSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "charm"), ModResearches.ADVANCED_MAGIC, 1, 1, 60) {
+class CharmSpellEffect : AOTDDurationSpellEffect("charm", ModResearches.ADVANCED_MAGIC, 1, 1, 60) {
     /**
      * Performs the effect
      *

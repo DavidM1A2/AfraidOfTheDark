@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
@@ -10,9 +9,8 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpel
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.block.Blocks
-import net.minecraft.util.ResourceLocation
 
-class DisintegrateSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "disintegrate"), ModResearches.MAGIC_MASTERY) {
+class DisintegrateSpellEffect : AOTDSpellEffect("disintegrate", ModResearches.MAGIC_MASTERY) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.floatProperty()

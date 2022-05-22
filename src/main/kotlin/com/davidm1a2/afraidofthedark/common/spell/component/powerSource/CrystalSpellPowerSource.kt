@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.powerSource
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.spell.Spell
@@ -10,11 +9,10 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.Spe
 import com.davidm1a2.afraidofthedark.common.tileEntity.MagicCrystalTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.round
 import net.minecraft.entity.Entity
-import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 
-class CrystalSpellPowerSource : AOTDSpellPowerSource<CrystalSpellPowerSource.CrystalContext>(ResourceLocation(Constants.MOD_ID, "crystal"), ModResearches.ADVANCED_MAGIC) {
+class CrystalSpellPowerSource : AOTDSpellPowerSource<CrystalSpellPowerSource.CrystalContext>("crystal", ModResearches.ADVANCED_MAGIC) {
     override fun cast(entity: Entity, spell: Spell, environment: CastEnvironment<CrystalContext>): SpellCastResult {
         val x = entity.x
         val y = entity.y

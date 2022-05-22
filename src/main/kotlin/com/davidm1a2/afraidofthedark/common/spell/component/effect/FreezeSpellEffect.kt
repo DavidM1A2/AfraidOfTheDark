@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
@@ -13,7 +12,6 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
-import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 import kotlin.math.max
@@ -23,7 +21,7 @@ import kotlin.math.max
  *
  * @constructor initializes properties
  */
-class FreezeSpellEffect : AOTDDurationSpellEffect(ResourceLocation(Constants.MOD_ID, "freeze"), ModResearches.ELEMENTAL_MAGIC, 1, 1, 60) {
+class FreezeSpellEffect : AOTDDurationSpellEffect("freeze", ModResearches.ELEMENTAL_MAGIC, 1, 1, 60) {
     /**
      * Performs the effect
      *

@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -8,9 +7,8 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import com.davidm1a2.afraidofthedark.common.utility.rotateAround
-import net.minecraft.util.ResourceLocation
 
-class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "rotate"), ModResearches.FORBIDDEN_CITY) {
+class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod("rotate", ModResearches.FORBIDDEN_CITY) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()

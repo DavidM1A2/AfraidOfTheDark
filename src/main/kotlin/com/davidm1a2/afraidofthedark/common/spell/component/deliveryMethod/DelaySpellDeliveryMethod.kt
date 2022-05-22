@@ -1,21 +1,19 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellStates
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import net.minecraft.util.ResourceLocation
 
 /**
  * Self delivery method delivers the spell after a delay
  *
  * @constructor initializes the editable properties
  */
-class DelaySpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "delay"), ModResearches.SPELLMASON) {
+class DelaySpellDeliveryMethod : AOTDSpellDeliveryMethod("delay", ModResearches.SPELLMASON) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.longProperty()

@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
@@ -10,9 +9,8 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEff
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.network.play.server.SEntityVelocityPacket
-import net.minecraft.util.ResourceLocation
 
-class PushSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "push"), ModResearches.CLOAK_OF_AGILITY) {
+class PushSpellEffect : AOTDSpellEffect("push", ModResearches.CLOAK_OF_AGILITY) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.floatProperty()

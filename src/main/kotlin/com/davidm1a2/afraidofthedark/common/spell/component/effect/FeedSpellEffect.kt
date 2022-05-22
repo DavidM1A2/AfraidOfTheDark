@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
@@ -9,14 +8,13 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpel
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.ResourceLocation
 
 /**
  * Effect that feeds a hit player
  *
  * @constructor adds the editable prop
  */
-class FeedSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "feed"), ModResearches.SPELLMASON) {
+class FeedSpellEffect : AOTDSpellEffect("feed", ModResearches.SPELLMASON) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()

@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -8,7 +7,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import com.davidm1a2.afraidofthedark.common.utility.getNormal
-import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
 import kotlin.math.ceil
@@ -18,7 +16,7 @@ import kotlin.math.ceil
  *
  * @constructor initializes the editable properties
  */
-class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "aoe"), ModResearches.ADVANCED_MAGIC) {
+class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod("aoe", ModResearches.ADVANCED_MAGIC) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()

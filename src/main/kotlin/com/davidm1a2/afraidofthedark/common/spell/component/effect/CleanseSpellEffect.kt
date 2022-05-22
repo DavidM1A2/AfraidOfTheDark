@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
@@ -13,13 +12,12 @@ import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellCompon
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.potion.EffectType
-import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.vector.Vector3d
 
 /**
  * The cleanse spell effect clears your spell effects
  */
-class CleanseSpellEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cleanse"), ModResearches.ADVANCED_MAGIC) {
+class CleanseSpellEffect : AOTDSpellEffect("cleanse", ModResearches.ADVANCED_MAGIC) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.booleanProperty()
