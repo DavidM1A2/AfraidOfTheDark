@@ -15,7 +15,7 @@ class SpellPowerSourceRegister {
      * @param event The event to register to
      */
     @SubscribeEvent
-    fun registerSpellPowerSources(event: RegistryEvent.Register<SpellPowerSource>) {
+    fun registerSpellPowerSources(event: RegistryEvent.Register<SpellPowerSource<*>>) {
         val registry = event.registry
 
         // Register all spell power sources in our mod

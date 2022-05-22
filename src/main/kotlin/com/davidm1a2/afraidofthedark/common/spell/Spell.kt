@@ -44,7 +44,7 @@ class Spell : INBTSerializable<CompoundNBT> {
     lateinit var name: String
     lateinit var id: UUID
         private set
-    var powerSource: SpellComponentInstance<SpellPowerSource>? = null
+    var powerSource: SpellComponentInstance<SpellPowerSource<*>>? = null
     val spellStages = mutableListOf<SpellStage>()
 
     /**

@@ -39,7 +39,7 @@ class RegistryRegister {
             .create()
 
         // Create a new registry for the different spell power sources with the name 'afraidofthedark:spell_power_sources'
-        ModRegistries.SPELL_POWER_SOURCES = RegistryBuilder<SpellPowerSource>()
+        ModRegistries.SPELL_POWER_SOURCES = RegistryBuilder<SpellPowerSource<*>>()
             .setType(SpellPowerSource::class.java)
             .setName(ResourceLocation(Constants.MOD_ID, "spell_power_sources"))
             .create()

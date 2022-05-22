@@ -62,7 +62,7 @@ class SpellComponentPane(prefSize: Dimensions) : AOTDPane(prefSize = prefSize) {
         if (spellComponent != null) {
             componentSlot.updateImageTexture(spellComponent.icon)
             when (spellComponent) {
-                is SpellPowerSource -> {
+                is SpellPowerSource<*> -> {
                     componentSlot.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.power_source", spellComponent.getName()).string)
                     componentSocket.updateImageTexture(POWER_SOURCE_SOCKET_TEXTURE)
                 }

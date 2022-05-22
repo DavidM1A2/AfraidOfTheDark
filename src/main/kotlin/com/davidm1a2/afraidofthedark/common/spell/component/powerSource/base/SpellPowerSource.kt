@@ -15,7 +15,7 @@ import net.minecraft.util.text.TranslationTextComponent
  * @param id The ID of this power source
  * @param prerequisiteResearch The research required to use this component, or null if none is required
  */
-abstract class SpellPowerSource(id: ResourceLocation, prerequisiteResearch: Research?) : SpellComponent<SpellPowerSource>(
+abstract class SpellPowerSource<T>(id: ResourceLocation, prerequisiteResearch: Research?) : SpellComponent<SpellPowerSource<*>>(
     id,
     ResourceLocation(id.namespace, "textures/gui/spell_component/power_sources/${id.path}.png"),
     prerequisiteResearch
@@ -27,15 +27,35 @@ abstract class SpellPowerSource(id: ResourceLocation, prerequisiteResearch: Rese
      * @param spell The spell to cast
      * @return The result of the cast
      */
-    abstract fun cast(entity: Entity, spell: Spell): SpellCastResult
+    fun cast(entity: Entity, spell: Spell): SpellCastResult {
+        return cast(entity, spell, computeCastEnvironment(entity))
+    }
+
+    /**
+     * Tries to case a given spell from an entity using this power source
+     *
+     * @param entity The entity to case from
+     * @param spell The spell to cast
+     * @param environment The environment that the spell is being cast in
+     * @return The result of the cast
+     */
+    abstract fun cast(entity: Entity, spell: Spell, environment: CastEnvironment<T>): SpellCastResult
+
+    /**
+     * Computes the cast environment for the given entity. Note: This call may be expensive
+     *
+     * @param entity The entity to compute the environment for
+     * @return The cast environment, containing info like current/max vitae and optional metadata
+     */
+    abstract fun computeCastEnvironment(entity: Entity): CastEnvironment<T>
 
     /**
      * Converts the spell cost to "power source" specific units
      *
-     * @param rawCost The spell's cost
+     * @param vitae The spell's raw cost in base vitae units
      * @return The cost in "power source" specific units
      */
-    protected abstract fun getSourceSpecificCost(rawCost: Double): Number
+    protected abstract fun getSourceSpecificCost(vitae: Double): Number
 
     /**
      * Gets a description message of how cost is computed for this power source

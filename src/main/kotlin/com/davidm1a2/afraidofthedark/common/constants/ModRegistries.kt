@@ -16,7 +16,7 @@ object ModRegistries {
     // Fields that are unchanged and basically final (just not initialized here) representing the registries we are adding. Initialized from RegistryRegister
     lateinit var RESEARCH: IForgeRegistry<Research>
     lateinit var METEORS: IForgeRegistry<MeteorEntry>
-    lateinit var SPELL_POWER_SOURCES: IForgeRegistry<SpellPowerSource>
+    lateinit var SPELL_POWER_SOURCES: IForgeRegistry<SpellPowerSource<*>>
     lateinit var SPELL_DELIVERY_METHODS: IForgeRegistry<SpellDeliveryMethod>
     lateinit var SPELL_EFFECTS: IForgeRegistry<SpellEffect>
     lateinit var RESEARCH_TRIGGERS: IForgeRegistry<ResearchTrigger<*, *>>

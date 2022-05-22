@@ -66,8 +66,7 @@ class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IH
         return NBTHelper.getFloat(itemStack, "vitae") ?: 0f
     }
 
-    private fun getMaxVitae(itemStack: ItemStack): Float {
-        // TODO: Make this upgradable?
+    fun getMaxVitae(itemStack: ItemStack): Float {
         return 1000f
     }
 

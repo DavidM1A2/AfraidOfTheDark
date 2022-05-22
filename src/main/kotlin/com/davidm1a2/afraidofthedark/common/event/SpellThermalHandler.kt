@@ -51,7 +51,7 @@ class SpellThermalHandler {
         val vitaeChange = (biomeTemperature - 1.0).coerceIn(0.0, 1.0) * BIOME_VITAE_MODIFIER_PER_INTERVAL
 
         val thermalData = entityPlayer.getSpellThermalData()
-        thermalData.vitae = (thermalData.vitae + vitaeChange).coerceIn(0.0, VITAE_CAP)
+        thermalData.vitae = (thermalData.vitae + vitaeChange).coerceIn(0.0, thermalData.getMaxVitae(entityPlayer.level))
     }
 
     private fun tickDepth(entityPlayer: PlayerEntity) {
@@ -64,7 +64,7 @@ class SpellThermalHandler {
         }
 
         val thermalData = entityPlayer.getSpellThermalData()
-        thermalData.vitae = (thermalData.vitae + vitaeChange).coerceIn(0.0, VITAE_CAP)
+        thermalData.vitae = (thermalData.vitae + vitaeChange).coerceIn(0.0, thermalData.getMaxVitae(entityPlayer.level))
     }
 
     private fun tickNearbyBlocks(entityPlayer: PlayerEntity) {
@@ -94,7 +94,7 @@ class SpellThermalHandler {
         thermalData.heat = thermalData.heat * 0.7 + currentHeatEstimate * 0.3
 
         val vitaeChange = thermalData.heat * HEAT_VITAE_MODIFIER_PER_INTERVAL
-        thermalData.vitae = (thermalData.vitae + vitaeChange).coerceIn(0.0, VITAE_CAP)
+        thermalData.vitae = (thermalData.vitae + vitaeChange).coerceIn(0.0, thermalData.getMaxVitae(entityPlayer.level))
     }
 
     companion object {
@@ -138,8 +138,5 @@ class SpellThermalHandler {
             Blocks.SNOW_BLOCK to -0.5,
             Blocks.SNOW to -0.4,
         )
-
-        // The maximum amount of vitae we can store
-        private const val VITAE_CAP = 500.0
     }
 }

@@ -6,7 +6,7 @@ import net.minecraft.util.text.TranslationTextComponent
 /**
  * The icon for a spell power source on the scroll panel
  */
-class SpellPowerSourceIcon(powerSource: SpellPowerSource) : SpellComponentIcon<SpellPowerSource>(powerSource, "power_source_holder") {
+class SpellPowerSourceIcon(powerSource: SpellPowerSource<*>) : SpellComponentIcon<SpellPowerSource<*>>(powerSource, "power_source_holder") {
     init {
         this.hoverTexts = arrayOf(
             powerSource.getName().string,

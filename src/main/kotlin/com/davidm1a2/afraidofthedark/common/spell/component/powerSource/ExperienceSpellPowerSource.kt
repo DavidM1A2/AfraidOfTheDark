@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
+import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.CastEnvironment
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellCastResult
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
@@ -14,28 +15,36 @@ import kotlin.math.ceil
 /**
  * Class representing the experience source
  */
-class ExperienceSpellPowerSource : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "experience"), ModResearches.WISDOM) {
-    override fun cast(entity: Entity, spell: Spell): SpellCastResult {
+class ExperienceSpellPowerSource : AOTDSpellPowerSource<Unit>(ResourceLocation(Constants.MOD_ID, "experience"), ModResearches.WISDOM) {
+    override fun cast(entity: Entity, spell: Spell, environment: CastEnvironment<Unit>): SpellCastResult {
         if (entity !is PlayerEntity) {
             return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))
         }
 
-        val xpCost = ceil(spell.getCost() / UNIT_COST_PER_XP).toInt()
-        if (xpCost > entity.totalExperience) {
+        if (environment.vitaeAvailable < spell.getCost()) {
             return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))
         }
 
+        val xpCost = ceil(spell.getCost() / VITAE_PER_XP).toInt()
         entity.giveExperiencePoints(-xpCost)
 
         return SpellCastResult.success()
     }
 
-    override fun getSourceSpecificCost(rawCost: Double): Int {
-        return ceil(rawCost / UNIT_COST_PER_XP).toInt()
+    override fun computeCastEnvironment(entity: Entity): CastEnvironment<Unit> {
+        if (entity !is PlayerEntity) {
+            return CastEnvironment.noVitae(Unit)
+        }
+
+        return CastEnvironment.withVitae(entity.totalExperience * VITAE_PER_XP, Unit)
+    }
+
+    override fun getSourceSpecificCost(vitae: Double): Int {
+        return ceil(vitae / VITAE_PER_XP).toInt()
     }
 
     companion object {
         // The number of units each xp supplies
-        private const val UNIT_COST_PER_XP = 1.0
+        private const val VITAE_PER_XP = 1.0
     }
 }

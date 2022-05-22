@@ -406,6 +406,7 @@
   "power_source.afraidofthedark.health.description": "Cast spells using your health.",
   "power_source.afraidofthedark.health.cost_overview": "Five spell cost per half heart of damage",
   "power_source.afraidofthedark.health.not_enough_power": "Not enough health to cast this spell.",
+  "power_source.afraidofthedark.health.was_just_hurt": "You can't cast after just being hurt.",
   "power_source.afraidofthedark.health.formatted_cost": "%1$s heart(s)",
   "power_source.afraidofthedark.alchemy.name": "Alchemy",
   "power_source.afraidofthedark.alchemy.description": "Cast spells by consuming gold ingots from your inventory.",

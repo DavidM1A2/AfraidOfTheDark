@@ -12,7 +12,7 @@ import net.minecraft.util.text.TranslationTextComponent
  * Class used to create a power source slot UI component
  */
 class SpellPowerSourceSlot(offset: Position, prefSize: Dimensions, spell: Spell) :
-    SpellComponentSlot<SpellPowerSource>("afraidofthedark:textures/gui/spell_editor/power_source_holder.png", offset, prefSize, spell), DraggableConsumer<SpellPowerSource> {
+    SpellComponentSlot<SpellPowerSource<*>>("afraidofthedark:textures/gui/spell_editor/power_source_holder.png", offset, prefSize, spell), DraggableConsumer<SpellPowerSource<*>> {
     override fun updateSpell() {
         this.spell.powerSource = getComponentInstance()
     }
@@ -37,7 +37,7 @@ class SpellPowerSourceSlot(offset: Position, prefSize: Dimensions, spell: Spell)
      * Implements drag and drop capabilities
      */
     override fun consume(data: Any) {
-        if (data is SpellPowerSource) {
+        if (data is SpellPowerSource<*>) {
             val inst = SpellPowerSourceInstance(data)
             inst.setDefaults()
             this.setSpellComponent(inst)

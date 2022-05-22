@@ -34,8 +34,9 @@ class SpellSolarHandler {
 
         val oldSolarVitae = solarData.vitae
         if (entityPlayer.level.isDay) {
-            if (solarData.vitae < VITAE_CAP) {
-                solarData.vitae = (solarData.vitae + VITAE_CAP * VITAE_GAIN_PERCENT_PER_INTERVAL).coerceAtMost(VITAE_CAP)
+            val vitaeCap = solarData.getMaxVitae(entityPlayer.level)
+            if (solarData.vitae < vitaeCap) {
+                solarData.vitae = (solarData.vitae + vitaeCap * VITAE_GAIN_PERCENT_PER_INTERVAL).coerceAtMost(vitaeCap)
             }
         } else {
             // Decay vitae during the day
@@ -56,8 +57,5 @@ class SpellSolarHandler {
 
         // Decay 25 vitae per interval = 200/25 = 8 seconds to decay all vitae
         private const val VITAE_DECAY_PER_INTERVAL = 25.0
-
-        // The maximum amount of vitae we can store
-        private const val VITAE_CAP = 200.0
     }
 }

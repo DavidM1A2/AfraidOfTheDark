@@ -15,12 +15,12 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import java.util.Optional
 
 class PlayerCastResearchTriggerConfig(
-    powerSourceLazy: Lazy<SpellPowerSource?>,
+    powerSourceLazy: Lazy<SpellPowerSource<*>?>,
     deliveryMethodLazy: Lazy<SpellDeliveryMethod?>,
     effectLazy: Lazy<SpellEffect?>,
     val minCost: Double?
 ) : ResearchTriggerConfig {
-    val powerSource: SpellPowerSource? by powerSourceLazy
+    val powerSource: SpellPowerSource<*>? by powerSourceLazy
     val deliveryMethod: SpellDeliveryMethod? by deliveryMethodLazy
     val effect: SpellEffect? by effectLazy
 

@@ -6,8 +6,9 @@ import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.Spell
+import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
+import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.CastEnvironment
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellCastResult
-import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
 import com.davidm1a2.afraidofthedark.common.utility.round
 import net.minecraft.block.Blocks
 import net.minecraft.entity.Entity
@@ -20,8 +21,39 @@ import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 import kotlin.math.min
 
-class LeechSpellPowerSource : SpellPowerSource(ResourceLocation(Constants.MOD_ID, "leech"), ModResearches.BLOODBATH) {
-    override fun cast(entity: Entity, spell: Spell): SpellCastResult {
+class LeechSpellPowerSource : AOTDSpellPowerSource<LeechSpellPowerSource.LeechContext>(ResourceLocation(Constants.MOD_ID, "leech"), ModResearches.BLOODBATH) {
+    override fun cast(entity: Entity, spell: Spell, environment: CastEnvironment<LeechContext>): SpellCastResult {
+        if (environment.vitaeAvailable < spell.getCost()) {
+            return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))
+        }
+
+        var vitaeToDistribute = spell.getCost()
+
+        // Destroy all leeched blocks
+        val context = environment.context
+        val blocksToDestroy = context.nearbyBlockToVitae.keys.shuffled()
+        for (blockToDestroy in blocksToDestroy) {
+            if (vitaeToDistribute <= 0) {
+                break
+            }
+
+            vitaeToDistribute = vitaeToDistribute - context.nearbyBlockToVitae[blockToDestroy]!!
+            if (context.grassPositions.contains(blockToDestroy)) {
+                entity.level.setBlockAndUpdate(blockToDestroy, Blocks.DIRT.defaultBlockState())
+            } else {
+                entity.level.setBlockAndUpdate(blockToDestroy, Blocks.AIR.defaultBlockState())
+            }
+        }
+
+        // Damage all leeched entities
+        for ((damagedEntity, damage) in distributeDamageOver(context.leechableEntities, vitaeToDistribute / VITAE_PER_HP)) {
+            damagedEntity.hurt(DamageSource.OUT_OF_WORLD, damage.toFloat())
+        }
+
+        return SpellCastResult.success()
+    }
+
+    override fun computeCastEnvironment(entity: Entity): CastEnvironment<LeechContext> {
         val nearbyBlockToVitae = mutableMapOf<BlockPos, Double>()
         val grassPositions = mutableSetOf<BlockPos>()
         var totalBlockVitae = 0.0
@@ -47,42 +79,16 @@ class LeechSpellPowerSource : SpellPowerSource(ResourceLocation(Constants.MOD_ID
         }
 
         // Find all nearby entities that have vitae potential. Skip this if we already have enough vitae from blocks
-        val leechableEntities = if (spell.getCost() > totalBlockVitae) {
-            val entities = getLeechableEntities(entity)
+        val leechableEntities = getLeechableEntities(entity)
 
-            val totalHealth = entities.sumOf { it.health.toDouble() / 2 }
-            if (totalHealth * UNIT_COST_PER_HP + totalBlockVitae < spell.getCost()) {
-                return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))
-            }
+        val availableHealth = leechableEntities.sumOf { it.health.toDouble() / 2 }
+        val maxHealth = leechableEntities.sumOf { it.maxHealth.toDouble() / 2 }
 
-            entities
-        } else {
-            emptyList()
-        }
-
-        var vitaeToDistribute = spell.getCost()
-
-        // Destroy all leeched blocks
-        val blocksToDestroy = nearbyBlockToVitae.keys.shuffled()
-        for (blockToDestroy in blocksToDestroy) {
-            if (vitaeToDistribute <= 0) {
-                break
-            }
-
-            vitaeToDistribute = vitaeToDistribute - nearbyBlockToVitae[blockToDestroy]!!
-            if (grassPositions.contains(blockToDestroy)) {
-                entity.level.setBlockAndUpdate(blockToDestroy, Blocks.DIRT.defaultBlockState())
-            } else {
-                entity.level.setBlockAndUpdate(blockToDestroy, Blocks.AIR.defaultBlockState())
-            }
-        }
-
-        // Damage all leeched entities
-        for ((damagedEntity, damage) in distributeDamageOver(leechableEntities, vitaeToDistribute / UNIT_COST_PER_HP)) {
-            damagedEntity.hurt(DamageSource.OUT_OF_WORLD, damage.toFloat())
-        }
-
-        return SpellCastResult.success()
+        return CastEnvironment.withVitae(
+            totalBlockVitae + availableHealth * VITAE_PER_HP,
+            totalBlockVitae + maxHealth * VITAE_PER_HP,
+            LeechContext(nearbyBlockToVitae, grassPositions, leechableEntities)
+        )
     }
 
     private fun getLeechableEntities(entity: Entity): List<LivingEntity> {
@@ -133,15 +139,17 @@ class LeechSpellPowerSource : SpellPowerSource(ResourceLocation(Constants.MOD_ID
         return entityToDamage
     }
 
-    override fun getSourceSpecificCost(rawCost: Double): Number {
-        return rawCost.round(1)
+    override fun getSourceSpecificCost(vitae: Double): Number {
+        return vitae.round(1)
     }
+
+    class LeechContext(val nearbyBlockToVitae: Map<BlockPos, Double>, val grassPositions: Set<BlockPos>, val leechableEntities: List<LivingEntity>)
 
     companion object {
         private val LOG = LogManager.getLogger()
 
         // The number of units each hp supplies
-        private const val UNIT_COST_PER_HP = 5.0
+        private const val VITAE_PER_HP = 5.0
         private const val LEECH_RANGE_BLOCKS = 16
 
         private val GRASS_BLOCK_VARIANTS = setOf(

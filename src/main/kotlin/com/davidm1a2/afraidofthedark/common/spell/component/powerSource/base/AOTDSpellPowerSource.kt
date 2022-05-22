@@ -10,4 +10,4 @@ import net.minecraft.util.ResourceLocation
  * @param prerequisiteResearch The research required to use this component, or null if none is required
  * @constructor just calls super currently
  */
-abstract class AOTDSpellPowerSource(id: ResourceLocation, prerequisiteResearch: Research? = null) : SpellPowerSource(id, prerequisiteResearch)
+abstract class AOTDSpellPowerSource<T>(id: ResourceLocation, prerequisiteResearch: Research? = null) : SpellPowerSource<T>(id, prerequisiteResearch)

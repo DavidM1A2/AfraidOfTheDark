@@ -13,11 +13,11 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 
 class ResearchSpellComponents(
     lazyDeliveryMethods: Lazy<List<SpellDeliveryMethod>>,
-    lazyPowerSources: Lazy<List<SpellPowerSource>>,
+    lazyPowerSources: Lazy<List<SpellPowerSource<*>>>,
     lazyEffects: Lazy<List<SpellEffect>>
 ) {
     val deliveryMethods: List<SpellDeliveryMethod> by lazyDeliveryMethods
-    val powerSources: List<SpellPowerSource> by lazyPowerSources
+    val powerSources: List<SpellPowerSource<*>> by lazyPowerSources
     val effects: List<SpellEffect> by lazyEffects
     val components: List<SpellComponent<*>> by lazy {
         deliveryMethods + powerSources + effects
