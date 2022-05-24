@@ -5,10 +5,12 @@ import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiComponent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.RadialPane
 import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings
+import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import net.minecraft.client.util.InputMappings
 import net.minecraft.util.text.TranslationTextComponent
 import org.lwjgl.glfw.GLFW
@@ -37,20 +39,15 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
         radialMenuPane.gravity = Gravity.CENTER
         this.contentPane.add(radialMenuPane)
 
-
-        val options = mutableListOf<ButtonPane>()
-        val optionsHovered = mutableListOf<ButtonPane>()
+        val availablePowerSources = ModRegistries.SPELL_POWER_SOURCES.filter { it.shouldShowInSpellEditor(entityPlayer) }
+        val powerSourceButtons = mutableListOf<ButtonPane>()
         for (i in 0 until RADIAL_SIZE) {
             val img = ImagePane("afraidofthedark:textures/gui/arcane_journal_tech_tree/research_background.png", ImagePane.DispMode.FIT_TO_PARENT)
-            val imgHovered = ImagePane("afraidofthedark:textures/gui/arcane_journal_tech_tree/research_background_hovered.png", ImagePane.DispMode.FIT_TO_PARENT)
-            imgHovered.color = Color(200, 200, 200)
             val buttonPane = ButtonPane(img, gravity = Gravity.CENTER, prefSize = Dimensions(0.1, 0.1), offset = Position(0.5, i.toDouble() / RADIAL_SIZE))
-            val hoverButtonPane = ButtonPane(imgHovered, gravity = Gravity.CENTER, prefSize = Dimensions(0.1, 0.1), offset = Position(0.5, i.toDouble() / RADIAL_SIZE))
-            hoverButtonPane.isVisible = false
             radialMenuPane.add(buttonPane)
-            radialMenuPane.add(hoverButtonPane)
-            options.add(buttonPane)
-            optionsHovered.add(hoverButtonPane)
+            powerSourceButtons.add(buttonPane)
+
+            if (i < availablePowerSources.size) buttonPane.add(ImagePane(availablePowerSources[i].icon, ImagePane.DispMode.FIT_TO_PARENT))
         }
 
         // Highlight selection based on mouse movement
@@ -67,12 +64,8 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
             }
             val theta = (-atan2(sumY, sumX) + PI / 2).mod(2 * PI)
             val sectionIndex = ((theta + PI / RADIAL_SIZE) / (2 * PI) * RADIAL_SIZE).mod(RADIAL_SIZE.toDouble()).toInt()
-            println(theta)
-            println(sectionIndex)
-            options.forEach { it.isVisible = true }
-            optionsHovered.forEach { it.isVisible = false }
-            options[sectionIndex].isVisible = false
-            optionsHovered[sectionIndex].isVisible = true
+            powerSourceButtons.forEach { it.color = Color(255, 255, 255) }
+            powerSourceButtons[sectionIndex].color = Color(200, 200, 200)
             this.contentPane.invalidate()
             GLFW.glfwSetCursorPos(minecraft!!.window.window, 0.0, 0.0)
         }

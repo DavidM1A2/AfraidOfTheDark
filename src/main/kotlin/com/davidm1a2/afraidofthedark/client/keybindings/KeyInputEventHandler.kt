@@ -38,7 +38,7 @@ class KeyInputEventHandler {
         }
 
         // Process input
-        if (ModKeybindings.POWER_SOURCE_SELECTOR.isDown && event.action == GLFW.GLFW_PRESS) {
+        if (event.action == GLFW.GLFW_PRESS && event.key == ModKeybindings.POWER_SOURCE_SELECTOR.key.value) {
             Minecraft.getInstance().setScreen(PowerSourceSelectionScreen())
             // GLFW.glfwSetInputMode(Minecraft.getInstance().window.window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED)
         }
