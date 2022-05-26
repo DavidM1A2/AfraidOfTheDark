@@ -60,13 +60,9 @@ open class SpritePane : AOTDPane {
             Minecraft.getInstance().textureManager.bind(this.spritesheetTexture)
             // Check for invalid texture dimensions
             if (textureHeight > -1 && textureWidth > -1) {
-                val col = curFrame % columns
-                val row = curFrame / columns  // INTENTIONAL integer division
-                AbstractGui.blit(matrixStack, x, y, width, height, col.toFloat()/columns*width,
-                    row.toFloat()/rows*height, width/columns,
-                    height/rows,
-                    width, height
-                )
+                val col = (curFrame % columns).toFloat()
+                val row = (curFrame / columns).toFloat()  // INTENTIONAL integer division
+                AbstractGui.blit(matrixStack, x, y, width, height, col, row, 1, 1, columns, rows)
             }
             matrixStack.popPose()
 
@@ -135,10 +131,8 @@ open class SpritePane : AOTDPane {
                 this.height = (frameHeight * scaleMinRatio).roundToInt()
             }
             ImagePane.DispMode.STRETCH -> {
-                val scaleXRatio = fitWidth / frameWidth
-                val scaleYRatio = fitHeight / frameHeight
-                this.width = (frameWidth * scaleXRatio).roundToInt()
-                this.height = (frameHeight * scaleYRatio).roundToInt()
+                this.width = fitWidth.roundToInt()
+                this.height = fitHeight.roundToInt()
             }
         }
         // Reset the inbounds flag

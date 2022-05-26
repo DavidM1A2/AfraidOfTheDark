@@ -83,7 +83,7 @@ abstract class AOTDPane(
 
         for (child in subComponents) {
             // Calculate margins
-            val calcMargins = child.margins.getAbsoluteOuter(child)
+            val calcMargins = child.margins.getAbsoluteInner(this)
             val marginWidth = calcMargins.width
             val marginHeight = calcMargins.height
             // Set dimensions

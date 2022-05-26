@@ -19,7 +19,7 @@ open class RadialPane : RatioPane(1, 1) {
 
         for (child in this.getChildren()) {
             // Calculate margins
-            val calcMargins = child.margins.getAbsoluteOuter(child)
+            val calcMargins = child.margins.getAbsoluteInner(this)
             val marginWidth = calcMargins.width
             val marginHeight = calcMargins.height
             // Set dimensions

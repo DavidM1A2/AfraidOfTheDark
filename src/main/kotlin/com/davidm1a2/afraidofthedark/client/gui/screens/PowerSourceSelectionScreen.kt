@@ -40,10 +40,10 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
         val availablePowerSources = ModRegistries.SPELL_POWER_SOURCES.filter { it.shouldShowInSpellEditor(entityPlayer) }
         val powerSourcePanes = mutableListOf<StackPane>()
         for (i in 0 until RADIAL_SIZE) {
-            val liquidSprite = SpritePane("afraidofthedark:textures/gui/power_source_selector/liquid_spritesheet.png", 4, 1)
+            val liquidSprite = SpritePane("afraidofthedark:textures/gui/power_source_selector/liquid_spritesheet.png", 4, 1, displayMode = ImagePane.DispMode.FIT_TO_PARENT)
             liquidSprite.setAnimation(listOf(0, 1, 2, 3), SpritePane.AnimMode.LOOP, 4.0)
-            val orbImage = ImagePane("afraidofthedark:textures/gui/power_source_selector/orb_front_colored.png")
-            val buttonPane = StackPane(gravity = Gravity.CENTER, prefSize = Dimensions(0.1, 0.1), offset = Position(0.5, i.toDouble() / RADIAL_SIZE))
+            val orbImage = ImagePane("afraidofthedark:textures/gui/power_source_selector/orb_front_colored.png", displayMode = ImagePane.DispMode.FIT_TO_PARENT)
+            val buttonPane = StackPane(gravity = Gravity.CENTER, prefSize = Dimensions(0.13, 0.13), offset = Position(0.5, i.toDouble() / RADIAL_SIZE))
             buttonPane.add(liquidSprite)
             buttonPane.add(orbImage)
             radialMenuPane.add(buttonPane)
@@ -70,8 +70,8 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
             }
             val theta = (-atan2(sumY, sumX) + PI / 2).mod(2 * PI)
             val sectionIndex = ((theta + PI / RADIAL_SIZE) / (2 * PI) * RADIAL_SIZE).mod(RADIAL_SIZE.toDouble()).toInt()
-            powerSourcePanes.forEach { it.prefSize = Dimensions(0.1, 0.1) }
-            powerSourcePanes[sectionIndex].prefSize = Dimensions(0.12, 0.12)
+            powerSourcePanes.forEach { it.prefSize = Dimensions(0.13, 0.13) }
+            powerSourcePanes[sectionIndex].prefSize = Dimensions(0.15, 0.15)
             this.contentPane.invalidate()
             GLFW.glfwSetCursorPos(minecraft!!.window.window, 0.0, 0.0)
         }
