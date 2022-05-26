@@ -38,6 +38,8 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
             compound.putInt(WATCHED_METEOR_LONGITUDE, watchedMeteor.longitude)
         }
 
+        compound.putString(SELECTED_SPELL_POWER_SOURCE, instance.selectedPowerSource.registryName.toString())
+
         val multiplicities = CompoundNBT()
         instance.listMultiplicities().forEach {
             multiplicities.putInt(it.toString(), instance.getMultiplicity(it))
@@ -76,6 +78,8 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
                 instance.watchedMeteor = null
             }
 
+            instance.selectedPowerSource = ModRegistries.SPELL_POWER_SOURCES.getValue(ResourceLocation(nbt.getString(SELECTED_SPELL_POWER_SOURCE)))!!
+
             val multiplicities = nbt.getCompound(MULTIPLICITIES)
             multiplicities.allKeys.forEach {
                 instance.setMultiplicity(ResourceLocation(it), multiplicities.getInt(it))
@@ -94,6 +98,7 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
         private const val WATCHED_METEOR_DROP_ANGLE = "watchedMeteorDropAngle"
         private const val WATCHED_METEOR_LATITUDE = "watchedMeteorLatitude"
         private const val WATCHED_METEOR_LONGITUDE = "watchedMeteorLongitude"
+        private const val SELECTED_SPELL_POWER_SOURCE = "selectedSpellPowerSource"
         private const val MULTIPLICITIES = "multiplicities"
     }
 }

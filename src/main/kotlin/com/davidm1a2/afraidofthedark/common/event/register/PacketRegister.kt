@@ -38,6 +38,8 @@ import com.davidm1a2.afraidofthedark.common.network.packets.other.ProcessSextant
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ProcessSextantInputPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.other.SpellKeyPressPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.other.SpellKeyPressPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.other.UpdateSelectedPowerSourcePacket
+import com.davidm1a2.afraidofthedark.common.network.packets.other.UpdateSelectedPowerSourcePacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.other.UpdateWatchedMeteorPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.other.UpdateWatchedMeteorPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.other.VoidChestPacket
@@ -60,6 +62,7 @@ class PacketRegister(private val researchOverlayHandler: ResearchOverlayHandler)
             packetHandler.registerPacket(AOTDPlayerBasicsPacket::class.java, AOTDPlayerBasicsPacketProcessor())
             packetHandler.registerPacket(ResearchPacket::class.java, ResearchPacketProcessor(researchOverlayHandler))
             packetHandler.registerPacket(UpdateWatchedMeteorPacket::class.java, UpdateWatchedMeteorPacketProcessor())
+            packetHandler.registerPacket(UpdateSelectedPowerSourcePacket::class.java, UpdateSelectedPowerSourcePacketProcessor())
             packetHandler.registerPacket(SpellPacket::class.java, SpellPacketProcessor())
             packetHandler.registerPacket(ClearSpellsPacket::class.java, ClearSpellsPacketProcessor())
             packetHandler.registerPacket(AnimationPacket::class.java, AnimationPacketProcessor())

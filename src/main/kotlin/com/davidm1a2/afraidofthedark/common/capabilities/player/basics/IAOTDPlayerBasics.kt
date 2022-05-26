@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.basics
 
+import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ResourceLocation
 
@@ -8,6 +9,7 @@ import net.minecraft.util.ResourceLocation
  */
 interface IAOTDPlayerBasics {
     var watchedMeteor: WatchedMeteor?
+    var selectedPowerSource: SpellPowerSource<*>
 
     /**
      * Called by a client to start the mod
@@ -45,6 +47,13 @@ interface IAOTDPlayerBasics {
      * @param entityPlayer The player that the data is being synced for
      */
     fun syncWatchedMeteor(entityPlayer: PlayerEntity)
+
+    /**
+     * Syncs all selected power source data
+     *
+     * @param entityPlayer THe player that the data is being synced for
+     */
+    fun syncSelectedPowerSource(entityPlayer: PlayerEntity)
 
     /**
      * Syncs all player basic data from server -> client

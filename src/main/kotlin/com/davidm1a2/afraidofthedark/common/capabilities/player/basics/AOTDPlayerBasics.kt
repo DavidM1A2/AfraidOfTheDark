@@ -1,10 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.basics
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
 import com.davidm1a2.afraidofthedark.common.event.custom.PlayerStartedAfraidOfTheDarkEvent
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.AOTDPlayerBasicsPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.StartAOTDPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.other.UpdateSelectedPowerSourcePacket
 import com.davidm1a2.afraidofthedark.common.network.packets.other.UpdateWatchedMeteorPacket
+import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.util.ResourceLocation
@@ -17,6 +20,7 @@ import net.minecraftforge.common.MinecraftForge
  */
 class AOTDPlayerBasics : IAOTDPlayerBasics {
     override var watchedMeteor: WatchedMeteor? = null
+    override var selectedPowerSource: SpellPowerSource<*> = ModSpellPowerSources.CREATIVE
     private val multiplicities = mutableMapOf<ResourceLocation, Int>()
 
     private fun isServerSide(entityPlayer: PlayerEntity): Boolean {
@@ -48,6 +52,14 @@ class AOTDPlayerBasics : IAOTDPlayerBasics {
         // If we're on server side send the client the meteor data
         if (isServerSide(entityPlayer)) {
             AfraidOfTheDark.packetHandler.sendTo(UpdateWatchedMeteorPacket(watchedMeteor), entityPlayer as ServerPlayerEntity)
+        }
+    }
+
+    override fun syncSelectedPowerSource(entityPlayer: PlayerEntity) {
+        if (isServerSide(entityPlayer)) {
+            AfraidOfTheDark.packetHandler.sendTo(UpdateSelectedPowerSourcePacket(selectedPowerSource), entityPlayer as ServerPlayerEntity)
+        } else {
+            AfraidOfTheDark.packetHandler.sendToServer(UpdateSelectedPowerSourcePacket(selectedPowerSource))
         }
     }
 
