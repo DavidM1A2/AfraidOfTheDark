@@ -78,7 +78,9 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
                 instance.watchedMeteor = null
             }
 
-            instance.selectedPowerSource = ModRegistries.SPELL_POWER_SOURCES.getValue(ResourceLocation(nbt.getString(SELECTED_SPELL_POWER_SOURCE)))!!
+            if (nbt.contains(SELECTED_SPELL_POWER_SOURCE)) {
+                instance.selectedPowerSource = ModRegistries.SPELL_POWER_SOURCES.getValue(ResourceLocation(nbt.getString(SELECTED_SPELL_POWER_SOURCE)))!!
+            }
 
             val multiplicities = nbt.getCompound(MULTIPLICITIES)
             multiplicities.allKeys.forEach {
