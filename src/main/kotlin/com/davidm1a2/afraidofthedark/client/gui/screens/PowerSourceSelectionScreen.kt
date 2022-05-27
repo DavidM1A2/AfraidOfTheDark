@@ -15,12 +15,10 @@ import net.minecraft.client.util.InputMappings
 import net.minecraft.util.text.TranslationTextComponent
 import org.lwjgl.glfw.GLFW
 import java.awt.Color
-import kotlin.math.PI
-import kotlin.math.atan2
+import kotlin.math.*
 
 class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.power_source_selection")) {
     init {
-        val mouseQueue = ArrayDeque<Pair<Double, Double>>(MOUSE_QUEUE_SIZE)
 
         // Close the screen when TOGGLE_POWER_SOURCE_SELECTOR is released. It must be pressed to open this screen
         this.contentPane.addKeyListener {
@@ -70,22 +68,19 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
 
         // Highlight selection based on mouse movement
         this.contentPane.addMouseMoveListener { mouseEvent ->
-            if (mouseQueue.size >= MOUSE_QUEUE_SIZE) {
-                mouseQueue.removeLast()
-            }
-            mouseQueue.addFirst(Pair(mouseEvent.mouseX.toDouble(), mouseEvent.mouseY.toDouble()))
-            var sumX = 0.0
-            var sumY = 0.0
-            for (p in mouseQueue) {
-                sumX += p.first
-                sumY += p.second
-            }
-            val theta = (-atan2(sumY, sumX) + PI / 2).mod(2 * PI)
-            val sectionIndex = ((theta + PI / RADIAL_SIZE) / (2 * PI) * RADIAL_SIZE).mod(RADIAL_SIZE.toDouble()).toInt()
+            val x = mouseEvent.mouseX
+            val y = mouseEvent.mouseY
+            val radiusSquared = x*x + y*y
+            val radiusAbsoluteMax = MOUSE_BOUNDS_SIZE*radialMenuPane.width/2
+            val radiusMaxSquared = radiusAbsoluteMax*radiusAbsoluteMax
+            val theta = atan2(y.toDouble(), x.toDouble()).mod(2*PI)  // From -PI to PI
+            val sectionIndex = ((theta + (PI/RADIAL_SIZE)) / (2*PI) * RADIAL_SIZE).mod(RADIAL_SIZE.toDouble()).toInt()
             powerSourcePanes.forEach { it.prefSize = Dimensions(0.13, 0.13) }
             powerSourcePanes[sectionIndex].prefSize = Dimensions(0.15, 0.15)
             this.contentPane.invalidate()
-            GLFW.glfwSetCursorPos(minecraft!!.window.window, 0.0, 0.0)
+            if (radiusSquared > radiusMaxSquared) {
+                GLFW.glfwSetCursorPos(minecraft!!.window.window, cos(theta)*radiusAbsoluteMax, sin(theta)*radiusAbsoluteMax)
+            }
         }
     }
 
@@ -104,6 +99,6 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
 
     companion object {
         const val RADIAL_SIZE = 8
-        const val MOUSE_QUEUE_SIZE = 5
+        const val MOUSE_BOUNDS_SIZE = 0.5
     }
 }

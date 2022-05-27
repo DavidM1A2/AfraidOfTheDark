@@ -39,8 +39,8 @@ open class RadialPane : RatioPane(1, 1) {
             val rVal = if (child.offset.isRelative) child.offset.x*internalWidth/2 else child.offset.x
             val tVal = if (child.offset.isRelative) child.offset.y*2*PI else child.offset.y
             // Set position
-            child.x = (this.x + this.guiOffsetX + calcPadding.left + gravityXOffset + sin(tVal)*rVal + internalWidth/2).roundToInt()
-            child.y = (this.y + this.guiOffsetY + calcPadding.top + gravityYOffset + cos(tVal)*rVal + internalHeight/2).roundToInt()
+            child.x = (this.x + this.guiOffsetX + calcPadding.left + gravityXOffset + cos(tVal)*rVal + internalWidth/2).roundToInt()
+            child.y = (this.y + this.guiOffsetY + calcPadding.top + gravityYOffset + sin(tVal)*rVal + internalHeight/2).roundToInt()
             // If it's a pane, have it recalculate its children too
             if (child is AOTDPane) child.calcChildrenBounds()
             // Determine if the subtree of children is in this node's bounds
