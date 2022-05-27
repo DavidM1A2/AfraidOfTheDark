@@ -8,6 +8,8 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings
+import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import net.minecraft.client.util.InputMappings
 import net.minecraft.util.text.TranslationTextComponent
@@ -40,8 +42,8 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
         val availablePowerSources = ModRegistries.SPELL_POWER_SOURCES.filter { it.shouldShowInSpellEditor(entityPlayer) }
         val powerSourcePanes = mutableListOf<StackPane>()
         for (i in 0 until RADIAL_SIZE) {
-            val liquidSprite = SpritePane("afraidofthedark:textures/gui/power_source_selector/liquid_spritesheet.png", 4, 1, displayMode = ImagePane.DispMode.FIT_TO_PARENT)
-            liquidSprite.setAnimation(listOf(0, 1, 2, 3), SpritePane.AnimMode.LOOP, 4.0)
+            val liquidSprite = SpritePane("afraidofthedark:textures/gui/power_source_selector/liquid_spritesheet.png", 4, 4, displayMode = ImagePane.DispMode.FIT_TO_PARENT)
+            liquidSprite.setFrame(12)
             val orbImage = ImagePane("afraidofthedark:textures/gui/power_source_selector/orb_front_colored.png", displayMode = ImagePane.DispMode.FIT_TO_PARENT)
             val buttonPane = StackPane(gravity = Gravity.CENTER, prefSize = Dimensions(0.13, 0.13), offset = Position(0.5, i.toDouble() / RADIAL_SIZE))
             buttonPane.add(liquidSprite)
@@ -53,6 +55,16 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
                 val ssIcon = ImagePane(availablePowerSources[i].icon)
                 ssIcon.margins = Spacing(0.25)
                 buttonPane.add(ssIcon)
+                val castEnvironment = availablePowerSources[i].computeCastEnvironment(entityPlayer)
+                if (castEnvironment.vitaeMaximum == 0.0 || castEnvironment.vitaeAvailable == 0.0) { // Zero Case
+                    liquidSprite.setFrame(12)
+                } else if (castEnvironment.vitaeAvailable == Double.POSITIVE_INFINITY || castEnvironment.vitaeAvailable/castEnvironment.vitaeMaximum > 0.75) {  // Full case
+                    liquidSprite.setAnimation(listOf(0, 1, 2, 3), SpritePane.AnimMode.LOOP, 4.0)
+                } else if (castEnvironment.vitaeAvailable/castEnvironment.vitaeMaximum > 0.5) {
+                    liquidSprite.setAnimation(listOf(4, 5, 6, 7), SpritePane.AnimMode.LOOP, 4.0)
+                } else if (castEnvironment.vitaeAvailable/castEnvironment.vitaeMaximum > 0.0) {
+                    liquidSprite.setAnimation(listOf(8, 9, 10, 11), SpritePane.AnimMode.LOOP, 4.0)
+                }
             }
         }
 
