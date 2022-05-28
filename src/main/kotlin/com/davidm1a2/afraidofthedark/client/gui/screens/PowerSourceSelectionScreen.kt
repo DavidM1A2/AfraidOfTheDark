@@ -4,15 +4,26 @@ import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.FontCache
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.*
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
+import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
+import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
+import com.davidm1a2.afraidofthedark.client.gui.layout.Position
+import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
+import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.RadialPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.SpritePane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import net.minecraft.client.util.InputMappings
 import net.minecraft.util.text.TranslationTextComponent
 import org.lwjgl.glfw.GLFW
-import kotlin.math.*
+import kotlin.math.PI
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
 
 class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.power_source_selection")) {
     init {
@@ -62,14 +73,18 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
                 ssIcon.margins = Spacing(0.4)
                 buttonPane.add(ssIcon)
                 val castEnvironment = availablePowerSources[i].computeCastEnvironment(entityPlayer)
-                numberPane.text = "%.1f/%.1f".format(castEnvironment.vitaeAvailable, castEnvironment.vitaeMaximum)
+                numberPane.text = if (castEnvironment.vitaeMaximum == Double.POSITIVE_INFINITY) {
+                    "%.1f".format(castEnvironment.vitaeAvailable)
+                } else {
+                    "%.1f/%.1f".format(castEnvironment.vitaeAvailable, castEnvironment.vitaeMaximum)
+                }
                 if (castEnvironment.vitaeMaximum == 0.0 || castEnvironment.vitaeAvailable == 0.0) { // Zero Case
                     liquidSprite.setFrame(12)
-                } else if (castEnvironment.vitaeAvailable == Double.POSITIVE_INFINITY || castEnvironment.vitaeMaximum == Double.POSITIVE_INFINITY || castEnvironment.vitaeAvailable/castEnvironment.vitaeMaximum > 0.75) {  // Full case
+                } else if (castEnvironment.vitaeAvailable == Double.POSITIVE_INFINITY || castEnvironment.vitaeMaximum == Double.POSITIVE_INFINITY || castEnvironment.vitaeAvailable / castEnvironment.vitaeMaximum > 0.75) {  // Full case
                     liquidSprite.setAnimation(listOf(0, 1, 2, 3), SpritePane.AnimMode.LOOP, 4.0)
-                } else if (castEnvironment.vitaeAvailable/castEnvironment.vitaeMaximum > 0.5) {
+                } else if (castEnvironment.vitaeAvailable / castEnvironment.vitaeMaximum > 0.5) {
                     liquidSprite.setAnimation(listOf(4, 5, 6, 7), SpritePane.AnimMode.LOOP, 4.0)
-                } else if (castEnvironment.vitaeAvailable/castEnvironment.vitaeMaximum > 0.0) {
+                } else if (castEnvironment.vitaeAvailable / castEnvironment.vitaeMaximum > 0.0) {
                     liquidSprite.setAnimation(listOf(8, 9, 10, 11), SpritePane.AnimMode.LOOP, 4.0)
                 }
             }
@@ -82,7 +97,6 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
         val selectedIndex = availablePowerSources.indexOf(entityPlayer.getBasics().selectedPowerSource)
         if (selectedIndex in 0 until RADIAL_SIZE) {
             selectionIcons[selectedIndex].isVisible = true
-            println(entityPlayer.getBasics().selectedPowerSource)
         }
 
         // Highlight selection based on mouse movement
@@ -90,14 +104,14 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
             val x = mouseEvent.mouseX
             val y = mouseEvent.mouseY
             // Math stuff
-            val radiusSquared = x*x + y*y
-            val radiusAbsoluteMin = MOUSE_DEADZONE_SIZE*radialMenuPane.width/2
-            val radiusMinSquared = radiusAbsoluteMin*radiusAbsoluteMin
+            val radiusSquared = x * x + y * y
+            val radiusAbsoluteMin = MOUSE_DEADZONE_SIZE * radialMenuPane.width / 2
+            val radiusMinSquared = radiusAbsoluteMin * radiusAbsoluteMin
             if (radiusSquared > radiusMinSquared) {
-                val radiusAbsoluteMax = MOUSE_BOUNDS_SIZE*radialMenuPane.width/2
-                val radiusMaxSquared = radiusAbsoluteMax*radiusAbsoluteMax
-                val theta = atan2(y, x).mod(2*PI)  // From -PI to PI
-                val sectionIndex = ((theta + (PI/RADIAL_SIZE)) / (2*PI) * RADIAL_SIZE).mod(RADIAL_SIZE.toDouble()).toInt()
+                val radiusAbsoluteMax = MOUSE_BOUNDS_SIZE * radialMenuPane.width / 2
+                val radiusMaxSquared = radiusAbsoluteMax * radiusAbsoluteMax
+                val theta = atan2(y, x).mod(2 * PI)  // From -PI to PI
+                val sectionIndex = ((theta + (PI / RADIAL_SIZE)) / (2 * PI) * RADIAL_SIZE).mod(RADIAL_SIZE.toDouble()).toInt()
                 // Make the hovered option larger
                 powerSourcePanes.forEach { it.prefSize = Dimensions(0.13, 0.13) }
                 powerSourcePanes[sectionIndex].prefSize = Dimensions(0.15, 0.15)
@@ -111,7 +125,7 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
                 this.contentPane.invalidate()
                 // Bound Cursor
                 if (radiusSquared > radiusMaxSquared) {
-                    GLFW.glfwSetCursorPos(minecraft!!.window.window, cos(theta)*radiusAbsoluteMax, sin(theta)*radiusAbsoluteMax)
+                    GLFW.glfwSetCursorPos(minecraft!!.window.window, cos(theta) * radiusAbsoluteMax, sin(theta) * radiusAbsoluteMax)
                 }
             }
         }
@@ -133,7 +147,7 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
 
     override fun onClose() {
         entityPlayer.getBasics().syncSelectedPowerSource(entityPlayer)
-        InputMappings.grabOrReleaseMouse(minecraft!!.window.window, GLFW.GLFW_CURSOR_NORMAL, AOTDGuiUtility.getWindowWidthInMCCoords()/2.0, AOTDGuiUtility.getWindowHeightInMCCoords()/2.0)
+        InputMappings.grabOrReleaseMouse(minecraft!!.window.window, GLFW.GLFW_CURSOR_NORMAL, AOTDGuiUtility.getWindowWidthInMCCoords() / 2.0, AOTDGuiUtility.getWindowHeightInMCCoords() / 2.0)
         super.onClose()
     }
 
