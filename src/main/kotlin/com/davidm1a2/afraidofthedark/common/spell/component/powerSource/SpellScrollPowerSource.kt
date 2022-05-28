@@ -23,6 +23,6 @@ class SpellScrollPowerSource : AOTDSpellPowerSource<Unit>("spell_scroll", ModRes
     }
 
     override fun shouldShowInSpellEditor(player: PlayerEntity): Boolean {
-        return true // TEMP
+        return false
     }
 }
