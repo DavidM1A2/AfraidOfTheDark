@@ -49,15 +49,13 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
             val selectorImage = ImagePane("afraidofthedark:textures/gui/power_source_selector/orb_selector.png", displayMode = ImagePane.DispMode.STRETCH)
             selectorImage.isVisible = false
             buttonPane.add(liquidSprite)
-            buttonPane.add(orbImage)
-            buttonPane.add(selectorImage)
             selectionIcons.add(selectorImage)
             radialMenuPane.add(buttonPane)
             powerSourcePanes.add(buttonPane)
             // Only fill out the gui while there are still available power sources
             if (i < availablePowerSources.size) {
                 val ssIcon = ImagePane(availablePowerSources[i].icon)
-                ssIcon.margins = Spacing(0.25)
+                ssIcon.margins = Spacing(0.4)
                 buttonPane.add(ssIcon)
                 val castEnvironment = availablePowerSources[i].computeCastEnvironment(entityPlayer)
                 if (castEnvironment.vitaeMaximum == 0.0 || castEnvironment.vitaeAvailable == 0.0) { // Zero Case
@@ -70,6 +68,8 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
                     liquidSprite.setAnimation(listOf(8, 9, 10, 11), SpritePane.AnimMode.LOOP, 4.0)
                 }
             }
+            buttonPane.add(orbImage)
+            buttonPane.add(selectorImage)
         }
 
         // Start with the current power source selected
@@ -99,8 +99,6 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
                 if (sectionIndex in 0 until RADIAL_SIZE) {
                     if (sectionIndex in availablePowerSources.indices) {
                         entityPlayer.getBasics().selectedPowerSource = availablePowerSources[sectionIndex]
-                        selectionIcons.forEach { it.isVisible = false }
-                        selectionIcons[sectionIndex].isVisible = true
                     }
                 }
                 // Redraw the pane, since elements have changed
