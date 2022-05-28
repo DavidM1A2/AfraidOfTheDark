@@ -138,7 +138,7 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
     }
 
     override fun drawGradientBackground(): Boolean {
-        return true
+        return false
     }
 
     override fun inventoryToCloseGuiScreen(): Boolean {
