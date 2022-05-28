@@ -1,12 +1,10 @@
 package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
+import com.davidm1a2.afraidofthedark.client.gui.FontCache
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
-import com.davidm1a2.afraidofthedark.client.gui.layout.Position
-import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
@@ -52,12 +50,19 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
             selectionIcons.add(selectorImage)
             radialMenuPane.add(buttonPane)
             powerSourcePanes.add(buttonPane)
+            // Add number descriptor
+            val numberPane = LabelComponent(FontCache.getOrCreate(28f), Dimensions(1.0, 0.3))
+            numberPane.gravity = Gravity.TOP_CENTER
+            numberPane.offset = Position(0.0, 0.95)
+            numberPane.text = "N/A"
+            numberPane.textAlignment = TextAlignment.ALIGN_CENTER
             // Only fill out the gui while there are still available power sources
             if (i < availablePowerSources.size) {
                 val ssIcon = ImagePane(availablePowerSources[i].icon)
                 ssIcon.margins = Spacing(0.4)
                 buttonPane.add(ssIcon)
                 val castEnvironment = availablePowerSources[i].computeCastEnvironment(entityPlayer)
+                numberPane.text = "%.1f/%.1f".format(castEnvironment.vitaeAvailable, castEnvironment.vitaeMaximum)
                 if (castEnvironment.vitaeMaximum == 0.0 || castEnvironment.vitaeAvailable == 0.0) { // Zero Case
                     liquidSprite.setFrame(12)
                 } else if (castEnvironment.vitaeAvailable == Double.POSITIVE_INFINITY || castEnvironment.vitaeMaximum == Double.POSITIVE_INFINITY || castEnvironment.vitaeAvailable/castEnvironment.vitaeMaximum > 0.75) {  // Full case
@@ -70,6 +75,7 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
             }
             buttonPane.add(orbImage)
             buttonPane.add(selectorImage)
+            buttonPane.add(numberPane)
         }
 
         // Start with the current power source selected
