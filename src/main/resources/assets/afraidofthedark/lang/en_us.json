@@ -640,6 +640,7 @@
   "tooltip.afraidofthedark.spell_scroll.spell_stage": "%1$s -> %2$s (%3$s, %4$s, %5$s, %6$s)",
   "tooltip.afraidofthedark.gui.journal_research.question_mark": "?",
   "tooltip.afraidofthedark.gui.journal_research.unknown_research": "§oUnknown Research",
+  "tooltip.afraidofthedark.gui.journal_page.power_source": "%1$s Power Source",
   "tooltip.afraidofthedark.gui.journal_page.delivery_method": "%1$s Delivery Method",
   "tooltip.afraidofthedark.gui.journal_page.effect": "%1$s Effect",
   "tooltip.afraidofthedark.gui.journal_page.editable_properties_header": "Editable Properties:",
