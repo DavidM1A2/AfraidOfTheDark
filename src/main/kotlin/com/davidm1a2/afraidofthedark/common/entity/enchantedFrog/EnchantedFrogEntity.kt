@@ -77,8 +77,8 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
         frogsSpell.spellStages.add(createRandomSpellStage())
         // A max of 20 spell stages, but odds are few will be added
         for (ignored in 0..20) {
-            // 25% chance to add another spell stage
-            if (random.nextDouble() < 0.25) {
+            // 50% chance to add another spell stage
+            if (random.nextDouble() < 0.50) {
                 frogsSpell.spellStages.add(createRandomSpellStage())
             } else {
                 break
