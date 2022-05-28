@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextBoxComponent
-import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
+import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentBase
 import net.minecraft.item.crafting.IRecipe
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.MathHelper
@@ -15,7 +15,7 @@ class ArcaneJournalPage(
     private val rawText: String,
     private val recipes: List<IRecipe<*>>,
     private val stickers: List<ResourceLocation>,
-    private val spellComponents: List<SpellComponent<*>>
+    private val spellComponents: List<SpellComponentBase<*>>
 ) : StackPane() {
     // Used when the page has text
     private val textBox: TextBoxComponent

@@ -1,17 +1,16 @@
 package com.davidm1a2.afraidofthedark.common.spell
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
+import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
 import com.davidm1a2.afraidofthedark.common.event.custom.CastSpellEvent
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
-import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
-import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
 import com.davidm1a2.afraidofthedark.common.utility.getLookNormal
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.entity.Entity
@@ -37,14 +36,12 @@ import kotlin.random.Random
  *
  * @property name The spell's name, can't be null (empty by default)
  * @property id The spell's universally unique identifier, cannot be null
- * @property powerSource The source that is powering the spell, can be null
  * @property spellStages The list of spell stages this spell can go through, can have 0 - inf elements
  */
 class Spell : INBTSerializable<CompoundNBT> {
     lateinit var name: String
     lateinit var id: UUID
         private set
-    var powerSource: SpellComponentInstance<SpellPowerSource<*>>? = null
     val spellStages = mutableListOf<SpellStage>()
 
     /**
@@ -71,16 +68,23 @@ class Spell : INBTSerializable<CompoundNBT> {
      *
      * @param entity The entity casting the spell
      * @param direction The direction the spell should be casted, defaults to the look vec
+     * @param isSpellScroll True if the cast is coming from a spell scroll
      */
-    fun attemptToCast(entity: Entity, direction: Vector3d = entity.lookAngle) {
+    fun attemptToCast(entity: Entity, direction: Vector3d = entity.lookAngle, isSpellScroll: Boolean = false) {
         // Server side processing only
         if (!entity.level.isClientSide) {
             // Make sure the player isn't in the nightmare realm
             if (entity.level.dimension() != ModDimensions.NIGHTMARE_WORLD) {
                 // If the spell is valid continue, if not print an error
                 if (isValid()) {
+                    // Determine the selected power source
+                    val selectedPowerSource = if (entity is PlayerEntity && !isSpellScroll) {
+                        entity.getBasics().selectedPowerSource
+                    } else {
+                        ModSpellPowerSources.SPELL_SCROLL
+                    }
                     // Try casting the spell
-                    val castResult = powerSource!!.component.cast(entity, this)
+                    val castResult = selectedPowerSource.cast(entity, this)
 
                     // If we failed for some reason, let the entity know
                     if (!castResult.wasSuccessful()) {
@@ -92,7 +96,7 @@ class Spell : INBTSerializable<CompoundNBT> {
                     }
 
                     // Send an event for the spell being cast
-                    MinecraftForge.EVENT_BUS.post(CastSpellEvent(entity, this))
+                    MinecraftForge.EVENT_BUS.post(CastSpellEvent(entity, this, selectedPowerSource))
 
                     // Play a cast sound
                     entity.level.playSound(
@@ -167,11 +171,11 @@ class Spell : INBTSerializable<CompoundNBT> {
     /**
      * Returns true if this spell is valid, false otherwise
      *
-     * @return True if the power source method is non-null and at least one spell stage is registered
+     * @return True if the at least one spell stage is registered
      */
     fun isValid(): Boolean {
-        // Ensure the power source is valid and the spell stages are non-empty, and all spell stages are valid
-        return powerSource != null && spellStages.isNotEmpty() && spellStages.all { it.isValid() }
+        // Ensure the spell stages are non-empty and all spell stages are valid
+        return spellStages.isNotEmpty() && spellStages.all { it.isValid() }
     }
 
     /**
@@ -243,9 +247,6 @@ class Spell : INBTSerializable<CompoundNBT> {
         nbt.putString(NBT_NAME, name)
         nbt.put(NBT_ID, NBTUtil.createUUID(id))
 
-        // The spell power source can be null, double check that it isn't before writing it and its state
-        powerSource?.let { nbt.put(NBT_POWER_SOURCE, it.serializeNBT()) }
-
         // Write each spell stage to NBT
         val spellStagesNBT = ListNBT()
         spellStages.forEach { spellStagesNBT.add(it.serializeNBT()) }
@@ -268,12 +269,6 @@ class Spell : INBTSerializable<CompoundNBT> {
             UUID.randomUUID()
         }
 
-        // The spell power source can be null, double check that it exists before reading it and its state
-        if (nbt.contains(NBT_POWER_SOURCE)) {
-            // Grab the power source NBT and create a power source out of it
-            powerSource = SpellPowerSourceInstance.createFromNBT(nbt.getCompound(NBT_POWER_SOURCE))
-        }
-
         // Read each spell stage from NBT
         val spellStagesNBT = nbt.getList(NBT_SPELL_STAGES, Constants.NBT.TAG_COMPOUND)
         spellStages.clear()
@@ -290,7 +285,6 @@ class Spell : INBTSerializable<CompoundNBT> {
      */
     override fun toString(): String {
         return "Spell $name\n" +
-            "Power Source: ${powerSource?.component?.registryName?.path}\n" +
             "Spell Stages:\n" +
             spellStages.joinToString(separator = "\n") { " -> $it" }
     }
@@ -305,7 +299,6 @@ class Spell : INBTSerializable<CompoundNBT> {
         // Constants used for NBT serialization/deserialiation
         private const val NBT_NAME = "name"
         private const val NBT_ID = "id"
-        private const val NBT_POWER_SOURCE = "power_source"
         private const val NBT_SPELL_STAGES = "spell_stages"
     }
 }

@@ -12,8 +12,8 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextBoxComponent
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
+import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentBase
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
-import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
 import com.mojang.blaze3d.matrix.MatrixStack
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
@@ -58,14 +58,10 @@ class SpellComponentPane(prefSize: Dimensions) : AOTDPane(prefSize = prefSize) {
         add(smallText)
     }
 
-    fun setComponent(spellComponent: SpellComponent<*>?) {
+    fun setComponent(spellComponent: SpellComponentBase<*>?) {
         if (spellComponent != null) {
             componentSlot.updateImageTexture(spellComponent.icon)
             when (spellComponent) {
-                is SpellPowerSource<*> -> {
-                    componentSlot.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.power_source", spellComponent.getName()).string)
-                    componentSocket.updateImageTexture(POWER_SOURCE_SOCKET_TEXTURE)
-                }
                 is SpellDeliveryMethod -> {
                     componentSlot.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.delivery_method", spellComponent.getName()).string)
                     componentSocket.updateImageTexture(DELIVERY_METHOD_SOCKET_TEXTURE)
@@ -78,12 +74,15 @@ class SpellComponentPane(prefSize: Dimensions) : AOTDPane(prefSize = prefSize) {
             title.text = spellComponent.getName().string
             val textBody = buildString {
                 append(spellComponent.getDescription().string)
-                val editableProperties = spellComponent.getEditableProperties()
-                if (editableProperties.isNotEmpty()) {
-                    appendLine()
-                    appendLine(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.editable_properties_header").string)
-                    editableProperties.forEach {
-                        appendLine(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.editable_property", it.getName(), it.getDescription()).string)
+                // SpellComponentBase's don't have editable properties (eg: PowerSources)
+                if (spellComponent is SpellComponent<*>) {
+                    val editableProperties = spellComponent.getEditableProperties()
+                    if (editableProperties.isNotEmpty()) {
+                        appendLine()
+                        appendLine(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.editable_properties_header").string)
+                        editableProperties.forEach {
+                            appendLine(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.editable_property", it.getName(), it.getDescription()).string)
+                        }
                     }
                 }
             }
@@ -108,7 +107,6 @@ class SpellComponentPane(prefSize: Dimensions) : AOTDPane(prefSize = prefSize) {
     }
 
     companion object {
-        private val POWER_SOURCE_SOCKET_TEXTURE = ResourceLocation(Constants.MOD_ID, "textures/gui/arcane_journal_page/power_source_socket.png")
         private val EFFECT_SOCKET_TEXTURE = ResourceLocation(Constants.MOD_ID, "textures/gui/arcane_journal_page/effect_socket.png")
         private val DELIVERY_METHOD_SOCKET_TEXTURE = ResourceLocation(Constants.MOD_ID, "textures/gui/arcane_journal_page/delivery_method_socket.png")
     }

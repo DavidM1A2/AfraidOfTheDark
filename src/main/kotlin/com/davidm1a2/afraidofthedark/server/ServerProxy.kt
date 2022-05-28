@@ -14,6 +14,6 @@ class ServerProxy : IProxy {
     override fun registerSidedHandlers(forgeBus: IEventBus, modBus: IEventBus) {
     }
 
-    override fun playSoundFixed(soundSource: Entity, soundEvent: SoundEvent, soundCategory: SoundCategory, volume: Float, pitch: Float) {
+    override fun playSoundFixed(entity: Entity, event: SoundEvent, category: SoundCategory, volume: Float, pitch: Float) {
     }
 }

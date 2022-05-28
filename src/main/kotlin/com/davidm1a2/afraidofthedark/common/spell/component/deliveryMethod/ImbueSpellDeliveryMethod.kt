@@ -3,7 +3,6 @@ package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellDeliveryMethods
-import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
@@ -11,7 +10,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
-import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.player.PlayerEntity
 
@@ -50,7 +48,6 @@ class ImbueSpellDeliveryMethod : AOTDSpellDeliveryMethod("imbue", ModResearches.
                         }
                         val newSpell = Spell().apply {
                             name = state.spell.name
-                            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.SPELL_SCROLL)
                             spellStages.addAll(newSpellStages)
                         }
                         ModItems.SPELL_SCROLL.setSpell(itemStack, newSpell)

@@ -58,27 +58,6 @@ class SpellScroll : StackPane() {
         this.add(propertyList)
         propertyList.isVisible = false
 
-        // Create the power source label
-        val powerSourceHeading = LabelComponent(FontCache.getOrCreate(42f), Dimensions(1.0, 0.2))
-        powerSourceHeading.textColor = Color(140, 35, 206)
-        powerSourceHeading.text = "Power Sources"
-        componentList.add(powerSourceHeading)
-
-        // Go over all power sources and add a slot for each
-        var powerSourceHPane: HChainPane? = null
-        val availablePowerSources = ModRegistries.SPELL_POWER_SOURCES.filter { it.shouldShowInSpellEditor(entityPlayer) }
-        for ((powerSourceIndex, powerSourceEntry) in availablePowerSources.withIndex()) {
-            if (powerSourceIndex % COMPONENTS_PER_LINE == 0) {
-                if (powerSourceHPane != null) componentList.add(powerSourceHPane)
-                powerSourceHPane = HChainPane(HChainPane.Layout.CLOSE)
-                powerSourceHPane.prefSize = Dimensions(1.0, 0.15)
-            }
-            val powerSource = SpellPowerSourceIcon(powerSourceEntry)
-            powerSource.margins = Spacing(2.0, false)
-            powerSourceHPane?.add(powerSource)
-        }
-        powerSourceHPane?.let { componentList.add(it) }
-
         // Create the effect label
         val effectHeading = LabelComponent(FontCache.getOrCreate(42f), Dimensions(1.0, 0.2))
         effectHeading.textColor = Color(140, 35, 206)

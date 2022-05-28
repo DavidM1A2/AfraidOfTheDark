@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base
 
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.Spell
-import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
+import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentBase
 import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
@@ -15,7 +15,7 @@ import net.minecraft.util.text.TranslationTextComponent
  * @param id The ID of this power source
  * @param prerequisiteResearch The research required to use this component, or null if none is required
  */
-abstract class SpellPowerSource<T>(id: ResourceLocation, prerequisiteResearch: Research?) : SpellComponent<SpellPowerSource<*>>(
+abstract class SpellPowerSource<T>(id: ResourceLocation, prerequisiteResearch: Research?) : SpellComponentBase<SpellPowerSource<*>>(
     id,
     ResourceLocation(id.namespace, "textures/gui/spell_component/power_sources/${id.path}.png"),
     prerequisiteResearch

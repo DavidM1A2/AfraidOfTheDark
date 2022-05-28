@@ -54,7 +54,7 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
             if (newUses == 0) {
                 itemStack.shrink(1)
             }
-            spell.attemptToCast(playerEntity)
+            spell.attemptToCast(playerEntity, isSpellScroll = true)
         }
 
         return ActionResult.success(itemStack)

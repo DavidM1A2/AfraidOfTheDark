@@ -3,13 +3,11 @@ package com.davidm1a2.afraidofthedark.common.entity.enaria.fight.events
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellDeliveryMethods
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellEffects
-import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
 import com.davidm1a2.afraidofthedark.common.entity.enaria.fight.EnariaFight
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
-import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
 import net.minecraft.block.Blocks
 import net.minecraft.block.FlowerBlock
 import net.minecraft.command.arguments.EntityAnchorArgument
@@ -111,7 +109,6 @@ class GrassSkeletonFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, Enar
 
         private val GROW_SPELL = Spell().apply {
             name = "Enaria Grass Skeleton Event"
-            powerSource = SpellPowerSourceInstance(ModSpellPowerSources.SPELL_SCROLL).apply { setDefaults() }
             spellStages.add(SpellStage().apply {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.PROJECTILE).apply {
                     setDefaults()

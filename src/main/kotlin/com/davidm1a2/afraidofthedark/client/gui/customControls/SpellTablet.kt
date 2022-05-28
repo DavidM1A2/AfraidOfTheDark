@@ -14,6 +14,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.ListPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
+import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import net.minecraft.util.text.TranslationTextComponent
@@ -27,7 +28,6 @@ class SpellTablet(private val spell: Spell) : StackPane() {
     private val spellStagePanel: StackPane
     private val spellStageList: ListPane
     private val uiSpellStages: MutableList<GuiSpellStage> = mutableListOf()
-    private val uiPowerSource: SpellPowerSourceSlot
     private val spellCost: LabelComponent
     private val scrollBar: VScrollBar
     private val addButton: ButtonPane
@@ -100,11 +100,6 @@ class SpellTablet(private val spell: Spell) : StackPane() {
         buttonLayout.add(removeButton)
         spellStageList.add(buttonLayout)
 
-        // Create the power source spell slot
-        uiPowerSource = SpellPowerSourceSlot(Position(0.8, 0.1), Dimensions(0.18, 0.12), spell)
-        uiPowerSource.setSpellComponent(spell.powerSource)
-        this.add(uiPowerSource)
-
         // Add the spell cost label
         spellCost = LabelComponent(FontCache.getOrCreate(36f), Dimensions(1.0, 0.1))
         spellCost.offset = Position(0.0, 0.9)
@@ -118,8 +113,6 @@ class SpellTablet(private val spell: Spell) : StackPane() {
      * Refreshes the state of the tablet based on the current spell
      */
     private fun refresh() {
-        // Update the power source instance
-        uiPowerSource.setSpellComponent(spell.powerSource)
         // Update the spell's name
         spellName.setText(spell.name)
         // Remove all existing spell stages
@@ -135,13 +128,13 @@ class SpellTablet(private val spell: Spell) : StackPane() {
     }
 
     fun refreshCostLabel() {
+        val selectedPowerSource = entityPlayer.getBasics().selectedPowerSource
         val costText = if (spell.isValid()) {
-            TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", spell.powerSource!!.component.getFormattedCost(spell.getCost())).string
+            TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", selectedPowerSource.getFormattedCost(spell.getCost())).string
         } else {
             TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.unknown_cost").string
         }
         spellCost.text = costText
-        uiPowerSource.refreshHoverText()
         uiSpellStages.forEach {
             it.deliveryMethod.refreshHoverText()
             it.effects.forEach { effect -> effect.refreshHoverText() }

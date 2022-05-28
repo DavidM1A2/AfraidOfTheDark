@@ -3,7 +3,6 @@ package com.davidm1a2.afraidofthedark.common.entity.enchantedFrog
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
-import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.animation.CastChannel
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.animation.HopChannel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
@@ -14,7 +13,6 @@ import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
-import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
 import net.minecraft.block.BlockState
 import net.minecraft.entity.CreatureEntity
 import net.minecraft.entity.EntityType
@@ -76,7 +74,6 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
     private fun createRandomSpell(): Spell {
         val frogsSpell = Spell()
         frogsSpell.name = "Froggie's magic spell"
-        frogsSpell.powerSource = SpellPowerSourceInstance(ModSpellPowerSources.SPELL_SCROLL).apply { setDefaults() }
         frogsSpell.spellStages.add(createRandomSpellStage())
         // A max of 20 spell stages, but odds are few will be added
         for (ignored in 0..20) {

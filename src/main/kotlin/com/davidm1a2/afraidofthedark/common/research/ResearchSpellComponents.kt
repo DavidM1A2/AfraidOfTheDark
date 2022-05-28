@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.research
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.registry.codec
 import com.davidm1a2.afraidofthedark.common.registry.lazy
-import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
+import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentBase
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
@@ -19,7 +19,7 @@ class ResearchSpellComponents(
     val deliveryMethods: List<SpellDeliveryMethod> by lazyDeliveryMethods
     val powerSources: List<SpellPowerSource<*>> by lazyPowerSources
     val effects: List<SpellEffect> by lazyEffects
-    val components: List<SpellComponent<*>> by lazy {
+    val components: List<SpellComponentBase<*>> by lazy {
         deliveryMethods + powerSources + effects
     }
 

@@ -3,6 +3,8 @@ package com.davidm1a2.afraidofthedark.client.keybindings
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.screens.PowerSourceSelectionScreen
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
+import com.davidm1a2.afraidofthedark.common.capabilities.hasStartedAOTD
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDBoltItem
 import com.davidm1a2.afraidofthedark.common.network.packets.other.SpellKeyPressPacket
@@ -33,14 +35,18 @@ class KeyInputEventHandler {
     @SubscribeEvent
     fun handleKeyInputEvent(event: InputEvent.KeyInputEvent) {
         // This gets fired in the main menu, or when we have an inventory open. In either case return
-        if (Minecraft.getInstance().player == null || Minecraft.getInstance().screen != null) {
+        val player = Minecraft.getInstance().player
+        if (player == null || Minecraft.getInstance().screen != null) {
             return
         }
 
         // Process input
         if (event.action == GLFW.GLFW_PRESS && event.key == ModKeybindings.POWER_SOURCE_SELECTOR.key.value) {
-            Minecraft.getInstance().setScreen(PowerSourceSelectionScreen())
-            // GLFW.glfwSetInputMode(Minecraft.getInstance().window.window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED)
+            if (player.hasStartedAOTD()) {
+                Minecraft.getInstance().setScreen(PowerSourceSelectionScreen())
+            } else {
+                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+            }
         }
 
         if (ModKeybindings.FIRE_WRIST_CROSSBOW.isDown) {
@@ -56,7 +62,7 @@ class KeyInputEventHandler {
             // Grab the currently held bind
             val keybindingPressed = KeybindingUtils.getCurrentlyHeldKeybind(event.key, event.scanCode)
             // If that keybind exists then tell the server to fire the spell
-            if (Minecraft.getInstance().player!!.getSpellManager().keybindExists(keybindingPressed)) {
+            if (player.getSpellManager().keybindExists(keybindingPressed)) {
                 AfraidOfTheDark.packetHandler.sendToServer(SpellKeyPressPacket(keybindingPressed))
             }
         }

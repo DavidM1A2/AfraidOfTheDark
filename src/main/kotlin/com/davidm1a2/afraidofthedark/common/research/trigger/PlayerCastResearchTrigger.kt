@@ -20,7 +20,7 @@ class PlayerCastResearchTrigger : ResearchTrigger<CastSpellEvent, PlayerCastRese
     }
 
     override fun shouldUnlock(player: PlayerEntity, event: CastSpellEvent, config: PlayerCastResearchTriggerConfig): Boolean {
-        if (config.powerSource == null || config.powerSource == event.spell.powerSource?.component) {
+        if (config.powerSource == null || config.powerSource == event.powerSourceUsed) {
             if (config.deliveryMethod == null || event.spell.hasDeliveryMethod(config.deliveryMethod!!)) {
                 if (config.effect == null || event.spell.hasEffect(config.effect!!)) {
                     if (config.minCost == null || config.minCost <= event.spell.getCost()) {
