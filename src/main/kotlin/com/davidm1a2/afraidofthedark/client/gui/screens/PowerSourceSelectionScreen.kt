@@ -17,7 +17,6 @@ import org.lwjgl.glfw.GLFW
 import kotlin.math.*
 
 class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.power_source_selection")) {
-    var enabled = false
     init {
         // Close the screen when TOGGLE_POWER_SOURCE_SELECTOR is released. It must be pressed to open this screen
         this.contentPane.addKeyListener {
@@ -92,7 +91,7 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
             if (radiusSquared > radiusMinSquared) {
                 val radiusAbsoluteMax = MOUSE_BOUNDS_SIZE*radialMenuPane.width/2
                 val radiusMaxSquared = radiusAbsoluteMax*radiusAbsoluteMax
-                val theta = atan2(y.toDouble(), x.toDouble()).mod(2*PI)  // From -PI to PI
+                val theta = atan2(y, x).mod(2*PI)  // From -PI to PI
                 val sectionIndex = ((theta + (PI/RADIAL_SIZE)) / (2*PI) * RADIAL_SIZE).mod(RADIAL_SIZE.toDouble()).toInt()
                 // Make the hovered option larger
                 powerSourcePanes.forEach { it.prefSize = Dimensions(0.13, 0.13) }
