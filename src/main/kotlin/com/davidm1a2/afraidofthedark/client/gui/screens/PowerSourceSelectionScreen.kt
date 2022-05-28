@@ -83,7 +83,6 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
         this.contentPane.addMouseMoveListener { mouseEvent ->
             val x = mouseEvent.mouseX
             val y = mouseEvent.mouseY
-            println("$x, $y")
             // Math stuff
             val radiusSquared = x*x + y*y
             val radiusAbsoluteMin = MOUSE_DEADZONE_SIZE*radialMenuPane.width/2

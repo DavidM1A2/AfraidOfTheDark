@@ -83,7 +83,13 @@ abstract class AOTDPane(
 
         for (child in subComponents) {
             // Calculate margins
-            val calcMargins = child.margins.getAbsoluteInner(this)
+            if (child.margins.isRelative) {
+                // Set dimensions based on margins
+                child.negotiateDimensions(internalWidth/(1.0+child.margins.width), internalHeight/(1.0+child.margins.height))
+            } else {
+                child.negotiateDimensions(internalWidth-child.margins.width, internalHeight-child.margins.height)
+            }
+            val calcMargins = child.margins.getAbsoluteOuter(child)
             val marginWidth = calcMargins.width
             val marginHeight = calcMargins.height
             // Set dimensions
