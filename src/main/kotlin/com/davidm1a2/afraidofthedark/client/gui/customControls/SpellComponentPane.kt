@@ -14,6 +14,7 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentBase
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
+import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
 import com.mojang.blaze3d.matrix.MatrixStack
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
@@ -62,6 +63,10 @@ class SpellComponentPane(prefSize: Dimensions) : AOTDPane(prefSize = prefSize) {
         if (spellComponent != null) {
             componentSlot.updateImageTexture(spellComponent.icon)
             when (spellComponent) {
+                is SpellPowerSource<*> -> {
+                    componentSlot.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.power_source", spellComponent.getName()).string)
+                    componentSocket.updateImageTexture(POWER_SOURCE_SOCKET_TEXTURE)
+                }
                 is SpellDeliveryMethod -> {
                     componentSlot.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.delivery_method", spellComponent.getName()).string)
                     componentSocket.updateImageTexture(DELIVERY_METHOD_SOCKET_TEXTURE)
@@ -107,6 +112,7 @@ class SpellComponentPane(prefSize: Dimensions) : AOTDPane(prefSize = prefSize) {
     }
 
     companion object {
+        private val POWER_SOURCE_SOCKET_TEXTURE = ResourceLocation(Constants.MOD_ID, "textures/gui/arcane_journal_page/power_source_socket.png")
         private val EFFECT_SOCKET_TEXTURE = ResourceLocation(Constants.MOD_ID, "textures/gui/arcane_journal_page/effect_socket.png")
         private val DELIVERY_METHOD_SOCKET_TEXTURE = ResourceLocation(Constants.MOD_ID, "textures/gui/arcane_journal_page/delivery_method_socket.png")
     }
