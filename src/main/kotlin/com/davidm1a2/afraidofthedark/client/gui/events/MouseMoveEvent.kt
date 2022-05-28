@@ -7,8 +7,8 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiComponen
  */
 class MouseMoveEvent(
     source: AOTDGuiComponentWithEvents,
-    val mouseX: Int,
-    val mouseY: Int,
+    val mouseX: Double,
+    val mouseY: Double,
     val eventType: EventType
 ) : AOTDEvent(source) {
     /**

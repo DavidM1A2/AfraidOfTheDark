@@ -41,7 +41,7 @@ abstract class AOTDGuiComponentWithEvents(
                 // Store the flag telling us if the component was hovered
                 val wasHovered = component.isHovered
                 // Set the hovered flag based on if we intersect the component
-                component.isHovered = component.isVisible && component.inBounds && component.intersects(Point(it.mouseX, it.mouseY))
+                component.isHovered = component.isVisible && component.inBounds && component.intersects(Point(it.mouseX.toInt(), it.mouseY.toInt()))
                 // Fire mouse enter/exit events if our mouse entered or exited the control
                 if (component.isHovered && !wasHovered) {
                     component.processMouseMoveInput(

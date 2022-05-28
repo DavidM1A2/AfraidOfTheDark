@@ -36,8 +36,6 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
     private val dndPane = OverlayPane(null)
     private var dragAndDropIcon: ImagePane? = null
     private var dragAndDropData: Any? = null
-    private var prevMouseX = 0
-    private var prevMouseY = 0
     private var forceRedraw = false
 
     /**
@@ -61,16 +59,6 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
         this.contentPane.invalidate()
         // Check that the overlay pane is still attached
         if (contentPane.getChildren().contains(dndPane).not()) contentPane.add(dndPane)
-
-        // Send the mouse position to the updated pane
-        this.contentPane.processMouseMoveInput(
-            MouseMoveEvent(
-                contentPane,
-                AOTDGuiUtility.getMouseXInMCCoord(),
-                AOTDGuiUtility.getMouseYInMCCoord(),
-                MouseMoveEvent.EventType.Move
-            )
-        )
     }
 
     override fun render(matrixStack: MatrixStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
@@ -291,26 +279,16 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
         return ret
     }
 
-    override fun tick() {
-        // Check if we should fire a mouse move event
-        val mouseX = AOTDGuiUtility.getMouseXInMCCoord()
-        val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
-        if (mouseX != prevMouseX || mouseY != prevMouseY) {
-            prevMouseX = mouseX
-            prevMouseY = mouseY
-
-            // Fire the content pane's move listener
-            contentPane.processMouseMoveInput(
-                MouseMoveEvent(
-                    contentPane,
-                    prevMouseX,
-                    prevMouseY,
-                    MouseMoveEvent.EventType.Move
-                )
+    override fun mouseMoved(probablyX: Double, probablyY: Double) {
+        contentPane.processMouseMoveInput(
+            MouseMoveEvent(
+                contentPane,
+                probablyX,
+                probablyY,
+                MouseMoveEvent.EventType.Move
             )
-        }
-
-        super.tick()
+        )
+        super.mouseMoved(probablyX, probablyY)
     }
 
     fun scheduleFullRedraw() {
