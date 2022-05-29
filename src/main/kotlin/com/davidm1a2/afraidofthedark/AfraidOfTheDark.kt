@@ -15,6 +15,7 @@ import com.davidm1a2.afraidofthedark.common.event.NightmareHandler
 import com.davidm1a2.afraidofthedark.common.event.ResearchTriggerHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellCharmHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellFreezeHandler
+import com.davidm1a2.afraidofthedark.common.event.SpellInnateHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellLunarHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellSolarHandler
 import com.davidm1a2.afraidofthedark.common.event.SpellStateHandler
@@ -84,6 +85,7 @@ class AfraidOfTheDark {
         forgeBus.register(SpellLunarHandler())
         forgeBus.register(SpellSolarHandler())
         forgeBus.register(SpellThermalHandler())
+        forgeBus.register(SpellInnateHandler())
         forgeBus.register(ArmorHandler())
         forgeBus.register(FurnaceFuelRegister())
         forgeBus.register(teleportQueue)

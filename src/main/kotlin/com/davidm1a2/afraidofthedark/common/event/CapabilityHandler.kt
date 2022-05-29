@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.CapabilityProvider
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellInnateData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellLunarData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellSolarData
@@ -117,6 +118,10 @@ class CapabilityHandler {
                 ResourceLocation(Constants.MOD_ID, "player_spell_thermal_data"),
                 CapabilityProvider(ModCapabilities.PLAYER_SPELL_THERMAL_DATA)
             )
+            event.addCapability(
+                ResourceLocation(Constants.MOD_ID, "player_spell_innate_data"),
+                CapabilityProvider(ModCapabilities.PLAYER_SPELL_INNATE_DATA)
+            )
         }
     }
 
@@ -142,6 +147,7 @@ class CapabilityHandler {
                 entityPlayer.getSpellLunarData().sync(entityPlayer)
                 entityPlayer.getSpellSolarData().sync(entityPlayer)
                 entityPlayer.getSpellThermalData().sync(entityPlayer)
+                entityPlayer.getSpellInnateData().sync(entityPlayer)
             }
         }
     }
@@ -167,6 +173,7 @@ class CapabilityHandler {
             copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_LUNAR_DATA)
             copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_SOLAR_DATA)
             copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_THERMAL_DATA)
+            copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_INNATE_DATA)
         }
     }
 

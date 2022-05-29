@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.research.IPlayer
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IPlayerSpellManager
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellFreezeData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellInnateData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellLunarData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellSolarData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellThermalData
@@ -70,6 +71,11 @@ object ModCapabilities {
     @JvmStatic
     @CapabilityInject(IPlayerSpellThermalData::class)
     lateinit var PLAYER_SPELL_THERMAL_DATA: Capability<IPlayerSpellThermalData>
+
+    // Capability that all players get which allows them to have "innate" vitae
+    @JvmStatic
+    @CapabilityInject(IPlayerSpellInnateData::class)
+    lateinit var PLAYER_SPELL_INNATE_DATA: Capability<IPlayerSpellInnateData>
 
     // Capability that all worlds get which allows them to store spell state data
     @JvmStatic

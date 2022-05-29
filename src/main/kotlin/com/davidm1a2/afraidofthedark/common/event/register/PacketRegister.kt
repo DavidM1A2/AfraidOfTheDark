@@ -10,6 +10,8 @@ import com.davidm1a2.afraidofthedark.common.network.packets.capability.ClearSpel
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.ClearSpellsPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.FreezeDataPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.FreezeDataPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.InnateDataPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.InnateDataPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.LunarDataPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.LunarDataPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.ResearchPacket
@@ -79,6 +81,7 @@ class PacketRegister(private val researchOverlayHandler: ResearchOverlayHandler)
             packetHandler.registerPacket(LunarDataPacket::class.java, LunarDataPacketProcessor())
             packetHandler.registerPacket(SolarDataPacket::class.java, SolarDataPacketProcessor())
             packetHandler.registerPacket(ThermalDataPacket::class.java, ThermalDataPacketProcessor())
+            packetHandler.registerPacket(InnateDataPacket::class.java, InnateDataPacketProcessor())
         }
     }
 }

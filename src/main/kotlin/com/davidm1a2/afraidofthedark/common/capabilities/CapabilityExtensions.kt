@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.research.IPlayer
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IPlayerSpellManager
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellFreezeData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellInnateData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellLunarData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellSolarData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellThermalData
@@ -113,6 +114,15 @@ fun PlayerEntity.getSpellSolarData(): IPlayerSpellSolarData {
 fun PlayerEntity.getSpellThermalData(): IPlayerSpellThermalData {
     return this.getCapability(ModCapabilities.PLAYER_SPELL_THERMAL_DATA).orElseThrow {
         IllegalStateException("Could not get player's thermal data")
+    }
+}
+
+/**
+ * @return The player's 'PLAYER_SPELL_INNATE_DATA' capability
+ */
+fun PlayerEntity.getSpellInnateData(): IPlayerSpellInnateData {
+    return this.getCapability(ModCapabilities.PLAYER_SPELL_INNATE_DATA).orElseThrow {
+        IllegalStateException("Could not get the player's innate data")
     }
 }
 
