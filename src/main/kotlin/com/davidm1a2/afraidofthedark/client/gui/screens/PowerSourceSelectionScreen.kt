@@ -18,7 +18,6 @@ import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
-import net.minecraft.client.entity.player.ClientPlayerEntity
 import net.minecraft.client.util.InputMappings
 import net.minecraft.util.text.TranslationTextComponent
 import org.lwjgl.glfw.GLFW
@@ -28,12 +27,15 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.power_source_selection")) {
-    private var pageCount = getPageCountForPlayer(entityPlayer)
     private val powerSourcePanes = mutableListOf<StackPane>()
     private val selectionIcons = mutableListOf<ImagePane>()
     private var radialMenuPane: RadialPane? = null
     private val lastSelection = entityPlayer.getBasics().selectedPowerSource
     private var selectedPowerSource: SpellPowerSource<*>? = null
+    private val availablePowerSources = ModRegistries.SPELL_POWER_SOURCES
+        .filter { it.shouldShowInSpellEditor(entityPlayer) }
+        .sortedBy { it.prerequisiteResearch?.getName()?.string }
+    private val pageCount = getPageCountForPlayer()
 
     init {
         // Close the screen when TOGGLE_POWER_SOURCE_SELECTOR is released. It must be pressed to open this screen
@@ -57,27 +59,26 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
                 val y = mouseEvent.mouseY
                 val offset = curPage * RADIAL_SIZE
                 // Math stuff
-                val radiusSquared = x*x + y*y
-                val radiusAbsoluteMin = MOUSE_DEADZONE_SIZE*radialMenuPane!!.width/2
-                val radiusMinSquared = radiusAbsoluteMin*radiusAbsoluteMin
+                val radiusSquared = x * x + y * y
+                val radiusAbsoluteMin = MOUSE_DEADZONE_SIZE * radialMenuPane!!.width / 2
+                val radiusMinSquared = radiusAbsoluteMin * radiusAbsoluteMin
                 if (radiusSquared > radiusMinSquared) {
-                    val radiusAbsoluteMax = MOUSE_BOUNDS_SIZE*radialMenuPane!!.width/2
-                    val radiusMaxSquared = radiusAbsoluteMax*radiusAbsoluteMax
-                    val theta = atan2(y, x).mod(2*PI)  // From -PI to PI
-                    val sectionIndex = ((theta + (PI/RADIAL_SIZE)) / (2*PI) * RADIAL_SIZE).mod(RADIAL_SIZE.toDouble()).toInt()
+                    val radiusAbsoluteMax = MOUSE_BOUNDS_SIZE * radialMenuPane!!.width / 2
+                    val radiusMaxSquared = radiusAbsoluteMax * radiusAbsoluteMax
+                    val theta = atan2(y, x).mod(2 * PI)  // From -PI to PI
+                    val sectionIndex = ((theta + (PI / RADIAL_SIZE)) / (2 * PI) * RADIAL_SIZE).mod(RADIAL_SIZE.toDouble()).toInt()
                     // Make the hovered option larger
                     powerSourcePanes.forEach { it.prefSize = Dimensions(0.13, 0.13) }
                     powerSourcePanes[sectionIndex].prefSize = Dimensions(0.15, 0.15)
                     // Set the selected power source client-side
                     if (sectionIndex in 0 until RADIAL_SIZE) {
-                        val availablePowerSources = ModRegistries.SPELL_POWER_SOURCES.filter { it.shouldShowInSpellEditor(entityPlayer) }
-                        selectedPowerSource = if (sectionIndex+offset in availablePowerSources.indices) availablePowerSources[sectionIndex+offset] else null
+                        selectedPowerSource = if (sectionIndex + offset in availablePowerSources.indices) availablePowerSources[sectionIndex + offset] else null
                     }
                     // Redraw the pane, since elements have changed
                     this.contentPane.invalidate()
                     // Bound Cursor
                     if (radiusSquared > radiusMaxSquared) {
-                        GLFW.glfwSetCursorPos(minecraft!!.window.window, cos(theta)*radiusAbsoluteMax, sin(theta)*radiusAbsoluteMax)
+                        GLFW.glfwSetCursorPos(minecraft!!.window.window, cos(theta) * radiusAbsoluteMax, sin(theta) * radiusAbsoluteMax)
                     }
                 }
             }
@@ -86,18 +87,17 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
         // Right click changes page
         this.contentPane.addMouseListener {
             if (it.clickedButton == MouseEvent.RIGHT_MOUSE_BUTTON && it.eventType == MouseEvent.EventType.Click) {
-                curPage = (curPage+1).mod(pageCount)
-                populateMenuWithOffset(RADIAL_SIZE*curPage)
+                curPage = (curPage + 1).mod(pageCount)
+                populateMenuWithOffset(RADIAL_SIZE * curPage)
             }
         }
 
-        curPage = curPage.coerceIn(0, pageCount-1)
-        populateMenuWithOffset(RADIAL_SIZE*curPage)
+        curPage = curPage.coerceIn(0, pageCount - 1)
+        populateMenuWithOffset(RADIAL_SIZE * curPage)
     }
 
-    private fun getPageCountForPlayer(entityPlayer: ClientPlayerEntity): Int {
-        val availablePowerSources = ModRegistries.SPELL_POWER_SOURCES.filter { it.shouldShowInSpellEditor(entityPlayer) }
-        return (availablePowerSources.size-1)/RADIAL_SIZE+1
+    private fun getPageCountForPlayer(): Int {
+        return (availablePowerSources.size - 1) / RADIAL_SIZE + 1
     }
 
     private fun populateMenuWithOffset(offset: Int) {
@@ -112,11 +112,10 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
         // Add the page count
         val pageLabel = LabelComponent(FontCache.getOrCreate(36f), Dimensions(0.5, 0.5), Gravity.CENTER)
         pageLabel.textAlignment = TextAlignment.ALIGN_CENTER
-        pageLabel.text = "Page ${curPage+1}/$pageCount (RMB)"
+        pageLabel.text = "Page ${curPage + 1}/$pageCount (RMB)"
         this.contentPane.add(pageLabel)
 
         // Fill the radial menu with power sources
-        val availablePowerSources = ModRegistries.SPELL_POWER_SOURCES.filter { it.shouldShowInSpellEditor(entityPlayer) }
         powerSourcePanes.clear()
         selectionIcons.clear()
         for (i in 0 until RADIAL_SIZE) {
@@ -137,11 +136,11 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
             numberPane.text = "N/A"
             numberPane.textAlignment = TextAlignment.ALIGN_CENTER
             // Only fill out the gui while there are still available power sources
-            if (i+offset < availablePowerSources.size) {
-                val ssIcon = ImagePane(availablePowerSources[i+offset].icon)
+            if (i + offset < availablePowerSources.size) {
+                val ssIcon = ImagePane(availablePowerSources[i + offset].icon)
                 ssIcon.margins = Spacing(0.4)
                 buttonPane.add(ssIcon)
-                val castEnvironment = availablePowerSources[i+offset].computeCastEnvironment(entityPlayer)
+                val castEnvironment = availablePowerSources[i + offset].computeCastEnvironment(entityPlayer)
                 numberPane.text = if (castEnvironment.vitaeMaximum == Double.POSITIVE_INFINITY) {
                     "%.1f".format(castEnvironment.vitaeAvailable)
                 } else {
@@ -164,8 +163,8 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
 
         // Start with the current power source selected
         val selectedIndex = availablePowerSources.indexOf(lastSelection)
-        if (selectedIndex in offset until RADIAL_SIZE+offset) {
-            selectionIcons[selectedIndex-offset].isVisible = true
+        if (selectedIndex in offset until RADIAL_SIZE + offset) {
+            selectionIcons[selectedIndex - offset].isVisible = true
         }
 
         // Draw new menu
