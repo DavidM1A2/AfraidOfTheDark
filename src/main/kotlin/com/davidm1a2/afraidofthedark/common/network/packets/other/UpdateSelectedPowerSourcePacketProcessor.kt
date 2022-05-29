@@ -4,10 +4,12 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
+import com.davidm1a2.afraidofthedark.common.event.custom.PlayerChangePowerSourceEvent
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
 import net.minecraft.client.Minecraft
 import net.minecraft.network.PacketBuffer
 import net.minecraft.util.ResourceLocation
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.network.NetworkDirection
 import net.minecraftforge.fml.network.NetworkEvent
 
@@ -37,8 +39,12 @@ class UpdateSelectedPowerSourcePacketProcessor : PacketProcessor<UpdateSelectedP
             val selectedPowerSource = msg.selectedPowerSource
             val prerequisiteResearch = selectedPowerSource.prerequisiteResearch
 
+            val basics = player.getBasics()
             if (prerequisiteResearch == null || player.getResearch().isResearched(prerequisiteResearch)) {
-                player.getBasics().selectedPowerSource = msg.selectedPowerSource
+                val oldPowerSource = basics.selectedPowerSource
+                val newPowerSource = msg.selectedPowerSource
+                basics.selectedPowerSource = newPowerSource
+                MinecraftForge.EVENT_BUS.post(PlayerChangePowerSourceEvent(player, oldPowerSource, newPowerSource))
             }
         }
     }

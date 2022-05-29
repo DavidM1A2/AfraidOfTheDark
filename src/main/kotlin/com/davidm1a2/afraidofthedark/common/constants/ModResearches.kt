@@ -46,6 +46,7 @@ object ModResearches {
     val SPELLMASON = load("spellmason")
     val STAR_METAL = load("star_metal")
     val THRONE_ROOM = load("throne_room")
+    val VITAE = load("vitae")
     val VITAE_EXTRACTION = load("vitae_extraction")
     val VITAE_LANTERN = load("vitae_lantern")
     val VOID_CHEST = load("void_chest")
@@ -97,6 +98,7 @@ object ModResearches {
         SPELLMASON,
         STAR_METAL,
         THRONE_ROOM,
+        VITAE,
         VITAE_EXTRACTION,
         VITAE_LANTERN,
         VOID_CHEST,

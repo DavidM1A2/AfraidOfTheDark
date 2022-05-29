@@ -1,0 +1,14 @@
+{
+  "forge:registry_name": "afraidofthedark:vitae",
+  "recipes": [],
+  "pre_recipes": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/vitae.png",
+  "prerequisite": "afraidofthedark:the_journey_begins",
+  "triggers": [
+    {
+      "type": "afraidofthedark:player_change_power_source",
+      "config": {}
+    }
+  ],
+  "spell_components": {}
+}

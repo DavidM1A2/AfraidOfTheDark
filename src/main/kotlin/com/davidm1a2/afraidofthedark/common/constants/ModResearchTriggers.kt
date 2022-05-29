@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.common.research.trigger.KillEntityResearchT
 import com.davidm1a2.afraidofthedark.common.research.trigger.ManualResearchTrigger
 import com.davidm1a2.afraidofthedark.common.research.trigger.MultiplicityResearchTrigger
 import com.davidm1a2.afraidofthedark.common.research.trigger.PlayerCastResearchTrigger
+import com.davidm1a2.afraidofthedark.common.research.trigger.PlayerChangePowerSourceResearchTrigger
 import com.davidm1a2.afraidofthedark.common.research.trigger.PlayerHurtResearchTrigger
 import com.davidm1a2.afraidofthedark.common.research.trigger.StartedAOTDResearchTrigger
 import com.davidm1a2.afraidofthedark.common.research.trigger.UseBlockResearchTrigger
@@ -30,6 +31,7 @@ object ModResearchTriggers {
     val EXIT_ZONE = ZoneExitedResearchTrigger()
     val IN_BIOME = InBiomeResearchTrigger()
     val MULTIPLICITY = MultiplicityResearchTrigger()
+    val PLAYER_CHANGE_POWER_SOURCE = PlayerChangePowerSourceResearchTrigger()
 
     val LIST = arrayOf(
         PLAYER_HURT,
@@ -45,6 +47,7 @@ object ModResearchTriggers {
         ENTER_ZONE,
         EXIT_ZONE,
         IN_BIOME,
-        MULTIPLICITY
+        MULTIPLICITY,
+        PLAYER_CHANGE_POWER_SOURCE
     )
 }
