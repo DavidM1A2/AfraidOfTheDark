@@ -102,7 +102,7 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod("laser", ModResearches.
                 world = state.world,
                 position = hitPos,
                 blockPosition = hitBlockPos,
-                direction = endPos.subtract(startPos).normalize(),
+                direction = direction,
                 normal = state.normal,
                 casterEntity = state.casterEntity,
                 entity = hitEntity
@@ -114,7 +114,7 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod("laser", ModResearches.
                 world = state.world,
                 position = hitPos,
                 blockPosition = hitBlockPos,
-                direction = hitPos.subtract(startPos).normalize(),
+                direction = direction,
                 normal = state.normal,
                 casterEntity = state.casterEntity
             )
@@ -131,7 +131,7 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod("laser", ModResearches.
                 normal = hitEntity.getLookNormal()
             )
         } else {
-            currentState
+            currentState.copy(position = hitPos.subtract(direction.scale(HIT_DELIVERY_TRANSITION_OFFSET)))
         }
         transitionFrom(nextState)
     }
@@ -183,6 +183,8 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod("laser", ModResearches.
     }
 
     companion object {
+        private const val HIT_DELIVERY_TRANSITION_OFFSET = 0.01
+
         // The NBT keys
         private const val NBT_RANGE = "range"
         private const val NBT_HIT_LIQUIDS = "hit_liquids"

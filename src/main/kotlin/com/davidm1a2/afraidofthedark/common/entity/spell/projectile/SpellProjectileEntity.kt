@@ -211,6 +211,7 @@ class SpellProjectileEntity(
             // If we hit something process the hit
             if (result.type != RayTraceResult.Type.MISS) {
                 val currentDeliveryMethod = currentStage!!.deliveryInstance!!.component
+                val direction = deltaMovement.normalize()
                 if (result.type == RayTraceResult.Type.BLOCK && result is BlockRayTraceResult) {
                     // Grab the hit position
                     var hitPos = BlockPos(result.location)
@@ -225,7 +226,7 @@ class SpellProjectileEntity(
                         world = level,
                         position = result.location,
                         blockPosition = hitPos,
-                        direction = deltaMovement.normalize(),
+                        direction = direction,
                         normal = deltaMovement.getNormal(),
                         casterEntity = this.casterEntityId?.let { (level as? ServerWorld)?.getEntity(it) },
                         deliveryEntity = this
@@ -233,7 +234,7 @@ class SpellProjectileEntity(
 
                     // Proc the effects and transition
                     currentDeliveryMethod.procEffects(state)
-                    currentDeliveryMethod.transitionFrom(state)
+                    currentDeliveryMethod.transitionFrom(state.copy(position = result.location.subtract(direction.scale(HIT_DELIVERY_TRANSITION_OFFSET))))
                 } else if (result.type == RayTraceResult.Type.ENTITY && result is EntityRayTraceResult) {
                     val entityHit = result.entity
                     val state = DeliveryTransitionState(
@@ -242,7 +243,7 @@ class SpellProjectileEntity(
                         world = level,
                         position = result.location,
                         blockPosition = BlockPos(result.location),
-                        direction = deltaMovement.normalize(),
+                        direction = direction,
                         normal = deltaMovement.getNormal(),
                         casterEntity = this.casterEntityId?.let { (level as? ServerWorld)?.getEntity(it) },
                         entity = entityHit,
@@ -363,6 +364,8 @@ class SpellProjectileEntity(
     }
 
     companion object {
+        private const val HIT_DELIVERY_TRANSITION_OFFSET = 0.01
+
         private val SPELL = EntityDataManager.defineId(SpellProjectileEntity::class.java, ModDataSerializers.SPELL)
         private val SPELL_INDEX = EntityDataManager.defineId(SpellProjectileEntity::class.java, DataSerializers.INT)
     }
