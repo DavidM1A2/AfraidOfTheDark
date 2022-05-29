@@ -715,6 +715,7 @@
   "message.afraidofthedark.enaria.dont_understand": "I can't understand who I'm fighting...",
   "message.afraidofthedark.spell.wrong_dimension": "My mind is too clouded to cast spells here.",
   "message.afraidofthedark.spell.invalid": "Invalid spell. Make sure to have delivery methods on each spell stage!",
+  "message.afraidofthedark.spell.power_source_changed": "§oSpells will be cast with %1$s",
   "message.afraidofthedark.insanitys_heights.dont_understand": "§oThe book appears to be empty.",
   "message.afraidofthedark.lens_cutter.wrong_item": "The lens cutter can only make lenses out of glass, mystic topaz, or diamonds.",
   "message.afraidofthedark.bolt.dont_understand": "§oI don't understand how to use a %1$s.",
