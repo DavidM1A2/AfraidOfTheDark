@@ -17,6 +17,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
+import net.minecraft.client.entity.player.ClientPlayerEntity
 import net.minecraft.client.util.InputMappings
 import net.minecraft.util.text.TranslationTextComponent
 import org.lwjgl.glfw.GLFW
@@ -26,6 +27,11 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.power_source_selection")) {
+    private var pageCount = getPageCountForPlayer(entityPlayer)
+    private val powerSourcePanes = mutableListOf<StackPane>()
+    private val selectionIcons = mutableListOf<ImagePane>()
+    private var radialMenuPane: RadialPane? = null
+
     init {
         // Close the screen when TOGGLE_POWER_SOURCE_SELECTOR is released. It must be pressed to open this screen
         this.contentPane.addKeyListener {
@@ -41,15 +47,77 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
             }
         }
 
+        // Highlight selection based on mouse movement
+        this.contentPane.addMouseMoveListener { mouseEvent ->
+            if (radialMenuPane != null) {
+                val x = mouseEvent.mouseX
+                val y = mouseEvent.mouseY
+                val offset = curPage * RADIAL_SIZE
+                // Math stuff
+                val radiusSquared = x*x + y*y
+                val radiusAbsoluteMin = MOUSE_DEADZONE_SIZE*radialMenuPane!!.width/2
+                val radiusMinSquared = radiusAbsoluteMin*radiusAbsoluteMin
+                if (radiusSquared > radiusMinSquared) {
+                    val radiusAbsoluteMax = MOUSE_BOUNDS_SIZE*radialMenuPane!!.width/2
+                    val radiusMaxSquared = radiusAbsoluteMax*radiusAbsoluteMax
+                    val theta = atan2(y, x).mod(2*PI)  // From -PI to PI
+                    val sectionIndex = ((theta + (PI/RADIAL_SIZE)) / (2*PI) * RADIAL_SIZE).mod(RADIAL_SIZE.toDouble()).toInt()
+                    // Make the hovered option larger
+                    powerSourcePanes.forEach { it.prefSize = Dimensions(0.13, 0.13) }
+                    powerSourcePanes[sectionIndex].prefSize = Dimensions(0.15, 0.15)
+                    // Set the selected power source client-side
+                    if (sectionIndex in 0 until RADIAL_SIZE) {
+                        val availablePowerSources = ModRegistries.SPELL_POWER_SOURCES.filter { it.shouldShowInSpellEditor(entityPlayer) }
+                        if (sectionIndex+offset in availablePowerSources.indices) {
+                            entityPlayer.getBasics().selectedPowerSource = availablePowerSources[sectionIndex+offset]
+                        }
+                    }
+                    // Redraw the pane, since elements have changed
+                    this.contentPane.invalidate()
+                    // Bound Cursor
+                    if (radiusSquared > radiusMaxSquared) {
+                        GLFW.glfwSetCursorPos(minecraft!!.window.window, cos(theta)*radiusAbsoluteMax, sin(theta)*radiusAbsoluteMax)
+                    }
+                }
+            }
+        }
+
+        // Right click changes page
+        this.contentPane.addMouseListener {
+            if (it.clickedButton == MouseEvent.RIGHT_MOUSE_BUTTON && it.eventType == MouseEvent.EventType.Click) {
+                curPage = (curPage+1).mod(pageCount)
+                populateMenuWithOffset(RADIAL_SIZE*curPage)
+            }
+        }
+
+        curPage = curPage.coerceIn(0, pageCount-1)
+        populateMenuWithOffset(RADIAL_SIZE*curPage)
+    }
+
+    private fun getPageCountForPlayer(entityPlayer: ClientPlayerEntity): Int {
+        val availablePowerSources = ModRegistries.SPELL_POWER_SOURCES.filter { it.shouldShowInSpellEditor(entityPlayer) }
+        return (availablePowerSources.size-1)/RADIAL_SIZE+1
+    }
+
+    private fun populateMenuWithOffset(offset: Int) {
+        // Clear the pane
+        this.contentPane.getChildren().forEach { contentPane.remove(it) }
+
         // Set up the main GUI elements
-        val radialMenuPane = RadialPane()
-        radialMenuPane.gravity = Gravity.CENTER
-        this.contentPane.add(radialMenuPane)
+        this.radialMenuPane = RadialPane()
+        radialMenuPane!!.gravity = Gravity.CENTER
+        this.contentPane.add(radialMenuPane!!)
+
+        // Add the page count
+        val pageLabel = LabelComponent(FontCache.getOrCreate(36f), Dimensions(0.5, 0.5), Gravity.CENTER)
+        pageLabel.textAlignment = TextAlignment.ALIGN_CENTER
+        pageLabel.text = "Page ${curPage+1}/$pageCount (RMB)"
+        this.contentPane.add(pageLabel)
 
         // Fill the radial menu with power sources
         val availablePowerSources = ModRegistries.SPELL_POWER_SOURCES.filter { it.shouldShowInSpellEditor(entityPlayer) }
-        val powerSourcePanes = mutableListOf<StackPane>()
-        val selectionIcons = mutableListOf<ImagePane>()
+        powerSourcePanes.clear()
+        selectionIcons.clear()
         for (i in 0 until RADIAL_SIZE) {
             val liquidSprite = SpritePane("afraidofthedark:textures/gui/power_source_selector/liquid_spritesheet.png", 4, 4, displayMode = ImagePane.DispMode.STRETCH)
             liquidSprite.setFrame(12)
@@ -59,7 +127,7 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
             selectorImage.isVisible = false
             buttonPane.add(liquidSprite)
             selectionIcons.add(selectorImage)
-            radialMenuPane.add(buttonPane)
+            radialMenuPane!!.add(buttonPane)
             powerSourcePanes.add(buttonPane)
             // Add number descriptor
             val numberPane = LabelComponent(FontCache.getOrCreate(28f), Dimensions(1.0, 0.3))
@@ -68,11 +136,11 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
             numberPane.text = "N/A"
             numberPane.textAlignment = TextAlignment.ALIGN_CENTER
             // Only fill out the gui while there are still available power sources
-            if (i < availablePowerSources.size) {
-                val ssIcon = ImagePane(availablePowerSources[i].icon)
+            if (i+offset < availablePowerSources.size) {
+                val ssIcon = ImagePane(availablePowerSources[i+offset].icon)
                 ssIcon.margins = Spacing(0.4)
                 buttonPane.add(ssIcon)
-                val castEnvironment = availablePowerSources[i].computeCastEnvironment(entityPlayer)
+                val castEnvironment = availablePowerSources[i+offset].computeCastEnvironment(entityPlayer)
                 numberPane.text = if (castEnvironment.vitaeMaximum == Double.POSITIVE_INFINITY) {
                     "%.1f".format(castEnvironment.vitaeAvailable)
                 } else {
@@ -95,41 +163,12 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
 
         // Start with the current power source selected
         val selectedIndex = availablePowerSources.indexOf(entityPlayer.getBasics().selectedPowerSource)
-        if (selectedIndex in 0 until RADIAL_SIZE) {
-            selectionIcons[selectedIndex].isVisible = true
+        if (selectedIndex in offset until RADIAL_SIZE+offset) {
+            selectionIcons[selectedIndex-offset].isVisible = true
         }
 
-        // Highlight selection based on mouse movement
-        this.contentPane.addMouseMoveListener { mouseEvent ->
-            val x = mouseEvent.mouseX
-            val y = mouseEvent.mouseY
-            // Math stuff
-            val radiusSquared = x * x + y * y
-            val radiusAbsoluteMin = MOUSE_DEADZONE_SIZE * radialMenuPane.width / 2
-            val radiusMinSquared = radiusAbsoluteMin * radiusAbsoluteMin
-            if (radiusSquared > radiusMinSquared) {
-                val radiusAbsoluteMax = MOUSE_BOUNDS_SIZE * radialMenuPane.width / 2
-                val radiusMaxSquared = radiusAbsoluteMax * radiusAbsoluteMax
-                val theta = atan2(y, x).mod(2 * PI)  // From -PI to PI
-                val sectionIndex = ((theta + (PI / RADIAL_SIZE)) / (2 * PI) * RADIAL_SIZE).mod(RADIAL_SIZE.toDouble()).toInt()
-                // Make the hovered option larger
-                powerSourcePanes.forEach { it.prefSize = Dimensions(0.13, 0.13) }
-                powerSourcePanes[sectionIndex].prefSize = Dimensions(0.15, 0.15)
-                // Set the selected power source client-side
-                if (sectionIndex in 0 until RADIAL_SIZE) {
-                    if (sectionIndex in availablePowerSources.indices) {
-                        entityPlayer.getBasics().selectedPowerSource = availablePowerSources[sectionIndex]
-                    }
-                }
-                // Redraw the pane, since elements have changed
-                this.contentPane.invalidate()
-                // Bound Cursor
-                if (radiusSquared > radiusMaxSquared) {
-                    GLFW.glfwSetCursorPos(minecraft!!.window.window, cos(theta) * radiusAbsoluteMax, sin(theta) * radiusAbsoluteMax)
-                }
-            }
-        }
-
+        // Draw new menu
+        this.contentPane.invalidate()
     }
 
     override fun init() {
@@ -155,5 +194,7 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
         const val RADIAL_SIZE = 8
         const val MOUSE_BOUNDS_SIZE = 0.5
         const val MOUSE_DEADZONE_SIZE = 0.1
+
+        var curPage = 0
     }
 }
