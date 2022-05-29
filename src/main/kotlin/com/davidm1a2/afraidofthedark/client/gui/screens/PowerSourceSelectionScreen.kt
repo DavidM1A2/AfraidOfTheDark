@@ -17,6 +17,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
+import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
 import net.minecraft.client.entity.player.ClientPlayerEntity
 import net.minecraft.client.util.InputMappings
 import net.minecraft.util.text.TranslationTextComponent
@@ -32,6 +33,7 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
     private val selectionIcons = mutableListOf<ImagePane>()
     private var radialMenuPane: RadialPane? = null
     private val lastSelection = entityPlayer.getBasics().selectedPowerSource
+    private var selectedPowerSource: SpellPowerSource<*>? = null
 
     init {
         // Close the screen when TOGGLE_POWER_SOURCE_SELECTOR is released. It must be pressed to open this screen
@@ -69,9 +71,7 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
                     // Set the selected power source client-side
                     if (sectionIndex in 0 until RADIAL_SIZE) {
                         val availablePowerSources = ModRegistries.SPELL_POWER_SOURCES.filter { it.shouldShowInSpellEditor(entityPlayer) }
-                        if (sectionIndex+offset in availablePowerSources.indices) {
-                            entityPlayer.getBasics().selectedPowerSource = availablePowerSources[sectionIndex+offset]
-                        }
+                        selectedPowerSource = if (sectionIndex+offset in availablePowerSources.indices) availablePowerSources[sectionIndex+offset] else null
                     }
                     // Redraw the pane, since elements have changed
                     this.contentPane.invalidate()
@@ -186,6 +186,7 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
     }
 
     override fun onClose() {
+        entityPlayer.getBasics().selectedPowerSource = selectedPowerSource ?: lastSelection
         entityPlayer.getBasics().syncSelectedPowerSource(entityPlayer)
         InputMappings.grabOrReleaseMouse(minecraft!!.window.window, GLFW.GLFW_CURSOR_NORMAL, AOTDGuiUtility.getWindowWidthInMCCoords() / 2.0, AOTDGuiUtility.getWindowHeightInMCCoords() / 2.0)
         super.onClose()
