@@ -31,6 +31,7 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
     private val powerSourcePanes = mutableListOf<StackPane>()
     private val selectionIcons = mutableListOf<ImagePane>()
     private var radialMenuPane: RadialPane? = null
+    private val lastSelection = entityPlayer.getBasics().selectedPowerSource
 
     init {
         // Close the screen when TOGGLE_POWER_SOURCE_SELECTOR is released. It must be pressed to open this screen
@@ -162,7 +163,7 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
         }
 
         // Start with the current power source selected
-        val selectedIndex = availablePowerSources.indexOf(entityPlayer.getBasics().selectedPowerSource)
+        val selectedIndex = availablePowerSources.indexOf(lastSelection)
         if (selectedIndex in offset until RADIAL_SIZE+offset) {
             selectionIcons[selectedIndex-offset].isVisible = true
         }
