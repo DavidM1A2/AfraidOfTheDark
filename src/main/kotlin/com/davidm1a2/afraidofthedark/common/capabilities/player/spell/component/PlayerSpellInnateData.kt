@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.network.packets.capability.InnateDataPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellInnateDataPacket
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 
@@ -19,7 +19,7 @@ class PlayerSpellInnateData : IPlayerSpellInnateData {
     override fun sync(entityPlayer: PlayerEntity) {
         if (isServerSide(entityPlayer)) {
             AfraidOfTheDark.packetHandler.sendTo(
-                InnateDataPacket(vitae),
+                SpellInnateDataPacket(vitae),
                 entityPlayer as ServerPlayerEntity
             )
         }

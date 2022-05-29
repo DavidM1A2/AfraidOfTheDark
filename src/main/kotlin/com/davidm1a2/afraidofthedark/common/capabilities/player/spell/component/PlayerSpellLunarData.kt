@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.network.packets.capability.LunarDataPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellLunarDataPacket
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.world.World
@@ -21,7 +21,7 @@ class PlayerSpellLunarData : IPlayerSpellLunarData {
     override fun sync(entityPlayer: PlayerEntity) {
         if (isServerSide(entityPlayer)) {
             AfraidOfTheDark.packetHandler.sendTo(
-                LunarDataPacket(vitae),
+                SpellLunarDataPacket(vitae),
                 entityPlayer as ServerPlayerEntity
             )
         }

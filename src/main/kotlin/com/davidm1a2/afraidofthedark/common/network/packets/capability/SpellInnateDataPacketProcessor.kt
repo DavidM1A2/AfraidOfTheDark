@@ -7,16 +7,16 @@ import net.minecraft.network.PacketBuffer
 import net.minecraftforge.fml.network.NetworkDirection
 import net.minecraftforge.fml.network.NetworkEvent
 
-class InnateDataPacketProcessor : PacketProcessor<InnateDataPacket> {
-    override fun encode(msg: InnateDataPacket, buf: PacketBuffer) {
+class SpellInnateDataPacketProcessor : PacketProcessor<SpellInnateDataPacket> {
+    override fun encode(msg: SpellInnateDataPacket, buf: PacketBuffer) {
         buf.writeDouble(msg.vitae)
     }
 
-    override fun decode(buf: PacketBuffer): InnateDataPacket {
-        return InnateDataPacket(buf.readDouble())
+    override fun decode(buf: PacketBuffer): SpellInnateDataPacket {
+        return SpellInnateDataPacket(buf.readDouble())
     }
 
-    override fun process(msg: InnateDataPacket, ctx: NetworkEvent.Context) {
+    override fun process(msg: SpellInnateDataPacket, ctx: NetworkEvent.Context) {
         if (ctx.direction == NetworkDirection.PLAY_TO_CLIENT) {
             val player = Minecraft.getInstance().player!!
             player.getSpellInnateData().vitae = msg.vitae

@@ -7,16 +7,16 @@ import net.minecraft.network.PacketBuffer
 import net.minecraftforge.fml.network.NetworkDirection
 import net.minecraftforge.fml.network.NetworkEvent
 
-class ThermalDataPacketProcessor : PacketProcessor<ThermalDataPacket> {
-    override fun encode(msg: ThermalDataPacket, buf: PacketBuffer) {
+class SpellThermalDataPacketProcessor : PacketProcessor<SpellThermalDataPacket> {
+    override fun encode(msg: SpellThermalDataPacket, buf: PacketBuffer) {
         buf.writeDouble(msg.vitae)
     }
 
-    override fun decode(buf: PacketBuffer): ThermalDataPacket {
-        return ThermalDataPacket(buf.readDouble())
+    override fun decode(buf: PacketBuffer): SpellThermalDataPacket {
+        return SpellThermalDataPacket(buf.readDouble())
     }
 
-    override fun process(msg: ThermalDataPacket, ctx: NetworkEvent.Context) {
+    override fun process(msg: SpellThermalDataPacket, ctx: NetworkEvent.Context) {
         if (ctx.direction == NetworkDirection.PLAY_TO_CLIENT) {
             val player = Minecraft.getInstance().player!!
             player.getSpellThermalData().vitae = msg.vitae

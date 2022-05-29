@@ -8,22 +8,22 @@ import com.davidm1a2.afraidofthedark.common.network.packets.capability.AOTDPlaye
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.AOTDPlayerBasicsPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.ClearSpellsPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.ClearSpellsPacketProcessor
-import com.davidm1a2.afraidofthedark.common.network.packets.capability.FreezeDataPacket
-import com.davidm1a2.afraidofthedark.common.network.packets.capability.FreezeDataPacketProcessor
-import com.davidm1a2.afraidofthedark.common.network.packets.capability.InnateDataPacket
-import com.davidm1a2.afraidofthedark.common.network.packets.capability.InnateDataPacketProcessor
-import com.davidm1a2.afraidofthedark.common.network.packets.capability.LunarDataPacket
-import com.davidm1a2.afraidofthedark.common.network.packets.capability.LunarDataPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.ResearchPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.ResearchPacketProcessor
-import com.davidm1a2.afraidofthedark.common.network.packets.capability.SolarDataPacket
-import com.davidm1a2.afraidofthedark.common.network.packets.capability.SolarDataPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellFreezeDataPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellFreezeDataPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellInnateDataPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellInnateDataPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellLunarDataPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellLunarDataPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellSolarDataPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellSolarDataPacketProcessor
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellThermalDataPacket
+import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellThermalDataPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.StartAOTDPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.StartAOTDPacketProcessor
-import com.davidm1a2.afraidofthedark.common.network.packets.capability.ThermalDataPacket
-import com.davidm1a2.afraidofthedark.common.network.packets.capability.ThermalDataPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.WardBlocksPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.WardBlocksPacketProcessor
 import com.davidm1a2.afraidofthedark.common.network.packets.other.CheatSheetUnlockPacket
@@ -71,17 +71,17 @@ class PacketRegister(private val researchOverlayHandler: ResearchOverlayHandler)
             packetHandler.registerPacket(CooldownSyncPacket::class.java, CooldownSyncPacketProcessor())
             packetHandler.registerPacket(VoidChestPacket::class.java, VoidChestPacketProcessor())
             packetHandler.registerPacket(ParticlePacket::class.java, ParticlePacketProcessor())
-            packetHandler.registerPacket(FreezeDataPacket::class.java, FreezeDataPacketProcessor())
+            packetHandler.registerPacket(SpellFreezeDataPacket::class.java, SpellFreezeDataPacketProcessor())
             packetHandler.registerPacket(PlayEnariasFightMusicPacket::class.java, PlayEnariasFightMusicPacketProcessor())
             packetHandler.registerPacket(FireWristCrossbowPacket::class.java, FireWristCrossbowPacketProcessor())
             packetHandler.registerPacket(ProcessSextantInputPacket::class.java, ProcessSextantInputPacketProcessor())
             packetHandler.registerPacket(SpellKeyPressPacket::class.java, SpellKeyPressPacketProcessor())
             packetHandler.registerPacket(CheatSheetUnlockPacket::class.java, CheatSheetUnlockPacketProcessor())
             packetHandler.registerPacket(WardBlocksPacket::class.java, WardBlocksPacketProcessor())
-            packetHandler.registerPacket(LunarDataPacket::class.java, LunarDataPacketProcessor())
-            packetHandler.registerPacket(SolarDataPacket::class.java, SolarDataPacketProcessor())
-            packetHandler.registerPacket(ThermalDataPacket::class.java, ThermalDataPacketProcessor())
-            packetHandler.registerPacket(InnateDataPacket::class.java, InnateDataPacketProcessor())
+            packetHandler.registerPacket(SpellLunarDataPacket::class.java, SpellLunarDataPacketProcessor())
+            packetHandler.registerPacket(SpellSolarDataPacket::class.java, SpellSolarDataPacketProcessor())
+            packetHandler.registerPacket(SpellThermalDataPacket::class.java, SpellThermalDataPacketProcessor())
+            packetHandler.registerPacket(SpellInnateDataPacket::class.java, SpellInnateDataPacketProcessor())
         }
     }
 }

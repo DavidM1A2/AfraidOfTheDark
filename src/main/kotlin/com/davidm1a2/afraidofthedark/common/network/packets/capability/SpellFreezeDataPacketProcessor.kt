@@ -11,8 +11,8 @@ import net.minecraftforge.fml.network.NetworkEvent
 /**
  * This is a packet that is sent from a client to the server that updates the number of ticks the player will be frozen for
  */
-class FreezeDataPacketProcessor : PacketProcessor<FreezeDataPacket> {
-    override fun encode(msg: FreezeDataPacket, buf: PacketBuffer) {
+class SpellFreezeDataPacketProcessor : PacketProcessor<SpellFreezeDataPacket> {
+    override fun encode(msg: SpellFreezeDataPacket, buf: PacketBuffer) {
         buf.writeInt(msg.freezeTicks)
         if (msg.freezeTicks > 0) {
             buf.writeDouble(msg.position!!.x)
@@ -23,21 +23,21 @@ class FreezeDataPacketProcessor : PacketProcessor<FreezeDataPacket> {
         }
     }
 
-    override fun decode(buf: PacketBuffer): FreezeDataPacket {
+    override fun decode(buf: PacketBuffer): SpellFreezeDataPacket {
         val freezeTicks = buf.readInt()
         return if (freezeTicks > 0) {
-            FreezeDataPacket(
+            SpellFreezeDataPacket(
                 freezeTicks,
                 Vector3d(buf.readDouble(), buf.readDouble(), buf.readDouble()),
                 buf.readFloat(),
                 buf.readFloat()
             )
         } else {
-            FreezeDataPacket(freezeTicks, null, 0.0f, 0.0f)
+            SpellFreezeDataPacket(freezeTicks, null, 0.0f, 0.0f)
         }
     }
 
-    override fun process(msg: FreezeDataPacket, ctx: NetworkEvent.Context) {
+    override fun process(msg: SpellFreezeDataPacket, ctx: NetworkEvent.Context) {
         if (ctx.direction == NetworkDirection.PLAY_TO_CLIENT) {
             val freezeData = Minecraft.getInstance().player!!.getSpellFreezeData()
             freezeData.freezeTicks = msg.freezeTicks
