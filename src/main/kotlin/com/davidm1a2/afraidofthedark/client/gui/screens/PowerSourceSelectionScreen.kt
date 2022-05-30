@@ -16,6 +16,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.SpritePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
 import net.minecraft.client.util.InputMappings
@@ -34,7 +35,7 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
     private var selectedPowerSource: SpellPowerSource<*>? = null
     private val availablePowerSources = ModRegistries.SPELL_POWER_SOURCES
         .filter { it.shouldShowInSpellEditor(entityPlayer) }
-        .sortedBy { it.prerequisiteResearch?.getName()?.string }
+        .sortedBy { it.prerequisiteResearch?.let { research -> entityPlayer.getResearch().getResearchTime(research) } }
     private val pageCount = getPageCountForPlayer()
 
     init {
