@@ -48,6 +48,6 @@ class EnderPocketSpellEffect : AOTDSpellEffect("ender_pocket", ModResearches.POC
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 15.0
+        return 45.0
     }
 }

@@ -3,7 +3,6 @@ package com.davidm1a2.afraidofthedark.common.capabilities.chunk.ward
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getWardedBlockMap
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.WardBlocksPacket
-import com.davidm1a2.afraidofthedark.common.spell.component.effect.helper.WardStrength
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.util.math.BlockPos
@@ -12,18 +11,18 @@ import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
 
 class WardedBlockMap : IWardedBlockMap {
-    private val map = mutableMapOf<Long, WardStrength?>()
+    private val map = mutableMapOf<Long, Int?>()
 
     override fun getWardedBlocks(): List<BlockPos> {
         return map.keys.map { BlockPos.of(it) }
     }
 
-    override fun getWardStrength(blockPos: BlockPos): WardStrength? {
+    override fun getWardStrength(blockPos: BlockPos): Int? {
         val chunkAdjustedPos = BlockPos(blockPos.x and 15, blockPos.y, blockPos.z and 15)
         return map[chunkAdjustedPos.asLong()]
     }
 
-    override fun wardBlock(blockPos: BlockPos, strength: WardStrength?) {
+    override fun wardBlock(blockPos: BlockPos, strength: Int?) {
         val chunkAdjustedPos = BlockPos(blockPos.x and 15, blockPos.y, blockPos.z and 15)
         map[chunkAdjustedPos.asLong()] = strength
     }

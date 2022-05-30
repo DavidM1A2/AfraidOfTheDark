@@ -23,7 +23,7 @@ class ExplosionSpellEffect : AOTDSpellEffect("explosion", ModResearches.MAGIC_MA
                 .withGetter(this::getRadius)
                 .withDefaultValue(2.0f)
                 .withMinValue(1.0f)
-                .withMaxValue(50.0f)
+                .withMaxValue(40.0f)
                 .build()
         )
     }
@@ -50,7 +50,7 @@ class ExplosionSpellEffect : AOTDSpellEffect("explosion", ModResearches.MAGIC_MA
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
         val radius = getRadius(instance)
         // Base cost to make an explosion
-        val baseCost = 25.0
+        val baseCost = 10.0
         // Cubic cost based on explosion radius
         val radiusCost = 0.5 * radius * radius * radius
         return baseCost + radiusCost

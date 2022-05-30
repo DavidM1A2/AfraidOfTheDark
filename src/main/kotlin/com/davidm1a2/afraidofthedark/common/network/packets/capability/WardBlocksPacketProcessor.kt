@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.common.network.packets.capability
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getWardedBlockMap
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
-import com.davidm1a2.afraidofthedark.common.spell.component.effect.helper.WardStrength
 import net.minecraft.client.Minecraft
 import net.minecraft.network.PacketBuffer
 import net.minecraft.util.math.BlockPos
@@ -25,7 +24,7 @@ class WardBlocksPacketProcessor : PacketProcessor<WardBlocksPacket> {
 
         buf.writeInt(wardedBlockCount)
         buf.writeLongArray(wardedBlocks.map { it.first.asLong() }.toLongArray())
-        buf.writeByteArray(wardedBlocks.map { it.second!!.ordinal.toByte() }.toByteArray())
+        buf.writeByteArray(wardedBlocks.map { it.second!!.toByte() }.toByteArray())
 
         buf.writeInt(unwardedBlockCount)
         buf.writeLongArray(unwardedBlocks.map { it.first.asLong() }.toLongArray())
@@ -38,14 +37,14 @@ class WardBlocksPacketProcessor : PacketProcessor<WardBlocksPacket> {
         val rawWardedKeys = LongArray(wardedBlockCount)
         buf.readLongArray(rawWardedKeys)
         val wardedKeys = rawWardedKeys.map { BlockPos.of(it) }
-        val wardedValues = buf.readByteArray(wardedBlockCount).toTypedArray().map { WardStrength.from(it.toInt()) }
+        val wardedValues = buf.readByteArray(wardedBlockCount).toTypedArray().map { it.toInt() }
 
         val unwardedBlockCount = buf.readInt()
         val rawUnwardedKeys = LongArray(unwardedBlockCount)
         buf.readLongArray(rawUnwardedKeys)
         val unwardedKeys = rawUnwardedKeys.map { BlockPos.of(it) }
 
-        val wardedBlockMap = wardedKeys.zip(wardedValues).toMutableList<Pair<BlockPos, WardStrength?>>()
+        val wardedBlockMap = wardedKeys.zip(wardedValues).toMutableList<Pair<BlockPos, Int?>>()
         wardedBlockMap.addAll(unwardedKeys.map { it to null })
 
         return WardBlocksPacket(chunkPos, wardedBlockMap)

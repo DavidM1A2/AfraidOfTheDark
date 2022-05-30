@@ -5,7 +5,6 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getWardedBlockMap
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
-import com.davidm1a2.afraidofthedark.common.spell.component.effect.helper.WardStrength
 import net.minecraft.block.Blocks
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
@@ -35,7 +34,7 @@ class SpellWardHandler {
     @SubscribeEvent
     fun onBreakSpeedEvent(event: PlayerEvent.BreakSpeed) {
         val blockPos = event.pos
-        val speedReductionPercent = getWardStrength(event.entity.level, blockPos)?.miningSpeedReductionPercent
+        val speedReductionPercent = getWardStrength(event.entity.level, blockPos)?.let { getMiningSpeedReductionPercent(it) }
         val world = event.entity.level
         if (speedReductionPercent != null) {
             event.newSpeed = event.originalSpeed * (1f - speedReductionPercent)
@@ -138,7 +137,7 @@ class SpellWardHandler {
                 if (wardStrength == null) {
                     false
                 } else {
-                    val didNotExplode = Random.nextDouble() <= (1f - wardStrength.explodeChance)
+                    val didNotExplode = Random.nextDouble() <= (1f - getExplodeChance(wardStrength))
                     if (didNotExplode) {
                         spawnWardParticle(world, it, Direction.values().toList())
                     }
@@ -148,7 +147,7 @@ class SpellWardHandler {
         }
     }
 
-    private fun getWardStrength(world: World, blockPos: BlockPos): WardStrength? {
+    private fun getWardStrength(world: World, blockPos: BlockPos): Int? {
         val chunk = world.getChunk(blockPos.x shr 4, blockPos.z shr 4)
         val wardedBlockMap = chunk.getWardedBlockMap()
         return wardedBlockMap.getWardStrength(blockPos)
@@ -227,6 +226,16 @@ class SpellWardHandler {
         }
     }
 
+    private fun getExplodeChance(wardStrength: Int): Float {
+        val powerOfTwo = 1 shl wardStrength
+        return 1f / powerOfTwo
+    }
+
+    private fun getMiningSpeedReductionPercent(wardStrength: Int): Float {
+        val powerOfTwo = 1 shl wardStrength
+        return (powerOfTwo - 1f) / powerOfTwo
+    }
+
     private data class DelayedWardSyncEntry(
         val world: World,
         val player: PlayerEntity,
@@ -235,7 +244,6 @@ class SpellWardHandler {
     )
 
     companion object {
-        private const val LOWEST_MINING_SPEED = 0.005f
         private const val TICKS_PER_WARD_SYNC_ATTEMPT = 60
     }
 }

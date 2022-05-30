@@ -12,12 +12,13 @@ import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import java.time.Duration
 import kotlin.math.abs
 
 /**
  * Dig effect digs a block
  */
-class DigSpellEffect : AOTDDurationSpellEffect("dig", ModResearches.SPELLMASON, 0, 5) {
+class DigSpellEffect : AOTDDurationSpellEffect("dig", ModResearches.SPELLMASON, 0, FREE_DURATION, Duration.ofMinutes(20).seconds.toInt()) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
@@ -74,11 +75,10 @@ class DigSpellEffect : AOTDDurationSpellEffect("dig", ModResearches.SPELLMASON, 
         val speed = getSpeed(instance)
         // Digging a block costs 1
         val baseCost = 1.0
-        // Each second of duration costs 0.25, but the first 5 seconds are free
-        val durationCost = ((getDuration(instance) - 5) * 0.25).coerceAtLeast(0.0)
-        // Each level of speed costs 0.5 per second
-        val speedCost = abs(speed) * 0.5
-        return baseCost + speedCost * durationCost
+        // Each second of duration costs 0.25, but the first 3 seconds are free
+        val durationCost = ((getDuration(instance) - FREE_DURATION) * 0.25).coerceAtLeast(0.0)
+        val speedCostMultiplier = abs(speed)
+        return baseCost + speedCostMultiplier * durationCost
     }
 
     fun setSpeed(instance: SpellComponentInstance<*>, amount: Int) {
@@ -92,5 +92,7 @@ class DigSpellEffect : AOTDDurationSpellEffect("dig", ModResearches.SPELLMASON, 
     companion object {
         // NBT constants for dig speed
         private const val NBT_SPEED = "speed"
+
+        private const val FREE_DURATION = 3
     }
 }

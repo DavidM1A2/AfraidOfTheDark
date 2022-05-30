@@ -14,7 +14,7 @@ import net.minecraft.util.math.vector.Vector3d
  *
  * @constructor adds the editable prop
  */
-class BurnSpellEffect : AOTDDurationSpellEffect("burn", ModResearches.ELEMENTAL_MAGIC, 1, 2, 60) {
+class BurnSpellEffect : AOTDDurationSpellEffect("burn", ModResearches.ELEMENTAL_MAGIC, 1, 1, 60) {
     /**
      * Performs the effect
      *

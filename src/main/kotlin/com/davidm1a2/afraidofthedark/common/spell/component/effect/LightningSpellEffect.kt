@@ -21,6 +21,6 @@ class LightningSpellEffect : AOTDSpellEffect("lightning", ModResearches.INSANITY
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 5.0
+        return 10.0
     }
 }

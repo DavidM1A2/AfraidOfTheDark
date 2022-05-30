@@ -42,7 +42,7 @@ object PropertyEditorFactory {
         val propertyPane = StackPane(Dimensions(1.0, 0.1))
 
         val dropdownValues = property.values.map {
-            it.name.lowercase().replaceFirstChar { char -> char.uppercase() }
+            it.name.lowercase().replaceFirstChar { char -> char.uppercase() }.replace("_", " ")
         }
         val selectedIndex = property.values.indexOfFirst {
             it.name.equals(property.getValue(instance), true)

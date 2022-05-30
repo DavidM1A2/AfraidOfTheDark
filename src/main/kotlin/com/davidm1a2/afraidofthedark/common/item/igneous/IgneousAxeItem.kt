@@ -48,7 +48,6 @@ class IgneousAxeItem : AOTDAxeItem("igneous_axe", ModToolMaterials.IGNEOUS, 5.0f
 
     override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, target: Entity): Boolean {
         if (player.getResearch().isResearched(ModResearches.IGNEOUS)) {
-            println(attackDamage)
             target.hurt(ModDamageSources.getSilverDamage(player), attackDamage)
         } else {
             return true

@@ -8,10 +8,8 @@ import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionSt
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.fml.network.PacketDistributor
-import java.util.Collections
 
 /**
  * Creates a smoke screen at a given effect location
@@ -19,19 +17,6 @@ import java.util.Collections
  * @constructor adds the editable prop
  */
 class SmokeScreenSpellEffect : AOTDSpellEffect("smoke_screen", ModResearches.POCKET_DIMENSION) {
-    init {
-        addEditableProperty(
-            SpellComponentPropertyFactory.intProperty()
-                .withBaseName(getUnlocalizedPropertyBaseName("density"))
-                .withSetter(this::setDensity)
-                .withGetter(this::getDensity)
-                .withDefaultValue(6)
-                .withMinValue(1)
-                .withMaxValue(25)
-                .build()
-        )
-    }
-
     /**
      * Performs the effect
      *
@@ -40,40 +25,19 @@ class SmokeScreenSpellEffect : AOTDSpellEffect("smoke_screen", ModResearches.POC
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val position = state.position
-        val positions: MutableList<Vector3d> = ArrayList()
 
-        // Create smokeDensity random smoke particles
-        for (i in 0 until getDensity(instance)) {
-            positions.add(position.add(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5))
-        }
-
+        // Create smoke particle
         AfraidOfTheDark.packetHandler.sendToAllAround(
             ParticlePacket(
                 ModParticles.SMOKE_SCREEN,
-                positions,
-                Collections.nCopies(positions.size, Vector3d.ZERO)
+                listOf(position.add(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5)),
+                listOf(Vector3d.ZERO)
             ),
             PacketDistributor.TargetPoint(position.x, position.y, position.z, 128.0, state.world.dimension())
         )
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        // 1 vitae just to use smoke screen
-        val baseCost = 3.0
-        // Each additional smoke particle adds 0.5 vitae
-        return baseCost + getDensity(instance) * 0.5
-    }
-
-    fun setDensity(instance: SpellComponentInstance<*>, density: Int) {
-        instance.data.putInt(NBT_DENSITY, density)
-    }
-
-    fun getDensity(instance: SpellComponentInstance<*>): Int {
-        return instance.data.getInt(NBT_DENSITY)
-    }
-
-    companion object {
-        // NBT constants for smoke density
-        private const val NBT_DENSITY = "density"
+        return 0.2
     }
 }

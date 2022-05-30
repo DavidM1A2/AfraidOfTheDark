@@ -11,9 +11,10 @@ import net.minecraft.entity.AreaEffectCloudEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
+import java.time.Duration
 import kotlin.math.abs
 
-class SpeedSpellEffect : AOTDDurationSpellEffect("speed", ModResearches.CLOAK_OF_AGILITY, 1, 10) {
+class SpeedSpellEffect : AOTDDurationSpellEffect("speed", ModResearches.CLOAK_OF_AGILITY, 1, 10, Duration.ofMinutes(20).seconds.toInt()) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
@@ -57,11 +58,11 @@ class SpeedSpellEffect : AOTDDurationSpellEffect("speed", ModResearches.CLOAK_OF
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        // Each second of speed costs 0.1
-        val durationCost = getDuration(instance) * 0.1
+        // Each second of speed costs 0.25
+        val durationCost = getDuration(instance) * 0.25
         // Each level of speed costs 1.0 per second
-        val speedCost = abs(getMultiplier(instance)) * 1.0
-        return speedCost * durationCost
+        val speedCostMultiplier = abs(getMultiplier(instance)) * 1.0
+        return speedCostMultiplier * durationCost
     }
 
     fun setMultiplier(instance: SpellComponentInstance<*>, amount: Int) {

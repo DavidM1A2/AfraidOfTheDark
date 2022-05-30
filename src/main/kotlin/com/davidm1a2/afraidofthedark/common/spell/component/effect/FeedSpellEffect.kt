@@ -23,7 +23,7 @@ class FeedSpellEffect : AOTDSpellEffect("feed", ModResearches.SPELLMASON) {
                 .withGetter(this::getHungerAmount)
                 .withDefaultValue(2)
                 .withMinValue(1)
-                .withMaxValue(300)
+                .withMaxValue(20)
                 .build()
         )
         addEditableProperty(
@@ -33,6 +33,7 @@ class FeedSpellEffect : AOTDSpellEffect("feed", ModResearches.SPELLMASON) {
                 .withGetter(this::getSaturationAmount)
                 .withDefaultValue(1)
                 .withMinValue(0)
+                .withMaxValue(20)
                 .build()
         )
     }
@@ -59,10 +60,10 @@ class FeedSpellEffect : AOTDSpellEffect("feed", ModResearches.SPELLMASON) {
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        // Each half-drumstick is 1.0 vitae
-        val hungerCost = getHungerAmount(instance) * 1.0
-        // Each saturation half-drumstick is 4 vitae
-        val saturationCost = getSaturationAmount(instance) * 4.0
+        // Each half-drumstick is 0.5 vitae
+        val hungerCost = getHungerAmount(instance) * 0.5
+        // Each saturation half-drumstick is 2 vitae
+        val saturationCost = getSaturationAmount(instance) * 2.0
         return hungerCost + saturationCost
     }
 

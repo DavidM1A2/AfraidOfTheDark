@@ -17,8 +17,9 @@ class DisintegrateSpellEffect : AOTDSpellEffect("disintegrate", ModResearches.MA
                 .withBaseName(getUnlocalizedPropertyBaseName("strength"))
                 .withSetter(this::setStrength)
                 .withGetter(this::getStrength)
-                .withDefaultValue(4f)
-                .withMinValue(0f)
+                .withDefaultValue(1f)
+                .withMinValue(1f)
+                .withMaxValue(1000f)
                 .build()
         )
     }
@@ -32,16 +33,12 @@ class DisintegrateSpellEffect : AOTDSpellEffect("disintegrate", ModResearches.MA
         if (entityHit != null) {
             entityHit.hurt(ModDamageSources.getSpellDamage(state), strength)
         } else {
-            val blockPosition = state.blockPosition
-            val blockHit = world.getBlockState(blockPosition)
-            if (blockHit.harvestLevel <= strength && blockHit.getDestroySpeed(world, blockPosition) != -1f) {
-                world.setBlockAndUpdate(blockPosition, Blocks.AIR.defaultBlockState())
-            }
+            world.setBlockAndUpdate(state.blockPosition, Blocks.AIR.defaultBlockState())
         }
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return getStrength(instance) * 0.5
+        return getStrength(instance) * 2.0 - 1
     }
 
     fun setStrength(instance: SpellComponentInstance<*>, amount: Float) {

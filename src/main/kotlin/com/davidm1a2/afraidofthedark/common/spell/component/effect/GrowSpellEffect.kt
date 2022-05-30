@@ -6,12 +6,26 @@ import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionSt
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.block.IGrowable
 
 /**
  * Spell effect that causes growable blocks to grow
  */
 class GrowSpellEffect : AOTDSpellEffect("grow", ModResearches.SPELLMASON) {
+    init {
+        addEditableProperty(
+            SpellComponentPropertyFactory.intProperty()
+                .withBaseName(getUnlocalizedPropertyBaseName("strength"))
+                .withSetter(this::setStrength)
+                .withGetter(this::getStrength)
+                .withDefaultValue(1)
+                .withMinValue(1)
+                .withMaxValue(10)
+                .build()
+        )
+    }
+
     /**
      * Performs the effect
      *
@@ -34,9 +48,14 @@ class GrowSpellEffect : AOTDSpellEffect("grow", ModResearches.SPELLMASON) {
         }
 
         // Grob the block at the current position if it's a type 'IGrowable'
-        if (blockState.block is IGrowable) {
-            createParticlesAround(8, 16, state.position, world.dimension(), ModParticles.GROW, 2.0)
-            (blockState.block as IGrowable).performBonemeal(world, world.random, position, blockState)
+        for (ignored in 0 until getStrength(instance)) {
+            if (blockState.block is IGrowable) {
+                createParticlesAround(8, 16, state.position, world.dimension(), ModParticles.GROW, 2.0)
+                (blockState.block as IGrowable).performBonemeal(world, world.random, position, blockState)
+                blockState = world.getBlockState(position)
+            } else {
+                break
+            }
         }
     }
 
@@ -47,6 +66,19 @@ class GrowSpellEffect : AOTDSpellEffect("grow", ModResearches.SPELLMASON) {
      * @return The cost of the delivery method
      */
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
-        return 3.0
+        return getStrength(instance) * 3.0
+    }
+
+    fun setStrength(instance: SpellComponentInstance<*>, strength: Int) {
+        instance.data.putInt(NBT_STRENGTH, strength)
+    }
+
+    fun getStrength(instance: SpellComponentInstance<*>): Int {
+        return instance.data.getInt(NBT_STRENGTH)
+    }
+
+    companion object {
+        // NBT constants
+        private const val NBT_STRENGTH = "strength"
     }
 }
