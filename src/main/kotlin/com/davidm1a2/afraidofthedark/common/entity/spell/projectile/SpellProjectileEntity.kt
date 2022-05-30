@@ -167,8 +167,8 @@ class SpellProjectileEntity(
             }
         }
 
-        // < 0.001 speed causes collision detection to break. Use custom logic
-        if (deltaMovement.lengthSqr() < 0.000001) {
+        // < 0.003 speed causes collision detection to break. Use custom logic
+        if (deltaMovement.lengthSqr() < 0.00001) {
             val blockResult = level.clip(
                 RayTraceContext(
                     position(),
