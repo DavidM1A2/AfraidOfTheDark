@@ -44,7 +44,12 @@ class HealthSpellPowerSource : AOTDSpellPowerSource<Unit>("health", ModResearche
         }
 
         // They can use 10 "deficit" hearts (i.e. they can kill themselves :P)
-        return CastEnvironment.withVitae((entity.health + 20) * VITAE_PER_HP, (entity.maxHealth + 20) * VITAE_PER_HP, Unit)
+        val absorptionAmount = entity.absorptionAmount
+        return CastEnvironment.withVitae(
+            (entity.health + 20 + absorptionAmount) * VITAE_PER_HP,
+            (entity.maxHealth + 20 + absorptionAmount) * VITAE_PER_HP,
+            Unit
+        )
     }
 
     override fun getSourceSpecificCost(vitae: Double): Double {
