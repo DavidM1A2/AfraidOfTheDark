@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpel
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.block.IGrowable
+import net.minecraftforge.common.util.Constants
 
 /**
  * Spell effect that causes growable blocks to grow
@@ -47,15 +48,30 @@ class GrowSpellEffect : AOTDSpellEffect("grow", ModResearches.SPELLMASON) {
             }
         }
 
+        var blockUpdated = false
         // Grob the block at the current position if it's a type 'IGrowable'
         for (ignored in 0 until getStrength(instance)) {
-            if (blockState.block is IGrowable) {
-                createParticlesAround(8, 16, state.position, world.dimension(), ModParticles.GROW, 2.0)
-                (blockState.block as IGrowable).performBonemeal(world, world.random, position, blockState)
-                blockState = world.getBlockState(position)
-            } else {
+            if (blockState.block !is IGrowable) {
                 break
             }
+
+            val iGrowable = blockState.block as IGrowable
+            if (!iGrowable.isValidBonemealTarget(world, position, blockState, false)) {
+                break
+            }
+
+            if (!iGrowable.isBonemealSuccess(world, world.random, position, blockState)) {
+                continue
+            }
+
+            createParticlesAround(8, 16, state.position, world.dimension(), ModParticles.GROW, 2.0)
+            iGrowable.performBonemeal(world, world.random, position, blockState)
+            blockUpdated = true
+            blockState = world.getBlockState(position)
+        }
+
+        if (blockUpdated) {
+            world.sendBlockUpdated(position, blockState, blockState, Constants.BlockFlags.BLOCK_UPDATE)
         }
     }
 
