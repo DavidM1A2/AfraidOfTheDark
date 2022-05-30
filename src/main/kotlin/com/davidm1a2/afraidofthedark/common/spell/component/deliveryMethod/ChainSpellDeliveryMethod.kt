@@ -131,12 +131,11 @@ class ChainSpellDeliveryMethod : AOTDSpellDeliveryMethod("chain", ModResearches.
     }
 
     override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        val baseCost = 5.0
-        // Each hop adds one vitae
-        val hopsCost = getMaxHops(instance)
-        // 2 blocks of distance per vitae
-        val distanceCost = getMaxDistance(instance) * 0.5
-        return baseCost + hopsCost + distanceCost
+        // Each hop adds 1.5 vitae
+        val hopsCostMultiplier = getMaxHops(instance) * 1.5
+        // 10 blocks per vitae
+        val distanceCost = getMaxDistance(instance) * 0.1
+        return hopsCostMultiplier * distanceCost
     }
 
     override fun getMultiplicity(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {

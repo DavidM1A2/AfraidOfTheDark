@@ -90,8 +90,7 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod("aoe", ModResearches.ADVA
     }
 
     override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        // AOE cost comes in its ability to apply affects more than once, so "delivery cost" is low
-        return 1.0
+        return 0.0
     }
 
     override fun getMultiplicity(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {

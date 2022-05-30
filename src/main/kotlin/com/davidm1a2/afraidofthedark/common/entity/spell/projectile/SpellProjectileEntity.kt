@@ -76,10 +76,11 @@ class SpellProjectileEntity(
         this.distanceRemainingBlocks = deliveryMethodProjectile.getRange(deliveryInstance).toFloat()
 
         // Grab the projectile speed from the delivery method
-        val projectileSpeed = deliveryMethodProjectile.getSpeed(deliveryInstance)
+        val blocksPerSecond = deliveryMethodProjectile.getSpeed(deliveryInstance)
+        val blocksPerTick = blocksPerSecond / 20.0
 
         // Update the acceleration vector by normalizing it and multiplying by speed
-        this.deltaMovement = velocity.normalize().scale(projectileSpeed)
+        this.deltaMovement = velocity.normalize().scale(blocksPerTick)
 
         // Position the entity at the center of the shooter moved slightly in the dir of fire
         moveTo(position.x + this.deltaMovement.x, position.y + this.deltaMovement.y, position.z + this.deltaMovement.z)

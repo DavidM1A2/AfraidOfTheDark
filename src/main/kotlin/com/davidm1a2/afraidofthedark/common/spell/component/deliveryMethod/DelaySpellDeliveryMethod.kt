@@ -7,6 +7,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
+import java.time.Duration
 
 /**
  * Self delivery method delivers the spell after a delay
@@ -16,12 +17,13 @@ import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellCompon
 class DelaySpellDeliveryMethod : AOTDSpellDeliveryMethod("delay", ModResearches.SPELLMASON) {
     init {
         addEditableProperty(
-            SpellComponentPropertyFactory.longProperty()
+            SpellComponentPropertyFactory.doubleProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("delay"))
                 .withSetter(this::setDelay)
                 .withGetter(this::getDelay)
-                .withDefaultValue(20L)
-                .withMinValue(1L)
+                .withDefaultValue(1.0)
+                .withMinValue(0.0)
+                .withMaxValue(Duration.ofMinutes(20L).seconds.toDouble())
                 .build()
         )
     }
@@ -43,11 +45,8 @@ class DelaySpellDeliveryMethod : AOTDSpellDeliveryMethod("delay", ModResearches.
      * @return The cost of the delivery method
      */
     override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        // Base cost of using delay
-        val baseCost = 10
-        // Each second of delay costs 0.5 vitae
-        val delayCost = getDelay(instance) * 0.05 * 0.5
-        return baseCost + delayCost
+        // Each second of delay costs 0.75 vitae
+        return getDelay(instance) * 0.75
     }
 
     /**
@@ -60,12 +59,12 @@ class DelaySpellDeliveryMethod : AOTDSpellDeliveryMethod("delay", ModResearches.
         return 1.0
     }
 
-    fun setDelay(instance: SpellComponentInstance<*>, delay: Long) {
-        instance.data.putLong(NBT_DELAY, delay)
+    fun setDelay(instance: SpellComponentInstance<*>, delay: Double) {
+        instance.data.putDouble(NBT_DELAY, delay)
     }
 
-    fun getDelay(instance: SpellComponentInstance<*>): Long {
-        return instance.data.getLong(NBT_DELAY)
+    fun getDelay(instance: SpellComponentInstance<*>): Double {
+        return instance.data.getDouble(NBT_DELAY)
     }
 
     companion object {

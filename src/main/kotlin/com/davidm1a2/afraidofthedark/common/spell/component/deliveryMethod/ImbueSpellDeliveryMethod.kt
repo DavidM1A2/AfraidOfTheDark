@@ -22,7 +22,7 @@ class ImbueSpellDeliveryMethod : AOTDSpellDeliveryMethod("imbue", ModResearches.
                 .withGetter(this::getUses)
                 .withDefaultValue(1)
                 .withMinValue(1)
-                .withMaxValue(64)
+                .withMaxValue(16)
                 .build()
         )
     }
@@ -59,7 +59,7 @@ class ImbueSpellDeliveryMethod : AOTDSpellDeliveryMethod("imbue", ModResearches.
     }
 
     override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        return 1.0
+        return 10.0
     }
 
     override fun getMultiplicity(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {

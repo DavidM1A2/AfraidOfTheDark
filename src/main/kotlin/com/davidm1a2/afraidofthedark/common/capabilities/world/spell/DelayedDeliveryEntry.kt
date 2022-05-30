@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.Delay
 import com.davidm1a2.afraidofthedark.common.utility.getLookNormal
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.math.BlockPos
+import kotlin.math.ceil
 
 /**
  * Class representing the delay delivery method that is waiting to go off
@@ -25,8 +26,8 @@ class DelayedDeliveryEntry {
         this.state = state
         // Grab the delivery method and get the number of ticks to delay
         val deliveryMethod = state.getCurrentStage().deliveryInstance!!.component
-        ticksLeft =
-            deliveryMethod.let { it as DelaySpellDeliveryMethod }.getDelay(state.getCurrentStage().deliveryInstance!!)
+        val delayInSeconds = deliveryMethod.let { it as DelaySpellDeliveryMethod }.getDelay(state.getCurrentStage().deliveryInstance!!)
+        ticksLeft = ceil(delayInSeconds * 20.0).toLong()
     }
 
     /**

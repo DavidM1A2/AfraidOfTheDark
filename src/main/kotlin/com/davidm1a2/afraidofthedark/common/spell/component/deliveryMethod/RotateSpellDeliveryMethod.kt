@@ -49,7 +49,7 @@ class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod("rotate", ModResearche
     }
 
     override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        return 1.0
+        return 0.2
     }
 
     override fun getMultiplicity(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {

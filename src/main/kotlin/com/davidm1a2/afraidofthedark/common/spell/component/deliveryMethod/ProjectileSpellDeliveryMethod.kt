@@ -31,9 +31,9 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod("projectile", ModR
                 .withBaseName(getUnlocalizedPropertyBaseName("speed"))
                 .withSetter(this::setSpeed)
                 .withGetter(this::getSpeed)
-                .withDefaultValue(0.6)
-                .withMinValue(0.0)
-                .withMaxValue(10.0)
+                .withDefaultValue(12.0)
+                .withMinValue(1.0)
+                .withMaxValue(100.0)
                 .build()
         )
         addEditableProperty(
@@ -70,13 +70,11 @@ class ProjectileSpellDeliveryMethod : AOTDSpellDeliveryMethod("projectile", ModR
      * @return The cost of the delivery method
      */
     override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        // Cost of using the delivery method
-        val baseCost = 1.0
-        // 4 vitae per speed
-        val speedCost = getSpeed(instance) * 4.0
-        // 50 range per vitae
-        val rangeCost = getRange(instance) * 0.02
-        return baseCost + speedCost + rangeCost
+        // 0.01 to 1.0 speed multiplier
+        val speedCostMultiplier = getSpeed(instance) / 100.0
+        // 10 blocks per vitae
+        val rangeCost = getRange(instance) * 0.1
+        return speedCostMultiplier * rangeCost
     }
 
     /**

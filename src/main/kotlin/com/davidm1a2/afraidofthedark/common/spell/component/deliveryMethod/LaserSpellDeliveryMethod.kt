@@ -27,7 +27,7 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod("laser", ModResearches.
                 .withSetter(this::setRange)
                 .withGetter(this::getRange)
                 .withDefaultValue(50.0)
-                .withMinValue(0.0)
+                .withMinValue(1.0)
                 .withMaxValue(300.0)
                 .build()
         )
@@ -142,10 +142,8 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod("laser", ModResearches.
      * @return The cost of the delivery method
      */
     override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        val baseCost = 1
-        // 5 range per vitae
-        val rangeCost = getRange(instance) * 0.2
-        return baseCost + rangeCost
+        // 10 blocks per vitae
+        return getRange(instance) * 0.1
     }
 
     /**
