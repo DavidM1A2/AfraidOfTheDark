@@ -53,7 +53,7 @@ class SpellSolarHandler {
         private const val VITAE_TICK_INTERVAL = 20
 
         // Nighttime is about 14,000 ticks. That means we will fill our cap 14000 / 20 [tick interval] * 0.02 = 14 times
-        private const val VITAE_GAIN_PERCENT_PER_INTERVAL = 0.02
+        private const val VITAE_GAIN_PERCENT_PER_INTERVAL = 0.03
 
         // Decay 25 vitae per interval = 200/25 = 8 seconds to decay all vitae
         private const val VITAE_DECAY_PER_INTERVAL = 25.0

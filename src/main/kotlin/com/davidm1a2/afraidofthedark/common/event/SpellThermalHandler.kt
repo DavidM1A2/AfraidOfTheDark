@@ -100,14 +100,14 @@ class SpellThermalHandler {
     companion object {
         private const val VITAE_TICK_INTERVAL = 20
 
-        // Max of +/- 10 vitae per interval because of biome
-        private const val BIOME_VITAE_MODIFIER_PER_INTERVAL = 10.0
+        // Max of +/- 5 vitae per interval because of biome
+        private const val BIOME_VITAE_MODIFIER_PER_INTERVAL = 5.0
 
-        // Max of +/- 20 vitae per interval because of depth
-        private const val DEPTH_VITAE_MODIFIER_PER_INTERVAL = 20.0
+        // Max of +/- 15 vitae per interval because of depth
+        private const val DEPTH_VITAE_MODIFIER_PER_INTERVAL = 15.0
 
-        // Max of +/- 40 vitae per interval because of heat
-        private const val HEAT_VITAE_MODIFIER_PER_INTERVAL = 30.0
+        // Max of +/- 15 vitae per interval because of heat
+        private const val HEAT_VITAE_MODIFIER_PER_INTERVAL = 15.0
         private const val HEAT_SAMPLE_DISTANCE = 4
         private const val HEAT_SAMPLE_COUNT = 7
 
@@ -127,12 +127,12 @@ class SpellThermalHandler {
             Blocks.WALL_TORCH to 0.5,
             Blocks.SOUL_TORCH to 0.1,
             Blocks.SOUL_WALL_TORCH to 0.1,
-            Blocks.REDSTONE_TORCH to 0.3,
-            Blocks.REDSTONE_WALL_TORCH to 0.3,
+            Blocks.REDSTONE_TORCH to 0.1,
+            Blocks.REDSTONE_WALL_TORCH to 0.1,
             // Cold blocks
-            Blocks.FROSTED_ICE to -0.6,
-            Blocks.ICE to -0.6,
-            Blocks.PACKED_ICE to -0.8,
+            Blocks.FROSTED_ICE to -0.8,
+            Blocks.ICE to -0.8,
+            Blocks.PACKED_ICE to -0.9,
             Blocks.BLUE_ICE to -1.0,
             Blocks.WATER to -0.3,
             Blocks.SNOW_BLOCK to -0.5,

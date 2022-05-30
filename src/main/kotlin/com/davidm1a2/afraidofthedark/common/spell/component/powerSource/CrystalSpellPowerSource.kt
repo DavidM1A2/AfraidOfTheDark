@@ -68,6 +68,6 @@ class CrystalSpellPowerSource : AOTDSpellPowerSource<CrystalSpellPowerSource.Cry
     class CrystalContext(val nearbyCrystals: Sequence<MagicCrystalTileEntity>)
 
     companion object {
-        private const val MAX_CRYSTAL_RANGE_SQUARED = 16 * 16
+        private const val MAX_CRYSTAL_RANGE_SQUARED = 24 * 24
     }
 }

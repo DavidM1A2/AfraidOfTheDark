@@ -45,6 +45,6 @@ class VitaeLanternHandler {
     }
 
     companion object {
-        private const val HP_TO_VITAE_RATIO = 2.5f
+        private const val HP_TO_VITAE_RATIO = 4.0f
     }
 }

@@ -30,14 +30,14 @@ class PlayerSpellLunarData : IPlayerSpellLunarData {
     companion object {
         // The maximum amount of vitae we can store in each moon phase
         private val VITAE_CAP_BY_MOON_PHASE = mapOf(
-            0 to 2000.0, // Full (100%)
-            1 to 300.0, // Waning Gibbous (75%)
-            2 to 100.0, // Third Quarter (50%)
-            3 to 30.0, // Waning Crescent (25%)
-            4 to 10.0, // New Moon (0%)
-            5 to 30.0, // Waxing Crescent (25%)
-            6 to 100.0, // First Quarter (50%)
-            7 to 300.0 // Waxing Gibbous (75%)
+            0 to 20000.0, // Full (100%)
+            1 to 500.0, // Waning Gibbous (75%)
+            2 to 300.0, // Third Quarter (50%)
+            3 to 200.0, // Waning Crescent (25%)
+            4 to 100.0, // New Moon (0%)
+            5 to 200.0, // Waxing Crescent (25%)
+            6 to 300.0, // First Quarter (50%)
+            7 to 500.0 // Waxing Gibbous (75%)
         )
     }
 }

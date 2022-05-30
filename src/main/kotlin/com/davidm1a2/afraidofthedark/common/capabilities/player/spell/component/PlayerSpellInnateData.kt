@@ -13,7 +13,7 @@ class PlayerSpellInnateData : IPlayerSpellInnateData {
     }
 
     override fun getMaxVitae(entityPlayer: PlayerEntity): Double {
-        return 30.0
+        return 20.0
     }
 
     override fun sync(entityPlayer: PlayerEntity) {
