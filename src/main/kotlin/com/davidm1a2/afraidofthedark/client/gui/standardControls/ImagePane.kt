@@ -36,6 +36,8 @@ open class ImagePane : AOTDPane {
             matrixStack.pushPose()
             // Enable alpha blending
             RenderSystem.enableBlend()
+            // Set our alpha epsilon to 0 (so we get full alpha range)
+            RenderSystem.alphaFunc(MAGIC_OPENGL_CONSTANT, 0.0F)
             // Set the color
             RenderSystem.color4f(
                 this.color.red / 255f,
@@ -50,6 +52,8 @@ open class ImagePane : AOTDPane {
                 AbstractGui.blit(matrixStack, x, y, u, v, width, height, width, height)
             }
             matrixStack.popPose()
+            // Reset the render system's alpha
+            RenderSystem.defaultAlphaFunc()
 
             // Draw the any children
             super.draw(matrixStack)
@@ -112,5 +116,9 @@ open class ImagePane : AOTDPane {
         FIT_TO_TEXTURE,
         FIT_TO_PARENT,
         STRETCH
+    }
+
+    companion object {
+        const val MAGIC_OPENGL_CONSTANT = 516
     }
 }

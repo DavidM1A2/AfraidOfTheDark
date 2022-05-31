@@ -49,6 +49,8 @@ open class SpritePane : AOTDPane {
             matrixStack.pushPose()
             // Enable alpha blending
             RenderSystem.enableBlend()
+            // Set our alpha epsilon to 0 (so we get full alpha range)
+            RenderSystem.alphaFunc(MAGIC_OPENGL_CONSTANT, 0.0F)
             // Set the color
             RenderSystem.color4f(
                 this.color.red / 255f,
@@ -65,6 +67,8 @@ open class SpritePane : AOTDPane {
                 AbstractGui.blit(matrixStack, x, y, width, height, col, row, 1, 1, columns, rows)
             }
             matrixStack.popPose()
+            // Reset the render system's alpha
+            RenderSystem.defaultAlphaFunc()
 
             // Draw the any children
             super.draw(matrixStack)
@@ -142,5 +146,9 @@ open class SpritePane : AOTDPane {
     enum class AnimMode {
         ONE_SHOT,
         LOOP
+    }
+
+    companion object {
+        const val MAGIC_OPENGL_CONSTANT = 516
     }
 }
