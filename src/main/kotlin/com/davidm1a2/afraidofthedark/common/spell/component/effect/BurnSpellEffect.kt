@@ -39,6 +39,6 @@ class BurnSpellEffect : AOTDDurationSpellEffect("burn", ModResearches.ELEMENTAL_
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
         // If burning an entity, add 3.0 vitae per second
-        return getDuration(instance) * 3.0
+        return getDuration(instance) * 2.0 - 1.0    // Burning a block only costs 1, first tick of entity burn is half off
     }
 }
