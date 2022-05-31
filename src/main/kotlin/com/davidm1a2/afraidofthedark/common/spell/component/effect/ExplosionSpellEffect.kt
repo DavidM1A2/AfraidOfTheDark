@@ -52,7 +52,7 @@ class ExplosionSpellEffect : AOTDSpellEffect("explosion", ModResearches.MAGIC_MA
         // Base cost to make an explosion
         val baseCost = 10.0
         // Cubic cost based on explosion radius
-        val radiusCost = 0.5 * radius * radius * radius
+        val radiusCost = 1.0 * radius * radius * radius
         return baseCost + radiusCost
     }
 
