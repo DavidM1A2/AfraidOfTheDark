@@ -108,6 +108,9 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
         // Set up the main GUI elements
         this.radialMenuPane = RadialPane()
         radialMenuPane!!.gravity = Gravity.CENTER
+        val bkgPane = ImagePane("afraidofthedark:textures/gui/power_source_selector/background.png", ImagePane.DispMode.FIT_TO_PARENT)
+        bkgPane.gravity = Gravity.CENTER
+        this.contentPane.add(bkgPane)
         this.contentPane.add(radialMenuPane!!)
 
         // Add the page count
