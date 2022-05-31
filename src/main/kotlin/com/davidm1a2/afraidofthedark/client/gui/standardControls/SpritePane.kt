@@ -50,7 +50,7 @@ open class SpritePane : AOTDPane {
             // Enable alpha blending
             RenderSystem.enableBlend()
             // Set our alpha epsilon to 0 (so we get full alpha range)
-            RenderSystem.alphaFunc(MAGIC_OPENGL_CONSTANT, 0.0F)
+            RenderSystem.alphaFunc(GL11.GL_GREATER, 0.0F)
             // Set the color
             RenderSystem.color4f(
                 this.color.red / 255f,
@@ -146,9 +146,5 @@ open class SpritePane : AOTDPane {
     enum class AnimMode {
         ONE_SHOT,
         LOOP
-    }
-
-    companion object {
-        const val MAGIC_OPENGL_CONSTANT = 516
     }
 }
