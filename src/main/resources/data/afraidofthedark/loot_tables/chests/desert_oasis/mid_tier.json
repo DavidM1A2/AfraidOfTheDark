@@ -20,53 +20,23 @@
         },
         {
           "type": "item",
-          "name": "afraidofthedark:mangrove_planks",
-          "weight": 8
-        },
-        {
-          "type": "item",
-          "name": "afraidofthedark:enchanted_skeleton_bone",
-          "weight": 8
-        },
-        {
-          "type": "item",
           "name": "afraidofthedark:mangrove_sapling",
-          "weight": 8
+          "weight": 4
         },
         {
           "type": "item",
           "name": "afraidofthedark:mangrove",
-          "weight": 8
-        },
-        {
-          "type": "item",
-          "name": "lapis_block",
-          "weight": 8
-        },
-        {
-          "type": "item",
-          "name": "afraidofthedark:astral_silver_ingot",
-          "weight": 8
+          "weight": 4
         },
         {
           "type": "item",
           "name": "afraidofthedark:mystic_opal",
-          "weight": 8
+          "weight": 2
         },
         {
           "type": "item",
           "name": "afraidofthedark:mystic_topaz",
           "weight": 2
-        },
-        {
-          "type": "item",
-          "name": "afraidofthedark:wand",
-          "weight": 1
-        },
-        {
-          "type": "item",
-          "name": "afraidofthedark:sacred_mangrove_sapling",
-          "weight": 1
         },
         {
           "type": "item",
