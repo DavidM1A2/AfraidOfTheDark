@@ -13,6 +13,8 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.utility.getLookNormal
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
+import com.google.gson.Gson
+import com.google.gson.JsonElement
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
@@ -252,6 +254,32 @@ class Spell : INBTSerializable<CompoundNBT> {
         spellStages.forEach { spellStagesNBT.add(it.serializeNBT()) }
         nbt.put(NBT_SPELL_STAGES, spellStagesNBT)
         return nbt
+    }
+
+    fun serializeJSON(): JsonElement {
+        val json = Gson().toJsonTree(serializeNBT())
+        return removeTags(json)
+    }
+
+    // Removes "tags" and "data" fields in json, replacing them with their values
+    fun removeTags(json: JsonElement): JsonElement {
+        if (json.isJsonObject) {
+            val jsonObj = json.asJsonObject
+            val keys = jsonObj.entrySet().map { it.key }
+            for (key in keys) {
+                if (key == "tags" || key == "data") {
+                    return removeTags(jsonObj[key])
+                } else {
+                    jsonObj.add(key, removeTags(jsonObj.remove(key)))
+                }
+            }
+        } else if (json.isJsonArray) {
+            val jsonArr = json.asJsonArray
+            for (index in 0 until jsonArr.size()) {
+                jsonArr.set(index, removeTags(jsonArr[index]))
+            }
+        }
+        return json
     }
 
     /**

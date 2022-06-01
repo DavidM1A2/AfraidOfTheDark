@@ -1,9 +1,14 @@
 package com.davidm1a2.afraidofthedark.common.item
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellLunarData
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellSolarData
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellThermalData
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
+import com.google.gson.Gson
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -26,19 +31,18 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
     override fun use(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
         if (worldIn.isClientSide) {
         } else {
-            val time = System.currentTimeMillis()
-            for (powerSource in ModSpellPowerSources.SPELL_POWER_SOURCES) {
-                val environment = powerSource.computeCastEnvironment(playerIn)
-                println("${powerSource.registryName!!.path} - Current: ${environment.vitaeAvailable}, Max: ${environment.vitaeMaximum}")
-            }
-            println("Took: ${(System.currentTimeMillis() - time)}ms")
-//            val gson = Gson()
-//            playerIn.getSpellManager().getSpells().forEach {
-//                println(gson.toJson(it.serializeNBT()))
+//            val time = System.currentTimeMillis()
+//            for (powerSource in ModSpellPowerSources.SPELL_POWER_SOURCES) {
+//                val environment = powerSource.computeCastEnvironment(playerIn)
+//                println("${powerSource.registryName!!.path} - Current: ${environment.vitaeAvailable}, Max: ${environment.vitaeMaximum}")
 //            }
-//            println(playerIn.getSpellLunarData().vitae)
-//            println(playerIn.getSpellSolarData().vitae)
-//            println(playerIn.getSpellThermalData().vitae)
+//            println("Took: ${(System.currentTimeMillis() - time)}ms")
+            val gson = Gson()
+            playerIn.getSpellManager().getSpells().forEach {
+                val json = it.serializeJSON()
+                json.asJsonObject.remove("id")
+                println(json)
+            }
         }
         return super.use(worldIn, playerIn, handIn)
     }
