@@ -4,7 +4,7 @@
       "name": "main",
       "rolls": {
         "min": 6,
-        "max": 8
+        "max": 12
       },
       "entries": [
         {
@@ -17,11 +17,6 @@
             }
           ],
           "weight": 2
-        },
-        {
-          "type": "item",
-          "name": "afraidofthedark:mangrove",
-          "weight": 1
         },
         {
           "type": "item",
@@ -72,6 +67,78 @@
                 "min": 1,
                 "max": 3
               }
+            }
+          ],
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_name",
+              "name": {
+                "translate": "tooltip.afraidofthedark.spell_scroll.spell_name",
+                "with": [
+                  "Excavate"
+                ]
+              }
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Excavate\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"255 0 0\",\"range\":50.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"}},{\"delivery_method\":{\"extra_data\":{\"shell_only\":0,\"radius\":3.0},\"id\":\"afraidofthedark:aoe\"},\"effect_0\":{\"extra_data\":{\"duration\":3,\"speed\":1},\"id\":\"afraidofthedark:dig\"}}]},\"uses\":3,\"max_uses\":3}"
+            }
+          ],
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_name",
+              "name": {
+                "translate": "tooltip.afraidofthedark.spell_scroll.spell_name",
+                "with": [
+                  "Stone Skin"
+                ]
+              }
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Stone Skin\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{},\"id\":\"afraidofthedark:self\"},\"effect_0\":{\"extra_data\":{\"duration\":60,\"strength\":4},\"id\":\"afraidofthedark:ward\"},\"effect_1\":{\"extra_data\":{\"duration\":60,\"multiplier\":-1},\"id\":\"afraidofthedark:speed\"}}]},\"uses\":2,\"max_uses\":2}"
+            }
+          ],
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_name",
+              "name": {
+                "translate": "tooltip.afraidofthedark.spell_scroll.spell_name",
+                "with": [
+                  "Wizard's Staircase"
+                ]
+              }
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Wizard's Staircase\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"50 100 250\",\"range\":2.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"}},{\"delivery_method\":{\"extra_data\":{\"delay\":0.5},\"id\":\"afraidofthedark:delay\"}},{\"delivery_method\":{\"extra_data\":{\"pitch\":90.0,\"yaw\":0.0},\"id\":\"afraidofthedark:rotate\"}},{\"delivery_method\":{\"extra_data\":{\"color\":\"50 100 250\",\"range\":2.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"}},{\"delivery_method\":{\"extra_data\":{\"delay\":0.5},\"id\":\"afraidofthedark:delay\"}},{\"delivery_method\":{\"extra_data\":{\"pitch\":-90.0,\"yaw\":0.0},\"id\":\"afraidofthedark:rotate\"}},{\"delivery_method\":{\"extra_data\":{\"color\":\"50 100 250\",\"range\":2.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"}},{\"delivery_method\":{\"extra_data\":{\"delay\":0.5},\"id\":\"afraidofthedark:delay\"}},{\"delivery_method\":{\"extra_data\":{\"pitch\":90.0,\"yaw\":0.0},\"id\":\"afraidofthedark:rotate\"}},{\"delivery_method\":{\"extra_data\":{\"color\":\"50 100 250\",\"range\":4.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:teleport\"}},{\"delivery_method\":{\"extra_data\":{\"pitch\":-90.0,\"yaw\":0.0},\"id\":\"afraidofthedark:rotate\"}},{\"delivery_method\":{\"extra_data\":{\"pitch\":-90.0,\"yaw\":0.0},\"id\":\"afraidofthedark:rotate\"}},{\"delivery_method\":{\"extra_data\":{\"color\":\"50 100 150\",\"range\":2.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{\"duration\":1},\"id\":\"afraidofthedark:freeze\"}}]},\"uses\":5,\"max_uses\":5}"
             }
           ],
           "weight": 1

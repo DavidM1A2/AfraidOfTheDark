@@ -3,8 +3,8 @@
     {
       "name": "main",
       "rolls": {
-        "min": 4,
-        "max": 8
+        "min": 6,
+        "max": 12
       },
       "entries": [
         {
@@ -72,6 +72,174 @@
           "type": "item",
           "name": "afraidofthedark:sacred_mangrove",
           "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_name",
+              "name": {
+                "translate": "tooltip.afraidofthedark.spell_scroll.spell_name",
+                "with": [
+                  "Fireball"
+                ]
+              }
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Fireball\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"200 50 0\",\"range\":100.0,\"speed\":15.0},\"id\":\"afraidofthedark:projectile\"},\"effect_0\":{\"extra_data\":{\"radius\":3.2},\"id\":\"afraidofthedark:explosion\"}},{\"delivery_method\":{\"extra_data\":{\"shell_only\":1,\"radius\":3.5},\"id\":\"afraidofthedark:aoe\"},\"effect_0\":{\"extra_data\":{\"duration\":1},\"id\":\"afraidofthedark:burn\"}}]},\"uses\":1,\"max_uses\":1}"
+            }
+          ],
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_name",
+              "name": {
+                "translate": "tooltip.afraidofthedark.spell_scroll.spell_name",
+                "with": [
+                  "Ice Bolt"
+                ]
+              }
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Ice Bolt\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"200 215 255\",\"range\":100.0,\"speed\":50.0},\"id\":\"afraidofthedark:projectile\"},\"effect_0\":{\"extra_data\":{\"strength\":20.0},\"id\":\"afraidofthedark:disintegrate\"},\"effect_1\":{\"extra_data\":{\"duration\":3},\"id\":\"afraidofthedark:freeze\"}}]},\"uses\":1,\"max_uses\":1}"
+            }
+          ],
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_name",
+              "name": {
+                "translate": "tooltip.afraidofthedark.spell_scroll.spell_name",
+                "with": [
+                  "Storm Cell"
+                ]
+              }
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Storm Cell\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"155 0 255\",\"range\":50.0,\"speed\":12.0},\"id\":\"afraidofthedark:projectile\"}},{\"delivery_method\":{\"extra_data\":{\"shell_only\":0,\"radius\":1.5},\"id\":\"afraidofthedark:aoe\"},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:lightning\"}}]},\"uses\":1,\"max_uses\":1}"
+            }
+          ],
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_name",
+              "name": {
+                "translate": "tooltip.afraidofthedark.spell_scroll.spell_name",
+                "with": [
+                  "Ender Pocket"
+                ]
+              }
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Ender Pocket\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{},\"id\":\"afraidofthedark:self\"},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:ender_pocket\"}}]},\"uses\":3,\"max_uses\":3}"
+            }
+          ],
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_name",
+              "name": {
+                "translate": "tooltip.afraidofthedark.spell_scroll.spell_name",
+                "with": [
+                  "Blink"
+                ]
+              }
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Blink\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"0 50 0\",\"range\":150.0,\"hit_liquids\":1},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:teleport\"}}]},\"uses\":3,\"max_uses\":3}"
+            }
+          ],
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_name",
+              "name": {
+                "translate": "tooltip.afraidofthedark.spell_scroll.spell_name",
+                "with": [
+                  "Rejuvenate"
+                ]
+              }
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Rejuvenate\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{},\"id\":\"afraidofthedark:self\"},\"effect_0\":{\"extra_data\":{\"hunger_amount\":20,\"saturation_amount\":10},\"id\":\"afraidofthedark:feed\"},\"effect_1\":{\"extra_data\":{\"amount\":15},\"id\":\"afraidofthedark:heal\"}}]},\"uses\":3,\"max_uses\":3}"
+            }
+          ],
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_name",
+              "name": {
+                "translate": "tooltip.afraidofthedark.spell_scroll.spell_name",
+                "with": [
+                  "Bloom"
+                ]
+              }
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Bloom\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{},\"id\":\"afraidofthedark:self\"},\"effect_0\":{\"extra_data\":{\"amount\":4},\"id\":\"afraidofthedark:heal\"}},{\"delivery_method\":{\"extra_data\":{\"shell_only\":0,\"radius\":2.0},\"id\":\"afraidofthedark:aoe\"},\"effect_0\":{\"extra_data\":{\"strength\":1},\"id\":\"afraidofthedark:grow\"}}]},\"uses\":3,\"max_uses\":3}"
+            }
+          ],
+          "weight": 2
         }
       ]
     }
