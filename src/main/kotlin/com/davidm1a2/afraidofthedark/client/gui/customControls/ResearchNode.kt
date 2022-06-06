@@ -19,8 +19,8 @@ import net.minecraft.util.text.TranslationTextComponent
  * Button that represents a research in the research GUI
  */
 class ResearchNode(prefSize: Dimensions, offset: Position, val research: Research, isCheatSheet: Boolean) : ButtonPane(
-    icon = ImagePane("afraidofthedark:textures/gui/arcane_journal_tech_tree/research_background.png", ImagePane.DispMode.FIT_TO_PARENT),
-    iconHovered = ImagePane("afraidofthedark:textures/gui/arcane_journal_tech_tree/research_background_hovered.png", ImagePane.DispMode.FIT_TO_PARENT),
+    icon = ImagePane("afraidofthedark:textures/gui/arcane_journal_tech_tree/research_background_new.png", ImagePane.DispMode.FIT_TO_PARENT),
+    iconHovered = ImagePane("afraidofthedark:textures/gui/arcane_journal_tech_tree/research_background_hovered_new.png", ImagePane.DispMode.FIT_TO_PARENT),
     silent = true,
     gravity = Gravity.CENTER,
     prefSize = prefSize,
