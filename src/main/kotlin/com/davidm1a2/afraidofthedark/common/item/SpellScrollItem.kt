@@ -1,7 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.item
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.capabilities.hasStartedAOTD
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
@@ -20,7 +22,8 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
     override fun use(world: World, playerEntity: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
         val itemStack = playerEntity.getItemInHand(hand)
 
-        if (!playerEntity.hasStartedAOTD()) {
+        val preRequisiteResearch = ModResearches.SPELL_SCROLLS.preRequisite
+        if (preRequisiteResearch != null && !playerEntity.getResearch().isResearched(preRequisiteResearch)) {
             if (!world.isClientSide) {
                 playerEntity.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
             }

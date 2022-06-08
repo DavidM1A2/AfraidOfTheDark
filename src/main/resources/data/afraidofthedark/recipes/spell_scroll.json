@@ -1,0 +1,21 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "s",
+    "p",
+    "p"
+  ],
+  "key": {
+    "s": {
+      "item": "minecraft:stick"
+    },
+    "p": {
+      "item": "minecraft:paper"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:spell_scroll",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:spell_scrolls"
+}

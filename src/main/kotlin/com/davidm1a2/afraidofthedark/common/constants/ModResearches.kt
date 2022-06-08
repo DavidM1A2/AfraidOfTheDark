@@ -42,8 +42,10 @@ object ModResearches {
     val POCKET_DIMENSION = load("pocket_dimension")
     val REANIMATION = load("reanimation")
     val SACRED_MANGROVE = load("sacred_mangrove")
+    val SCROLL_FORMATION = load("scroll_formation")
     val SLEEPING_POTION = load("sleeping_potion")
     val SPELLMASON = load("spellmason")
+    val SPELL_SCROLLS = load("spell_scrolls")
     val STAR_METAL = load("star_metal")
     val THRONE_ROOM = load("throne_room")
     val VITAE = load("vitae")
@@ -94,8 +96,10 @@ object ModResearches {
         POCKET_DIMENSION,
         REANIMATION,
         SACRED_MANGROVE,
+        SCROLL_FORMATION,
         SLEEPING_POTION,
         SPELLMASON,
+        SPELL_SCROLLS,
         STAR_METAL,
         THRONE_ROOM,
         VITAE,

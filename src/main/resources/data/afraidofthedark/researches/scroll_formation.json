@@ -1,0 +1,26 @@
+{
+  "forge:registry_name": "afraidofthedark:scroll_formation",
+  "recipes": [
+    "afraidofthedark:spell_scroll"
+  ],
+  "pre_recipes": [
+    "afraidofthedark:spell_scroll"
+  ],
+  "stickers": [],
+  "pre_stickers": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/scroll_formation.png",
+  "prerequisite": "afraidofthedark:spell_scrolls",
+  "triggers": [
+    {
+      "type": "afraidofthedark:item_crafted",
+      "config": {
+        "item": "afraidofthedark:spell_scroll"
+      }
+    }
+  ],
+  "spell_components": {
+    "delivery_methods": [
+      "afraidofthedark:imbue"
+    ]
+  }
+}

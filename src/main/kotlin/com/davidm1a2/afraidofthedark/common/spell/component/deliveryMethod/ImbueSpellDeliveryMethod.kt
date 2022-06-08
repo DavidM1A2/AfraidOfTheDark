@@ -13,7 +13,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.player.PlayerEntity
 
-class ImbueSpellDeliveryMethod : AOTDSpellDeliveryMethod("imbue", ModResearches.THE_JOURNEY_BEGINS) {
+class ImbueSpellDeliveryMethod : AOTDSpellDeliveryMethod("imbue", ModResearches.SCROLL_FORMATION) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()

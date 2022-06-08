@@ -1,0 +1,11 @@
+{
+  "forge:registry_name": "afraidofthedark:spell_scrolls",
+  "recipes": [],
+  "pre_recipes": [],
+  "stickers": [],
+  "pre_stickers": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/spell_scrolls.png",
+  "prerequisite": "afraidofthedark:vitae",
+  "triggers": [
+  ]
+}
