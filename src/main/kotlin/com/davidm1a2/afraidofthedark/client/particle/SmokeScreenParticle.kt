@@ -5,6 +5,7 @@ import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
+import net.minecraft.util.math.MathHelper
 
 /**
  * Particle used to create a smoke screen
@@ -21,20 +22,22 @@ class SmokeScreenParticle(
     y: Double,
     z: Double
 ) : AOTDParticle(world, x, y, z, 0.0, 0.0, 0.0) {
+    private val minScale = 0.75f + random.nextFloat() * 0.25f
+    private val maxScale = 1.5f + minScale
+    private val baseQuadSize: Float
+
     init {
         // 15-20 second lifespan
         lifetime = random.nextInt(100) + 300
 
         // Blinding size teleport particles
-        scale(1f + random.nextFloat() * 2f)
+        scale(minScale)
+        baseQuadSize = quadSize
 
         // Particle moves outwards
-        xd = random.nextFloat() * 0.07
-        xd = if (random.nextBoolean()) -xd - 0.07 else xd + 0.07
-        yd = random.nextFloat() * 0.07
-        yd = if (random.nextBoolean()) -yd - 0.07 else yd + 0.07
-        zd = random.nextFloat() * 0.07
-        zd = if (random.nextBoolean()) -zd - 0.07 else zd + 0.07
+        xd = (random.nextDouble() - 0.5) * SPEED
+        yd = (random.nextDouble() - 0.5) * SPEED
+        zd = (random.nextDouble() - 0.5) * SPEED
     }
 
     /**
@@ -45,6 +48,11 @@ class SmokeScreenParticle(
         xd = xd * 0.95
         yd = yd * 0.95
         zd = zd * 0.95
+        // Expand the particle over time
+        val newScale = MathHelper.lerp(age.toFloat() / lifetime, minScale, maxScale)
+        // For whatever reason "scale" does quadSize *= newScale, so reset it to avoid exponential quad size growth
+        scale(newScale)
+        quadSize = baseQuadSize * newScale
     }
 
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
@@ -62,5 +70,9 @@ class SmokeScreenParticle(
                 pickSprite(spriteSet)
             }
         }
+    }
+
+    companion object {
+        private const val SPEED = 0.05
     }
 }
