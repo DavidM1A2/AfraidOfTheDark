@@ -10,8 +10,9 @@ import net.minecraft.client.gui.AbstractGui
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.client.resources.I18n
 import net.minecraft.util.ResourceLocation
+import org.apache.logging.log4j.LogManager
 import org.lwjgl.opengl.GL11
-import java.util.LinkedList
+import java.util.*
 
 /**
  * Class used to show what researches were unlocked. This code is copied from the achievement UI from MC 1.8.9
@@ -37,7 +38,12 @@ class ResearchAchievedOverlay : AbstractGui() {
      * @param research The research to display
      */
     fun displayResearch(research: Research) {
-        toDisplay.push(research)
+        // Only allow our queue to store 3 elements, so we don't flood the player with unlock messages
+        if (toDisplay.size < 3) {
+            toDisplay.push(research)
+        } else {
+            LOG.info("Skipping displaying research ${research.getName().string}, we already have three others in queue")
+        }
     }
 
     /**
@@ -128,6 +134,8 @@ class ResearchAchievedOverlay : AbstractGui() {
     }
 
     companion object {
+        private val LOG = LogManager.getLogger()
+
         // The texture of the achievement background
         private val ACHIEVEMENT_BACKGROUND = ResourceLocation(Constants.MOD_ID, "textures/gui/research_achieved.png")
     }
