@@ -120,20 +120,13 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
     override fun appendHoverText(itemStack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
 
-        if (player != null && (preRequisiteResearch == null || player.getResearch()
-                .isResearched(preRequisiteResearch!!))
-        ) {
+        if (player != null && (preRequisiteResearch == null || player.getResearch().isResearched(preRequisiteResearch!!))) {
             val spell = getSpell(itemStack)
             if (spell == null) {
                 tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.spell_scroll.empty"))
             } else {
                 tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.spell_scroll.spell_name", spell.name))
-                tooltip.add(
-                    TranslationTextComponent(
-                        "tooltip.afraidofthedark.spell_scroll.uses_remaining",
-                        getUses(itemStack)
-                    )
-                )
+                tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.spell_scroll.uses_remaining", getUses(itemStack)))
                 for ((index, spellStage) in spell.spellStages.withIndex()) {
                     tooltip.add(
                         TranslationTextComponent(
