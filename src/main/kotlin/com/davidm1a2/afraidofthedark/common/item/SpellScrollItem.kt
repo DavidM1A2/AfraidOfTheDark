@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.capabilities.hasStartedAOTD
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
+import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
@@ -19,11 +19,14 @@ import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 
 class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
+    private val preRequisiteResearch: Research? by lazy {
+        ModResearches.SPELL_SCROLLS.preRequisite
+    }
+
     override fun use(world: World, playerEntity: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
         val itemStack = playerEntity.getItemInHand(hand)
 
-        val preRequisiteResearch = ModResearches.SPELL_SCROLLS.preRequisite
-        if (preRequisiteResearch != null && !playerEntity.getResearch().isResearched(preRequisiteResearch)) {
+        if (preRequisiteResearch != null && !playerEntity.getResearch().isResearched(preRequisiteResearch!!)) {
             if (!world.isClientSide) {
                 playerEntity.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
@@ -117,13 +120,20 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
     override fun appendHoverText(itemStack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
 
-        if (player != null && player.hasStartedAOTD()) {
+        if (player != null && (preRequisiteResearch == null || player.getResearch()
+                .isResearched(preRequisiteResearch!!))
+        ) {
             val spell = getSpell(itemStack)
             if (spell == null) {
                 tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.spell_scroll.empty"))
             } else {
                 tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.spell_scroll.spell_name", spell.name))
-                tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.spell_scroll.uses_remaining", getUses(itemStack)))
+                tooltip.add(
+                    TranslationTextComponent(
+                        "tooltip.afraidofthedark.spell_scroll.uses_remaining",
+                        getUses(itemStack)
+                    )
+                )
                 for ((index, spellStage) in spell.spellStages.withIndex()) {
                     tooltip.add(
                         TranslationTextComponent(
