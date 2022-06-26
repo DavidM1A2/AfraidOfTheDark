@@ -14,7 +14,7 @@ import java.time.Duration
  *
  * @constructor initializes the editable properties
  */
-class DelaySpellDeliveryMethod : AOTDSpellDeliveryMethod("delay", ModResearches.SPELLMASON) {
+class DelaySpellDeliveryMethod : AOTDSpellDeliveryMethod("delay", ModResearches.APPRENTICE_ASCENDED) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()

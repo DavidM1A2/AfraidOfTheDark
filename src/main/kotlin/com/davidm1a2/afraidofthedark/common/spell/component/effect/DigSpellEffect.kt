@@ -18,7 +18,7 @@ import kotlin.math.abs
 /**
  * Dig effect digs a block
  */
-class DigSpellEffect : AOTDDurationSpellEffect("dig", ModResearches.SPELLMASON, 0, FREE_DURATION, Duration.ofMinutes(20).seconds.toInt()) {
+class DigSpellEffect : AOTDDurationSpellEffect("dig", ModResearches.APPRENTICE_ASCENDED, 0, FREE_DURATION, Duration.ofMinutes(20).seconds.toInt()) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()

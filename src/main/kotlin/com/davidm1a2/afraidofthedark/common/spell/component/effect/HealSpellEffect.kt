@@ -15,7 +15,7 @@ import net.minecraft.entity.item.ArmorStandEntity
  *
  * @constructor adds the editable prop
  */
-class HealSpellEffect : AOTDSpellEffect("heal", ModResearches.SPELLMASON) {
+class HealSpellEffect : AOTDSpellEffect("heal", ModResearches.APPRENTICE_ASCENDED) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()

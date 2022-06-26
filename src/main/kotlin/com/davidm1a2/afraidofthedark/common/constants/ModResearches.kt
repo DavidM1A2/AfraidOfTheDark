@@ -44,7 +44,7 @@ object ModResearches {
     val SACRED_MANGROVE = load("sacred_mangrove")
     val SCROLL_FORMATION = load("scroll_formation")
     val SLEEPING_POTION = load("sleeping_potion")
-    val SPELLMASON = load("spellmason")
+    val APPRENTICE_ASCENDED = load("apprentice_ascended")
     val SPELL_SCROLLS = load("spell_scrolls")
     val STAR_METAL = load("star_metal")
     val THRONE_ROOM = load("throne_room")
@@ -98,7 +98,7 @@ object ModResearches {
         SACRED_MANGROVE,
         SCROLL_FORMATION,
         SLEEPING_POTION,
-        SPELLMASON,
+        APPRENTICE_ASCENDED,
         SPELL_SCROLLS,
         STAR_METAL,
         THRONE_ROOM,

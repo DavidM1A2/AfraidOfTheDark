@@ -13,7 +13,7 @@ import net.minecraftforge.common.util.Constants
 /**
  * Spell effect that causes growable blocks to grow
  */
-class GrowSpellEffect : AOTDSpellEffect("grow", ModResearches.SPELLMASON) {
+class GrowSpellEffect : AOTDSpellEffect("grow", ModResearches.APPRENTICE_ASCENDED) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()

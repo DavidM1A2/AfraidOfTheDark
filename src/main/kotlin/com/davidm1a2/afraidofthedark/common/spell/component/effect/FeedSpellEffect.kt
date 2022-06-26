@@ -14,7 +14,7 @@ import net.minecraft.entity.player.PlayerEntity
  *
  * @constructor adds the editable prop
  */
-class FeedSpellEffect : AOTDSpellEffect("feed", ModResearches.SPELLMASON) {
+class FeedSpellEffect : AOTDSpellEffect("feed", ModResearches.APPRENTICE_ASCENDED) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()

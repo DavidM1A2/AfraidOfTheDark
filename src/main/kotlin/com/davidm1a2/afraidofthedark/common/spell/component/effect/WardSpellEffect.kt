@@ -14,7 +14,7 @@ import net.minecraft.potion.Effects
 import net.minecraft.util.math.ChunkPos
 import java.time.Duration
 
-class WardSpellEffect : AOTDDurationSpellEffect("ward", ModResearches.SPELLMASON, 0, FREE_DURATION, Duration.ofMinutes(20).seconds.toInt()) {
+class WardSpellEffect : AOTDDurationSpellEffect("ward", ModResearches.APPRENTICE_ASCENDED, 0, FREE_DURATION, Duration.ofMinutes(20).seconds.toInt()) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()

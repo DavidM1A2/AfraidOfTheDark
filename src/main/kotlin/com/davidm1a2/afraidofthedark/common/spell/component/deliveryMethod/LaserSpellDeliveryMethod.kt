@@ -19,7 +19,7 @@ import java.awt.Color
  *
  * @constructor initializes the editable properties
  */
-class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod("laser", ModResearches.SPELLMASON) {
+class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod("laser", ModResearches.APPRENTICE_ASCENDED) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()

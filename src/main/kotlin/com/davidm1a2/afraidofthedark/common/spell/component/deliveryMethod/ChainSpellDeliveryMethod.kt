@@ -18,7 +18,7 @@ import net.minecraft.util.math.RayTraceResult
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 
-class ChainSpellDeliveryMethod : AOTDSpellDeliveryMethod("chain", ModResearches.SPELLMASON) {
+class ChainSpellDeliveryMethod : AOTDSpellDeliveryMethod("chain", ModResearches.APPRENTICE_ASCENDED) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.doubleProperty()

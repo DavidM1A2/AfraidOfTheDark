@@ -1,8 +1,8 @@
 {
-  "forge:registry_name": "afraidofthedark:spellmason",
+  "forge:registry_name": "afraidofthedark:apprentice_ascended",
   "recipes": [],
   "pre_recipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/spellmason.png",
+  "icon": "afraidofthedark:textures/gui/research_icons/apprentice_ascended.png",
   "prerequisite": "afraidofthedark:arch_sorceress",
   "triggers": [
     {
