@@ -10,6 +10,7 @@ import net.minecraft.util.ResourceLocation
 object ModResearches {
     val ADVANCED_MAGIC = load("advanced_magic")
     val ALCHEMY = load("alchemy")
+    val APPRENTICE_ASCENDED = load("apprentice_ascended")
     val ARCH_SORCERESS = load("arch_sorceress")
     val THE_JOURNEY_BEGINS = load("the_journey_begins")
     val ASTRAL_SILVER = load("astral_silver")
@@ -33,7 +34,7 @@ object ModResearches {
     val FORBIDDEN_CITY = load("forbidden_city")
     val IGNEOUS = load("igneous")
     val INFERNO = load("inferno")
-    val INSANITY = load("insanity");
+    val INSANITY = load("insanity")
     val MAGIC_MASTERY = load("magic_mastery")
     val MANGROVE = load("mangrove")
     val NIGHTMARE_REALM = load("nightmare_realm")
@@ -44,8 +45,8 @@ object ModResearches {
     val SACRED_MANGROVE = load("sacred_mangrove")
     val SCROLL_FORMATION = load("scroll_formation")
     val SLEEPING_POTION = load("sleeping_potion")
-    val APPRENTICE_ASCENDED = load("apprentice_ascended")
     val SPELL_SCROLLS = load("spell_scrolls")
+    val SPELLMASON = load("spellmason")
     val STAR_METAL = load("star_metal")
     val THRONE_ROOM = load("throne_room")
     val VITAE = load("vitae")
@@ -64,6 +65,7 @@ object ModResearches {
     val RESEARCH_LIST = arrayOf(
         ADVANCED_MAGIC,
         ALCHEMY,
+        APPRENTICE_ASCENDED,
         ARCH_SORCERESS,
         THE_JOURNEY_BEGINS,
         ASTRAL_SILVER,
@@ -98,8 +100,8 @@ object ModResearches {
         SACRED_MANGROVE,
         SCROLL_FORMATION,
         SLEEPING_POTION,
-        APPRENTICE_ASCENDED,
         SPELL_SCROLLS,
+        SPELLMASON,
         STAR_METAL,
         THRONE_ROOM,
         VITAE,

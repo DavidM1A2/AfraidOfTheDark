@@ -1,0 +1,21 @@
+{
+  "forge:registry_name": "afraidofthedark:spellmason",
+  "recipes": [
+    "afraidofthedark:spell_crafting_table"
+  ],
+  "pre_recipes": [
+    "afraidofthedark:spell_crafting_table"
+  ],
+  "stickers": [],
+  "pre_stickers": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/spellmason.png",
+  "prerequisite": "afraidofthedark:vitae",
+  "triggers": [
+    {
+      "type": "afraidofthedark:item_crafted",
+      "config": {
+        "item": "afraidofthedark:spell_crafting_table"
+      }
+    }
+  ]
+}
