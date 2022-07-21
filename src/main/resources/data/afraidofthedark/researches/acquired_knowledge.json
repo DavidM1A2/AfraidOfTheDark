@@ -1,0 +1,17 @@
+{
+  "forge:registry_name": "afraidofthedark:acquired_knowledge",
+  "recipes": [],
+  "pre_recipes": [],
+  "stickers": [],
+  "pre_stickers": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/acquired_knowledge.png",
+  "prerequisite": "afraidofthedark:scroll_formation",
+  "triggers": [
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:acquired_knowledge"
+      }
+    }
+  ]
+}

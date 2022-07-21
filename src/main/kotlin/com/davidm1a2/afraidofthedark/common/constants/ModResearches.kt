@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation
  * A static class containing all of our research references for us
  */
 object ModResearches {
+    val ACQUIRED_KNOWLEDGE = load("acquired_knowledge")
     val ADVANCED_MAGIC = load("advanced_magic")
     val ALCHEMY = load("alchemy")
     val APPRENTICE_ASCENDED = load("apprentice_ascended")
@@ -63,6 +64,7 @@ object ModResearches {
 
     // An array containing a list of researches that AOTD adds
     val RESEARCH_LIST = arrayOf(
+        ACQUIRED_KNOWLEDGE,
         ADVANCED_MAGIC,
         ALCHEMY,
         APPRENTICE_ASCENDED,
