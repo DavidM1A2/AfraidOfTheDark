@@ -13,13 +13,10 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.utility.getLookNormal
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import com.google.gson.Gson
-import com.google.gson.JsonElement
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.ListNBT
-import net.minecraft.nbt.NBTUtil
 import net.minecraft.particles.IParticleData
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.math.BlockPos
@@ -30,38 +27,25 @@ import net.minecraftforge.common.util.Constants
 import net.minecraftforge.common.util.INBTSerializable
 import net.minecraftforge.fml.network.PacketDistributor
 import org.apache.logging.log4j.LogManager
-import java.util.UUID
 import kotlin.random.Random
 
 /**
  * Class representing a spell instance created by a player
  *
  * @property name The spell's name, can't be null (empty by default)
- * @property id The spell's universally unique identifier, cannot be null
  * @property spellStages The list of spell stages this spell can go through, can have 0 - inf elements
  */
-class Spell : INBTSerializable<CompoundNBT> {
-    lateinit var name: String
-    lateinit var id: UUID
-        private set
+class Spell() : INBTSerializable<CompoundNBT> {
+    // Empty spell name is default
+    var name: String = ""
     val spellStages = mutableListOf<SpellStage>()
-
-    /**
-     * Constructor that takes the player that created the spell in as a parameter
-     */
-    constructor() {
-        // Assign a random spell ID
-        id = UUID.randomUUID()
-        // Empty spell name is default
-        name = ""
-    }
 
     /**
      * Constructor that takes in an NBT compound and creates the spell from NBT
      *
      * @param nbt The NBT containing the spell's information
      */
-    constructor(nbt: CompoundNBT) {
+    constructor(nbt: CompoundNBT) : this() {
         deserializeNBT(nbt)
     }
 
@@ -247,39 +231,12 @@ class Spell : INBTSerializable<CompoundNBT> {
 
         // Write each field to NBT
         nbt.putString(NBT_NAME, name)
-        nbt.put(NBT_ID, NBTUtil.createUUID(id))
 
         // Write each spell stage to NBT
         val spellStagesNBT = ListNBT()
         spellStages.forEach { spellStagesNBT.add(it.serializeNBT()) }
         nbt.put(NBT_SPELL_STAGES, spellStagesNBT)
         return nbt
-    }
-
-    fun serializeJSON(): JsonElement {
-        val json = Gson().toJsonTree(serializeNBT())
-        return removeTags(json)
-    }
-
-    // Removes "tags" and "data" fields in json, replacing them with their values
-    fun removeTags(json: JsonElement): JsonElement {
-        if (json.isJsonObject) {
-            val jsonObj = json.asJsonObject
-            val keys = jsonObj.entrySet().map { it.key }
-            for (key in keys) {
-                if (key == "tags" || key == "data") {
-                    return removeTags(jsonObj[key])
-                } else {
-                    jsonObj.add(key, removeTags(jsonObj.remove(key)))
-                }
-            }
-        } else if (json.isJsonArray) {
-            val jsonArr = json.asJsonArray
-            for (index in 0 until jsonArr.size()) {
-                jsonArr.set(index, removeTags(jsonArr[index]))
-            }
-        }
-        return json
     }
 
     /**
@@ -290,12 +247,6 @@ class Spell : INBTSerializable<CompoundNBT> {
     override fun deserializeNBT(nbt: CompoundNBT) {
         // Read each field from NBT
         name = nbt.getString(NBT_NAME)
-        id = if (nbt.hasUUID(NBT_ID)) {
-            nbt.getUUID(NBT_ID)
-        } else {
-            // Special case where the spell is from a scroll. Generate a UUID
-            UUID.randomUUID()
-        }
 
         // Read each spell stage from NBT
         val spellStagesNBT = nbt.getList(NBT_SPELL_STAGES, Constants.NBT.TAG_COMPOUND)
@@ -326,7 +277,6 @@ class Spell : INBTSerializable<CompoundNBT> {
 
         // Constants used for NBT serialization/deserialiation
         private const val NBT_NAME = "name"
-        private const val NBT_ID = "id"
         private const val NBT_SPELL_STAGES = "spell_stages"
     }
 }

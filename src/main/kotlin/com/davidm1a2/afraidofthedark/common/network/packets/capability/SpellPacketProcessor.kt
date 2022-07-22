@@ -22,6 +22,9 @@ class SpellPacketProcessor : PacketProcessor<SpellPacket> {
             buf.writeUtf(msg.keybind!!)
         }
 
+        // Write out the spell's network ID
+        buf.writeUUID(msg.networkId)
+
         // Finally write the spell NBT
         buf.writeNbt(msg.spell.serializeNBT())
     }
@@ -31,7 +34,9 @@ class SpellPacketProcessor : PacketProcessor<SpellPacket> {
         val hasKeybind = buf.readBoolean()
         val keybind = if (hasKeybind) buf.readUtf() else null
 
-        return SpellPacket(Spell(buf.readNbt()!!), keybind)
+        val networkId = buf.readUUID()
+
+        return SpellPacket(Spell(buf.readNbt()!!), networkId, keybind)
     }
 
     override fun process(msg: SpellPacket, ctx: NetworkEvent.Context) {
@@ -41,12 +46,6 @@ class SpellPacketProcessor : PacketProcessor<SpellPacket> {
             else -> null
         }
 
-        spellManager?.let {
-            // Add the spell and keybind it if necessary
-            spellManager.addOrUpdateSpell(msg.spell)
-            if (msg.keybind != null) {
-                spellManager.keybindSpell(msg.keybind, msg.spell)
-            }
-        }
+        spellManager?.updateSpellFromNetwork(msg.spell, msg.networkId, msg.keybind)
     }
 }

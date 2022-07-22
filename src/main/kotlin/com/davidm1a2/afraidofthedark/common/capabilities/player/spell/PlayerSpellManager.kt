@@ -4,135 +4,76 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.ClearSpellsPacket
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellPacket
 import com.davidm1a2.afraidofthedark.common.spell.Spell
-import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import org.apache.logging.log4j.LogManager
-import java.util.UUID
+import java.util.*
 
 /**
  * Default implementation of the AOTD spell manager
- *
- * @property keybindToSpellId Key -> spell id is a bimap so we can answer queries both ways quickly
- * @property spellIdToSpell Use a linked hash map to keep order of spells
  */
 class PlayerSpellManager : IPlayerSpellManager {
-    private val keybindToSpellId: BiMap<String, UUID> = HashBiMap.create()
-    private val spellIdToSpell: MutableMap<UUID, Spell> = linkedMapOf()
+    private val spellNetworkIdMapping = HashBiMap.create<Spell, UUID>()
+    private val spellKeybindingMapping = HashBiMap.create<Spell, String>()
 
-    /**
-     * Adds a spell to the list if it doesnt exist, or updates the spell if the ID already exists
-     *
-     * @param spell The spell to add or update
-     */
-    override fun addOrUpdateSpell(spell: Spell) {
-        spellIdToSpell[spell.id] = spell
-    }
-
-    /**
-     * Deletes a spell from the list
-     *
-     * @param spell The spell to delete from the list
-     */
-    override fun deleteSpell(spell: Spell) {
-        spellIdToSpell.remove(spell.id)
-        // Make use of our bi-map to remove by "value"
-        keybindToSpellId.inverse().remove(spell.id)
-    }
-
-    /**
-     * Clears all spells and keybinds stored
-     */
-    override fun clearSpells() {
-        spellIdToSpell.clear()
-        keybindToSpellId.clear()
-    }
-
-    /**
-     * @return An unmodifiable list of spells that were added
-     */
-    override fun getSpells(): List<Spell> {
-        return spellIdToSpell.values.toList()
-    }
-
-    /**
-     * Adds a keybinding to a given spell
-     *
-     * @param key The key to bind to the spell
-     * @param spell The spell to fire when the key is pressed
-     */
-    override fun keybindSpell(key: String, spell: Spell) {
-        // Test if we have a spell registered by the id first
-        if (spellIdToSpell.containsKey(spell.id)) {
-            keybindToSpellId.forcePut(key, spell.id)
+    override fun createSpell(spell: Spell) {
+        if (spellNetworkIdMapping.containsKey(spell)) {
+            LOG.warn("Can't create the same spell twice")
         } else {
-            logger.error("Cannot bind a spell that isn't registered!")
+            spellNetworkIdMapping[spell] = UUID.randomUUID()
+            // This shouldn't be needed, but just in case :)
+            spellKeybindingMapping.remove(spell)
         }
     }
 
-    /**
-     * Removes a keybinding to a given spell
-     *
-     * @param spell The spell to unbind
-     */
+    override fun deleteSpell(spell: Spell) {
+        spellNetworkIdMapping.remove(spell)
+        spellKeybindingMapping.remove(spell)
+    }
+
+    override fun clearSpells() {
+        spellNetworkIdMapping.clear()
+        spellKeybindingMapping.clear()
+    }
+
+    override fun getSpells(): List<Spell> {
+        return spellNetworkIdMapping.keys.toList()
+    }
+
+    override fun keybindSpell(spell: Spell, key: String) {
+        if (spellNetworkIdMapping.containsKey(spell)) {
+            spellKeybindingMapping.forcePut(spell, key)
+        } else {
+            LOG.error("Cannot keybind a spell that isn't registered!")
+        }
+    }
+
     override fun unbindSpell(spell: Spell) {
-        // Remove the key bound to the spell
-        keybindToSpellId.inverse().remove(spell.id)
+        spellKeybindingMapping.remove(spell)
     }
 
-    /**
-     * Tests if a key is registered as a keybinding
-     *
-     * @param key The key to test
-     * @return True if the key maps to a spell, false otherwise
-     */
     override fun keybindExists(key: String): Boolean {
-        return keybindToSpellId.containsKey(key)
+        return spellKeybindingMapping.inverse().containsKey(key)
     }
 
-    /**
-     * Gets the keybinding a spell is bound to or null if it is not bound to any
-     *
-     * @param spell The spell to grab the keybinding for
-     * @return The keybinding a spell is bound to or null if it is unbound
-     */
     override fun getKeybindingForSpell(spell: Spell): String? {
-        return keybindToSpellId.inverse().getOrDefault(spell.id, null)
+        return spellKeybindingMapping[spell]
     }
 
-    /**
-     * Gets the spell associated with a given keybinding or null if it does not exist
-     *
-     * @param key The keybinding to lookup spells for
-     * @return A spell that this key is bound to or null if it does not exist
-     */
     override fun getSpellForKeybinding(key: String): Spell? {
-        // Get the spell's UUID for the keybinding
-        val spellUUID = keybindToSpellId.getOrDefault(key, null)
-        // If it's non-null get the spell for the id
-        return if (spellUUID != null) {
-            // Return the spell or null
-            spellIdToSpell.getOrDefault(spellUUID, null)
-        } else null
+        return spellKeybindingMapping.inverse()[key]
     }
 
-    /**
-     * Gets a spell by it's ID
-     *
-     * @param spellId The spell's ID
-     * @return The spell that has that ID, or null if it doesn't exist
-     */
-    override fun getSpellById(spellId: UUID): Spell? {
-        return spellIdToSpell.getOrDefault(spellId, null)
+    override fun updateSpellFromNetwork(spell: Spell, networkId: UUID, keybinding: String?) {
+        spellNetworkIdMapping.forcePut(spell, networkId)
+        if (keybinding != null) {
+            spellKeybindingMapping.forcePut(spell, keybinding)
+        } else {
+            spellKeybindingMapping.remove(spell)
+        }
     }
 
-    /**
-     * Synchronizes the spell manager between server and client, can be sent
-     * from any side. This will sync all known spells and keybindings
-     *
-     * @param entityPlayer The player to sync the spell manager to
-     */
     override fun syncAll(entityPlayer: PlayerEntity) {
         // Clear the existing spells first
         if (isServerSide(entityPlayer)) {
@@ -142,18 +83,14 @@ class PlayerSpellManager : IPlayerSpellManager {
         }
         // Go over each spell and sync them one by one. We do this to avoid a large memory overhead
         // of sending many spells in a single packet
-        spellIdToSpell.values.forEach { sync(entityPlayer, it) }
+        getSpells().forEach { sync(entityPlayer, it) }
     }
 
-    /**
-     * Synchronizes a specific spell between server and client, can be sent from
-     * any side. This will only send the spell and keybinding information for a single spell
-     */
     override fun sync(entityPlayer: PlayerEntity, spell: Spell) {
         // Grab the keybind or null
-        val keybind = getKeybindingForSpell(spell)
+        val keybinding = getKeybindingForSpell(spell)
         // Create the packet
-        val syncSpellPacket = SpellPacket(spell, keybind)
+        val syncSpellPacket = SpellPacket(spell, spellNetworkIdMapping[spell]!!, keybinding)
         // If we're on server side send the packet to the player, otherwise send it to the server
         if (isServerSide(entityPlayer)) {
             AfraidOfTheDark.packetHandler.sendTo(syncSpellPacket, entityPlayer as ServerPlayerEntity)
@@ -162,17 +99,11 @@ class PlayerSpellManager : IPlayerSpellManager {
         }
     }
 
-    /**
-     * Returns true if the player is on server side or false if not
-     *
-     * @param entityPlayer The player to test
-     * @return true if the player is on server side or false if not
-     */
     private fun isServerSide(entityPlayer: PlayerEntity): Boolean {
         return !entityPlayer.level.isClientSide
     }
 
     companion object {
-        private val logger = LogManager.getLogger()
+        private val LOG = LogManager.getLogger()
     }
 }

@@ -2,18 +2,18 @@ package com.davidm1a2.afraidofthedark.common.capabilities.player.spell
 
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import net.minecraft.entity.player.PlayerEntity
-import java.util.UUID
+import java.util.*
 
 /**
  * An interface that is a base for AOTD player spell capabilities
  */
 interface IPlayerSpellManager {
     /**
-     * Adds a spell to the list if it doesnt exist, or updates the spell if the ID already exists
+     * Creates a new spell in the spell manager
      *
-     * @param spell The spell to add or update
+     * @param spell The spell to add
      */
-    fun addOrUpdateSpell(spell: Spell)
+    fun createSpell(spell: Spell)
 
     /**
      * Deletes a spell from the list
@@ -35,10 +35,10 @@ interface IPlayerSpellManager {
     /**
      * Adds a keybinding to a given spell
      *
-     * @param key The key to bind to the spell
      * @param spell The spell to fire when the key is pressed
+     * @param key The key to bind to the spell
      */
-    fun keybindSpell(key: String, spell: Spell)
+    fun keybindSpell(spell: Spell, key: String)
 
     /**
      * Removes a keybinding to a given spell
@@ -72,12 +72,15 @@ interface IPlayerSpellManager {
     fun getSpellForKeybinding(key: String): Spell?
 
     /**
-     * Gets a spell by it's ID
+     * Creates/Updates an existing spell with a given network ID with a new spell definition and keybind. This should only be
+     * called when receiving a spell related packet. If the given network ID is present, the spell with that ID is updated. If
+     * it is not present, the spell is created.
      *
-     * @param spellId The spell's ID
-     * @return The spell that has that ID, or null if it doesn't exist
+     * @param spell The new spell
+     * @param networkId The spell's network ID
+     * @param keybinding The spell's keybinding
      */
-    fun getSpellById(spellId: UUID): Spell?
+    fun updateSpellFromNetwork(spell: Spell, networkId: UUID, keybinding: String?)
 
     /**
      * Synchronizes the spell manager between server and client, can be sent

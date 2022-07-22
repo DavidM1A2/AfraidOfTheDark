@@ -3,20 +3,18 @@ package com.davidm1a2.afraidofthedark.common.item
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
+import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.IntArrayNBT
-import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
-import java.util.UUID
 import kotlin.math.ceil
 
 /**
@@ -41,54 +39,41 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
 
         // If the player is sneaking switch spells, otherwise cast the spell
         if (player.isCrouching) {
-            // If the item has no spell ID yet grab the player's first spell id and bind it
-            if (!hasSpellId(heldItem)) {
-                // Set the spell id to the first player's spell
+            // Grab the spell bound to this wand
+            val currentSpell = getSpell(heldItem)
+            if (currentSpell == null) {
+                // Set the spell to the player's first spell
                 setSpellToFirstAvailable(player, heldItem)
             } else {
-                // Grab the current spell ID
-                val spellId = getSpellId(heldItem)
-                // Grab the spell bound to this ID
-                val currentSpell = spellManager.getSpellById(spellId!!)
-                // If the spell was deleted set the spell to the player's first available spell
-                if (currentSpell == null) {
-                    setSpellToFirstAvailable(player, heldItem)
-                } else {
-                    // Grab the spell list
-                    val spells = spellManager.getSpells()
-                    val currentSpellIndex = spells.indexOfFirst { it.id == spellId }
+                // Grab the spell list
+                val spells = spellManager.getSpells()
+                // TODO: Names are not unique, but it sorta kinda works for now. Fix this once we have a better system
+                val currentSpellIndex = spells.indexOfFirst { it.name == currentSpell.name }
 
-                    // If our list has another spell after ours store that one
-                    if (currentSpellIndex + 1 < spells.size) {
-                        val next = spells[currentSpellIndex + 1]
-                        setSpellId(heldItem, next.id)
-                        // Send the message server side
-                        if (!world.isClientSide) {
-                            player.sendMessage(
-                                TranslationTextComponent(
-                                    "message.afraidofthedark:wand.spell_set",
-                                    next.name
-                                )
+                // If our list has another spell after ours store that one
+                if (currentSpellIndex + 1 < spells.size) {
+                    val next = spells[currentSpellIndex + 1]
+                    setSpell(heldItem, next)
+                    // Send the message server side
+                    if (!world.isClientSide) {
+                        player.sendMessage(
+                            TranslationTextComponent(
+                                "message.afraidofthedark:wand.spell_set",
+                                next.name
                             )
-                        }
-                    } else {
-                        setSpellToFirstAvailable(player, heldItem)
+                        )
                     }
+                } else {
+                    setSpellToFirstAvailable(player, heldItem)
                 }
             }
         } else {
             // Server side processing only
             if (!world.isClientSide) {
                 // Grab the spell that's on the item
-                val spellId = getSpellId(heldItem)
-                if (spellId != null) {
-                    val toCast = spellManager.getSpellById(spellId)
-                    // If the spell is null print an error, otherwise try and cast the spell
-                    if (toCast != null) {
-                        toCast.attemptToCast(player)
-                    } else {
-                        player.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.invalid_spell"))
-                    }
+                val toCast = getSpell(heldItem)
+                if (toCast != null) {
+                    toCast.attemptToCast(player)
                 } else {
                     player.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.no_bound_spell"))
                 }
@@ -118,8 +103,8 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
                 entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.spell_set", first.name))
             }
 
-            // Set the NBT spell ID
-            setSpellId(itemStack, first.id)
+            // Set the NBT spell
+            setSpell(itemStack, first)
         } else {
             // Server side sending only, tell the player he/she has no spells to bind to the wand yet
             if (!entityPlayer.level.isClientSide) {
@@ -129,34 +114,33 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
     }
 
     /**
-     * True if the itemstack has a spell ID NBT tag, false otherwise
+     * True if the itemstack has a spell NBT tag, false otherwise
      *
      * @param itemStack The itemstack to test
-     * @return True if the itemstack has a spell ID, false otherwise
+     * @return True if the itemstack has a spell, false otherwise
      */
-    private fun hasSpellId(itemStack: ItemStack): Boolean {
-        return NBTHelper.hasTag(itemStack, NBT_SPELL_ID)
+    private fun hasSpell(itemStack: ItemStack): Boolean {
+        return NBTHelper.hasTag(itemStack, NBT_SPELL)
     }
 
     /**
-     * Sets the spell ID of the itemstack
+     * Sets the spell of the itemstack
      *
-     * @param itemStack The itemstack to set the spell id on
-     * @param spellId   The new spell id to USE
+     * @param itemStack The itemstack to set the spell on
+     * @param spell The new spell to store
      */
-    private fun setSpellId(itemStack: ItemStack, spellId: UUID) {
-        NBTHelper.setIntArray(itemStack, NBT_SPELL_ID, NBTUtil.createUUID(spellId).asIntArray)
+    private fun setSpell(itemStack: ItemStack, spell: Spell) {
+        NBTHelper.setCompound(itemStack, NBT_SPELL, spell.serializeNBT())
     }
 
     /**
-     * Gets the spell id off of the itemstack or null if it does not exist
+     * Gets the spell off of the itemstack or null if it does not exist
      *
-     * @param itemStack The itemstack to get the spell id from
-     * @return The spell id on the itemstack or null if it doesn't exist
+     * @param itemStack The itemstack to get the spell from
+     * @return The spell on the itemstack or null if it doesn't exist
      */
-    private fun getSpellId(itemStack: ItemStack): UUID? {
-        val uuidArray = NBTHelper.getIntArray(itemStack, NBT_SPELL_ID)
-        return uuidArray?.let { NBTUtil.loadUUID(IntArrayNBT(it)) }
+    private fun getSpell(itemStack: ItemStack): Spell? {
+        return NBTHelper.getCompound(itemStack, NBT_SPELL)?.let { Spell(it) }
     }
 
     /**
@@ -173,9 +157,9 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
         // Need to test if player is null during client init
         if (player != null) {
             // Test if the wand has a spell ID
-            if (hasSpellId(stack)) {
+            if (hasSpell(stack)) {
                 // Grab the spell by ID
-                val spell = player.getSpellManager().getSpellById(getSpellId(stack)!!)
+                val spell = getSpell(stack)
 
                 // If the spell is non-null show the spell's stats
                 if (spell != null) {
@@ -194,7 +178,7 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
     }
 
     companion object {
-        // NBT compound for spell id
-        private const val NBT_SPELL_ID = "spell_id"
+        // NBT compound for spell
+        private const val NBT_SPELL = "spell"
     }
 }

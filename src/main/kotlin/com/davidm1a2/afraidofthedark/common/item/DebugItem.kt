@@ -1,14 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.capabilities.getSpellLunarData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
-import com.davidm1a2.afraidofthedark.common.capabilities.getSpellSolarData
-import com.davidm1a2.afraidofthedark.common.capabilities.getSpellThermalData
-import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
+import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import com.google.gson.Gson
+import com.google.gson.JsonElement
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -37,9 +35,8 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
 //                println("${powerSource.registryName!!.path} - Current: ${environment.vitaeAvailable}, Max: ${environment.vitaeMaximum}")
 //            }
 //            println("Took: ${(System.currentTimeMillis() - time)}ms")
-            val gson = Gson()
             playerIn.getSpellManager().getSpells().forEach {
-                val json = it.serializeJSON()
+                val json = serializeJSON(it)
                 json.asJsonObject.remove("id")
                 println(json)
             }
@@ -57,7 +54,34 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
         return super.onLeftClickEntity(stack, player, entity)
     }
 
+    private fun serializeJSON(spell: Spell): JsonElement {
+        return removeTags(GSON.toJsonTree(spell))
+    }
+
+    // Removes "tags" and "data" fields in json, replacing them with their values
+    private fun removeTags(json: JsonElement): JsonElement {
+        if (json.isJsonObject) {
+            val jsonObj = json.asJsonObject
+            val keys = jsonObj.entrySet().map { it.key }
+            for (key in keys) {
+                if (key == "tags" || key == "data") {
+                    return removeTags(jsonObj[key])
+                } else {
+                    jsonObj.add(key, removeTags(jsonObj.remove(key)))
+                }
+            }
+        } else if (json.isJsonArray) {
+            val jsonArr = json.asJsonArray
+            for (index in 0 until jsonArr.size()) {
+                jsonArr.set(index, removeTags(jsonArr[index]))
+            }
+        }
+        return json
+    }
+
     companion object {
+        private val GSON = Gson()
+
         private val logger = LogManager.getLogger()
     }
 }
