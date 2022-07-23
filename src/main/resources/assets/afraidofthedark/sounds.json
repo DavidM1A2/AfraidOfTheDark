@@ -227,5 +227,15 @@
       }
     ],
     "subtitle": "Lens Cutter"
+  },
+  "scroll_learned": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "afraidofthedark:scroll_learned",
+        "stream": false
+      }
+    ],
+    "subtitle": "Scroll Learned"
   }
 }

@@ -743,5 +743,6 @@
   "message.afraidofthedark.magic_crystal.three_quarters": "The crystal is warm to the touch and exudes an intense energy.",
   "message.afraidofthedark.magic_crystal.full": "The crystal is brimming with energy, emitting small sparks of magic.",
   "message.afraidofthedark.spell_scroll.empty": "The spell scroll is blank.",
-  "message.afraidofthedark.spell_scroll.no_uses_left": "The spell scroll has no uses left."
+  "message.afraidofthedark.spell_scroll.no_uses_left": "The spell scroll has no uses left.",
+  "message.afraidofthedark.spell_scroll.learn_spell": "You've learned a new spell: %1$s"
 }

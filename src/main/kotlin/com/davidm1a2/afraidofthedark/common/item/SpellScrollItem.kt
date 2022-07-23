@@ -1,8 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
+import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.constants.ModSounds
+import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.Spell
@@ -12,15 +16,40 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.item.ItemUseContext
 import net.minecraft.util.ActionResult
+import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
+import net.minecraftforge.common.MinecraftForge
 
 class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
     private val preRequisiteResearch: Research? by lazy {
         ModResearches.SPELL_SCROLLS.preRequisite
+    }
+
+    override fun useOn(itemUseContext: ItemUseContext): ActionResultType {
+        val world = itemUseContext.level
+        val blockState = world.getBlockState(itemUseContext.clickedPos)
+        val player = itemUseContext.player
+        val spell = getSpell(itemUseContext.itemInHand)
+        if (player != null && spell != null && blockState.block == ModBlocks.SPELL_CRAFTING_TABLE) {
+            if (!world.isClientSide) {
+                MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(player, ModResearches.ACQUIRED_KNOWLEDGE))
+            }
+            // Check if preRequisite is researched, not the actual research. This ensures if our acquired knowledge packet doesn't arrive in time we'll still learn the spell
+            val preRequisite = ModResearches.ACQUIRED_KNOWLEDGE.preRequisite
+            if (preRequisite == null || player.getResearch().isResearched(preRequisite)) {
+                learnSpell(player, spell)
+                if (!player.isCreative) {
+                    itemUseContext.itemInHand.shrink(1)
+                }
+                return ActionResultType.CONSUME
+            }
+        }
+        return super.useOn(itemUseContext)
     }
 
     override fun use(world: World, playerEntity: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
@@ -86,6 +115,18 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
 
     override fun showDurabilityBar(stack: ItemStack): Boolean {
         return !isEmpty(stack)
+    }
+
+    private fun learnSpell(playerEntity: PlayerEntity, spell: Spell) {
+        val world = playerEntity.level
+        if (!world.isClientSide) {
+            playerEntity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell_scroll.learn_spell", spell.name))
+        }
+        if (world.isClientSide) {
+            playerEntity.playSound(ModSounds.SCROLL_LEARNED, 2f, 1f)
+        }
+
+        playerEntity.getSpellManager().createSpell(spell)
     }
 
     fun setSpell(itemStack: ItemStack, spell: Spell) {

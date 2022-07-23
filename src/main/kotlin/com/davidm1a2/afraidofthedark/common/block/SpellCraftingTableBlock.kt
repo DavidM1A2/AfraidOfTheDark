@@ -7,6 +7,7 @@ import com.davidm1a2.afraidofthedark.common.block.core.AOTDUseBlockItemStackRend
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
+import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.tileEntity.SpellCraftingTableTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
@@ -45,6 +46,12 @@ class SpellCraftingTableBlock : AOTDTileEntityBlock("spell_crafting_table", Prop
         hand: Hand,
         hit: BlockRayTraceResult
     ): ActionResultType {
+        // If you right-click the table with a spell scroll, pass along the use call to the item, so we can learn the spell
+        val itemInHand = playerIn.getItemInHand(hand)
+        if (itemInHand.item == ModItems.SPELL_SCROLL && ModItems.SPELL_SCROLL.getSpell(itemInHand) != null) {
+            return ActionResultType.PASS
+        }
+
         val research = playerIn.getResearch()
         val hasResearch = research.isResearched(ModResearches.SPELLMASON)
         if (worldIn.isClientSide && hasResearch) {
