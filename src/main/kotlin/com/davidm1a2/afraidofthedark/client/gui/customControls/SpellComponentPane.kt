@@ -5,11 +5,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextBoxComponent
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentBase
@@ -31,7 +27,7 @@ class SpellComponentPane(prefSize: Dimensions) : AOTDPane(prefSize = prefSize) {
     private val smallText: TextBoxComponent
 
     init {
-        title = LabelComponent(FontCache.getOrCreate(55f), Dimensions(1.0, 0.1))
+        title = LabelComponent(FontCache.getOrCreate(55f), Dimensions(1.0, 0.12))
         title.textAlignment = TextAlignment.ALIGN_CENTER
         title.textColor = Color(135, 70, 44)
         title.gravity = Gravity.TOP_CENTER

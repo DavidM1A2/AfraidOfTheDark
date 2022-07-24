@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.mojang.blaze3d.matrix.MatrixStack
+import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.Minecraft
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
@@ -62,6 +63,8 @@ open class ItemStackPane(
                 // Render the itemstack into the GUI
                 renderItem.renderGuiItem(itemStack, calcX, calcY)
                 renderItem.renderGuiItemDecorations(fontRenderer, itemStack, calcX, calcY)
+                // Rendering items disables blend, re-enable it
+                RenderSystem.enableBlend()
             }
 
             // Pop the matrix and disable the item lighting
