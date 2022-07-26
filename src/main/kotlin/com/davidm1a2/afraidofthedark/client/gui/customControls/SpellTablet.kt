@@ -6,14 +6,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.HChainPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ListPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
@@ -45,7 +38,7 @@ class SpellTablet(private val spell: Spell) : StackPane() {
         this.offset = Position(0.1, 0.0)
 
         // Setup the spell name label
-        spellName = TextFieldPane(Position(0.0, 0.1), Dimensions(0.75, 0.12), FontCache.getOrCreate(36f))
+        spellName = TextFieldPane(Position(0.0, 0.1), Dimensions(0.9, 0.12), FontCache.getOrCreate(36f))
         spellName.setGhostText("Spell Name")
         // When we type into this slot set the spell name
         spellName.addKeyListener {
