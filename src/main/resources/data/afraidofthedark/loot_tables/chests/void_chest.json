@@ -62,6 +62,36 @@
             }
           ],
           "weight": 15
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Smoke & Mirrors\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{},\"id\":\"afraidofthedark:self\"},\"effect_0\":{\"extra_data\":{\"duration\":20,\"multiplier\":1},\"id\":\"afraidofthedark:speed\"}},{\"delivery_method\":{\"extra_data\":{\"shell_only\":1,\"radius\":4.0},\"id\":\"afraidofthedark:aoe\"},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:smoke_screen\"}}]},\"uses\":1,\"max_uses\":1}"
+            }
+          ],
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Phantom Shade\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"255 255 50\",\"range\":4.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:teleport\"}},{\"delivery_method\":{\"extra_data\":{\"delay\":0.25},\"id\":\"afraidofthedark:delay\"}},{\"delivery_method\":{\"extra_data\":{\"color\":\"255 255 50\",\"range\":4.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:teleport\"}},{\"delivery_method\":{\"extra_data\":{\"delay\":0.25},\"id\":\"afraidofthedark:delay\"}},{\"delivery_method\":{\"extra_data\":{\"color\":\"255 255 50\",\"range\":4.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:teleport\"}},{\"delivery_method\":{\"extra_data\":{\"delay\":0.25},\"id\":\"afraidofthedark:delay\"}},{\"delivery_method\":{\"extra_data\":{\"color\":\"255 255 50\",\"range\":4.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:teleport\"}}]},\"uses\":1,\"max_uses\":1}"
+            }
+          ],
+          "weight": 4
         }
       ]
     }
