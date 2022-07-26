@@ -117,6 +117,15 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
         return !isEmpty(stack)
     }
 
+    override fun getName(itemStack: ItemStack): ITextComponent {
+        val spell = getSpell(itemStack)
+        return if (spell == null) {
+            TranslationTextComponent("item.afraidofthedark.spell_scroll")
+        } else {
+            TranslationTextComponent("item.afraidofthedark.spell_scroll_filled", spell.name)
+        }
+    }
+
     private fun learnSpell(playerEntity: PlayerEntity, spell: Spell) {
         val world = playerEntity.level
         if (!world.isClientSide) {
@@ -131,7 +140,6 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
 
     fun setSpell(itemStack: ItemStack, spell: Spell) {
         NBTHelper.setCompound(itemStack, NBT_SPELL, spell.serializeNBT())
-        itemStack.hoverName = TranslationTextComponent("tooltip.afraidofthedark.spell_scroll.spell_name", spell.name)
     }
 
     fun getSpell(itemStack: ItemStack): Spell? {

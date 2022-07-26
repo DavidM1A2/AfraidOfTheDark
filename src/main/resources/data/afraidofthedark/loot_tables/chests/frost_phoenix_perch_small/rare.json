@@ -13,15 +13,6 @@
               "count": 1
             },
             {
-              "function": "set_name",
-              "name": {
-                "translate": "tooltip.afraidofthedark.spell_scroll.spell_name",
-                "with": [
-                  "Frozen Tomb"
-                ]
-              }
-            },
-            {
               "function": "set_nbt",
               "tag": "{\"spell\":{\"name\":\"Frozen Tomb\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"shell_only\":1,\"radius\":4.0},\"id\":\"afraidofthedark:aoe\"},\"effect_0\":{\"extra_data\":{\"duration\":1},\"id\":\"afraidofthedark:freeze\"}}]},\"uses\":1,\"max_uses\":1}"
             }
@@ -35,15 +26,6 @@
             {
               "function": "set_count",
               "count": 1
-            },
-            {
-              "function": "set_name",
-              "name": {
-                "translate": "tooltip.afraidofthedark.spell_scroll.spell_name",
-                "with": [
-                  "Chain Chill"
-                ]
-              }
             },
             {
               "function": "set_nbt",
@@ -61,15 +43,6 @@
               "count": 1
             },
             {
-              "function": "set_name",
-              "name": {
-                "translate": "tooltip.afraidofthedark.spell_scroll.spell_name",
-                "with": [
-                  "Snuffing Orb"
-                ]
-              }
-            },
-            {
               "function": "set_nbt",
               "tag": "{\"spell\":{\"name\":\"Snuffing Orb\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"150 150 150\",\"range\":50.0,\"speed\":8.0},\"id\":\"afraidofthedark:projectile\"}},{\"delivery_method\":{\"extra_data\":{\"shell_only\":0,\"radius\":6.0},\"id\":\"afraidofthedark:aoe\"},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:extinguish\"}}]},\"uses\":5,\"max_uses\":5}"
             }
@@ -83,15 +56,6 @@
             {
               "function": "set_count",
               "count": 1
-            },
-            {
-              "function": "set_name",
-              "name": {
-                "translate": "tooltip.afraidofthedark.spell_scroll.spell_name",
-                "with": [
-                  "Chilling Ray"
-                ]
-              }
             },
             {
               "function": "set_nbt",

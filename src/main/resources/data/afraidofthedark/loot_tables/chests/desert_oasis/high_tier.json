@@ -79,15 +79,6 @@
               "count": 1
             },
             {
-              "function": "set_name",
-              "name": {
-                "translate": "tooltip.afraidofthedark.spell_scroll.spell_name",
-                "with": [
-                  "Excavate"
-                ]
-              }
-            },
-            {
               "function": "set_nbt",
               "tag": "{\"spell\":{\"name\":\"Excavate\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"255 0 0\",\"range\":50.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"}},{\"delivery_method\":{\"extra_data\":{\"shell_only\":0,\"radius\":3.0},\"id\":\"afraidofthedark:aoe\"},\"effect_0\":{\"extra_data\":{\"duration\":3,\"speed\":1},\"id\":\"afraidofthedark:dig\"}}]},\"uses\":3,\"max_uses\":3}"
             }
@@ -103,15 +94,6 @@
               "count": 1
             },
             {
-              "function": "set_name",
-              "name": {
-                "translate": "tooltip.afraidofthedark.spell_scroll.spell_name",
-                "with": [
-                  "Stone Skin"
-                ]
-              }
-            },
-            {
               "function": "set_nbt",
               "tag": "{\"spell\":{\"name\":\"Stone Skin\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{},\"id\":\"afraidofthedark:self\"},\"effect_0\":{\"extra_data\":{\"duration\":60,\"strength\":4},\"id\":\"afraidofthedark:ward\"},\"effect_1\":{\"extra_data\":{\"duration\":60,\"multiplier\":-1},\"id\":\"afraidofthedark:speed\"}}]},\"uses\":2,\"max_uses\":2}"
             }
@@ -125,15 +107,6 @@
             {
               "function": "set_count",
               "count": 1
-            },
-            {
-              "function": "set_name",
-              "name": {
-                "translate": "tooltip.afraidofthedark.spell_scroll.spell_name",
-                "with": [
-                  "Wizard's Staircase"
-                ]
-              }
             },
             {
               "function": "set_nbt",
