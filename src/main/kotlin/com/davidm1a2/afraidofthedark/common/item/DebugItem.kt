@@ -36,9 +36,7 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
 //            }
 //            println("Took: ${(System.currentTimeMillis() - time)}ms")
             playerIn.getSpellManager().getSpells().forEach {
-                val json = serializeJSON(it)
-                json.asJsonObject.remove("id")
-                println(json)
+                println(serializeJSON(it))
             }
         }
         return super.use(worldIn, playerIn, handIn)
@@ -55,7 +53,7 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
     }
 
     private fun serializeJSON(spell: Spell): JsonElement {
-        return removeTags(GSON.toJsonTree(spell))
+        return removeTags(GSON.toJsonTree(spell.serializeNBT()))
     }
 
     // Removes "tags" and "data" fields in json, replacing them with their values

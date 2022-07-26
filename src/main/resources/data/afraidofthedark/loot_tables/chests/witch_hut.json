@@ -233,7 +233,7 @@
               ]
             }
           ],
-          "weight": 13
+          "weight": 8
         },
         {
           "type": "item",
@@ -258,6 +258,66 @@
             }
           ],
           "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Bolt\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{},\"id\":\"afraidofthedark:self\"},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:lightning\"},\"effect_1\":{\"extra_data\":{\"duration\":60,\"multiplier\":4},\"id\":\"afraidofthedark:speed\"}}]},\"uses\":1,\"max_uses\":1}"
+            }
+          ],
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Charged Springboard\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{},\"id\":\"afraidofthedark:self\"},\"effect_0\":{\"extra_data\":{\"duration\":2},\"id\":\"afraidofthedark:freeze\"}},{\"delivery_method\":{\"extra_data\":{\"delay\":2.1},\"id\":\"afraidofthedark:delay\"}},{\"delivery_method\":{\"extra_data\":{\"pitch\":90.0,\"yaw\":0.0},\"id\":\"afraidofthedark:rotate\"},\"effect_0\":{\"extra_data\":{\"strength\":50.0},\"id\":\"afraidofthedark:push\"}}]},\"uses\":5,\"max_uses\":5}"
+            }
+          ],
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Torment\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"125 24 44\",\"range\":20.0,\"hit_liquids\":1},\"id\":\"afraidofthedark:laser\"},\"effect_2\":{\"extra_data\":{\"hunger_amount\":4,\"saturation_amount\":2},\"id\":\"afraidofthedark:feed\"},\"effect_3\":{\"extra_data\":{\"amount\":1},\"id\":\"afraidofthedark:heal\"},\"effect_0\":{\"extra_data\":{\"duration\":5},\"id\":\"afraidofthedark:burn\"},\"effect_1\":{\"extra_data\":{\"strength\":1.0},\"id\":\"afraidofthedark:disintegrate\"}}]},\"uses\":4,\"max_uses\":4}"
+            }
+          ],
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Trust Me\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"224 29 179\",\"range\":10.0,\"speed\":7.0},\"id\":\"afraidofthedark:projectile\"},\"effect_0\":{\"extra_data\":{\"duration\":5},\"id\":\"afraidofthedark:charm\"}}]},\"uses\":2,\"max_uses\":2}"
+            }
+          ],
+          "weight": 2
         }
       ]
     }
