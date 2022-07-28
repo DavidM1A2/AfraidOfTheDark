@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 
+import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.spell.laser.SpellLaserEntity
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
@@ -85,6 +86,8 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod("laser", ModResearches.
         val hitEntity = potentialHitEntities
             // Don't laser ourselves
             .filter { it !== entity }
+            // Lasers can't hit laser entities
+            .filter { it.type != ModEntities.SPELL_LASER }
             // Ensure the entity is along the path with the ray
             .filter { it.boundingBox.clip(startPos, endPos).isPresent }
             // Find the closest entity
