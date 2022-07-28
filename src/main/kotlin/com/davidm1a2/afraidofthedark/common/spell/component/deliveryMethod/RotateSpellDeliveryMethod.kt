@@ -38,8 +38,11 @@ class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod("rotate", ModResearche
         val pitch = Math.toRadians(getPitch(instance))
 
         val forwardBackwardDir = state.direction
-        val leftRightDir = state.normal.cross(forwardBackwardDir).normalize()
-        val newDir = forwardBackwardDir.rotateAround(state.normal, yaw).rotateAround(leftRightDir, pitch)
+
+        val forwardBackwardDirAfterYaw = forwardBackwardDir.rotateAround(state.normal, yaw)
+        val leftRightDir = state.normal.cross(forwardBackwardDirAfterYaw).normalize()
+
+        val newDir = forwardBackwardDirAfterYaw.rotateAround(leftRightDir, pitch)
         val newNormal = state.normal.rotateAround(leftRightDir, pitch)
 
         val newState = state.copy(direction = newDir, normal = newNormal)
