@@ -3,8 +3,8 @@
     {
       "name": "main",
       "rolls": {
-        "min": 3,
-        "max": 5
+        "min": 4,
+        "max": 6
       },
       "entries": [
         {
@@ -88,6 +88,66 @@
                 "min": 30,
                 "max": 45
               }
+            }
+          ],
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Magic Elevator\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"pitch\":45.0,\"yaw\":0.0},\"id\":\"afraidofthedark:rotate\"},\"effect_0\":{\"extra_data\":{\"strength\":7.0},\"id\":\"afraidofthedark:push\"},\"effect_1\":{\"extra_data\":{},\"id\":\"afraidofthedark:smoke_screen\"}},{\"delivery_method\":{\"extra_data\":{\"delay\":0.2},\"id\":\"afraidofthedark:delay\"}},{\"delivery_method\":{\"extra_data\":{\"pitch\":45.0,\"yaw\":90.0},\"id\":\"afraidofthedark:rotate\"},\"effect_0\":{\"extra_data\":{\"strength\":7.0},\"id\":\"afraidofthedark:push\"},\"effect_1\":{\"extra_data\":{},\"id\":\"afraidofthedark:smoke_screen\"}},{\"delivery_method\":{\"extra_data\":{\"delay\":0.2},\"id\":\"afraidofthedark:delay\"}},{\"delivery_method\":{\"extra_data\":{\"pitch\":45.0,\"yaw\":180.0},\"id\":\"afraidofthedark:rotate\"},\"effect_0\":{\"extra_data\":{\"strength\":7.0},\"id\":\"afraidofthedark:push\"},\"effect_1\":{\"extra_data\":{},\"id\":\"afraidofthedark:smoke_screen\"}},{\"delivery_method\":{\"extra_data\":{\"delay\":0.2},\"id\":\"afraidofthedark:delay\"}},{\"delivery_method\":{\"extra_data\":{\"pitch\":45.0,\"yaw\":-90.0},\"id\":\"afraidofthedark:rotate\"},\"effect_0\":{\"extra_data\":{\"strength\":7.0},\"id\":\"afraidofthedark:push\"},\"effect_1\":{\"extra_data\":{},\"id\":\"afraidofthedark:smoke_screen\"}},{\"delivery_method\":{\"extra_data\":{\"delay\":0.2},\"id\":\"afraidofthedark:delay\"}},{\"delivery_method\":{\"extra_data\":{\"pitch\":45.0,\"yaw\":0.0},\"id\":\"afraidofthedark:rotate\"},\"effect_0\":{\"extra_data\":{\"strength\":7.0},\"id\":\"afraidofthedark:push\"},\"effect_1\":{\"extra_data\":{},\"id\":\"afraidofthedark:smoke_screen\"}},{\"delivery_method\":{\"extra_data\":{\"delay\":0.2},\"id\":\"afraidofthedark:delay\"}},{\"delivery_method\":{\"extra_data\":{\"pitch\":45.0,\"yaw\":90.0},\"id\":\"afraidofthedark:rotate\"},\"effect_0\":{\"extra_data\":{\"strength\":7.0},\"id\":\"afraidofthedark:push\"},\"effect_1\":{\"extra_data\":{},\"id\":\"afraidofthedark:smoke_screen\"}},{\"delivery_method\":{\"extra_data\":{\"delay\":0.2},\"id\":\"afraidofthedark:delay\"}},{\"delivery_method\":{\"extra_data\":{\"pitch\":45.0,\"yaw\":180.0},\"id\":\"afraidofthedark:rotate\"},\"effect_0\":{\"extra_data\":{\"strength\":7.0},\"id\":\"afraidofthedark:push\"},\"effect_1\":{\"extra_data\":{},\"id\":\"afraidofthedark:smoke_screen\"}},{\"delivery_method\":{\"extra_data\":{\"delay\":0.2},\"id\":\"afraidofthedark:delay\"}},{\"delivery_method\":{\"extra_data\":{\"pitch\":45.0,\"yaw\":-90.0},\"id\":\"afraidofthedark:rotate\"},\"effect_0\":{\"extra_data\":{\"strength\":7.0},\"id\":\"afraidofthedark:push\"},\"effect_1\":{\"extra_data\":{},\"id\":\"afraidofthedark:smoke_screen\"}}]},\"uses\":1,\"max_uses\":1}"
+            }
+          ],
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Disintegration Ray\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"92 0 0\",\"range\":30.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{\"strength\":12.0},\"id\":\"afraidofthedark:disintegrate\"}}]},\"uses\":6,\"max_uses\":6}"
+            }
+          ],
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Fire Lance\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"255 50 0\",\"range\":50.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{\"duration\":10},\"id\":\"afraidofthedark:burn\"}}]},\"uses\":6,\"max_uses\":6}"
+            }
+          ],
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Obliteration Orb\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"124 20 167\",\"range\":40.0,\"speed\":7.0},\"id\":\"afraidofthedark:projectile\"},\"effect_0\":{\"extra_data\":{\"radius\":4.0},\"id\":\"afraidofthedark:explosion\"}},{\"delivery_method\":{\"extra_data\":{\"max_hops\":5,\"max_distance\":5.0},\"id\":\"afraidofthedark:chain\"},\"effect_0\":{\"extra_data\":{\"strength\":16.0},\"id\":\"afraidofthedark:disintegrate\"}}]},\"uses\":1,\"max_uses\":1}"
             }
           ],
           "weight": 3

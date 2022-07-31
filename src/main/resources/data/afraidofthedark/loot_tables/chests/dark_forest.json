@@ -69,6 +69,51 @@
             }
           ],
           "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Stone Skin\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{},\"id\":\"afraidofthedark:self\"},\"effect_0\":{\"extra_data\":{\"duration\":60,\"strength\":2},\"id\":\"afraidofthedark:ward\"}}]},\"uses\":1,\"max_uses\":1}"
+            }
+          ],
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Entangling Shock\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"0 200 200\",\"range\":25.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"}},{\"delivery_method\":{\"extra_data\":{\"max_hops\":3,\"max_distance\":10.0},\"id\":\"afraidofthedark:chain\"},\"effect_0\":{\"extra_data\":{\"duration\":30,\"multiplier\":-3},\"id\":\"afraidofthedark:speed\"}}]},\"uses\":1,\"max_uses\":1}"
+            }
+          ],
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Purify\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{},\"id\":\"afraidofthedark:self\"},\"effect_0\":{\"extra_data\":{\"spell_effects\":1,\"neutral_potion_effects\":1,\"beneficial_potion_effects\":1,\"harmful_potion_effects\":1},\"id\":\"afraidofthedark:cleanse\"}}]},\"uses\":4,\"max_uses\":4}"
+            }
+          ],
+          "weight": 3
         }
       ]
     }

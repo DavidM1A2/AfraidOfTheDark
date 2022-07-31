@@ -3,8 +3,8 @@
     {
       "name": "main",
       "rolls": {
-        "min": 3,
-        "max": 5
+        "min": 1,
+        "max": 3
       },
       "entries": [
         {
@@ -14,12 +14,12 @@
             {
               "function": "set_count",
               "count": {
-                "min": 5,
-                "max": 10
+                "min": 2,
+                "max": 5
               }
             }
           ],
-          "weight": 11
+          "weight": 4
         },
         {
           "type": "item",
@@ -28,12 +28,12 @@
             {
               "function": "set_count",
               "count": {
-                "min": 5,
-                "max": 10
+                "min": 2,
+                "max": 5
               }
             }
           ],
-          "weight": 10
+          "weight": 3
         },
         {
           "type": "item",
@@ -42,12 +42,12 @@
             {
               "function": "set_count",
               "count": {
-                "min": 5,
-                "max": 10
+                "min": 2,
+                "max": 5
               }
             }
           ],
-          "weight": 9
+          "weight": 2
         },
         {
           "type": "item",
@@ -56,12 +56,12 @@
             {
               "function": "set_count",
               "count": {
-                "min": 5,
-                "max": 10
+                "min": 2,
+                "max": 5
               }
             }
           ],
-          "weight": 7
+          "weight": 1
         },
         {
           "type": "item",
@@ -70,12 +70,12 @@
             {
               "function": "set_count",
               "count": {
-                "min": 5,
-                "max": 10
+                "min": 2,
+                "max": 5
               }
             }
           ],
-          "weight": 7
+          "weight": 1
         },
         {
           "type": "item",
@@ -84,16 +84,58 @@
             {
               "function": "set_count",
               "count": {
-                "min": 5,
-                "max": 15
+                "min": 3,
+                "max": 7
               }
             }
           ],
-          "weight": 10
+          "weight": 4
         },
         {
           "type": "item",
           "name": "minecraft:experience_bottle",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 3
+              }
+            }
+          ],
+          "weight": 3
+        },
+        {
+          "type": "item",
+          "name": "minecraft:carrot",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 3,
+                "max": 7
+              }
+            }
+          ],
+          "weight": 4
+        },
+        {
+          "type": "item",
+          "name": "afraidofthedark:bone_dust",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 4
+              }
+            }
+          ],
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "minecraft:leather",
           "functions": [
             {
               "function": "set_count",
@@ -103,63 +145,7 @@
               }
             }
           ],
-          "weight": 10
-        },
-        {
-          "type": "item",
-          "name": "minecraft:melon",
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 10,
-                "max": 20
-              }
-            }
-          ],
-          "weight": 4
-        },
-        {
-          "type": "item",
-          "name": "minecraft:melon_seeds",
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 10,
-                "max": 15
-              }
-            }
-          ],
-          "weight": 4
-        },
-        {
-          "type": "item",
-          "name": "minecraft:pumpkin_seeds",
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 10,
-                "max": 15
-              }
-            }
-          ],
-          "weight": 4
-        },
-        {
-          "type": "item",
-          "name": "minecraft:leather",
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 10,
-                "max": 15
-              }
-            }
-          ],
-          "weight": 6
+          "weight": 3
         },
         {
           "type": "item",
@@ -182,6 +168,36 @@
             }
           ],
           "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Disintegration Ray\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"92 0 0\",\"range\":30.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{\"strength\":12.0},\"id\":\"afraidofthedark:disintegrate\"}}]},\"uses\":6,\"max_uses\":6}"
+            }
+          ],
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Magic Minecart\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{},\"id\":\"afraidofthedark:self\"},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:ender_pocket\"}}]},\"uses\":4,\"max_uses\":4}"
+            }
+          ],
+          "weight": 3
         }
       ]
     }

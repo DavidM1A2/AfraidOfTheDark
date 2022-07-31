@@ -3,8 +3,8 @@
     {
       "name": "main",
       "rolls": {
-        "min": 2,
-        "max": 4
+        "min": 3,
+        "max": 6
       },
       "entries": [
         {
@@ -14,8 +14,8 @@
             {
               "function": "set_count",
               "count": {
-                "min": 1,
-                "max": 5
+                "min": 2,
+                "max": 4
               }
             }
           ],
@@ -28,8 +28,8 @@
             {
               "function": "set_count",
               "count": {
-                "min": 1,
-                "max": 10
+                "min": 5,
+                "max": 8
               }
             }
           ],
@@ -42,8 +42,8 @@
             {
               "function": "set_count",
               "count": {
-                "min": 1,
-                "max": 20
+                "min": 5,
+                "max": 8
               }
             }
           ],
@@ -56,9 +56,54 @@
             {
               "function": "set_count",
               "count": {
-                "min": 1,
-                "max": 8
+                "min": 5,
+                "max": 7
               }
+            }
+          ],
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Recall (5min)\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"pitch\":-90.0,\"yaw\":0.0},\"id\":\"afraidofthedark:rotate\"}},{\"delivery_method\":{\"extra_data\":{\"color\":\"255 255 255\",\"range\":1.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"}},{\"delivery_method\":{\"extra_data\":{\"delay\":300.0},\"id\":\"afraidofthedark:delay\"},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:teleport\"}}]},\"uses\":1,\"max_uses\":1}"
+            }
+          ],
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Magic Minecart\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{},\"id\":\"afraidofthedark:self\"},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:ender_pocket\"}}]},\"uses\":4,\"max_uses\":4}"
+            }
+          ],
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:spell_scroll",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{\"spell\":{\"name\":\"Descension\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"pitch\":90.0,\"yaw\":0.0},\"id\":\"afraidofthedark:rotate\"},\"effect_0\":{\"extra_data\":{\"strength\":2.0},\"id\":\"afraidofthedark:push\"}},{\"delivery_method\":{\"extra_data\":{\"pitch\":-90.0,\"yaw\":0.0},\"id\":\"afraidofthedark:rotate\"}},{\"delivery_method\":{\"extra_data\":{\"pitch\":-90.0,\"yaw\":0.0},\"id\":\"afraidofthedark:rotate\"}},{\"delivery_method\":{\"extra_data\":{\"color\":\"60 30 5\",\"range\":2.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{\"duration\":3,\"speed\":1},\"id\":\"afraidofthedark:dig\"}},{\"delivery_method\":{\"extra_data\":{\"color\":\"60 30 5\",\"range\":2.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{\"duration\":3,\"speed\":1},\"id\":\"afraidofthedark:dig\"}},{\"delivery_method\":{\"extra_data\":{\"color\":\"60 30 5\",\"range\":2.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{\"duration\":3,\"speed\":1},\"id\":\"afraidofthedark:dig\"}},{\"delivery_method\":{\"extra_data\":{\"color\":\"60 30 5\",\"range\":2.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{\"duration\":3,\"speed\":1},\"id\":\"afraidofthedark:dig\"}},{\"delivery_method\":{\"extra_data\":{\"color\":\"60 30 5\",\"range\":2.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{\"duration\":3,\"speed\":1},\"id\":\"afraidofthedark:dig\"}},{\"delivery_method\":{\"extra_data\":{\"color\":\"60 30 5\",\"range\":2.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{\"duration\":3,\"speed\":1},\"id\":\"afraidofthedark:dig\"}},{\"delivery_method\":{\"extra_data\":{\"color\":\"60 30 5\",\"range\":2.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{\"duration\":3,\"speed\":1},\"id\":\"afraidofthedark:dig\"}},{\"delivery_method\":{\"extra_data\":{\"color\":\"60 30 5\",\"range\":2.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{\"duration\":3,\"speed\":1},\"id\":\"afraidofthedark:dig\"}},{\"delivery_method\":{\"extra_data\":{\"color\":\"60 30 5\",\"range\":2.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{\"duration\":3,\"speed\":1},\"id\":\"afraidofthedark:dig\"}},{\"delivery_method\":{\"extra_data\":{\"color\":\"60 30 5\",\"range\":2.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"},\"effect_0\":{\"extra_data\":{\"duration\":3,\"speed\":1},\"id\":\"afraidofthedark:dig\"}}]},\"uses\":2,\"max_uses\":2}"
             }
           ],
           "weight": 2
