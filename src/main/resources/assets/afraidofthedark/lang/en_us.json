@@ -612,6 +612,8 @@
   "property_error.afraidofthedark.long.format": "%1$s is not a valid integer",
   "property_error.afraidofthedark.long.too_small": "%1$s must be larger than or equal to %2$d",
   "property_error.afraidofthedark.long.too_large": "%1$s must be smaller than than or equal to %2$d",
+  "property_error.afraidofthedark.registry_entry.invalid_resource_location": "%1$s is not a valid sound name",
+  "property_error.afraidofthedark.registry_entry.missing_sound": "The sound %1$s does not exist",
   "_comment": "Screen names",
   "screen.afraidofthedark.arcane_journal_page": "Arcane Journal Page",
   "screen.afraidofthedark.arcane_journal_research": "Arcane Journal Research",

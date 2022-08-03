@@ -10,7 +10,7 @@ class LongSpellComponentPropertyBuilder :
      *
      * @return The built spell component property
      */
-    fun build(): SpellComponentProperty<Long> {
+    override fun build(): SpellComponentProperty<Long> {
         return LongSpellComponentProperty(baseName!!, setter!!, getter!!, defaultValue!!, minValue, maxValue)
     }
 }

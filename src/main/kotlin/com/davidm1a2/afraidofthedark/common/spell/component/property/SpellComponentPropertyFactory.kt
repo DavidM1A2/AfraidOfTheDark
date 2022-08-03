@@ -1,5 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.property
 
+import net.minecraftforge.registries.IForgeRegistryEntry
+
 /**
  * Builder for spell component property
  */
@@ -48,5 +50,9 @@ object SpellComponentPropertyFactory {
 
     fun colorProperty(): ColorSpellComponentPropertyBuilder {
         return ColorSpellComponentPropertyBuilder()
+    }
+
+    fun <V : IForgeRegistryEntry<V>> registryEntryProperty(): RegistryEntrySpellComponentPropertyBuilder<V> {
+        return RegistryEntrySpellComponentPropertyBuilder()
     }
 }

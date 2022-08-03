@@ -14,10 +14,10 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
  */
 @Suppress("UNCHECKED_CAST")
 abstract class SpellComponentPropertyBuilder<T, V : SpellComponentPropertyBuilder<T, V>> {
-    var baseName: String? = null
-    var setter: ((SpellComponentInstance<*>, T) -> Unit)? = null
-    var getter: ((SpellComponentInstance<*>) -> T)? = null
-    var defaultValue: T? = null
+    internal var baseName: String? = null
+    internal var setter: ((SpellComponentInstance<*>, T) -> Unit)? = null
+    internal var getter: ((SpellComponentInstance<*>) -> T)? = null
+    internal var defaultValue: T? = null
 
     /**
      * Sets the name of the property
@@ -62,4 +62,6 @@ abstract class SpellComponentPropertyBuilder<T, V : SpellComponentPropertyBuilde
         this.defaultValue = defaultValue
         return this as V
     }
+
+    abstract fun build(): SpellComponentProperty<T>
 }

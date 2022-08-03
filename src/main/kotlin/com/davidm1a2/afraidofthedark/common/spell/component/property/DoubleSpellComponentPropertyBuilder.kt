@@ -10,7 +10,7 @@ class DoubleSpellComponentPropertyBuilder :
      *
      * @return The built spell component property
      */
-    fun build(): SpellComponentProperty<Double> {
+    override fun build(): SpellComponentProperty<Double> {
         return DoubleSpellComponentProperty(
             baseName!!,
             setter!!,

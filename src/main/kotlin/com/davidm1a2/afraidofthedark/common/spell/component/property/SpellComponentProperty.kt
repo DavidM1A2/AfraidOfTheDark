@@ -39,12 +39,13 @@ abstract class SpellComponentProperty<T>(
     }
 
     fun getValue(instance: SpellComponentInstance<*>): String {
-        return try {
-            convertFrom(getter(instance))
+        val value = try {
+            getter(instance)
         } catch (e: Exception) {
             // This block may happen if the NBT is tampered with
-            convertFrom(defaultValue)
+            defaultValue
         }
+        return convertFrom(value)
     }
 
     fun getName(): ITextComponent {

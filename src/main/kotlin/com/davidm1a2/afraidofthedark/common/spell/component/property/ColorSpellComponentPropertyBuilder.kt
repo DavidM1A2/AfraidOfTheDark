@@ -12,7 +12,7 @@ class ColorSpellComponentPropertyBuilder :
      *
      * @return The built spell component property
      */
-    fun build(): SpellComponentProperty<Color> {
+    override fun build(): SpellComponentProperty<Color> {
         return ColorSpellComponentProperty(baseName!!, setter!!, getter!!, defaultValue!!)
     }
 }
