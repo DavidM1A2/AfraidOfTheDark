@@ -24,7 +24,8 @@
     ],
     "effects": [
       "afraidofthedark:explosion",
-      "afraidofthedark:disintegrate"
+      "afraidofthedark:disintegrate",
+      "afraidofthedark:sonic_disruption"
     ]
   }
 }

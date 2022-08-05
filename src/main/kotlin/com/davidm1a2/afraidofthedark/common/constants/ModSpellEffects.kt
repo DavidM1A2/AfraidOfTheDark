@@ -15,6 +15,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.HealSpellEffe
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.LightningSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.PushSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.SmokeScreenSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.SonicDisruptionSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.SpeedSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.TeleportSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.WardSpellEffect
@@ -41,6 +42,7 @@ object ModSpellEffects {
     val PUSH = PushSpellEffect()
     val LIGHTNING = LightningSpellEffect()
     val WARD = WardSpellEffect()
+    val SONIC_DISRUPTION = SonicDisruptionSpellEffect()
 
     // An array containing a list of spell effects that AOTD adds
     val SPELL_EFFECTS = arrayOf(
@@ -61,6 +63,7 @@ object ModSpellEffects {
         DISINTEGRATE,
         PUSH,
         LIGHTNING,
-        WARD
+        WARD,
+        SONIC_DISRUPTION
     )
 }
