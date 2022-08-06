@@ -7,36 +7,36 @@ import net.minecraft.util.SoundEvent
  * A class containing all sounds in AOTD
  */
 object ModSounds {
-    val CROSSBOW_FIRE = create("crossbow_fire")
-    val WEREWOLF_IDLE = create("werewolf_idle")
-    val WEREWOLF_AGRO = create("werewolf_agro")
-    val WEREWOLF_DEATH = create("werewolf_death")
-    val WEREWOLF_HURT = create("werewolf_hurt")
-    val ENCHANTED_FROG_CROAK = create("enchanted_frog_croak")
-    val ENCHANTED_FROG_DEATH = create("enchanted_frog_death")
-    val ENCHANTED_FROG_HURT = create("enchanted_frog_hurt")
-    val FROST_PHOENIX_HURT = create("frost_phoenix_hurt")
-    val FROST_PHOENIX_FLY = create("frost_phoenix_fly")
-    val FROST_PHOENIX_DEATH = create("frost_phoenix_death")
-    val FROST_PHOENIX_AMBIENT = create("frost_phoenix_ambient")
-    val FROST_PHOENIX_PROJECTILE_BREAK = create("frost_phoenix_projectile_break")
-    val ARCANE_JOURNAL_OPEN = create("arcane_journal_open")
-    val RESEARCH_UNLOCKED = create("research_unlocked")
-    val PAGE_TURN = create("page_turn")
-    val BELLS = create("bells")
-    val EERIE_ECHOS = create("eerie_echos")
-    val SPELL_CAST = create("spell_cast")
-    val NIGHTMARE_MUSIC = create("nightmare_music")
-    val NIGHTMARE_CHASE_MUSIC = create("nightmare_chase_music")
-    val ENARIA_FIGHT_MUSIC = create("enaria_fight_music")
-    val LENS_CUTTER = create("lens_cutter")
-    val SCROLL_LEARNED = create("scroll_learned")
+    val CROSSBOW_FIRE = create("item.crossbow.fire")
+    val WEREWOLF_HOWL = create("entity.werewolf.howl")
+    val WEREWOLF_ROAR = create("entity.werewolf.roar")
+    val WEREWOLF_DEATH = create("entity.werewolf.death")
+    val WEREWOLF_HURT = create("entity.werewolf.hurt")
+    val ENCHANTED_FROG_CROAK = create("entity.enchanted_frog.croak")
+    val ENCHANTED_FROG_DEATH = create("entity.enchanted_frog.death")
+    val ENCHANTED_FROG_HURT = create("entity.enchanted_frog.hurt")
+    val FROST_PHOENIX_HURT = create("entity.frost_phoenix.hurt")
+    val FROST_PHOENIX_FLY = create("entity.frost_phoenix.fly")
+    val FROST_PHOENIX_DEATH = create("entity.frost_phoenix.death")
+    val FROST_PHOENIX_AMBIENT = create("entity.frost_phoenix.ambient")
+    val FROST_PHOENIX_PROJECTILE_BREAK = create("entity.frost_phoenix.projectile_break")
+    val ARCANE_JOURNAL_OPEN = create("item.arcane_journal.open")
+    val RESEARCH_UNLOCKED = create("ui.research_unlocked")
+    val PAGE_TURN = create("ui.page_turn")
+    val BELLS = create("ambient.bells")
+    val EERIE_ECHOS = create("ambient.eerie_echos")
+    val SPELL_CAST = create("entity.player.spell_cast")
+    val NIGHTMARE_MUSIC = create("music.nightmare")
+    val NIGHTMARE_CHASE_MUSIC = create("music.nightmare_chase")
+    val ENARIA_FIGHT_MUSIC = create("music.enaria_fight")
+    val LENS_CUTTER = create("block.lens_cutter.cut")
+    val SCROLL_LEARNED = create("ui.scroll_learned")
 
     // An array containing a list of sounds that AOTD adds
     val SOUND_LIST = arrayOf(
         CROSSBOW_FIRE,
-        WEREWOLF_IDLE,
-        WEREWOLF_AGRO,
+        WEREWOLF_HOWL,
+        WEREWOLF_ROAR,
         WEREWOLF_DEATH,
         WEREWOLF_HURT,
         ENCHANTED_FROG_CROAK,

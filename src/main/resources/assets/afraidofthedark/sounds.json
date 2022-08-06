@@ -1,238 +1,241 @@
 {
-  "crossbow_fire": {
+  "item.crossbow.fire": {
     "category": "player",
     "sounds": [
       {
-        "name": "afraidofthedark:crossbow_fire",
+        "name": "afraidofthedark:item/crossbow/fire",
         "stream": false
       }
     ],
-    "subtitle": "Crossbow Fired"
+    "subtitle": "Crossbow Fire"
   },
-  "werewolf_idle": {
+  "entity.werewolf.howl": {
     "category": "hostile",
     "sounds": [
       {
-        "name": "afraidofthedark:werewolf_idle",
+        "name": "afraidofthedark:entity/werewolf/howl",
         "stream": false
       }
     ],
     "subtitle": "Werewolf Howl"
   },
-  "werewolf_agro": {
+  "entity.werewolf.roar": {
     "category": "hostile",
     "sounds": [
       {
-        "name": "afraidofthedark:werewolf_agro",
+        "name": "afraidofthedark:entity/werewolf/roar",
         "stream": false
       }
     ],
-    "subtitle": "Werewolf Angry"
+    "subtitle": "Werewolf Roar"
   },
-  "werewolf_death": {
+  "entity.werewolf.death": {
     "category": "hostile",
     "sounds": [
       {
-        "name": "afraidofthedark:werewolf_death",
+        "name": "afraidofthedark:entity/werewolf/death",
         "stream": false
       }
     ],
     "subtitle": "Werewolf Death"
   },
-  "werewolf_hurt": {
+  "entity.werewolf.hurt": {
     "category": "hostile",
     "sounds": [
       {
-        "name": "afraidofthedark:werewolf_hurt",
+        "name": "afraidofthedark:entity/werewolf/hurt",
         "stream": false
       }
     ],
     "subtitle": "Werewolf Hurt"
   },
-  "enchanted_frog_croak": {
+  "entity.enchanted_frog.croak": {
     "category": "neutral",
     "sounds": [
       {
-        "name": "afraidofthedark:enchanted_frog_croak",
+        "name": "afraidofthedark:entity/enchanted_frog/croak",
         "stream": false
       }
     ],
     "subtitle": "Enchanted Frog Croak"
   },
-  "enchanted_frog_death": {
+  "entity.enchanted_frog.death": {
     "category": "neutral",
     "sounds": [
       {
-        "name": "afraidofthedark:enchanted_frog_death",
+        "name": "afraidofthedark:entity/enchanted_frog/death",
         "stream": false
       }
-    ]
+    ],
+    "subtitle": "Enchanted Frog Death"
   },
-  "enchanted_frog_hurt": {
+  "entity.enchanted_frog.hurt": {
     "category": "neutral",
     "sounds": [
       {
-        "name": "afraidofthedark:enchanted_frog_hurt",
+        "name": "afraidofthedark:entity/enchanted_frog/hurt",
         "stream": false
       }
-    ]
+    ],
+    "subtitle": "Enchanted Frog Hurt"
   },
-  "frost_phoenix_death": {
+  "entity.frost_phoenix.death": {
     "category": "neutral",
     "sounds": [
       {
-        "name": "afraidofthedark:frost_phoenix_death",
+        "name": "afraidofthedark:entity/frost_phoenix/death",
         "stream": false
       }
-    ]
+    ],
+    "subtitle": "Frost Phoenix Death"
   },
-  "frost_phoenix_hurt": {
+  "entity.frost_phoenix.hurt": {
     "category": "neutral",
     "sounds": [
       {
-        "name": "afraidofthedark:frost_phoenix_hurt",
+        "name": "afraidofthedark:entity/frost_phoenix/hurt",
         "stream": false
       }
     ],
     "subtitle": "Frost Phoenix Hurt"
   },
-  "frost_phoenix_fly": {
+  "entity.frost_phoenix.fly": {
     "category": "neutral",
     "sounds": [
       {
-        "name": "afraidofthedark:frost_phoenix_fly",
+        "name": "afraidofthedark:entity/frost_phoenix/fly",
         "attenuation_distance": 45,
         "stream": false
       }
     ],
     "subtitle": "Frost Phoenix Fly"
   },
-  "frost_phoenix_ambient": {
+  "entity.frost_phoenix.ambient": {
     "category": "neutral",
     "sounds": [
       {
-        "name": "afraidofthedark:frost_phoenix_ambient",
+        "name": "afraidofthedark:entity/frost_phoenix/ambient",
         "attenuation_distance": 100,
         "stream": false
       }
     ],
     "subtitle": "Frost Phoenix Ambient"
   },
-  "frost_phoenix_projectile_break": {
+  "entity.frost_phoenix.projectile_break": {
     "category": "neutral",
     "sounds": [
       {
-        "name": "afraidofthedark:frost_phoenix_projectile_break",
+        "name": "afraidofthedark:entity/frost_phoenix/projectile_break",
         "stream": false
       }
     ],
     "subtitle": "Frost Phoenix Projectile Break"
   },
-  "arcane_journal_open": {
+  "item.arcane_journal.open": {
     "category": "player",
     "sounds": [
       {
-        "name": "afraidofthedark:arcane_journal_open",
+        "name": "afraidofthedark:item/arcane_journal/open",
         "stream": false
       }
     ],
-    "subtitle": "Arcane Journal Opened"
+    "subtitle": "Arcane Journal Open"
   },
-  "research_unlocked": {
+  "ui.research_unlocked": {
     "category": "player",
     "sounds": [
       {
-        "name": "afraidofthedark:research_unlocked",
+        "name": "afraidofthedark:ui/research_unlocked",
         "stream": false
       }
     ],
     "subtitle": "Research Unlocked"
   },
-  "page_turn": {
+  "ui.page_turn": {
     "category": "player",
     "sounds": [
       {
-        "name": "afraidofthedark:page_turn",
+        "name": "afraidofthedark:ui/page_turn",
         "stream": false
       }
     ],
     "subtitle": "Page Turn"
   },
-  "bells": {
+  "ambient.bells": {
     "category": "player",
     "sounds": [
       {
-        "name": "afraidofthedark:bells",
+        "name": "afraidofthedark:ambient/bells",
         "stream": false
       }
     ],
     "subtitle": "Bells"
   },
-  "eerie_echos": {
+  "ambient.eerie_echos": {
     "category": "player",
     "sounds": [
       {
-        "name": "afraidofthedark:eerie_echos",
+        "name": "afraidofthedark:ambient/eerie_echos",
         "stream": false
       }
     ],
     "subtitle": "Eerie Echos"
   },
-  "spell_cast": {
+  "entity.player.spell_cast": {
     "category": "player",
     "sounds": [
       {
-        "name": "afraidofthedark:spell_cast",
+        "name": "afraidofthedark:entity/player/spell_cast",
         "stream": false
       }
     ],
     "subtitle": "Spell Cast"
   },
-  "nightmare_music": {
+  "music.nightmare": {
     "category": "player",
     "sounds": [
       {
-        "name": "afraidofthedark:nightmare_music",
+        "name": "afraidofthedark:music/nightmare",
         "stream": false
       }
     ],
     "subtitle": "Nightmare Music"
   },
-  "nightmare_chase_music": {
+  "music.nightmare_chase": {
     "category": "player",
     "sounds": [
       {
-        "name": "afraidofthedark:nightmare_chase_music",
+        "name": "afraidofthedark:music/nightmare_chase",
         "stream": false
       }
     ],
     "subtitle": "Nightmare Chase Music"
   },
-  "enaria_fight_music": {
+  "music.enaria_fight": {
     "category": "player",
     "sounds": [
       {
-        "name": "afraidofthedark:enaria_fight_music",
+        "name": "afraidofthedark:music/enaria_fight",
         "stream": false
       }
     ],
     "subtitle": "Enaria Fight Music"
   },
-  "lens_cutter": {
+  "block.lens_cutter.cut": {
     "category": "block",
     "sounds": [
       {
-        "name": "afraidofthedark:lens_cutter",
+        "name": "afraidofthedark:block/lens_cutter/cut",
         "stream": false
       }
     ],
     "subtitle": "Lens Cutter"
   },
-  "scroll_learned": {
+  "ui.scroll_learned": {
     "category": "player",
     "sounds": [
       {
-        "name": "afraidofthedark:scroll_learned",
+        "name": "afraidofthedark:ui/scroll_learned",
         "stream": false
       }
     ],

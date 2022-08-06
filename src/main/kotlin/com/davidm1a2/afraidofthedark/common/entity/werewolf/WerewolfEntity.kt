@@ -179,9 +179,9 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
      */
     override fun getAmbientSound(): SoundEvent {
         return if (target == null) {
-            ModSounds.WEREWOLF_IDLE
+            ModSounds.WEREWOLF_HOWL
         } else {
-            ModSounds.WEREWOLF_AGRO
+            ModSounds.WEREWOLF_ROAR
         }
     }
 
