@@ -552,7 +552,7 @@
   "effect.afraidofthedark.sonic_disruption.name": "Sonic Disruption",
   "effect.afraidofthedark.sonic_disruption.description": "Plays a sound at the hit location.",
   "effect.afraidofthedark.sonic_disruption.sound.name": "Sound",
-  "effect.afraidofthedark.sonic_disruption.sound.description": "The sound to play. You can find a list of sound names online. Mod sounds must start with '<mod-name>:'",
+  "effect.afraidofthedark.sonic_disruption.sound.description": "The sound to play. You can find a list of sound names online, or by typing '/playsound '. Mod sounds must start with '<mod-name>:'",
   "effect.afraidofthedark.sonic_disruption.volume.name": "Volume",
   "effect.afraidofthedark.sonic_disruption.volume.description": "How loud the sound is.",
   "effect.afraidofthedark.sonic_disruption.pitch.name": "Pitch",
