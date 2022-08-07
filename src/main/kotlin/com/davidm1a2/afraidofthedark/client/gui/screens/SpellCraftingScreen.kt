@@ -46,8 +46,8 @@ class SpellCraftingScreen(private val spell: Spell) : AOTDScreen(TranslationText
         contentPane.addKeyListener {
             // If the inventory key closes the ui and is pressed open the spell list UI
             if (it.eventType == KeyEvent.KeyEventType.Press) {
-                if (tablet.inventoryKeyClosesUI() && scroll.inventoryKeyClosesUI()) {
-                    if (isInventoryKeybind(it.key, it.scanCode)) {
+                if (isInventoryKeybind(it.key, it.scanCode)) {
+                    if (tablet.inventoryKeyClosesUI() && scroll.inventoryKeyClosesUI()) {
                         if (scroll.isEditingProps()) {
                             scroll.setEditing(null)
                         } else {

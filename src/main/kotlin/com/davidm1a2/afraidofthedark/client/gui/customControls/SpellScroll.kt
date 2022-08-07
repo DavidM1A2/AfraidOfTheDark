@@ -7,7 +7,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiComponent
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.HChainPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
@@ -20,7 +20,6 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
-import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
 import java.awt.Color
@@ -34,7 +33,6 @@ class SpellScroll : StackPane() {
     private val propertyScrollBar = VScrollBar(Dimensions(0.1, 1.0))
     private val componentList: ListPane = ListPane(ListPane.ExpandDirection.DOWN, componentScrollBar)
     private val propertyList: ListPane = ListPane(ListPane.ExpandDirection.DOWN, propertyScrollBar)
-    private val currentPropEditors = mutableListOf<Pair<SpellComponentProperty<*>, AOTDGuiComponent>>()
     internal var componentPropModifiedCallback: () -> Unit = {}
 
     init {
@@ -108,8 +106,6 @@ class SpellScroll : StackPane() {
      * @param componentInstance The spell component to edit, or null to clear it
      */
     fun setEditing(componentInstance: SpellComponentInstance<*>?) {
-        // Clear the current list of prop editors
-        currentPropEditors.clear()
         // If this is null then clear the currently edited spell
         if (componentInstance == null) {
             // Show the list of components
@@ -173,11 +169,7 @@ class SpellScroll : StackPane() {
                     propertyName.textColor = purpleText
                     propertyName.text = "${editableProp.getName().string}:"
                     propertyList.add(propertyName)
-
-                    val propertyEditor = PropertyEditorFactory.build(componentInstance, editableProp, purpleText, componentPropModifiedCallback)
-                    propertyList.add(propertyEditor)
-                    // Store the editor off for later use
-                    this.currentPropEditors.add(editableProp to propertyEditor)
+                    propertyList.add(PropertyEditorFactory.build(componentInstance, editableProp, purpleText, componentPropModifiedCallback))
                 }
             }
         }
@@ -188,7 +180,23 @@ class SpellScroll : StackPane() {
      * @return True if the inventory key should currently close the UI, false otherwise
      */
     fun inventoryKeyClosesUI(): Boolean {
-        return currentPropEditors.map { it.second }.none { it is TextFieldPane && it.isFocused }
+        return !anyChildTextFieldHovered(propertyList)
+    }
+
+    private fun anyChildTextFieldHovered(pane: AOTDPane): Boolean {
+        val children = pane.getChildren()
+        val focusedTextField = children.filterIsInstance<TextFieldPane>().firstOrNull(TextFieldPane::isFocused)
+        if (focusedTextField != null) {
+            return true
+        }
+
+        val subPanes = children.filterIsInstance<AOTDPane>()
+        for (subPane in subPanes) {
+            if (anyChildTextFieldHovered(subPane)) {
+                return true
+            }
+        }
+        return false
     }
 
     fun isEditingProps(): Boolean {
