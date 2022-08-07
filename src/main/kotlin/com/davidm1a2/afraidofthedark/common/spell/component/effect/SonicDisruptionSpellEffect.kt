@@ -24,6 +24,7 @@ class SonicDisruptionSpellEffect : AOTDSpellEffect("sonic_disruption", ModResear
                 .withGetter(this::getSound)
                 .withDefaultValue(SoundEvents.CREEPER_PRIMED)
                 .withRegistry(ForgeRegistries.SOUND_EVENTS)
+                .withFilter(this::isAllowedSound)
                 .build()
         )
         addEditableProperty(
@@ -66,6 +67,12 @@ class SonicDisruptionSpellEffect : AOTDSpellEffect("sonic_disruption", ModResear
 
     private fun getSound(instance: SpellComponentInstance<*>): SoundEvent {
         return ForgeRegistries.SOUND_EVENTS.getValue(ResourceLocation(instance.data.getString(NBT_SOUND)))!!
+    }
+
+    private fun isAllowedSound(soundEvent: SoundEvent): Boolean {
+        val name = soundEvent.registryName!!.path
+        // No music.*, music_disc.*, or ui.* sounds
+        return !name.startsWith("music.") && !name.startsWith("music_disc.") && !name.startsWith("ui.")
     }
 
     private fun setVolume(instance: SpellComponentInstance<*>, volume: Float) {
