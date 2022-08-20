@@ -21,12 +21,12 @@ abstract class AOTDFoodItem(
 ) : Item(properties.apply {
     if (displayInCreative) {
         tab(Constants.AOTD_CREATIVE_TAB)
-        food(Food.Builder()
-            .nutrition(foodAmount)
-            .saturationMod(saturation)
-            .apply { if (isWolfFood) meat() }
-            .build())
     }
+    food(Food.Builder()
+        .nutrition(foodAmount)
+        .saturationMod(saturation)
+        .apply { if (isWolfFood) meat() }
+        .build())
 }) {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)

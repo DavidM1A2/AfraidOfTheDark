@@ -42,6 +42,7 @@ object ModResearches {
     val OBSERVATORY = load("observatory")
     val OPTICS = load("optics")
     val POCKET_DIMENSION = load("pocket_dimension")
+    val PRICKLY_SWEETS = load("prickly_sweets")
     val REANIMATION = load("reanimation")
     val SACRED_MANGROVE = load("sacred_mangrove")
     val SCROLL_FORMATION = load("scroll_formation")
@@ -98,6 +99,7 @@ object ModResearches {
         OBSERVATORY,
         OPTICS,
         POCKET_DIMENSION,
+        PRICKLY_SWEETS,
         REANIMATION,
         SACRED_MANGROVE,
         SCROLL_FORMATION,

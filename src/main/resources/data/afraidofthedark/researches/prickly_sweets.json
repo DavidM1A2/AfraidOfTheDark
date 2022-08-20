@@ -1,0 +1,15 @@
+{
+  "forge:registry_name": "afraidofthedark:prickly_sweets",
+  "recipes": [],
+  "pre_recipes": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/prickly_sweets.png",
+  "prerequisite": "afraidofthedark:desert_oasis",
+  "triggers": [
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:prickly_sweets"
+      }
+    }
+  ]
+}
