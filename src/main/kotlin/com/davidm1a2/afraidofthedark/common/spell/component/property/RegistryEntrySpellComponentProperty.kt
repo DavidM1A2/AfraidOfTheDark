@@ -22,7 +22,7 @@ internal class RegistryEntrySpellComponentProperty<T : IForgeRegistryEntry<T>>(
     override fun convertTo(newValue: String): T {
         val key = ResourceLocation.tryParse(newValue) ?: throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.registry_entry.invalid_resource_location", newValue))
 
-        val value = registry.getValue(key) ?: throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.registry_entry.missing_sound", newValue))
+        val value = registry.getValue(key) ?: throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.registry_entry.missing_entry", newValue))
 
         return if (filter == null || filter.invoke(value)) {
             value

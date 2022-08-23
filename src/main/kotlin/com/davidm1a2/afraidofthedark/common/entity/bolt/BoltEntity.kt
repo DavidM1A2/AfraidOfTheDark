@@ -45,12 +45,12 @@ abstract class BoltEntity(entityType: EntityType<out BoltEntity>, world: World) 
             PickupStatus.ALLOWED
         }
         setPos(shooter.x, shooter.eyeY - 0.1, shooter.z)
-        shootFromRotation(shooter, shooter.xRot, shooter.yRot, 0f, 5f, 0f)
+        shootFromRotation(shooter, shooter.xRot, shooter.yRot, 0f, BOLT_SPEED, 0f)
     }
 
     override fun shoot(xDir: Double, yDir: Double, zDir: Double, speed: Float, inaccuracy: Float) {
         // Bolts can only be shot from crossbows, or they're super inaccurate
-        super.shoot(xDir, yDir, zDir, if (shotFromCrossbow() && hasResearch) 5.0f else 0.3f, if (shotFromCrossbow() && hasResearch) 0.0f else 30.0f)
+        super.shoot(xDir, yDir, zDir, if (shotFromCrossbow() && hasResearch) BOLT_SPEED else 0.3f, if (shotFromCrossbow() && hasResearch) 0.0f else 30.0f)
     }
 
     /**
@@ -102,5 +102,9 @@ abstract class BoltEntity(entityType: EntityType<out BoltEntity>, world: World) 
 
     override fun getAddEntityPacket(): IPacket<*> {
         return NetworkHooks.getEntitySpawningPacket(this)
+    }
+
+    companion object {
+        private const val BOLT_SPEED = 5f
     }
 }
