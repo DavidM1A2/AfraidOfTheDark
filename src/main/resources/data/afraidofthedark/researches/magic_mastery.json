@@ -27,6 +27,9 @@
       "afraidofthedark:disintegrate",
       "afraidofthedark:sonic_disruption",
       "afraidofthedark:summon_arrow"
+    ],
+    "delivery_methods": [
+      "afraidofthedark:cone"
     ]
   }
 }
