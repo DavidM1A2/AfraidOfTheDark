@@ -615,6 +615,8 @@
   "delivery_method.afraidofthedark.cone.radius.description": "The cone's base radius in blocks.",
   "delivery_method.afraidofthedark.cone.length.name": "Length",
   "delivery_method.afraidofthedark.cone.length.description": "The distance the cone covers from the source in blocks.",
+  "delivery_method.afraidofthedark.cone.shell_only.name": "Shell Only",
+  "delivery_method.afraidofthedark.cone.shell_only.description": "Checked means effects should only be applied at the outer shell of the cone, and not at the center.",
   "_comment": "Spell component property errors",
   "property_error.afraidofthedark.color.format": "RGB must be in the format 'r g b' (without the quotes)",
   "property_error.afraidofthedark.color.value_range": "All 3 'r g b' values must be between 0 to 255",

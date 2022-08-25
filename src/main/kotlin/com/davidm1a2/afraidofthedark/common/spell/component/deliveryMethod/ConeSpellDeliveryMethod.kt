@@ -37,12 +37,21 @@ class ConeSpellDeliveryMethod : AOTDSpellDeliveryMethod("cone", ModResearches.MA
                 .withMaxValue(20.0)
                 .build()
         )
+        addEditableProperty(
+            SpellComponentPropertyFactory.booleanProperty()
+                .withBaseName(getUnlocalizedPropertyBaseName("shell_only"))
+                .withSetter(this::setShellOnly)
+                .withGetter(this::getShellOnly)
+                .withDefaultValue(false)
+                .build()
+        )
     }
 
     override fun executeDelivery(state: DeliveryTransitionState) {
         val deliveryMethod = state.getCurrentStage().deliveryInstance!!
         val radius = getRadius(deliveryMethod)
         val length = getLength(deliveryMethod)
+        val shellOnly = getShellOnly(deliveryMethod)
 
         val tipPos = state.position
         val forwardBackwardDir = state.direction
@@ -71,7 +80,7 @@ class ConeSpellDeliveryMethod : AOTDSpellDeliveryMethod("cone", ModResearches.MA
             for (y in minY..maxY) {
                 for (z in minZ..maxZ) {
                     val conePos = Vector3d(x.toDouble(), y.toDouble(), z.toDouble())
-                    if (isWithinCone(tipPos, forwardBackwardDir, length, radius, conePos)) {
+                    if (isWithinCone(tipPos, forwardBackwardDir, length, radius, conePos, shellOnly)) {
                         var newDirection = conePos.subtract(tipPos).normalize()
                         // Direction may be 0 if conePos = tipPos. In this case, move it up
                         if (newDirection == Vector3d.ZERO) {
@@ -101,7 +110,7 @@ class ConeSpellDeliveryMethod : AOTDSpellDeliveryMethod("cone", ModResearches.MA
         }
     }
 
-    private fun isWithinCone(tip: Vector3d, direction: Vector3d, height: Double, radius: Double, point: Vector3d): Boolean {
+    private fun isWithinCone(tip: Vector3d, direction: Vector3d, height: Double, radius: Double, point: Vector3d, shellOnly: Boolean): Boolean {
         // To detect if a point is within the cone or not, we can use: https://stackoverflow.com/questions/12826117/how-can-i-detect-if-a-point-is-inside-a-cone-or-not-in-3d-space
         val coneDistance = point.subtract(tip).dot(direction)
         if (coneDistance < 0 || coneDistance > height) {
@@ -110,7 +119,7 @@ class ConeSpellDeliveryMethod : AOTDSpellDeliveryMethod("cone", ModResearches.MA
 
         val coneRadius = (coneDistance / height) * radius
         val orthographicDistance = point.subtract(tip).subtract(direction.scale(coneDistance)).length()
-        return orthographicDistance < coneRadius
+        return orthographicDistance < coneRadius && (!shellOnly || (coneRadius - orthographicDistance) <= SHELL_ONLY_MARGIN)
     }
 
     override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
@@ -124,27 +133,46 @@ class ConeSpellDeliveryMethod : AOTDSpellDeliveryMethod("cone", ModResearches.MA
     private fun estimateBlocksHit(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         val radius = getRadius(instance)
         val length = getLength(instance)
-        return PI * radius * radius * length / 3
+        val shellOnly = getShellOnly(instance)
+
+        val volume = PI * radius * radius * length / 3
+        return if (shellOnly) {
+            val innerVolume = PI * (radius - 1) * (radius - 1) * length / 3
+            volume - innerVolume
+        } else {
+            volume
+        }
     }
 
-    private fun setRadius(instance: SpellComponentInstance<*>, radius: Double) {
+    fun setRadius(instance: SpellComponentInstance<*>, radius: Double) {
         instance.data.putDouble(NBT_RADIUS, radius)
     }
 
-    private fun getRadius(instance: SpellComponentInstance<*>): Double {
+    fun getRadius(instance: SpellComponentInstance<*>): Double {
         return instance.data.getDouble(NBT_RADIUS)
     }
 
-    private fun setLength(instance: SpellComponentInstance<*>, length: Double) {
+    fun setLength(instance: SpellComponentInstance<*>, length: Double) {
         instance.data.putDouble(NBT_LENGTH, length)
     }
 
-    private fun getLength(instance: SpellComponentInstance<*>): Double {
+    fun getLength(instance: SpellComponentInstance<*>): Double {
         return instance.data.getDouble(NBT_LENGTH)
     }
 
+    fun setShellOnly(instance: SpellComponentInstance<*>, shellOnly: Boolean) {
+        instance.data.putBoolean(NBT_SHELL_ONLY, shellOnly)
+    }
+
+    fun getShellOnly(instance: SpellComponentInstance<*>): Boolean {
+        return instance.data.getBoolean(NBT_SHELL_ONLY)
+    }
+
     companion object {
+        private const val SHELL_ONLY_MARGIN = 1.5
+
         private const val NBT_RADIUS = "radius"
         private const val NBT_LENGTH = "length"
+        private const val NBT_SHELL_ONLY = "shell_only"
     }
 }
