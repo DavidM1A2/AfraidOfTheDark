@@ -12,8 +12,6 @@ import net.minecraft.util.math.vector.Vector3d
 import kotlin.math.PI
 import kotlin.math.ceil
 import kotlin.math.floor
-import kotlin.math.max
-import kotlin.math.min
 
 class ConeSpellDeliveryMethod : AOTDSpellDeliveryMethod("cone", ModResearches.MAGIC_MASTERY) {
     init {
@@ -54,33 +52,33 @@ class ConeSpellDeliveryMethod : AOTDSpellDeliveryMethod("cone", ModResearches.MA
         val shellOnly = getShellOnly(deliveryMethod)
 
         val tipPos = state.position
-        val forwardBackwardDir = state.direction
+        val forwardDir = state.direction
+        val upDir = state.normal
+        val downDir = upDir.reverse()
+        val leftDir = forwardDir.cross(upDir).normalize()
+        val rightDir = leftDir.reverse()
 
-        // 1) Find the corners of the box surrounding the cone
-        val leftRightDir = forwardBackwardDir.cross(state.normal).normalize()
-        val downDir = state.normal.reverse()
-
-        val downScaled = downDir.scale(radius)
-        val leftRightScaled = leftRightDir.scale(radius)
-        val forwardBackwardScaled = forwardBackwardDir.scale(length)
-
-        val cornerOne = tipPos.add(downScaled).add(leftRightScaled)
-        val cornerTwo = tipPos.add(forwardBackwardScaled).add(downScaled.reverse()).add(leftRightScaled.reverse())
+        // 1) Find four corners of the box that bounds the base circle, as well as the tip position (which we already know)
+        val baseCenterPos = tipPos.add(forwardDir.scale(length))
+        val cornerOne = baseCenterPos.add(leftDir.scale(radius)).add(upDir.scale(radius))
+        val cornerTwo = baseCenterPos.add(leftDir.scale(radius)).add(downDir.scale(radius))
+        val cornerThree = baseCenterPos.add(rightDir.scale(radius)).add(upDir.scale(radius))
+        val cornerFour = baseCenterPos.add(rightDir.scale(radius)).add(downDir.scale(radius))
 
         // 2) Find the smallest (x, y, z) and biggest (x, y, z) coordinates to loop through. Ceil/floor the values, so we don't cut off any blocks partially within the cone
-        val minX = floor(min(cornerOne.x, cornerTwo.x)).toInt()
-        val minY = floor(min(cornerOne.y, cornerTwo.y)).toInt()
-        val minZ = floor(min(cornerOne.z, cornerTwo.z)).toInt()
-        val maxX = ceil(max(cornerOne.x, cornerTwo.x)).toInt()
-        val maxY = ceil(max(cornerOne.y, cornerTwo.y)).toInt()
-        val maxZ = ceil(max(cornerOne.z, cornerTwo.z)).toInt()
+        val minX = floor(minOf(tipPos.x, cornerOne.x, cornerTwo.x, cornerThree.x, cornerFour.x)).toInt()
+        val minY = floor(minOf(tipPos.y, cornerOne.y, cornerTwo.y, cornerThree.y, cornerFour.y)).toInt()
+        val minZ = floor(minOf(tipPos.z, cornerOne.z, cornerTwo.z, cornerThree.z, cornerFour.z)).toInt()
+        val maxX = ceil(maxOf(tipPos.x, cornerOne.x, cornerTwo.x, cornerThree.x, cornerFour.x)).toInt()
+        val maxY = ceil(maxOf(tipPos.y, cornerOne.y, cornerTwo.y, cornerThree.y, cornerFour.y)).toInt()
+        val maxZ = ceil(maxOf(tipPos.z, cornerOne.z, cornerTwo.z, cornerThree.z, cornerFour.z)).toInt()
 
         // 3) We'll need a triple for loop to go over every block in the rectangle surrounding the cone. We'll filter out any points that lie outside the cone.
         for (x in minX..maxX) {
             for (y in minY..maxY) {
                 for (z in minZ..maxZ) {
                     val conePos = Vector3d(x.toDouble(), y.toDouble(), z.toDouble())
-                    if (isWithinCone(tipPos, forwardBackwardDir, length, radius, conePos, shellOnly)) {
+                    if (isWithinCone(tipPos, forwardDir, length, radius, conePos, shellOnly)) {
                         var newDirection = conePos.subtract(tipPos).normalize()
                         // Direction may be 0 if conePos = tipPos. In this case, move it up
                         if (newDirection == Vector3d.ZERO) {
