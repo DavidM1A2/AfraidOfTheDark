@@ -1,21 +1,33 @@
+import net.minecraftforge.gradle.userdev.DependencyManagementExtension
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 repositories {
+    // First two maven repos host the JEI API. JEI's API is needed for JEI integration.
+    maven {
+        name = "Progwml6 maven"
+        url = uri("https://dvs1.progwml6.com/files/maven/")
+    }
+    maven {
+        name = "ModMaven"
+        url = uri("https://modmaven.dev")
+    }
+    // Repository containing Kotlin dependencies
     mavenCentral()
 }
 
 buildscript {
     repositories {
+        // Repository containing the minecraft forge plugin & MC artifacts
         maven {
             url = uri("https://maven.minecraftforge.net")
         }
+        // Repository containing the kotlin gradle plugin
         maven {
             url = uri("https://plugins.gradle.org/m2/")
         }
-        mavenCentral()
     }
     dependencies {
         classpath("net.minecraftforge.gradle", "ForgeGradle", "5.1.+") {
@@ -34,7 +46,7 @@ apply {
 
 configurations["implementation"].extendsFrom(configurations.create("shade"))
 
-version = "1.16.5-1.8.0"
+version = "${findProperty("mc_version").toString()}-1.8.0"
 group = "com.davidm1a2.afraidofthedark"
 project.setProperty("archivesBaseName", "afraidofthedark")
 
@@ -43,7 +55,7 @@ tasks.withType<KotlinCompile> {
 }
 
 configure<UserDevExtension> {
-    mappings("official", "1.16.5")
+    mappings("official", findProperty("mc_version").toString())
 
     runs.create("client") {
         workingDirectory(project.file("run"))
@@ -65,6 +77,12 @@ configure<UserDevExtension> {
 }
 
 dependencies {
+    val forgeGradle = project.extensions.getByType(DependencyManagementExtension::class.java)
+
+    val mcVersion = findProperty("mc_version").toString()
+    val jeiVersion = findProperty("jei_version").toString()
+    val forgeVersion = findProperty("forge_version").toString()
+
     val implementation = configurations["implementation"]
     implementation("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", findProperty("kotlin_version").toString())
 
@@ -72,7 +90,13 @@ dependencies {
     shade("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", findProperty("kotlin_version").toString())
 
     val minecraft = configurations["minecraft"]
-    minecraft("net.minecraftforge", "forge", "1.16.5-36.2.34")
+    minecraft("net.minecraftforge", "forge", "$mcVersion-$forgeVersion")
+
+    val compileOnly = configurations["compileOnly"]
+    compileOnly(forgeGradle.deobf("mezz.jei:jei-$mcVersion:$jeiVersion:api"))
+
+    val runtimeOnly = configurations["runtimeOnly"]
+    runtimeOnly(forgeGradle.deobf("mezz.jei:jei-$mcVersion:$jeiVersion"))
 }
 
 tasks.withType<Jar> {
