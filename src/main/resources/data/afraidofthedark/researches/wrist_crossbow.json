@@ -13,5 +13,10 @@
         "research": "afraidofthedark:wrist_crossbow"
       }
     }
-  ]
+  ],
+  "spell_components": {
+    "effects": [
+      "afraidofthedark:summon_arrow"
+    ]
+  }
 }

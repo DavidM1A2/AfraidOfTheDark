@@ -24,9 +24,7 @@
     ],
     "effects": [
       "afraidofthedark:explosion",
-      "afraidofthedark:disintegrate",
-      "afraidofthedark:sonic_disruption",
-      "afraidofthedark:summon_arrow"
+      "afraidofthedark:disintegrate"
     ],
     "delivery_methods": [
       "afraidofthedark:cone"

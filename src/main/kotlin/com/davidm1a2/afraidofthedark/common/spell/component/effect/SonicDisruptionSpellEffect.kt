@@ -15,7 +15,7 @@ import net.minecraftforge.registries.ForgeRegistries
 /**
  * Effect that creates a sound
  */
-class SonicDisruptionSpellEffect : AOTDSpellEffect("sonic_disruption", ModResearches.THE_JOURNEY_BEGINS) {
+class SonicDisruptionSpellEffect : AOTDSpellEffect("sonic_disruption", ModResearches.INSANITY) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.registryEntryProperty<SoundEvent>()

@@ -9,7 +9,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellCompon
 import net.minecraft.entity.projectile.AbstractArrowEntity
 import net.minecraft.entity.projectile.ArrowEntity
 
-class SummonArrowEffect : AOTDSpellEffect("summon_arrow", ModResearches.MAGIC_MASTERY) {
+class SummonArrowEffect : AOTDSpellEffect("summon_arrow", ModResearches.WRIST_CROSSBOW) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.floatProperty()

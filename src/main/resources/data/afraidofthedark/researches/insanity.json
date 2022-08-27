@@ -14,7 +14,8 @@
   ],
   "spell_components": {
     "effects": [
-      "afraidofthedark:lightning"
+      "afraidofthedark:lightning",
+      "afraidofthedark:sonic_disruption"
     ]
   }
 }
