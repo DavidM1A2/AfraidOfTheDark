@@ -8,7 +8,9 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
 import net.minecraft.entity.Entity
+import net.minecraft.entity.MobEntity
 import net.minecraft.entity.item.ItemEntity
+import net.minecraft.pathfinding.PathNodeType
 import net.minecraft.pathfinding.PathType
 import net.minecraft.state.IntegerProperty
 import net.minecraft.state.StateContainer
@@ -24,7 +26,7 @@ import net.minecraft.world.World
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.common.IPlantable
 import net.minecraftforge.common.PlantType
-import java.util.Random
+import java.util.*
 
 /**
  * Class representing the imbued cactus block
@@ -142,6 +144,10 @@ class ImbuedCactusBlock : AOTDBlock(
 
     override fun isPathfindable(state: BlockState, world: IBlockReader, blockPos: BlockPos, pathType: PathType): Boolean {
         return false
+    }
+
+    override fun getAiPathNodeType(blockState: BlockState, world: IBlockReader, pos: BlockPos, entity: MobEntity?): PathNodeType {
+        return PathNodeType.DAMAGE_CACTUS
     }
 
     override fun getPlantType(world: IBlockReader?, pos: BlockPos?): PlantType {
