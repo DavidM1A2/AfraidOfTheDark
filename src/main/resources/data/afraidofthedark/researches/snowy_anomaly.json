@@ -1,6 +1,7 @@
 {
   "forge:registry_name": "afraidofthedark:snowy_anomaly",
   "recipes": [
+    "afraidofthedark:eldritch_metal_ingot",
     "afraidofthedark:eldritch_stone",
     "afraidofthedark:amorphous_eldritch_metal",
     "afraidofthedark:eldritch_obsidian"
