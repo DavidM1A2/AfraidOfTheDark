@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.block.IGrowable
 import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
 import net.minecraft.entity.Entity
@@ -26,6 +27,8 @@ import net.minecraft.world.World
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.common.IPlantable
 import net.minecraftforge.common.PlantType
+import net.minecraftforge.common.util.Constants
+import net.minecraftforge.common.util.Constants.BlockFlags
 import java.util.*
 
 /**
@@ -39,7 +42,7 @@ class ImbuedCactusBlock : AOTDBlock(
         .randomTicks()
         .sound(SoundType.WOOL)
         .strength(0.4f)
-), IPlantable {
+), IPlantable, IGrowable {
     init {
         registerDefaultState(stateDefinition.any().setValue(AGE, 0))
     }
@@ -74,14 +77,14 @@ class ImbuedCactusBlock : AOTDBlock(
 
                     // If we're at max height, grow a blossom, otherwise grow a cactus block
                     if (currentHeight == MAX_HEIGHT) {
-                        world.setBlock(pos.above(), ModBlocks.IMBUED_CACTUS_BLOSSOM.defaultBlockState(), 4)
+                        world.setBlock(pos.above(), ModBlocks.IMBUED_CACTUS_BLOSSOM.defaultBlockState(), Constants.BlockFlags.DEFAULT)
                     } else {
-                        world.setBlock(pos.above(), this.defaultBlockState(), 4)
+                        world.setBlock(pos.above(), this.defaultBlockState(), Constants.BlockFlags.DEFAULT)
                     }
                 }
 
                 // Update age
-                world.setBlock(pos, state.setValue(AGE, age), 4)
+                world.setBlock(pos, state.setValue(AGE, age), BlockFlags.DEFAULT)
             }
         }
     }
@@ -156,6 +159,32 @@ class ImbuedCactusBlock : AOTDBlock(
 
     override fun getPlant(world: IBlockReader?, pos: BlockPos?): BlockState {
         return defaultBlockState()
+    }
+
+    override fun isValidBonemealTarget(world: IBlockReader, blockPos: BlockPos, blockState: BlockState, isClientSide: Boolean): Boolean {
+        // Compute the number of cactus blocks stacked
+        var currentHeight = 0
+        for (yOffset in 0 until MAX_HEIGHT) {
+            val blockBelow = world.getBlockState(blockPos.below(yOffset))
+            if (blockBelow.block == this) {
+                currentHeight++
+            } else if (blockBelow.block != this) {
+                break
+            }
+        }
+        if (currentHeight < MAX_HEIGHT) {
+            return false
+        }
+
+        return world.getBlockState(blockPos.above()).isAir
+    }
+
+    override fun isBonemealSuccess(world: World, random: Random, blockPos: BlockPos, blockState: BlockState): Boolean {
+        return random.nextDouble() < 0.4
+    }
+
+    override fun performBonemeal(world: ServerWorld, random: Random, blockPos: BlockPos, blockState: BlockState) {
+        world.setBlock(blockPos.above(), ModBlocks.IMBUED_CACTUS_BLOSSOM.defaultBlockState(), BlockFlags.DEFAULT)
     }
 
     companion object {
