@@ -9,6 +9,50 @@
       "entries": [
         {
           "type": "item",
+          "name": "afraidofthedark:gnomish_metal_hoe",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            }
+          ],
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "afraidofthedark:gnomish_metal_axe",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            }
+          ],
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "afraidofthedark:gnomish_metal_pickaxe",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            }
+          ],
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "afraidofthedark:gnomish_metal_shovel",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            }
+          ],
+          "weight": 1
+        },
+        {
+          "type": "item",
           "name": "minecraft:diamond",
           "functions": [
             {

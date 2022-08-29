@@ -1,0 +1,21 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "gg",
+    "s ",
+    "s "
+  ],
+  "key": {
+    "g": {
+      "item": "afraidofthedark:gnomish_metal_ingot"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:gnomish_metal_hoe",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:excavation_engineering"
+}

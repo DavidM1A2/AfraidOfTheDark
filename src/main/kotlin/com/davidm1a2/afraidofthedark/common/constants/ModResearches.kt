@@ -31,6 +31,7 @@ object ModResearches {
     val ENARIA = load("enaria")
     val ENCHANTED_FROGS = load("enchanted_frogs")
     val ENCHANTED_SKELETON = load("enchanted_skeleton")
+    val EXCAVATION_ENGINEERING = load("excavation_engineering")
     val FLASK_OF_SOULS = load("flask_of_souls")
     val FORBIDDEN_CITY = load("forbidden_city")
     val IGNEOUS = load("igneous")
@@ -88,6 +89,7 @@ object ModResearches {
         ENARIA,
         ENCHANTED_FROGS,
         ENCHANTED_SKELETON,
+        EXCAVATION_ENGINEERING,
         FLASK_OF_SOULS,
         FORBIDDEN_CITY,
         IGNEOUS,

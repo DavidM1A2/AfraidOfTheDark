@@ -1,0 +1,21 @@
+{
+  "forge:registry_name": "afraidofthedark:excavation_engineering",
+  "recipes": [
+    "afraidofthedark:gnomish_metal_ingot",
+    "afraidofthedark:gnomish_metal_axe",
+    "afraidofthedark:gnomish_metal_hoe",
+    "afraidofthedark:gnomish_metal_pickaxe",
+    "afraidofthedark:gnomish_metal_shovel"
+  ],
+  "pre_recipes": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/excavation_engineering.png",
+  "prerequisite": "afraidofthedark:forbidden_city",
+  "triggers": [
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:excavation_engineering"
+      }
+    }
+  ]
+}

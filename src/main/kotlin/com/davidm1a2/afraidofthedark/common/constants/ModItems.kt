@@ -46,6 +46,10 @@ import com.davidm1a2.afraidofthedark.common.item.eggs.EnchantedSkeletonSpawnEggI
 import com.davidm1a2.afraidofthedark.common.item.eggs.FrostPhoenixSpawnEggItem
 import com.davidm1a2.afraidofthedark.common.item.eggs.SplinterDroneSpawnEggItem
 import com.davidm1a2.afraidofthedark.common.item.eggs.WerewolfSpawnEggItem
+import com.davidm1a2.afraidofthedark.common.item.gnomishmetal.GnomishMetalAxeItem
+import com.davidm1a2.afraidofthedark.common.item.gnomishmetal.GnomishMetalHoeItem
+import com.davidm1a2.afraidofthedark.common.item.gnomishmetal.GnomishMetalPickaxeItem
+import com.davidm1a2.afraidofthedark.common.item.gnomishmetal.GnomishMetalShovelItem
 import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousArmorItem
 import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousAxeItem
 import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousGemItem
@@ -122,6 +126,10 @@ object ModItems {
     val STAR_METAL_LEGGINGS = StarMetalArmorItem("star_metal_leggings", EquipmentSlotType.LEGS)
     val STAR_METAL_BOOTS = StarMetalArmorItem("star_metal_boots", EquipmentSlotType.FEET)
     val GNOMISH_METAL_INGOT = GnomishMetalIngotItem()
+    val GNOMISH_METAL_AXE = GnomishMetalAxeItem()
+    val GNOMISH_METAL_HOE = GnomishMetalHoeItem()
+    val GNOMISH_METAL_PICKAXE = GnomishMetalPickaxeItem()
+    val GNOMISH_METAL_SHOVEL = GnomishMetalShovelItem()
     val WOODEN_BOLT = WoodenBoltItem()
     val IRON_BOLT = IronBoltItem()
     val ASTRAL_SILVER_BOLT = AstralSilverBoltItem()
@@ -209,6 +217,10 @@ object ModItems {
         STAR_METAL_LEGGINGS,
         STAR_METAL_BOOTS,
         GNOMISH_METAL_INGOT,
+        GNOMISH_METAL_AXE,
+        GNOMISH_METAL_HOE,
+        GNOMISH_METAL_PICKAXE,
+        GNOMISH_METAL_SHOVEL,
         DESERT_FRUIT,
         BONE_DUST,
         MAGIC_ESSENCE,
