@@ -85,6 +85,8 @@ dependencies {
 
     val implementation = configurations["implementation"]
     implementation("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", findProperty("kotlin_version").toString())
+    implementation(forgeGradle.deobf("slimeknights.mantle:Mantle:${mcVersion}-${findProperty("mantle_version").toString()}"))
+    implementation(forgeGradle.deobf("slimeknights.tconstruct:TConstruct:${mcVersion}-${findProperty("tinkers_construct_version").toString()}"))
 
     val shade = configurations["shade"]
     shade("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", findProperty("kotlin_version").toString())
