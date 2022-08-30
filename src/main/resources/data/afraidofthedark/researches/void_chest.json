@@ -1,6 +1,8 @@
 {
   "forge:registry_name": "afraidofthedark:void_chest",
-  "recipes": [],
+  "recipes": [
+    "afraidofthedark:void_chest"
+  ],
   "pre_recipes": [
     "afraidofthedark:void_chest"
   ],
