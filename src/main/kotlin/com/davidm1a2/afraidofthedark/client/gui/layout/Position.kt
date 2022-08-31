@@ -22,14 +22,14 @@ class Position(val x: Double = 0.0, val y: Double = 0.0, val isRelative: Boolean
             val internalWidth = reference.getInternalWidth()
             val internalHeight = reference.getInternalHeight()
             Position(
-                if (internalWidth == 0.0) 0.0 else x / reference.getInternalWidth(),
-                if (internalHeight == 0.0) 0.0 else y / reference.getInternalHeight(),
+                if (internalWidth == 0.0) 0.0 else x / internalWidth,
+                if (internalHeight == 0.0) 0.0 else y / internalHeight,
                 true
             )
         }
     }
 
-    fun toDimension(secondPoint: Position): Dimensions {
+    fun dimensionsBetween(secondPoint: Position): Dimensions {
         assert(this.isRelative == secondPoint.isRelative)
         return Dimensions(secondPoint.x - this.x, secondPoint.y - this.y)
     }

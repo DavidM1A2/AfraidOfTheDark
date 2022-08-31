@@ -19,7 +19,7 @@ open class LineComponent(lineFrom: Position, lineTo: Position, offset: Position,
     AOTDGuiComponent(color = color, gravity = gravity, offset = offset) {
 
     init {
-        this.prefSize = lineFrom.toDimension(lineTo)
+        this.prefSize = lineFrom.dimensionsBetween(lineTo)
     }
 
     override fun draw(matrixStack: MatrixStack) {

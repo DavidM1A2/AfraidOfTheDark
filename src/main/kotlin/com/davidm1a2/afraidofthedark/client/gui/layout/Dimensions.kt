@@ -19,6 +19,20 @@ class Dimensions(val width: Double = 0.0, val height: Double = 0.0, val isRelati
         }
     }
 
+    fun getRelative(reference: AOTDPane): Dimensions {
+        return if (isRelative) {
+            Dimensions(width, height, true)
+        } else {
+            val internalWidth = reference.getInternalWidth()
+            val internalHeight = reference.getInternalHeight()
+            Dimensions(
+                if (internalWidth == 0.0) 0.0 else width / internalWidth,
+                if (internalHeight == 0.0) 0.0 else height / internalHeight,
+                true
+            )
+        }
+    }
+
     override fun equals(other: Any?): Boolean {
         return other is Dimensions && other.isRelative == this.isRelative && other.width == this.width && other.height == other.height
     }
