@@ -1,0 +1,17 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "aaa",
+    "a a"
+  ],
+  "key": {
+    "a": {
+      "item": "afraidofthedark:astral_silver_ingot"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:astral_silver_helmet",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:silver_slayer"
+}

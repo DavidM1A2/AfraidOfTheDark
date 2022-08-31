@@ -29,6 +29,7 @@ import com.davidm1a2.afraidofthedark.common.item.SpellScrollItem
 import com.davidm1a2.afraidofthedark.common.item.VitaeLanternItem
 import com.davidm1a2.afraidofthedark.common.item.WandItem
 import com.davidm1a2.afraidofthedark.common.item.WerewolfBloodItem
+import com.davidm1a2.afraidofthedark.common.item.astralsilver.AstralSilverArmorItem
 import com.davidm1a2.afraidofthedark.common.item.astralsilver.AstralSilverAxeItem
 import com.davidm1a2.afraidofthedark.common.item.astralsilver.AstralSilverHoeItem
 import com.davidm1a2.afraidofthedark.common.item.astralsilver.AstralSilverIngotItem
@@ -94,6 +95,10 @@ object ModItems {
     val ASTRAL_SILVER_HOE = AstralSilverHoeItem()
     val ASTRAL_SILVER_PICKAXE = AstralSilverPickaxeItem()
     val ASTRAL_SILVER_SHOVEL = AstralSilverShovelItem()
+    val ASTRAL_SILVER_HELMET = AstralSilverArmorItem("astral_silver_helmet", EquipmentSlotType.HEAD)
+    val ASTRAL_SILVER_CHESTPLATE = AstralSilverArmorItem("astral_silver_chestplate", EquipmentSlotType.CHEST)
+    val ASTRAL_SILVER_LEGGINGS = AstralSilverArmorItem("astral_silver_leggings", EquipmentSlotType.LEGS)
+    val ASTRAL_SILVER_BOOTS = AstralSilverArmorItem("astral_silver_boots", EquipmentSlotType.FEET)
     val WEREWOLF_BLOOD = WerewolfBloodItem()
     val FLASK_OF_SOULS = FlaskOfSoulsItem()
     val CLOAK_OF_AGILITY = CloakOfAgilityItem()
@@ -178,6 +183,10 @@ object ModItems {
         ASTRAL_SILVER_HOE,
         ASTRAL_SILVER_PICKAXE,
         ASTRAL_SILVER_SHOVEL,
+        ASTRAL_SILVER_HELMET,
+        ASTRAL_SILVER_CHESTPLATE,
+        ASTRAL_SILVER_LEGGINGS,
+        ASTRAL_SILVER_BOOTS,
         WEREWOLF_BLOOD,
         FLASK_OF_SOULS,
         CLOAK_OF_AGILITY,

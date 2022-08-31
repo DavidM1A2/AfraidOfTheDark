@@ -6,7 +6,11 @@
     "afraidofthedark:astral_silver_hoe",
     "afraidofthedark:astral_silver_pickaxe",
     "afraidofthedark:astral_silver_shovel",
-    "afraidofthedark:astral_silver_bolt"
+    "afraidofthedark:astral_silver_bolt",
+    "afraidofthedark:astral_silver_helmet",
+    "afraidofthedark:astral_silver_chestplate",
+    "afraidofthedark:astral_silver_leggings",
+    "afraidofthedark:astral_silver_boots"
   ],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/silver_slayer.png",
