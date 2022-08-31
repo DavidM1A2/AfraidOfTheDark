@@ -34,16 +34,18 @@ abstract class AOTDArmorItem(
     }
 
     /**
-     * Processes damage taken when wearing armor
+     * Processes damage taken when wearing armor. Note that this applies AFTER standard armor protection
      *
      * @param entity The entity being hit
      * @param armorStack The armor itemstack
      * @param source The source of the damage
-     * @param amount The amount of damage
      * @param slot The slot the armor piece is in
-     * @return The percent of damage this specific armor piece blocks, should be between 0-10
+     * @return The multiplier the damage should be multiplied against. Eg:
+     *  -> Returning 0.5 will half the damage taken.
+     *  -> Returning 1.0 will leave the damage unmodified
+     *  -> Returning 1.5 will increase the damage by 50%
      */
-    abstract fun processDamage(entity: LivingEntity, armorStack: ItemStack, source: DamageSource, amount: Float, slot: EquipmentSlotType): Double
+    abstract fun getDamageMultiplier(entity: LivingEntity, armorStack: ItemStack, source: DamageSource, slot: EquipmentSlotType): Double
 
     /**
      * Tests if the player is wearing a full set of this armor type

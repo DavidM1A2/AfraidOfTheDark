@@ -11,7 +11,7 @@ object ModArmorMaterials {
     val IGNEOUS = AOTDArmorMaterial(
         "igneous",
         0,
-        arrayOf(0, 0, 0, 0),
+        arrayOf(3, 6, 8, 3),
         20,
         SoundEvents.ARMOR_EQUIP_GENERIC,
         0f,
@@ -21,7 +21,7 @@ object ModArmorMaterials {
     val STAR_METAL = AOTDArmorMaterial(
         "star_metal",
         0,
-        arrayOf(0, 0, 0, 0),
+        arrayOf(3, 6, 8, 3),
         20,
         SoundEvents.ARMOR_EQUIP_GENERIC,
         0f,

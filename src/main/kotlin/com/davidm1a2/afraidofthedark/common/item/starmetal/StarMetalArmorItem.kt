@@ -107,53 +107,34 @@ class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
             System.currentTimeMillis() > NBTHelper.getLong(itemStack, NBT_LAST_ABSORPTION_PROC)!! + ABSORPTION_PROC_CD_MILLIS
     }
 
-    override fun processDamage(entity: LivingEntity, armorStack: ItemStack, source: DamageSource, amount: Float, slot: EquipmentSlotType): Double {
+    override fun getDamageMultiplier(entity: LivingEntity, armorStack: ItemStack, source: DamageSource, slot: EquipmentSlotType): Double {
         // Compute armor properties for players only
         if (entity !is PlayerEntity) {
-            return 0.0
+            return 1.0
         }
 
         // Ensure the player has the right research
         if (!entity.getResearch().isResearched(ModResearches.STAR_METAL)) {
-            return 0.0
+            return 1.0
         }
 
         // No damage reduction against true sources
         if (TRUE_DAMAGE_SOURCES.contains(source)) {
-            return 0.0
+            return 1.0
         }
-
-        val protectionRatio = getRatio(slot)
 
         // Fall damage is heavily reduced
         if (source == DamageSource.FALL) {
-            return protectionRatio * 0.8
+            return 0.15
         }
 
         // Lava damage is slightly reduced (igneous is better)
         if (source == DamageSource.LAVA) {
-            return protectionRatio * 0.8
+            return 0.2
         }
 
         // Default armor protection if no special set bonus applies
-        return protectionRatio * 0.95
-    }
-
-    /**
-     * Returns the ratio of protection each pieces gives
-     *
-     * @param slot The slot the armor is in
-     * @return The ratio of protection of each piece reduced by the percent damage blocked
-     */
-    private fun getRatio(slot: EquipmentSlotType): Double {
-        // Total protection of each piece
-        val totalProtection = 3 + 6 + 8 + 3
-        return when (slot) {
-            EquipmentSlotType.HEAD, EquipmentSlotType.FEET -> 3.0 / totalProtection
-            EquipmentSlotType.LEGS -> 6.0 / totalProtection
-            EquipmentSlotType.CHEST -> 8.0 / totalProtection
-            else -> 0.0
-        }
+        return 0.25
     }
 
     override fun canBeDepleted(): Boolean {

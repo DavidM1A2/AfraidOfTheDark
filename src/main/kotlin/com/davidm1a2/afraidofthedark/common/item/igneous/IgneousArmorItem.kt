@@ -85,15 +85,15 @@ class IgneousArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
         }
     }
 
-    override fun processDamage(entity: LivingEntity, armorStack: ItemStack, source: DamageSource, amount: Float, slot: EquipmentSlotType): Double {
+    override fun getDamageMultiplier(entity: LivingEntity, armorStack: ItemStack, source: DamageSource, slot: EquipmentSlotType): Double {
         // Compute armor properties for players only
         if (entity !is PlayerEntity) {
-            return 0.0
+            return 1.0
         }
 
         // Ensure the player has the right research
         if (!entity.getResearch().isResearched(ModResearches.IGNEOUS)) {
-            return 0.0
+            return 1.0
         }
 
         // If the player is wearing full armor then add armor set bonuses. Only apply the velocity for one armor piece :)
@@ -119,44 +119,25 @@ class IgneousArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
 
         // Blocks no true damage
         if (TRUE_DAMAGE_SOURCES.contains(source)) {
-            return 0.0
+            return 1.0
         }
-
-        val protectionRatio = getRatio(slot)
 
         // Blocks all fire damage
         if (FIRE_SOURCES.contains(source)) {
-            return protectionRatio
+            return 0.0
         }
 
         // Lava damage is heavily reduced
         if (source == DamageSource.LAVA) {
-            return protectionRatio * 0.9
+            return 0.1
         }
 
         // Fall damage is slightly reduced (star metal is better)
         if (source == DamageSource.FALL) {
-            return protectionRatio * 0.7
+            return 0.3
         }
 
-        return protectionRatio * 0.96f
-    }
-
-    /**
-     * Returns the ratio of protection each pieces gives
-     *
-     * @param slot The slot the armor is in
-     * @return The ratio of protection of each piece reduced by the percent damage blocked
-     */
-    private fun getRatio(slot: EquipmentSlotType): Double {
-        // Total protection of each piece
-        val totalProtection = 3 + 6 + 8 + 3
-        return when (slot) {
-            EquipmentSlotType.HEAD, EquipmentSlotType.FEET -> 3.0 / totalProtection
-            EquipmentSlotType.LEGS -> 6.0 / totalProtection
-            EquipmentSlotType.CHEST -> 8.0 / totalProtection
-            else -> 0.0
-        }
+        return 0.2
     }
 
     override fun canBeDepleted(): Boolean {

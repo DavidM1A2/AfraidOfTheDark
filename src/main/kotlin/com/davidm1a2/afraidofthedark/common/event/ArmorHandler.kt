@@ -2,6 +2,8 @@ package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDArmorItem
 import net.minecraft.entity.MobEntity
+import net.minecraft.inventory.EquipmentSlotType
+import net.minecraft.item.ArmorItem
 import net.minecraftforge.event.entity.living.LivingHurtEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
@@ -19,19 +21,43 @@ class ArmorHandler {
         // Server side processing only
         if (!event.entity.level.isClientSide) {
             val entity = event.entityLiving
-            val armor = entity.armorSlots.toList()
+            val armorSlots = entity.armorSlots.toList()
             // Only process armor with 4 pieces (helm, chest, legging, boot)
-            if (armor.size == 4) {
-                val percentDamageBlocked = armor.sumOf {
-                    val armorItem = it.item
+            if (armorSlots.size == 4) {
+                var damageMultiplierTotal = 0.0
+                var ratioTotal = 0.0
+
+                for (armorSlot in armorSlots) {
+                    val armorItem = armorSlot.item
                     if (armorItem is AOTDArmorItem) {
-                        armorItem.processDamage(event.entityLiving, it, event.source, event.amount, MobEntity.getEquipmentSlotForItem(it))
-                    } else {
-                        0.0
+                        val equipmentSlot = MobEntity.getEquipmentSlotForItem(armorSlot)
+                        val ratio = getRatio(armorItem, equipmentSlot)
+                        ratioTotal = ratioTotal + ratio
+                        damageMultiplierTotal = damageMultiplierTotal + ratio * armorItem.getDamageMultiplier(event.entityLiving, armorSlot, event.source, equipmentSlot)
                     }
                 }
-                event.amount = (event.amount * (1.0f - percentDamageBlocked.coerceIn(0.0, 1.0))).toFloat()
+                // If the player is wearing all 4 armor pieces, 1-ratio total will be 0. If the player isn't wearing a helmet, it will be like .85, so add .15 unblocked damage
+                damageMultiplierTotal = (damageMultiplierTotal + (1 - ratioTotal)).coerceAtLeast(0.0)
+
+                event.amount = event.amount * damageMultiplierTotal.toFloat()
             }
         }
+    }
+
+    /**
+     * Returns the ratio of protection each pieces gives
+     *
+     * @param slot The slot the armor is in
+     * @return The ratio of protection of each piece reduced by the percent damage blocked
+     */
+    private fun getRatio(armorItem: ArmorItem, slot: EquipmentSlotType): Double {
+        val material = armorItem.material
+        // Total protection of each piece
+        val totalProtection = material.getDefenseForSlot(EquipmentSlotType.HEAD) +
+                material.getDefenseForSlot(EquipmentSlotType.CHEST) +
+                material.getDefenseForSlot(EquipmentSlotType.LEGS) +
+                material.getDefenseForSlot(EquipmentSlotType.FEET)
+        // Ratio of protection of this pieces to the rest
+        return material.getDefenseForSlot(slot).toDouble() / totalProtection
     }
 }

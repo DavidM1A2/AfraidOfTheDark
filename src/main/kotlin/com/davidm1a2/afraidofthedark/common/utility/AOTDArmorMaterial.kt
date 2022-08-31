@@ -10,7 +10,7 @@ import net.minecraft.util.SoundEvent
  */
 class AOTDArmorMaterial(
     private val name: String,
-    private val maxDamageFactor: Int,
+    private val durabilityMultiplier: Int,
     private val damageReductionAmountArray: Array<Int>,
     private val enchantability: Int,
     private val soundEvent: SoundEvent,
@@ -19,7 +19,7 @@ class AOTDArmorMaterial(
     private val repairMaterial: Ingredient
 ) : IArmorMaterial {
     override fun getName() = name
-    override fun getDurabilityForSlot(slot: EquipmentSlotType) = MAX_DAMAGE_ARRAY[slot.index] * maxDamageFactor
+    override fun getDurabilityForSlot(slot: EquipmentSlotType) = MAX_DAMAGE_ARRAY[slot.index] * durabilityMultiplier
     override fun getDefenseForSlot(slot: EquipmentSlotType) = damageReductionAmountArray[slot.index]
     override fun getEnchantmentValue() = enchantability
     override fun getEquipSound() = soundEvent
