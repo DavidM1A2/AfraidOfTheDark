@@ -68,8 +68,8 @@ class DropdownPane(val font: TrueTypeFont, val values: List<String>, defaultInde
         this.add(overlayPane)
     }
 
-    override fun invalidate() {
-        super.invalidate()
+    override fun update() {
+        super.update()
         if (expanded && this.isVisible) {
             optionsBkg.offset = Position(this.x.toDouble(), this.y + this.height.toDouble(), false)
             val fitHeight = min(this.height * values.size, AOTDGuiUtility.getWindowHeightInMCCoords() - this.height - this.y)

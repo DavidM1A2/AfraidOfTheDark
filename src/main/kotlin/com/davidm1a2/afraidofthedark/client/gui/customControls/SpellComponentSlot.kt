@@ -68,7 +68,7 @@ abstract class SpellComponentSlot<T : SpellComponent<T>>(
             this.icon.updateImageTexture(instance.component.icon)
         }
         updateSpell()
-        scheduleFullRedraw()
+        invalidate()
     }
 
     internal abstract fun updateSpell()
