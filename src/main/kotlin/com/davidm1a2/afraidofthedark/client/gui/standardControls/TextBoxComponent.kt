@@ -123,8 +123,8 @@ class TextBoxComponent(
         this.overflowText = text.substring(lineEndings[textLines.size - 1])
     }
 
-    override fun update() {
-        super.update()
+    override fun invalidate() {
+        super.invalidate()
         this.setText(text)
     }
 

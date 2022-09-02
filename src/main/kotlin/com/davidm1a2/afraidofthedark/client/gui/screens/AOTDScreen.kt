@@ -36,7 +36,7 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
     private val dndPane = OverlayPane(null)
     private var dragAndDropIcon: ImagePane? = null
     private var dragAndDropData: Any? = null
-    private var isScreenValid = true
+    private var forceRedraw = false
 
     /**
      * Called to initialize the GUI screen
@@ -45,22 +45,18 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
         super.init()
         // Clear all buttons on the screen
         this.buttons.clear()
-        // Draw the pane on the next draw cycle
+        // Draw the pane
         this.invalidate()
     }
 
     open fun invalidate() {
-        this.isScreenValid = false
-    }
-
-    open fun update() {
         val windowSize = AOTDGuiUtility.getWindowSizeInMCCoords()
         // Record dimensions so we can tell when they change
         this.contentPane.prefSize = windowSize
         // Fit panes to the screen
         this.contentPane.negotiateDimensions(windowSize.width, windowSize.height)
         // Resize any children to fit the new dimensions
-        this.contentPane.update()
+        this.contentPane.invalidate()
         // Check that the overlay pane is still attached
         if (contentPane.getChildren().contains(dndPane).not()) contentPane.add(dndPane)
     }
@@ -69,11 +65,14 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
         // Enable blend so we can draw opacity
         RenderSystem.enableBlend()
         // If we want a gradient background draw that background
-        if (this.drawGradientBackground()) this.renderBackground(matrixStack)
-        // Trigger an update if the screen has changed size
-        if (contentPane.prefSize != AOTDGuiUtility.getWindowSizeInMCCoords()) isScreenValid = false
-        // Perform an update if necessary
-        if (isScreenValid) this.update()
+        if (this.drawGradientBackground()) {
+            this.renderBackground(matrixStack)
+        }
+        // Do lazy updates only when the screen has changed size
+        if (contentPane.prefSize != AOTDGuiUtility.getWindowSizeInMCCoords() || forceRedraw) {
+            this.invalidate()
+            forceRedraw = false
+        }
         // Draw the content pane
         this.contentPane.draw(matrixStack)
         // Draw the overlay on top of the content pane
@@ -290,6 +289,10 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
             )
         )
         super.mouseMoved(probablyX, probablyY)
+    }
+
+    fun scheduleFullRedraw() {
+        forceRedraw = true
     }
 
     /**

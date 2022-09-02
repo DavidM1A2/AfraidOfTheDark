@@ -94,7 +94,7 @@ open class ImagePane : AOTDPane {
         this.imageTexture = imageTexture
         if (textureChanged) {
             loadTextureDimensions()
-            invalidate()
+            scheduleFullRedraw()
         }
     }
 

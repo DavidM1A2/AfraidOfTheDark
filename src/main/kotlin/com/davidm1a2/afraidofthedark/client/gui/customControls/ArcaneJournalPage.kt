@@ -55,8 +55,8 @@ class ArcaneJournalPage(
         add(spellComponent)
     }
 
-    override fun update() {
-        super.update()
+    override fun invalidate() {
+        super.invalidate()
         this.computeTextPerPage()
     }
 

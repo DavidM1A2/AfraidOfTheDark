@@ -213,9 +213,10 @@ abstract class AOTDPane(
         super.processKeyInput(event)
     }
 
-    override fun update() {
+    override fun invalidate() {
+        super.invalidate()
         this.isHovered = this.boundingBox.contains(AOTDGuiUtility.getMouseXInMCCoord(), AOTDGuiUtility.getMouseYInMCCoord())
         calcChildrenBounds()
-        getChildren().forEach { it.update() }
+        getChildren().forEach { it.invalidate() }
     }
 }

@@ -71,7 +71,7 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
                         // We're no longer waiting on a keybind
                         spellWaitingOnKeybind = null
                         // Update the GUI
-                        this.invalidate()
+                        this.scheduleFullRedraw()
                     }
                 }
             }
@@ -97,7 +97,7 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
                     // Add the UI spell
                     addSpell(spell)
                     // Update the GUI
-                    this.invalidate()
+                    this.scheduleFullRedraw()
                 }
             }
         }
@@ -150,7 +150,7 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         // Remove the spell from the spell manager
         spellManager.deleteSpell(spell.spell)
         // Redraw the screen
-        this.invalidate()
+        this.scheduleFullRedraw()
     }
 
     /**

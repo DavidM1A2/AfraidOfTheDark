@@ -164,14 +164,14 @@ abstract class AOTDGuiComponent(
         hoverTexts = hoverText.split("\n").toTypedArray()
     }
 
+    open fun invalidate() {}
+
     /**
      * Tell our screen to invalidate on the next draw cycle
      */
-    fun invalidate() {
-        (Minecraft.getInstance().screen as? AOTDScreen)?.invalidate()
+    fun scheduleFullRedraw() {
+        (Minecraft.getInstance().screen as? AOTDScreen)?.scheduleFullRedraw()
     }
-
-    open fun update() {}
 
     companion object {
         val fontRenderer: FontRenderer = Minecraft.getInstance().font
