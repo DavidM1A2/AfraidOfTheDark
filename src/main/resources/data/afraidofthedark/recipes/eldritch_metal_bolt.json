@@ -1,0 +1,16 @@
+{
+  "type": "afraidofthedark:research_required_shapeless_recipe",
+  "result": {
+    "item": "afraidofthedark:eldritch_metal_bolt",
+    "count": 6
+  },
+  "ingredients": [
+    {
+      "item": "afraidofthedark:eldritch_metal_ingot"
+    },
+    {
+      "item": "afraidofthedark:eldritch_metal_ingot"
+    }
+  ],
+  "required_research": "afraidofthedark:an_unsettling_material"
+}

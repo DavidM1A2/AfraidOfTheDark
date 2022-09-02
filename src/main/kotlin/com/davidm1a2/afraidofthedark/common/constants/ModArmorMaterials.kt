@@ -38,4 +38,14 @@ object ModArmorMaterials {
         0f,
         Ingredient.of(ModItems.STAR_METAL_PLATE)
     )
+    val ELDRITCH_METAL = AOTDArmorMaterial(
+        "eldritch_metal",
+        15,
+        arrayOf(2, 5, 6, 2),
+        9,
+        SoundEvents.ARMOR_EQUIP_GENERIC,
+        0f,
+        0f,
+        Ingredient.of(ModItems.ELDRITCH_METAL_INGOT)
+    )
 }

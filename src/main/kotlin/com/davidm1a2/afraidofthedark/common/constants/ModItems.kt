@@ -38,6 +38,7 @@ import com.davidm1a2.afraidofthedark.common.item.astralsilver.AstralSilverShovel
 import com.davidm1a2.afraidofthedark.common.item.astralsilver.AstralSilverSwordItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.WristCrossbowItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.AstralSilverBoltItem
+import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.EldritchMetalBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.IgneousBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.IronBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.StarMetalBoltItem
@@ -47,6 +48,12 @@ import com.davidm1a2.afraidofthedark.common.item.eggs.EnchantedSkeletonSpawnEggI
 import com.davidm1a2.afraidofthedark.common.item.eggs.FrostPhoenixSpawnEggItem
 import com.davidm1a2.afraidofthedark.common.item.eggs.SplinterDroneSpawnEggItem
 import com.davidm1a2.afraidofthedark.common.item.eggs.WerewolfSpawnEggItem
+import com.davidm1a2.afraidofthedark.common.item.eldritchmetal.EldritchMetalArmorItem
+import com.davidm1a2.afraidofthedark.common.item.eldritchmetal.EldritchMetalAxeItem
+import com.davidm1a2.afraidofthedark.common.item.eldritchmetal.EldritchMetalHoeItem
+import com.davidm1a2.afraidofthedark.common.item.eldritchmetal.EldritchMetalPickaxeItem
+import com.davidm1a2.afraidofthedark.common.item.eldritchmetal.EldritchMetalShovelItem
+import com.davidm1a2.afraidofthedark.common.item.eldritchmetal.EldritchMetalSwordItem
 import com.davidm1a2.afraidofthedark.common.item.gnomishmetal.GnomishMetalAxeItem
 import com.davidm1a2.afraidofthedark.common.item.gnomishmetal.GnomishMetalHoeItem
 import com.davidm1a2.afraidofthedark.common.item.gnomishmetal.GnomishMetalPickaxeItem
@@ -130,6 +137,15 @@ object ModItems {
     val STAR_METAL_CHESTPLATE = StarMetalArmorItem("star_metal_chestplate", EquipmentSlotType.CHEST)
     val STAR_METAL_LEGGINGS = StarMetalArmorItem("star_metal_leggings", EquipmentSlotType.LEGS)
     val STAR_METAL_BOOTS = StarMetalArmorItem("star_metal_boots", EquipmentSlotType.FEET)
+    val ELDRITCH_METAL_SWORD = EldritchMetalSwordItem()
+    val ELDRITCH_METAL_AXE = EldritchMetalAxeItem()
+    val ELDRITCH_METAL_HOE = EldritchMetalHoeItem()
+    val ELDRITCH_METAL_PICKAXE = EldritchMetalPickaxeItem()
+    val ELDRITCH_METAL_SHOVEL = EldritchMetalShovelItem()
+    val ELDRITCH_METAL_HELMET = EldritchMetalArmorItem("eldritch_metal_helmet", EquipmentSlotType.HEAD)
+    val ELDRITCH_METAL_CHESTPLATE = EldritchMetalArmorItem("eldritch_metal_chestplate", EquipmentSlotType.CHEST)
+    val ELDRITCH_METAL_LEGGINGS = EldritchMetalArmorItem("eldritch_metal_leggings", EquipmentSlotType.LEGS)
+    val ELDRITCH_METAL_BOOTS = EldritchMetalArmorItem("eldritch_metal_boots", EquipmentSlotType.FEET)
     val GNOMISH_METAL_INGOT = GnomishMetalIngotItem()
     val GNOMISH_METAL_AXE = GnomishMetalAxeItem()
     val GNOMISH_METAL_HOE = GnomishMetalHoeItem()
@@ -140,6 +156,7 @@ object ModItems {
     val ASTRAL_SILVER_BOLT = AstralSilverBoltItem()
     val IGNEOUS_BOLT = IgneousBoltItem()
     val STAR_METAL_BOLT = StarMetalBoltItem()
+    val ELDRITCH_METAL_BOLT = EldritchMetalBoltItem()
     val DEBUG = DebugItem()
     val SCHEMATIC_CREATOR = SchematicCreatorItem()
     val DESERT_FRUIT = DesertFruitItem()
@@ -196,6 +213,7 @@ object ModItems {
         ASTRAL_SILVER_BOLT,
         IGNEOUS_BOLT,
         STAR_METAL_BOLT,
+        ELDRITCH_METAL_BOLT,
         DEBUG,
         SCHEMATIC_CREATOR,
         SLEEPING_POTION,
@@ -225,6 +243,15 @@ object ModItems {
         STAR_METAL_CHESTPLATE,
         STAR_METAL_LEGGINGS,
         STAR_METAL_BOOTS,
+        ELDRITCH_METAL_SWORD,
+        ELDRITCH_METAL_AXE,
+        ELDRITCH_METAL_HOE,
+        ELDRITCH_METAL_PICKAXE,
+        ELDRITCH_METAL_SHOVEL,
+        ELDRITCH_METAL_HELMET,
+        ELDRITCH_METAL_CHESTPLATE,
+        ELDRITCH_METAL_LEGGINGS,
+        ELDRITCH_METAL_BOOTS,
         GNOMISH_METAL_INGOT,
         GNOMISH_METAL_AXE,
         GNOMISH_METAL_HOE,

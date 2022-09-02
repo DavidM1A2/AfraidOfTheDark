@@ -1,0 +1,18 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "e e",
+    "eee",
+    "eee"
+  ],
+  "key": {
+    "e": {
+      "item": "afraidofthedark:eldritch_metal_ingot"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:eldritch_metal_chestplate",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:an_unsettling_material"
+}

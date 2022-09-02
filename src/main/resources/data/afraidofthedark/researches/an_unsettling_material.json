@@ -1,7 +1,17 @@
 {
   "forge:registry_name": "afraidofthedark:an_unsettling_material",
   "recipes": [
-    "afraidofthedark:eldritch_metal_ingot"
+    "afraidofthedark:eldritch_metal_ingot",
+    "afraidofthedark:eldritch_metal_bolt",
+    "afraidofthedark:eldritch_metal_helmet",
+    "afraidofthedark:eldritch_metal_chestplate",
+    "afraidofthedark:eldritch_metal_leggings",
+    "afraidofthedark:eldritch_metal_boots",
+    "afraidofthedark:eldritch_metal_axe",
+    "afraidofthedark:eldritch_metal_pickaxe",
+    "afraidofthedark:eldritch_metal_shovel",
+    "afraidofthedark:eldritch_metal_hoe",
+    "afraidofthedark:eldritch_metal_sword"
   ],
   "pre_recipes": [
     "afraidofthedark:eldritch_metal_ingot"

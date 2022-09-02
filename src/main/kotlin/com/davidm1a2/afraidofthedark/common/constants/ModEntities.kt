@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.entity.bolt.AstralSilverBoltEntity
+import com.davidm1a2.afraidofthedark.common.entity.bolt.EldritchMetalBoltEntity
 import com.davidm1a2.afraidofthedark.common.entity.bolt.IgneousBoltEntity
 import com.davidm1a2.afraidofthedark.common.entity.bolt.IronBoltEntity
 import com.davidm1a2.afraidofthedark.common.entity.bolt.StarMetalBoltEntity
@@ -165,6 +166,14 @@ object ModEntities {
         .noSummon()
         .build("${Constants.MOD_ID}:star_metal_bolt")
         .setRegistryNameGeneric("star_metal_bolt")
+    val ELDRITCH_METAL_BOLT = EntityType.Builder.of(::EldritchMetalBoltEntity, EntityClassification.MISC)
+        .setTrackingRange(50)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .sized(0.5f, 0.5f)
+        .noSummon()
+        .build("${Constants.MOD_ID}:eldritch_metal_bolt")
+        .setRegistryNameGeneric("eldritch_metal_bolt")
 
     // An array containing a list of entities that AOTD adds
     val ENTITY_LIST = arrayOf(
@@ -183,7 +192,8 @@ object ModEntities {
         IRON_BOLT,
         ASTRAL_SILVER_BOLT,
         IGNEOUS_BOLT,
-        STAR_METAL_BOLT
+        STAR_METAL_BOLT,
+        ELDRITCH_METAL_BOLT
     )
 
     // This is not ready to be initialized at the time ENTITY_LIST is, so delay it using a lazy initializer

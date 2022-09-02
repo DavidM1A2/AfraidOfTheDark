@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.item.astralsilver
+package com.davidm1a2.afraidofthedark.common.item.eldritchmetal
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
@@ -17,14 +17,13 @@ import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 
-class AstralSilverArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
-    AOTDArmorItem(baseName, ModArmorMaterials.ASTRAL_SILVER, equipmentSlot, Properties()) {
+class EldritchMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
+    AOTDArmorItem(baseName, ModArmorMaterials.ELDRITCH_METAL, equipmentSlot, Properties()) {
     override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EquipmentSlotType, type: String?): String {
-        // Star metal 1 is for helm, boots, and chest while star metal 2 is for leggings
         return if (slot == EquipmentSlotType.LEGS) {
-            "afraidofthedark:textures/armor/astral_silver_2.png"
+            "afraidofthedark:textures/armor/eldritch_metal_2.png"
         } else {
-            "afraidofthedark:textures/armor/astral_silver_1.png"
+            "afraidofthedark:textures/armor/eldritch_metal_1.png"
         }
     }
 
@@ -38,7 +37,7 @@ class AstralSilverArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) 
      */
     override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
-        if (player != null && !player.getResearch().isResearched(ModResearches.SILVER_SLAYER)) {
+        if (player != null && !player.getResearch().isResearched(ModResearches.AN_UNSETTLING_MATERIAL)) {
             tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
@@ -50,12 +49,12 @@ class AstralSilverArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) 
         }
 
         // Ensure the player has the right research
-        if (!entity.getResearch().isResearched(ModResearches.SILVER_SLAYER)) {
-            return 1.0
+        if (!entity.getResearch().isResearched(ModResearches.AN_UNSETTLING_MATERIAL)) {
+            return 5.0
         }
 
-        // We have 15% better protection than iron armor
-        return 0.85
+        // We have 30% better protection than iron armor
+        return 0.7
     }
 
     override fun isEnchantable(itemStack: ItemStack): Boolean {

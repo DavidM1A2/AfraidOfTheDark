@@ -1,0 +1,21 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "ee",
+    "se",
+    "s "
+  ],
+  "key": {
+    "e": {
+      "item": "afraidofthedark:eldritch_metal_ingot"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:eldritch_metal_axe",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:an_unsettling_material"
+}
