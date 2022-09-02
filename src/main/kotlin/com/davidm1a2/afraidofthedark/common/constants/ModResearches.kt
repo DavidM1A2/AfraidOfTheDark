@@ -11,6 +11,7 @@ object ModResearches {
     val ACQUIRED_KNOWLEDGE = load("acquired_knowledge")
     val ADVANCED_MAGIC = load("advanced_magic")
     val ALCHEMY = load("alchemy")
+    val AN_UNSETTLING_MATERIAL = load("an_unsettling_material")
     val APPRENTICE_ASCENDED = load("apprentice_ascended")
     val ARCH_SORCERESS = load("arch_sorceress")
     val THE_JOURNEY_BEGINS = load("the_journey_begins")
@@ -69,6 +70,7 @@ object ModResearches {
         ACQUIRED_KNOWLEDGE,
         ADVANCED_MAGIC,
         ALCHEMY,
+        AN_UNSETTLING_MATERIAL,
         APPRENTICE_ASCENDED,
         ARCH_SORCERESS,
         THE_JOURNEY_BEGINS,

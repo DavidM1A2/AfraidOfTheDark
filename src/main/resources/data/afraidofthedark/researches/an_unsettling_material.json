@@ -1,0 +1,26 @@
+{
+  "forge:registry_name": "afraidofthedark:an_unsettling_material",
+  "recipes": [
+    "afraidofthedark:eldritch_metal_ingot"
+  ],
+  "pre_recipes": [
+    "afraidofthedark:eldritch_metal_ingot"
+  ],
+  "icon": "afraidofthedark:textures/gui/research_icons/an_unsettling_material.png",
+  "prerequisite": "afraidofthedark:snowy_anomaly",
+  "triggers": [
+    {
+      "type": "afraidofthedark:multiplicity",
+      "config": {
+        "base_trigger": {
+          "type": "afraidofthedark:kill_entity",
+          "config": {
+            "entity_type": "minecraft:enderman"
+          }
+        },
+        "times": 3,
+        "key": "afraidofthedark:enderman_killed"
+      }
+    }
+  ]
+}
