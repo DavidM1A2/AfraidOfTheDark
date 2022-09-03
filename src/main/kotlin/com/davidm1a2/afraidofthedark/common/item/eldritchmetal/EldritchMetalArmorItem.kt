@@ -17,8 +17,11 @@ import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 
-class EldritchMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
-    AOTDArmorItem(baseName, ModArmorMaterials.ELDRITCH_METAL, equipmentSlot, Properties()) {
+class EldritchMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) : AOTDArmorItem(baseName, ModArmorMaterials.ELDRITCH_METAL, equipmentSlot, Properties()), IEldritchItem {
+    override fun inventoryTick(itemStack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean) {
+        EldritchMetalCommons.processItem(itemStack, world, entity)
+    }
+
     override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EquipmentSlotType, type: String?): String {
         return if (slot == EquipmentSlotType.LEGS) {
             "afraidofthedark:textures/armor/eldritch_metal_2.png"

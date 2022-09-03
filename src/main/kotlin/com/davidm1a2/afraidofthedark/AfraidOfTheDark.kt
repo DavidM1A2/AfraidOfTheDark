@@ -10,6 +10,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModConfigHolder
 import com.davidm1a2.afraidofthedark.common.event.ArmorHandler
 import com.davidm1a2.afraidofthedark.common.event.CapabilityHandler
 import com.davidm1a2.afraidofthedark.common.event.ConfigurationHandler
+import com.davidm1a2.afraidofthedark.common.event.EldritchItemHandler
 import com.davidm1a2.afraidofthedark.common.event.FlaskOfSoulsHandler
 import com.davidm1a2.afraidofthedark.common.event.NightmareHandler
 import com.davidm1a2.afraidofthedark.common.event.ResearchTriggerHandler
@@ -97,6 +98,7 @@ class AfraidOfTheDark {
         forgeBus.register(PlayerBiomeEventHandler())
         forgeBus.register(SpellWardHandler())
         forgeBus.register(SpellPowerSourceHandler())
+        forgeBus.register(EldritchItemHandler())
 
         modBus.register(RegistryRegister())
         modBus.register(BlockRegister())
