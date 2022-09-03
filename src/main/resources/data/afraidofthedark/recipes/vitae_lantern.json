@@ -2,8 +2,8 @@
   "type": "afraidofthedark:research_required_shaped_recipe",
   "pattern": [
     " s ",
-    "ifi",
-    " t "
+    "gfg",
+    "iti"
   ],
   "key": {
     "f": {
@@ -17,6 +17,9 @@
     },
     "t": {
       "item": "minecraft:torch"
+    },
+    "g": {
+      "item": "minecraft:glass"
     }
   },
   "result": {

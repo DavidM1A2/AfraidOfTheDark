@@ -2,7 +2,7 @@
   "type": "afraidofthedark:research_required_shaped_recipe",
   "pattern": [
     "gi ",
-    "idi",
+    "igi",
     " ig"
   ],
   "key": {
@@ -11,9 +11,6 @@
     },
     "i": {
       "item": "minecraft:iron_ingot"
-    },
-    "d": {
-      "item": "minecraft:diamond"
     }
   },
   "result": {

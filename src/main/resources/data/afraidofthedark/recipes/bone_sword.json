@@ -1,9 +1,9 @@
 {
   "type": "afraidofthedark:research_required_shaped_recipe",
   "pattern": [
-    "db ",
-    "bd ",
-    "  b"
+    " bd",
+    " db",
+    "b  "
   ],
   "key": {
     "d": {

@@ -1,11 +1,14 @@
 {
   "type": "afraidofthedark:research_required_shaped_recipe",
   "pattern": [
-    "s",
-    "p",
-    "p"
+    " s ",
+    "bpb",
+    " p "
   ],
   "key": {
+    "b": {
+      "item": "afraidofthedark:bone_dust"
+    },
     "s": {
       "item": "minecraft:stick"
     },
