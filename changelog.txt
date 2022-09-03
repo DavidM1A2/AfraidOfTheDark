@@ -1,8 +1,42 @@
 Major:
-- 
+- Added "spell scrolls" to all dungeons. These are "pre-paid" spells with limited uses intended to introduce players to the spell system.
+- Changed how spell power sources work. You now select a power source to cast a spell with by holding "R", and dragging to a power source.
+- New spell delivery methods:
+    - Imbue: This allows you to create your own spell scrolls that you can use yourself or share with others.
+    - Cone: Delivers the spell to blocks in front of you in a cone shape.
+- New spell effects:
+    - Sonic Disruption: Allows players to play a sound at a position. It doesn't allow playing music or interface sounds.
+    - Summon Arrow: Allows players to shoot an arrow into the world.
+- New spell power sources:
+    - Lunar: This will charge up overnight, and dissipate during the day.
+    - Solar: This will charge up during the day, and dissipate overnight.
+    - Thermal: This will charge up while around warm things like torches, lava, and deserts. It will dissipate in tundras, and while around ice and snow.
+    - Leech: This will consume nearby living things like mobs and nature to cast spells.
+    - Innate: This charges up over time with a very limited maximum. Unlocked from the start.
+- Added a "Frost Phoenix" mini-boss and perch structure. It currently does not unlock any researches, but more will be added here soon!
+- Added eldritch metal tools, armor, and weapons. These negatively effect you when you don't kill something for 5 minutes.
 
 Minor:
-- 
+- Push spell effect now negates fall damage on cast
+- Added astral silver tools. These have a short cooldown between hits, and about as good as iron
+- Added igneous tools. These autosmelt mined items
+- Added star metal tools. These are incredibly efficient and enchantable
+- Made cloak of agility and wrist crossbow "right click"-able. You can still use the hotkey
+- Changed default keybindings for wrist crossbow (Z) and select power source (R)
+- Added some new researches to explain the spell system from an early level
+- Improved the smoke screen effect look
+- Made desert fruit restore innate vitae when consumed
+- Added JEI support (you can see recipes now!)
+- Make imbued cactus "bonemealable" to grow cactus fruit
+- Added gnomish metal tools. These are very efficient, but low durability. There are no gnomish metal weapons or armor pieces.
 
 Bug Fixes:
-- 
+- Gravewood/mangrove door window transparency works now
+- Fixed spell cost calculation. Spells should be cheaper now on average
+- Slow projectiles will collide properly now
+- Fixed forbidden city stairwells spawning in water
+- Fixed /summon'ing mobs
+- Fixed the spam of "research unlocked" notifications when using the cheat sheet to unlock lots of researches
+- Fixed spell lasers hitting other lasers
+- Fixed disintegrate destroying bedrock
+- Fixed mod armor not showing "shields" on top of the inventory bar when worn
