@@ -1,15 +1,19 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "result": {
-    "item": "afraidofthedark:iron_bolt",
-    "count": 6
-  },
-  "ingredients": [
-    {
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "i",
+    "s"
+  ],
+  "key": {
+    "i": {
       "tag": "forge:ingots/iron"
     },
-    {
-      "tag": "forge:ingots/iron"
+    "s": {
+      "item": "minecraft:stick"
     }
-  ]
+  },
+  "result": {
+    "item": "afraidofthedark:iron_bolt",
+    "count": 8
+  }
 }

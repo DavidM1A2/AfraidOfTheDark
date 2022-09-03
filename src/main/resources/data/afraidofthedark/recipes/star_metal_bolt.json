@@ -1,16 +1,20 @@
 {
-  "type": "afraidofthedark:research_required_shapeless_recipe",
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "f",
+    "s"
+  ],
+  "key": {
+    "f": {
+      "item": "afraidofthedark:star_metal_fragment"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
   "result": {
     "item": "afraidofthedark:star_metal_bolt",
-    "count": 6
+    "count": 8
   },
-  "ingredients": [
-    {
-      "item": "afraidofthedark:star_metal_ingot"
-    },
-    {
-      "item": "afraidofthedark:star_metal_ingot"
-    }
-  ],
   "required_research": "afraidofthedark:star_metal"
 }

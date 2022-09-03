@@ -1,7 +1,9 @@
 {
   "forge:registry_name": "afraidofthedark:wrist_crossbow",
   "recipes": [
-    "afraidofthedark:wrist_crossbow"
+    "afraidofthedark:wrist_crossbow",
+    "afraidofthedark:wooden_bolt",
+    "afraidofthedark:iron_bolt"
   ],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/wrist_crossbow.png",

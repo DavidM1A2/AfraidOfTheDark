@@ -1,15 +1,16 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "result": {
-    "item": "afraidofthedark:wooden_bolt",
-    "count": 6
-  },
-  "ingredients": [
-    {
-      "item": "minecraft:stick"
-    },
-    {
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "s",
+    "s"
+  ],
+  "key": {
+    "s": {
       "item": "minecraft:stick"
     }
-  ]
+  },
+  "result": {
+    "item": "afraidofthedark:wooden_bolt",
+    "count": 8
+  }
 }

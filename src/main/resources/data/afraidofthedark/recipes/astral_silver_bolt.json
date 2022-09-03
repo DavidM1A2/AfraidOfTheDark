@@ -1,16 +1,20 @@
 {
-  "type": "afraidofthedark:research_required_shapeless_recipe",
-  "result": {
-    "item": "afraidofthedark:astral_silver_bolt",
-    "count": 6
-  },
-  "ingredients": [
-    {
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "a",
+    "s"
+  ],
+  "key": {
+    "a": {
       "item": "afraidofthedark:astral_silver_ingot"
     },
-    {
-      "item": "afraidofthedark:astral_silver_ingot"
+    "s": {
+      "item": "minecraft:stick"
     }
-  ],
+  },
+  "result": {
+    "item": "afraidofthedark:astral_silver_bolt",
+    "count": 8
+  },
   "required_research": "afraidofthedark:silver_slayer"
 }
