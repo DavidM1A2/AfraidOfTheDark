@@ -5,7 +5,11 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextBoxComponent
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentBase
@@ -40,7 +44,7 @@ class SpellComponentPane(prefSize: Dimensions) : AOTDPane(prefSize = prefSize) {
         componentSocket.gravity = Gravity.CENTER
         componentSlot = ImagePane(displayMode = ImagePane.DispMode.FIT_TO_PARENT)
         componentSlot.gravity = Gravity.CENTER
-        componentSlot.prefSize = Dimensions(0.42, 0.42)
+        componentSlot.prefSize = Dimensions(0.43, 0.43)
         componentHolder.add(componentSocket)
         componentHolder.add(componentSlot)
         add(componentHolder)
