@@ -185,17 +185,12 @@ class ArcaneJournalPageScreen(research: Research) : AOTDScreen(TranslationTextCo
         contentPane.add(guiPane)
     }
 
-    override fun invalidate() {
-        super.invalidate()
-        refreshPagesForNumber()
-    }
-
     private fun returnToResearchScreen() {
         val mainhandItem = entityPlayer.mainHandItem
         val isCheatSheet = if (mainhandItem.item == ModItems.ARCANE_JOURNAL) {
             ModItems.ARCANE_JOURNAL.isCheatSheet(mainhandItem)
         } else {
-            ModItems.ARCANE_JOURNAL.isCheatSheet(entityPlayer.mainHandItem)
+            ModItems.ARCANE_JOURNAL.isCheatSheet(entityPlayer.offhandItem)
         }
         Minecraft.getInstance().setScreen(ArcaneJournalResearchScreen(isCheatSheet))
     }
@@ -207,11 +202,10 @@ class ArcaneJournalPageScreen(research: Research) : AOTDScreen(TranslationTextCo
         // Ensure we can advance the page
         if (this.hasNextPage()) {
             // Advance the page number
-            currentPageIndex = currentPageIndex + 2
+            currentPageIndex += 2
             // Play the turn sound
             entityPlayer.playSound(ModSounds.PAGE_TURN, 1.0f, 1.0f)
-            // Update the page content
-            this.refreshPagesForNumber()
+            this.updateText()
         }
     }
 
@@ -222,11 +216,10 @@ class ArcaneJournalPageScreen(research: Research) : AOTDScreen(TranslationTextCo
         // Ensure we can rewind the page
         if (this.hasPreviousPage()) {
             // Rewind the page number
-            currentPageIndex = currentPageIndex - 2
+            currentPageIndex -= 2
             // Play the turn sound
             entityPlayer.playSound(ModSounds.PAGE_TURN, 1.0f, 1.0f)
-            // Update the page content
-            this.refreshPagesForNumber()
+            this.updateText()
         }
     }
 
@@ -241,7 +234,12 @@ class ArcaneJournalPageScreen(research: Research) : AOTDScreen(TranslationTextCo
     /**
      * Updates the text or recipes on each page
      */
-    private fun refreshPagesForNumber() {
+    override fun update() {
+        super.update()
+        updateText()
+    }
+
+    private fun updateText() {
         // Hide the forward button if we're not on the last page
         forwardButton.isVisible = hasNextPage()
         // Hide the backward button if we're not on the first page
@@ -258,6 +256,8 @@ class ArcaneJournalPageScreen(research: Research) : AOTDScreen(TranslationTextCo
             leftPage.clear()
             rightPage.clear()
         }
+        // Now that we have the contents set (components, stickers, etc.) lay them out properly
+        this.contentPane.calcChildrenBounds()
     }
 
     /**

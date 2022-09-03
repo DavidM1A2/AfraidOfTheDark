@@ -63,6 +63,8 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
         this.contentPane.update()
         // Check that the overlay pane is still attached
         if (contentPane.getChildren().contains(dndPane).not()) contentPane.add(dndPane)
+        // Screen is now valid
+        this.isScreenValid = true
     }
 
     override fun render(matrixStack: MatrixStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
@@ -73,7 +75,7 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
         // Trigger an update if the screen has changed size
         if (contentPane.prefSize != AOTDGuiUtility.getWindowSizeInMCCoords()) isScreenValid = false
         // Perform an update if necessary
-        if (isScreenValid) this.update()
+        if (!isScreenValid) this.update()
         // Draw the content pane
         this.contentPane.draw(matrixStack)
         // Draw the overlay on top of the content pane
@@ -183,9 +185,9 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
             dragAndDropIcon = icon
             dragAndDropData = producer.produce()
             dndPane.add(icon)
-            dndPane.invalidate()
+            dndPane.update()
             icon.offset = Position(mouseX - icon.width / 2, mouseY - icon.height / 2, false)
-            dndPane.invalidate()
+            dndPane.update()
         } else {
             // Fire the mouse clicked event
             contentPane.processMouseInput(
@@ -251,7 +253,7 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
 
         if (dragAndDropEnabled && dragAndDropIcon != null) {
             dragAndDropIcon?.let { it.offset = Position(mouseX - it.width / 2, mouseY - it.height / 2, false) }
-            dndPane.invalidate()
+            dndPane.update()
         } else {
             contentPane.processMouseDragInput(MouseDragEvent(contentPane, mouseX.roundToInt(), mouseY.roundToInt(), lastButtonClicked))
         }
@@ -296,7 +298,7 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
      * @return True if the inventory keybind is pressed, false otherwise
      */
     internal fun isInventoryKeybind(key: Int, scanCode: Int): Boolean {
-        return key == GLFW.GLFW_KEY_ESCAPE || Minecraft.getInstance().options.keyInventory.isActiveAndMatches(
+        return Minecraft.getInstance().options.keyInventory.isActiveAndMatches(
             InputMappings.getKey(
                 key,
                 scanCode

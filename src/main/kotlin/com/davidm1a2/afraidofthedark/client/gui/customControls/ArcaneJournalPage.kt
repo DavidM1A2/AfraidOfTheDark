@@ -53,11 +53,13 @@ class ArcaneJournalPage(
 
         spellComponent = SpellComponentPane(Dimensions(1.0, 1.0))
         add(spellComponent)
+
+        clear()
     }
 
     override fun update() {
-        super.update()
         this.computeTextPerPage()
+        super.update()
     }
 
     /**

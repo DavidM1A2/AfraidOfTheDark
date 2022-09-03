@@ -13,10 +13,12 @@ import kotlin.math.roundToInt
  * Class representing an image to be rendered on the GUI
  */
 open class ImagePane : AOTDPane {
-    private var textureWidth: Double = -1.0
-    private var textureHeight: Double = -1.0
+    private var textureWidth = -1.0
+    private var textureHeight = -1.0
     private var imageTexture: ResourceLocation? = null
     private val displayMode: DispMode
+    private var allottedWidth = -1.0
+    private var allottedHeight = -1.0
     var u = 0.0f
     var v = 0.0f
 
@@ -60,7 +62,7 @@ open class ImagePane : AOTDPane {
         }
     }
 
-    override fun negotiateDimensions(width: Double, height: Double) {
+    private fun setActualDimensions(width: Double, height: Double) {
         val fitWidth = (if (prefSize.isRelative) prefSize.width * width else prefSize.width).coerceAtMost(width)
         val fitHeight = (if (prefSize.isRelative) prefSize.height * height else prefSize.height).coerceAtMost(height)
         when (displayMode) {
@@ -85,16 +87,25 @@ open class ImagePane : AOTDPane {
                 this.height = (textureHeight * scaleYRatio).roundToInt()
             }
         }
+    }
+
+    override fun negotiateDimensions(width: Double, height: Double) {
+        // Save the allotted dimensions so we can redraw ourselves later without invalidating the whole screen
+        this.allottedWidth = width
+        this.allottedHeight = height
+        // Do the actual resize
+        this.setActualDimensions(width, height)
         // Reset the inbounds flag
-        inBounds = true
+        this.inBounds = true
     }
 
     fun updateImageTexture(imageTexture: ResourceLocation?) {
         val textureChanged = imageTexture != this.imageTexture
         this.imageTexture = imageTexture
         if (textureChanged) {
-            loadTextureDimensions()
-            invalidate()
+            this.loadTextureDimensions()
+            this.setActualDimensions(allottedWidth, allottedHeight)
+            this.calcChildrenBounds()
         }
     }
 

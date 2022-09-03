@@ -124,8 +124,8 @@ class TextBoxComponent(
     }
 
     override fun update() {
-        super.update()
         this.setText(text)
+        super.update()
     }
 
     /**

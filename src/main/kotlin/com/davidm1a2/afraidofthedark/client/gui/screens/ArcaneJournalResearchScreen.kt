@@ -58,10 +58,10 @@ class ArcaneJournalResearchScreen(private val isCheatSheet: Boolean) :
         ModRegistries.RESEARCH.values.forEach { addResearchButton(it) }
     }
 
-    override fun invalidate() {
+    override fun update() {
         // Make sure the scroll pane hasn't gone out of bounds
         researchTreeBase.checkOutOfBounds()
-        super.invalidate()
+        super.update()
     }
 
     private fun addConnector(research: Research) {

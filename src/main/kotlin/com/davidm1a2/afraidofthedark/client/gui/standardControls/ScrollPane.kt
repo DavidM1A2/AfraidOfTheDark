@@ -57,7 +57,7 @@ open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHe
                         guiOffsetX = originalGuiOffsetX + (it.mouseX - originalXPosition)
                         guiOffsetY = originalGuiOffsetY + (it.mouseY - originalYPosition)
                         checkOutOfBounds()
-                        this.invalidate()
+                        calcChildrenBounds()
                     }
                 }
             }
