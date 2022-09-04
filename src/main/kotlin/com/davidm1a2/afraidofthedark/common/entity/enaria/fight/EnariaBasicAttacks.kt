@@ -155,7 +155,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.PROJECTILE).apply {
                     setDefaults()
                     ModSpellDeliveryMethods.PROJECTILE.setRange(this, 100.0)
-                    ModSpellDeliveryMethods.PROJECTILE.setSpeed(this, 1.4)
+                    ModSpellDeliveryMethods.PROJECTILE.setSpeed(this, 28.0)
                     ModSpellDeliveryMethods.PROJECTILE.setColor(this, Color(140, 0, 0))
                 }
                 effects[0] = SpellEffectInstance(ModSpellEffects.EXPLOSION).apply {
@@ -204,7 +204,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.PROJECTILE).apply {
                     setDefaults()
                     ModSpellDeliveryMethods.PROJECTILE.setRange(this, 100.0)
-                    ModSpellDeliveryMethods.PROJECTILE.setSpeed(this, 0.8)
+                    ModSpellDeliveryMethods.PROJECTILE.setSpeed(this, 16.0)
                     ModSpellDeliveryMethods.PROJECTILE.setColor(this, Color(0, 140, 100))
                 }
                 effects[0] = SpellEffectInstance(ModSpellEffects.FREEZE).apply {
@@ -223,7 +223,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.PROJECTILE).apply {
                     setDefaults()
                     ModSpellDeliveryMethods.PROJECTILE.setRange(this, 100.0)
-                    ModSpellDeliveryMethods.PROJECTILE.setSpeed(this, 0.8)
+                    ModSpellDeliveryMethods.PROJECTILE.setSpeed(this, 16.0)
                     ModSpellDeliveryMethods.PROJECTILE.setColor(this, Color(255, 0, 220))
                 }
                 effects[0] = SpellEffectInstance(ModSpellEffects.CHARM).apply {
