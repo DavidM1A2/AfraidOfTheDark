@@ -42,9 +42,15 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
             // Check if preRequisite is researched, not the actual research. This ensures if our acquired knowledge packet doesn't arrive in time we'll still learn the spell
             val preRequisite = ModResearches.ACQUIRED_KNOWLEDGE.preRequisite
             if (preRequisite == null || player.getResearch().isResearched(preRequisite)) {
-                learnSpell(player, spell)
-                if (!player.isCreative) {
-                    itemUseContext.itemInHand.shrink(1)
+                if (knowsSpellComponents(player, spell)) {
+                    learnSpell(player, spell)
+                    if (!player.isCreative) {
+                        itemUseContext.itemInHand.shrink(1)
+                    }
+                } else {
+                    if (!world.isClientSide) {
+                        player.sendMessage(TranslationTextComponent("message.afraidofthedark.spell_scroll.unknown_component"))
+                    }
                 }
                 return ActionResultType.CONSUME
             }
@@ -124,6 +130,23 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
         } else {
             TranslationTextComponent("item.afraidofthedark.spell_scroll_filled", spell.name)
         }
+    }
+
+    private fun knowsSpellComponents(playerEntity: PlayerEntity, spell: Spell): Boolean {
+        val research = playerEntity.getResearch()
+        for (spellStage in spell.spellStages) {
+            var prereqResearch = spellStage.deliveryInstance?.component?.prerequisiteResearch
+            if (prereqResearch != null && !research.isResearched(prereqResearch)) {
+                return false
+            }
+            for (effect in spellStage.effects) {
+                prereqResearch = effect?.component?.prerequisiteResearch
+                if (prereqResearch != null && !research.isResearched(prereqResearch)) {
+                    return false
+                }
+            }
+        }
+        return true
     }
 
     private fun learnSpell(playerEntity: PlayerEntity, spell: Spell) {
