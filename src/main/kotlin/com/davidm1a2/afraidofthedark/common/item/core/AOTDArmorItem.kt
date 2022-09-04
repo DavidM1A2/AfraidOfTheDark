@@ -57,8 +57,19 @@ abstract class AOTDArmorItem(
         val armorInventory = entityPlayer.inventory.armor
         val armorClass = this.javaClass
         return armorClass.isInstance(armorInventory[0].item) &&
-            armorClass.isInstance(armorInventory[1].item) &&
-            armorClass.isInstance(armorInventory[2].item) &&
-            armorClass.isInstance(armorInventory[3].item)
+                armorClass.isInstance(armorInventory[1].item) &&
+                armorClass.isInstance(armorInventory[2].item) &&
+                armorClass.isInstance(armorInventory[3].item)
+    }
+
+    companion object {
+        // Damage sources that relate to unblockable damage
+        @JvmStatic
+        protected val TRUE_DAMAGE_SOURCES = setOf(
+            DamageSource.DROWN,
+            DamageSource.IN_WALL,
+            DamageSource.OUT_OF_WORLD,
+            DamageSource.STARVE
+        )
     }
 }

@@ -154,13 +154,5 @@ class IgneousArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
 
         // Damage sources that relate to fire damage
         private val FIRE_SOURCES = setOf(DamageSource.IN_FIRE, DamageSource.ON_FIRE)
-
-        // Damage sources that relate to unblockable damage
-        private val TRUE_DAMAGE_SOURCES = setOf(
-            DamageSource.DROWN,
-            DamageSource.IN_WALL,
-            DamageSource.OUT_OF_WORLD,
-            DamageSource.STARVE
-        )
     }
 }

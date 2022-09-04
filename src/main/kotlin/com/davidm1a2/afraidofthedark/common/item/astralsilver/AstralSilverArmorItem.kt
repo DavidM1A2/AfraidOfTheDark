@@ -54,6 +54,11 @@ class AstralSilverArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) 
             return 1.0
         }
 
+        // Blocks no true damage
+        if (TRUE_DAMAGE_SOURCES.contains(source)) {
+            return 1.0
+        }
+
         // We have 15% better protection than iron armor
         return 0.85
     }

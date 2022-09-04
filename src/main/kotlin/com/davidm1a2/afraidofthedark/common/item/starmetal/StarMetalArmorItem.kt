@@ -154,13 +154,5 @@ class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
 
         // Amount of absorption from each armor piece in hearts
         private const val ABSORPTION_PER_PIECE = 4
-
-        // Damage sources that relate to unblockable damage
-        private val TRUE_DAMAGE_SOURCES = setOf(
-            DamageSource.DROWN,
-            DamageSource.IN_WALL,
-            DamageSource.OUT_OF_WORLD,
-            DamageSource.STARVE
-        )
     }
 }
