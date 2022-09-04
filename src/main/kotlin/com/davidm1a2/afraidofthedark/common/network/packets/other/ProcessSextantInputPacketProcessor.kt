@@ -157,6 +157,10 @@ class ProcessSextantInputPacketProcessor : PacketProcessor<ProcessSextantInputPa
         // A list of blocks that the meteor is allowed to remove and spawn in
         private val REPLACEABLE_BLOCKS = setOf(
             ModBlocks.METEOR,
+            ModBlocks.GRAVEWOOD,
+            ModBlocks.MANGROVE,
+            ModBlocks.GRAVEWOOD_LEAVES,
+            ModBlocks.MANGROVE_LEAVES,
             Blocks.DIRT,
             Blocks.GRASS,
             Blocks.GRASS_BLOCK,
