@@ -24,7 +24,7 @@ import java.awt.Color
 class ArcaneJournalResearchScreen(private val isCheatSheet: Boolean) :
     AOTDScreen(TranslationTextComponent("screen.afraidofthedark.arcane_journal_research")) {
 
-    private val researchTreeBase: ScrollPane = ScrollPane(4.0, 4.0, scrollOffset, 1.0, 0.25)
+    private val researchTreeBase: ScrollPane = ScrollPane(4.0, 4.0, scrollOffset, 1.0, 0.25, scrollZoomRatio)
     private val scrollBackground: ImagePane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/arcane_journal_tech_tree/background.png"))
     private val backgroundBorder = ImagePane(ResourceLocation("afraidofthedark:textures/gui/arcane_journal_tech_tree/frame.png"), ImagePane.DispMode.FIT_TO_PARENT)
     private val ratioPane = RatioPane(1, 1)
@@ -84,6 +84,7 @@ class ArcaneJournalResearchScreen(private val isCheatSheet: Boolean) :
 
     override fun removed() {
         scrollOffset = researchTreeBase.getCurrentOffset().getRelative(researchTreeBase)
+        scrollZoomRatio = researchTreeBase.getCurrentZoom()
         super.removed()
     }
 
@@ -92,7 +93,8 @@ class ArcaneJournalResearchScreen(private val isCheatSheet: Boolean) :
         private const val RESEARCH_HEIGHT = 0.03
         private const val RESEARCH_WIDTH = 0.03
 
-        // The stored scroll pane offset
+        // The stored scroll pane position and zoom
         private var scrollOffset = Position(-0.375, -0.375)
+        private var scrollZoomRatio = 1.0
     }
 }

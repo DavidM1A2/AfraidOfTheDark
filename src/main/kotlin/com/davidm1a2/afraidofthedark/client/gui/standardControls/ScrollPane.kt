@@ -129,4 +129,8 @@ open class ScrollPane(private val scrollWidthRatio: Double,
     fun getCurrentOffset(): Position {
         return Position(guiOffsetX, guiOffsetY, false)
     }
+
+    fun getCurrentZoom(): Double {
+        return curZoomRatio
+    }
 }
