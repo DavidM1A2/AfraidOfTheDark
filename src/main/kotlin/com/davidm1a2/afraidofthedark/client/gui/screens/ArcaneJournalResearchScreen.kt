@@ -24,7 +24,7 @@ import java.awt.Color
 class ArcaneJournalResearchScreen(private val isCheatSheet: Boolean) :
     AOTDScreen(TranslationTextComponent("screen.afraidofthedark.arcane_journal_research")) {
 
-    private val researchTreeBase: ScrollPane = ScrollPane(4.0, 4.0, scrollOffset)
+    private val researchTreeBase: ScrollPane = ScrollPane(4.0, 4.0, scrollOffset, 1.0, 0.25)
     private val scrollBackground: ImagePane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/arcane_journal_tech_tree/background.png"))
     private val backgroundBorder = ImagePane(ResourceLocation("afraidofthedark:textures/gui/arcane_journal_tech_tree/frame.png"), ImagePane.DispMode.FIT_TO_PARENT)
     private val ratioPane = RatioPane(1, 1)

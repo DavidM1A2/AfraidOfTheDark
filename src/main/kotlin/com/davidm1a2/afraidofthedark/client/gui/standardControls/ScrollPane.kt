@@ -12,8 +12,17 @@ import org.lwjgl.glfw.GLFW
  * As an example for the ratio constants, a ratio of 2.0 would make the scrollable pane twice the width or height
  * of the actual control, which acts as a viewport.
  */
-open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHeightRatio: Double, private val persistentOffset: Position? = null) :
+open class ScrollPane(private val scrollWidthRatio: Double,
+                      private val scrollHeightRatio: Double,
+                      private val persistentOffset: Position? = null,
+                      private val maxZoomRatio: Double = 1.0,
+                      private val minZoomRatio: Double = 1.0,
+                      private val persistentZoomRatio: Double = 1.0,
+                      private val zoomSpeed: Double = 0.1) :
     StackPane(scissorEnabled = true) {
+
+    // The current zoom percent
+    private var curZoomRatio = persistentZoomRatio.coerceIn(minZoomRatio..maxZoomRatio)
 
     // The current X and Y gui offsets
     private var originalGuiOffsetX = 0.0
@@ -43,25 +52,49 @@ open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHe
                         mouseHeld = true
                     }
                 }
-                if (it.eventType == MouseEvent.EventType.Release) {
-                    if (it.clickedButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                        mouseHeld = false
-                    }
+            }
+            // Only check hover on click, not on release or drag
+            if (it.eventType == MouseEvent.EventType.Release) {
+                if (it.clickedButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+                    mouseHeld = false
                 }
             }
         }
         addMouseDragListener {
-            if (this.isHovered) {
-                if (it.clickedButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                    if (mouseHeld) {   // A click must have been detected for a drag to register
-                        guiOffsetX = originalGuiOffsetX + (it.mouseX - originalXPosition)
-                        guiOffsetY = originalGuiOffsetY + (it.mouseY - originalYPosition)
-                        checkOutOfBounds()
-                        calcChildrenBounds()
+            if (it.clickedButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+                if (mouseHeld) {   // A click must have been detected for a drag to register
+                    guiOffsetX = originalGuiOffsetX + (it.mouseX - originalXPosition)
+                    guiOffsetY = originalGuiOffsetY + (it.mouseY - originalYPosition)
+                    checkOutOfBounds()
+                    calcChildrenBounds()
+                }
+            }
+        }
+        addMouseScrollListener {
+            // Check that this pane is zoom enabled
+            if (this.maxZoomRatio > this.minZoomRatio) {
+                // Only scroll the pane if it's hovered and the mouse is not being dragged
+                if (this.isHovered && !this.mouseHeld) {
+                    // Only compute if distance is non-zero
+                    if (it.scrollDistance != 0) {
+                        // Zoom the panel by the distance amount
+                        this.zoom(this.curZoomRatio + it.scrollDistance * zoomSpeed)
                     }
                 }
             }
         }
+    }
+
+    private fun zoom(ratio: Double) {
+        val prevZoomRatio = this.curZoomRatio
+        this.curZoomRatio = ratio.coerceIn(this.minZoomRatio..this.maxZoomRatio)
+        val scale = this.curZoomRatio/prevZoomRatio
+        this.guiOffsetX *= scale
+        this.guiOffsetY *= scale
+        this.scrollWidth *= scale
+        this.scrollHeight *= scale
+        this.checkOutOfBounds()
+        this.calcChildrenBounds()
     }
 
     override fun getInternalWidth(): Double {
@@ -84,8 +117,8 @@ open class ScrollPane(private val scrollWidthRatio: Double, private val scrollHe
 
     override fun negotiateDimensions(width: Double, height: Double) {
         super.negotiateDimensions(width, height)
-        this.scrollWidth = this.width * scrollWidthRatio
-        this.scrollHeight = this.height * scrollHeightRatio
+        this.scrollWidth = this.width * scrollWidthRatio * curZoomRatio
+        this.scrollHeight = this.height * scrollHeightRatio * curZoomRatio
 
         if (persistentOffset != null) {
             guiOffsetX = persistentOffset.getAbsolute(this).x
