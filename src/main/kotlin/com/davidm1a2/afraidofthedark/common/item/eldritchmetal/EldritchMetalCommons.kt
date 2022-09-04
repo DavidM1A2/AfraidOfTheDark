@@ -11,7 +11,7 @@ import java.time.Duration
 object EldritchMetalCommons {
     private const val CHECK_FREQUENCY = 100
     private const val MAX_MULTIPLIER = 10
-    private val TIME_BEFORE_EFFECTS = Duration.ofMinutes(5).toMillis()
+    val TIME_BEFORE_EFFECTS = Duration.ofMinutes(5).toMillis()
 
     fun processItem(itemStack: ItemStack, world: World, entity: Entity) {
         if (!world.isClientSide) {

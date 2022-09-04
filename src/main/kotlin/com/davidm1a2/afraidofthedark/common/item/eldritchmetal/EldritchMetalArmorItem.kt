@@ -23,10 +23,20 @@ class EldritchMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType)
     }
 
     override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EquipmentSlotType, type: String?): String {
-        return if (slot == EquipmentSlotType.LEGS) {
-            "afraidofthedark:textures/armor/eldritch_metal_2.png"
+        if (slot == EquipmentSlotType.LEGS) {
+            return "afraidofthedark:textures/armor/eldritch_metal/standard_2.png"
         } else {
-            "afraidofthedark:textures/armor/eldritch_metal_1.png"
+            val currentTime = System.currentTimeMillis()
+            val timeSinceKill = (currentTime - getLastKillTime(stack)).coerceAtLeast(0)
+            // If the armor is eating us, play an animation. Otherwise, show the default
+            if (timeSinceKill > EldritchMetalCommons.TIME_BEFORE_EFFECTS) {
+                val timeSinceEffectsStart = timeSinceKill % EldritchMetalCommons.TIME_BEFORE_EFFECTS
+                val frameToShow = timeSinceEffectsStart / 75 + 1
+                if (frameToShow <= 32) {
+                    return "afraidofthedark:textures/armor/eldritch_metal/eating_1_$frameToShow.png"
+                }
+            }
+            return "afraidofthedark:textures/armor/eldritch_metal/standard_1.png"
         }
     }
 
