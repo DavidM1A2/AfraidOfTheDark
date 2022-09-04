@@ -46,7 +46,7 @@ apply {
 
 configurations["implementation"].extendsFrom(configurations.create("shade"))
 
-version = "${findProperty("mc_version").toString()}-1.8.0"
+version = "${findProperty("mc_version").toString()}-${findProperty("aotd_version").toString()}"
 group = "com.davidm1a2.afraidofthedark"
 project.setProperty("archivesBaseName", "afraidofthedark")
 
