@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
+import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import org.lwjgl.glfw.GLFW
@@ -77,8 +78,19 @@ open class ScrollPane(private val scrollWidthRatio: Double,
                 if (this.isHovered && !this.mouseHeld) {
                     // Only compute if distance is non-zero
                     if (it.scrollDistance != 0) {
+                        val relMouseX = AOTDGuiUtility.getMouseXInMCCoord() - this.x
+                        val relMouseY = AOTDGuiUtility.getMouseYInMCCoord() - this.y
+                        // Move the center of zoom to the mouse pointer
+                        this.guiOffsetX -= relMouseX
+                        this.guiOffsetY -= relMouseY
                         // Zoom the panel by the distance amount
                         this.zoom(this.curZoomRatio + it.scrollDistance * zoomSpeed)
+                        // Move the screen back
+                        this.guiOffsetX += relMouseX
+                        this.guiOffsetY += relMouseY
+                        // Refresh children
+                        checkOutOfBounds()
+                        calcChildrenBounds()
                     }
                 }
             }
@@ -93,8 +105,6 @@ open class ScrollPane(private val scrollWidthRatio: Double,
         this.guiOffsetY *= scale
         this.scrollWidth *= scale
         this.scrollHeight *= scale
-        this.checkOutOfBounds()
-        this.calcChildrenBounds()
     }
 
     override fun getInternalWidth(): Double {
