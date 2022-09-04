@@ -1,8 +1,2 @@
-Major:
--
-
 Minor:
--
-
-Bug Fixes:
--
+- Adds the ability to zoom in the arcane journal research tree. Hooray!
