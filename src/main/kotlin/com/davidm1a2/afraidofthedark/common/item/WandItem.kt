@@ -58,7 +58,7 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
                     if (!world.isClientSide) {
                         player.sendMessage(
                             TranslationTextComponent(
-                                "message.afraidofthedark:wand.spell_set",
+                                "message.afraidofthedark.wand.spell_set",
                                 next.name
                             )
                         )
