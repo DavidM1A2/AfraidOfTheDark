@@ -54,7 +54,10 @@ class LensCutterBlock : AOTDBlock(
                         heldItemStack.shrink(1)
                     }
                     worldIn.playSound(null, pos, ModSounds.LENS_CUTTER, SoundCategory.BLOCKS, 0.5f, Random.nextDouble(0.8, 1.2).toFloat())
-                    playerIn.addItem(ItemStack(RECIPES[heldItem]!!))
+                    val lensStack = ItemStack(RECIPES[heldItem]!!)
+                    if (!playerIn.addItem(lensStack)) {
+                        playerIn.drop(lensStack, false)
+                    }
                 } else {
                     playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.lens_cutter.wrong_item"))
                 }
