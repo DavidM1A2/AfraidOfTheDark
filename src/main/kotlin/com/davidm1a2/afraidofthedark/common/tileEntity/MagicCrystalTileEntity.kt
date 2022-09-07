@@ -52,7 +52,12 @@ class MagicCrystalTileEntity : AOTDTickingTileEntity(ModTileEntities.MAGIC_CRYST
     }
 
     fun isMaster(): Boolean {
-        return blockState.getValue(MagicCrystalBlock.BOTTOM)
+        // Fixes rare race condition crash when the block is destroyed but the tile entity still exists
+        return if (blockState.hasProperty(MagicCrystalBlock.BOTTOM)) {
+            blockState.getValue(MagicCrystalBlock.BOTTOM)
+        } else {
+            false
+        }
     }
 
     private fun hasMaster(): Boolean {
