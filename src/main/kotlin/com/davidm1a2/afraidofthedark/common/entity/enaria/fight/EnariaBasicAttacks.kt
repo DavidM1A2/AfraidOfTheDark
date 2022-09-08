@@ -190,7 +190,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 effects[0] = SpellEffectInstance(ModSpellEffects.SPEED).apply {
                     setDefaults()
                     ModSpellEffects.SPEED.setMultiplier(this, -2)
-                    ModSpellEffects.SPEED.setDuration(this, 15)
+                    ModSpellEffects.SPEED.setDuration(this, 15.0)
                 }
                 effects[1] = SpellEffectInstance(ModSpellEffects.DISINTEGRATE).apply {
                     setDefaults()
@@ -209,7 +209,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 }
                 effects[0] = SpellEffectInstance(ModSpellEffects.FREEZE).apply {
                     setDefaults()
-                    ModSpellEffects.FREEZE.setDuration(this, 5)
+                    ModSpellEffects.FREEZE.setDuration(this, 5.0)
                 }
                 effects[1] = SpellEffectInstance(ModSpellEffects.DISINTEGRATE).apply {
                     setDefaults()
@@ -228,7 +228,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 }
                 effects[0] = SpellEffectInstance(ModSpellEffects.CHARM).apply {
                     setDefaults()
-                    ModSpellEffects.CHARM.setDuration(this, 5)
+                    ModSpellEffects.CHARM.setDuration(this, 5.0)
                 }
                 effects[1] = SpellEffectInstance(ModSpellEffects.DISINTEGRATE).apply {
                     setDefaults()

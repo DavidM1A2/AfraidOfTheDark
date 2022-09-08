@@ -14,6 +14,7 @@ import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
+import kotlin.math.ceil
 import kotlin.math.max
 
 /**
@@ -21,7 +22,7 @@ import kotlin.math.max
  *
  * @constructor initializes properties
  */
-class FreezeSpellEffect : AOTDDurationSpellEffect("freeze", ModResearches.ELEMENTAL_MAGIC, 1, 1, 60) {
+class FreezeSpellEffect : AOTDDurationSpellEffect("freeze", ModResearches.ELEMENTAL_MAGIC, 1.0, 1.0, 60.0) {
     /**
      * Performs the effect
      *
@@ -39,12 +40,12 @@ class FreezeSpellEffect : AOTDDurationSpellEffect("freeze", ModResearches.ELEMEN
                 // If we hit a player, freeze their position and direction
                 if (entity is PlayerEntity) {
                     val freezeData = entity.getSpellFreezeData()
-                    freezeData.freezeTicks = max(freezeData.freezeTicks, getDuration(instance) * 20)
+                    freezeData.freezeTicks = max(freezeData.freezeTicks, ceil(getDuration(instance) * 20).toInt())
                     freezeData.freezePosition = Vector3d(entity.x, entity.y, entity.z)
                     freezeData.freezeYaw = entity.yRot
                     freezeData.freezePitch = entity.xRot
                 } else {
-                    entity.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, getDuration(instance) * 20, 99))
+                    entity.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, ceil(getDuration(instance) * 20).toInt(), 99))
                 }
                 createParticlesAround(5, 10, entity.position(), entity.level.dimension(), ModParticles.FREEZE, 1.0)
             }

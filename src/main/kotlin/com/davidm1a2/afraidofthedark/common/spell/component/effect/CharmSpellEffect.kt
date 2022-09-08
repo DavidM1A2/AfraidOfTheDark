@@ -10,13 +10,14 @@ import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.particles.ParticleTypes
 import java.util.concurrent.ThreadLocalRandom
+import kotlin.math.ceil
 
 /**
  * Effect that forces players to walk towards you or animals to mate
  *
  * @constructor adds the editable prop
  */
-class CharmSpellEffect : AOTDDurationSpellEffect("charm", ModResearches.ADVANCED_MAGIC, 1, 1, 60) {
+class CharmSpellEffect : AOTDDurationSpellEffect("charm", ModResearches.ADVANCED_MAGIC, 1.0, 1.0, 60.0) {
     /**
      * Performs the effect
      *
@@ -32,7 +33,7 @@ class CharmSpellEffect : AOTDDurationSpellEffect("charm", ModResearches.ADVANCED
             // Grab the player's charm data
             val spellCharmData = entity.getSpellCharmData()
             // Charm them for the "charm duration"
-            spellCharmData.charmTicks = getDuration(instance) * 20
+            spellCharmData.charmTicks = ceil(getDuration(instance) * 20).toInt()
 
             // Set the charming entity
             spellCharmData.charmingEntityId = spellOwner.uuid

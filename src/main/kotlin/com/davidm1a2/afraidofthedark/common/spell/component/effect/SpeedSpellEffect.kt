@@ -13,8 +13,9 @@ import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
 import java.time.Duration
 import kotlin.math.abs
+import kotlin.math.ceil
 
-class SpeedSpellEffect : AOTDDurationSpellEffect("speed", ModResearches.CLOAK_OF_AGILITY, 1, 10, Duration.ofMinutes(20).seconds.toInt()) {
+class SpeedSpellEffect : AOTDDurationSpellEffect("speed", ModResearches.CLOAK_OF_AGILITY, 1.0, 10.0, Duration.ofMinutes(20).seconds.toDouble()) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
@@ -37,7 +38,7 @@ class SpeedSpellEffect : AOTDDurationSpellEffect("speed", ModResearches.CLOAK_OF
             return
         }
 
-        val duration = getDuration(instance) * 20
+        val duration = ceil(getDuration(instance) * 20).toInt()
         val effectType = if (multiplier >= 0) Effects.MOVEMENT_SPEED else Effects.MOVEMENT_SLOWDOWN
         val effectAmplifier = abs(multiplier) - 1
         val effect = EffectInstance(effectType, duration, effectAmplifier)

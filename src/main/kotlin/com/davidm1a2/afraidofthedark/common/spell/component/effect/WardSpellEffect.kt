@@ -13,8 +13,9 @@ import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
 import net.minecraft.util.math.ChunkPos
 import java.time.Duration
+import kotlin.math.ceil
 
-class WardSpellEffect : AOTDDurationSpellEffect("ward", ModResearches.APPRENTICE_ASCENDED, 0, FREE_DURATION, Duration.ofMinutes(20).seconds.toInt()) {
+class WardSpellEffect : AOTDDurationSpellEffect("ward", ModResearches.APPRENTICE_ASCENDED, 0.0, FREE_DURATION, Duration.ofMinutes(20).seconds.toDouble()) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
@@ -33,7 +34,7 @@ class WardSpellEffect : AOTDDurationSpellEffect("ward", ModResearches.APPRENTICE
         val world = state.world
         if (entityHit is LivingEntity) {
             createParticlesAt(2, 6, state.position, world.dimension(), ModParticles.SPELL_HIT)
-            entityHit.addEffect(EffectInstance(Effects.DAMAGE_RESISTANCE, getDuration(instance) * 20, (getStrength(instance) - 1).coerceAtMost(3)))
+            entityHit.addEffect(EffectInstance(Effects.DAMAGE_RESISTANCE, ceil(getDuration(instance) * 20).toInt(), (getStrength(instance) - 1).coerceAtMost(3)))
         }
         if (entityHit == null) {
             val blockPosition = state.blockPosition
@@ -71,6 +72,6 @@ class WardSpellEffect : AOTDDurationSpellEffect("ward", ModResearches.APPRENTICE
         // NBT constants for strength
         private const val NBT_STRENGTH = "strength"
 
-        private const val FREE_DURATION = 3
+        private const val FREE_DURATION = 3.0
     }
 }

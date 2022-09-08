@@ -14,11 +14,12 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import java.time.Duration
 import kotlin.math.abs
+import kotlin.math.ceil
 
 /**
  * Dig effect digs a block
  */
-class DigSpellEffect : AOTDDurationSpellEffect("dig", ModResearches.APPRENTICE_ASCENDED, 0, FREE_DURATION, Duration.ofMinutes(20).seconds.toInt()) {
+class DigSpellEffect : AOTDDurationSpellEffect("dig", ModResearches.APPRENTICE_ASCENDED, 0.0, FREE_DURATION, Duration.ofMinutes(20).seconds.toDouble()) {
     init {
         addEditableProperty(
             SpellComponentPropertyFactory.intProperty()
@@ -46,7 +47,7 @@ class DigSpellEffect : AOTDDurationSpellEffect("dig", ModResearches.APPRENTICE_A
             val speed = getSpeed(instance)
             if (speed != 0) {
                 val effectType = if (speed >= 0) Effects.DIG_SPEED else Effects.DIG_SLOWDOWN
-                val effect = EffectInstance(effectType, getDuration(instance) * 20, abs(speed) - 1)
+                val effect = EffectInstance(effectType, ceil(getDuration(instance) * 20).toInt(), abs(speed) - 1)
                 entity.addEffect(effect)
             }
         } else {
@@ -93,6 +94,6 @@ class DigSpellEffect : AOTDDurationSpellEffect("dig", ModResearches.APPRENTICE_A
         // NBT constants for dig speed
         private const val NBT_SPEED = "speed"
 
-        private const val FREE_DURATION = 3
+        private const val FREE_DURATION = 3.0
     }
 }

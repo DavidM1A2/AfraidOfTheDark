@@ -8,13 +8,14 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDura
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import net.minecraft.block.Blocks
 import net.minecraft.util.math.vector.Vector3d
+import kotlin.math.ceil
 
 /**
  * Effect that sets fire to the hit target
  *
  * @constructor adds the editable prop
  */
-class BurnSpellEffect : AOTDDurationSpellEffect("burn", ModResearches.ELEMENTAL_MAGIC, 1, 1, 60) {
+class BurnSpellEffect : AOTDDurationSpellEffect("burn", ModResearches.ELEMENTAL_MAGIC, 1.0, 1.0, 60.0) {
     /**
      * Performs the effect
      *
@@ -24,7 +25,7 @@ class BurnSpellEffect : AOTDDurationSpellEffect("burn", ModResearches.ELEMENTAL_
         if (state.entity != null) {
             val entity = state.entity
             createParticlesAt(5, 10, Vector3d(entity!!.x, entity.y, entity.z), entity.level.dimension(), ModParticles.FIRE)
-            entity.remainingFireTicks = entity.remainingFireTicks + getDuration(instance) * 20
+            entity.remainingFireTicks = ceil(entity.remainingFireTicks + getDuration(instance) * 20).toInt()
         } else {
             val world = state.world
             val position = state.blockPosition

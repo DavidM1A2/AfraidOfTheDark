@@ -7,13 +7,13 @@ import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellCompon
 abstract class AOTDDurationSpellEffect(
     name: String,
     prerequisiteResearch: Research? = null,
-    minDuration: Int? = null,
-    defaultDuration: Int? = null,
-    maxDuration: Int? = null
+    minDuration: Double? = null,
+    defaultDuration: Double? = null,
+    maxDuration: Double? = null
 ) : AOTDSpellEffect(name, prerequisiteResearch) {
     init {
         addEditableProperty(
-            SpellComponentPropertyFactory.intProperty()
+            SpellComponentPropertyFactory.doubleProperty()
                 .withBaseName(getUnlocalizedPropertyBaseName("duration"))
                 .withSetter(::setDuration)
                 .withGetter(::getDuration)
@@ -26,16 +26,15 @@ abstract class AOTDDurationSpellEffect(
         )
     }
 
-    fun setDuration(instance: SpellComponentInstance<*>, duration: Int) {
-        instance.data.putInt(NBT_DURATION, duration)
+    fun setDuration(instance: SpellComponentInstance<*>, duration: Double) {
+        instance.data.putDouble(NBT_DURATION, duration)
     }
 
-    fun getDuration(instance: SpellComponentInstance<*>): Int {
-        return instance.data.getInt(NBT_DURATION)
+    fun getDuration(instance: SpellComponentInstance<*>): Double {
+        return instance.data.getDouble(NBT_DURATION)
     }
 
     companion object {
-        // NBT constants for charm duration
         private const val NBT_DURATION = "duration"
     }
 }
