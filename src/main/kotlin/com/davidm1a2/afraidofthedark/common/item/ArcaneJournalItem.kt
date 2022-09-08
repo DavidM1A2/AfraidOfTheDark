@@ -119,6 +119,11 @@ class ArcaneJournalItem : AOTDItem("arcane_journal", Properties().stacksTo(1)) {
         }
     }
 
+    override fun onCraftedBy(itemStack: ItemStack, world: World, playerEntity: PlayerEntity) {
+        // If we craft a journal, bind it to the crafter
+        setOwner(itemStack, playerEntity.gameProfile.name)
+    }
+
     /**
      * Returns a list of sub-items that this item has. In our case there's 2 journal types, one is a cheat sheet and one is not
      *
