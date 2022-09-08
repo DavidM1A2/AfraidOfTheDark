@@ -43,7 +43,7 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
     // We don't need to write this to NBT data, it's not important to persist
     private var ticksUntilNextCastAttempt = MAX_TICKS_BETWEEN_CASTS
     private val animHandler = AnimationHandler(HOP_CHANNEL, CAST_CHANNEL)
-    var spell = createRandomSpell()
+    var spell = createRandomSpellUnderCost(1000.0)
         private set
 
     init {
@@ -64,6 +64,14 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
         goalSelector.addGoal(3, LookAtGoal(this, PlayerEntity::class.java, FOLLOW_RANGE.toFloat()))
         // If the entity isn't walking, attacking, or watching anything look idle
         goalSelector.addGoal(4, LookRandomlyGoal(this))
+    }
+
+    private fun createRandomSpellUnderCost(maxCost: Double): Spell {
+        var spell = createRandomSpell()
+        while (spell.getCost() > maxCost) {
+            spell = createRandomSpell()
+        }
+        return spell
     }
 
     /**
