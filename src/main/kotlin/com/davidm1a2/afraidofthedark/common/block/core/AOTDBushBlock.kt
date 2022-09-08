@@ -14,7 +14,7 @@ import net.minecraft.block.SoundType
 abstract class AOTDBushBlock(baseName: String, properties: Properties) : BushBlock(properties.apply {
     instabreak()
     sound(SoundType.CROP)
-}), AOTDShowBlockCreative {
+}), IShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)
     }

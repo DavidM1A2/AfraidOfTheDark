@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
-import com.davidm1a2.afraidofthedark.common.block.core.AOTDShowBlockCreative
-import com.davidm1a2.afraidofthedark.common.block.core.AOTDUseBlockItemStackRenderer
+import com.davidm1a2.afraidofthedark.common.block.core.IShowBlockCreative
+import com.davidm1a2.afraidofthedark.common.block.core.IUseBlockItemStackRenderer
 import com.davidm1a2.afraidofthedark.common.block.core.IUseCustomBlockItem
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
@@ -33,10 +33,10 @@ class ItemRegister {
                 block.getBlockItem()
             } else {
                 val properties = Item.Properties()
-                if (block !is AOTDShowBlockCreative || block.displayInCreative()) {
+                if (block !is IShowBlockCreative || block.displayInCreative()) {
                     properties.tab(Constants.AOTD_CREATIVE_TAB)
                 }
-                if (block is AOTDUseBlockItemStackRenderer) {
+                if (block is IUseBlockItemStackRenderer) {
                     properties.setISTER(block.getWrappedISTER())
                 }
                 BlockItem(block, properties)

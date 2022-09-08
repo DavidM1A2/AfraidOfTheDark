@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.block
 
-import com.davidm1a2.afraidofthedark.common.block.core.AOTDShowBlockCreative
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
+import com.davidm1a2.afraidofthedark.common.block.core.IShowBlockCreative
 import com.davidm1a2.afraidofthedark.common.tileEntity.DroppedJournalTileEntity
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -23,14 +23,14 @@ import net.minecraft.world.IWorld
 import net.minecraft.world.IWorldReader
 import net.minecraft.world.World
 import net.minecraft.world.server.ServerWorld
-import java.util.Random
+import java.util.*
 
 class DroppedJournalBlock : AOTDTileEntityBlock(
     "dropped_journal", Properties.of(Material.PLANT)
         .noCollission()
         .randomTicks()
         .instabreak()
-), AOTDShowBlockCreative {
+), IShowBlockCreative {
     override fun displayInCreative(): Boolean {
         return false
     }

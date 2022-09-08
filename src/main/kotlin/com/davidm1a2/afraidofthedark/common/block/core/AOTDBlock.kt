@@ -10,7 +10,7 @@ import net.minecraft.block.Block
  * @param baseName The name of the block to be used by the game registry
  * @param properties The properties of this block
  */
-abstract class AOTDBlock(baseName: String, properties: Properties) : Block(properties), AOTDShowBlockCreative {
+abstract class AOTDBlock(baseName: String, properties: Properties) : Block(properties), IShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)
     }

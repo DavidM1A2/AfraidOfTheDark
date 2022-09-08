@@ -14,7 +14,7 @@ import net.minecraft.block.SoundType
 abstract class AOTDDoorBlock(baseName: String, properties: Properties) : DoorBlock(properties.apply {
     strength(3.0f)
     sound(SoundType.WOOD)
-}), AOTDShowBlockCreative {
+}), IShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)
     }

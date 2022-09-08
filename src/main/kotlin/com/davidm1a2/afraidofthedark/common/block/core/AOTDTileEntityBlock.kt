@@ -13,7 +13,7 @@ import net.minecraft.world.IBlockReader
  * @param name     The name of the block
  * @param properties The block properties
  */
-abstract class AOTDTileEntityBlock(name: String, properties: Properties) : ContainerBlock(properties), AOTDShowBlockCreative {
+abstract class AOTDTileEntityBlock(name: String, properties: Properties) : ContainerBlock(properties), IShowBlockCreative {
     init {
         setRegistryName(Constants.MOD_ID, name)
     }

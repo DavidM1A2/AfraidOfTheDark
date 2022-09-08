@@ -13,7 +13,7 @@ import net.minecraft.block.StairsBlock
  * @param properties The block properties
  */
 abstract class AOTDStairsBlock(baseName: String, modelState: () -> BlockState, properties: Properties) : StairsBlock(modelState, properties),
-    AOTDShowBlockCreative {
+    IShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)
     }

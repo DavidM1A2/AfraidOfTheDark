@@ -10,7 +10,7 @@ import net.minecraft.block.SlabBlock
  * @param baseName The base name of the slab
  * @param properties The properties of the block
  */
-abstract class AOTDSlabBlock(baseName: String, properties: Properties) : SlabBlock(properties), AOTDShowBlockCreative {
+abstract class AOTDSlabBlock(baseName: String, properties: Properties) : SlabBlock(properties), IShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)
     }

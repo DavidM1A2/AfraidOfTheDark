@@ -18,7 +18,7 @@ import net.minecraft.world.IBlockReader
 abstract class AOTDLogBlock(baseName: String, properties: Properties) : RotatedPillarBlock(properties.apply {
     strength(2.0f)
     sound(SoundType.WOOD)
-}), AOTDShowBlockCreative {
+}), IShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)
     }

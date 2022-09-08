@@ -18,7 +18,7 @@ abstract class AOTDSaplingBlock(baseName: String, tree: Tree, properties: Proper
     randomTicks()
     instabreak()
     sound(SoundType.GRASS)
-}), AOTDShowBlockCreative {
+}), IShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)
     }

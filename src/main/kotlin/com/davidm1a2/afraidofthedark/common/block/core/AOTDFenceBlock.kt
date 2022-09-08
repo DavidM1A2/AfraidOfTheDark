@@ -15,7 +15,7 @@ import net.minecraft.block.SoundType
 abstract class AOTDFenceBlock(baseName: String, properties: Properties) : FenceBlock(properties.apply {
     strength(2.0f, 3.0f)
     sound(SoundType.WOOD)
-}), AOTDShowBlockCreative {
+}), IShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)
     }

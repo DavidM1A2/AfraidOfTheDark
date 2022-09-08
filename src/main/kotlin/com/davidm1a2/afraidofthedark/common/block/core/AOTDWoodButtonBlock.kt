@@ -8,7 +8,7 @@ abstract class AOTDWoodButtonBlock(baseName: String, properties: Properties) : W
         noCollission()
         strength(0.5f)
     }
-), AOTDShowBlockCreative {
+), IShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)
     }

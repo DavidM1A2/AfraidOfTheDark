@@ -7,7 +7,7 @@ import java.util.function.Supplier
 /**
  * Interface we can implement to tell the registerer to use a custom itemstack renderer
  */
-interface AOTDUseBlockItemStackRenderer {
+interface IUseBlockItemStackRenderer {
     fun getWrappedISTER(): Supplier<Callable<ItemStackTileEntityRenderer>> {
         return Supplier {
             Callable {

@@ -19,7 +19,7 @@ abstract class AOTDLeavesBlock(baseName: String, properties: Properties) : Leave
     strength(0.2f)
     randomTicks()
     sound(SoundType.GRASS)
-}), AOTDShowBlockCreative {
+}), IShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)
     }

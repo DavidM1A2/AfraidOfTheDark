@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.client.tileEntity.vitaeExtractor.VitaeExtractorItemStackRenderer
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
-import com.davidm1a2.afraidofthedark.common.block.core.AOTDUseBlockItemStackRenderer
+import com.davidm1a2.afraidofthedark.common.block.core.IUseBlockItemStackRenderer
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.item.VitaeLanternItem
@@ -32,7 +32,7 @@ import net.minecraft.util.math.shapes.VoxelShape
 import net.minecraft.world.IBlockReader
 import net.minecraft.world.World
 import net.minecraftforge.common.ToolType
-import java.util.Random
+import java.util.*
 
 class VitaeExtractorBlock : AOTDTileEntityBlock(
     "vitae_extractor",
@@ -40,7 +40,7 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
         .harvestTool(ToolType.PICKAXE)
         .requiresCorrectToolForDrops()
         .strength(1.5F, 6.0F)
-), AOTDUseBlockItemStackRenderer {
+), IUseBlockItemStackRenderer {
     init {
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH))
     }
