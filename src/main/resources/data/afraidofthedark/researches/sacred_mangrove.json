@@ -11,6 +11,12 @@
         "block_or_state": "afraidofthedark:sacred_mangrove",
         "must_drop": true
       }
+    },
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:sacred_mangrove"
+      }
     }
   ]
 }
