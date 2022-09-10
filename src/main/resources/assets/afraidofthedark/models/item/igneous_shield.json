@@ -128,7 +128,7 @@
   "overrides": [
     {
       "predicate": {
-        "blocking": 1
+        "afraidofthedark:blocking": 1
       },
       "model": "afraidofthedark:item/igneous_shield_blocking"
     }

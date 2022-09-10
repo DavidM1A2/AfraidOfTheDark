@@ -23,8 +23,8 @@ abstract class AOTDShieldItem(
 
     override fun getProperties(): List<Pair<ResourceLocation, IItemPropertyGetter>> {
         return listOf(
-            // Emit a blocked = 1 property when blocked, 0 otherwise
-            ResourceLocation(Constants.MOD_ID, "blocked") to IItemPropertyGetter { stack: ItemStack, _: World?, livingEntity: LivingEntity? ->
+            // Emit a blocking = 1 property when blocked, 0 otherwise
+            ResourceLocation(Constants.MOD_ID, "blocking") to IItemPropertyGetter { stack: ItemStack, _: World?, livingEntity: LivingEntity? ->
                 if (livingEntity != null && livingEntity.isUsingItem && livingEntity.useItem == stack) 1.0f else 0.0f
             }
         )
