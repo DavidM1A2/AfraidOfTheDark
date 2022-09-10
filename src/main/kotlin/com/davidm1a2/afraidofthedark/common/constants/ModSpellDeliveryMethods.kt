@@ -9,6 +9,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.Laser
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.ProjectileSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.RotateSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.SelfSpellDeliveryMethod
+import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.WallSpellDeliveryMethod
 
 /**
  * A static class containing all of our spell delivery method references for us
@@ -23,6 +24,7 @@ object ModSpellDeliveryMethods {
     val CHAIN = ChainSpellDeliveryMethod()
     val IMBUE = ImbueSpellDeliveryMethod()
     val CONE = ConeSpellDeliveryMethod()
+    val WALL = WallSpellDeliveryMethod()
 
     // An array containing a list of spell delivery methods that AOTD adds
     val SPELL_DELIVERY_METHODS = arrayOf(
@@ -34,6 +36,7 @@ object ModSpellDeliveryMethods {
         ROTATE,
         CHAIN,
         IMBUE,
-        CONE
+        CONE,
+        WALL
     )
 }

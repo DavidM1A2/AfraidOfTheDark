@@ -16,7 +16,8 @@
     "delivery_methods": [
       "afraidofthedark:laser",
       "afraidofthedark:delay",
-      "afraidofthedark:chain"
+      "afraidofthedark:chain",
+      "afraidofthedark:wall"
     ],
     "effects": [
       "afraidofthedark:feed",
