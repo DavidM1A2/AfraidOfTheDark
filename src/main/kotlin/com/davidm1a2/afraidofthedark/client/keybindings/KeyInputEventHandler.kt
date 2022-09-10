@@ -6,25 +6,34 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.capabilities.hasStartedAOTD
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
-import com.davidm1a2.afraidofthedark.common.item.core.AOTDBoltItem
 import com.davidm1a2.afraidofthedark.common.network.packets.other.SpellKeyPressPacket
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraftforge.client.event.InputEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.registries.ForgeRegistries
 import org.lwjgl.glfw.GLFW
 
 /**
  * Class that receives all keyboard events and processes them accordingly
  */
 class KeyInputEventHandler {
-    private val boltItems: List<AOTDBoltItem> by lazy {
-        ForgeRegistries.ITEMS
-            .values
-            .filterIsInstance<AOTDBoltItem>()
-            .sortedBy { it.registryName }
+    @SubscribeEvent
+    fun onMouseInputEvent(event: InputEvent.MouseInputEvent) {
+        // This gets fired in the main menu, or when we have an inventory open. In either case return
+        val player = Minecraft.getInstance().player
+        if (player == null || Minecraft.getInstance().screen != null) {
+            return
+        }
+
+        if (event.action == GLFW.GLFW_PRESS) {
+            // Grab the currently held bind
+            val keybindingPressed = KeybindingUtils.getCurrentlyHeldKeybind(event.button)
+            // If that keybind exists then tell the server to fire the spell
+            if (player.getSpellManager().keybindExists(keybindingPressed)) {
+                AfraidOfTheDark.packetHandler.sendToServer(SpellKeyPressPacket(keybindingPressed))
+            }
+        }
     }
 
     /**

@@ -8,13 +8,15 @@ import org.lwjgl.glfw.GLFW
  */
 object KeybindingUtils {
     // A set of keys that are unbindable alone and require additional keys down
-    private val UNBINDABLE_KEYS = setOf(
+    private val UNBINDABLE_KEYS = listOf(
         GLFW.GLFW_KEY_LEFT_SUPER,
         GLFW.GLFW_KEY_RIGHT_SUPER,
         GLFW.GLFW_KEY_LEFT_CONTROL,
         GLFW.GLFW_KEY_RIGHT_CONTROL,
         GLFW.GLFW_KEY_LEFT_SHIFT,
-        GLFW.GLFW_KEY_RIGHT_SHIFT
+        GLFW.GLFW_KEY_RIGHT_SHIFT,
+        GLFW.GLFW_KEY_LEFT_ALT,
+        GLFW.GLFW_KEY_RIGHT_ALT
     )
     private val UNBINDABLE_KEY_NAMES = mapOf(
         GLFW.GLFW_KEY_LEFT_SUPER to "Left Super",
@@ -22,7 +24,9 @@ object KeybindingUtils {
         GLFW.GLFW_KEY_LEFT_CONTROL to "Left Control",
         GLFW.GLFW_KEY_RIGHT_CONTROL to "Right Control",
         GLFW.GLFW_KEY_LEFT_SHIFT to "Left Shift",
-        GLFW.GLFW_KEY_RIGHT_SHIFT to "Right Shift"
+        GLFW.GLFW_KEY_RIGHT_SHIFT to "Right Shift",
+        GLFW.GLFW_KEY_LEFT_ALT to "Left Alt",
+        GLFW.GLFW_KEY_RIGHT_ALT to "Right Alt"
     )
 
     /**
@@ -58,6 +62,24 @@ object KeybindingUtils {
         }
 
         // Return the keybinding string
+        return keybindString.toString()
+    }
+
+    fun getCurrentlyHeldKeybind(mouseButton: Int): String {
+        // The string that is being bound
+        val keybindString = StringBuilder()
+
+        // Go over all unbindable key codes and test if they're down
+        for (unbindableKeyCode in UNBINDABLE_KEYS) {
+            // If they are down then append the key to the string
+            if (GLFW.glfwGetKey(Minecraft.getInstance().window.window, unbindableKeyCode) == GLFW.GLFW_PRESS) {
+                // Append the key and a + symbol
+                keybindString.append(UNBINDABLE_KEY_NAMES[unbindableKeyCode]!!.uppercase()).append("+")
+            }
+        }
+
+        keybindString.append("MOUSE_").append(mouseButton)
+
         return keybindString.toString()
     }
 }

@@ -6,7 +6,11 @@ import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.HChainPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.ListPane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
 import com.davidm1a2.afraidofthedark.client.keybindings.KeybindingUtils
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.spell.Spell
@@ -88,7 +92,7 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
         btnCreateSpell.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click) {
                 // When we click the button create a new spell
-                if (it.source.isVisible && it.source.isHovered && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
+                if (it.source.isVisible && it.source.isHovered && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON && spellWaitingOnKeybind == null) {
                     // Create a new spell
                     val spell = Spell()
                     spell.name = "Untitled"
@@ -96,6 +100,17 @@ class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthed
                     spellManager.createSpell(spell)
                     // Add the UI spell
                     addSpell(spell)
+                    // Update the GUI
+                    this.invalidate()
+                } else if (spellWaitingOnKeybind != null) {
+                    // Grab the keybind being held
+                    val keybind = KeybindingUtils.getCurrentlyHeldKeybind(it.clickedButton)
+                    // Keybind the spell
+                    spellManager.keybindSpell(spellWaitingOnKeybind!!.spell, keybind)
+                    // Update all gui spell's labels
+                    guiSpells.forEach { guiSpell -> guiSpell.refreshLabels() }
+                    // We're no longer waiting on a keybind
+                    spellWaitingOnKeybind = null
                     // Update the GUI
                     this.invalidate()
                 }

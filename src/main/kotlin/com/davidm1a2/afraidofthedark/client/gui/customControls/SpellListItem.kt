@@ -89,7 +89,7 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         lblKeybind.textAlignment = TextAlignment.ALIGN_CENTER
         lblKeybind.offset = Position(0.2, 0.5)
         lblKeybind.addMouseListener {
-            if (it.eventType == MouseEvent.EventType.Click) {
+            if (it.eventType == MouseEvent.EventType.Release) {
                 if (it.source.isHovered && it.source.isVisible && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
                     lblKeybind.setHoverText("Awaiting keypress...")
                     lblKeybind.text = "Awaiting keypress..."
