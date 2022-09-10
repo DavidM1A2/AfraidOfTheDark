@@ -1,0 +1,36 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "slr",
+    "gdg",
+    "bwb"
+  ],
+  "key": {
+    "s": {
+      "item": "minecraft:sugar"
+    },
+    "l": {
+      "item": "minecraft:slime_ball"
+    },
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "g": {
+      "tag": "forge:ingots/gold"
+    },
+    "d": {
+      "item": "minecraft:diamond"
+    },
+    "b": {
+      "item": "minecraft:blaze_powder"
+    },
+    "w": {
+      "item": "minecraft:water_bucket"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:stabilizing_catalyst",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:an_unsettling_material"
+}
