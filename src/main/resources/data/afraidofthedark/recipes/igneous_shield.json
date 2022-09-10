@@ -1,0 +1,21 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "gig",
+    "ggg",
+    " g "
+  ],
+  "key": {
+    "i": {
+      "tag": "forge:ingots/iron"
+    },
+    "g": {
+      "item": "afraidofthedark:igneous_gem"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:igneous_shield",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:igneous"
+}

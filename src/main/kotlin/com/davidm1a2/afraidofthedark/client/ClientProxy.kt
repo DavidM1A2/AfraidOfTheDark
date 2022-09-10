@@ -12,6 +12,7 @@ import com.davidm1a2.afraidofthedark.client.event.ItemModelPropertyRegister
 import com.davidm1a2.afraidofthedark.client.event.KeybindingRegister
 import com.davidm1a2.afraidofthedark.client.event.ModColorRegister
 import com.davidm1a2.afraidofthedark.client.event.ResearchPositionHandler
+import com.davidm1a2.afraidofthedark.client.event.TextureAtlasRegister
 import com.davidm1a2.afraidofthedark.common.IProxy
 import com.davidm1a2.afraidofthedark.common.event.ResearchOverlayHandler
 import net.minecraft.client.Minecraft
@@ -40,6 +41,7 @@ class ClientProxy : IProxy {
         modBus.register(ItemModelPropertyRegister())
         modBus.register(KeybindingRegister())
         modBus.register(ResearchPositionHandler())
+        modBus.register(TextureAtlasRegister())
     }
 
     override fun playSoundFixed(entity: Entity, event: SoundEvent, category: SoundCategory, volume: Float, pitch: Float) {

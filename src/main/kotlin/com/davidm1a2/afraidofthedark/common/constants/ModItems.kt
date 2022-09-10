@@ -63,6 +63,7 @@ import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousAxeItem
 import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousGemItem
 import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousHoeItem
 import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousPickaxeItem
+import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousShieldItem
 import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousShovelItem
 import com.davidm1a2.afraidofthedark.common.item.igneous.IgneousSwordItem
 import com.davidm1a2.afraidofthedark.common.item.igneous.SunstoneFragmentItem
@@ -120,6 +121,7 @@ object ModItems {
     val IGNEOUS_HOE = IgneousHoeItem()
     val IGNEOUS_PICKAXE = IgneousPickaxeItem()
     val IGNEOUS_SHOVEL = IgneousShovelItem()
+    val IGNEOUS_SHIELD = IgneousShieldItem()
     val IGNEOUS_HELMET = IgneousArmorItem("igneous_helmet", EquipmentSlotType.HEAD)
     val IGNEOUS_CHESTPLATE = IgneousArmorItem("igneous_chestplate", EquipmentSlotType.CHEST)
     val IGNEOUS_LEGGINGS = IgneousArmorItem("igneous_leggings", EquipmentSlotType.LEGS)
@@ -226,6 +228,7 @@ object ModItems {
         IGNEOUS_HOE,
         IGNEOUS_PICKAXE,
         IGNEOUS_SHOVEL,
+        IGNEOUS_SHIELD,
         IGNEOUS_HELMET,
         IGNEOUS_CHESTPLATE,
         IGNEOUS_LEGGINGS,
