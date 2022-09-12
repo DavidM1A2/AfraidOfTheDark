@@ -36,7 +36,7 @@ class SpellLaserParticle(
      */
     override fun updateMotionXYZ() {
         // Set scale to be based on time alive
-        scale((lifetime - age) / lifetime.toFloat() * 0.1f + 0.001f)
+        scale((lifetime - age) / lifetime.toFloat() * 0.5f + 0.005f)
     }
 
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {

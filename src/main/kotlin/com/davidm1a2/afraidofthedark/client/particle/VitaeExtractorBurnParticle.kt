@@ -17,7 +17,7 @@ class VitaeExtractorBurnParticle(
         lifetime = random.nextInt(30) + 10
 
         // Make the particles noticable
-        scale(0.2f + random.nextFloat() * .1f)
+        scale(1f + random.nextFloat() * .5f)
     }
 
     override fun updateMotionXYZ() {

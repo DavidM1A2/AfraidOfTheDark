@@ -25,7 +25,7 @@ class FrostPhoenixStormParticle(
         alpha = 0.0f
 
         // Make the particles huge when she casts a spell
-        scale(random.nextFloat() * 0.6f + 0.4f)
+        scale(random.nextFloat() * 3f + 2f)
 
         updatePositionByAge()
     }

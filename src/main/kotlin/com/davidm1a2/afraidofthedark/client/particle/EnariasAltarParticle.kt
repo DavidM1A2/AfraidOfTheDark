@@ -24,7 +24,7 @@ class EnariasAltarParticle(
     init {
         // 2-3 second lifespan
         lifetime = random.nextInt(20) + 40
-        scale(0.2f)
+        scale(1f)
 
         xd = 0.0
         yd = 0.01

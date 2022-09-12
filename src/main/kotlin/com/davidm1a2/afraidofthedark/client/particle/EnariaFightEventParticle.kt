@@ -30,7 +30,7 @@ class EnariaFightEventParticle(
         lifetime = random.nextInt(20) + 40
 
         // Make the particles huge when she casts a spell
-        scale(0.4f)
+        scale(2f)
 
         // speed will be the same as motion for this particle
         xd = xSpeed

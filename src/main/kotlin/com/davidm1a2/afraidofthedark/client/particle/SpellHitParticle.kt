@@ -26,7 +26,7 @@ class SpellHitParticle(
         lifetime = random.nextInt(30) + 10
 
         // Make the particles noticable
-        scale(0.5f + random.nextFloat() * 2)
+        scale(2.5f + random.nextFloat() * 10)
 
         // Random motion
         xd = (random.nextFloat() - 0.5) * 0.05

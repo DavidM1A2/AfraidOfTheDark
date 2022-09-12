@@ -23,7 +23,7 @@ class VitaeExtractorChargeParticle(
         lifetime = 40
 
         // Make the particles noticable
-        scale(0.2f)
+        scale(1f)
 
         xd = 0.0
         yd = 0.03

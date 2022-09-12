@@ -27,7 +27,7 @@ class EnchantedFrogSpawnParticle(
         // 2 second lifespan
         lifetime = 40
         // Scale is random
-        scale(random.nextFloat() * 0.5f + 0.5f)
+        scale(random.nextFloat() * 2.5f + 2.5f)
         // Slow up motion
         xd = xSpeed
         yd = 0.01

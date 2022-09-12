@@ -25,7 +25,7 @@ class SpellCast2Particle(
         // 0.5-1.5 second lifespan
         lifetime = random.nextInt(10) + 30
         // Make the particles noticable
-        scale(0.5f + random.nextFloat() * 0.5f)
+        scale(2.5f + random.nextFloat() * 2.5f)
         // Random motion
         xd = (random.nextFloat() - 0.5) * 0.2
         yd = random.nextFloat() * 0.1

@@ -22,8 +22,8 @@ class SmokeScreenParticle(
     y: Double,
     z: Double
 ) : AOTDParticle(world, x, y, z, 0.0, 0.0, 0.0) {
-    private val minScale = 0.75f + random.nextFloat() * 0.25f
-    private val maxScale = 1.5f + minScale
+    private val minScale = 3.75f + random.nextFloat() * 1.25f
+    private val maxScale = 7.5f + minScale
     private val baseQuadSize: Float
 
     init {

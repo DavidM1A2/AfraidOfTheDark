@@ -24,7 +24,7 @@ class WardParticle(
     init {
         // 1.25 second lifespan
         lifetime = 25
-        scale(0.5f)
+        scale(2.5f)
         quadSize = 0.5f
         // No motion
         xd = 0.0
