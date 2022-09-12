@@ -1,0 +1,19 @@
+{
+  "forge:registry_name": "afraidofthedark:catalysis",
+  "recipes": [
+    "afraidofthedark:stabilizing_catalyst"
+  ],
+  "pre_recipes": [
+    "afraidofthedark:stabilizing_catalyst"
+  ],
+  "icon": "afraidofthedark:textures/gui/research_icons/catalysis.png",
+  "prerequisite": "afraidofthedark:an_unsettling_material",
+  "triggers": [
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:catalysis"
+      }
+    }
+  ]
+}

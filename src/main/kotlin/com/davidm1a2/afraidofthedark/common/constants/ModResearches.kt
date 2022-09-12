@@ -22,6 +22,7 @@ object ModResearches {
     val BLOODBATH = load("bloodbath")
     val BONE_DUST = load("bone_dust")
     val BONE_SWORD = load("bone_sword")
+    val CATALYSIS = load("catalysis")
     val CLOAK_OF_AGILITY = load("cloak_of_agility")
     val DARK_FOREST = load("dark_forest")
     val CRYPT = load("crypt")
@@ -81,6 +82,7 @@ object ModResearches {
         BLOODBATH,
         BONE_DUST,
         BONE_SWORD,
+        CATALYSIS,
         CLOAK_OF_AGILITY,
         CRYPT,
         DARK_FOREST,
