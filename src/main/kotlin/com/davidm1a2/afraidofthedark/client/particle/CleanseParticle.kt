@@ -1,35 +1,58 @@
 package com.davidm1a2.afraidofthedark.client.particle
 
+import com.davidm1a2.afraidofthedark.common.particle.CleanseParticleData
 import net.minecraft.client.particle.IAnimatedSprite
 import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
 import net.minecraft.client.world.ClientWorld
-import net.minecraft.particles.BasicParticleType
+import kotlin.math.cos
+import kotlin.math.sin
 
 class CleanseParticle(
     world: ClientWorld,
     x: Double,
     y: Double,
-    z: Double
+    z: Double,
+    entityId: Int,
+    private val offsetDegrees: Float,
+    private val radius: Float
 ) : AOTDParticle(world, x, y, z) {
+    private val entity = world.getEntity(entityId)
+    private val baseX = x
+    private val baseY = y
+    private val baseZ = z
+    private val height = entity?.bbHeight ?: 1f
+
     init {
-        // 1-1.5 second lifespan
-        lifetime = 20 + random.nextInt(10)
-        // Drift Upwards
-        xd = if (random.nextBoolean()) -0.05 else 0.05
-        yd = 0.2
-        zd = if (random.nextBoolean()) -0.05 else 0.05
+        scale(2f)
+        quadSize = 0.2f
+
+        // 1 second lifespan
+        lifetime = 20
+
+        xd = 0.0
+        yd = 0.0
+        zd = 0.0
     }
 
     override fun updateMotionXYZ() {
-        xd *= 0.9
-        yd *= 0.9
-        zd *= 0.9
+        val centerX = entity?.x ?: baseX
+        val centerY = entity?.y ?: baseY
+        val centerZ = entity?.z ?: baseZ
+        val newX = centerX + radius * sin(Math.toRadians(offsetDegrees.toDouble()) + age * 0.2)
+        val newY = centerY + (age.toDouble() / lifetime) * height
+        val newZ = centerZ + radius * cos(Math.toRadians(offsetDegrees.toDouble()) + age * 0.2)
+        setPos(newX, newY, newZ)
+        alpha = if (lifetime - age < 14) {
+            (lifetime - age) / 14f
+        } else {
+            1f
+        }
     }
 
-    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
+    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<CleanseParticleData> {
         override fun createParticle(
-            particle: BasicParticleType,
+            particle: CleanseParticleData,
             world: ClientWorld,
             x: Double,
             y: Double,
@@ -38,7 +61,7 @@ class CleanseParticle(
             ySpeed: Double,
             zSpeed: Double
         ): Particle {
-            return CleanseParticle(world, x, y, z).apply {
+            return CleanseParticle(world, x, y, z, particle.entityId, particle.offsetDegrees, particle.radius).apply {
                 pickSprite(spriteSet)
             }
         }

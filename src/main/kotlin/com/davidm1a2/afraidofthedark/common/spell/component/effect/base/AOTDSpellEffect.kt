@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect.base
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
-import com.davidm1a2.afraidofthedark.common.particle.AOTDParticleType
 import com.davidm1a2.afraidofthedark.common.research.Research
+import net.minecraft.particles.IParticleData
 import net.minecraft.util.RegistryKey
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.vector.Vector3d
@@ -22,7 +22,7 @@ abstract class AOTDSpellEffect(name: String, prerequisiteResearch: Research? = n
          * @param pos       The position to spawn particles at
          * @param dimension The dimension to create particles in
          */
-        fun createParticlesAt(min: Int, max: Int, pos: Vector3d, dimension: RegistryKey<World>, particleType: AOTDParticleType) {
+        fun createParticlesAt(min: Int, max: Int, pos: Vector3d, dimension: RegistryKey<World>, particleType: IParticleData) {
             // Spawn particles
             val positions = List(Random.nextInt(min, max + 1)) { pos }
 
@@ -38,7 +38,7 @@ abstract class AOTDSpellEffect(name: String, prerequisiteResearch: Research? = n
             }
         }
 
-        fun createParticlesAround(min: Int, max: Int, pos: Vector3d, dimension: RegistryKey<World>, particleType: AOTDParticleType, maxDistance: Double) {
+        fun createParticlesAround(min: Int, max: Int, pos: Vector3d, dimension: RegistryKey<World>, particleType: IParticleData, maxDistance: Double) {
             // Spawn particles
             val positions = List(Random.nextInt(min, max + 1)) {
                 pos.add(

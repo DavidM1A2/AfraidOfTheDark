@@ -2,8 +2,8 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
-import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.particle.CleanseParticleData
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -13,6 +13,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.potion.EffectType
 import net.minecraft.util.math.vector.Vector3d
+import kotlin.random.Random
 
 /**
  * The cleanse spell effect clears your spell effects
@@ -91,7 +92,11 @@ class CleanseSpellEffect : AOTDSpellEffect("cleanse", ModResearches.ADVANCED_MAG
                 charmData.charmTicks = 0
             }
 
-            createParticlesAt(2, 4, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), ModParticles.CLEANSE)
+            val startOffset = Random.nextFloat() * 360
+            createParticlesAt(1, 1, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), CleanseParticleData(entity.id, startOffset + 0f, 0.4f))
+            createParticlesAt(1, 1, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), CleanseParticleData(entity.id, startOffset + 90f, 0.4f))
+            createParticlesAt(1, 1, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), CleanseParticleData(entity.id, startOffset + 180f, 0.4f))
+            createParticlesAt(1, 1, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), CleanseParticleData(entity.id, startOffset + 270f, 0.4f))
         }
     }
 

@@ -1,9 +1,9 @@
-package com.davidm1a2.afraidofthedark.common.particle
+package com.davidm1a2.afraidofthedark.common.particle.base
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.particles.BasicParticleType
 
-abstract class AOTDParticleType(name: String, alwaysShow: Boolean) : BasicParticleType(alwaysShow) {
+class BasicAOTDParticleType(name: String, alwaysShow: Boolean = false) : BasicParticleType(alwaysShow) {
     init {
         setRegistryName(Constants.MOD_ID, name)
     }
