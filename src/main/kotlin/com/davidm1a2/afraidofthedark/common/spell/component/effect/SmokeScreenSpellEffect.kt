@@ -28,11 +28,11 @@ class SmokeScreenSpellEffect : AOTDSpellEffect("smoke_screen", ModResearches.POC
 
         // Create smoke particle
         AfraidOfTheDark.packetHandler.sendToAllAround(
-            ParticlePacket(
-                ModParticles.SMOKE_SCREEN,
-                listOf(position.add(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5)),
-                listOf(Vector3d.ZERO)
-            ),
+            ParticlePacket.builder()
+                .particle(ModParticles.SMOKE_SCREEN)
+                .position(position.add(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5))
+                .speed(Vector3d.ZERO)
+                .build(),
             PacketDistributor.TargetPoint(position.x, position.y, position.z, 128.0, state.world.dimension())
         )
     }

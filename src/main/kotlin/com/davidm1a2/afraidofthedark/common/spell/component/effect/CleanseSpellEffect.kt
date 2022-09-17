@@ -1,8 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.particle.CleanseParticleData
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -13,6 +15,8 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.potion.EffectType
 import net.minecraft.util.math.vector.Vector3d
+import net.minecraftforge.fml.network.PacketDistributor
+import kotlin.math.max
 import kotlin.random.Random
 
 /**
@@ -92,11 +96,24 @@ class CleanseSpellEffect : AOTDSpellEffect("cleanse", ModResearches.ADVANCED_MAG
                 charmData.charmTicks = 0
             }
 
+            // Show cleanse particles spinning around the hit entity
             val startOffset = Random.nextFloat() * 360
-            createParticlesAt(1, 1, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), CleanseParticleData(entity.id, startOffset + 0f, 0.4f))
-            createParticlesAt(1, 1, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), CleanseParticleData(entity.id, startOffset + 90f, 0.4f))
-            createParticlesAt(1, 1, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), CleanseParticleData(entity.id, startOffset + 180f, 0.4f))
-            createParticlesAt(1, 1, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), CleanseParticleData(entity.id, startOffset + 270f, 0.4f))
+            val radius = max(0.1f, entity.bbWidth / 2 * 1.5f)
+            val particles = listOf(
+                CleanseParticleData(entity.id, startOffset + 0f, radius),
+                CleanseParticleData(entity.id, startOffset + 90f, radius),
+                CleanseParticleData(entity.id, startOffset + 180f, radius),
+                CleanseParticleData(entity.id, startOffset + 270f, radius)
+            )
+
+            AfraidOfTheDark.packetHandler.sendToAllAround(
+                ParticlePacket.builder()
+                    .particles(particles)
+                    .position(Vector3d(entity.x, entity.y, entity.z))
+                    .speed(Vector3d.ZERO)
+                    .build(),
+                PacketDistributor.TargetPoint(entity.x, entity.y, entity.z, 100.0, entity.level.dimension())
+            )
         }
     }
 

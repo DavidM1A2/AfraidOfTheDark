@@ -26,16 +26,15 @@ abstract class AOTDSpellEffect(name: String, prerequisiteResearch: Research? = n
             // Spawn particles
             val positions = List(Random.nextInt(min, max + 1)) { pos }
 
-            if (positions.isNotEmpty()) {
-                // Send the particle packet
-                AfraidOfTheDark.packetHandler.sendToAllAround(
-                    ParticlePacket(
-                        particleType,
-                        positions,
-                        List(positions.size) { Vector3d.ZERO }),
-                    PacketDistributor.TargetPoint(pos.x, pos.y, pos.z, 100.0, dimension)
-                )
-            }
+            // Send the particle packet
+            AfraidOfTheDark.packetHandler.sendToAllAround(
+                ParticlePacket.builder()
+                    .particle(particleType)
+                    .positions(positions)
+                    .speed(Vector3d.ZERO)
+                    .build(),
+                PacketDistributor.TargetPoint(pos.x, pos.y, pos.z, 100.0, dimension)
+            )
         }
 
         fun createParticlesAround(min: Int, max: Int, pos: Vector3d, dimension: RegistryKey<World>, particleType: IParticleData, maxDistance: Double) {
@@ -48,16 +47,15 @@ abstract class AOTDSpellEffect(name: String, prerequisiteResearch: Research? = n
                 )
             }
 
-            if (positions.isNotEmpty()) {
-                // Send the particle packet
-                AfraidOfTheDark.packetHandler.sendToAllAround(
-                    ParticlePacket(
-                        particleType,
-                        positions,
-                        List(positions.size) { Vector3d.ZERO }),
-                    PacketDistributor.TargetPoint(pos.x, pos.y, pos.z, 100.0, dimension)
-                )
-            }
+            // Send the particle packet
+            AfraidOfTheDark.packetHandler.sendToAllAround(
+                ParticlePacket.builder()
+                    .particle(particleType)
+                    .positions(positions)
+                    .speed(Vector3d.ZERO)
+                    .build(),
+                PacketDistributor.TargetPoint(pos.x, pos.y, pos.z, 100.0, dimension)
+            )
         }
     }
 }

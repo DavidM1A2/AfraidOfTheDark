@@ -63,7 +63,7 @@ abstract class EnariaFightEvent(
 
     protected fun spawnEventParticles(positions: List<Vector3d>) {
         AfraidOfTheDark.packetHandler.sendToAllAround(
-            ParticlePacket(ModParticles.SPELL_CAST3, positions, List(positions.size) { Vector3d.ZERO }),
+            ParticlePacket.builder().particle(ModParticles.SPELL_CAST3).positions(positions).speed(Vector3d.ZERO).build(),
             fight.enaria,
             100.0
         )

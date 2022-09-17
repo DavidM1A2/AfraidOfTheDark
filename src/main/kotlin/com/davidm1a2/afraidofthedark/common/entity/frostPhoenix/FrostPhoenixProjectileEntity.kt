@@ -115,10 +115,11 @@ class FrostPhoenixProjectileEntity(entityType: EntityType<out FrostPhoenixProjec
 
             // Send the particle packet
             AfraidOfTheDark.packetHandler.sendToAllAround(
-                ParticlePacket(
-                    ModParticles.FREEZE,
-                    positions,
-                    List(positions.size) { Vector3d.ZERO }),
+                ParticlePacket.builder()
+                    .particle(ModParticles.FREEZE)
+                    .positions(positions)
+                    .speed(Vector3d.ZERO)
+                    .build(),
                 PacketDistributor.TargetPoint(centerPosition.x, centerPosition.y, centerPosition.z, 100.0, level.dimension())
             )
 

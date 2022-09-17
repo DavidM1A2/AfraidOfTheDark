@@ -28,9 +28,7 @@ import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.util.Constants
 import net.minecraftforge.common.util.INBTSerializable
-import java.util.LinkedList
-import java.util.Queue
-import java.util.UUID
+import java.util.*
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
@@ -137,7 +135,13 @@ class EnariaFight(
                             )
                         }
 
-                        AfraidOfTheDark.packetHandler.sendToAllAround(ParticlePacket(ModParticles.ENARIA_FIGHT_EVENT, positions, speeds), enaria, 100.0)
+                        AfraidOfTheDark.packetHandler.sendToAllAround(
+                            ParticlePacket.builder()
+                                .particle(ModParticles.ENARIA_FIGHT_EVENT)
+                                .positions(positions)
+                                .speeds(speeds)
+                                .build(), enaria, 100.0
+                        )
                     }
                 }
             }

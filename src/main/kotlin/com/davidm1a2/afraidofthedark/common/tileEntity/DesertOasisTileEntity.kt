@@ -107,11 +107,11 @@ class DesertOasisTileEntity : AOTDZoneTileEntity(ModTileEntities.DESERT_OASIS) {
                 )
             }
             AfraidOfTheDark.packetHandler.sendToAllAround(
-                ParticlePacket(
-                    ModParticles.ENCHANTED_FROG_SPAWN,
-                    particlePositions,
-                    particleSpeeds
-                ),
+                ParticlePacket.builder()
+                    .particle(ModParticles.ENCHANTED_FROG_SPAWN)
+                    .positions(particlePositions)
+                    .speeds(particleSpeeds)
+                    .build(),
                 PacketDistributor.TargetPoint(xPos + 0.5, yPos + 0.5, zPos + 0.5, 100.0, level!!.dimension())
             )
 

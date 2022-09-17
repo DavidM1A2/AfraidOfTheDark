@@ -107,11 +107,11 @@ class Spell() : INBTSerializable<CompoundNBT> {
 
                     // Send the particle packet
                     AfraidOfTheDark.packetHandler.sendToAllAround(
-                        ParticlePacket(
-                            spellParticle,
-                            positions,
-                            List<Vector3d>(positions.size) { Vector3d.ZERO }
-                        ),
+                        ParticlePacket.builder()
+                            .particle(spellParticle)
+                            .positions(positions)
+                            .speed(Vector3d.ZERO)
+                            .build(),
                         PacketDistributor.TargetPoint(
                             entity.x,
                             entity.y,

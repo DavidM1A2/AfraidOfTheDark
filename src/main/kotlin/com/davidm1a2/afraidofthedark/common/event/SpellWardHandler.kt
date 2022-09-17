@@ -162,7 +162,7 @@ class SpellWardHandler {
             Vector3d(it.ordinal.toDouble(), 0.0, 0.0)
         }
         AfraidOfTheDark.packetHandler.sendToAllAround(
-            ParticlePacket(ModParticles.WARD, positions, speeds),
+            ParticlePacket.builder().particle(ModParticles.WARD).positions(positions).speeds(speeds).build(),
             world.dimension(),
             blockPos.x + 0.5,
             blockPos.y + 0.5,
