@@ -25,6 +25,13 @@ abstract class AOTDParticle(
     ySpeed: Double = 0.0,
     zSpeed: Double = 0.0
 ) : SpriteTexturedParticle(world, x, y, z, xSpeed, ySpeed, zSpeed) {
+    init {
+        quadSize = 0.2f
+        xd = xSpeed
+        yd = ySpeed
+        zd = zSpeed
+    }
+
     override fun getRenderType(): IParticleRenderType {
         return IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT
     }
@@ -53,6 +60,14 @@ abstract class AOTDParticle(
         if (onGround) {
             xd *= 0.7
             zd *= 0.7
+        }
+    }
+
+    fun setAlphaFadeInLastTicks(ticksToFade: Float) {
+        alpha = if (lifetime - age < ticksToFade) {
+            (lifetime - age) / ticksToFade
+        } else {
+            1f
         }
     }
 

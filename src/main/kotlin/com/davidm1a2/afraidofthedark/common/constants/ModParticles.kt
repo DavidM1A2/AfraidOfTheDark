@@ -30,6 +30,7 @@ object ModParticles {
     val CLEANSE = CleanseParticleType()
     val DISINTEGRATE = BasicAOTDParticleType("disintegrate")
     val FROST_PHOENIX_STORM = BasicAOTDParticleType("frost_phoenix_storm")
+    val FIZZLE = BasicAOTDParticleType("fizzle")
 
     val PARTICLE_LIST = arrayOf(
         ENARIAS_ALTAR,
@@ -57,6 +58,7 @@ object ModParticles {
         WARD,
         CLEANSE,
         DISINTEGRATE,
-        FROST_PHOENIX_STORM
+        FROST_PHOENIX_STORM,
+        FIZZLE
     )
 }

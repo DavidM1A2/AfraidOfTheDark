@@ -24,8 +24,7 @@ class CleanseParticle(
     private val height = entity?.bbHeight ?: 1f
 
     init {
-        scale(2f)
-        quadSize = 0.2f
+        scale(1.2f)
 
         // 1 second lifespan
         lifetime = 20
@@ -43,11 +42,7 @@ class CleanseParticle(
         val newY = centerY + (age.toDouble() / lifetime) * height
         val newZ = centerZ + radius * cos(Math.toRadians(offsetDegrees.toDouble()) + age * 0.2)
         setPos(newX, newY, newZ)
-        alpha = if (lifetime - age < 14) {
-            (lifetime - age) / 14f
-        } else {
-            1f
-        }
+        setAlphaFadeInLastTicks(14f)
     }
 
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<CleanseParticleData> {

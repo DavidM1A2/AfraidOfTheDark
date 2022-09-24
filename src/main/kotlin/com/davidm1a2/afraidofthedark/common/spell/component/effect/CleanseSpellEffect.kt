@@ -114,6 +114,8 @@ class CleanseSpellEffect : AOTDSpellEffect("cleanse", ModResearches.ADVANCED_MAG
                     .build(),
                 PacketDistributor.TargetPoint(entity.x, entity.y, entity.z, 100.0, entity.level.dimension())
             )
+        } else {
+            createFizzleParticleAt(state)
         }
     }
 

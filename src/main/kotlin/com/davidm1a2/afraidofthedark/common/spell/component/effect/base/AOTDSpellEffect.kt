@@ -2,8 +2,10 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect.base
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.research.Research
+import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import net.minecraft.particles.IParticleData
 import net.minecraft.util.RegistryKey
 import net.minecraft.util.ResourceLocation
@@ -55,6 +57,17 @@ abstract class AOTDSpellEffect(name: String, prerequisiteResearch: Research? = n
                     .speed(Vector3d.ZERO)
                     .build(),
                 PacketDistributor.TargetPoint(pos.x, pos.y, pos.z, 100.0, dimension)
+            )
+        }
+
+        fun createFizzleParticleAt(state: DeliveryTransitionState) {
+            AfraidOfTheDark.packetHandler.sendToAllAround(
+                ParticlePacket.builder()
+                    .particle(ModParticles.FIZZLE)
+                    .position(state.position)
+                    .speed(Vector3d(0.0, 0.1, 0.0))
+                    .build(),
+                PacketDistributor.TargetPoint(state.position.x, state.position.y, state.position.z, 100.0, state.world.dimension())
             )
         }
     }
