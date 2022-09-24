@@ -5,35 +5,33 @@ import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
+import kotlin.math.PI
+import kotlin.math.sin
 
-/**
- * Particle representing a player's spell cast
- *
- * @constructor takes the x,y,z position of the particle and the world
- * @param world  The world the particle is at
- * @param x The x position of the spell cast effect
- * @param y The y position of the spell cast effect
- * @param z The z position of the spell cast effect
- */
 class FireParticle(
     world: ClientWorld,
     x: Double,
     y: Double,
-    z: Double
-) : AOTDParticle(world, x, y, z) {
+    z: Double,
+    xSpeed: Double,
+    ySpeed: Double,
+    zSpeed: Double
+) : AOTDParticle(world, x, y, z, xSpeed, ySpeed, zSpeed) {
+    private val fadeOffset = random.nextDouble() * 2 * PI
+
     init {
-        // 1-1.5 second lifespan
-        lifetime = 20 + random.nextInt(10)
-        // Drift Upwards
-        xd = (random.nextDouble() - 0.5) * 0.3
-        yd = random.nextDouble() * 0.3
-        zd = (random.nextDouble() - 0.5) * 0.3
+        // 2-4 second lifespan
+        lifetime = 40 + random.nextInt(40)
     }
 
     override fun updateMotionXYZ() {
         xd *= 0.9
         yd *= 0.95
         zd *= 0.9
+        val oscillation = (sin(fadeOffset + age * FADE_SPEED).toFloat() + 1f) / 2f
+        val fadeAlpha = oscillation * 0.8f + 0.2f
+        setAlphaFadeInLastTicks(40f)
+        alpha = alpha * fadeAlpha
     }
 
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
@@ -47,9 +45,13 @@ class FireParticle(
             ySpeed: Double,
             zSpeed: Double
         ): Particle {
-            return FireParticle(world, x, y, z).apply {
+            return FireParticle(world, x, y, z, xSpeed, ySpeed, zSpeed).apply {
                 pickSprite(spriteSet)
             }
         }
+    }
+
+    companion object {
+        private const val FADE_SPEED = 0.2
     }
 }

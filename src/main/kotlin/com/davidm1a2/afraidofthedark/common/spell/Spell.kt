@@ -1,13 +1,11 @@
 package com.davidm1a2.afraidofthedark.common.spell
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
 import com.davidm1a2.afraidofthedark.common.event.custom.CastSpellEvent
-import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
@@ -25,7 +23,6 @@ import net.minecraft.util.text.TranslationTextComponent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.util.Constants
 import net.minecraftforge.common.util.INBTSerializable
-import net.minecraftforge.fml.network.PacketDistributor
 import org.apache.logging.log4j.LogManager
 import kotlin.random.Random
 
@@ -106,20 +103,20 @@ class Spell() : INBTSerializable<CompoundNBT> {
                     }
 
                     // Send the particle packet
-                    AfraidOfTheDark.packetHandler.sendToAllAround(
-                        ParticlePacket.builder()
-                            .particle(spellParticle)
-                            .positions(positions)
-                            .speed(Vector3d.ZERO)
-                            .build(),
-                        PacketDistributor.TargetPoint(
-                            entity.x,
-                            entity.y,
-                            entity.z,
-                            100.0,
-                            entity.level.dimension()
-                        )
-                    )
+                    // AfraidOfTheDark.packetHandler.sendToAllAround(
+                    //     ParticlePacket.builder()
+                    //         .particle(spellParticle)
+                    //         .positions(positions)
+                    //         .speed(Vector3d.ZERO)
+                    //         .build(),
+                    //     PacketDistributor.TargetPoint(
+                    //         entity.x,
+                    //         entity.y,
+                    //         entity.z,
+                    //         100.0,
+                    //         entity.level.dimension()
+                    //     )
+                    // )
 
                     val position = entity.getEyePosition(1.0f)
                     // Tell the first delivery method to fire

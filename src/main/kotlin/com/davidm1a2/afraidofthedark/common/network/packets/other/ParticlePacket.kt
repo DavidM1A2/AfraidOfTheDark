@@ -54,7 +54,10 @@ class ParticlePacket private constructor(
         }
 
         fun build(): ParticlePacket {
-            return ParticlePacket(particles ?: listOf(particle!!), positions ?: listOf(position!!), speeds ?: listOf(speed!!))
+            return ParticlePacket(
+                particles ?: listOf(particle!!),
+                positions ?: listOf(position!!),
+                speeds ?: speed?.let { listOf(it) } ?: listOf(Vector3d.ZERO))
         }
     }
 

@@ -80,7 +80,7 @@ class ParticlePacketProcessor : PacketProcessor<ParticlePacket> {
 
             // Go over each position and speed and spawn a particle for it
             val player = Minecraft.getInstance().player!!
-            for (i in 0..particleCount) {
+            for (i in 0 until particleCount) {
                 val particle = particles.getOrElse(i) { particles[0] }
                 val position = positions.getOrElse(i) { positions[0] }
                 val speed = speeds.getOrElse(i) { speeds[0] }
