@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
@@ -15,7 +14,6 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.potion.EffectType
 import net.minecraft.util.math.vector.Vector3d
-import net.minecraftforge.fml.network.PacketDistributor
 import kotlin.math.max
 import kotlin.random.Random
 
@@ -106,13 +104,12 @@ class CleanseSpellEffect : AOTDSpellEffect("cleanse", ModResearches.ADVANCED_MAG
                 CleanseParticleData(entity.id, startOffset + 270f, radius)
             )
 
-            AfraidOfTheDark.packetHandler.sendToAllAround(
-                ParticlePacket.builder()
+            createParticlesAt(
+                state, ParticlePacket.builder()
                     .particles(particles)
                     .position(Vector3d(entity.x, entity.y, entity.z))
                     .speed(Vector3d.ZERO)
-                    .build(),
-                PacketDistributor.TargetPoint(entity.x, entity.y, entity.z, 100.0, entity.level.dimension())
+                    .build()
             )
         } else {
             createFizzleParticleAt(state)

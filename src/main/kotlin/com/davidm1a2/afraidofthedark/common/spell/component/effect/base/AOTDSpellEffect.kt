@@ -60,6 +60,10 @@ abstract class AOTDSpellEffect(name: String, prerequisiteResearch: Research? = n
             )
         }
 
+        fun createParticlesAt(state: DeliveryTransitionState, particlePacket: ParticlePacket) {
+            AfraidOfTheDark.packetHandler.sendToAllAround(particlePacket, PacketDistributor.TargetPoint(state.position.x, state.position.y, state.position.z, 100.0, state.world.dimension()))
+        }
+
         fun createFizzleParticleAt(state: DeliveryTransitionState) {
             AfraidOfTheDark.packetHandler.sendToAllAround(
                 ParticlePacket.builder()
