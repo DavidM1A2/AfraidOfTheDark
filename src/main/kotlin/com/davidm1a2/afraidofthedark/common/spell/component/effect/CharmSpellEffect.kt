@@ -58,6 +58,8 @@ class CharmSpellEffect : AOTDDurationSpellEffect("charm", ModResearches.ADVANCED
                     0.02
                 )
             }
+        } else {
+            createFizzleParticleAt(state)
         }
     }
 
