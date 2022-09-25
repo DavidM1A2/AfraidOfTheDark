@@ -6,6 +6,7 @@ import net.minecraft.client.particle.Particle
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
 import kotlin.math.PI
+import kotlin.math.cos
 import kotlin.math.sin
 
 class FireParticle(
@@ -13,11 +14,10 @@ class FireParticle(
     x: Double,
     y: Double,
     z: Double,
-    xSpeed: Double,
-    ySpeed: Double,
-    zSpeed: Double
-) : AOTDParticle(world, x, y, z, xSpeed, ySpeed, zSpeed) {
-    private val fadeOffset = random.nextDouble() * 2 * PI
+    ySpeed: Double
+) : AOTDParticle(world, x, y, z, 0.0, ySpeed, 0.0) {
+    private val fadeSpeed = FADE_SPEED_MIN + random.nextDouble() * (FADE_SPEED_MAX - FADE_SPEED_MIN)
+    private val sinOffset = random.nextDouble() * 2 * PI
 
     init {
         // 2-4 second lifespan
@@ -25,10 +25,10 @@ class FireParticle(
     }
 
     override fun updateMotionXYZ() {
-        xd *= 0.9
-        yd *= 0.95
-        zd *= 0.9
-        val oscillation = (sin(fadeOffset + age * FADE_SPEED).toFloat() + 1f) / 2f
+        xd = xd + WIGGLE_SPEED * sin(sinOffset + age * 0.2)
+        yd = yd * 0.95
+        zd = zd + WIGGLE_SPEED * cos(sinOffset + age * 0.2)
+        val oscillation = (sin(sinOffset + age * fadeSpeed).toFloat() + 1f) / 2f
         val fadeAlpha = oscillation * 0.8f + 0.2f
         setAlphaFadeInLastTicks(40f)
         alpha = alpha * fadeAlpha
@@ -45,13 +45,15 @@ class FireParticle(
             ySpeed: Double,
             zSpeed: Double
         ): Particle {
-            return FireParticle(world, x, y, z, xSpeed, ySpeed, zSpeed).apply {
+            return FireParticle(world, x, y, z, ySpeed).apply {
                 pickSprite(spriteSet)
             }
         }
     }
 
     companion object {
-        private const val FADE_SPEED = 0.2
+        private const val FADE_SPEED_MIN = 0.24
+        private const val FADE_SPEED_MAX = 0.32
+        private const val WIGGLE_SPEED = 0.004
     }
 }
