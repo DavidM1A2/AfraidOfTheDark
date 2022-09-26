@@ -17,10 +17,10 @@ import kotlin.math.max
  */
 class ParticlePacketProcessor : PacketProcessor<ParticlePacket> {
     override fun encode(msg: ParticlePacket, buf: PacketBuffer) {
-        // Write the particle index first, then the number of particles to spawn, then each position and speed
         buf.writeInt(msg.particles.size)
         buf.writeInt(msg.positions.size)
         buf.writeInt(msg.speeds.size)
+        buf.writeInt(msg.iterations)
 
         for (particle in msg.particles) {
             buf.writeInt(PARTICLE_TYPES.getID(particle.type))
@@ -44,6 +44,7 @@ class ParticlePacketProcessor : PacketProcessor<ParticlePacket> {
         val numParticles = buf.readInt()
         val numPositions = buf.readInt()
         val numSpeeds = buf.readInt()
+        val iterations = buf.readInt()
 
         val particles = mutableListOf<IParticleData>()
         val positions = mutableListOf<Vector3d>()
@@ -67,6 +68,7 @@ class ParticlePacketProcessor : PacketProcessor<ParticlePacket> {
             .particles(particles)
             .positions(positions)
             .speeds(speeds)
+            .iterations(iterations)
             .build()
     }
 
@@ -80,11 +82,13 @@ class ParticlePacketProcessor : PacketProcessor<ParticlePacket> {
 
             // Go over each position and speed and spawn a particle for it
             val player = Minecraft.getInstance().player!!
-            for (i in 0 until particleCount) {
-                val particle = particles.getOrElse(i) { particles[0] }
-                val position = positions.getOrElse(i) { positions[0] }
-                val speed = speeds.getOrElse(i) { speeds[0] }
-                player.level.addParticle(particle, false, position.x, position.y, position.z, speed.x, speed.y, speed.z)
+            for (i in 0 until msg.iterations) {
+                for (j in 0 until particleCount) {
+                    val particle = particles.getOrElse(j) { particles[0] }
+                    val position = positions.getOrElse(j) { positions[0] }
+                    val speed = speeds.getOrElse(j) { speeds[0] }
+                    player.level.addParticle(particle, false, position.x, position.y, position.z, speed.x, speed.y, speed.z)
+                }
             }
         }
     }

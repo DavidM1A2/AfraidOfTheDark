@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDurationSpellEffect
@@ -43,19 +44,35 @@ class DigSpellEffect : AOTDDurationSpellEffect("dig", ModResearches.APPRENTICE_A
         val world = state.world
         val entity = state.entity
         if (entity is LivingEntity) {
-            createParticlesAt(5, 10, state.position, world.dimension(), ModParticles.DIG)
             val speed = getSpeed(instance)
             if (speed != 0) {
                 val effectType = if (speed >= 0) Effects.DIG_SPEED else Effects.DIG_SLOWDOWN
                 val effect = EffectInstance(effectType, ceil(getDuration(instance) * 20).toInt(), abs(speed) - 1)
                 entity.addEffect(effect)
+                createParticlesAt(
+                    state, ParticlePacket.builder()
+                        .particle(ModParticles.DIG)
+                        .position(entity.position())
+                        .iterations(8)
+                        .build()
+                )
+            } else {
+                createFizzleParticleAt(state)
             }
         } else {
             // Digs the block at the position
             val position = state.blockPosition
             if (canBlockBeDestroyed(world, position)) {
-                createParticlesAt(5, 10, state.position, world.dimension(), ModParticles.DIG)
                 world.destroyBlock(position, true)
+                createParticlesAt(
+                    state, ParticlePacket.builder()
+                        .particle(ModParticles.DIG)
+                        .position(state.position)
+                        .iterations(6)
+                        .build()
+                )
+            } else {
+                createFizzleParticleAt(state)
             }
         }
     }
@@ -69,7 +86,7 @@ class DigSpellEffect : AOTDDurationSpellEffect("dig", ModResearches.APPRENTICE_A
      */
     private fun canBlockBeDestroyed(world: World, blockPos: BlockPos): Boolean {
         val blockState = world.getBlockState(blockPos)
-        return blockState.getDestroySpeed(world, blockPos) != -1f
+        return blockState.getDestroySpeed(world, blockPos) != -1f && !blockState.isAir
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {

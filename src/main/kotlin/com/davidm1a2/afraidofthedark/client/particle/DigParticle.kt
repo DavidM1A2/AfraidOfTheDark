@@ -22,16 +22,17 @@ class DigParticle(
     z: Double
 ) : AOTDParticle(world, x, y, z) {
     init {
-        // 0.5 second lifespan
-        lifetime = 10
+        // 0.75 second lifespan
+        lifetime = 15
         // Random outwards motion
-        xd = (random.nextDouble() - 0.5) * 0.5
-        yd = (random.nextDouble() - 0.5) * 1.0
-        zd = (random.nextDouble() - 0.5) * 0.5
+        xd = (random.nextDouble() - 0.5) * 0.3
+        yd = random.nextDouble() * 0.2 + 0.4
+        zd = (random.nextDouble() - 0.5) * 0.3
     }
 
     override fun updateMotionXYZ() {
         yd -= 0.08
+        setAlphaFadeInLastTicks(4f)
     }
 
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {

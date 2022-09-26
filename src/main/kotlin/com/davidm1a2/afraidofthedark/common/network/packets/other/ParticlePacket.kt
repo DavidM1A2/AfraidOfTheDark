@@ -6,7 +6,8 @@ import net.minecraft.util.math.vector.Vector3d
 class ParticlePacket private constructor(
     internal val particles: List<IParticleData>,
     internal val positions: List<Vector3d>,
-    internal val speeds: List<Vector3d>
+    internal val speeds: List<Vector3d>,
+    internal val iterations: Int
 ) {
     class Builder internal constructor() {
         private var particles: List<IParticleData>? = null
@@ -15,6 +16,7 @@ class ParticlePacket private constructor(
         private var position: Vector3d? = null
         private var speeds: List<Vector3d>? = null
         private var speed: Vector3d? = null
+        private var iterations: Int = 1
 
         fun particle(particle: IParticleData): Builder {
             this.particles = null
@@ -53,11 +55,17 @@ class ParticlePacket private constructor(
             return this
         }
 
+        fun iterations(iterations: Int): Builder {
+            this.iterations = iterations
+            return this
+        }
+
         fun build(): ParticlePacket {
             return ParticlePacket(
                 particles ?: listOf(particle!!),
                 positions ?: listOf(position!!),
-                speeds ?: speed?.let { listOf(it) } ?: listOf(Vector3d.ZERO))
+                speeds ?: speed?.let { listOf(it) } ?: listOf(Vector3d.ZERO),
+                iterations)
         }
     }
 
