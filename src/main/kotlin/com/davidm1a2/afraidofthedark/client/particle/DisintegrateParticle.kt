@@ -13,16 +13,17 @@ class DisintegrateParticle(
     z: Double
 ) : AOTDParticle(world, x, y, z) {
     init {
-        // 0.5 second lifespan
-        lifetime = 10
-        // Random outwards motion
-        xd = (random.nextDouble() - 0.5) * 0.5
-        yd = (random.nextDouble() - 0.5) * 1.0
-        zd = (random.nextDouble() - 0.5) * 0.5
+        scale(3f)
+        // 1 second lifespan
+        lifetime = 20
+        xd = 0.0
+        yd = 0.0
+        zd = 0.0
     }
 
     override fun updateMotionXYZ() {
-        yd -= 0.08
+        scale((lifetime - age) / lifetime.toFloat())
+        setAlphaFadeInLastTicks(lifetime.toFloat())
     }
 
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {

@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -11,6 +12,10 @@ import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellCompon
 import net.minecraft.block.Blocks
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.random.Random
 
 class DisintegrateSpellEffect : AOTDSpellEffect("disintegrate", ModResearches.MAGIC_MASTERY) {
     init {
@@ -31,11 +36,33 @@ class DisintegrateSpellEffect : AOTDSpellEffect("disintegrate", ModResearches.MA
         val world = state.world
         val strength = getStrength(instance)
         val entityHit = state.entity
-        createParticlesAt(2, 6, exactPosition, world.dimension(), ModParticles.DISINTEGRATE)
         if (entityHit != null) {
+            val entityWidth = entityHit.bbWidth
+            val entityHeight = entityHit.bbHeight
+            val sinOffset = PI * 2 * Random.nextDouble()
             entityHit.hurt(ModDamageSources.getSpellDamage(state), strength)
+            createParticlesAt(
+                state, ParticlePacket.builder()
+                    .particle(ModParticles.DISINTEGRATE)
+                    .positions(List(4) {
+                        entityHit.position().add(
+                            sin(sinOffset + it * PI / 2) * entityWidth / 2 * 1.5,
+                            entityHeight / 2.0,
+                            cos(sinOffset + it * PI / 2) * entityWidth / 2 * 1.5
+                        )
+                    })
+                    .build()
+            )
         } else if (canBlockBeDestroyed(world, state.blockPosition)) {
             world.setBlockAndUpdate(state.blockPosition, Blocks.AIR.defaultBlockState())
+            createParticlesAt(
+                state, ParticlePacket.builder()
+                    .particle(ModParticles.DISINTEGRATE)
+                    .position(exactPosition)
+                    .build()
+            )
+        } else {
+            createFizzleParticleAt(state)
         }
     }
 
@@ -52,7 +79,7 @@ class DisintegrateSpellEffect : AOTDSpellEffect("disintegrate", ModResearches.MA
      */
     private fun canBlockBeDestroyed(world: World, blockPos: BlockPos): Boolean {
         val blockState = world.getBlockState(blockPos)
-        return blockState.getDestroySpeed(world, blockPos) != -1f
+        return blockState.getDestroySpeed(world, blockPos) != -1f && !blockState.isAir
     }
 
     fun setStrength(instance: SpellComponentInstance<*>, amount: Float) {
