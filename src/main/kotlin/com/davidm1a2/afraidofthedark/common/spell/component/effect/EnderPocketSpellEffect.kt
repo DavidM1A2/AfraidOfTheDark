@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -11,7 +12,6 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.container.ChestContainer
 import net.minecraft.inventory.container.SimpleNamedContainerProvider
 import net.minecraft.stats.Stats
-import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.text.TranslationTextComponent
 
 /**
@@ -28,7 +28,13 @@ class EnderPocketSpellEffect : AOTDSpellEffect("ender_pocket", ModResearches.POC
         // If we hit a player open the ender chest GUI
         val entity = state.entity
         if (entity is PlayerEntity) {
-            createParticlesAround(10, 20, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), ModParticles.ENDER, 1.0)
+            createParticlesAt(
+                state, ParticlePacket.builder()
+                    .particle(ModParticles.ENDER)
+                    .position(state.position)
+                    .iterations(15)
+                    .build()
+            )
             val enderChest = entity.enderChestInventory
             entity.openMenu(SimpleNamedContainerProvider({ inner: Int, inventory: PlayerInventory, _: PlayerEntity ->
                 ChestContainer.threeRows(
@@ -38,6 +44,8 @@ class EnderPocketSpellEffect : AOTDSpellEffect("ender_pocket", ModResearches.POC
                 )
             }, TranslationTextComponent("container.enderchest")))
             entity.awardStat(Stats.OPEN_ENDERCHEST)
+        } else {
+            createFizzleParticleAt(state)
         }
     }
 

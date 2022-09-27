@@ -22,7 +22,7 @@ class EnderParticle(
     z: Double
 ) : AOTDParticle(world, x, y, z) {
     init {
-        // 0.5-1.5 second lifespan
+        // 1.5 - 2 second lifespan
         lifetime = random.nextInt(10) + 30
         // Random motion
         xd = (random.nextFloat() - 0.5) * 0.2
@@ -35,6 +35,7 @@ class EnderParticle(
         xd = (random.nextFloat() - 0.5) * 0.2
         yd = (random.nextFloat() - 0.5) * 0.2
         zd = (random.nextFloat() - 0.5) * 0.2
+        setAlphaFadeInLastTicks(4f)
     }
 
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
