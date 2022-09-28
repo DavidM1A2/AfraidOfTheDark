@@ -11,6 +11,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
 import kotlin.math.ceil
+import kotlin.math.max
 import kotlin.random.Random
 
 /**
@@ -47,7 +48,7 @@ class BurnSpellEffect : AOTDDurationSpellEffect("burn", ModResearches.ELEMENTAL_
                     )
                     .build()
             )
-            entity.remainingFireTicks = ceil(entity.remainingFireTicks + getDuration(instance) * 20).toInt()
+            entity.remainingFireTicks = max(entity.remainingFireTicks, ceil(getDuration(instance) * 20).toInt())
         } else {
             val world = state.world
             val reverseHitDir = state.direction.reverse()

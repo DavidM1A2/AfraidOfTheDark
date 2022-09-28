@@ -16,6 +16,7 @@ import net.minecraft.util.DamageSource
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
+import kotlin.math.max
 
 /**
  * Class representing the 4 different pieces of igneous armor
@@ -101,7 +102,7 @@ class IgneousArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
             val damageSourceEntity = source.entity
             // If the damage source is non-null set them on fire
             if (damageSourceEntity != null) {
-                damageSourceEntity.remainingFireTicks = damageSourceEntity.remainingFireTicks + 5
+                damageSourceEntity.remainingFireTicks = max(damageSourceEntity.remainingFireTicks, 40)
 
                 val direction = damageSourceEntity.position()
                     .subtract(entity.position())

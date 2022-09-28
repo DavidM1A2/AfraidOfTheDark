@@ -21,6 +21,7 @@ import net.minecraft.util.math.RayTraceResult
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
+import kotlin.math.max
 
 /**
  * Igneous sword lets you set fire to an area with its special ability
@@ -50,7 +51,7 @@ class IgneousSwordItem : AOTDChargeableSwordItem(
         // If igneous is researched allow the sword to function
         if (player.getResearch().isResearched(ModResearches.IGNEOUS)) {
             // The fire burn time is heavily upgraded by fire aspect enchantment
-            target.remainingFireTicks = target.remainingFireTicks + 5 + EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT, player) * 10
+            target.remainingFireTicks = max(target.remainingFireTicks, 100 + EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT, player) * 100)
             // Attack the entity from silver damage
             target.hurt(getSilverDamage(player), damage)
         } else {
@@ -111,7 +112,7 @@ class IgneousSwordItem : AOTDChargeableSwordItem(
             )
 
             // Set each entity living on fire
-            surroundingEntities.filter { it is MobEntity || it is PlayerEntity }.forEach { it.remainingFireTicks = it.remainingFireTicks + 20 }
+            surroundingEntities.filter { it is MobEntity || it is PlayerEntity }.forEach { it.remainingFireTicks = max(it.remainingFireTicks, 100) }
 
             // True, the effect was procd
             return true
