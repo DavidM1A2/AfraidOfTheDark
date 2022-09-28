@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.particle.CleanseParticleType
+import com.davidm1a2.afraidofthedark.common.particle.FeedParticleType
 import com.davidm1a2.afraidofthedark.common.particle.base.BasicAOTDParticleType
 
 object ModParticles {
@@ -31,6 +32,7 @@ object ModParticles {
     val DISINTEGRATE = BasicAOTDParticleType("disintegrate")
     val FROST_PHOENIX_STORM = BasicAOTDParticleType("frost_phoenix_storm")
     val FIZZLE = BasicAOTDParticleType("fizzle")
+    val FEED = FeedParticleType()
 
     val PARTICLE_LIST = arrayOf(
         ENARIAS_ALTAR,
@@ -59,6 +61,7 @@ object ModParticles {
         CLEANSE,
         DISINTEGRATE,
         FROST_PHOENIX_STORM,
-        FIZZLE
+        FIZZLE,
+        FEED
     )
 }

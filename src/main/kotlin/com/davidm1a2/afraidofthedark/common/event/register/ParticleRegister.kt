@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.client.particle.EnariasAltarParticle
 import com.davidm1a2.afraidofthedark.client.particle.EnchantedFrogSpawnParticle
 import com.davidm1a2.afraidofthedark.client.particle.EnderParticle
 import com.davidm1a2.afraidofthedark.client.particle.ExplosionParticle
+import com.davidm1a2.afraidofthedark.client.particle.FeedParticle
 import com.davidm1a2.afraidofthedark.client.particle.FireParticle
 import com.davidm1a2.afraidofthedark.client.particle.FizzleParticle
 import com.davidm1a2.afraidofthedark.client.particle.FlyParticle
@@ -80,5 +81,6 @@ class ParticleRegister {
         particleManager.register(ModParticles.DISINTEGRATE, DisintegrateParticle::Factory)
         particleManager.register(ModParticles.FROST_PHOENIX_STORM, FrostPhoenixStormParticle::Factory)
         particleManager.register(ModParticles.FIZZLE, FizzleParticle::Factory)
+        particleManager.register(ModParticles.FEED, FeedParticle::Factory)
     }
 }

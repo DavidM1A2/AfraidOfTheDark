@@ -1,13 +1,16 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
-import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
+import com.davidm1a2.afraidofthedark.common.particle.FeedParticleData
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.player.PlayerEntity
+import kotlin.math.PI
+import kotlin.random.Random
 
 /**
  * Effect that feeds a hit player
@@ -47,9 +50,23 @@ class FeedSpellEffect : AOTDSpellEffect("feed", ModResearches.APPRENTICE_ASCENDE
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val entity = state.entity
         if (entity is PlayerEntity) {
-            createParticlesAt(1, 2, state.position, entity.level.dimension(), ModParticles.GROW)
             val foodStats = entity.foodData
             foodStats.eat(getHungerAmount(instance), getSaturationAmount(instance).toFloat())
+            val particleOffset = Random.nextFloat() * PI.toFloat() * 2
+            createParticlesAt(
+                state, ParticlePacket.builder()
+                    .particles(List(3) {
+                        FeedParticleData(
+                            entity.id,
+                            PI.toFloat() * 2 * it / 3 + particleOffset,
+                            entity.bbWidth / 2
+                        )
+                    })
+                    .position(entity.position().add(0.0, entity.bbHeight / 2.0, 0.0))
+                    .build()
+            )
+        } else {
+            createFizzleParticleAt(state)
         }
     }
 
