@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
-import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -8,8 +7,8 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpel
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import net.minecraft.block.Blocks
 import net.minecraft.block.FireBlock
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.world.World
+import net.minecraft.particles.ParticleTypes
+import net.minecraft.util.math.BlockPos
 
 /**
  * Effect that extinguishes fire
@@ -24,14 +23,48 @@ class ExtinguishSpellEffect : AOTDSpellEffect("extinguish", ModResearches.ELEMEN
         // If we hit an entity extinguish them
         val entity = state.entity
         if (entity != null) {
-            createParticlesAt(3, 5, Vector3d(entity.x, entity.y, entity.z), entity.level.dimension(), ModParticles.FIRE)
-            entity.clearFire()
+            if (entity.isOnFire) {
+                val width = entity.bbWidth.toDouble()
+                val height = entity.bbHeight.toDouble()
+                entity.clearFire()
+                state.world.sendParticles(
+                    ParticleTypes.LARGE_SMOKE,
+                    state.position.x,
+                    state.position.y,
+                    state.position.z,
+                    // Spawn 6 particles
+                    6,
+                    // Velocity is used as an offset for the particle
+                    width / 2,
+                    height / 2,
+                    width / 2,
+                    0.0
+                )
+            } else {
+                createFizzleParticleAt(state)
+            }
         } else {
-            val world: World = state.world
-            val position = state.blockPosition
+            val world = state.world
+            val reverseHitDir = state.direction.reverse()
+            val position = BlockPos(state.position.add(reverseHitDir.scale(0.01)))
             if (world.getBlockState(position).block is FireBlock) {
-                createParticlesAt(1, 3, state.position, world.dimension(), ModParticles.FIRE)
                 world.setBlockAndUpdate(position, Blocks.AIR.defaultBlockState())
+                state.world.sendParticles(
+                    ParticleTypes.LARGE_SMOKE,
+                    // Randomize the position within the block
+                    position.x + 0.5,
+                    position.y + 0.5,
+                    position.z + 0.5,
+                    // Spawn two particles
+                    2,
+                    // Velocity is used as an offset for the particle
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.0
+                )
+            } else {
+                createFizzleParticleAt(state)
             }
         }
     }
