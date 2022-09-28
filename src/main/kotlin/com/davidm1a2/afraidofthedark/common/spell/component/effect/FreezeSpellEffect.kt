@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDurationSpellEffect
@@ -16,6 +17,7 @@ import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 import kotlin.math.ceil
 import kotlin.math.max
+import kotlin.random.Random
 
 /**
  * Spell effect that causes water to freeze and creates ice
@@ -47,13 +49,45 @@ class FreezeSpellEffect : AOTDDurationSpellEffect("freeze", ModResearches.ELEMEN
                 } else {
                     entity.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, ceil(getDuration(instance) * 20).toInt(), 99))
                 }
-                createParticlesAround(5, 10, entity.position(), entity.level.dimension(), ModParticles.FREEZE, 1.0)
+                val width = entity.bbWidth * 2.5
+                val height = entity.bbHeight
+                createParticlesAt(
+                    state, ParticlePacket.builder()
+                        .particle(ModParticles.FREEZE)
+                        .positions(List(10) {
+                            entity.position().add(
+                                Random.nextDouble() * width - width / 2,
+                                Random.nextDouble() * height,
+                                Random.nextDouble() * width - width / 2
+                            )
+                        })
+                        // Speed's x isn't speed, but the duration that the freeze will last
+                        .speed(Vector3d(getDuration(instance) * 20, 0.0, 0.0))
+                        .build()
+                )
+            } else {
+                createFizzleParticleAt(state)
             }
         } else {
             val hitBlock = world.getBlockState(blockPos)
             if (hitBlock.block != Blocks.LAVA && hitBlock.material.isReplaceable) {
                 world.setBlockAndUpdate(blockPos, Blocks.PACKED_ICE.defaultBlockState())
-                createParticlesAround(5, 10, state.position, world.dimension(), ModParticles.FREEZE, 1.0)
+                createParticlesAt(
+                    state, ParticlePacket.builder()
+                        .particle(ModParticles.FREEZE)
+                        .positions(List(4) {
+                            Vector3d(
+                                blockPos.x + if (Random.nextBoolean()) 1.01 else -0.01,
+                                blockPos.y + if (Random.nextBoolean()) 1.01 else -0.01,
+                                blockPos.z + if (Random.nextBoolean()) 1.01 else -0.01
+                            )
+                        })
+                        // Speed's x isn't speed, but the duration that the freeze will last
+                        .speed(Vector3d(20.0, 0.0, 0.0))
+                        .build()
+                )
+            } else {
+                createFizzleParticleAt(state)
             }
         }
     }

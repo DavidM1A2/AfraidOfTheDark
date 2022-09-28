@@ -5,6 +5,7 @@ import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
+import kotlin.random.Random
 
 /**
  * The Freeze Particle
@@ -13,15 +14,22 @@ class FreezeParticle(
     world: ClientWorld,
     x: Double,
     y: Double,
-    z: Double
+    z: Double,
+    freezeDurationTicks: Int
 ) : AOTDParticle(world, x, y, z) {
     init {
-        // 1-2 second lifespan
-        lifetime = random.nextInt(20) + 20
+        scale(Random.nextFloat() + 1f)
+        // up to 1 second longer than the freeze duration
+        lifetime = freezeDurationTicks + random.nextInt(20)
         // No motion
         xd = 0.0
         yd = 0.0
         zd = 0.0
+    }
+
+    override fun updateMotionXYZ() {
+        super.updateMotionXYZ()
+        setAlphaFadeInLastTicks(20f)
     }
 
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
@@ -35,7 +43,7 @@ class FreezeParticle(
             ySpeed: Double,
             zSpeed: Double
         ): Particle {
-            return FreezeParticle(world, x, y, z).apply {
+            return FreezeParticle(world, x, y, z, xSpeed.toInt()).apply {
                 pickSprite(spriteSet)
             }
         }
