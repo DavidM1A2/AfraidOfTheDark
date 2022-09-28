@@ -29,9 +29,9 @@ class ExtinguishSpellEffect : AOTDSpellEffect("extinguish", ModResearches.ELEMEN
                 entity.clearFire()
                 state.world.sendParticles(
                     ParticleTypes.LARGE_SMOKE,
-                    state.position.x,
-                    state.position.y,
-                    state.position.z,
+                    entity.x,
+                    entity.y + height / 2,
+                    entity.z,
                     // Spawn 6 particles
                     6,
                     // Velocity is used as an offset for the particle
