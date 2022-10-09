@@ -13,7 +13,8 @@ class FizzleParticle(
     z: Double,
     xSpeed: Double,
     ySpeed: Double,
-    zSpeed: Double
+    zSpeed: Double,
+    private val spriteSet: IAnimatedSprite
 ) : AOTDParticle(world, x, y, z, xSpeed, ySpeed, zSpeed) {
     init {
         scale(2f)
@@ -28,7 +29,11 @@ class FizzleParticle(
 
         scale(SCALE_FACTOR_PER_TICK)
 
-        setAlphaFadeInLastTicks(20f)
+        //setAlphaFadeInLastTicks(5f)
+
+        if (!removed) {
+            setSpriteFromAge(spriteSet)
+        }
     }
 
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
@@ -42,13 +47,13 @@ class FizzleParticle(
             ySpeed: Double,
             zSpeed: Double
         ): Particle {
-            return FizzleParticle(world, x, y, z, xSpeed, ySpeed, zSpeed).apply {
-                pickSprite(spriteSet)
+            return FizzleParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet).apply {
+                setSpriteFromAge(spriteSet)
             }
         }
     }
 
     companion object {
-        private const val SCALE_FACTOR_PER_TICK = 0.95f
+        private const val SCALE_FACTOR_PER_TICK = 0.98f
     }
 }

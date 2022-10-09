@@ -65,7 +65,7 @@ abstract class AOTDParticle(
 
     fun setAlphaFadeInLastTicks(ticksToFade: Float) {
         alpha = if (lifetime - age < ticksToFade) {
-            (lifetime - age + 1) / ticksToFade
+            (lifetime - age) / ticksToFade
         } else {
             1f
         }
