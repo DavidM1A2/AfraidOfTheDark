@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.particle
 
+import com.davidm1a2.afraidofthedark.client.particle.base.AOTDParticle
 import com.mojang.blaze3d.vertex.IVertexBuilder
 import net.minecraft.client.particle.IAnimatedSprite
 import net.minecraft.client.particle.IParticleFactory

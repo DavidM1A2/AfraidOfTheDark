@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.client.particle
+package com.davidm1a2.afraidofthedark.client.particle.base
 
 import net.minecraft.client.particle.IParticleRenderType
 import net.minecraft.client.particle.SpriteTexturedParticle

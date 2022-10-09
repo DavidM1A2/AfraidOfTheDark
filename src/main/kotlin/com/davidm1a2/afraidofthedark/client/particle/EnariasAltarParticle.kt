@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.particle
 
+import com.davidm1a2.afraidofthedark.client.particle.base.AOTDParticle
 import net.minecraft.client.particle.IAnimatedSprite
 import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
