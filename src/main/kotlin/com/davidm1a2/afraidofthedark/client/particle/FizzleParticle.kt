@@ -29,8 +29,6 @@ class FizzleParticle(
 
         scale(SCALE_FACTOR_PER_TICK)
 
-        //setAlphaFadeInLastTicks(5f)
-
         if (!removed) {
             setSpriteFromAge(spriteSet)
         }
