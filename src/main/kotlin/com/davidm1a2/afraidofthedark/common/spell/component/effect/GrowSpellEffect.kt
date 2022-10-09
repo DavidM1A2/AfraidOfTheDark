@@ -52,19 +52,19 @@ class GrowSpellEffect : AOTDSpellEffect("grow", ModResearches.APPRENTICE_ASCENDE
         }
 
         var blockUpdated = false
+        var blockValid = false
         // Grob the block at the current position if it's a type 'IGrowable'
         for (ignored in 0 until getStrength(instance)) {
             if (blockState.block !is IGrowable) {
-                createFizzleParticleAt(state)
                 break
             }
 
             val iGrowable = blockState.block as IGrowable
             if (!iGrowable.isValidBonemealTarget(world, position, blockState, false)) {
-                createFizzleParticleAt(state)
                 break
             }
 
+            blockValid = true
             if (!iGrowable.isBonemealSuccess(world, world.random, position, blockState)) {
                 continue
             }
@@ -77,14 +77,18 @@ class GrowSpellEffect : AOTDSpellEffect("grow", ModResearches.APPRENTICE_ASCENDE
         if (blockUpdated) {
             world.sendBlockUpdated(position, blockState, blockState, Constants.BlockFlags.BLOCK_UPDATE)
         }
-        createParticlesAt(
-            state, ParticlePacket.builder()
-                .particle(ModParticles.GROW)
-                .positions(List(if (blockUpdated) 5 else 2) {
-                    Vector3d(position.x + Random.nextDouble(), position.y + Random.nextDouble(), position.z + Random.nextDouble())
-                })
-                .build()
-        )
+        if (blockValid) {
+            createParticlesAt(
+                state, ParticlePacket.builder()
+                    .particle(ModParticles.GROW)
+                    .positions(List(if (blockUpdated) 5 else 2) {
+                        Vector3d(position.x + Random.nextDouble(), position.y + Random.nextDouble(), position.z + Random.nextDouble())
+                    })
+                    .build()
+            )
+        } else {
+            createFizzleParticleAt(state)
+        }
     }
 
     /**
