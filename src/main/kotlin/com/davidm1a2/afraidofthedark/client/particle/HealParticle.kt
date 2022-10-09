@@ -6,6 +6,7 @@ import net.minecraft.client.particle.IAnimatedSprite
 import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
 import net.minecraft.client.world.ClientWorld
+import net.minecraft.util.math.vector.Vector3d
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
@@ -37,29 +38,29 @@ class HealParticle(
     }
 
     override fun onDelayOver() {
-        val centerX = entity?.x ?: startX
-        val centerY = entity?.y ?: startY
-        val centerZ = entity?.z ?: startZ
-        val targetX = centerX + targetOffsetX + sin(Math.toRadians(offsetDegrees.toDouble())) * width / 2 * 1.5
-        val targetY = centerY + targetOffsetY
-        val targetZ = centerZ + targetOffsetZ + cos(Math.toRadians(offsetDegrees.toDouble())) * width / 2 * 1.5
-        setPos(targetX, targetY, targetZ)
+        val targetPosition = computeTargetPosition()
+        setPos(targetPosition.x, targetPosition.y, targetPosition.z)
     }
 
     override fun tickPostDelay() {
         super.tickPostDelay()
+        val targetPosition = computeTargetPosition()
+        targetOffsetX = targetOffsetX + targetVelocityX
+        targetOffsetY = targetOffsetY + targetVelocityY
+        targetOffsetZ = targetOffsetZ + targetVelocityZ
+        xd = (targetPosition.x - x) / stickiness
+        yd = (targetPosition.y - y) / stickiness
+        zd = (targetPosition.z - z) / stickiness
+    }
+
+    private fun computeTargetPosition(): Vector3d {
         val centerX = entity?.x ?: startX
         val centerY = entity?.y ?: startY
         val centerZ = entity?.z ?: startZ
         val targetX = centerX + targetOffsetX + sin(Math.toRadians(offsetDegrees.toDouble())) * width / 2 * 1.5
         val targetY = centerY + targetOffsetY
         val targetZ = centerZ + targetOffsetZ + cos(Math.toRadians(offsetDegrees.toDouble())) * width / 2 * 1.5
-        targetOffsetX = targetOffsetX + targetVelocityX
-        targetOffsetY = targetOffsetY + targetVelocityY
-        targetOffsetZ = targetOffsetZ + targetVelocityZ
-        xd = (targetX - x) / stickiness
-        yd = (targetY - y) / stickiness
-        zd = (targetZ - z) / stickiness
+        return Vector3d(targetX, targetY, targetZ)
     }
 
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<HealParticleData> {
