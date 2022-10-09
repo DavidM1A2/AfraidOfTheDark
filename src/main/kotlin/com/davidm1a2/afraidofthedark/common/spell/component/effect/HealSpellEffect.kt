@@ -1,7 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
-import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
+import com.davidm1a2.afraidofthedark.common.particle.HealParticleData
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -37,8 +38,18 @@ class HealSpellEffect : AOTDSpellEffect("heal", ModResearches.APPRENTICE_ASCENDE
         val entity = state.entity
         if (entity is LivingEntity && entity !is ArmorStandEntity) {
             val healAmount = getAmount(instance)
-            createParticlesAround(healAmount, 2 * healAmount, state.position, entity.level.dimension(), ModParticles.HEAL, 1.0)
+            val particles = List(healAmount) {
+                HealParticleData(entity.id, it * 360f / healAmount)
+            }
+            createParticlesAt(
+                state, ParticlePacket.builder()
+                    .particles(particles)
+                    .position(entity.position())
+                    .build()
+            )
             entity.heal(healAmount.toFloat())
+        } else {
+            createFizzleParticleAt(state)
         }
     }
 
