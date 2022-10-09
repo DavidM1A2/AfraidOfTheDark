@@ -34,6 +34,7 @@ object ModParticles {
     val FROST_PHOENIX_STORM = BasicAOTDParticleType("frost_phoenix_storm")
     val FIZZLE = BasicAOTDParticleType("fizzle")
     val FEED = FeedParticleType()
+    val LIGHTNING = BasicAOTDParticleType("lightning")
 
     val PARTICLE_LIST = arrayOf(
         ENARIAS_ALTAR,
@@ -63,6 +64,7 @@ object ModParticles {
         DISINTEGRATE,
         FROST_PHOENIX_STORM,
         FIZZLE,
-        FEED
+        FEED,
+        LIGHTNING
     )
 }
