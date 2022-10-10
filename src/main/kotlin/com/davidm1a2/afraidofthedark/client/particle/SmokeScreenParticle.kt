@@ -33,7 +33,7 @@ class SmokeScreenParticle(
 
         // Blinding size teleport particles
         scale(minScale)
-        baseQuadSize = quadSize
+        baseQuadSize = quadSize / 5
 
         // Particle moves outwards
         xd = (random.nextDouble() - 0.5) * SPEED
