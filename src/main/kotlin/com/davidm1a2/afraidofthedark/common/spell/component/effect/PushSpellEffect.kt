@@ -1,7 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
-import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
+import com.davidm1a2.afraidofthedark.common.particle.FlyParticleData
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -9,6 +10,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEff
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.network.play.server.SEntityVelocityPacket
+import kotlin.math.ceil
 
 class PushSpellEffect : AOTDSpellEffect("push", ModResearches.CLOAK_OF_AGILITY) {
     init {
@@ -28,11 +30,11 @@ class PushSpellEffect : AOTDSpellEffect("push", ModResearches.CLOAK_OF_AGILITY) 
         val exactPosition = state.position
         val world = state.world
         // Divide by 10 to make it roughly the number of blocks to move
-        val strength = getStrength(instance) / 10.0
+        val strength = getStrength(instance)
+        val pushStrength = strength / 10.0
         val entityHit = state.entity
-        createParticlesAt(2, 6, exactPosition, world.dimension(), ModParticles.FLY)
         if (entityHit != null) {
-            val pushDirection = state.direction.scale(strength)
+            val pushDirection = state.direction.scale(pushStrength)
             entityHit.push(pushDirection.x, pushDirection.y, pushDirection.z)
             if (entityHit.deltaMovement.y >= 0) {
                 entityHit.fallDistance = 0f
@@ -40,6 +42,26 @@ class PushSpellEffect : AOTDSpellEffect("push", ModResearches.CLOAK_OF_AGILITY) 
             if (entityHit is ServerPlayerEntity) {
                 entityHit.connection.send(SEntityVelocityPacket(entityHit))
             }
+//            val width = entityHit.bbWidth
+//            val height = entityHit.bbHeight
+//            val positions = List(6) {
+//                state.position.add(Random.nextDouble() * width - 0.5, 0.0, Random.nextDouble() * width - 0.5)
+//            }
+//            val speeds = List(6) {
+//                entityHit.deltaMovement.scale(2.0)
+//            }
+            val particles = List(ceil(strength).toInt()) {
+                FlyParticleData(entityHit.id, it)
+            }
+            createParticlesAt(
+                state, ParticlePacket.builder()
+                    .particles(particles)
+                    .position(state.position)
+                    //.speeds(speeds)
+                    .build()
+            )
+        } else {
+            createFizzleParticleAt(state)
         }
     }
 

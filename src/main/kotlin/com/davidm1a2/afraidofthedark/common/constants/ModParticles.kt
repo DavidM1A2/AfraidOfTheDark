@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.particle.CleanseParticleType
 import com.davidm1a2.afraidofthedark.common.particle.FeedParticleType
+import com.davidm1a2.afraidofthedark.common.particle.FlyParticleType
 import com.davidm1a2.afraidofthedark.common.particle.HealParticleType
 import com.davidm1a2.afraidofthedark.common.particle.base.BasicAOTDParticleType
 
@@ -20,7 +21,7 @@ object ModParticles {
     val ENDER = BasicAOTDParticleType("ender")
     val EXPLOSION = BasicAOTDParticleType("explosion")
     val FIRE = BasicAOTDParticleType("fire")
-    val FLY = BasicAOTDParticleType("fly")
+    val FLY = FlyParticleType()
     val GROW = BasicAOTDParticleType("grow")
     val HEAL = HealParticleType()
     val POISON = BasicAOTDParticleType("poison")

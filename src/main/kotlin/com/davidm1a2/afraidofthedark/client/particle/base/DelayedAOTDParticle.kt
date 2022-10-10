@@ -19,11 +19,14 @@ abstract class DelayedAOTDParticle(
 
     override fun tick() {
         super.tick()
-        if (age == delayTicks) {
-            onDelayOver()
-        }
-        if (age > delayTicks) {
-            tickPostDelay()
+        when {
+            age == delayTicks -> {
+                onDelayOver()
+                tickPreDelay()
+            }
+
+            age > delayTicks -> tickPostDelay()
+            age < delayTicks -> tickPreDelay()
         }
     }
 
@@ -36,6 +39,9 @@ abstract class DelayedAOTDParticle(
         } else {
             setAlphaFadeInLastTicks(fadeTicks.toFloat())
         }
+    }
+
+    open fun tickPreDelay() {
     }
 
     override fun setLifetime(newLifetime: Int) {
