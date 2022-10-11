@@ -19,6 +19,7 @@ import com.davidm1a2.afraidofthedark.client.particle.HealParticle
 import com.davidm1a2.afraidofthedark.client.particle.LightningParticle
 import com.davidm1a2.afraidofthedark.client.particle.PoisonParticle
 import com.davidm1a2.afraidofthedark.client.particle.SmokeScreenParticle
+import com.davidm1a2.afraidofthedark.client.particle.SonicDisruptionParticle
 import com.davidm1a2.afraidofthedark.client.particle.SpellCast2Particle
 import com.davidm1a2.afraidofthedark.client.particle.SpellCast3Particle
 import com.davidm1a2.afraidofthedark.client.particle.SpellCastParticle
@@ -84,5 +85,6 @@ class ParticleRegister {
         particleManager.register(ModParticles.FIZZLE, FizzleParticle::Factory)
         particleManager.register(ModParticles.FEED, FeedParticle::Factory)
         particleManager.register(ModParticles.LIGHTNING, LightningParticle::Factory)
+        particleManager.register(ModParticles.SONIC_DISRUPTION, SonicDisruptionParticle::Factory)
     }
 }

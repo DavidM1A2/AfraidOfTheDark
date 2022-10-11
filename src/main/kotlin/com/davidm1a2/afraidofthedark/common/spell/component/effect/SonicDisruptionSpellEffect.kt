@@ -1,6 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -10,6 +12,7 @@ import net.minecraft.util.ResourceLocation
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.SoundEvent
 import net.minecraft.util.SoundEvents
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.registries.ForgeRegistries
 
 /**
@@ -54,6 +57,14 @@ class SonicDisruptionSpellEffect : AOTDSpellEffect("sonic_disruption", ModResear
         val volume = getVolume(instance)
         val pitch = getPitch(instance)
         world.playSound(null, state.position.x, state.position.y, state.position.z, getSound(instance), SoundCategory.PLAYERS, volume, pitch)
+        createParticlesAt(
+            state, ParticlePacket.builder()
+                .position(state.position)
+                // Particle scale is passed as the X coordinate of the "speed"
+                .speed(Vector3d(volume.toDouble(), 0.0, 0.0))
+                .particle(ModParticles.SONIC_DISRUPTION)
+                .build()
+        )
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
