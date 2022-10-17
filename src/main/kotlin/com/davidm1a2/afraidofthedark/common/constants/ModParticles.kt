@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
+import com.davidm1a2.afraidofthedark.common.particle.ArrowTrailParticleType
 import com.davidm1a2.afraidofthedark.common.particle.CleanseParticleType
 import com.davidm1a2.afraidofthedark.common.particle.FeedParticleType
 import com.davidm1a2.afraidofthedark.common.particle.FlyParticleType
@@ -38,6 +39,7 @@ object ModParticles {
     val LIGHTNING = BasicAOTDParticleType("lightning")
     val SONIC_DISRUPTION = BasicAOTDParticleType("sonic_disruption")
     val DUST_CLOUD = BasicAOTDParticleType("dust_cloud")
+    val ARROW_TRAIL = ArrowTrailParticleType()
 
     val PARTICLE_LIST = arrayOf(
         ENARIAS_ALTAR,
@@ -70,6 +72,7 @@ object ModParticles {
         FEED,
         LIGHTNING,
         SONIC_DISRUPTION,
-        DUST_CLOUD
+        DUST_CLOUD,
+        ARROW_TRAIL
     )
 }

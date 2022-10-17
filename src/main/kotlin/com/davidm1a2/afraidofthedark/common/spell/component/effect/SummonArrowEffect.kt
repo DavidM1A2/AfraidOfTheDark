@@ -1,6 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
+import com.davidm1a2.afraidofthedark.common.particle.ArrowTrailParticleData
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -8,6 +10,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEff
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.projectile.AbstractArrowEntity
 import net.minecraft.entity.projectile.ArrowEntity
+import kotlin.math.ceil
 
 class SummonArrowEffect : AOTDSpellEffect("summon_arrow", ModResearches.WRIST_CROSSBOW) {
     init {
@@ -37,6 +40,12 @@ class SummonArrowEffect : AOTDSpellEffect("summon_arrow", ModResearches.WRIST_CR
         arrowEntity.shoot(direction.x, direction.y, direction.z, speed, 0f)
         arrowEntity.pickup = AbstractArrowEntity.PickupStatus.DISALLOWED
         world.addFreshEntity(arrowEntity)
+        createParticlesAt(
+            state, ParticlePacket.builder()
+                .particles(List(ceil(speed * 5).toInt().coerceAtLeast(1)) { ArrowTrailParticleData(arrowEntity.id, it) })
+                .position(position)
+                .build()
+        )
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
