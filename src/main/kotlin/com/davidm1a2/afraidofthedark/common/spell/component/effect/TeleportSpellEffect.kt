@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -25,9 +26,15 @@ class TeleportSpellEffect : AOTDSpellEffect("teleport", ModResearches.POCKET_DIM
         val spellCaster = state.casterEntity
         if (spellCaster != null) {
             val position = state.position
-            // Create particles at the pre and post teleport position
-            createParticlesAt(2, 4, position, spellCaster.level.dimension(), ModParticles.ENDER)
-            // Play sound at the pre and post teleport position
+            // Create particles at the pre- and post-teleport position
+            createParticlesAt(
+                state, ParticlePacket.builder()
+                    .particle(ModParticles.ENDER)
+                    .position(spellCaster.position())
+                    .iterations(4)
+                    .build()
+            )
+            // Play sound at the pre- and post-teleport position
             world.playSound(
                 null,
                 position.x,
@@ -41,7 +48,13 @@ class TeleportSpellEffect : AOTDSpellEffect("teleport", ModResearches.POCKET_DIM
 
             spellCaster.teleportTo(position.x, position.y, position.z)
 
-            createParticlesAt(2, 4, position, spellCaster.level.dimension(), ModParticles.ENDER)
+            createParticlesAt(
+                state, ParticlePacket.builder()
+                    .particle(ModParticles.ENDER)
+                    .position(position)
+                    .iterations(4)
+                    .build()
+            )
             world.playSound(
                 null,
                 position.x,
