@@ -37,6 +37,7 @@ object ModParticles {
     val FEED = FeedParticleType()
     val LIGHTNING = BasicAOTDParticleType("lightning")
     val SONIC_DISRUPTION = BasicAOTDParticleType("sonic_disruption")
+    val DUST_CLOUD = BasicAOTDParticleType("dust_cloud")
 
     val PARTICLE_LIST = arrayOf(
         ENARIAS_ALTAR,
@@ -68,6 +69,7 @@ object ModParticles {
         FIZZLE,
         FEED,
         LIGHTNING,
-        SONIC_DISRUPTION
+        SONIC_DISRUPTION,
+        DUST_CLOUD
     )
 }

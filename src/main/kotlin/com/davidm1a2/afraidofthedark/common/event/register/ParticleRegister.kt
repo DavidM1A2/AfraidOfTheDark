@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.event.register
 import com.davidm1a2.afraidofthedark.client.particle.CleanseParticle
 import com.davidm1a2.afraidofthedark.client.particle.DigParticle
 import com.davidm1a2.afraidofthedark.client.particle.DisintegrateParticle
+import com.davidm1a2.afraidofthedark.client.particle.DustCloudParticle
 import com.davidm1a2.afraidofthedark.client.particle.EnariaFightEventParticle
 import com.davidm1a2.afraidofthedark.client.particle.EnariasAltarParticle
 import com.davidm1a2.afraidofthedark.client.particle.EnchantedFrogSpawnParticle
@@ -86,5 +87,6 @@ class ParticleRegister {
         particleManager.register(ModParticles.FEED, FeedParticle::Factory)
         particleManager.register(ModParticles.LIGHTNING, LightningParticle::Factory)
         particleManager.register(ModParticles.SONIC_DISRUPTION, SonicDisruptionParticle::Factory)
+        particleManager.register(ModParticles.DUST_CLOUD, DustCloudParticle::Factory)
     }
 }
