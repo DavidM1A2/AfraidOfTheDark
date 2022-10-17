@@ -65,6 +65,8 @@ class TeleportSpellEffect : AOTDSpellEffect("teleport", ModResearches.POCKET_DIM
                 2.5f,
                 1.0f
             )
+        } else {
+            createFizzleParticleAt(state)
         }
     }
 
