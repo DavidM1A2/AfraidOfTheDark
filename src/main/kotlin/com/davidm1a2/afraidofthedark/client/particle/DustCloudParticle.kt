@@ -7,6 +7,7 @@ import net.minecraft.client.particle.Particle
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.particles.BasicParticleType
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.MathHelper
 import net.minecraft.world.biome.Biome
 
 class DustCloudParticle(
@@ -18,19 +19,31 @@ class DustCloudParticle(
     ySpeed: Double,
     zSpeed: Double
 ) : AOTDParticle(world, x, y, z, xSpeed, ySpeed, zSpeed) {
+    private val minScale = 1f + random.nextFloat() * 0.5f
+    private val maxScale = 4.5f + minScale
+    private val baseQuadSize: Float
+
     init {
-        scale(random.nextFloat() * 0.5f + 1.0f)
-        lifetime = random.nextInt(15) + 10
+        lifetime = random.nextInt(5) + 20
+
+        scale(minScale)
+        baseQuadSize = quadSize
     }
 
     override fun tick() {
         super.tick()
-        setAlphaFadeInLastTicks(5f)
+        alpha = alpha * if (age < lifetime - 5) 0.95f else 0.5f
+
+        // Expand the particle over time
+        val newScale = MathHelper.lerp(age.toFloat() / lifetime, minScale, maxScale)
+        // For whatever reason "scale" does quadSize *= newScale, so reset it to avoid exponential quad size growth
+        scale(newScale)
+        quadSize = baseQuadSize * newScale
     }
 
     override fun updateMotionXYZ() {
         super.updateMotionXYZ()
-        yd = yd - 0.07
+        yd = yd - 0.03
     }
 
     class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
