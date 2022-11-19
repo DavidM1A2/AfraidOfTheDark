@@ -1,5 +1,8 @@
 {
   "textures": [
-    "afraidofthedark:ward"
+    "afraidofthedark:ward/ward1",
+    "afraidofthedark:ward/ward2",
+    "afraidofthedark:ward/ward3",
+    "afraidofthedark:ward/ward4"
   ]
 }

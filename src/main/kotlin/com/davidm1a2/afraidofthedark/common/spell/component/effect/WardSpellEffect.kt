@@ -1,8 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getWardedBlockMap
-import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
+import com.davidm1a2.afraidofthedark.common.particle.WardParticleData
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDurationSpellEffect
@@ -11,7 +12,9 @@ import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellCompon
 import net.minecraft.entity.LivingEntity
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
+import net.minecraft.util.Direction
 import net.minecraft.util.math.ChunkPos
+import net.minecraft.util.math.vector.Vector3d
 import java.time.Duration
 import kotlin.math.ceil
 
@@ -33,21 +36,48 @@ class WardSpellEffect : AOTDDurationSpellEffect("ward", ModResearches.APPRENTICE
         val entityHit = state.entity
         val world = state.world
         if (entityHit is LivingEntity) {
-            createParticlesAt(2, 6, state.position, world.dimension(), ModParticles.SPELL_HIT)
             entityHit.addEffect(EffectInstance(Effects.DAMAGE_RESISTANCE, ceil(getDuration(instance) * 20).toInt(), (getStrength(instance) - 1).coerceAtMost(3)))
-        }
-        if (entityHit == null) {
+            val particlePositions = Direction.values().map {
+                Vector3d(entityHit.x, entityHit.y + entityHit.bbHeight / 2.0, entityHit.z)
+                    .add(
+                        it.stepX * entityHit.bbWidth / 2.0,
+                        it.stepY * entityHit.bbHeight / 2.0,
+                        it.stepZ * entityHit.bbWidth / 2.0
+                    )
+            }
+            val particles = Direction.values().map { WardParticleData(entityHit.id, it) }
+            createParticlesAt(
+                state, ParticlePacket.builder()
+                    .particles(particles)
+                    .positions(particlePositions)
+                    .build()
+            )
+        } else if (entityHit == null) {
             val blockPosition = state.blockPosition
             val blockHit = world.getBlockState(blockPosition)
             // Don't ward air
             if (!blockHit.isAir) {
-                createParticlesAt(2, 6, state.position, world.dimension(), ModParticles.SPELL_HIT)
                 val chunkPos = ChunkPos(blockPosition.x shr 4, blockPosition.z shr 4)
                 val chunk = world.getChunk(chunkPos.x, chunkPos.z)
                 val wardedBlockMap = chunk.getWardedBlockMap()
                 wardedBlockMap.wardBlock(blockPosition, getStrength(instance))
                 wardedBlockMap.sync(world, chunkPos, blockPos = blockPosition)
+                val particlePositions = Direction.values().map {
+                    Vector3d(blockPosition.x + 0.5, blockPosition.y + 0.5, blockPosition.z + 0.5)
+                        .add(it.stepX * 0.505, it.stepY * 0.505, it.stepZ * 0.505)
+                }
+                val particles = Direction.values().map { WardParticleData(it) }
+                createParticlesAt(
+                    state, ParticlePacket.builder()
+                        .particles(particles)
+                        .positions(particlePositions)
+                        .build()
+                )
+            } else {
+                createFizzleParticleAt(state)
             }
+        } else {
+            createFizzleParticleAt(state)
         }
     }
 

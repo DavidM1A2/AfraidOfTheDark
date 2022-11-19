@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.particle.CleanseParticleType
 import com.davidm1a2.afraidofthedark.common.particle.FeedParticleType
 import com.davidm1a2.afraidofthedark.common.particle.FlyParticleType
 import com.davidm1a2.afraidofthedark.common.particle.HealParticleType
+import com.davidm1a2.afraidofthedark.common.particle.WardParticleType
 import com.davidm1a2.afraidofthedark.common.particle.base.BasicAOTDParticleType
 
 object ModParticles {
@@ -30,7 +31,7 @@ object ModParticles {
     val WEAKNESS = BasicAOTDParticleType("weakness")
     val VITAE_EXTRACTOR_BURN = BasicAOTDParticleType("vitae_extractor_burn")
     val VITAE_EXTRACTOR_CHARGE = BasicAOTDParticleType("vitae_extractor_charge")
-    val WARD = BasicAOTDParticleType("ward")
+    val WARD = WardParticleType()
     val CLEANSE = CleanseParticleType()
     val DISINTEGRATE = BasicAOTDParticleType("disintegrate")
     val FROST_PHOENIX_STORM = BasicAOTDParticleType("frost_phoenix_storm")

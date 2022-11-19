@@ -1,32 +1,35 @@
 package com.davidm1a2.afraidofthedark.client.particle
 
 import com.davidm1a2.afraidofthedark.client.particle.base.AOTDParticle
+import com.davidm1a2.afraidofthedark.common.particle.WardParticleData
 import com.mojang.blaze3d.vertex.IVertexBuilder
 import net.minecraft.client.particle.IAnimatedSprite
 import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.Particle
 import net.minecraft.client.renderer.ActiveRenderInfo
 import net.minecraft.client.world.ClientWorld
-import net.minecraft.particles.BasicParticleType
 import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.vector.Quaternion
 import net.minecraft.util.math.vector.Vector3f
-import kotlin.math.roundToInt
+import kotlin.math.max
 
 class WardParticle(
-    private val direction: Direction,
     world: ClientWorld,
     x: Double,
     y: Double,
-    z: Double
+    z: Double,
+    entityId: Int,
+    private val direction: Direction,
+    private val spriteSet: IAnimatedSprite
 ) : AOTDParticle(world, x, y, z) {
+    private val entity = world.getEntity(entityId)
+
     init {
-        // 1.25 second lifespan
-        lifetime = 25
-        scale(2.5f)
-        quadSize = 0.5f
+        // 0.4 second lifespan
+        lifetime = 8
+        scale(entity?.let { max(it.bbWidth, it.bbHeight) } ?: 2.5f)
         // No motion
         xd = 0.0
         yd = 0.0
@@ -35,9 +38,28 @@ class WardParticle(
 
     override fun tick() {
         super.tick()
-        val blockState = level.getBlockState(BlockPos(x, y, z).relative(direction.opposite))
-        if (blockState.isAir) {
+        setSpriteFromAge(spriteSet)
+        if (entity == null) {
+            val blockState = level.getBlockState(BlockPos(x, y, z).relative(direction.opposite))
+            if (blockState.isAir) {
+                remove()
+            }
+        } else if (!entity.isAlive) {
             remove()
+        }
+    }
+
+    override fun updateMotionXYZ() {
+        followEntity()
+    }
+
+    private fun followEntity() {
+        if (entity != null) {
+            setPos(
+                entity.x + direction.stepX * entity.bbWidth / 2.0,
+                entity.y + entity.bbHeight / 2.0 + direction.stepY * entity.bbHeight / 2.0,
+                entity.z + direction.stepZ * entity.bbWidth / 2.0
+            )
         }
     }
 
@@ -83,9 +105,9 @@ class WardParticle(
         vertexBuilder.vertex(positions[3].x().toDouble(), positions[3].y().toDouble(), positions[3].z().toDouble()).uv(u0, v1).color(rCol, gCol, bCol, alpha).uv2(lightColor).endVertex()
     }
 
-    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
+    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<WardParticleData> {
         override fun createParticle(
-            particle: BasicParticleType,
+            particle: WardParticleData,
             world: ClientWorld,
             x: Double,
             y: Double,
@@ -94,9 +116,8 @@ class WardParticle(
             ySpeed: Double,
             zSpeed: Double
         ): Particle {
-            val direction = xSpeed.roundToInt().coerceIn(0, Direction.values().size - 1)
-            return WardParticle(Direction.values()[direction], world, x, y, z).apply {
-                pickSprite(spriteSet)
+            return WardParticle(world, x, y, z, particle.entityId, particle.direction, spriteSet).apply {
+                setSpriteFromAge(spriteSet)
             }
         }
     }

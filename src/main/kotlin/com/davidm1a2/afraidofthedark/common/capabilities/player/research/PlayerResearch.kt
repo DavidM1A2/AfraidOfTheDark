@@ -38,7 +38,6 @@ class PlayerResearch : IPlayerResearch {
     }
 
     override fun setResearch(research: Research, researchTime: ZonedDateTime?) {
-        researchTime?.zone?.id
         researchToUnlocked[research] = researchTime
     }
 

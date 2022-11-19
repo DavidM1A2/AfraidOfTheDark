@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.common.event
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getWardedBlockMap
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
-import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
+import com.davidm1a2.afraidofthedark.common.particle.WardParticleData
 import net.minecraft.block.Blocks
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
@@ -38,7 +38,7 @@ class SpellWardHandler {
         val world = event.entity.level
         if (speedReductionPercent != null) {
             event.newSpeed = event.originalSpeed * (1f - speedReductionPercent)
-            if (!world.isClientSide && event.entity.tickCount % 24 == 0) {
+            if (!world.isClientSide && event.entity.tickCount % 12 == 0) {
                 spawnWardParticle(world, blockPos, Direction.values().toList())
             }
         }
@@ -158,11 +158,12 @@ class SpellWardHandler {
             Vector3d(blockPos.x + 0.5, blockPos.y + 0.5, blockPos.z + 0.5)
                 .add(it.stepX * 0.505, it.stepY * 0.505, it.stepZ * 0.505)
         }
-        val speeds = directions.map {
-            Vector3d(it.ordinal.toDouble(), 0.0, 0.0)
-        }
+        val particles = directions.map { WardParticleData(it) }
         AfraidOfTheDark.packetHandler.sendToAllAround(
-            ParticlePacket.builder().particle(ModParticles.WARD).positions(positions).speeds(speeds).build(),
+            ParticlePacket.builder()
+                .particles(particles)
+                .positions(positions)
+                .build(),
             world.dimension(),
             blockPos.x + 0.5,
             blockPos.y + 0.5,
