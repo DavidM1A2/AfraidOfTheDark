@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 import com.davidm1a2.afraidofthedark.common.capabilities.getWardedBlockMap
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
+import com.davidm1a2.afraidofthedark.common.particle.ShieldParticleData
 import com.davidm1a2.afraidofthedark.common.particle.WardParticleData
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -36,20 +37,13 @@ class WardSpellEffect : AOTDDurationSpellEffect("ward", ModResearches.APPRENTICE
         val entityHit = state.entity
         val world = state.world
         if (entityHit is LivingEntity) {
-            entityHit.addEffect(EffectInstance(Effects.DAMAGE_RESISTANCE, ceil(getDuration(instance) * 20).toInt(), (getStrength(instance) - 1).coerceAtMost(3)))
-            val particlePositions = Direction.values().map {
-                Vector3d(entityHit.x, entityHit.y + entityHit.bbHeight / 2.0, entityHit.z)
-                    .add(
-                        it.stepX * entityHit.bbWidth / 2.0,
-                        it.stepY * entityHit.bbHeight / 2.0,
-                        it.stepZ * entityHit.bbWidth / 2.0
-                    )
-            }
-            val particles = Direction.values().map { WardParticleData(entityHit.id, it) }
+            val durationTicks = ceil(getDuration(instance) * 20).toInt()
+            entityHit.addEffect(EffectInstance(Effects.DAMAGE_RESISTANCE, durationTicks, (getStrength(instance) - 1).coerceAtMost(3)))
+            val particles = List(4) { ShieldParticleData(entityHit.id, it * 90f, entityHit.bbWidth * 1.2f, durationTicks) }
             createParticlesAt(
                 state, ParticlePacket.builder()
                     .particles(particles)
-                    .positions(particlePositions)
+                    .position(entityHit.position())
                     .build()
             )
         } else if (entityHit == null) {

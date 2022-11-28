@@ -10,39 +10,37 @@ import net.minecraft.particles.ParticleType
 import net.minecraft.util.Direction
 import java.util.function.BiFunction
 
-class WardParticleData(val entityId: Int, val direction: Direction) : IParticleData {
-    constructor(direction: Direction) : this(-1, direction)
-
+class WardParticleData(val direction: Direction, val scale: Float = 2.5f) : IParticleData {
     override fun getType(): ParticleType<*> {
         return ModParticles.WARD
     }
 
     override fun writeToNetwork(packetBuffer: PacketBuffer) {
-        packetBuffer.writeVarInt(entityId)
         packetBuffer.writeVarInt(direction.ordinal)
+        packetBuffer.writeFloat(scale)
     }
 
     override fun writeToString(): String {
-        return entityId.toString()
+        return direction.ordinal.toString()
     }
 
     companion object {
         val CODEC: Codec<WardParticleData> = RecordCodecBuilder.create {
             it.group(
-                Codec.INT.fieldOf("entity_id").forGetter(WardParticleData::entityId),
-                Codec.INT.fieldOf("direction").xmap({ int -> Direction.values()[int] }, { dir -> dir.ordinal }).forGetter(WardParticleData::direction)
-            ).apply(it, it.stable(BiFunction { entityId, direction ->
-                WardParticleData(entityId, direction)
+                Codec.INT.fieldOf("direction").xmap({ int -> Direction.values()[int] }, { dir -> dir.ordinal }).forGetter(WardParticleData::direction),
+                Codec.FLOAT.fieldOf("scale").forGetter(WardParticleData::scale)
+            ).apply(it, it.stable(BiFunction { direction, scale ->
+                WardParticleData(direction, scale)
             }))
         }
 
         val DESERIALIZER = object : IParticleData.IDeserializer<WardParticleData> {
             override fun fromCommand(particleType: ParticleType<WardParticleData>, stringReader: StringReader): WardParticleData {
-                return WardParticleData(-1, Direction.UP)
+                return WardParticleData(Direction.UP)
             }
 
             override fun fromNetwork(particleType: ParticleType<WardParticleData>, packetBuffer: PacketBuffer): WardParticleData {
-                return WardParticleData(packetBuffer.readVarInt(), Direction.values()[packetBuffer.readVarInt()])
+                return WardParticleData(Direction.values()[packetBuffer.readVarInt()], packetBuffer.readFloat())
             }
         }
     }

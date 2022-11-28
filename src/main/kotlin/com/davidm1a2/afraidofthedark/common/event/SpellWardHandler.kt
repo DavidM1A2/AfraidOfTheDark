@@ -10,7 +10,9 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.BlockRayTraceResult
 import net.minecraft.util.math.ChunkPos
+import net.minecraft.util.math.RayTraceResult
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 import net.minecraft.world.chunk.Chunk
@@ -34,12 +36,18 @@ class SpellWardHandler {
     @SubscribeEvent
     fun onBreakSpeedEvent(event: PlayerEvent.BreakSpeed) {
         val blockPos = event.pos
-        val speedReductionPercent = getWardStrength(event.entity.level, blockPos)?.let { getMiningSpeedReductionPercent(it) }
-        val world = event.entity.level
+        val entity = event.entity
+        val world = entity.level
+        val speedReductionPercent = getWardStrength(world, blockPos)?.let { getMiningSpeedReductionPercent(it) }
         if (speedReductionPercent != null) {
             event.newSpeed = event.originalSpeed * (1f - speedReductionPercent)
-            if (!world.isClientSide && event.entity.tickCount % 12 == 0) {
-                spawnWardParticle(world, blockPos, Direction.values().toList())
+            if (!world.isClientSide && entity.tickCount % 5 == 0) {
+                val rayTraceResult = entity.pick(10.0, 0.0f, false)
+                if (rayTraceResult.type == RayTraceResult.Type.BLOCK && rayTraceResult is BlockRayTraceResult) {
+                    val direction = rayTraceResult.direction
+                    val offsetDir = Vector3d(direction.step())
+                    spawnWardParticle(world, rayTraceResult.location.add(offsetDir.scale(0.005)), direction)
+                }
             }
         }
     }
@@ -72,7 +80,7 @@ class SpellWardHandler {
                 val wardStrength = getWardStrength(world, armPos)
                 if (wardStrength != null) {
                     event.isCanceled = true
-                    spawnWardParticle(world, armPos, Direction.values().toList())
+                    spawnWardParticle(world, armPos)
                     return
                 }
                 val isStickyPiston = world.getBlockState(blockPos).block == Blocks.STICKY_PISTON
@@ -82,7 +90,7 @@ class SpellWardHandler {
                     val blockToPullStrength = getWardStrength(world, blockPosToPull)
                     if (blockToPullStrength != null) {
                         event.isCanceled = true
-                        spawnWardParticle(world, blockPosToPull, Direction.values().toList())
+                        spawnWardParticle(world, blockPosToPull)
                         return
                     }
                 } else {
@@ -101,7 +109,7 @@ class SpellWardHandler {
                 // Block is warded, so cancel the piston movement
                 if (wardStrength != null) {
                     event.isCanceled = true
-                    spawnWardParticle(world, blockToChange, Direction.values().toList())
+                    spawnWardParticle(world, blockToChange)
                     return
                 }
             }
@@ -121,7 +129,7 @@ class SpellWardHandler {
                 if (wardedBlockMap.getWardStrength(blockPos) != null) {
                     wardedBlockMap.wardBlock(blockPos, null)
                     wardedBlockMap.sync(world, chunkPos, blockPos = blockPos)
-                    spawnWardParticle(world, blockPos, Direction.values().toList())
+                    spawnWardParticle(world, blockPos)
                 }
             }
         }
@@ -139,7 +147,7 @@ class SpellWardHandler {
                 } else {
                     val didNotExplode = Random.nextDouble() <= (1f - getExplodeChance(wardStrength))
                     if (didNotExplode) {
-                        spawnWardParticle(world, it, Direction.values().toList())
+                        spawnWardParticle(world, it)
                     }
                     didNotExplode
                 }
@@ -153,7 +161,22 @@ class SpellWardHandler {
         return wardedBlockMap.getWardStrength(blockPos)
     }
 
-    private fun spawnWardParticle(world: World, blockPos: BlockPos, directions: List<Direction> = Direction.values().toList()) {
+    private fun spawnWardParticle(world: World, pos: Vector3d, direction: Direction) {
+        AfraidOfTheDark.packetHandler.sendToAllAround(
+            ParticlePacket.builder()
+                .particle(WardParticleData(direction, 0.5f))
+                .position(pos)
+                .build(),
+            world.dimension(),
+            pos.x,
+            pos.y,
+            pos.z,
+            50.0
+        )
+    }
+
+    private fun spawnWardParticle(world: World, blockPos: BlockPos) {
+        val directions = Direction.values().toList()
         val positions = directions.map {
             Vector3d(blockPos.x + 0.5, blockPos.y + 0.5, blockPos.z + 0.5)
                 .add(it.stepX * 0.505, it.stepY * 0.505, it.stepZ * 0.505)

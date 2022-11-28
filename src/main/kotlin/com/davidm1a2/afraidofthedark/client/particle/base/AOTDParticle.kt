@@ -1,8 +1,16 @@
 package com.davidm1a2.afraidofthedark.client.particle.base
 
+import com.mojang.blaze3d.platform.GlStateManager
+import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.particle.IParticleRenderType
 import net.minecraft.client.particle.SpriteTexturedParticle
+import net.minecraft.client.renderer.BufferBuilder
+import net.minecraft.client.renderer.Tessellator
+import net.minecraft.client.renderer.texture.AtlasTexture
+import net.minecraft.client.renderer.texture.TextureManager
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.client.world.ClientWorld
+import org.lwjgl.opengl.GL11
 
 /**
  * Base class for all AOTD particles
@@ -76,5 +84,36 @@ abstract class AOTDParticle(
      */
     open fun updateMotionXYZ() {
         // Default: Don't update motion at all, let it remain constant
+    }
+
+    companion object {
+        // Copied and pasted from IParticleRenderType PARTICLE_SHEET_TRANSLUCENT, but without culling
+        internal val PARTICLE_SHEET_TRANSLUCENT_NO_CULL = object : IParticleRenderType {
+            override fun begin(bufferBuilder: BufferBuilder, textureManager: TextureManager) {
+                RenderSystem.depthMask(true)
+                textureManager.bind(AtlasTexture.LOCATION_PARTICLES)
+                RenderSystem.enableBlend()
+                // Added this line
+                RenderSystem.disableCull()
+                RenderSystem.blendFuncSeparate(
+                    GlStateManager.SourceFactor.SRC_ALPHA,
+                    GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+                    GlStateManager.SourceFactor.ONE,
+                    GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA
+                )
+                RenderSystem.alphaFunc(GL11.GL_GREATER, 0.003921569f)
+                bufferBuilder.begin(7, DefaultVertexFormats.PARTICLE)
+            }
+
+            override fun end(tessellator: Tessellator) {
+                tessellator.end()
+                // Added this line
+                RenderSystem.enableCull()
+            }
+
+            override fun toString(): String {
+                return "PARTICLE_SHEET_TRANSLUCENT_NO_CULL"
+            }
+        }
     }
 }

@@ -20,6 +20,7 @@ import com.davidm1a2.afraidofthedark.client.particle.GrowParticle
 import com.davidm1a2.afraidofthedark.client.particle.HealParticle
 import com.davidm1a2.afraidofthedark.client.particle.LightningParticle
 import com.davidm1a2.afraidofthedark.client.particle.PoisonParticle
+import com.davidm1a2.afraidofthedark.client.particle.ShieldParticle
 import com.davidm1a2.afraidofthedark.client.particle.SmokeScreenParticle
 import com.davidm1a2.afraidofthedark.client.particle.SonicDisruptionParticle
 import com.davidm1a2.afraidofthedark.client.particle.SpellCast2Particle
@@ -90,5 +91,6 @@ class ParticleRegister {
         particleManager.register(ModParticles.SONIC_DISRUPTION, SonicDisruptionParticle::Factory)
         particleManager.register(ModParticles.DUST_CLOUD, DustCloudParticle::Factory)
         particleManager.register(ModParticles.ARROW_TRAIL, ArrowTrailParticle::Factory)
+        particleManager.register(ModParticles.SHIELD, ShieldParticle::Factory)
     }
 }
