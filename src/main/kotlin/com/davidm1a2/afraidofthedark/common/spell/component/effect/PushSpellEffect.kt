@@ -27,8 +27,6 @@ class PushSpellEffect : AOTDSpellEffect("push", ModResearches.CLOAK_OF_AGILITY) 
     }
 
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
-        val exactPosition = state.position
-        val world = state.world
         // Divide by 10 to make it roughly the number of blocks to move
         val strength = getStrength(instance)
         val pushStrength = strength / 10.0
@@ -42,14 +40,6 @@ class PushSpellEffect : AOTDSpellEffect("push", ModResearches.CLOAK_OF_AGILITY) 
             if (entityHit is ServerPlayerEntity) {
                 entityHit.connection.send(SEntityVelocityPacket(entityHit))
             }
-//            val width = entityHit.bbWidth
-//            val height = entityHit.bbHeight
-//            val positions = List(6) {
-//                state.position.add(Random.nextDouble() * width - 0.5, 0.0, Random.nextDouble() * width - 0.5)
-//            }
-//            val speeds = List(6) {
-//                entityHit.deltaMovement.scale(2.0)
-//            }
             val particles = List(ceil(strength).toInt()) {
                 FlyParticleData(entityHit.id, it)
             }
@@ -57,7 +47,6 @@ class PushSpellEffect : AOTDSpellEffect("push", ModResearches.CLOAK_OF_AGILITY) 
                 state, ParticlePacket.builder()
                     .particles(particles)
                     .position(state.position)
-                    //.speeds(speeds)
                     .build()
             )
         } else {
