@@ -11,6 +11,7 @@ import net.minecraft.client.world.ClientWorld
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.vector.Vector3f
 import net.minecraftforge.client.ISkyRenderHandler
+import org.lwjgl.opengl.GL11
 
 /**
  * Class that renders the void chest 'sky' texture
@@ -57,7 +58,7 @@ class VoidChestSkyRenderer : ISkyRenderHandler {
             }
 
             val matrix = matrixStack.last().pose()
-            bufferBuilder.begin(7, DefaultVertexFormats.POSITION_TEX)
+            bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX)
             bufferBuilder.vertex(matrix, -100.0f, -100.0f, -100.0f).uv(0.0f, 0.0f).endVertex()
             bufferBuilder.vertex(matrix, -100.0f, -100.0f, 100.0f).uv(0.0f, 1.0f).endVertex()
             bufferBuilder.vertex(matrix, 100.0f, -100.0f, 100.0f).uv(1.0f, 1.0f).endVertex()

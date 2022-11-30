@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.common.spell
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
-import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
 import com.davidm1a2.afraidofthedark.common.event.custom.CastSpellEvent
@@ -15,7 +14,6 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.ListNBT
-import net.minecraft.particles.IParticleData
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
@@ -24,7 +22,6 @@ import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.util.Constants
 import net.minecraftforge.common.util.INBTSerializable
 import org.apache.logging.log4j.LogManager
-import kotlin.random.Random
 
 /**
  * Class representing a spell instance created by a player
@@ -90,33 +87,6 @@ class Spell() : INBTSerializable<CompoundNBT> {
                         1.0f,
                         (0.8f + Math.random() * 0.4).toFloat()
                     )
-
-                    // Determine the particles from the strength of the spell
-                    val spellPower = this.getCost()
-                    var spellParticle: IParticleData = ModParticles.SPELL_CAST
-                    if (spellPower > SPELL_TIER2_CUTOFF) spellParticle = ModParticles.SPELL_CAST2
-                    if (spellPower > SPELL_TIER3_CUTOFF) spellParticle = ModParticles.SPELL_CAST3
-                    // Spawn 3-5 particles
-                    val positions: MutableList<Vector3d> = ArrayList()
-                    for (i in 0 until Random.nextInt(2, 6)) {
-                        positions.add(Vector3d(entity.x, entity.y, entity.z))
-                    }
-
-                    // Send the particle packet
-                    // AfraidOfTheDark.packetHandler.sendToAllAround(
-                    //     ParticlePacket.builder()
-                    //         .particle(spellParticle)
-                    //         .positions(positions)
-                    //         .speed(Vector3d.ZERO)
-                    //         .build(),
-                    //     PacketDistributor.TargetPoint(
-                    //         entity.x,
-                    //         entity.y,
-                    //         entity.z,
-                    //         100.0,
-                    //         entity.level.dimension()
-                    //     )
-                    // )
 
                     val position = entity.getEyePosition(1.0f)
                     // Tell the first delivery method to fire

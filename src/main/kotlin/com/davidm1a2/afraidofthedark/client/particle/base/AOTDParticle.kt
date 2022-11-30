@@ -102,7 +102,7 @@ abstract class AOTDParticle(
                     GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA
                 )
                 RenderSystem.alphaFunc(GL11.GL_GREATER, 0.003921569f)
-                bufferBuilder.begin(7, DefaultVertexFormats.PARTICLE)
+                bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.PARTICLE)
             }
 
             override fun end(tessellator: Tessellator) {

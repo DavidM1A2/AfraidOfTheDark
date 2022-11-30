@@ -8,6 +8,7 @@ import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
+import org.lwjgl.opengl.GL11
 import java.awt.Color
 import kotlin.math.min
 import kotlin.math.sqrt
@@ -31,7 +32,7 @@ open class LineComponent(lineFrom: Position, lineTo: Position, offset: Position,
             val tes = Tessellator.getInstance()
             val bufferBuffer = tes.builder
 
-            bufferBuffer.begin(7, DefaultVertexFormats.POSITION_COLOR)
+            bufferBuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR)
             val deltaX = width.toDouble()
             val deltaY = height.toDouble()
             val mag = sqrt(deltaX * deltaX + deltaY * deltaY)

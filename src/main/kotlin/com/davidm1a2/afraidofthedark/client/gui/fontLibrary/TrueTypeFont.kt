@@ -268,7 +268,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         RenderSystem.bindTexture(fontTextureID)
         val tessellator = Tessellator.getInstance()
         val bufferBuilder = tessellator.builder
-        bufferBuilder.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX)
+        bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR_TEX)
         val red = rgba.red / 255f
         val green = rgba.green / 255f
         val blue = rgba.blue / 255f
