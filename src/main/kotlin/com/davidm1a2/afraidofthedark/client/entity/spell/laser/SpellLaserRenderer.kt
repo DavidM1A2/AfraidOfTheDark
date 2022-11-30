@@ -19,6 +19,7 @@ import net.minecraft.util.math.vector.Matrix3f
 import net.minecraft.util.math.vector.Matrix4f
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.math.vector.Vector3f
+import org.lwjgl.opengl.GL11
 import kotlin.math.roundToInt
 
 /**
@@ -132,7 +133,7 @@ class SpellLaserRenderer(renderManager: EntityRendererManager) : EntityRenderer<
         private val RENDER_TYPE: RenderType = @Suppress("INACCESSIBLE_TYPE") RenderType.create(
             "spell_laser",
             DefaultVertexFormats.NEW_ENTITY,
-            7,
+            GL11.GL_QUADS,
             1024,
             false,
             true,

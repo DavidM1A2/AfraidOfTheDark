@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.vector.Vector3f
+import org.lwjgl.opengl.GL11
 
 class MagicCrystalTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<MagicCrystalTileEntity>(tileEntityRendererDispatcher) {
     override fun render(
@@ -50,7 +51,7 @@ class MagicCrystalTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRen
         private val RENDER_TYPE: RenderType = @Suppress("INACCESSIBLE_TYPE") RenderType.create(
             "magic_crystal",
             DefaultVertexFormats.NEW_ENTITY,
-            7,
+            GL11.GL_QUADS,
             256,
             false,
             false,

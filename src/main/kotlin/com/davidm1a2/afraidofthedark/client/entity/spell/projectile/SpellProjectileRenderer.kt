@@ -19,6 +19,7 @@ import net.minecraft.util.math.vector.Matrix3f
 import net.minecraft.util.math.vector.Matrix4f
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.math.vector.Vector3f
+import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL11C
 import java.util.Random
 
@@ -144,7 +145,7 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
         private val RENDER_TYPE: RenderType = @Suppress("INACCESSIBLE_TYPE") RenderType.create(
             "spell_projectile",
             DefaultVertexFormats.NEW_ENTITY,
-            7,
+            GL11.GL_QUADS,
             1024,
             false,
             true,
