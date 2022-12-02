@@ -41,12 +41,12 @@ class SpellLaserRenderer(renderManager: EntityRendererManager) : EntityRenderer<
 
         val buffer = renderTypeBuffer.getBuffer(RENDER_TYPE)
         val startPos = spellLaser.position()
-        val endPos = spellLaser.getEndPos()
+        val endPos = spellLaser.endPos
         if (startPos == endPos) {
             return
         }
 
-        val color = spellLaser.getColor()
+        val color = spellLaser.color
         val red = color.red
         val green = color.green
         val blue = color.blue
