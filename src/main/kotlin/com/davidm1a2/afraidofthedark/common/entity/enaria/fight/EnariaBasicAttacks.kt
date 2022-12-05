@@ -176,6 +176,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.AOE).apply {
                     setDefaults()
                     ModSpellDeliveryMethods.AOE.setRadius(this, 3.0)
+                    ModSpellDeliveryMethods.AOE.setColor(this, Color.RED)
                 }
                 effects[0] = SpellEffectInstance(ModSpellEffects.BURN).apply { setDefaults() }
             })

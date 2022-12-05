@@ -56,7 +56,7 @@
             },
             {
               "function": "set_nbt",
-              "tag": "{\"spell\":{\"name\":\"Rejuvenation Beam\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"40 255 40\",\"range\":40.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"}},{\"delivery_method\":{\"extra_data\":{\"shell_only\":0,\"radius\":3.5},\"id\":\"afraidofthedark:aoe\"},\"effect_0\":{\"extra_data\":{\"strength\":1},\"id\":\"afraidofthedark:grow\"}}]},\"uses\":1,\"max_uses\":1}"
+              "tag": "{\"spell\":{\"name\":\"Rejuvenation Beam\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{\"color\":\"40 255 40\",\"range\":40.0,\"hit_liquids\":0},\"id\":\"afraidofthedark:laser\"}},{\"delivery_method\":{\"extra_data\":{\"shell_only\":0,\"radius\":3.5,\"color\":\"100 255 66\"},\"id\":\"afraidofthedark:aoe\"},\"effect_0\":{\"extra_data\":{\"strength\":1},\"id\":\"afraidofthedark:grow\"}}]},\"uses\":1,\"max_uses\":1}"
             }
           ],
           "weight": 5
@@ -71,7 +71,7 @@
             },
             {
               "function": "set_nbt",
-              "tag": "{\"spell\":{\"name\":\"Diggy Diggy Hole\",\"spell_stages\":[{\"delivery_method\":{\"id\":\"afraidofthedark:projectile\",\"extra_data\":{\"color\":\"162 42 42\",\"range\":40.0,\"speed\":10.0}}},{\"delivery_method\":{\"id\":\"afraidofthedark:aoe\",\"extra_data\":{\"radius\":3.5,\"shell_only\":false,}},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:dig\"}}]},\"uses\":2,\"max_uses\":2}"
+              "tag": "{\"spell\":{\"name\":\"Diggy Diggy Hole\",\"spell_stages\":[{\"delivery_method\":{\"id\":\"afraidofthedark:projectile\",\"extra_data\":{\"color\":\"162 42 42\",\"range\":40.0,\"speed\":10.0}}},{\"delivery_method\":{\"id\":\"afraidofthedark:aoe\",\"extra_data\":{\"radius\":3.5,\"shell_only\":false,\"color\":\"90 50 30\"}},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:dig\"}}]},\"uses\":2,\"max_uses\":2}"
             }
           ],
           "weight": 5

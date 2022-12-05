@@ -17,6 +17,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.common.util.Constants
+import java.awt.Color
 import java.util.UUID
 import kotlin.random.Random
 
@@ -133,6 +134,7 @@ class SummonSentinelsFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, En
                     setDefaults()
                     ModSpellDeliveryMethods.AOE.setRadius(this, 3.0)
                     ModSpellDeliveryMethods.AOE.setShellOnly(this, true)
+                    ModSpellDeliveryMethods.AOE.setColor(this, Color.CYAN)
                 }
                 effects[0] = SpellEffectInstance(ModSpellEffects.FREEZE).apply { setDefaults() }
             })

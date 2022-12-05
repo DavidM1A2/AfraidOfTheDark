@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.entity.spell.aoe.SpellAOEEntity
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
@@ -9,6 +10,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellCompon
 import com.davidm1a2.afraidofthedark.common.utility.getNormal
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
+import java.awt.Color
 import kotlin.math.ceil
 
 /**
@@ -36,6 +38,14 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod("aoe", ModResearches.ADVA
                 .withDefaultValue(false)
                 .build()
         )
+        addEditableProperty(
+            SpellComponentPropertyFactory.colorProperty()
+                .withBaseName(getUnlocalizedPropertyBaseName("color"))
+                .withSetter(this::setColor)
+                .withGetter(this::getColor)
+                .withDefaultValue(Color.LIGHT_GRAY)
+                .build()
+        )
     }
 
     /**
@@ -51,6 +61,7 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod("aoe", ModResearches.ADVA
         val centerPos = state.position
         val blockRadius = ceil(radius).toInt()
 
+        state.world.addFreshEntity(SpellAOEEntity(state.world, centerPos, radius.toFloat(), getColor(deliveryMethod)))
         // Go over every block in the radius
         for (x in -blockRadius..blockRadius) {
             for (y in -blockRadius..blockRadius) {
@@ -126,9 +137,19 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod("aoe", ModResearches.ADVA
         return instance.data.getBoolean(NBT_SHELL_ONLY)
     }
 
+    fun setColor(instance: SpellComponentInstance<*>, color: Color) {
+        instance.data.putString(NBT_COLOR, "${color.red} ${color.green} ${color.blue}")
+    }
+
+    fun getColor(instance: SpellComponentInstance<*>): Color {
+        val rgb = instance.data.getString(NBT_COLOR).split(Regex("\\s+")).map { it.toInt() }
+        return Color(rgb[0], rgb[1], rgb[2])
+    }
+
     companion object {
         // The NBT keys
         private const val NBT_RADIUS = "radius"
         private const val NBT_SHELL_ONLY = "shell_only"
+        private const val NBT_COLOR = "color"
     }
 }

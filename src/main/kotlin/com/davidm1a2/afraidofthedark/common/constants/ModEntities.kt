@@ -12,6 +12,7 @@ import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEn
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSkeletonEntity
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.FrostPhoenixEntity
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.FrostPhoenixProjectileEntity
+import com.davidm1a2.afraidofthedark.common.entity.spell.aoe.SpellAOEEntity
 import com.davidm1a2.afraidofthedark.common.entity.spell.laser.SpellLaserEntity
 import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.SpellProjectileEntity
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneEntity
@@ -124,6 +125,14 @@ object ModEntities {
         .noSummon()
         .build("${Constants.MOD_ID}:spell_laser")
         .setRegistryNameGeneric("spell_laser")
+    val SPELL_AOE = EntityType.Builder.of(::SpellAOEEntity, EntityClassification.MISC)
+        .setTrackingRange(50)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .sized(0f, 0f)
+        .noSummon()
+        .build("${Constants.MOD_ID}:spell_aoe")
+        .setRegistryNameGeneric("spell_aoe")
 
     // 5 bolt entities
     val WOODEN_BOLT = EntityType.Builder.of(::WoodenBoltEntity, EntityClassification.MISC)
@@ -188,6 +197,7 @@ object ModEntities {
         FROST_PHOENIX_PROJECTILE,
         SPELL_PROJECTILE,
         SPELL_LASER,
+        SPELL_AOE,
         WOODEN_BOLT,
         IRON_BOLT,
         ASTRAL_SILVER_BOLT,

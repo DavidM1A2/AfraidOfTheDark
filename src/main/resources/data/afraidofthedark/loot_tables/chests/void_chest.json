@@ -73,7 +73,7 @@
             },
             {
               "function": "set_nbt",
-              "tag": "{\"spell\":{\"name\":\"Smoke & Mirrors\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{},\"id\":\"afraidofthedark:self\"},\"effect_0\":{\"extra_data\":{\"duration\":20,\"multiplier\":1},\"id\":\"afraidofthedark:speed\"}},{\"delivery_method\":{\"extra_data\":{\"shell_only\":1,\"radius\":4.0},\"id\":\"afraidofthedark:aoe\"},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:smoke_screen\"}}]},\"uses\":1,\"max_uses\":1}"
+              "tag": "{\"spell\":{\"name\":\"Smoke & Mirrors\",\"spell_stages\":[{\"delivery_method\":{\"extra_data\":{},\"id\":\"afraidofthedark:self\"},\"effect_0\":{\"extra_data\":{\"duration\":20,\"multiplier\":1},\"id\":\"afraidofthedark:speed\"}},{\"delivery_method\":{\"extra_data\":{\"shell_only\":1,\"radius\":4.0,\"color\":\"50 70 70\"},\"id\":\"afraidofthedark:aoe\"},\"effect_0\":{\"extra_data\":{},\"id\":\"afraidofthedark:smoke_screen\"}}]},\"uses\":1,\"max_uses\":1}"
             }
           ],
           "weight": 4

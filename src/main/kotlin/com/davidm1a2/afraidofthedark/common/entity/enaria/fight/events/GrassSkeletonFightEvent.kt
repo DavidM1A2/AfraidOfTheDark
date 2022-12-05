@@ -120,6 +120,7 @@ class GrassSkeletonFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, Enar
                 deliveryInstance = SpellDeliveryMethodInstance(ModSpellDeliveryMethods.AOE).apply {
                     setDefaults()
                     ModSpellDeliveryMethods.AOE.setRadius(this, 5.0)
+                    ModSpellDeliveryMethods.AOE.setColor(this, Color.GREEN)
                 }
                 effects[0] = SpellEffectInstance(ModSpellEffects.GROW).apply { setDefaults() }
             })

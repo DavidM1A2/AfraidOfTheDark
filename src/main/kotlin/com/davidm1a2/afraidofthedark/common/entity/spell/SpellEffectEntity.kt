@@ -4,7 +4,10 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.IPacket
+import net.minecraft.network.datasync.DataSerializers
+import net.minecraft.network.datasync.EntityDataManager
 import net.minecraft.util.math.AxisAlignedBB
+import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
 import net.minecraftforge.fml.network.NetworkHooks
 
@@ -14,10 +17,17 @@ abstract class SpellEffectEntity(
 ) : Entity(entityType, world) {
     // RenderBoundingBox defaults to 0 server side, and gets initialized properly client side
     protected var renderBoundingBox: AxisAlignedBB = AxisAlignedBB.ofSize(0.0, 0.0, 0.0)
-    private var lifespanTicks = 0
+    var lifespanTicks: Int
+        get() = this.entityData[LIFESPAN_TICKS]
+        private set(value) {
+            this.entityData[LIFESPAN_TICKS] = value
+        }
 
-    constructor(entityType: EntityType<*>, world: World, lifespanTicks: Int) : this(entityType, world) {
+    constructor(entityType: EntityType<*>, world: World, startPos: Vector3d, lifespanTicks: Int) : this(entityType, world) {
         this.lifespanTicks = lifespanTicks
+        this.setPos(startPos.x, startPos.y, startPos.z)
+        this.setRot(0f, 0f)
+        this.deltaMovement = Vector3d(0.0, 0.0, 0.0)
     }
 
     override fun tick() {
@@ -40,16 +50,20 @@ abstract class SpellEffectEntity(
         return squareDistance < boundingBoxSize * boundingBoxSize
     }
 
+    override fun defineSynchedData() {
+        this.entityData.define(LIFESPAN_TICKS, 0)
+    }
+
     override fun getBoundingBoxForCulling(): AxisAlignedBB {
         return renderBoundingBox
     }
 
     override fun readAdditionalSaveData(compound: CompoundNBT) {
-        this.lifespanTicks = compound.getInt(LIFESPAN_TICKS)
+        this.lifespanTicks = compound.getInt(NBT_LIFESPAN_TICKS)
     }
 
     override fun addAdditionalSaveData(compound: CompoundNBT) {
-        compound.putInt(LIFESPAN_TICKS, lifespanTicks)
+        compound.putInt(NBT_LIFESPAN_TICKS, lifespanTicks)
     }
 
     override fun getAddEntityPacket(): IPacket<*> {
@@ -57,6 +71,7 @@ abstract class SpellEffectEntity(
     }
 
     companion object {
-        private const val LIFESPAN_TICKS = "lifespan_ticks"
+        private const val NBT_LIFESPAN_TICKS = "lifespan_ticks"
+        private val LIFESPAN_TICKS = EntityDataManager.defineId(SpellEffectEntity::class.java, DataSerializers.INT)
     }
 }

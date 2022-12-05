@@ -37,8 +37,6 @@ class SpellLaserRenderer(renderManager: EntityRendererManager) : EntityRenderer<
         renderTypeBuffer: IRenderTypeBuffer,
         packedLight: Int
     ) {
-        matrixStack.pushPose()
-
         val buffer = renderTypeBuffer.getBuffer(RENDER_TYPE)
         val startPos = spellLaser.position()
         val endPos = spellLaser.endPos
@@ -58,6 +56,7 @@ class SpellLaserRenderer(renderManager: EntityRendererManager) : EntityRenderer<
         // Point the laser in the right direction
         val direction = endPos.subtract(startPos).normalize()
         val rotation = BASE_RENDER_DIRECTION.computeRotationTo(direction)
+        matrixStack.pushPose()
         matrixStack.mulPose(rotation)
 
         // Rotate/Spin the laser
