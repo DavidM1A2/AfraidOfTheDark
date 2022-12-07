@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.util.ResourceLocation
@@ -52,7 +53,7 @@ class SonicDisruptionSpellEffect : AOTDSpellEffect("sonic_disruption", ModResear
         )
     }
 
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         val world = state.world
         val volume = getVolume(instance)
         val pitch = getPitch(instance)
@@ -65,6 +66,7 @@ class SonicDisruptionSpellEffect : AOTDSpellEffect("sonic_disruption", ModResear
                 .particle(ModParticles.SONIC_DISRUPTION)
                 .build()
         )
+        return ProcResult.success()
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {

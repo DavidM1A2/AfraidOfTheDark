@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.common.particle.WardParticleData
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDurationSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.LivingEntity
@@ -33,7 +34,7 @@ class WardSpellEffect : AOTDDurationSpellEffect("ward", ModResearches.APPRENTICE
         )
     }
 
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         val entityHit = state.entity
         val world = state.world
         if (entityHit is LivingEntity) {
@@ -68,11 +69,12 @@ class WardSpellEffect : AOTDDurationSpellEffect("ward", ModResearches.APPRENTICE
                         .build()
                 )
             } else {
-                createFizzleParticleAt(state)
+                return ProcResult.failure()
             }
         } else {
-            createFizzleParticleAt(state)
+            return ProcResult.failure()
         }
+        return ProcResult.success()
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {

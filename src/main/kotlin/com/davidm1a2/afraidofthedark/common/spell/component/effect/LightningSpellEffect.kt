@@ -6,13 +6,14 @@ import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import net.minecraft.command.arguments.EntityAnchorArgument
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.effect.LightningBoltEntity
 
 class LightningSpellEffect : AOTDSpellEffect("lightning", ModResearches.INSANITY) {
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         val position = state.position
         val lightningBolt = LightningBoltEntity(EntityType.LIGHTNING_BOLT, state.world)
         lightningBolt.setPos(position.x, position.y, position.z)
@@ -25,6 +26,7 @@ class LightningSpellEffect : AOTDSpellEffect("lightning", ModResearches.INSANITY
                 .iterations(12)
                 .build()
         )
+        return ProcResult.success()
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {

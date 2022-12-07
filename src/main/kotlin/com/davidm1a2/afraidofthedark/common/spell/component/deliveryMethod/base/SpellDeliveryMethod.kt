@@ -1,10 +1,15 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base
 
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.math.vector.Vector3d
+import net.minecraftforge.fml.network.PacketDistributor
 
 /**
  * Entry used to store a reference to a delivery method
@@ -32,7 +37,17 @@ abstract class SpellDeliveryMethod(id: ResourceLocation, prerequisiteResearch: R
      */
     fun procEffects(state: DeliveryTransitionState) {
         for (effect in state.getCurrentStage().effects) {
-            effect?.component?.procEffect(state, effect)
+            val result = effect?.component?.procEffect(state, effect)
+            if (result?.isSuccess == false) {
+                AfraidOfTheDark.packetHandler.sendToAllAround(
+                    ParticlePacket.builder()
+                        .particle(ModParticles.FIZZLE)
+                        .position(state.position)
+                        .speed(Vector3d(0.0, 0.1, 0.0))
+                        .build(),
+                    PacketDistributor.TargetPoint(state.position.x, state.position.y, state.position.z, 100.0, state.world.dimension())
+                )
+            }
         }
     }
 

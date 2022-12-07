@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.particle.HealParticleData
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.LivingEntity
@@ -34,7 +35,7 @@ class HealSpellEffect : AOTDSpellEffect("heal", ModResearches.APPRENTICE_ASCENDE
      *
      * @param state The state that the spell is in
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         val entity = state.entity
         if (entity is LivingEntity && entity !is ArmorStandEntity) {
             val healAmount = getAmount(instance)
@@ -49,8 +50,9 @@ class HealSpellEffect : AOTDSpellEffect("heal", ModResearches.APPRENTICE_ASCENDE
             )
             entity.heal(healAmount.toFloat())
         } else {
-            createFizzleParticleAt(state)
+            return ProcResult.failure()
         }
+        return ProcResult.success()
     }
 
     /**

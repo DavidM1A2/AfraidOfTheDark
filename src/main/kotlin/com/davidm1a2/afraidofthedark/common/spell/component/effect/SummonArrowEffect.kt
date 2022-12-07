@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.particle.ArrowTrailParticleData
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.projectile.AbstractArrowEntity
@@ -27,7 +28,7 @@ class SummonArrowEffect : AOTDSpellEffect("summon_arrow", ModResearches.WRIST_CR
         )
     }
 
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         // Divide by 20 to convert speed per second to speed per tick
         val speed = getSpeed(instance) / 20f
         val world = state.world
@@ -46,6 +47,7 @@ class SummonArrowEffect : AOTDSpellEffect("summon_arrow", ModResearches.WRIST_CR
                 .position(position)
                 .build()
         )
+        return ProcResult.success()
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {

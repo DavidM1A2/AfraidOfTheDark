@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDurationSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.AreaEffectCloudEntity
@@ -32,13 +33,13 @@ class SpeedSpellEffect : AOTDDurationSpellEffect("speed", ModResearches.CLOAK_OF
         )
     }
 
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         val exactPosition = state.position
         val entityHit = state.entity
 
         val multiplier = getMultiplier(instance)
         if (multiplier == 0) {
-            return
+            return ProcResult.failure()
         }
 
         val duration = ceil(getDuration(instance) * 20).toInt()
@@ -92,6 +93,7 @@ class SpeedSpellEffect : AOTDDurationSpellEffect("speed", ModResearches.CLOAK_OF
                     .build()
             )
         }
+        return ProcResult.success()
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {

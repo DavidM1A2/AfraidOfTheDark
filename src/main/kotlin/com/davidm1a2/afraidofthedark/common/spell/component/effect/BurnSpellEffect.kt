@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDurationSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import net.minecraft.block.Blocks
 import net.minecraft.util.math.BlockPos
@@ -25,7 +26,7 @@ class BurnSpellEffect : AOTDDurationSpellEffect("burn", ModResearches.ELEMENTAL_
      *
      * @param state The state that the spell is in
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         val entity = state.entity
         if (entity != null) {
             val particlePositions = List<Vector3d>(8) {
@@ -74,9 +75,10 @@ class BurnSpellEffect : AOTDDurationSpellEffect("burn", ModResearches.ELEMENTAL_
                 }
             }
             if (!setBlockOnFire) {
-                createFizzleParticleAt(state)
+                return ProcResult.failure()
             }
         }
+        return ProcResult.success()
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {

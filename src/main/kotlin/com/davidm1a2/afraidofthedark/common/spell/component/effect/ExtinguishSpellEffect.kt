@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import net.minecraft.block.Blocks
 import net.minecraft.block.FireBlock
@@ -19,7 +20,7 @@ class ExtinguishSpellEffect : AOTDSpellEffect("extinguish", ModResearches.ELEMEN
      *
      * @param state The state that the spell is in
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         // If we hit an entity extinguish them
         val entity = state.entity
         if (entity != null) {
@@ -41,7 +42,7 @@ class ExtinguishSpellEffect : AOTDSpellEffect("extinguish", ModResearches.ELEMEN
                     0.0
                 )
             } else {
-                createFizzleParticleAt(state)
+                return ProcResult.failure()
             }
         } else {
             val world = state.world
@@ -64,9 +65,10 @@ class ExtinguishSpellEffect : AOTDSpellEffect("extinguish", ModResearches.ELEMEN
                     0.0
                 )
             } else {
-                createFizzleParticleAt(state)
+                return ProcResult.failure()
             }
         }
+        return ProcResult.success()
     }
 
     /**

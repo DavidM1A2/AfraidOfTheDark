@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.SoundEvents
@@ -21,7 +22,7 @@ class TeleportSpellEffect : AOTDSpellEffect("teleport", ModResearches.POCKET_DIM
      * @param state The state that the spell is in
      * @param instance The instance of the effect
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         val world: World = state.world
         val spellCaster = state.casterEntity
         if (spellCaster != null) {
@@ -66,8 +67,9 @@ class TeleportSpellEffect : AOTDSpellEffect("teleport", ModResearches.POCKET_DIM
                 1.0f
             )
         } else {
-            createFizzleParticleAt(state)
+            return ProcResult.failure()
         }
+        return ProcResult.success()
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {

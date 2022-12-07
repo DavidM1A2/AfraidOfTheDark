@@ -23,8 +23,9 @@ abstract class SpellEffect(id: ResourceLocation, prerequisiteResearch: Research?
      *
      * @param state The state that the spell is in
      * @param instance The instance of the effect
+     * @return The result of procing the effect
      */
-    abstract fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>)
+    abstract fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult
 
     /**
      * Gets the cost of the delivery method

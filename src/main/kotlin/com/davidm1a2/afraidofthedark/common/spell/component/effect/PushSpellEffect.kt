@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.particle.FlyParticleData
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.player.ServerPlayerEntity
@@ -26,7 +27,7 @@ class PushSpellEffect : AOTDSpellEffect("push", ModResearches.CLOAK_OF_AGILITY) 
         )
     }
 
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         // Divide by 10 to make it roughly the number of blocks to move
         val strength = getStrength(instance)
         val pushStrength = strength / 10.0
@@ -50,8 +51,9 @@ class PushSpellEffect : AOTDSpellEffect("push", ModResearches.CLOAK_OF_AGILITY) 
                     .build()
             )
         } else {
-            createFizzleParticleAt(state)
+            return ProcResult.failure()
         }
+        return ProcResult.success()
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {

@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.util.math.vector.Vector3d
@@ -37,7 +38,7 @@ class ExplosionSpellEffect : AOTDSpellEffect("explosion", ModResearches.MAGIC_MA
      * @param state The state that the spell is in
      * @param instance The instance of the effect
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         val world = state.world
         val position = state.position
         val numParticles = floor(getRadius(instance) * getRadius(instance)).toInt().coerceAtLeast(10)
@@ -51,6 +52,7 @@ class ExplosionSpellEffect : AOTDSpellEffect("explosion", ModResearches.MAGIC_MA
                 .build()
         )
         world.explode(null, position.x, position.y - 0.01f, position.z, getRadius(instance), Explosion.Mode.BREAK)
+        return ProcResult.success()
     }
 
     /**

@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDurationSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -23,7 +24,7 @@ class CharmSpellEffect : AOTDDurationSpellEffect("charm", ModResearches.ADVANCED
      *
      * @param state The state that the spell is in
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         val entity = state.entity
         val spellOwner = state.casterEntity
         // If we hit an entity that is an animal set them in love
@@ -59,8 +60,9 @@ class CharmSpellEffect : AOTDDurationSpellEffect("charm", ModResearches.ADVANCED
                 )
             }
         } else {
-            createFizzleParticleAt(state)
+            return ProcResult.failure()
         }
+        return ProcResult.success()
     }
 
     override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {

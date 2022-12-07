@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDurationSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.LivingEntity
@@ -40,7 +41,7 @@ class DigSpellEffect : AOTDDurationSpellEffect("dig", ModResearches.APPRENTICE_A
      * @param state The state that the spell is in
      * @param instance The instance of the effect
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         val world = state.world
         val entity = state.entity
         if (entity is LivingEntity) {
@@ -57,7 +58,7 @@ class DigSpellEffect : AOTDDurationSpellEffect("dig", ModResearches.APPRENTICE_A
                         .build()
                 )
             } else {
-                createFizzleParticleAt(state)
+                return ProcResult.failure()
             }
         } else {
             // Digs the block at the position
@@ -72,9 +73,10 @@ class DigSpellEffect : AOTDDurationSpellEffect("dig", ModResearches.APPRENTICE_A
                         .build()
                 )
             } else {
-                createFizzleParticleAt(state)
+                return ProcResult.failure()
             }
         }
+        return ProcResult.success()
     }
 
     /**

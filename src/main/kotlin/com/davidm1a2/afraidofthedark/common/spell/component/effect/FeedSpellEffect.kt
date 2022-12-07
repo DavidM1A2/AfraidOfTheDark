@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.particle.FeedParticleData
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.player.PlayerEntity
@@ -47,7 +48,7 @@ class FeedSpellEffect : AOTDSpellEffect("feed", ModResearches.APPRENTICE_ASCENDE
      * @param state The state that the spell is in
      * @param instance The instance of the effect
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         val entity = state.entity
         if (entity is PlayerEntity) {
             val foodStats = entity.foodData
@@ -66,8 +67,9 @@ class FeedSpellEffect : AOTDSpellEffect("feed", ModResearches.APPRENTICE_ASCENDE
                     .build()
             )
         } else {
-            createFizzleParticleAt(state)
+            return ProcResult.failure()
         }
+        return ProcResult.success()
     }
 
     /**
