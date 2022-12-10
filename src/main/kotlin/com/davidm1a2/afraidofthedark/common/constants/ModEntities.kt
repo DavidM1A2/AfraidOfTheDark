@@ -12,9 +12,9 @@ import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEn
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSkeletonEntity
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.FrostPhoenixEntity
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.FrostPhoenixProjectileEntity
-import com.davidm1a2.afraidofthedark.common.entity.spell.aoe.SpellAOEEntity
-import com.davidm1a2.afraidofthedark.common.entity.spell.laser.SpellLaserEntity
-import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.SpellProjectileEntity
+import com.davidm1a2.afraidofthedark.common.entity.spell.SpellAOEEntity
+import com.davidm1a2.afraidofthedark.common.entity.spell.SpellLaserEntity
+import com.davidm1a2.afraidofthedark.common.entity.spell.SpellProjectileEntity
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneEntity
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneProjectileEntity
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.WerewolfEntity

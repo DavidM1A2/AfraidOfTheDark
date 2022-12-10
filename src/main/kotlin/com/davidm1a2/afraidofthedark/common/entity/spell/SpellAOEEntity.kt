@@ -1,8 +1,8 @@
-package com.davidm1a2.afraidofthedark.common.entity.spell.aoe
+package com.davidm1a2.afraidofthedark.common.entity.spell
 
 import com.davidm1a2.afraidofthedark.common.constants.ModDataSerializers
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
-import com.davidm1a2.afraidofthedark.common.entity.spell.SpellEffectEntity
+import com.davidm1a2.afraidofthedark.common.entity.spell.base.SpellEffectEntity
 import net.minecraft.entity.EntityType
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.datasync.DataParameter

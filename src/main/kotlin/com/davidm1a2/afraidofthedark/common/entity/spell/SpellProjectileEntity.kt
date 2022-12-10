@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.entity.spell.projectile
+package com.davidm1a2.afraidofthedark.common.entity.spell
 
 import com.davidm1a2.afraidofthedark.common.constants.ModDataSerializers
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities

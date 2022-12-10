@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.entity.spell
+package com.davidm1a2.afraidofthedark.common.entity.spell.base
 
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType

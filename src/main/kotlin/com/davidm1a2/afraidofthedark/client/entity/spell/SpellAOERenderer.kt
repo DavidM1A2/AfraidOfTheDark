@@ -1,7 +1,7 @@
-package com.davidm1a2.afraidofthedark.client.entity.spell.aoe
+package com.davidm1a2.afraidofthedark.client.entity.spell
 
 import com.davidm1a2.afraidofthedark.client.entity.LateEntityRenderer
-import com.davidm1a2.afraidofthedark.common.entity.spell.aoe.SpellAOEEntity
+import com.davidm1a2.afraidofthedark.common.entity.spell.SpellAOEEntity
 import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem

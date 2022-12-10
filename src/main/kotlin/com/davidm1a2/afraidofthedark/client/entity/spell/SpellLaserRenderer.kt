@@ -1,7 +1,7 @@
-package com.davidm1a2.afraidofthedark.client.entity.spell.laser
+package com.davidm1a2.afraidofthedark.client.entity.spell
 
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.computeRotationTo
-import com.davidm1a2.afraidofthedark.common.entity.spell.laser.SpellLaserEntity
+import com.davidm1a2.afraidofthedark.common.entity.spell.SpellLaserEntity
 import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.IVertexBuilder

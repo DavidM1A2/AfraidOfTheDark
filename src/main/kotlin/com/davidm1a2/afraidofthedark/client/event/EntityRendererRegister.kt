@@ -12,9 +12,9 @@ import com.davidm1a2.afraidofthedark.client.entity.enchantedFrog.EnchantedFrogRe
 import com.davidm1a2.afraidofthedark.client.entity.enchantedSkeleton.EnchantedSkeletonRenderer
 import com.davidm1a2.afraidofthedark.client.entity.frostPhoenix.FrostPhoenixProjectileRenderer
 import com.davidm1a2.afraidofthedark.client.entity.frostPhoenix.FrostPhoenixRenderer
-import com.davidm1a2.afraidofthedark.client.entity.spell.aoe.SpellAOERenderer
-import com.davidm1a2.afraidofthedark.client.entity.spell.laser.SpellLaserRenderer
-import com.davidm1a2.afraidofthedark.client.entity.spell.projectile.SpellProjectileRenderer
+import com.davidm1a2.afraidofthedark.client.entity.spell.SpellAOERenderer
+import com.davidm1a2.afraidofthedark.client.entity.spell.SpellLaserRenderer
+import com.davidm1a2.afraidofthedark.client.entity.spell.SpellProjectileRenderer
 import com.davidm1a2.afraidofthedark.client.entity.splinterDrone.SplinterDroneProjectileRenderer
 import com.davidm1a2.afraidofthedark.client.entity.splinterDrone.SplinterDroneRenderer
 import com.davidm1a2.afraidofthedark.client.entity.werewolf.WerewolfRenderer
