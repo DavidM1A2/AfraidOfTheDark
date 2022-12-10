@@ -1,6 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
@@ -9,9 +12,11 @@ import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellCompon
 import com.davidm1a2.afraidofthedark.common.utility.getNormal
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
+import net.minecraftforge.fml.network.PacketDistributor
 import kotlin.math.PI
 import kotlin.math.ceil
 import kotlin.math.floor
+import kotlin.random.Random
 
 class ConeSpellDeliveryMethod : AOTDSpellDeliveryMethod("cone", ModResearches.MAGIC_MASTERY) {
     init {
@@ -74,6 +79,7 @@ class ConeSpellDeliveryMethod : AOTDSpellDeliveryMethod("cone", ModResearches.MA
         val maxZ = ceil(maxOf(tipPos.z, cornerOne.z, cornerTwo.z, cornerThree.z, cornerFour.z)).toInt()
 
         // 3) We'll need a triple for loop to go over every block in the rectangle surrounding the cone. We'll filter out any points that lie outside the cone.
+        var oneEffectProcd = false
         for (x in minX..maxX) {
             for (y in minY..maxY) {
                 for (z in minZ..maxZ) {
@@ -100,11 +106,33 @@ class ConeSpellDeliveryMethod : AOTDSpellDeliveryMethod("cone", ModResearches.MA
                             normal = newNormal,
                             casterEntity = state.casterEntity
                         )
-                        procEffects(newState)
+                        val procResult = procEffects(newState, false)
+                        oneEffectProcd = oneEffectProcd || procResult.isSuccess
                         transitionFrom(newState)
                     }
                 }
             }
+        }
+
+        // 4) Create fizzle particles in the cone if the effect failed to proc
+        if (!oneEffectProcd) {
+            // Pick random positions within the cone
+            val numParticles = (5 + length + radius).toInt() * 2
+            val positions = List(numParticles) {
+                val distanceDownCone = Random.nextDouble() * length
+                val radiusAtDistance = distanceDownCone * radius / length
+                tipPos.add(forwardDir.scale(distanceDownCone))
+                    .add(leftDir.scale((Random.nextDouble() - 0.5) * radiusAtDistance * 2))
+                    .add(upDir.scale((Random.nextDouble() - 0.5) * radiusAtDistance * 2))
+            }
+            AfraidOfTheDark.packetHandler.sendToAllAround(
+                ParticlePacket.builder()
+                    .particle(ModParticles.FIZZLE)
+                    .positions(positions)
+                    .speed(Vector3d(0.0, 0.1, 0.0))
+                    .build(),
+                PacketDistributor.TargetPoint(tipPos.x, tipPos.y, tipPos.z, 100.0, state.world.dimension())
+            )
         }
     }
 

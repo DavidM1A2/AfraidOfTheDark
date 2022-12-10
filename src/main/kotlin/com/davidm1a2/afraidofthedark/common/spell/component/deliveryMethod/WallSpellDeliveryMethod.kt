@@ -1,12 +1,18 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.vector.Vector3d
+import net.minecraftforge.fml.network.PacketDistributor
+import kotlin.random.Random
 
 class WallSpellDeliveryMethod : AOTDSpellDeliveryMethod("wall", ModResearches.APPRENTICE_ASCENDED) {
     init {
@@ -42,6 +48,7 @@ class WallSpellDeliveryMethod : AOTDSpellDeliveryMethod("wall", ModResearches.AP
         val leftRightDir = forwardBackwardDir.cross(upDownDir).normalize()
 
         // Add 0.5 to center on a block
+        var oneEffectProcd = false
         var xOffset = -width / 2
         while (xOffset < width / 2) {
             var zOffset = -height / 2
@@ -60,12 +67,30 @@ class WallSpellDeliveryMethod : AOTDSpellDeliveryMethod("wall", ModResearches.AP
                     normal = upDownDir,
                     casterEntity = state.casterEntity
                 )
-                procEffects(newState)
+                val procResult = procEffects(newState, false)
+                oneEffectProcd = oneEffectProcd || procResult.isSuccess
                 transitionFrom(newState)
 
                 zOffset = zOffset + 1.0
             }
             xOffset = xOffset + 1.0
+        }
+
+        // Create fizzle particles if no effect procd successfully
+        if (!oneEffectProcd) {
+            val numParticles = (1 + width + height).toInt() * 2
+            val positions = List(numParticles) {
+                position.add(upDownDir.scale((Random.nextDouble() - 0.5) * height * 2))
+                    .add(leftRightDir.scale((Random.nextDouble() - 0.5) * width * 2))
+            }
+            AfraidOfTheDark.packetHandler.sendToAllAround(
+                ParticlePacket.builder()
+                    .particle(ModParticles.FIZZLE)
+                    .positions(positions)
+                    .speed(Vector3d(0.0, 0.1, 0.0))
+                    .build(),
+                PacketDistributor.TargetPoint(position.x, position.y, position.z, 100.0, state.world.dimension())
+            )
         }
     }
 

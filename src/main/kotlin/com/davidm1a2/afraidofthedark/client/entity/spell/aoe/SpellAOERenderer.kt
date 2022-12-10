@@ -21,7 +21,6 @@ import net.minecraft.util.math.vector.Matrix3f
 import net.minecraft.util.math.vector.Matrix4f
 import net.minecraft.util.math.vector.Vector3d
 import org.lwjgl.opengl.GL11
-import org.lwjgl.opengl.GL11C
 import kotlin.math.PI
 import kotlin.math.ceil
 import kotlin.math.cos
@@ -158,7 +157,6 @@ class SpellAOERenderer(renderManager: EntityRendererManager) : EntityRenderer<Sp
                     RenderSystem.defaultBlendFunc()
                 })
                 .setWriteMaskState(RenderState.WriteMaskState(true, false))
-                .setDepthTestState(RenderState.DepthTestState("<", GL11C.GL_LESS))
                 .setCullState(RenderState.CullState(false))
                 .createCompositeState(false)
         )

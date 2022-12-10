@@ -1,7 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.spell.aoe.SpellAOEEntity
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
@@ -10,8 +13,12 @@ import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellCompon
 import com.davidm1a2.afraidofthedark.common.utility.getNormal
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
+import net.minecraftforge.fml.network.PacketDistributor
 import java.awt.Color
 import kotlin.math.ceil
+import kotlin.math.pow
+import kotlin.math.sqrt
+import kotlin.random.Random
 
 /**
  * AOE method delivers the spell to the target in a circle
@@ -59,10 +66,12 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod("aoe", ModResearches.ADVA
         val shellOnly = getShellOnly(deliveryMethod)
 
         val centerPos = state.position
+        val world = state.world
         val blockRadius = ceil(radius).toInt()
 
-        state.world.addFreshEntity(SpellAOEEntity(state.world, centerPos, radius.toFloat(), getColor(deliveryMethod)))
+        world.addFreshEntity(SpellAOEEntity(world, centerPos, radius.toFloat(), getColor(deliveryMethod)))
         // Go over every block in the radius
+        var oneEffectProcd = false
         for (x in -blockRadius..blockRadius) {
             for (y in -blockRadius..blockRadius) {
                 for (z in -blockRadius..blockRadius) {
@@ -85,18 +94,44 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod("aoe", ModResearches.ADVA
                         val newState = DeliveryTransitionState(
                             spell = state.spell,
                             stageIndex = state.stageIndex,
-                            world = state.world,
+                            world = world,
                             position = aoePos,
                             blockPosition = BlockPos(aoePos),
                             direction = direction,
                             normal = normal,
                             casterEntity = state.casterEntity
                         )
-                        procEffects(newState)
+                        val procResult = procEffects(newState, false)
+                        oneEffectProcd = oneEffectProcd || procResult.isSuccess
                         transitionFrom(newState)
                     }
                 }
             }
+        }
+
+        // Create fizzle particles if no effect procd successfully
+        if (!oneEffectProcd) {
+            // Generate random fizzle particles within the sphere
+            val numParticles = (radius * 4).toInt()
+            val positions = List(numParticles) {
+                var x = (Random.nextDouble() - 0.5) * radius * 2
+                var y = (Random.nextDouble() - 0.5) * radius * 2
+                var z = (Random.nextDouble() - 0.5) * radius * 2
+                val length = sqrt(x * x + y * y + z * z)
+                x = x / length
+                y = y / length
+                z = z / length
+                val c = Random.nextDouble().pow(1.0 / 3.0) * radius
+                centerPos.add(x * c, y * c, z * c)
+            }
+            AfraidOfTheDark.packetHandler.sendToAllAround(
+                ParticlePacket.builder()
+                    .particle(ModParticles.FIZZLE)
+                    .positions(positions)
+                    .speed(Vector3d(0.0, 0.1, 0.0))
+                    .build(),
+                PacketDistributor.TargetPoint(state.position.x, state.position.y, state.position.z, 100.0, state.world.dimension())
+            )
         }
     }
 

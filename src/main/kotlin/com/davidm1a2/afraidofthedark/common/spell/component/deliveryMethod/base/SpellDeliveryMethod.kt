@@ -7,6 +7,7 @@ import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.fml.network.PacketDistributor
@@ -34,21 +35,35 @@ abstract class SpellDeliveryMethod(id: ResourceLocation, prerequisiteResearch: R
      * Applies the effects that are a part of this delivery method to the targets
      *
      * @param state The state of the spell at the current delivery method
+     * @param fizzleOnFailure Create fizzle particles when the proc fails
+     * @return A successful result if at least one effect procs successfully, or there are no effects
      */
-    fun procEffects(state: DeliveryTransitionState) {
+    fun procEffects(state: DeliveryTransitionState, fizzleOnFailure: Boolean = true): ProcResult {
+        var hasOneEffect = false
+        var oneEffectProcdSuccessfully = false
         for (effect in state.getCurrentStage().effects) {
-            val result = effect?.component?.procEffect(state, effect)
-            if (result?.isSuccess == false) {
-                AfraidOfTheDark.packetHandler.sendToAllAround(
-                    ParticlePacket.builder()
-                        .particle(ModParticles.FIZZLE)
-                        .position(state.position)
-                        .speed(Vector3d(0.0, 0.1, 0.0))
-                        .build(),
-                    PacketDistributor.TargetPoint(state.position.x, state.position.y, state.position.z, 100.0, state.world.dimension())
-                )
+            if (effect != null) {
+                hasOneEffect = true
+                val result = effect.component.procEffect(state, effect)
+                if (result.isSuccess) {
+                    oneEffectProcdSuccessfully = true
+                }
             }
         }
+
+        val isSuccess = !hasOneEffect || oneEffectProcdSuccessfully
+        if (fizzleOnFailure && !isSuccess) {
+            AfraidOfTheDark.packetHandler.sendToAllAround(
+                ParticlePacket.builder()
+                    .particle(ModParticles.FIZZLE)
+                    .position(state.position)
+                    .speed(Vector3d(0.0, 0.1, 0.0))
+                    .build(),
+                PacketDistributor.TargetPoint(state.position.x, state.position.y, state.position.z, 100.0, state.world.dimension())
+            )
+        }
+
+        return ProcResult(isSuccess)
     }
 
     /**
