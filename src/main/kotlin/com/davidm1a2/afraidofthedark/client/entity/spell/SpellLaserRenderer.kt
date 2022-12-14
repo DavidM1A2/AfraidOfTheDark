@@ -81,7 +81,6 @@ class SpellLaserRenderer(renderManager: EntityRendererManager) : EntityRenderer<
             drawVertex(rotationMatrix, normalMatrix, buffer, 0.0, RENDER_HEIGHT, 0.0, 0f, 1f, red, green, blue)
             matrixStack.mulPose(Vector3f.XP.rotationDegrees(rotationPerSprite))
         }
-        matrixStack.mulPose(Vector3f.XP.rotationDegrees(180f))
     }
 
     private fun drawVertex(

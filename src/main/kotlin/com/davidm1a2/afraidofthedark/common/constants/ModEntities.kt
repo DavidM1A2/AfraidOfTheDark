@@ -13,8 +13,10 @@ import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSk
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.FrostPhoenixEntity
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.FrostPhoenixProjectileEntity
 import com.davidm1a2.afraidofthedark.common.entity.spell.SpellAOEEntity
+import com.davidm1a2.afraidofthedark.common.entity.spell.SpellConeEntity
 import com.davidm1a2.afraidofthedark.common.entity.spell.SpellLaserEntity
 import com.davidm1a2.afraidofthedark.common.entity.spell.SpellProjectileEntity
+import com.davidm1a2.afraidofthedark.common.entity.spell.SpellWallEntity
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneEntity
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneProjectileEntity
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.WerewolfEntity
@@ -133,6 +135,22 @@ object ModEntities {
         .noSummon()
         .build("${Constants.MOD_ID}:spell_aoe")
         .setRegistryNameGeneric("spell_aoe")
+    val SPELL_CONE = EntityType.Builder.of(::SpellConeEntity, EntityClassification.MISC)
+        .setTrackingRange(50)
+        .setUpdateInterval(100)
+        .setShouldReceiveVelocityUpdates(false)
+        .sized(0f, 0f)
+        .noSummon()
+        .build("${Constants.MOD_ID}:spell_cone")
+        .setRegistryNameGeneric("spell_cone")
+    val SPELL_WALL = EntityType.Builder.of(::SpellWallEntity, EntityClassification.MISC)
+        .setTrackingRange(50)
+        .setUpdateInterval(100)
+        .setShouldReceiveVelocityUpdates(false)
+        .sized(0f, 0f)
+        .noSummon()
+        .build("${Constants.MOD_ID}:spell_wall")
+        .setRegistryNameGeneric("spell_wall")
 
     // 5 bolt entities
     val WOODEN_BOLT = EntityType.Builder.of(::WoodenBoltEntity, EntityClassification.MISC)
@@ -198,6 +216,8 @@ object ModEntities {
         SPELL_PROJECTILE,
         SPELL_LASER,
         SPELL_AOE,
+        SPELL_CONE,
+        SPELL_WALL,
         WOODEN_BOLT,
         IRON_BOLT,
         ASTRAL_SILVER_BOLT,

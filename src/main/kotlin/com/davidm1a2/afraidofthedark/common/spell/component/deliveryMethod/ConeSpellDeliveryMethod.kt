@@ -3,16 +3,19 @@ package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.entity.spell.SpellConeEntity
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
+import com.davidm1a2.afraidofthedark.common.utility.ConeUtils
 import com.davidm1a2.afraidofthedark.common.utility.getNormal
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.fml.network.PacketDistributor
+import java.awt.Color
 import kotlin.math.PI
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -48,9 +51,18 @@ class ConeSpellDeliveryMethod : AOTDSpellDeliveryMethod("cone", ModResearches.MA
                 .withDefaultValue(false)
                 .build()
         )
+        addEditableProperty(
+            SpellComponentPropertyFactory.colorProperty()
+                .withBaseName(getUnlocalizedPropertyBaseName("color"))
+                .withSetter(this::setColor)
+                .withGetter(this::getColor)
+                .withDefaultValue(Color.LIGHT_GRAY)
+                .build()
+        )
     }
 
     override fun executeDelivery(state: DeliveryTransitionState) {
+        val world = state.world
         val deliveryMethod = state.getCurrentStage().deliveryInstance!!
         val radius = getRadius(deliveryMethod)
         val length = getLength(deliveryMethod)
@@ -59,26 +71,20 @@ class ConeSpellDeliveryMethod : AOTDSpellDeliveryMethod("cone", ModResearches.MA
         val tipPos = state.position
         val forwardDir = state.direction
         val upDir = state.normal
-        val downDir = upDir.reverse()
         val leftDir = forwardDir.cross(upDir).normalize()
-        val rightDir = leftDir.reverse()
 
-        // 1) Find four corners of the box that bounds the base circle, as well as the tip position (which we already know)
-        val baseCenterPos = tipPos.add(forwardDir.scale(length))
-        val cornerOne = baseCenterPos.add(leftDir.scale(radius)).add(upDir.scale(radius))
-        val cornerTwo = baseCenterPos.add(leftDir.scale(radius)).add(downDir.scale(radius))
-        val cornerThree = baseCenterPos.add(rightDir.scale(radius)).add(upDir.scale(radius))
-        val cornerFour = baseCenterPos.add(rightDir.scale(radius)).add(downDir.scale(radius))
+        world.addFreshEntity(SpellConeEntity(world, tipPos, radius.toFloat(), length.toFloat(), getColor(deliveryMethod), forwardDir))
 
-        // 2) Find the smallest (x, y, z) and biggest (x, y, z) coordinates to loop through. Ceil/floor the values, so we don't cut off any blocks partially within the cone
-        val minX = floor(minOf(tipPos.x, cornerOne.x, cornerTwo.x, cornerThree.x, cornerFour.x)).toInt()
-        val minY = floor(minOf(tipPos.y, cornerOne.y, cornerTwo.y, cornerThree.y, cornerFour.y)).toInt()
-        val minZ = floor(minOf(tipPos.z, cornerOne.z, cornerTwo.z, cornerThree.z, cornerFour.z)).toInt()
-        val maxX = ceil(maxOf(tipPos.x, cornerOne.x, cornerTwo.x, cornerThree.x, cornerFour.x)).toInt()
-        val maxY = ceil(maxOf(tipPos.y, cornerOne.y, cornerTwo.y, cornerThree.y, cornerFour.y)).toInt()
-        val maxZ = ceil(maxOf(tipPos.z, cornerOne.z, cornerTwo.z, cornerThree.z, cornerFour.z)).toInt()
+        // Find the smallest (x, y, z) and biggest (x, y, z) coordinates to loop through. Ceil/floor the values, so we don't cut off any blocks partially within the cone
+        val boundingBox = ConeUtils.getBoundingBox(tipPos, forwardDir, radius, length, upDir)
+        val minX = floor(boundingBox.minX).toInt()
+        val minY = floor(boundingBox.minY).toInt()
+        val minZ = floor(boundingBox.minZ).toInt()
+        val maxX = ceil(boundingBox.maxX).toInt()
+        val maxY = ceil(boundingBox.maxY).toInt()
+        val maxZ = ceil(boundingBox.maxZ).toInt()
 
-        // 3) We'll need a triple for loop to go over every block in the rectangle surrounding the cone. We'll filter out any points that lie outside the cone.
+        // We'll need a triple for loop to go over every block in the rectangle surrounding the cone. We'll filter out any points that lie outside the cone.
         var oneEffectProcd = false
         for (x in minX..maxX) {
             for (y in minY..maxY) {
@@ -99,7 +105,7 @@ class ConeSpellDeliveryMethod : AOTDSpellDeliveryMethod("cone", ModResearches.MA
                         val newState = DeliveryTransitionState(
                             spell = state.spell,
                             stageIndex = state.stageIndex,
-                            world = state.world,
+                            world = world,
                             position = conePos,
                             blockPosition = BlockPos(conePos),
                             direction = newDirection,
@@ -114,7 +120,7 @@ class ConeSpellDeliveryMethod : AOTDSpellDeliveryMethod("cone", ModResearches.MA
             }
         }
 
-        // 4) Create fizzle particles in the cone if the effect failed to proc
+        // Create fizzle particles in the cone if the effect failed to proc
         if (!oneEffectProcd) {
             // Pick random positions within the cone
             val numParticles = (5 + length + radius).toInt() * 2
@@ -131,7 +137,7 @@ class ConeSpellDeliveryMethod : AOTDSpellDeliveryMethod("cone", ModResearches.MA
                     .positions(positions)
                     .speed(Vector3d(0.0, 0.1, 0.0))
                     .build(),
-                PacketDistributor.TargetPoint(tipPos.x, tipPos.y, tipPos.z, 100.0, state.world.dimension())
+                PacketDistributor.TargetPoint(tipPos.x, tipPos.y, tipPos.z, 100.0, world.dimension())
             )
         }
     }
@@ -194,11 +200,21 @@ class ConeSpellDeliveryMethod : AOTDSpellDeliveryMethod("cone", ModResearches.MA
         return instance.data.getBoolean(NBT_SHELL_ONLY)
     }
 
+    fun setColor(instance: SpellComponentInstance<*>, color: Color) {
+        instance.data.putString(NBT_COLOR, "${color.red} ${color.green} ${color.blue}")
+    }
+
+    fun getColor(instance: SpellComponentInstance<*>): Color {
+        val rgb = instance.data.getString(NBT_COLOR).split(Regex("\\s+")).map { it.toInt() }
+        return Color(rgb[0], rgb[1], rgb[2])
+    }
+
     companion object {
         private const val SHELL_ONLY_MARGIN = 1.5
 
         private const val NBT_RADIUS = "radius"
         private const val NBT_LENGTH = "length"
         private const val NBT_SHELL_ONLY = "shell_only"
+        private const val NBT_COLOR = "color"
     }
 }

@@ -87,8 +87,8 @@ fun Vector3d.computeRotationTo(target: Vector3d): Quaternion {
         if (orthogonalVec.length() < 0.00001) {
             orthogonalVec = Y_UNIT_VECTOR.cross(normalizedBasis)
         }
-        orthogonalVec.normalize()
-        return Quaternion(Vector3f(orthogonalVec), 180f, true)
+
+        return Quaternion(Vector3f(orthogonalVec.normalize()), 180f, true)
     }
 
     // If the angle is close to 1 it indicates the vectors are perfectly parallel, eg: ----> and ---->

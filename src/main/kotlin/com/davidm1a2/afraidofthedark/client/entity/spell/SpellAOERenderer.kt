@@ -55,7 +55,7 @@ class SpellAOERenderer(renderManager: EntityRendererManager) : EntityRenderer<Sp
             return
         }
         val ticksRemaining = spellAOE.tickCount
-        val alpha = MathHelper.lerp((ticksRemaining / lifespan).coerceIn(0f..1f), 60f, 0f).roundToInt()
+        val alpha = MathHelper.lerp((ticksRemaining / lifespan).coerceIn(0f..1f), 100f, 0f).roundToInt()
 
         val textureVStep = SPRITE_HEIGHT.toFloat() / TEXTURE_HEIGHT.toFloat()
         val step = ticksRemaining % SPRITE_COUNT

@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.entity.spell.SpellWallEntity
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -12,6 +13,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellCompon
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.fml.network.PacketDistributor
+import java.awt.Color
 import kotlin.random.Random
 
 class WallSpellDeliveryMethod : AOTDSpellDeliveryMethod("wall", ModResearches.APPRENTICE_ASCENDED) {
@@ -36,9 +38,18 @@ class WallSpellDeliveryMethod : AOTDSpellDeliveryMethod("wall", ModResearches.AP
                 .withMaxValue(20.0)
                 .build()
         )
+        addEditableProperty(
+            SpellComponentPropertyFactory.colorProperty()
+                .withBaseName(getUnlocalizedPropertyBaseName("color"))
+                .withSetter(this::setColor)
+                .withGetter(this::getColor)
+                .withDefaultValue(Color.LIGHT_GRAY)
+                .build()
+        )
     }
 
     override fun executeDelivery(state: DeliveryTransitionState) {
+        val world = state.world
         val deliveryMethod = state.getCurrentStage().deliveryInstance!!
         val width = getWidth(deliveryMethod)
         val height = getHeight(deliveryMethod)
@@ -47,6 +58,7 @@ class WallSpellDeliveryMethod : AOTDSpellDeliveryMethod("wall", ModResearches.AP
         val upDownDir = state.normal
         val leftRightDir = forwardBackwardDir.cross(upDownDir).normalize()
 
+        world.addFreshEntity(SpellWallEntity(world, position, leftRightDir.scale(width), upDownDir.scale(height), getColor(deliveryMethod)))
         // Add 0.5 to center on a block
         var oneEffectProcd = false
         var xOffset = -width / 2
@@ -60,7 +72,7 @@ class WallSpellDeliveryMethod : AOTDSpellDeliveryMethod("wall", ModResearches.AP
                 val newState = DeliveryTransitionState(
                     spell = state.spell,
                     stageIndex = state.stageIndex,
-                    world = state.world,
+                    world = world,
                     position = wallPos,
                     blockPosition = BlockPos(wallPos),
                     direction = forwardBackwardDir,
@@ -80,8 +92,8 @@ class WallSpellDeliveryMethod : AOTDSpellDeliveryMethod("wall", ModResearches.AP
         if (!oneEffectProcd) {
             val numParticles = (1 + width + height).toInt() * 2
             val positions = List(numParticles) {
-                position.add(upDownDir.scale((Random.nextDouble() - 0.5) * height * 2))
-                    .add(leftRightDir.scale((Random.nextDouble() - 0.5) * width * 2))
+                position.add(upDownDir.scale((Random.nextDouble() - 0.5) * height))
+                    .add(leftRightDir.scale((Random.nextDouble() - 0.5) * width))
             }
             AfraidOfTheDark.packetHandler.sendToAllAround(
                 ParticlePacket.builder()
@@ -89,7 +101,7 @@ class WallSpellDeliveryMethod : AOTDSpellDeliveryMethod("wall", ModResearches.AP
                     .positions(positions)
                     .speed(Vector3d(0.0, 0.1, 0.0))
                     .build(),
-                PacketDistributor.TargetPoint(position.x, position.y, position.z, 100.0, state.world.dimension())
+                PacketDistributor.TargetPoint(position.x, position.y, position.z, 100.0, world.dimension())
             )
         }
     }
@@ -118,8 +130,18 @@ class WallSpellDeliveryMethod : AOTDSpellDeliveryMethod("wall", ModResearches.AP
         return instance.data.getDouble(NBT_HEIGHT)
     }
 
+    fun setColor(instance: SpellComponentInstance<*>, color: Color) {
+        instance.data.putString(NBT_COLOR, "${color.red} ${color.green} ${color.blue}")
+    }
+
+    fun getColor(instance: SpellComponentInstance<*>): Color {
+        val rgb = instance.data.getString(NBT_COLOR).split(Regex("\\s+")).map { it.toInt() }
+        return Color(rgb[0], rgb[1], rgb[2])
+    }
+
     companion object {
         private const val NBT_WIDTH = "width"
         private const val NBT_HEIGHT = "height"
+        private const val NBT_COLOR = "color"
     }
 }

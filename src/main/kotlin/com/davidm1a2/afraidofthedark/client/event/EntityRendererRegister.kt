@@ -13,8 +13,10 @@ import com.davidm1a2.afraidofthedark.client.entity.enchantedSkeleton.EnchantedSk
 import com.davidm1a2.afraidofthedark.client.entity.frostPhoenix.FrostPhoenixProjectileRenderer
 import com.davidm1a2.afraidofthedark.client.entity.frostPhoenix.FrostPhoenixRenderer
 import com.davidm1a2.afraidofthedark.client.entity.spell.SpellAOERenderer
+import com.davidm1a2.afraidofthedark.client.entity.spell.SpellConeRenderer
 import com.davidm1a2.afraidofthedark.client.entity.spell.SpellLaserRenderer
 import com.davidm1a2.afraidofthedark.client.entity.spell.SpellProjectileRenderer
+import com.davidm1a2.afraidofthedark.client.entity.spell.SpellWallRenderer
 import com.davidm1a2.afraidofthedark.client.entity.splinterDrone.SplinterDroneProjectileRenderer
 import com.davidm1a2.afraidofthedark.client.entity.splinterDrone.SplinterDroneRenderer
 import com.davidm1a2.afraidofthedark.client.entity.werewolf.WerewolfRenderer
@@ -42,6 +44,8 @@ class EntityRendererRegister {
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_PROJECTILE) { SpellProjectileRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_LASER) { SpellLaserRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_AOE) { SpellAOERenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_WALL) { SpellWallRenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_CONE) { SpellConeRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.ENCHANTED_FROG) { EnchantedFrogRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.FROST_PHOENIX) { FrostPhoenixRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.FROST_PHOENIX_PROJECTILE) { FrostPhoenixProjectileRenderer(it) }
