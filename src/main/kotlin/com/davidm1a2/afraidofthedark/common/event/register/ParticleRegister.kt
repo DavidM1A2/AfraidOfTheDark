@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.client.particle.ArrowTrailParticle
 import com.davidm1a2.afraidofthedark.client.particle.CleanseParticle
+import com.davidm1a2.afraidofthedark.client.particle.DelayParticle
 import com.davidm1a2.afraidofthedark.client.particle.DigParticle
 import com.davidm1a2.afraidofthedark.client.particle.DisintegrateParticle
 import com.davidm1a2.afraidofthedark.client.particle.DustCloudParticle
@@ -92,5 +93,6 @@ class ParticleRegister {
         particleManager.register(ModParticles.DUST_CLOUD, DustCloudParticle::Factory)
         particleManager.register(ModParticles.ARROW_TRAIL, ArrowTrailParticle::Factory)
         particleManager.register(ModParticles.SHIELD, ShieldParticle::Factory)
+        particleManager.register(ModParticles.DELAY, DelayParticle::Factory)
     }
 }

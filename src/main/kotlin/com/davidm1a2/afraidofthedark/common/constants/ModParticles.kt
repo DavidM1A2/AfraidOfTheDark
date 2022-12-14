@@ -43,6 +43,7 @@ object ModParticles {
     val DUST_CLOUD = BasicAOTDParticleType("dust_cloud")
     val ARROW_TRAIL = ArrowTrailParticleType()
     val SHIELD = ShieldParticleType()
+    val DELAY = BasicAOTDParticleType("delay")
 
     val PARTICLE_LIST = arrayOf(
         ENARIAS_ALTAR,
@@ -77,6 +78,7 @@ object ModParticles {
         SONIC_DISRUPTION,
         DUST_CLOUD,
         ARROW_TRAIL,
-        SHIELD
+        SHIELD,
+        DELAY
     )
 }
