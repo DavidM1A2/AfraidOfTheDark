@@ -19,6 +19,8 @@ import com.davidm1a2.afraidofthedark.client.particle.FreezeParticle
 import com.davidm1a2.afraidofthedark.client.particle.FrostPhoenixStormParticle
 import com.davidm1a2.afraidofthedark.client.particle.GrowParticle
 import com.davidm1a2.afraidofthedark.client.particle.HealParticle
+import com.davidm1a2.afraidofthedark.client.particle.ImbueFizzleParticle
+import com.davidm1a2.afraidofthedark.client.particle.ImbueParticle
 import com.davidm1a2.afraidofthedark.client.particle.LightningParticle
 import com.davidm1a2.afraidofthedark.client.particle.PoisonParticle
 import com.davidm1a2.afraidofthedark.client.particle.ShieldParticle
@@ -94,5 +96,7 @@ class ParticleRegister {
         particleManager.register(ModParticles.ARROW_TRAIL, ArrowTrailParticle::Factory)
         particleManager.register(ModParticles.SHIELD, ShieldParticle::Factory)
         particleManager.register(ModParticles.DELAY, DelayParticle::Factory)
+        particleManager.register(ModParticles.IMBUE_FIZZLE, ImbueFizzleParticle::Factory)
+        particleManager.register(ModParticles.IMBUE, ImbueParticle::Factory)
     }
 }
