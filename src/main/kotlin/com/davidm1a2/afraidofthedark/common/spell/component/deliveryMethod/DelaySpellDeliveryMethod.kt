@@ -61,8 +61,8 @@ class DelaySpellDeliveryMethod : AOTDSpellDeliveryMethod("delay", ModResearches.
      * @return The cost of the delivery method
      */
     override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        // Each second of delay costs 0.75 vitae
-        return getDelay(instance) * 0.75
+        // Each second of delay costs 0.25 vitae, and a 1 vitae base cost
+        return 1.0 + getDelay(instance) * 0.25
     }
 
     /**

@@ -136,7 +136,7 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod("aoe", ModResearches.ADVA
     }
 
     override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        return 0.0
+        return 1.0
     }
 
     override fun getMultiplicity(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {

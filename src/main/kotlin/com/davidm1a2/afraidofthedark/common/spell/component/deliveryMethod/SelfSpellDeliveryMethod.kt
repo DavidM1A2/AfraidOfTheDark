@@ -31,7 +31,7 @@ class SelfSpellDeliveryMethod : AOTDSpellDeliveryMethod("self", ModResearches.TH
      * @return The cost of the delivery method
      */
     override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
-        return 0.0
+        return 0.1
     }
 
     /**
