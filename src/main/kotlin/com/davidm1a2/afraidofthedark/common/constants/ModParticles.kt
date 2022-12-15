@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.particle.CleanseParticleType
 import com.davidm1a2.afraidofthedark.common.particle.FeedParticleType
 import com.davidm1a2.afraidofthedark.common.particle.FlyParticleType
 import com.davidm1a2.afraidofthedark.common.particle.HealParticleType
+import com.davidm1a2.afraidofthedark.common.particle.SelfParticleType
 import com.davidm1a2.afraidofthedark.common.particle.ShieldParticleType
 import com.davidm1a2.afraidofthedark.common.particle.WardParticleType
 import com.davidm1a2.afraidofthedark.common.particle.base.BasicAOTDParticleType
@@ -44,6 +45,8 @@ object ModParticles {
     val IMBUE_FIZZLE = BasicAOTDParticleType("imbue_fizzle")
     val IMBUE = BasicAOTDParticleType("imbue")
     val ROTATE = BasicAOTDParticleType("rotate")
+    val SELF = SelfParticleType()
+    val SELF_FIZZLE = BasicAOTDParticleType("self_fizzle")
 
     val PARTICLE_LIST = arrayOf(
         ENARIAS_ALTAR,
@@ -79,6 +82,8 @@ object ModParticles {
         DELAY,
         IMBUE_FIZZLE,
         IMBUE,
-        ROTATE
+        ROTATE,
+        SELF,
+        SELF_FIZZLE
     )
 }

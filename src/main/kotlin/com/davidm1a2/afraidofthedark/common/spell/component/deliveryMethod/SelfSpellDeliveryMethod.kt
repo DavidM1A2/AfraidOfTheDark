@@ -1,10 +1,15 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
+import com.davidm1a2.afraidofthedark.common.particle.SelfParticleData
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
+import net.minecraftforge.fml.network.PacketDistributor
 
 /**
  * Self delivery method delivers the spell to the caster
@@ -19,9 +24,30 @@ class SelfSpellDeliveryMethod : AOTDSpellDeliveryMethod("self", ModResearches.TH
      */
     override fun executeDelivery(state: DeliveryTransitionState) {
         // Self just procs the effects and transitions at the target entity
-        if (state.entity != null) {
+        val entity = state.entity
+        val position = state.position
+        if (entity != null) {
             this.procEffects(state)
             this.transitionFrom(state)
+
+            val numParticles = 10
+            AfraidOfTheDark.packetHandler.sendToAllAround(
+                ParticlePacket.builder()
+                    .particles(List(numParticles) {
+                        SelfParticleData(entity.id, it.toFloat() / numParticles * 360)
+                    })
+                    .position(entity.position().add(0.0, entity.bbHeight / 2.0, 0.0))
+                    .build(),
+                PacketDistributor.TargetPoint(position.x, position.y, position.z, 100.0, state.world.dimension())
+            )
+        } else {
+            AfraidOfTheDark.packetHandler.sendToAllAround(
+                ParticlePacket.builder()
+                    .particle(ModParticles.SELF_FIZZLE)
+                    .position(position)
+                    .build(),
+                PacketDistributor.TargetPoint(position.x, position.y, position.z, 100.0, state.world.dimension())
+            )
         }
     }
 
