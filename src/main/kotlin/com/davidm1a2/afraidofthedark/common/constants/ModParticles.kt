@@ -46,6 +46,7 @@ object ModParticles {
     val DELAY = BasicAOTDParticleType("delay")
     val IMBUE_FIZZLE = BasicAOTDParticleType("imbue_fizzle")
     val IMBUE = BasicAOTDParticleType("imbue")
+    val ROTATE = BasicAOTDParticleType("rotate")
 
     val PARTICLE_LIST = arrayOf(
         ENARIAS_ALTAR,
@@ -83,6 +84,7 @@ object ModParticles {
         SHIELD,
         DELAY,
         IMBUE_FIZZLE,
-        IMBUE
+        IMBUE,
+        ROTATE
     )
 }

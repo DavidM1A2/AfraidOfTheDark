@@ -1,12 +1,16 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import com.davidm1a2.afraidofthedark.common.utility.rotateAround
+import net.minecraftforge.fml.network.PacketDistributor
 
 class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod("rotate", ModResearches.FORBIDDEN_CITY) {
     init {
@@ -49,6 +53,16 @@ class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod("rotate", ModResearche
 
         procEffects(newState)
         transitionFrom(newState)
+
+        val position = state.position
+        AfraidOfTheDark.packetHandler.sendToAllAround(
+            ParticlePacket.builder()
+                .particle(ModParticles.ROTATE)
+                .position(position)
+                .speed(newDir)
+                .build(),
+            PacketDistributor.TargetPoint(position.x, position.y, position.z, 100.0, state.world.dimension())
+        )
     }
 
     override fun getDeliveryCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {

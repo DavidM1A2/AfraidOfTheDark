@@ -18,6 +18,10 @@ abstract class RotatedAOTDParticle(
     zSpeed: Double = 0.0
 ) : AOTDParticle(world, x, y, z, xSpeed, ySpeed, zSpeed) {
     override fun render(vertexBuilder: IVertexBuilder, activeRenderInfo: ActiveRenderInfo, partialTicks: Float) {
+        render(vertexBuilder, activeRenderInfo, partialTicks, rotation)
+    }
+
+    open fun render(vertexBuilder: IVertexBuilder, activeRenderInfo: ActiveRenderInfo, partialTicks: Float, rotation: Quaternion) {
         // Copy & pasted from super::render except rotation is fixed to a direction
 
         val vector3d = activeRenderInfo.position
