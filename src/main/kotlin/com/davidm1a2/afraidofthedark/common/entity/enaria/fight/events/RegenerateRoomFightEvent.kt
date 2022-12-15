@@ -33,7 +33,6 @@ class RegenerateRoomFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, Ena
                     }
                 }
             }
-            spawnEventParticles(List(15) { getRandomVectorBetween(relativeToAbsolutePosition(-30, y, -3), relativeToAbsolutePosition(30, y, 79)) })
         }
         ticksExisted = ticksExisted + 1
     }

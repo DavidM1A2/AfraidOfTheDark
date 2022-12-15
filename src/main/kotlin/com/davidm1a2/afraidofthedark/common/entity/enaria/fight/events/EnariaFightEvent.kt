@@ -1,9 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria.fight.events
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.entity.enaria.fight.EnariaFight
-import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
@@ -59,14 +56,6 @@ abstract class EnariaFightEvent(
 
     private fun getRandomValueBetween(pointOne: Int, pointTwo: Int): Double {
         return Random.nextDouble(min(pointOne, pointTwo).toDouble(), max(pointOne, pointTwo).toDouble() + 1.0)
-    }
-
-    protected fun spawnEventParticles(positions: List<Vector3d>) {
-        AfraidOfTheDark.packetHandler.sendToAllAround(
-            ParticlePacket.builder().particle(ModParticles.SPELL_CAST3).positions(positions).speed(Vector3d.ZERO).build(),
-            fight.enaria,
-            100.0
-        )
     }
 
     override fun serializeNBT(): CompoundNBT {

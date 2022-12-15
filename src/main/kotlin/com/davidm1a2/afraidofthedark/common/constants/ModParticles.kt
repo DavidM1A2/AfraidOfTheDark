@@ -14,9 +14,6 @@ object ModParticles {
     val ENARIA_FIGHT_EVENT = BasicAOTDParticleType("enaria_fight_event")
     val ENCHANTED_FROG_SPAWN = BasicAOTDParticleType("enchanted_frog_spawn")
     val SMOKE_SCREEN = BasicAOTDParticleType("smoke_screen", true)
-    val SPELL_CAST = BasicAOTDParticleType("spell_cast")
-    val SPELL_CAST2 = BasicAOTDParticleType("spell_cast2")
-    val SPELL_CAST3 = BasicAOTDParticleType("spell_cast3")
     val SPELL_HIT = BasicAOTDParticleType("spell_hit")
     val SPELL_LASER = BasicAOTDParticleType("spell_laser")
     val FREEZE = BasicAOTDParticleType("freeze")
@@ -53,9 +50,6 @@ object ModParticles {
         ENARIA_FIGHT_EVENT,
         ENCHANTED_FROG_SPAWN,
         SMOKE_SCREEN,
-        SPELL_CAST,
-        SPELL_CAST2,
-        SPELL_CAST3,
         SPELL_HIT,
         SPELL_LASER,
         FREEZE,

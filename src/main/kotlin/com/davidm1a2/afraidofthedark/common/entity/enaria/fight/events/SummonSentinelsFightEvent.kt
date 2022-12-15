@@ -46,8 +46,6 @@ class SummonSentinelsFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, En
             }
         }
 
-        spawnEventParticles(particlePositions)
-
         // Remember Enaria's HP
         enariaStartingHp = fight.enaria.health
     }

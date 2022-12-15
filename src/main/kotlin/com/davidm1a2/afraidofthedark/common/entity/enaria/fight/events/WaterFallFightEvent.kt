@@ -48,8 +48,6 @@ class WaterFallFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFi
                 world.setBlockAndUpdate(it, Blocks.AIR.defaultBlockState())
             }
         }
-
-        spawnEventParticles(List(30) { getRandomVectorBetween(cornerOne, cornerTwo) })
     }
 
     private fun clearAllArenaWater() {

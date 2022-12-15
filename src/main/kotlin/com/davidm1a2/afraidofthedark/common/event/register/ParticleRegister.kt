@@ -27,9 +27,6 @@ import com.davidm1a2.afraidofthedark.client.particle.RotateParticle
 import com.davidm1a2.afraidofthedark.client.particle.ShieldParticle
 import com.davidm1a2.afraidofthedark.client.particle.SmokeScreenParticle
 import com.davidm1a2.afraidofthedark.client.particle.SonicDisruptionParticle
-import com.davidm1a2.afraidofthedark.client.particle.SpellCast2Particle
-import com.davidm1a2.afraidofthedark.client.particle.SpellCast3Particle
-import com.davidm1a2.afraidofthedark.client.particle.SpellCastParticle
 import com.davidm1a2.afraidofthedark.client.particle.SpellHitParticle
 import com.davidm1a2.afraidofthedark.client.particle.SpellLaserParticle
 import com.davidm1a2.afraidofthedark.client.particle.StrengthParticle
@@ -67,9 +64,6 @@ class ParticleRegister {
         particleManager.register(ModParticles.ENARIA_FIGHT_EVENT, EnariaFightEventParticle::Factory)
         particleManager.register(ModParticles.ENCHANTED_FROG_SPAWN, EnchantedFrogSpawnParticle::Factory)
         particleManager.register(ModParticles.SMOKE_SCREEN, SmokeScreenParticle::Factory)
-        particleManager.register(ModParticles.SPELL_CAST, SpellCastParticle::Factory)
-        particleManager.register(ModParticles.SPELL_CAST2, SpellCast2Particle::Factory)
-        particleManager.register(ModParticles.SPELL_CAST3, SpellCast3Particle::Factory)
         particleManager.register(ModParticles.SPELL_HIT, SpellHitParticle::Factory)
         particleManager.register(ModParticles.SPELL_LASER, SpellLaserParticle::Factory)
         particleManager.register(ModParticles.FREEZE, FreezeParticle::Factory)

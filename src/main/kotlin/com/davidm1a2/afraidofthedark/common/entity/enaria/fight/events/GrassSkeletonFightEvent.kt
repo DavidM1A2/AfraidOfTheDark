@@ -34,7 +34,6 @@ class GrassSkeletonFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, Enar
                 world.setBlockAndUpdate(it, Blocks.GRASS_BLOCK.defaultBlockState())
             }
         }
-        spawnEventParticles(List(30) { getRandomVectorBetween(cornerOne, cornerTwo) })
     }
 
     override fun tick() {
