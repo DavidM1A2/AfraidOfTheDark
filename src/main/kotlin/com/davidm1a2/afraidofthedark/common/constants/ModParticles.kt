@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.constants
 import com.davidm1a2.afraidofthedark.common.particle.ArrowTrailParticleType
 import com.davidm1a2.afraidofthedark.common.particle.CleanseParticleType
 import com.davidm1a2.afraidofthedark.common.particle.FeedParticleType
+import com.davidm1a2.afraidofthedark.common.particle.FeyParticleType
 import com.davidm1a2.afraidofthedark.common.particle.FlyParticleType
 import com.davidm1a2.afraidofthedark.common.particle.HealParticleType
 import com.davidm1a2.afraidofthedark.common.particle.SelfParticleType
@@ -47,6 +48,7 @@ object ModParticles {
     val ROTATE = BasicAOTDParticleType("rotate")
     val SELF = SelfParticleType()
     val SELF_FIZZLE = BasicAOTDParticleType("self_fizzle")
+    val FEY = FeyParticleType()
 
     val PARTICLE_LIST = arrayOf(
         ENARIAS_ALTAR,
@@ -84,6 +86,7 @@ object ModParticles {
         IMBUE,
         ROTATE,
         SELF,
-        SELF_FIZZLE
+        SELF_FIZZLE,
+        FEY
     )
 }

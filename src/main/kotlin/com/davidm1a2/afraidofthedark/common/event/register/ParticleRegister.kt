@@ -23,6 +23,7 @@ import com.davidm1a2.afraidofthedark.client.particle.ImbueFizzleParticle
 import com.davidm1a2.afraidofthedark.client.particle.ImbueParticle
 import com.davidm1a2.afraidofthedark.client.particle.LightningParticle
 import com.davidm1a2.afraidofthedark.client.particle.PoisonParticle
+import com.davidm1a2.afraidofthedark.client.particle.ProjectileParticle
 import com.davidm1a2.afraidofthedark.client.particle.RotateParticle
 import com.davidm1a2.afraidofthedark.client.particle.SelfFizzleParticle
 import com.davidm1a2.afraidofthedark.client.particle.SelfParticle
@@ -98,5 +99,6 @@ class ParticleRegister {
         particleManager.register(ModParticles.ROTATE, RotateParticle::Factory)
         particleManager.register(ModParticles.SELF, SelfParticle::Factory)
         particleManager.register(ModParticles.SELF_FIZZLE, SelfFizzleParticle::Factory)
+        particleManager.register(ModParticles.FEY, ProjectileParticle::Factory)
     }
 }

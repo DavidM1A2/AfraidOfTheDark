@@ -1,16 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.particle.base
 
-import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.particle.IParticleRenderType
 import net.minecraft.client.particle.SpriteTexturedParticle
 import net.minecraft.client.renderer.BufferBuilder
 import net.minecraft.client.renderer.Tessellator
-import net.minecraft.client.renderer.texture.AtlasTexture
 import net.minecraft.client.renderer.texture.TextureManager
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.client.world.ClientWorld
-import org.lwjgl.opengl.GL11
 
 /**
  * Base class for all AOTD particles
@@ -90,29 +86,35 @@ abstract class AOTDParticle(
         // Copied and pasted from IParticleRenderType PARTICLE_SHEET_TRANSLUCENT, but without culling
         internal val PARTICLE_SHEET_TRANSLUCENT_NO_CULL = object : IParticleRenderType {
             override fun begin(bufferBuilder: BufferBuilder, textureManager: TextureManager) {
-                RenderSystem.depthMask(true)
-                textureManager.bind(AtlasTexture.LOCATION_PARTICLES)
-                RenderSystem.enableBlend()
-                // Added this line
                 RenderSystem.disableCull()
-                RenderSystem.blendFuncSeparate(
-                    GlStateManager.SourceFactor.SRC_ALPHA,
-                    GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
-                    GlStateManager.SourceFactor.ONE,
-                    GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA
-                )
-                RenderSystem.alphaFunc(GL11.GL_GREATER, 0.003921569f)
-                bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.PARTICLE)
+                IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT.begin(bufferBuilder, textureManager)
             }
 
             override fun end(tessellator: Tessellator) {
-                tessellator.end()
-                // Added this line
+                IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT.end(tessellator)
                 RenderSystem.enableCull()
             }
 
             override fun toString(): String {
                 return "PARTICLE_SHEET_TRANSLUCENT_NO_CULL"
+            }
+        }
+
+        // Copied and pasted from IParticleRenderType PARTICLE_SHEET_TRANSLUCENT_NO_CULL, but without color depth buffer
+        internal val PARTICLE_SHEET_TRANSLUCENT_NO_DEPTH_MASK = object : IParticleRenderType {
+            override fun begin(bufferBuilder: BufferBuilder, textureManager: TextureManager) {
+                // This enables the depth mask, so disable after this call
+                PARTICLE_SHEET_TRANSLUCENT_NO_CULL.begin(bufferBuilder, textureManager)
+                RenderSystem.depthMask(false)
+            }
+
+            override fun end(tessellator: Tessellator) {
+                PARTICLE_SHEET_TRANSLUCENT_NO_CULL.end(tessellator)
+                RenderSystem.depthMask(true)
+            }
+
+            override fun toString(): String {
+                return "PARTICLE_SHEET_TRANSLUCENT_NO_COLOR_MASK"
             }
         }
     }
