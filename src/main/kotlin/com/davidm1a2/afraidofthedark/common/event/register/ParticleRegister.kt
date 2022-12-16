@@ -99,6 +99,6 @@ class ParticleRegister {
         particleManager.register(ModParticles.ROTATE, RotateParticle::Factory)
         particleManager.register(ModParticles.SELF, SelfParticle::Factory)
         particleManager.register(ModParticles.SELF_FIZZLE, SelfFizzleParticle::Factory)
-        particleManager.register(ModParticles.FEY, ProjectileParticle::Factory)
+        particleManager.register(ModParticles.PROJECTILE, ProjectileParticle::Factory)
     }
 }

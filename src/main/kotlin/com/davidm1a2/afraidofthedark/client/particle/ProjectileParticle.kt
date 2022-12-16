@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.particle
 
 import com.davidm1a2.afraidofthedark.client.particle.base.AOTDParticle
-import com.davidm1a2.afraidofthedark.common.particle.FeyParticleData
+import com.davidm1a2.afraidofthedark.common.particle.ProjectileParticleData
 import net.minecraft.client.particle.IAnimatedSprite
 import net.minecraft.client.particle.IParticleFactory
 import net.minecraft.client.particle.IParticleRenderType
@@ -61,9 +61,9 @@ class ProjectileParticle(
         return PARTICLE_SHEET_TRANSLUCENT_NO_DEPTH_MASK
     }
 
-    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<FeyParticleData> {
+    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<ProjectileParticleData> {
         override fun createParticle(
-            particle: FeyParticleData,
+            particle: ProjectileParticleData,
             world: ClientWorld,
             x: Double,
             y: Double,

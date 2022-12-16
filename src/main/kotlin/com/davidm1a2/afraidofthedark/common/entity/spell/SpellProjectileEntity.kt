@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.entity.spell
 import com.davidm1a2.afraidofthedark.common.constants.ModDataSerializers
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellDeliveryMethods
-import com.davidm1a2.afraidofthedark.common.particle.FeyParticleData
+import com.davidm1a2.afraidofthedark.common.particle.ProjectileParticleData
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.ProjectileSpellDeliveryMethod
@@ -119,7 +119,7 @@ class SpellProjectileEntity(
                         .scale(0.4)
                         .multiply(random.nextDouble() * 0.4 + 0.8, random.nextDouble() * 0.4 + 0.8, random.nextDouble() * 0.4 + 0.8)
                     level.addParticle(
-                        FeyParticleData(random.nextFloat() * 0.6f + 0.6f, color.red / 255f, color.green / 255f, color.blue / 255f),
+                        ProjectileParticleData(random.nextFloat() * 0.6f + 0.6f, color.red / 255f, color.green / 255f, color.blue / 255f),
                         position.x + bbWidth / 2 + (random.nextDouble() - 0.5) * 0.4,
                         position.y + bbHeight / 2 + (random.nextDouble() - 0.5) * 0.4,
                         position.z + bbWidth / 2 + (random.nextDouble() - 0.5) * 0.4,
