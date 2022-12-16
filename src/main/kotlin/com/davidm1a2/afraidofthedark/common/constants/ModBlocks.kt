@@ -13,6 +13,7 @@ import com.davidm1a2.afraidofthedark.common.block.EldritchStoneStairsBlock
 import com.davidm1a2.afraidofthedark.common.block.EldritchStoneWallBlock
 import com.davidm1a2.afraidofthedark.common.block.EnariaSpawnerBlock
 import com.davidm1a2.afraidofthedark.common.block.EnariasAltarBlock
+import com.davidm1a2.afraidofthedark.common.block.FeyLightBlock
 import com.davidm1a2.afraidofthedark.common.block.FrostPhoenixSpawnerBlock
 import com.davidm1a2.afraidofthedark.common.block.GlowStalkBlock
 import com.davidm1a2.afraidofthedark.common.block.GnomishMetalPlateBlock
@@ -132,6 +133,7 @@ object ModBlocks {
     val MAGIC_CRYSTAL = MagicCrystalBlock()
     val SPELL_CRAFTING_TABLE = SpellCraftingTableBlock()
     val FROST_PHOENIX_SPAWNER = FrostPhoenixSpawnerBlock()
+    val FEY_LIGHT = FeyLightBlock()
 
     // An array containing a list of blocks that AOTD adds
     val BLOCK_LIST = arrayOf<Block>(
@@ -195,6 +197,7 @@ object ModBlocks {
         VITAE_EXTRACTOR,
         MAGIC_CRYSTAL,
         SPELL_CRAFTING_TABLE,
-        FROST_PHOENIX_SPAWNER
+        FROST_PHOENIX_SPAWNER,
+        FEY_LIGHT
     )
 }

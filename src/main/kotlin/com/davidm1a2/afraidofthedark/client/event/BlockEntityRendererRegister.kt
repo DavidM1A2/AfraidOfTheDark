@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.event
 
+import com.davidm1a2.afraidofthedark.client.tileEntity.FeyLightTileEntityRenderer
 import com.davidm1a2.afraidofthedark.client.tileEntity.VoidChestTileEntityRenderer
 import com.davidm1a2.afraidofthedark.client.tileEntity.droppedJournal.DroppedJournalTileEntityRenderer
 import com.davidm1a2.afraidofthedark.client.tileEntity.enariasAltar.EnariasAltarTileEntityRenderer
@@ -22,6 +23,7 @@ class BlockEntityRendererRegister {
             ClientRegistry.bindTileEntityRenderer(ModTileEntities.VITAE_EXTRACTOR) { VitaeExtractorTileEntityRenderer(it) }
             ClientRegistry.bindTileEntityRenderer(ModTileEntities.MAGIC_CRYSTAL) { MagicCrystalTileEntityRenderer(it) }
             ClientRegistry.bindTileEntityRenderer(ModTileEntities.SPELL_CRAFTING_TABLE) { SpellCraftingTableTileEntityRenderer(it) }
+            ClientRegistry.bindTileEntityRenderer(ModTileEntities.FEY_LIGHT) { FeyLightTileEntityRenderer(it) }
         }
     }
 }

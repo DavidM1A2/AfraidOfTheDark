@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.tileEntity.DarkForestTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.DesertOasisTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.DroppedJournalTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.EnariaSpawnerTileEntity
+import com.davidm1a2.afraidofthedark.common.tileEntity.FeyLightTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.FrostPhoenixSpawnerTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.GhastlyEnariaSpawnerTileEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.MagicCrystalTileEntity
@@ -105,6 +106,12 @@ object ModTileEntities {
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "frost_phoenix_spawner")
         }
+    val FEY_LIGHT: TileEntityType<FeyLightTileEntity> = TileEntityType
+        .Builder
+        .of({ FeyLightTileEntity() }, ModBlocks.FEY_LIGHT)
+        .build(null).apply {
+            setRegistryName(Constants.MOD_ID, "fey_light")
+        }
 
     // A list of tile entities to register
     val TILE_ENTITY_LIST = arrayOf(
@@ -121,6 +128,7 @@ object ModTileEntities {
         VITAE_EXTRACTOR,
         MAGIC_CRYSTAL,
         SPELL_CRAFTING_TABLE,
-        FROST_PHOENIX_SPAWNER
+        FROST_PHOENIX_SPAWNER,
+        FEY_LIGHT
     )
 }

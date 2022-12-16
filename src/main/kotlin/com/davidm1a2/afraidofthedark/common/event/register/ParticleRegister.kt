@@ -12,6 +12,7 @@ import com.davidm1a2.afraidofthedark.client.particle.EnchantedFrogSpawnParticle
 import com.davidm1a2.afraidofthedark.client.particle.EnderParticle
 import com.davidm1a2.afraidofthedark.client.particle.ExplosionParticle
 import com.davidm1a2.afraidofthedark.client.particle.FeedParticle
+import com.davidm1a2.afraidofthedark.client.particle.FeyParticle
 import com.davidm1a2.afraidofthedark.client.particle.FireParticle
 import com.davidm1a2.afraidofthedark.client.particle.FizzleParticle
 import com.davidm1a2.afraidofthedark.client.particle.FlyParticle
@@ -100,5 +101,6 @@ class ParticleRegister {
         particleManager.register(ModParticles.SELF, SelfParticle::Factory)
         particleManager.register(ModParticles.SELF_FIZZLE, SelfFizzleParticle::Factory)
         particleManager.register(ModParticles.PROJECTILE, ProjectileParticle::Factory)
+        particleManager.register(ModParticles.FEY, FeyParticle::Factory)
     }
 }
