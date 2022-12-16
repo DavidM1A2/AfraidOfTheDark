@@ -9,6 +9,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.EnderPocketSp
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.ExplosionSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.ExtinguishSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.FeedSpellEffect
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.FeyLightSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.FreezeSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.GrowSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.HealSpellEffect
@@ -45,6 +46,7 @@ object ModSpellEffects {
     val WARD = WardSpellEffect()
     val SONIC_DISRUPTION = SonicDisruptionSpellEffect()
     val SUMMON_ARROW = SummonArrowEffect()
+    val FEY_LIGHT = FeyLightSpellEffect()
 
     // An array containing a list of spell effects that AOTD adds
     val SPELL_EFFECTS = arrayOf(
@@ -67,6 +69,7 @@ object ModSpellEffects {
         LIGHTNING,
         WARD,
         SONIC_DISRUPTION,
-        SUMMON_ARROW
+        SUMMON_ARROW,
+        FEY_LIGHT
     )
 }
