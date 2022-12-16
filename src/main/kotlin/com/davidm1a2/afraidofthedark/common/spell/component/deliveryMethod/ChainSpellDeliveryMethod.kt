@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.entity.spell.SpellChainEntity
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -47,7 +48,7 @@ class ChainSpellDeliveryMethod : AOTDSpellDeliveryMethod("chain", ModResearches.
         val maxDistance = getMaxDistance(instance)
         val maxHops = getMaxHops(instance)
 
-        recursivelyChain(state.spell, state.stageIndex, state.casterEntity, state.world, state.position, maxHops, maxDistance)
+        recursivelyChain(state.spell, state.stageIndex, state.casterEntity, state.world, state.position, state.position, maxHops, maxDistance)
     }
 
     private fun recursivelyChain(
@@ -56,6 +57,7 @@ class ChainSpellDeliveryMethod : AOTDSpellDeliveryMethod("chain", ModResearches.
         casterEntity: Entity?,
         world: World,
         position: Vector3d,
+        lastHitCenterPos: Vector3d,
         hopsRemaining: Int,
         maxRange: Double,
         hitEntities: MutableSet<LivingEntity> = mutableSetOf()
@@ -108,8 +110,11 @@ class ChainSpellDeliveryMethod : AOTDSpellDeliveryMethod("chain", ModResearches.
             )
         )
 
+        val nearestEntityCenterPos = nearestEntity.position().add(0.0, nearestEntity.bbHeight / 2.0, 0.0)
+        world.addFreshEntity(SpellChainEntity(world, lastHitCenterPos, nearestEntityCenterPos))
+
         hitEntities.add(nearestEntity)
-        recursivelyChain(spell, stageIndex, casterEntity, world, nearestEntity.position(), hopsRemaining - 1, maxRange, hitEntities)
+        recursivelyChain(spell, stageIndex, casterEntity, world, nearestEntity.position(), nearestEntityCenterPos, hopsRemaining - 1, maxRange, hitEntities)
     }
 
     // Copy & Pasted from LivingEntity::canSee(Entity), except uses a position instead of an entity

@@ -108,3 +108,18 @@ fun Vector3d.computeRotationTo(target: Vector3d): Quaternion {
     rotation.normalize()
     return rotation
 }
+
+// Returns a pair of vectors that are both orthogonal to the original vector. The called on vector must be unit length
+fun Vector3d.getOrthogonalVectors(): Pair<Vector3d, Vector3d> {
+    if (this == Vector3d.ZERO) {
+        return this to this
+    }
+
+    var leftRightDirection = Y_UNIT_VECTOR.cross(this)
+    if (leftRightDirection == Vector3d.ZERO) {
+        leftRightDirection = X_UNIT_VECTOR
+    }
+    val upDownDirection = leftRightDirection.cross(this)
+
+    return leftRightDirection to upDownDirection
+}
