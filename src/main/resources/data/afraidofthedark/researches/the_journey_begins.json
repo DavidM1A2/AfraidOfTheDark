@@ -24,6 +24,9 @@
     ],
     "delivery_methods": [
       "afraidofthedark:self"
+    ],
+    "effects": [
+      "afraidofthedark:fey_light"
     ]
   }
 }

@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.powerSource
 
+import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
@@ -27,9 +28,9 @@ class AlchemySpellPowerSource : AOTDSpellPowerSource<Unit>("alchemy", ModResearc
         var costRemaining = spell.getCost()
         val inventory = entity.inventory.items + entity.inventory.offhand
         for (stack in inventory) {
-            if (stack.item == Items.GOLD_INGOT) {
+            if (stack.item in VALID_INGOTS) {
                 while (costRemaining > 0.0 && stack.count > 0) {
-                    costRemaining -= VITAE_PER_GOLD
+                    costRemaining -= VITAE_PER_INGOT[stack.item]!!
                     stack.count--
                 }
             }
@@ -44,22 +45,25 @@ class AlchemySpellPowerSource : AOTDSpellPowerSource<Unit>("alchemy", ModResearc
         }
 
         val inventory = entity.inventory.items + entity.inventory.offhand
-        var goldCount = 0
+        var vitaeAvailable = 0.0
         for (stack in inventory) {
-            if (stack.item == Items.GOLD_INGOT) {
-                goldCount += stack.count
+            if (stack.item in VALID_INGOTS) {
+                vitaeAvailable = vitaeAvailable + VITAE_PER_INGOT[stack.item]!! * stack.count
             }
         }
 
-        return CastEnvironment.withVitae(goldCount * VITAE_PER_GOLD, inventory.size * 64 * VITAE_PER_GOLD, Unit)
+        return CastEnvironment.withVitae(vitaeAvailable, inventory.size * 64 * VITAE_PER_INGOT.values.maxOf { it }, Unit)
     }
 
     override fun getSourceSpecificCost(vitae: Double): Number {
-        return ceil(vitae / VITAE_PER_GOLD).toInt()
+        return ceil(vitae / VITAE_PER_INGOT[Items.GOLD_INGOT]!!).toInt()
     }
 
     companion object {
-        // The number of vitae each gold ingot
-        private const val VITAE_PER_GOLD = 10.0
+        private val VALID_INGOTS = setOf(Items.GOLD_INGOT, ModItems.ASTRAL_SILVER_INGOT)
+        private val VITAE_PER_INGOT = mapOf(
+            Items.GOLD_INGOT to 10.0,
+            ModItems.ASTRAL_SILVER_INGOT to 20.0
+        )
     }
 }
