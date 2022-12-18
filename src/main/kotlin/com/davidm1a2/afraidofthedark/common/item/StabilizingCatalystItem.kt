@@ -11,7 +11,6 @@ import net.minecraft.entity.EntityType
 import net.minecraft.entity.item.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.particles.BlockParticleData
 import net.minecraft.particles.ParticleTypes
 import net.minecraft.util.SoundCategory
@@ -84,16 +83,16 @@ class StabilizingCatalystItem : AOTDItem("stabilizing_catalyst", Properties()) {
         private const val RESEARCH_UNLOCK_RADIUS = 10.0
 
         private val TRANSFORMATION_MAP = mapOf(
-            ModItems.ELDRITCH_METAL_SWORD to Items.IRON_SWORD,
-            ModItems.ELDRITCH_METAL_AXE to Items.IRON_AXE,
-            ModItems.ELDRITCH_METAL_HOE to Items.IRON_HOE,
-            ModItems.ELDRITCH_METAL_PICKAXE to Items.IRON_PICKAXE,
-            ModItems.ELDRITCH_METAL_SHOVEL to Items.IRON_SHOVEL,
-            ModItems.ELDRITCH_METAL_HELMET to Items.IRON_HELMET,
-            ModItems.ELDRITCH_METAL_CHESTPLATE to Items.IRON_CHESTPLATE,
-            ModItems.ELDRITCH_METAL_LEGGINGS to Items.IRON_LEGGINGS,
-            ModItems.ELDRITCH_METAL_BOOTS to Items.IRON_BOOTS,
-            ModItems.ELDRITCH_METAL_BOLT to ModItems.IRON_BOLT
+            ModItems.ELDRITCH_METAL_SWORD to ModItems.AMORPHOUS_METAL_SWORD,
+            ModItems.ELDRITCH_METAL_AXE to ModItems.AMORPHOUS_METAL_AXE,
+            ModItems.ELDRITCH_METAL_HOE to ModItems.AMORPHOUS_METAL_HOE,
+            ModItems.ELDRITCH_METAL_PICKAXE to ModItems.AMORPHOUS_METAL_PICKAXE,
+            ModItems.ELDRITCH_METAL_SHOVEL to ModItems.AMORPHOUS_METAL_SHOVEL,
+            ModItems.ELDRITCH_METAL_HELMET to ModItems.AMORPHOUS_METAL_HELMET,
+            ModItems.ELDRITCH_METAL_CHESTPLATE to ModItems.AMORPHOUS_METAL_CHESTPLATE,
+            ModItems.ELDRITCH_METAL_LEGGINGS to ModItems.AMORPHOUS_METAL_LEGGINGS,
+            ModItems.ELDRITCH_METAL_BOOTS to ModItems.AMORPHOUS_METAL_BOOTS,
+            ModItems.ELDRITCH_METAL_BOLT to ModItems.AMORPHOUS_METAL_BOLT
         )
     }
 }
