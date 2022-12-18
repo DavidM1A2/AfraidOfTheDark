@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.event
 
+import com.davidm1a2.afraidofthedark.client.entity.bolt.AmorphousMetalBoltRenderer
 import com.davidm1a2.afraidofthedark.client.entity.bolt.AstralSilverBoltRenderer
 import com.davidm1a2.afraidofthedark.client.entity.bolt.EldritchMetalBoltRenderer
 import com.davidm1a2.afraidofthedark.client.entity.bolt.IgneousBoltRenderer
@@ -42,6 +43,7 @@ class EntityRendererRegister {
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.IGNEOUS_BOLT) { IgneousBoltRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.STAR_METAL_BOLT) { StarMetalBoltRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.ELDRITCH_METAL_BOLT) { EldritchMetalBoltRenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.AMORPHOUS_METAL_BOLT) { AmorphousMetalBoltRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_PROJECTILE) { SpellProjectileRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_LASER) { SpellLaserRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_AOE) { SpellAOERenderer(it) }

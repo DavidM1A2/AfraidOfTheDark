@@ -13,4 +13,5 @@ object ModToolMaterials {
     val STAR_METAL = AOTDToolMaterial(3, 600, 20f, 7f, 15, Ingredient.EMPTY)
     val GNOMISH_METAL = AOTDToolMaterial(3, 350, 20f, 0f, 10, Ingredient.of(ModItems.GNOMISH_METAL_INGOT))
     val ELDRITCH_METAL = AOTDToolMaterial(2, 280, 5.5f, 6f, 9, Ingredient.of(ModItems.ELDRITCH_METAL_INGOT))
+    val AMORPHOUS_METAL = AOTDToolMaterial(3, 600, 18f, 7f, 15, Ingredient.of(ModBlocks.AMORPHOUS_ELDRITCH_METAL))
 }

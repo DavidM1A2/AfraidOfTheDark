@@ -30,6 +30,12 @@ import com.davidm1a2.afraidofthedark.common.item.StabilizingCatalystItem
 import com.davidm1a2.afraidofthedark.common.item.VitaeLanternItem
 import com.davidm1a2.afraidofthedark.common.item.WandItem
 import com.davidm1a2.afraidofthedark.common.item.WerewolfBloodItem
+import com.davidm1a2.afraidofthedark.common.item.amorphousmetal.AmorphousMetalArmorItem
+import com.davidm1a2.afraidofthedark.common.item.amorphousmetal.AmorphousMetalAxeItem
+import com.davidm1a2.afraidofthedark.common.item.amorphousmetal.AmorphousMetalHoeItem
+import com.davidm1a2.afraidofthedark.common.item.amorphousmetal.AmorphousMetalPickaxeItem
+import com.davidm1a2.afraidofthedark.common.item.amorphousmetal.AmorphousMetalShovelItem
+import com.davidm1a2.afraidofthedark.common.item.amorphousmetal.AmorphousMetalSwordItem
 import com.davidm1a2.afraidofthedark.common.item.astralsilver.AstralSilverArmorItem
 import com.davidm1a2.afraidofthedark.common.item.astralsilver.AstralSilverAxeItem
 import com.davidm1a2.afraidofthedark.common.item.astralsilver.AstralSilverHoeItem
@@ -38,6 +44,7 @@ import com.davidm1a2.afraidofthedark.common.item.astralsilver.AstralSilverPickax
 import com.davidm1a2.afraidofthedark.common.item.astralsilver.AstralSilverShovelItem
 import com.davidm1a2.afraidofthedark.common.item.astralsilver.AstralSilverSwordItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.WristCrossbowItem
+import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.AmorphousMetalBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.AstralSilverBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.EldritchMetalBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.IgneousBoltItem
@@ -149,6 +156,15 @@ object ModItems {
     val ELDRITCH_METAL_CHESTPLATE = EldritchMetalArmorItem("eldritch_metal_chestplate", EquipmentSlotType.CHEST)
     val ELDRITCH_METAL_LEGGINGS = EldritchMetalArmorItem("eldritch_metal_leggings", EquipmentSlotType.LEGS)
     val ELDRITCH_METAL_BOOTS = EldritchMetalArmorItem("eldritch_metal_boots", EquipmentSlotType.FEET)
+    val AMORPHOUS_METAL_SWORD = AmorphousMetalSwordItem()
+    val AMORPHOUS_METAL_AXE = AmorphousMetalAxeItem()
+    val AMORPHOUS_METAL_HOE = AmorphousMetalHoeItem()
+    val AMORPHOUS_METAL_PICKAXE = AmorphousMetalPickaxeItem()
+    val AMORPHOUS_METAL_SHOVEL = AmorphousMetalShovelItem()
+    val AMORPHOUS_METAL_HELMET = AmorphousMetalArmorItem("amorphous_metal_helmet", EquipmentSlotType.HEAD)
+    val AMORPHOUS_METAL_CHESTPLATE = AmorphousMetalArmorItem("amorphous_metal_chestplate", EquipmentSlotType.CHEST)
+    val AMORPHOUS_METAL_LEGGINGS = AmorphousMetalArmorItem("amorphous_metal_leggings", EquipmentSlotType.LEGS)
+    val AMORPHOUS_METAL_BOOTS = AmorphousMetalArmorItem("amorphous_metal_boots", EquipmentSlotType.FEET)
     val GNOMISH_METAL_INGOT = GnomishMetalIngotItem()
     val GNOMISH_METAL_AXE = GnomishMetalAxeItem()
     val GNOMISH_METAL_HOE = GnomishMetalHoeItem()
@@ -160,6 +176,7 @@ object ModItems {
     val IGNEOUS_BOLT = IgneousBoltItem()
     val STAR_METAL_BOLT = StarMetalBoltItem()
     val ELDRITCH_METAL_BOLT = EldritchMetalBoltItem()
+    val AMORPHOUS_METAL_BOLT = AmorphousMetalBoltItem()
     val DEBUG = DebugItem()
     val SCHEMATIC_CREATOR = SchematicCreatorItem()
     val DESERT_FRUIT = DesertFruitItem()
@@ -218,6 +235,7 @@ object ModItems {
         IGNEOUS_BOLT,
         STAR_METAL_BOLT,
         ELDRITCH_METAL_BOLT,
+        AMORPHOUS_METAL_BOLT,
         DEBUG,
         SCHEMATIC_CREATOR,
         SLEEPING_POTION,
@@ -257,6 +275,15 @@ object ModItems {
         ELDRITCH_METAL_CHESTPLATE,
         ELDRITCH_METAL_LEGGINGS,
         ELDRITCH_METAL_BOOTS,
+        AMORPHOUS_METAL_SWORD,
+        AMORPHOUS_METAL_AXE,
+        AMORPHOUS_METAL_HOE,
+        AMORPHOUS_METAL_PICKAXE,
+        AMORPHOUS_METAL_SHOVEL,
+        AMORPHOUS_METAL_HELMET,
+        AMORPHOUS_METAL_CHESTPLATE,
+        AMORPHOUS_METAL_LEGGINGS,
+        AMORPHOUS_METAL_BOOTS,
         GNOMISH_METAL_INGOT,
         GNOMISH_METAL_AXE,
         GNOMISH_METAL_HOE,

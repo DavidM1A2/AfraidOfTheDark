@@ -48,4 +48,14 @@ object ModArmorMaterials {
         0f,
         Ingredient.of(ModItems.ELDRITCH_METAL_INGOT)
     )
+    val AMORPHOUS_METAL = AOTDArmorMaterial(
+        "amorphous_metal",
+        40,
+        arrayOf(3, 6, 8, 3),
+        22,
+        SoundEvents.ARMOR_EQUIP_GENERIC,
+        0f,
+        0f,
+        Ingredient.of(ModBlocks.AMORPHOUS_ELDRITCH_METAL)
+    )
 }
