@@ -1,12 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.event
 
-import com.davidm1a2.afraidofthedark.client.entity.bolt.AmorphousMetalBoltRenderer
-import com.davidm1a2.afraidofthedark.client.entity.bolt.AstralSilverBoltRenderer
-import com.davidm1a2.afraidofthedark.client.entity.bolt.EldritchMetalBoltRenderer
-import com.davidm1a2.afraidofthedark.client.entity.bolt.IgneousBoltRenderer
-import com.davidm1a2.afraidofthedark.client.entity.bolt.IronBoltRenderer
-import com.davidm1a2.afraidofthedark.client.entity.bolt.StarMetalBoltRenderer
-import com.davidm1a2.afraidofthedark.client.entity.bolt.WoodenBoltRenderer
+import com.davidm1a2.afraidofthedark.client.entity.bolt.AOTDBoltRenderer
 import com.davidm1a2.afraidofthedark.client.entity.enaria.EnariaRenderer
 import com.davidm1a2.afraidofthedark.client.entity.enaria.GhastlyEnariaRenderer
 import com.davidm1a2.afraidofthedark.client.entity.enchantedFrog.EnchantedFrogRenderer
@@ -37,13 +31,13 @@ class EntityRendererRegister {
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPLINTER_DRONE) { SplinterDroneRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPLINTER_DRONE_PROJECTILE) { SplinterDroneProjectileRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.ENARIA) { EnariaRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.WOODEN_BOLT) { WoodenBoltRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.IRON_BOLT) { IronBoltRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.ASTRAL_SILVER_BOLT) { AstralSilverBoltRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.IGNEOUS_BOLT) { IgneousBoltRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.STAR_METAL_BOLT) { StarMetalBoltRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.ELDRITCH_METAL_BOLT) { EldritchMetalBoltRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.AMORPHOUS_METAL_BOLT) { AmorphousMetalBoltRenderer(it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.WOODEN_BOLT) { AOTDBoltRenderer("wooden_bolt", it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.IRON_BOLT) { AOTDBoltRenderer("iron_bolt", it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.ASTRAL_SILVER_BOLT) { AOTDBoltRenderer("astral_silver_bolt", it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.IGNEOUS_BOLT) { AOTDBoltRenderer("igneous_bolt", it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.STAR_METAL_BOLT) { AOTDBoltRenderer("star_metal_bolt", it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.ELDRITCH_METAL_BOLT) { AOTDBoltRenderer("eldritch_metal_bolt", it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.AMORPHOUS_METAL_BOLT) { AOTDBoltRenderer("amorphous_metal_bolt", it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_PROJECTILE) { SpellProjectileRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_LASER) { SpellLaserRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_AOE) { SpellAOERenderer(it) }
