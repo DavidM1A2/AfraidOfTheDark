@@ -56,6 +56,6 @@ object ModArmorMaterials {
         SoundEvents.ARMOR_EQUIP_GENERIC,
         0f,
         0f,
-        Ingredient.of(ModBlocks.AMORPHOUS_ELDRITCH_METAL)
+        Ingredient.EMPTY
     )
 }

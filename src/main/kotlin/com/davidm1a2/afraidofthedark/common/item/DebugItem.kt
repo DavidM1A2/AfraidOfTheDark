@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.spell.Spell
@@ -35,9 +34,9 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
 //                println("${powerSource.registryName!!.path} - Current: ${environment.vitaeAvailable}, Max: ${environment.vitaeMaximum}")
 //            }
 //            println("Took: ${(System.currentTimeMillis() - time)}ms")
-            playerIn.getSpellManager().getSpells().forEach {
-                println(serializeJSON(it))
-            }
+//            playerIn.getSpellManager().getSpells().forEach {
+//                println(serializeJSON(it))
+//            }
         }
         return super.use(worldIn, playerIn, handIn)
     }
