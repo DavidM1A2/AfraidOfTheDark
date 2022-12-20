@@ -28,8 +28,13 @@ class AmorphousMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType
 
     override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
-        if (player != null && !player.getResearch().isResearched(ModResearches.CATALYSIS)) {
-            tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+        if (player != null) {
+            if (player.getResearch().isResearched(ModResearches.CATALYSIS)) {
+                tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.amorphous_metal_armor.full_protection"))
+                tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.amorphous_metal_armor.no_protection"))
+            } else {
+                tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            }
         }
     }
 
@@ -49,11 +54,26 @@ class AmorphousMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType
             return 1.0
         }
 
+        val chance = random.nextDouble()
+        // Chance to fully protect
+        if (chance < FULL_PROTECTION_CHANCE) {
+            return 0.0
+        }
+        // Chance to take full damage
+        if (1.0 - NO_PROTECTION_CHANCE < chance) {
+            return 1.0
+        }
+
         // We have 75% better protection than diamond armor
         return 0.25
     }
 
     override fun isEnchantable(itemStack: ItemStack): Boolean {
         return true
+    }
+
+    companion object {
+        private const val FULL_PROTECTION_CHANCE = 0.2
+        private const val NO_PROTECTION_CHANCE = 0.05
     }
 }

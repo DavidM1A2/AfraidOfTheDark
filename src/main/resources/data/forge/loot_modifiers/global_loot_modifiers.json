@@ -1,6 +1,8 @@
 {
   "replace": false,
   "entries": [
-    "afraidofthedark:igneous_autosmelt"
+    "afraidofthedark:igneous_autosmelt",
+    "afraidofthedark:amorphous_metal_double_drops",
+    "afraidofthedark:amorphous_metal_no_drops"
   ]
 }

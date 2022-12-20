@@ -5,9 +5,14 @@ import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDResearchRequiredPickaxeItem
+import net.minecraft.client.Minecraft
+import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.World
 
 class AmorphousMetalPickaxeItem : AOTDResearchRequiredPickaxeItem("amorphous_metal_pickaxe", ModToolMaterials.AMORPHOUS_METAL, 1, -2.8f, ModResearches.CATALYSIS, Properties()) {
     override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, target: Entity): Boolean {
@@ -17,5 +22,16 @@ class AmorphousMetalPickaxeItem : AOTDResearchRequiredPickaxeItem("amorphous_met
         }
 
         return super.onLeftClickEntity(stack, player, target)
+    }
+
+    override fun appendHoverText(itemStack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
+        super.appendHoverText(itemStack, world, tooltip, iTooltipFlag)
+
+        val player = Minecraft.getInstance().player
+
+        if (player != null && player.getResearch().isResearched(requiredResearch)) {
+            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.amorphous_metal_tool.double_drops"))
+            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.amorphous_metal_tool.no_drops"))
+        }
     }
 }

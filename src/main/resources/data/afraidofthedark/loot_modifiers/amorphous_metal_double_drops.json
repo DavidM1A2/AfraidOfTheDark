@@ -1,0 +1,70 @@
+{
+  "type": "afraidofthedark:double_drops",
+  "conditions": [
+    {
+      "condition": "minecraft:alternative",
+      "terms": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "item": "afraidofthedark:amorphous_metal_axe"
+          }
+        },
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "item": "afraidofthedark:amorphous_metal_hoe"
+          }
+        },
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "item": "afraidofthedark:amorphous_metal_pickaxe"
+          }
+        },
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "item": "afraidofthedark:amorphous_metal_shovel"
+          }
+        },
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "item": "afraidofthedark:amorphous_metal_sword"
+          }
+        },
+        {
+          "condition": "minecraft:entity_properties",
+          "entity": "killer",
+          "predicate": {
+            "equipment": {
+              "mainhand": {
+                "items": [
+                  "afraidofthedark:amorphous_metal_sword"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "condition": "minecraft:entity_properties",
+          "entity": "killer",
+          "predicate": {
+            "equipment": {
+              "offhand": {
+                "items": [
+                  "afraidofthedark:amorphous_metal_sword"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "condition": "minecraft:random_chance",
+      "chance": 0.1
+    }
+  ]
+}
