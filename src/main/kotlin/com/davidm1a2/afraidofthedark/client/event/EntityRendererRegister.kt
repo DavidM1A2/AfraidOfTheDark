@@ -38,6 +38,7 @@ class EntityRendererRegister {
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.STAR_METAL_BOLT) { AOTDBoltRenderer("star_metal_bolt", it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.ELDRITCH_METAL_BOLT) { AOTDBoltRenderer("eldritch_metal_bolt", it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.AMORPHOUS_METAL_BOLT) { AOTDBoltRenderer("amorphous_metal_bolt", it) }
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.VOID_BOLT) { AOTDBoltRenderer("void_bolt", it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_PROJECTILE) { SpellProjectileRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_LASER) { SpellLaserRenderer(it) }
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_AOE) { SpellAOERenderer(it) }

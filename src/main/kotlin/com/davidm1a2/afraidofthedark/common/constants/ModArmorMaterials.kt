@@ -58,4 +58,14 @@ object ModArmorMaterials {
         0f,
         Ingredient.EMPTY
     )
+    val VOID = AOTDArmorMaterial(
+        "void",
+        1,
+        arrayOf(3, 6, 8, 3),
+        75,
+        SoundEvents.ARMOR_EQUIP_GENERIC,
+        0f,
+        1f,
+        Ingredient.EMPTY
+    )
 }

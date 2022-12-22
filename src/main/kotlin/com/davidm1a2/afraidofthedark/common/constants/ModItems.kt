@@ -50,6 +50,7 @@ import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.EldritchMetalBol
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.IgneousBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.IronBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.StarMetalBoltItem
+import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.VoidBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.WoodenBoltItem
 import com.davidm1a2.afraidofthedark.common.item.eggs.EnchantedFrogSpawnEggItem
 import com.davidm1a2.afraidofthedark.common.item.eggs.EnchantedSkeletonSpawnEggItem
@@ -92,6 +93,12 @@ import com.davidm1a2.afraidofthedark.common.item.telescope.GlassLensItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.MastercraftedTelescopeItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.TelescopeItem
 import com.davidm1a2.afraidofthedark.common.item.telescope.TopazLensItem
+import com.davidm1a2.afraidofthedark.common.item.voiid.VoidArmorItem
+import com.davidm1a2.afraidofthedark.common.item.voiid.VoidAxeItem
+import com.davidm1a2.afraidofthedark.common.item.voiid.VoidHoeItem
+import com.davidm1a2.afraidofthedark.common.item.voiid.VoidPickaxeItem
+import com.davidm1a2.afraidofthedark.common.item.voiid.VoidSaberItem
+import com.davidm1a2.afraidofthedark.common.item.voiid.VoidShovelItem
 import net.minecraft.inventory.EquipmentSlotType
 
 /**
@@ -107,6 +114,7 @@ object ModItems {
     val SEXTANT = SextantItem()
     val ASTRAL_SILVER_INGOT = AstralSilverIngotItem()
     val ASTRAL_SILVER_SWORD = AstralSilverSwordItem()
+    val ASTRAL_SILVER_BOLT = AstralSilverBoltItem()
     val ASTRAL_SILVER_AXE = AstralSilverAxeItem()
     val ASTRAL_SILVER_HOE = AstralSilverHoeItem()
     val ASTRAL_SILVER_PICKAXE = AstralSilverPickaxeItem()
@@ -125,6 +133,7 @@ object ModItems {
     val SUNSTONE_FRAGMENT = SunstoneFragmentItem()
     val IGNEOUS_GEM = IgneousGemItem()
     val IGNEOUS_SWORD = IgneousSwordItem()
+    val IGNEOUS_BOLT = IgneousBoltItem()
     val IGNEOUS_AXE = IgneousAxeItem()
     val IGNEOUS_HOE = IgneousHoeItem()
     val IGNEOUS_PICKAXE = IgneousPickaxeItem()
@@ -138,6 +147,7 @@ object ModItems {
     val STAR_METAL_INGOT = StarMetalIngotItem()
     val STAR_METAL_PLATE = StarMetalPlateItem()
     val STAR_METAL_KHOPESH = StarMetalKhopeshItem()
+    val STAR_METAL_BOLT = StarMetalBoltItem()
     val STAR_METAL_AXE = StarMetalAxeItem()
     val STAR_METAL_HOE = StarMetalHoeItem()
     val STAR_METAL_PICKAXE = StarMetalPickaxeItem()
@@ -148,6 +158,7 @@ object ModItems {
     val STAR_METAL_LEGGINGS = StarMetalArmorItem("star_metal_leggings", EquipmentSlotType.LEGS)
     val STAR_METAL_BOOTS = StarMetalArmorItem("star_metal_boots", EquipmentSlotType.FEET)
     val ELDRITCH_METAL_SWORD = EldritchMetalSwordItem()
+    val ELDRITCH_METAL_BOLT = EldritchMetalBoltItem()
     val ELDRITCH_METAL_AXE = EldritchMetalAxeItem()
     val ELDRITCH_METAL_HOE = EldritchMetalHoeItem()
     val ELDRITCH_METAL_PICKAXE = EldritchMetalPickaxeItem()
@@ -157,6 +168,7 @@ object ModItems {
     val ELDRITCH_METAL_LEGGINGS = EldritchMetalArmorItem("eldritch_metal_leggings", EquipmentSlotType.LEGS)
     val ELDRITCH_METAL_BOOTS = EldritchMetalArmorItem("eldritch_metal_boots", EquipmentSlotType.FEET)
     val AMORPHOUS_METAL_SWORD = AmorphousMetalSwordItem()
+    val AMORPHOUS_METAL_BOLT = AmorphousMetalBoltItem()
     val AMORPHOUS_METAL_AXE = AmorphousMetalAxeItem()
     val AMORPHOUS_METAL_HOE = AmorphousMetalHoeItem()
     val AMORPHOUS_METAL_PICKAXE = AmorphousMetalPickaxeItem()
@@ -165,6 +177,16 @@ object ModItems {
     val AMORPHOUS_METAL_CHESTPLATE = AmorphousMetalArmorItem("amorphous_metal_chestplate", EquipmentSlotType.CHEST)
     val AMORPHOUS_METAL_LEGGINGS = AmorphousMetalArmorItem("amorphous_metal_leggings", EquipmentSlotType.LEGS)
     val AMORPHOUS_METAL_BOOTS = AmorphousMetalArmorItem("amorphous_metal_boots", EquipmentSlotType.FEET)
+    val VOID_SABER = VoidSaberItem()
+    val VOID_BOLT = VoidBoltItem()
+    val VOID_AXE = VoidAxeItem()
+    val VOID_HOE = VoidHoeItem()
+    val VOID_PICKAXE = VoidPickaxeItem()
+    val VOID_SHOVEL = VoidShovelItem()
+    val VOID_HELMET = VoidArmorItem("void_helmet", EquipmentSlotType.HEAD)
+    val VOID_CHESTPLATE = VoidArmorItem("void_chestplate", EquipmentSlotType.CHEST)
+    val VOID_LEGGINGS = VoidArmorItem("void_leggings", EquipmentSlotType.LEGS)
+    val VOID_BOOTS = VoidArmorItem("void_boots", EquipmentSlotType.FEET)
     val GNOMISH_METAL_INGOT = GnomishMetalIngotItem()
     val GNOMISH_METAL_AXE = GnomishMetalAxeItem()
     val GNOMISH_METAL_HOE = GnomishMetalHoeItem()
@@ -172,11 +194,6 @@ object ModItems {
     val GNOMISH_METAL_SHOVEL = GnomishMetalShovelItem()
     val WOODEN_BOLT = WoodenBoltItem()
     val IRON_BOLT = IronBoltItem()
-    val ASTRAL_SILVER_BOLT = AstralSilverBoltItem()
-    val IGNEOUS_BOLT = IgneousBoltItem()
-    val STAR_METAL_BOLT = StarMetalBoltItem()
-    val ELDRITCH_METAL_BOLT = EldritchMetalBoltItem()
-    val AMORPHOUS_METAL_BOLT = AmorphousMetalBoltItem()
     val DEBUG = DebugItem()
     val SCHEMATIC_CREATOR = SchematicCreatorItem()
     val DESERT_FRUIT = DesertFruitItem()
@@ -217,6 +234,7 @@ object ModItems {
         SEXTANT,
         ASTRAL_SILVER_INGOT,
         ASTRAL_SILVER_SWORD,
+        ASTRAL_SILVER_BOLT,
         ASTRAL_SILVER_AXE,
         ASTRAL_SILVER_HOE,
         ASTRAL_SILVER_PICKAXE,
@@ -231,11 +249,6 @@ object ModItems {
         ELDRITCH_METAL_INGOT,
         WOODEN_BOLT,
         IRON_BOLT,
-        ASTRAL_SILVER_BOLT,
-        IGNEOUS_BOLT,
-        STAR_METAL_BOLT,
-        ELDRITCH_METAL_BOLT,
-        AMORPHOUS_METAL_BOLT,
         DEBUG,
         SCHEMATIC_CREATOR,
         SLEEPING_POTION,
@@ -244,6 +257,7 @@ object ModItems {
         SUNSTONE_FRAGMENT,
         IGNEOUS_GEM,
         IGNEOUS_SWORD,
+        IGNEOUS_BOLT,
         IGNEOUS_AXE,
         IGNEOUS_HOE,
         IGNEOUS_PICKAXE,
@@ -257,6 +271,7 @@ object ModItems {
         STAR_METAL_INGOT,
         STAR_METAL_PLATE,
         STAR_METAL_KHOPESH,
+        STAR_METAL_BOLT,
         STAR_METAL_AXE,
         STAR_METAL_HOE,
         STAR_METAL_PICKAXE,
@@ -267,6 +282,7 @@ object ModItems {
         STAR_METAL_LEGGINGS,
         STAR_METAL_BOOTS,
         ELDRITCH_METAL_SWORD,
+        ELDRITCH_METAL_BOLT,
         ELDRITCH_METAL_AXE,
         ELDRITCH_METAL_HOE,
         ELDRITCH_METAL_PICKAXE,
@@ -276,6 +292,7 @@ object ModItems {
         ELDRITCH_METAL_LEGGINGS,
         ELDRITCH_METAL_BOOTS,
         AMORPHOUS_METAL_SWORD,
+        AMORPHOUS_METAL_BOLT,
         AMORPHOUS_METAL_AXE,
         AMORPHOUS_METAL_HOE,
         AMORPHOUS_METAL_PICKAXE,
@@ -284,6 +301,16 @@ object ModItems {
         AMORPHOUS_METAL_CHESTPLATE,
         AMORPHOUS_METAL_LEGGINGS,
         AMORPHOUS_METAL_BOOTS,
+        VOID_SABER,
+        VOID_BOLT,
+        VOID_AXE,
+        VOID_HOE,
+        VOID_PICKAXE,
+        VOID_SHOVEL,
+        VOID_HELMET,
+        VOID_CHESTPLATE,
+        VOID_LEGGINGS,
+        VOID_BOOTS,
         GNOMISH_METAL_INGOT,
         GNOMISH_METAL_AXE,
         GNOMISH_METAL_HOE,

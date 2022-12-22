@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.entity.bolt.EldritchMetalBoltEntity
 import com.davidm1a2.afraidofthedark.common.entity.bolt.IgneousBoltEntity
 import com.davidm1a2.afraidofthedark.common.entity.bolt.IronBoltEntity
 import com.davidm1a2.afraidofthedark.common.entity.bolt.StarMetalBoltEntity
+import com.davidm1a2.afraidofthedark.common.entity.bolt.VoidBoltEntity
 import com.davidm1a2.afraidofthedark.common.entity.bolt.WoodenBoltEntity
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EnariaEntity
 import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
@@ -219,6 +220,14 @@ object ModEntities {
         .noSummon()
         .build("${Constants.MOD_ID}:amorphous_metal_bolt")
         .setRegistryNameGeneric("amorphous_metal_bolt")
+    val VOID_BOLT = EntityType.Builder.of(::VoidBoltEntity, EntityClassification.MISC)
+        .setTrackingRange(50)
+        .setUpdateInterval(1)
+        .setShouldReceiveVelocityUpdates(true)
+        .sized(0.5f, 0.5f)
+        .noSummon()
+        .build("${Constants.MOD_ID}:void_bolt")
+        .setRegistryNameGeneric("void_bolt")
 
     // An array containing a list of entities that AOTD adds
     val ENTITY_LIST = arrayOf(
@@ -243,7 +252,8 @@ object ModEntities {
         IGNEOUS_BOLT,
         STAR_METAL_BOLT,
         ELDRITCH_METAL_BOLT,
-        AMORPHOUS_METAL_BOLT
+        AMORPHOUS_METAL_BOLT,
+        VOID_BOLT
     )
 
     // This is not ready to be initialized at the time ENTITY_LIST is, so delay it using a lazy initializer
