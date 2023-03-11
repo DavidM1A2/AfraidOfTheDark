@@ -240,5 +240,45 @@
       }
     ],
     "subtitle": "Scroll Learned"
+  },
+  "music.fall": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "afraidofthedark:music/fall",
+        "stream": false
+      }
+    ],
+    "subtitle": "Spooky Music"
+  },
+  "music.oasis": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "afraidofthedark:music/oasis",
+        "stream": false
+      }
+    ],
+    "subtitle": "Desert Jingle"
+  },
+  "music.pride": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "afraidofthedark:music/pride",
+        "stream": false
+      }
+    ],
+    "subtitle": "March of the Ancients"
+  },
+  "music.windy": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "afraidofthedark:music/windy",
+        "stream": false
+      }
+    ],
+    "subtitle": "Lonely Twinkle"
   }
 }

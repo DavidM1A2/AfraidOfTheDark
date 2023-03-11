@@ -318,6 +318,11 @@
             }
           ],
           "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:insight_music_disc",
+          "weight": 1
         }
       ]
     }

@@ -31,6 +31,10 @@ object ModSounds {
     val ENARIA_FIGHT_MUSIC = create("music.enaria_fight")
     val LENS_CUTTER = create("block.lens_cutter.cut")
     val SCROLL_LEARNED = create("ui.scroll_learned")
+    val CRYPT_MUSIC = create("music.fall")
+    val OASIS_MUSIC = create("music.oasis")
+    val ANCIENT_MUSIC = create("music.pride")
+    val FROST_SPIRE_MUSIC = create("music.windy")
 
     // An array containing a list of sounds that AOTD adds
     val SOUND_LIST = arrayOf(
@@ -57,7 +61,11 @@ object ModSounds {
         NIGHTMARE_CHASE_MUSIC,
         ENARIA_FIGHT_MUSIC,
         LENS_CUTTER,
-        SCROLL_LEARNED
+        SCROLL_LEARNED,
+        CRYPT_MUSIC,
+        OASIS_MUSIC,
+        ANCIENT_MUSIC,
+        FROST_SPIRE_MUSIC
     )
 
     /**

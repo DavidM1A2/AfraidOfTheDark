@@ -52,6 +52,7 @@ import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.IronBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.StarMetalBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.VoidBoltItem
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.WoodenBoltItem
+import com.davidm1a2.afraidofthedark.common.item.disc.*
 import com.davidm1a2.afraidofthedark.common.item.eggs.EnchantedFrogSpawnEggItem
 import com.davidm1a2.afraidofthedark.common.item.eggs.EnchantedSkeletonSpawnEggItem
 import com.davidm1a2.afraidofthedark.common.item.eggs.FrostPhoenixSpawnEggItem
@@ -222,6 +223,14 @@ object ModItems {
     val SPLINTER_DRONE_SPAWN_EGG = SplinterDroneSpawnEggItem()
     val ENCHANTED_FROG_SPAWN_EGG = EnchantedFrogSpawnEggItem()
     val FROST_PHOENIX_SPAWN_EGG = FrostPhoenixSpawnEggItem()
+    val ANGER_MUSIC_DISC = AngerMusicDiscItem()
+    val FALL_MUSIC_DISC = FallMusicDiscItem()
+    val INFERNO_MUSIC_DISC = InfernoMusicDiscItem()
+    val INSIGHT_MUSIC_DISC = InsightMusicDiscItem()
+    val NIGHTMARE_MUSIC_DISC = NightmareMusicDiscItem()
+    val OASIS_MUSIC_DISC = OasisMusicDiscItem()
+    val PRIDE_MUSIC_DISC = PrideMusicDiscItem()
+    val WINDY_MUSIC_DISC = WindyMusicDiscItem()
 
     // An array containing a list of items that AOTD adds
     var ITEM_LIST = arrayOf(
@@ -341,6 +350,14 @@ object ModItems {
         WEREWOLF_SPAWN_EGG,
         SPLINTER_DRONE_SPAWN_EGG,
         ENCHANTED_FROG_SPAWN_EGG,
-        FROST_PHOENIX_SPAWN_EGG
+        FROST_PHOENIX_SPAWN_EGG,
+        ANGER_MUSIC_DISC,
+        FALL_MUSIC_DISC,
+        INFERNO_MUSIC_DISC,
+        INSIGHT_MUSIC_DISC,
+        NIGHTMARE_MUSIC_DISC,
+        OASIS_MUSIC_DISC,
+        PRIDE_MUSIC_DISC,
+        WINDY_MUSIC_DISC
     )
 }

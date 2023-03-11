@@ -8,6 +8,11 @@
       },
       "entries": [
         {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:oasis_music_disc",
+          "weight": 1
+        },
+        {
           "type": "item",
           "name": "afraidofthedark:research_scroll",
           "functions": [

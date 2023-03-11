@@ -5,6 +5,11 @@
       "rolls": 2,
       "entries": [
         {
+          "type": "minecraft:item",
+          "name": "afraidofthedark:pride_music_disc",
+          "weight": 1
+        },
+        {
           "type": "item",
           "name": "minecraft:glass",
           "functions": [
