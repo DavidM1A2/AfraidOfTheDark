@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item.igneous
 
-import com.davidm1a2.afraidofthedark.client.item.IgneousShieldItemStackRenderer
+import com.davidm1a2.afraidofthedark.client.item.igneousShield.IgneousShieldItemStackRenderer
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
