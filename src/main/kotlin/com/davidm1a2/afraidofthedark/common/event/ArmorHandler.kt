@@ -22,25 +22,19 @@ class ArmorHandler {
         if (!event.entity.level.isClientSide) {
             val entity = event.entityLiving
             val armorSlots = entity.armorSlots.toList()
-            // Only process armor with 4 pieces (helm, chest, legging, boot)
-            if (armorSlots.size == 4) {
-                var damageMultiplierTotal = 0.0
-                var ratioTotal = 0.0
 
-                for (armorSlot in armorSlots) {
-                    val armorItem = armorSlot.item
-                    if (armorItem is AOTDArmorItem) {
-                        val equipmentSlot = MobEntity.getEquipmentSlotForItem(armorSlot)
-                        val ratio = getRatio(armorItem, equipmentSlot)
-                        ratioTotal = ratioTotal + ratio
-                        damageMultiplierTotal = damageMultiplierTotal + ratio * armorItem.getDamageMultiplier(event.entityLiving, armorSlot, event.source, equipmentSlot)
-                    }
+            var damageMultiplierTotal = 1.0
+
+            for (armorSlot in armorSlots) {
+                val armorItem = armorSlot.item
+                if (armorItem is AOTDArmorItem) {
+                    val equipmentSlot = MobEntity.getEquipmentSlotForItem(armorSlot)
+                    val ratio = getRatio(armorItem, equipmentSlot)
+                    damageMultiplierTotal -= ratio * (1 - armorItem.getDamageMultiplier(event.entityLiving, armorSlot, event.source, equipmentSlot))
                 }
-                // If the player is wearing all 4 armor pieces, 1-ratio total will be 0. If the player isn't wearing a helmet, it will be like .85, so add .15 unblocked damage
-                damageMultiplierTotal = (damageMultiplierTotal + (1 - ratioTotal)).coerceAtLeast(0.0)
-
-                event.amount = event.amount * damageMultiplierTotal.toFloat()
             }
+
+            event.amount = event.amount * damageMultiplierTotal.toFloat()
         }
     }
 

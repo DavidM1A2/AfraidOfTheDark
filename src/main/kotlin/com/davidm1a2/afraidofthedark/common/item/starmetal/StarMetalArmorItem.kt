@@ -123,18 +123,13 @@ class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
             return 1.0
         }
 
-        // Fall damage is heavily reduced
-        if (source == DamageSource.FALL) {
-            return 0.15
+        // Fall damage is ignored
+        if (source == DamageSource.FALL || source == DamageSource.FLY_INTO_WALL) {
+            return 0.0
         }
 
-        // Lava damage is slightly reduced (igneous is better)
-        if (source == DamageSource.LAVA) {
-            return 0.2
-        }
-
-        // Default armor protection if no special set bonus applies
-        return 0.25
+        // Block 80% of all other damage
+        return 0.2
     }
 
     override fun canBeDepleted(): Boolean {

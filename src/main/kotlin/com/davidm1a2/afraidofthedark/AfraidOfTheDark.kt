@@ -7,25 +7,7 @@ import com.davidm1a2.afraidofthedark.common.IProxy
 import com.davidm1a2.afraidofthedark.common.command.AOTDCommands
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModConfigHolder
-import com.davidm1a2.afraidofthedark.common.event.ArmorHandler
-import com.davidm1a2.afraidofthedark.common.event.CapabilityHandler
-import com.davidm1a2.afraidofthedark.common.event.ConfigurationHandler
-import com.davidm1a2.afraidofthedark.common.event.EldritchItemHandler
-import com.davidm1a2.afraidofthedark.common.event.FlaskOfSoulsHandler
-import com.davidm1a2.afraidofthedark.common.event.NightmareHandler
-import com.davidm1a2.afraidofthedark.common.event.ResearchTriggerHandler
-import com.davidm1a2.afraidofthedark.common.event.SpellCharmHandler
-import com.davidm1a2.afraidofthedark.common.event.SpellFreezeHandler
-import com.davidm1a2.afraidofthedark.common.event.SpellInnateHandler
-import com.davidm1a2.afraidofthedark.common.event.SpellLunarHandler
-import com.davidm1a2.afraidofthedark.common.event.SpellPowerSourceHandler
-import com.davidm1a2.afraidofthedark.common.event.SpellSolarHandler
-import com.davidm1a2.afraidofthedark.common.event.SpellStateHandler
-import com.davidm1a2.afraidofthedark.common.event.SpellThermalHandler
-import com.davidm1a2.afraidofthedark.common.event.SpellWardHandler
-import com.davidm1a2.afraidofthedark.common.event.TeleportQueue
-import com.davidm1a2.afraidofthedark.common.event.VitaeLanternHandler
-import com.davidm1a2.afraidofthedark.common.event.VoidChestHandler
+import com.davidm1a2.afraidofthedark.common.event.*
 import com.davidm1a2.afraidofthedark.common.event.register.BiomeRegister
 import com.davidm1a2.afraidofthedark.common.event.register.BlockRegister
 import com.davidm1a2.afraidofthedark.common.event.register.CapabilityRegister
@@ -89,6 +71,7 @@ class AfraidOfTheDark {
         forgeBus.register(SpellThermalHandler())
         forgeBus.register(SpellInnateHandler())
         forgeBus.register(ArmorHandler())
+        forgeBus.register(ShieldHandler())
         forgeBus.register(FurnaceFuelRegister())
         forgeBus.register(teleportQueue)
         forgeBus.register(AOTDCommands())

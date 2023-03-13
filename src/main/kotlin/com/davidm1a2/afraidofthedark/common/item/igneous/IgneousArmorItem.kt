@@ -97,27 +97,6 @@ class IgneousArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
             return 1.0
         }
 
-        // If the player is wearing full armor then add armor set bonuses. Only apply the velocity for one armor piece :)
-        if (isWearingFullArmor(entity) && slot == EquipmentSlotType.CHEST) {
-            val damageSourceEntity = source.entity
-            // If the damage source is non-null set them on fire
-            if (damageSourceEntity != null) {
-                damageSourceEntity.remainingFireTicks = max(damageSourceEntity.remainingFireTicks, 40)
-
-                val direction = damageSourceEntity.position()
-                    .subtract(entity.position())
-                    .normalize()
-                    .scale(KNOCKBACK_STRENGTH)
-
-                // Move the entity away from the player
-                damageSourceEntity.push(
-                    direction.x,
-                    direction.y,
-                    direction.z
-                )
-            }
-        }
-
         // Blocks no true damage
         if (TRUE_DAMAGE_SOURCES.contains(source)) {
             return 1.0
@@ -128,16 +107,7 @@ class IgneousArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
             return 0.0
         }
 
-        // Lava damage is heavily reduced
-        if (source == DamageSource.LAVA) {
-            return 0.1
-        }
-
-        // Fall damage is slightly reduced (star metal is better)
-        if (source == DamageSource.FALL) {
-            return 0.3
-        }
-
+        // Block 80% of all other damage
         return 0.2
     }
 
@@ -150,10 +120,7 @@ class IgneousArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
     }
 
     companion object {
-        // How much strength the armor knocks back enemies that attack you. It's roughly the number of blocks to push
-        private const val KNOCKBACK_STRENGTH = 0.6
-
         // Damage sources that relate to fire damage
-        private val FIRE_SOURCES = setOf(DamageSource.IN_FIRE, DamageSource.ON_FIRE)
+        private val FIRE_SOURCES = setOf(DamageSource.IN_FIRE, DamageSource.ON_FIRE, DamageSource.LAVA)
     }
 }
