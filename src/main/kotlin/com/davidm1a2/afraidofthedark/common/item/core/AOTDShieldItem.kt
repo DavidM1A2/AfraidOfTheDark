@@ -2,9 +2,11 @@ package com.davidm1a2.afraidofthedark.common.item.core
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.IItemPropertyGetter
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ShieldItem
+import net.minecraft.util.DamageSource
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
 
@@ -37,4 +39,6 @@ abstract class AOTDShieldItem(
     override fun isValidRepairItem(itemStack: ItemStack, repairItemStack: ItemStack): Boolean {
         return false
     }
+
+    open fun onBlock(entity: PlayerEntity, damageSource: DamageSource) {}
 }

@@ -6,7 +6,6 @@ import net.minecraft.util.DamageSource
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.event.entity.living.LivingAttackEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import kotlin.math.max
 
 class ShieldHandler {
     @SubscribeEvent
@@ -14,31 +13,18 @@ class ShieldHandler {
         val entity = event.entity
         val dmgSource = event.source
         val amount = event.amount
-        val dmgSourceEntity = dmgSource.entity
 
-        if (entity is PlayerEntity) {
-            if (amount > 0.0f && isDamageSourceBlocked(entity, dmgSource)) {
-                if (dmgSourceEntity != null) {
-                    dmgSourceEntity.remainingFireTicks = max(dmgSourceEntity.remainingFireTicks, 40)
+        if (amount <= 0.0f || entity !is PlayerEntity) return
 
-                    val direction = dmgSourceEntity.position()
-                        .subtract(entity.position())
-                        .normalize()
-                        .scale(KNOCKBACK_STRENGTH)
+        val useItem = entity.useItem.item
 
-                    // Move the entity away from the player
-                    dmgSourceEntity.push(
-                        direction.x,
-                        direction.y,
-                        direction.z
-                    )
-                }
-            }
-        }
+        if (useItem !is AOTDShieldItem) return
+
+        if (isBlocked(entity, dmgSource)) useItem.onBlock(entity, dmgSource)
     }
 
-    private fun isDamageSourceBlocked(playerEntity: PlayerEntity, source: DamageSource): Boolean {
-        if (playerEntity.isBlocking && playerEntity.useItem.item is AOTDShieldItem) {
+    private fun isBlocked(playerEntity: PlayerEntity, source: DamageSource): Boolean {
+        if (playerEntity.isBlocking) {
             val vector3d2 = source.sourcePosition
             if (vector3d2 != null) {
                 val vector3d: Vector3d = playerEntity.getViewVector(1.0f)
@@ -50,10 +36,5 @@ class ShieldHandler {
             }
         }
         return false
-    }
-
-    companion object {
-        // How much strength the armor knocks back enemies that attack you. It's roughly the number of blocks to push
-        private const val KNOCKBACK_STRENGTH = 2.0
     }
 }

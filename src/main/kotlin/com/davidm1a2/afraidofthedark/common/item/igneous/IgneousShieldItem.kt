@@ -10,11 +10,13 @@ import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
+import net.minecraft.util.DamageSource
 import net.minecraft.util.Hand
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 import java.util.concurrent.Callable
+import kotlin.math.max
 
 class IgneousShieldItem : AOTDShieldItem("igneous_shield", Properties().setISTER { Callable { IgneousShieldItemStackRenderer() } }) {
     override fun canBeDepleted(): Boolean {
@@ -39,5 +41,29 @@ class IgneousShieldItem : AOTDShieldItem("igneous_shield", Properties().setISTER
         } else {
             tooltip.add(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
         }
+    }
+
+    override fun onBlock(entity: PlayerEntity, damageSource: DamageSource) {
+        val dmgSourceEntity = damageSource.entity
+        if (dmgSourceEntity != null) {
+            dmgSourceEntity.remainingFireTicks = max(dmgSourceEntity.remainingFireTicks, 40)
+
+            val direction = dmgSourceEntity.position()
+                .subtract(entity.position())
+                .normalize()
+                .scale(KNOCKBACK_STRENGTH)
+
+            // Move the entity away from the player
+            dmgSourceEntity.push(
+                direction.x,
+                direction.y,
+                direction.z
+            )
+        }
+    }
+
+    companion object {
+        // How much strength the armor knocks back enemies that attack you. It's roughly the number of blocks to push
+        private const val KNOCKBACK_STRENGTH = 2.0
     }
 }
