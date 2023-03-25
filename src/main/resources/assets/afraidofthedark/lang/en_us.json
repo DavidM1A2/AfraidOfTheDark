@@ -762,6 +762,7 @@
   "tooltip.afraidofthedark.amorphous_metal_armor.full_protection": "§620% chance to fully protect damage!",
   "tooltip.afraidofthedark.amorphous_metal_armor.no_protection": "§c5% chance for no protection",
   "tooltip.afraidofthedark.void_tool.drop_seeds": "§6Drops free seeds when tilling ground!",
+  "tooltip.afraidofthedark.void_tool.autorepair": "§aAutorepairs!",
   "tooltip.afraidofthedark.arcane_journal.owned": "Owned by %1$s",
   "tooltip.afraidofthedark.arcane_journal.unowned": "Unowned",
   "tooltip.afraidofthedark.arcane_journal.drop": "You can drop the journal by crouching and right clicking",

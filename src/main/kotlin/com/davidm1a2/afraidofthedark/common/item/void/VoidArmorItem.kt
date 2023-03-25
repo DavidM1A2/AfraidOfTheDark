@@ -18,6 +18,10 @@ import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 
 class VoidArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) : AOTDArmorItem(baseName, ModArmorMaterials.VOID, equipmentSlot, Properties()) {
+    override fun inventoryTick(itemStack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean) {
+        VoidCommons.processItem(itemStack, world)
+    }
+
     override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EquipmentSlotType, type: String?): String {
         return if (slot == EquipmentSlotType.LEGS) {
             "afraidofthedark:textures/armor/void_2.png"
@@ -26,10 +30,19 @@ class VoidArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) : AOTDAr
         }
     }
 
-    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(
+        stack: ItemStack,
+        world: World?,
+        tooltip: MutableList<ITextComponent>,
+        flag: ITooltipFlag
+    ) {
         val player = Minecraft.getInstance().player
-        if (player != null && !player.getResearch().isResearched(ModResearches.AN_UNSETTLING_MATERIAL)) {
-            tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+        if (player != null) {
+            if (!player.getResearch().isResearched(ModResearches.AN_UNSETTLING_MATERIAL)) {
+                tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            } else {
+                tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.void_tool.autorepair"))
+            }
         }
     }
 
