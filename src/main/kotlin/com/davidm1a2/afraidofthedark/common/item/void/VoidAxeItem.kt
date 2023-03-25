@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.item.voiid
+package com.davidm1a2.afraidofthedark.common.item.void
 
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
