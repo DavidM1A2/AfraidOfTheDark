@@ -1,3 +1,5 @@
+package com.davidm1a2.afraidofthedark.client.item.igneousShield
+
 import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.vertex.IVertexBuilder
 import net.minecraft.client.renderer.RenderType
