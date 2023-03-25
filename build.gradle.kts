@@ -1,3 +1,4 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import net.minecraftforge.gradle.userdev.DependencyManagementExtension
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -24,27 +25,23 @@ buildscript {
         maven {
             url = uri("https://maven.minecraftforge.net")
         }
-        // Repository containing the kotlin gradle plugin
-        maven {
-            url = uri("https://plugins.gradle.org/m2/")
-        }
     }
     dependencies {
         classpath("net.minecraftforge.gradle", "ForgeGradle", "5.1.+") {
             isChanging = true
         }
-        classpath("org.jetbrains.kotlin", "kotlin-gradle-plugin", findProperty("kotlin_version").toString())
     }
+}
+
+plugins {
+    id("com.github.johnrengelman.shadow").version("7.1.2")
+    // If you update this, also update gradle.properties 'kotlin_version=1.5.10'
+    id("org.jetbrains.kotlin.jvm").version("1.5.10")
 }
 
 apply {
     plugin("net.minecraftforge.gradle")
-    plugin("eclipse")
-    plugin("maven-publish")
-    plugin("kotlin")
 }
-
-configurations["implementation"].extendsFrom(configurations.create("shade"))
 
 version = "${findProperty("mc_version").toString()}-${findProperty("aotd_version").toString()}"
 group = "com.davidm1a2.afraidofthedark"
@@ -53,6 +50,8 @@ project.setProperty("archivesBaseName", "afraidofthedark")
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
+
+tasks.getByName("build").dependsOn("shadowJar")
 
 configure<UserDevExtension> {
     mappings("official", findProperty("mc_version").toString())
@@ -88,8 +87,8 @@ dependencies {
     implementation(forgeGradle.deobf("slimeknights.mantle:Mantle:${mcVersion}-${findProperty("mantle_version").toString()}"))
     implementation(forgeGradle.deobf("slimeknights.tconstruct:TConstruct:${mcVersion}-${findProperty("tinkers_construct_version").toString()}"))
 
-    val shade = configurations["shade"]
-    shade("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", findProperty("kotlin_version").toString())
+    val shadow = configurations["shadow"]
+    shadow("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", findProperty("kotlin_version").toString())
 
     val minecraft = configurations["minecraft"]
     minecraft("net.minecraftforge", "forge", "$mcVersion-$forgeVersion")
@@ -101,7 +100,13 @@ dependencies {
     runtimeOnly(forgeGradle.deobf("mezz.jei:jei-$mcVersion:$jeiVersion"))
 }
 
-tasks.withType<Jar> {
+tasks.getByName<ShadowJar>("shadowJar") {
+    archiveClassifier.set("")
+    configurations = listOf(project.configurations.getByName("shadow"))
+}
+
+tasks.getByName<Jar>("jar") {
+    archiveClassifier.set("original")
     manifest {
         attributes(
             mapOf(
@@ -111,13 +116,9 @@ tasks.withType<Jar> {
                 "Implementation-Title" to project.name,
                 "Implementation-Version" to version,
                 "Implementation-Vendor" to "afraidofthedarkdavid_m1a2",
-                "Implementation-Timestamp" to ZonedDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ"))
+                "Implementation-Timestamp" to ZonedDateTime.now()
+                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ"))
             )
         )
-    }
-    configurations.getByName("shade").onEach {
-        from(project.zipTree(it)) {
-            exclude("META-INF", "META-INF/**")
-        }
     }
 }
