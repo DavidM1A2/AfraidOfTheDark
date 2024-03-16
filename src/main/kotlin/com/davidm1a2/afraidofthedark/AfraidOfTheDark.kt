@@ -8,33 +8,7 @@ import com.davidm1a2.afraidofthedark.common.command.AOTDCommands
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModConfigHolder
 import com.davidm1a2.afraidofthedark.common.event.*
-import com.davidm1a2.afraidofthedark.common.event.register.BiomeRegister
-import com.davidm1a2.afraidofthedark.common.event.register.BlockRegister
-import com.davidm1a2.afraidofthedark.common.event.register.CapabilityRegister
-import com.davidm1a2.afraidofthedark.common.event.register.ChunkGeneratorRegister
-import com.davidm1a2.afraidofthedark.common.event.register.DataSerializerRegister
-import com.davidm1a2.afraidofthedark.common.event.register.EffectRegister
-import com.davidm1a2.afraidofthedark.common.event.register.EntityRegister
-import com.davidm1a2.afraidofthedark.common.event.register.EntitySpawnPlacementRegister
-import com.davidm1a2.afraidofthedark.common.event.register.FeatureRegister
-import com.davidm1a2.afraidofthedark.common.event.register.FurnaceFuelRegister
-import com.davidm1a2.afraidofthedark.common.event.register.ItemRegister
-import com.davidm1a2.afraidofthedark.common.event.register.LootConditionRegister
-import com.davidm1a2.afraidofthedark.common.event.register.LootModifierSerializerRegister
-import com.davidm1a2.afraidofthedark.common.event.register.MeteorEntryRegister
-import com.davidm1a2.afraidofthedark.common.event.register.PacketRegister
-import com.davidm1a2.afraidofthedark.common.event.register.ParticleRegister
-import com.davidm1a2.afraidofthedark.common.event.register.RecipeSerializerRegister
-import com.davidm1a2.afraidofthedark.common.event.register.RegistryRegister
-import com.davidm1a2.afraidofthedark.common.event.register.ResearchRegister
-import com.davidm1a2.afraidofthedark.common.event.register.ResearchTriggerRegister
-import com.davidm1a2.afraidofthedark.common.event.register.SoundRegister
-import com.davidm1a2.afraidofthedark.common.event.register.SpellDeliveryMethodRegister
-import com.davidm1a2.afraidofthedark.common.event.register.SpellEffectRegister
-import com.davidm1a2.afraidofthedark.common.event.register.SpellPowerSourceRegister
-import com.davidm1a2.afraidofthedark.common.event.register.StructureGenerationRegister
-import com.davidm1a2.afraidofthedark.common.event.register.StructureRegister
-import com.davidm1a2.afraidofthedark.common.event.register.TileEntityRegister
+import com.davidm1a2.afraidofthedark.common.event.register.*
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketHandler
 import com.davidm1a2.afraidofthedark.server.ServerProxy
 import com.davidm1a2.afraidofthedark.server.event.PlayerBiomeEventHandler
@@ -119,6 +93,7 @@ class AfraidOfTheDark {
     companion object {
         val packetHandler = PacketHandler()
         val teleportQueue = TeleportQueue()
-        val proxy: IProxy = DistExecutor.safeRunForDist({ DistExecutor.SafeSupplier { ClientProxy() } }, { DistExecutor.SafeSupplier { ServerProxy() } })
+        val proxy: IProxy = DistExecutor.unsafeRunForDist({ DistExecutor.SafeSupplier { ClientProxy() } },
+            { DistExecutor.SafeSupplier { ServerProxy() } })
     }
 }
