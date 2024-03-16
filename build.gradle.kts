@@ -1,6 +1,7 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import net.minecraftforge.gradle.patcher.tasks.ReobfuscateJar
 import net.minecraftforge.gradle.userdev.DependencyManagementExtension
 import net.minecraftforge.gradle.userdev.UserDevExtension
+import net.minecraftforge.gradle.userdev.tasks.JarJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -30,28 +31,22 @@ buildscript {
         classpath("net.minecraftforge.gradle", "ForgeGradle", "5.1.+") {
             isChanging = true
         }
+        classpath("org.jetbrains.kotlin", "kotlin-gradle-plugin", findProperty("kotlin_version").toString())
     }
 }
 
 plugins {
     id("com.github.johnrengelman.shadow").version("7.1.2")
-    // If you update this, also update gradle.properties 'kotlin_version=1.5.10'
-    id("org.jetbrains.kotlin.jvm").version("1.5.10")
 }
 
 apply {
     plugin("net.minecraftforge.gradle")
+    plugin("kotlin")
 }
 
 version = "${findProperty("mc_version").toString()}-${findProperty("aotd_version").toString()}"
 group = "com.davidm1a2.afraidofthedark"
 project.setProperty("archivesBaseName", "afraidofthedark")
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
-}
-
-tasks.getByName("build").dependsOn("shadowJar")
 
 configure<UserDevExtension> {
     mappings("official", findProperty("mc_version").toString())
@@ -100,25 +95,37 @@ dependencies {
     runtimeOnly(forgeGradle.deobf("mezz.jei:jei-$mcVersion:$jeiVersion"))
 }
 
-tasks.getByName<ShadowJar>("shadowJar") {
-    archiveClassifier.set("")
-    configurations = listOf(project.configurations.getByName("shadow"))
-}
-
-tasks.getByName<Jar>("jar") {
-    archiveClassifier.set("original")
-    manifest {
-        attributes(
-            mapOf(
-                "Specification-Title" to "afraidofthedark",
-                "Specification-Vendor" to "afraidofthedarkdavid_m1a2",
-                "Specification-Version" to "1", // We are version 1 of ourselves
-                "Implementation-Title" to project.name,
-                "Implementation-Version" to version,
-                "Implementation-Vendor" to "afraidofthedarkdavid_m1a2",
-                "Implementation-Timestamp" to ZonedDateTime.now()
-                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ"))
+tasks {
+    withType<Jar> {
+        manifest {
+            attributes(
+                mapOf(
+                    "Specification-Title" to "afraidofthedark",
+                    "Specification-Vendor" to "afraidofthedarkdavid_m1a2",
+                    "Specification-Version" to "1", // We are version 1 of ourselves
+                    "Implementation-Title" to project.name,
+                    "Implementation-Version" to version,
+                    "Implementation-Vendor" to "afraidofthedarkdavid_m1a2",
+                    "Implementation-Timestamp" to ZonedDateTime.now()
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ"))
+                )
             )
-        )
+        }
+        finalizedBy("reobfJar")
+    }
+
+    withType<JarJar> {
+        archiveClassifier.set("")
+        enabled = true
+        from(provider { project.configurations["shadow"].map(::zipTree).toTypedArray() })
+        finalizedBy("reobfJarJar")
+    }
+
+    withType<ReobfuscateJar> {
+        getByName("jarJar")
+    }
+
+    withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = "17"
     }
 }
