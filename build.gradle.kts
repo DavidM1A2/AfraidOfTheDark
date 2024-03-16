@@ -48,7 +48,7 @@ group = "com.davidm1a2.afraidofthedark"
 project.setProperty("archivesBaseName", "afraidofthedark")
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "16"
 }
 
 tasks.getByName("build").dependsOn("shadowJar")
@@ -84,8 +84,9 @@ dependencies {
 
     val implementation = configurations["implementation"]
     implementation("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", findProperty("kotlin_version").toString())
-    implementation(forgeGradle.deobf("slimeknights.mantle:Mantle:${mcVersion}-${findProperty("mantle_version").toString()}"))
-    implementation(forgeGradle.deobf("slimeknights.tconstruct:TConstruct:${mcVersion}-${findProperty("tinkers_construct_version").toString()}"))
+    // Note: Mantle/TC do not support MC 1.17
+    //implementation(forgeGradle.deobf("slimeknights.mantle:Mantle:${mcVersion}-${findProperty("mantle_version").toString()}"))
+    //implementation(forgeGradle.deobf("slimeknights.tconstruct:TConstruct:${mcVersion}-${findProperty("tinkers_construct_version").toString()}"))
 
     val shadow = configurations["shadow"]
     shadow("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", findProperty("kotlin_version").toString())

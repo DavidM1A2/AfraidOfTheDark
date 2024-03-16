@@ -1,13 +1,13 @@
 package com.davidm1a2.afraidofthedark.client.dimension
 
-import net.minecraft.client.world.DimensionRenderInfo
-import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.client.renderer.DimensionSpecialEffects
+import net.minecraft.world.phys.Vec3
 import net.minecraftforge.client.ISkyRenderHandler
 
-class NightmareRenderInfo : DimensionRenderInfo(255f, false, FogType.NORMAL, false, false) {
+class NightmareRenderInfo : DimensionSpecialEffects(255f, false, SkyType.NORMAL, false, false) {
     private val skyRenderer = NightmareSkyRenderer()
 
-    override fun getBrightnessDependentFogColor(biomeFogColor: Vector3d, daylight: Float): Vector3d {
+    override fun getBrightnessDependentFogColor(biomeFogColor: Vec3, daylight: Float): Vec3 {
         return biomeFogColor
     }
 
