@@ -1,12 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.entity.enchantedFrog
 
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
-import com.mojang.blaze3d.matrix.MatrixStack
-import net.minecraft.client.renderer.IRenderTypeBuffer
-import net.minecraft.client.renderer.entity.EntityRendererManager
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.math.Vector3f
+import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.MobRenderer
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.vector.Vector3f
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Renderer class for the enchanted frog entity
@@ -14,9 +14,9 @@ import net.minecraft.util.math.vector.Vector3f
  * @constructor just initializes the render living renderer
  * @param renderManager The render manager to pass down
  */
-class EnchantedFrogRenderer(renderManager: EntityRendererManager) :
+class EnchantedFrogRenderer(renderManager: EntityRendererProvider.Context) :
     MobRenderer<EnchantedFrogEntity, EnchantedFrogModel>(renderManager, ENCHANTED_FROG_MODEL, MODEL_SHADOW_SIZE) {
-    override fun setupRotations(enchantedFrogEntity: EnchantedFrogEntity, matrixStack: MatrixStack, bob: Float, yOffset: Float, partialTicks: Float) {
+    override fun setupRotations(enchantedFrogEntity: EnchantedFrogEntity, matrixStack: PoseStack, bob: Float, yOffset: Float, partialTicks: Float) {
         super.setupRotations(enchantedFrogEntity, matrixStack, bob, yOffset, partialTicks)
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(180f))
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180f))
@@ -27,8 +27,8 @@ class EnchantedFrogRenderer(renderManager: EntityRendererManager) :
         frog: EnchantedFrogEntity,
         entityYaw: Float,
         partialTicks: Float,
-        matrixStack: MatrixStack,
-        renderTypeBuffer: IRenderTypeBuffer,
+        matrixStack: PoseStack,
+        renderTypeBuffer: MultiBufferSource,
         packedLight: Int
     ) {
         frog.getAnimationHandler().update()

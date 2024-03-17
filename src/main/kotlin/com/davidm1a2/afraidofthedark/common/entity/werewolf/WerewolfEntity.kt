@@ -33,6 +33,7 @@ import net.minecraft.util.DamageSource
 import net.minecraft.util.EntityDamageSource
 import net.minecraft.util.SoundEvent
 import net.minecraft.world.World
+import net.minecraft.world.entity.monster.Monster
 import net.minecraftforge.fml.network.PacketDistributor
 
 /**
@@ -42,7 +43,7 @@ import net.minecraftforge.fml.network.PacketDistributor
  * @param world The world the werewolf is a part of
  * @property animHandler Animation handler used by the werewolf
  */
-class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) : MonsterEntity(entityType, world), IMCAnimatedModel {
+class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) : Monster(entityType, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(BITE_CHANNEL, RUN_CHANNEL)
 
     var canAttackAnyone: Boolean = false

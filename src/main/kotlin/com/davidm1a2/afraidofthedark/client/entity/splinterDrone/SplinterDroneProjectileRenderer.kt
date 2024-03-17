@@ -1,13 +1,13 @@
 package com.davidm1a2.afraidofthedark.client.entity.splinterDrone
 
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneProjectileEntity
-import com.mojang.blaze3d.matrix.MatrixStack
-import net.minecraft.client.renderer.IRenderTypeBuffer
+import com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.EntityRenderer
-import net.minecraft.client.renderer.entity.EntityRendererManager
+import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.texture.OverlayTexture
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Renderer class for the splinter drone projectile entity
@@ -15,14 +15,14 @@ import net.minecraft.util.ResourceLocation
  * @constructor just passes down fields and the render manager
  * @param renderManager The render manager to pass down
  */
-class SplinterDroneProjectileRenderer(renderManager: EntityRendererManager) :
+class SplinterDroneProjectileRenderer(renderManager: EntityRendererProvider.Context) :
     EntityRenderer<SplinterDroneProjectileEntity>(renderManager) {
     override fun render(
         splinterDroneProjectile: SplinterDroneProjectileEntity,
         entityYaw: Float,
         partialTicks: Float,
-        matrixStack: MatrixStack,
-        renderTypeBuffer: IRenderTypeBuffer,
+        matrixStack: PoseStack,
+        renderTypeBuffer: MultiBufferSource,
         packedLight: Int
     ) {
         splinterDroneProjectile.getAnimationHandler().update()

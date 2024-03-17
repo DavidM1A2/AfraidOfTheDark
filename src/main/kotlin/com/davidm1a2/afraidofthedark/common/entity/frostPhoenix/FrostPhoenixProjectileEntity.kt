@@ -24,6 +24,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.RayTraceResult
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
+import net.minecraft.world.entity.Entity
 import net.minecraftforge.fml.network.NetworkHooks
 import net.minecraftforge.fml.network.PacketDistributor
 import kotlin.math.ceil

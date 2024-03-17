@@ -22,6 +22,7 @@ import net.minecraft.entity.monster.IMob
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.world.World
+import net.minecraft.world.entity.FlyingMob
 import net.minecraftforge.fml.network.PacketDistributor
 
 /**
@@ -31,7 +32,7 @@ import net.minecraftforge.fml.network.PacketDistributor
  * @param world The world that the splinter drone is in
  * @property animHandler The animation handler used to manage animations
  */
-class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world: World) : FlyingEntity(entityType, world), IMob, IMCAnimatedModel {
+class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world: World) : FlyingMob(entityType, world), IMob, IMCAnimatedModel {
     private val animHandler = AnimationHandler(ACTIVATE_CHANNEL, CHARGE_CHANNEL, IDLE_CHANNEL)
     private var playedSpawnAnimation = false
 

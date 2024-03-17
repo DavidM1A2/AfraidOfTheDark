@@ -14,7 +14,6 @@ import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
 import net.minecraft.block.BlockState
-import net.minecraft.entity.CreatureEntity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.Pose
@@ -30,6 +29,7 @@ import net.minecraft.util.DamageSource
 import net.minecraft.util.SoundEvent
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import net.minecraft.world.entity.PathfinderMob
 import kotlin.random.Random
 
 /**
@@ -39,7 +39,7 @@ import kotlin.random.Random
  * @param world The world the frog is spawning into
  * @property animHandler The animation handler used to manage animations
  */
-class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world: World) : CreatureEntity(entityType, world), IMCAnimatedModel {
+class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world: World) : PathfinderMob(entityType, world), IMCAnimatedModel {
     // We don't need to write this to NBT data, it's not important to persist
     private var ticksUntilNextCastAttempt = MAX_TICKS_BETWEEN_CASTS
     private val animHandler = AnimationHandler(HOP_CHANNEL, CAST_CHANNEL)

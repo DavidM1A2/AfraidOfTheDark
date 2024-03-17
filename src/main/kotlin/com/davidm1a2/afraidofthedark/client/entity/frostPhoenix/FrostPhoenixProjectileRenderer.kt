@@ -1,13 +1,13 @@
 package com.davidm1a2.afraidofthedark.client.entity.frostPhoenix
 
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.FrostPhoenixProjectileEntity
-import com.mojang.blaze3d.matrix.MatrixStack
-import net.minecraft.client.renderer.IRenderTypeBuffer
+import com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.EntityRenderer
-import net.minecraft.client.renderer.entity.EntityRendererManager
+import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.texture.OverlayTexture
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Renderer class for the frost phoenix projectile entity
@@ -15,14 +15,14 @@ import net.minecraft.util.ResourceLocation
  * @constructor just passes down fields and the render manager
  * @param renderManager The render manager to pass down
  */
-class FrostPhoenixProjectileRenderer(renderManager: EntityRendererManager) :
+class FrostPhoenixProjectileRenderer(renderManager: EntityRendererProvider.Context) :
     EntityRenderer<FrostPhoenixProjectileEntity>(renderManager) {
     override fun render(
         entity: FrostPhoenixProjectileEntity,
         entityYaw: Float,
         partialTicks: Float,
-        matrixStack: MatrixStack,
-        renderTypeBuffer: IRenderTypeBuffer,
+        matrixStack: PoseStack,
+        renderTypeBuffer: MultiBufferSource,
         packedLight: Int
     ) {
         entity.getAnimationHandler().update()

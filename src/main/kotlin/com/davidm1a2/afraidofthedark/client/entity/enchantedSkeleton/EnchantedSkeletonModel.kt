@@ -3,10 +3,10 @@ package com.davidm1a2.afraidofthedark.client.entity.enchantedSkeleton
 import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRenderer
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSkeletonEntity
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
-import com.mojang.blaze3d.matrix.MatrixStack
-import com.mojang.blaze3d.vertex.IVertexBuilder
-import net.minecraft.client.renderer.entity.model.EntityModel
-import net.minecraft.util.math.vector.Quaternion
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.VertexConsumer
+import com.mojang.math.Quaternion
+import net.minecraft.client.model.EntityModel
 
 /**
  * Model class that defines the enchanted skeleton model
@@ -22,75 +22,58 @@ class EnchantedSkeletonModel internal constructor() : EntityModel<EnchantedSkele
     init {
         // Auto-generated from the MCAnimator software
 
-        texWidth = 64
-        texHeight = 32
-
-        body = MCAModelRenderer(this, 16, 16)
-        body.mirror = false
+        body = MCAModelRenderer(16, 16, 64f, 32f)
         body.addBox(-4.0f, -12.0f, -2.0f, 8f, 12f, 4f)
         body.setInitialRotationPoint(0.0f, 2.0f, 2.0f)
         body.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        body.setTexSize(64, 32)
         parts["body"] = body
 
-        val head = MCAModelRenderer(this, 0, 0)
-        head.mirror = false
+        val head = MCAModelRenderer(0, 0, 64f, 32f)
         head.addBox(-4.0f, 0.0f, -4.0f, 8f, 8f, 8f)
         head.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
         head.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        head.setTexSize(64, 32)
         parts["head"] = head
         body.addChild(head)
 
-        val rightarm = MCAModelRenderer(this, 40, 16)
-        rightarm.mirror = false
+        val rightarm = MCAModelRenderer(40, 16, 64f, 32f)
         rightarm.addBox(-2.0f, -10.0f, -1.0f, 2f, 12f, 2f)
         rightarm.setInitialRotationPoint(-4.0f, -2.0f, 0.0f)
         rightarm.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        rightarm.setTexSize(64, 32)
         parts["rightarm"] = rightarm
         body.addChild(rightarm)
 
-        val leftarm = MCAModelRenderer(this, 40, 16)
-        leftarm.mirror = false
+        val leftarm = MCAModelRenderer(40, 16, 64f, 32f)
         leftarm.addBox(0.0f, -10.0f, -1.0f, 2f, 12f, 2f)
         leftarm.setInitialRotationPoint(4.0f, -2.0f, 0.0f)
         leftarm.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        leftarm.setTexSize(64, 32)
         parts["leftarm"] = leftarm
         body.addChild(leftarm)
 
-        val rightleg = MCAModelRenderer(this, 0, 16)
-        rightleg.mirror = false
+        val rightleg = MCAModelRenderer(0, 16, 64f, 32f)
         rightleg.addBox(-1.0f, -12.0f, -1.0f, 2f, 12f, 2f)
         rightleg.setInitialRotationPoint(-2.0f, -12.0f, 0.0f)
         rightleg.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        rightleg.setTexSize(64, 32)
         parts["rightleg"] = rightleg
         body.addChild(rightleg)
 
-        val leftleg = MCAModelRenderer(this, 0, 16)
-        leftleg.mirror = false
+        val leftleg = MCAModelRenderer(0, 16, 64f, 32f)
         leftleg.addBox(-1.0f, -12.0f, -1.0f, 2f, 12f, 2f)
         leftleg.setInitialRotationPoint(2.0f, -12.0f, 0.0f)
         leftleg.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        leftleg.setTexSize(64, 32)
         parts["leftleg"] = leftleg
         body.addChild(leftleg)
 
-        val heart = MCAModelRenderer(this, 48, 4)
-        heart.mirror = false
+        val heart = MCAModelRenderer(48, 4, 64f, 32f)
         heart.addBox(-1.5f, -2.0f, -1.0f, 3f, 3f, 2f)
         heart.setInitialRotationPoint(0.0f, -3.0f, 0.0f)
         heart.setInitialRotationQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
-        heart.setTexSize(64, 32)
         parts["heart"] = heart
         body.addChild(heart)
     }
 
     override fun renderToBuffer(
-        matrixStack: MatrixStack,
-        vertexBuilder: IVertexBuilder,
+        matrixStack: PoseStack,
+        vertexBuilder: VertexConsumer,
         packedLight: Int,
         packedOverlay: Int,
         red: Float,

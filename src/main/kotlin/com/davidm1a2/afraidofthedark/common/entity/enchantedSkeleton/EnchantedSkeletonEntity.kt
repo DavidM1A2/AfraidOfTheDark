@@ -38,6 +38,7 @@ import net.minecraft.util.SoundEvent
 import net.minecraft.util.SoundEvents
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import net.minecraft.world.entity.monster.Monster
 import net.minecraftforge.fml.network.PacketDistributor
 
 /**
@@ -47,7 +48,7 @@ import net.minecraftforge.fml.network.PacketDistributor
  * @param world The world the skeleton is spawning into
  * @property animHandler The animation handler used to manage animations
  */
-class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity>, world: World) : MonsterEntity(entityType, world), IMCAnimatedModel {
+class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity>, world: World) : Monster(entityType, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(WALK_CHANNEL, ATTACK_CHANNEL, SPAWN_CHANNEL, IDLE_CHANNEL)
     private var playedSpawnAnimation = false
 

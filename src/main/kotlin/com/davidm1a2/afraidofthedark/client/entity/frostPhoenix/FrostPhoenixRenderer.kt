@@ -1,16 +1,16 @@
 package com.davidm1a2.afraidofthedark.client.entity.frostPhoenix
 
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.FrostPhoenixEntity
-import com.mojang.blaze3d.matrix.MatrixStack
-import net.minecraft.client.renderer.IRenderTypeBuffer
-import net.minecraft.client.renderer.entity.EntityRendererManager
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.math.Vector3f
+import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.MobRenderer
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.vector.Vector3f
+import net.minecraft.resources.ResourceLocation
 
-class FrostPhoenixRenderer(renderManager: EntityRendererManager) :
+class FrostPhoenixRenderer(renderManager: EntityRendererProvider.Context) :
     MobRenderer<FrostPhoenixEntity, FrostPhoenixModel>(renderManager, FROST_PHOENIX_MODEL, MODEL_SHADOW_SIZE) {
-    override fun setupRotations(entity: FrostPhoenixEntity, matrixStack: MatrixStack, bob: Float, yOffset: Float, partialTicks: Float) {
+    override fun setupRotations(entity: FrostPhoenixEntity, matrixStack: PoseStack, bob: Float, yOffset: Float, partialTicks: Float) {
         super.setupRotations(entity, matrixStack, bob, yOffset, partialTicks)
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(180f - 90f))
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180f))
@@ -22,8 +22,8 @@ class FrostPhoenixRenderer(renderManager: EntityRendererManager) :
         entity: FrostPhoenixEntity,
         entityYaw: Float,
         partialTicks: Float,
-        matrixStack: MatrixStack,
-        renderTypeBuffer: IRenderTypeBuffer,
+        matrixStack: PoseStack,
+        renderTypeBuffer: MultiBufferSource,
         packedLight: Int
     ) {
         entity.getAnimationHandler().update()

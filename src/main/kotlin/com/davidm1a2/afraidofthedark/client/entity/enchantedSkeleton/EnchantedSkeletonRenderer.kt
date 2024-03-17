@@ -1,12 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.entity.enchantedSkeleton
 
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSkeletonEntity
-import com.mojang.blaze3d.matrix.MatrixStack
-import net.minecraft.client.renderer.IRenderTypeBuffer
-import net.minecraft.client.renderer.entity.EntityRendererManager
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.math.Vector3f
+import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.MobRenderer
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.vector.Vector3f
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Renderer class for the enchanted skeleton entity
@@ -14,10 +14,10 @@ import net.minecraft.util.math.vector.Vector3f
  * @constructor just initializes the render living renderer
  * @param renderManager The render manager to pass down
  */
-class EnchantedSkeletonRenderer(renderManager: EntityRendererManager) :
+class EnchantedSkeletonRenderer(renderManager: EntityRendererProvider.Context) :
     MobRenderer<EnchantedSkeletonEntity, EnchantedSkeletonModel>(renderManager, ENCHANTED_SKELETON_MODEL, MODEL_SHADOW_SIZE) {
 
-    override fun setupRotations(enchantedSkeleton: EnchantedSkeletonEntity, matrixStack: MatrixStack, bob: Float, yOffset: Float, partialTicks: Float) {
+    override fun setupRotations(enchantedSkeleton: EnchantedSkeletonEntity, matrixStack: PoseStack, bob: Float, yOffset: Float, partialTicks: Float) {
         super.setupRotations(enchantedSkeleton, matrixStack, bob, yOffset, partialTicks)
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(180f))
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180f))
@@ -28,8 +28,8 @@ class EnchantedSkeletonRenderer(renderManager: EntityRendererManager) :
         enchantedSkeleton: EnchantedSkeletonEntity,
         entityYaw: Float,
         partialTicks: Float,
-        matrixStack: MatrixStack,
-        renderTypeBuffer: IRenderTypeBuffer,
+        matrixStack: PoseStack,
+        renderTypeBuffer: MultiBufferSource,
         packedLight: Int
     ) {
         enchantedSkeleton.getAnimationHandler().update()

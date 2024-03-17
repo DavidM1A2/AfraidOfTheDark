@@ -39,11 +39,12 @@ import net.minecraft.util.SoundEvent
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
+import net.minecraft.world.entity.Mob
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.fml.network.NetworkHooks
 import kotlin.math.sin
 
-class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: World) : MobEntity(entityType, world), IMCAnimatedModel {
+class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: World) : Mob(entityType, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(
         IDLE_FLAP_CHANNEL,
         LAUNCH_CHANNEL,
