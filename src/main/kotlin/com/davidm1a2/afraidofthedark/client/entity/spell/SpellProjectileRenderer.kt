@@ -2,26 +2,26 @@ package com.davidm1a2.afraidofthedark.client.entity.spell
 
 import com.davidm1a2.afraidofthedark.client.entity.LateEntityRenderer
 import com.davidm1a2.afraidofthedark.common.entity.spell.SpellProjectileEntity
-import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.IVertexBuilder
-import net.minecraft.client.renderer.IRenderTypeBuffer
+import com.mojang.blaze3d.vertex.DefaultVertexFormat
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.VertexConsumer
+import com.mojang.blaze3d.vertex.VertexFormat
+import com.mojang.math.Matrix3f
+import com.mojang.math.Matrix4f
+import com.mojang.math.Vector3f
 import net.minecraft.client.renderer.LightTexture
-import net.minecraft.client.renderer.RenderState
+import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.renderer.RenderStateShard
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.EntityRenderer
-import net.minecraft.client.renderer.entity.EntityRendererManager
+import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.texture.OverlayTexture
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.vector.Matrix3f
-import net.minecraft.util.math.vector.Matrix4f
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.util.math.vector.Vector3f
-import org.lwjgl.opengl.GL11
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.phys.Vec3
 import org.lwjgl.opengl.GL11C
-import java.util.Random
+import java.util.*
 
 /**
  * Renderer class for the spell projectile entity
@@ -29,15 +29,15 @@ import java.util.Random
  * @constructor just passes down fields and the render manager
  * @param renderManager The render manager to pass down
  */
-class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRenderer<SpellProjectileEntity>(renderManager), LateEntityRenderer {
+class SpellProjectileRenderer(renderManager: EntityRendererProvider.Context) : EntityRenderer<SpellProjectileEntity>(renderManager), LateEntityRenderer {
     private val random = Random()
 
     override fun render(
         spellProjectile: SpellProjectileEntity,
         entityYaw: Float,
         partialTicks: Float,
-        matrixStack: MatrixStack,
-        renderTypeBuffer: IRenderTypeBuffer,
+        matrixStack: PoseStack,
+        renderTypeBuffer: MultiBufferSource,
         packedLight: Int
     ) {
         matrixStack.pushPose()
@@ -82,7 +82,7 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
         matrixStack.popPose()
     }
 
-    private fun setupBaseRotations(matrixStack: MatrixStack, tickCount: Float) {
+    private fun setupBaseRotations(matrixStack: PoseStack, tickCount: Float) {
         val xRotation = (tickCount + (random.nextGaussian().toFloat() + 1)) * PLANE_ROTATION_SPEED
         val yRotation = (tickCount + (random.nextGaussian().toFloat() + 1)) * PLANE_ROTATION_SPEED
         val zRotation = (tickCount + (random.nextGaussian().toFloat() + 1)) * PLANE_ROTATION_SPEED
@@ -92,7 +92,7 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
         matrixStack.mulPose((if (random.nextBoolean()) Vector3f.ZP else Vector3f.ZN).rotationDegrees(zRotation))
     }
 
-    private fun drawOneSprite(matrixStack: MatrixStack, buffer: IVertexBuilder, red: Int, green: Int, blue: Int) {
+    private fun drawOneSprite(matrixStack: PoseStack, buffer: VertexConsumer, red: Int, green: Int, blue: Int) {
         val rotationMatrix = matrixStack.last().pose()
         val normalMatrix = matrixStack.last().normal()
         drawVertex(rotationMatrix, normalMatrix, buffer, -1, -1, 0, 0f, 0f, red, green, blue)
@@ -104,7 +104,7 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
     private fun drawVertex(
         rotationMatrix: Matrix4f,
         normalMatrix: Matrix3f,
-        vertexBuilder: IVertexBuilder,
+        vertexBuilder: VertexConsumer,
         x: Int,
         y: Int,
         z: Int,
@@ -124,8 +124,8 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
             .endVertex()
     }
 
-    override fun getRenderOffset(entity: SpellProjectileEntity, partialTicks: Float): Vector3d {
-        return Vector3d.ZERO
+    override fun getRenderOffset(entity: SpellProjectileEntity, partialTicks: Float): Vec3 {
+        return Vec3.ZERO
     }
 
     override fun getTextureLocation(entity: SpellProjectileEntity): ResourceLocation {
@@ -144,14 +144,14 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
 
         private val RENDER_TYPE: RenderType = @Suppress("INACCESSIBLE_TYPE") RenderType.create(
             "spell_projectile",
-            DefaultVertexFormats.NEW_ENTITY,
-            GL11.GL_QUADS,
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
             1024,
             false,
             true,
-            RenderType.State.builder()
-                .setTextureState(RenderState.TextureState(SPELL_PROJECTILE_TEXTURE, false, false))
-                .setTransparencyState(RenderState.TransparencyState("translucent_transparency", {
+            RenderType.CompositeState.builder()
+                .setTextureState(RenderStateShard.TextureStateShard(SPELL_PROJECTILE_TEXTURE, false, false))
+                .setTransparencyState(RenderStateShard.TransparencyStateShard("translucent_transparency", {
                     RenderSystem.enableBlend()
                     RenderSystem.blendFuncSeparate(
                         GlStateManager.SourceFactor.SRC_ALPHA,
@@ -163,9 +163,9 @@ class SpellProjectileRenderer(renderManager: EntityRendererManager) : EntityRend
                     RenderSystem.disableBlend()
                     RenderSystem.defaultBlendFunc()
                 })
-                .setWriteMaskState(RenderState.WriteMaskState(true, false))
-                .setDepthTestState(RenderState.DepthTestState("<", GL11C.GL_LESS))
-                .setCullState(RenderState.CullState(false))
+                .setWriteMaskState(RenderStateShard.WriteMaskStateShard(true, false))
+                .setDepthTestState(RenderStateShard.DepthTestStateShard("<", GL11C.GL_LESS))
+                .setCullState(RenderStateShard.CullStateShard(false))
                 .createCompositeState(false)
         )
     }

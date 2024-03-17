@@ -3,35 +3,28 @@ package com.davidm1a2.afraidofthedark.client.entity.spell
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.computeRotationTo
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.getOrthogonalVectors
 import com.davidm1a2.afraidofthedark.common.entity.spell.SpellChainEntity
-import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.IVertexBuilder
-import net.minecraft.client.renderer.IRenderTypeBuffer
-import net.minecraft.client.renderer.LightTexture
-import net.minecraft.client.renderer.RenderState
-import net.minecraft.client.renderer.RenderState.TransparencyState
-import net.minecraft.client.renderer.RenderType
+import com.mojang.blaze3d.vertex.*
+import com.mojang.math.Matrix3f
+import com.mojang.math.Matrix4f
+import com.mojang.math.Vector3f
+import net.minecraft.client.renderer.*
 import net.minecraft.client.renderer.entity.EntityRenderer
-import net.minecraft.client.renderer.entity.EntityRendererManager
+import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.texture.OverlayTexture
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.vector.Matrix3f
-import net.minecraft.util.math.vector.Matrix4f
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.util.math.vector.Vector3f
-import org.lwjgl.opengl.GL11
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.phys.Vec3
 import kotlin.math.ceil
 import kotlin.math.log
 import kotlin.random.Random
 
-class SpellChainRenderer(renderManager: EntityRendererManager) : EntityRenderer<SpellChainEntity>(renderManager) {
+class SpellChainRenderer(renderManager: EntityRendererProvider.Context) : EntityRenderer<SpellChainEntity>(renderManager) {
     override fun render(
         spellChain: SpellChainEntity,
         entityYaw: Float,
         partialTicks: Float,
-        matrixStack: MatrixStack,
-        renderTypeBuffer: IRenderTypeBuffer,
+        matrixStack: PoseStack,
+        renderTypeBuffer: MultiBufferSource,
         packedLight: Int
     ) {
         // How to make good looking lightning: https://developer.download.nvidia.com/SDK/10/direct3d/Source/Lightning/doc/lightning_doc.pdf
@@ -49,7 +42,7 @@ class SpellChainRenderer(renderManager: EntityRendererManager) : EntityRenderer<
         val distance = startPos.distanceTo(endPos)
         val numJitters = distance / APPROXIMATE_BLOCKS_PER_JITTER
         val numJitterSubdivisions = ceil(log(numJitters, 2.0)).toInt()
-        val jitterVertices = mutableListOf<Vector3d>(startPos)
+        val jitterVertices = mutableListOf<Vec3>(startPos)
         computeJitters(startPos, endPos, random, jitterVertices, numJitterSubdivisions)
         jitterVertices.add(endPos)
         val forks = computeForks(random, jitterVertices)
@@ -81,7 +74,7 @@ class SpellChainRenderer(renderManager: EntityRendererManager) : EntityRenderer<
      * Algorithm computes random jitters to split the main segment path. It recursively computes jitters on subcomponents and returns
      * its output in the "jitter vertices" list.
      */
-    private fun computeJitters(startVertex: Vector3d, endVertex: Vector3d, random: Random, jitterVertices: MutableList<Vector3d>, iterationsLeft: Int) {
+    private fun computeJitters(startVertex: Vec3, endVertex: Vec3, random: Random, jitterVertices: MutableList<Vec3>, iterationsLeft: Int) {
         // Base case, nothing left to do
         if (iterationsLeft <= 0) {
             return
@@ -108,7 +101,7 @@ class SpellChainRenderer(renderManager: EntityRendererManager) : EntityRenderer<
         computeJitters(jitterVertex, endVertex, random, jitterVertices, iterationsLeft - 1)
     }
 
-    private fun computeForks(random: Random, jitterVertices: List<Vector3d>): Map<Vector3d, List<Vector3d>> {
+    private fun computeForks(random: Random, jitterVertices: List<Vec3>): Map<Vec3, List<Vec3>> {
         if (jitterVertices.size <= 2) {
             return emptyMap()
         }
@@ -117,7 +110,7 @@ class SpellChainRenderer(renderManager: EntityRendererManager) : EntityRenderer<
         val lastVertex = jitterVertices[jitterVertices.size - 1]
         val forwardBackwardDirection = lastVertex.subtract(firstVertex).normalize()
         val (leftRightDirection, upDownDirection) = forwardBackwardDirection.getOrthogonalVectors()
-        val forks = mutableMapOf<Vector3d, List<Vector3d>>()
+        val forks = mutableMapOf<Vec3, List<Vec3>>()
         // Can't fork the first or last vertex, so use 1 to size-1
         for (i in 1 until jitterVertices.size - 1) {
             val jitterVertex = jitterVertices[i]
@@ -135,7 +128,7 @@ class SpellChainRenderer(renderManager: EntityRendererManager) : EntityRenderer<
                     .add(leftRightDirection.scale((random.nextDouble() - 0.5) * maxForkOffset * 2))
                     .add(upDownDirection.scale((random.nextDouble() - 0.5) * maxForkOffset * 2))
 
-                val forkVertices = mutableListOf<Vector3d>()
+                val forkVertices = mutableListOf<Vec3>()
                 computeJitters(jitterVertex, forkEndVertex, random, forkVertices, numJitterSubdivisionsInFork)
                 forks[jitterVertex] = forkVertices
             }
@@ -144,7 +137,7 @@ class SpellChainRenderer(renderManager: EntityRendererManager) : EntityRenderer<
         return forks
     }
 
-    private fun drawSegment(matrixStack: MatrixStack, buffer: IVertexBuilder, fromVertex: Vector3d, toVertex: Vector3d, width: Double) {
+    private fun drawSegment(matrixStack: PoseStack, buffer: VertexConsumer, fromVertex: Vec3, toVertex: Vec3, width: Double) {
         val segmentLength = fromVertex.distanceTo(toVertex)
 
         val direction = toVertex.subtract(fromVertex).normalize()
@@ -173,7 +166,7 @@ class SpellChainRenderer(renderManager: EntityRendererManager) : EntityRenderer<
     private fun drawVertex(
         rotationMatrix: Matrix4f,
         normalMatrix: Matrix3f,
-        vertexBuilder: IVertexBuilder,
+        vertexBuilder: VertexConsumer,
         x: Double,
         y: Double,
         z: Double,
@@ -190,8 +183,8 @@ class SpellChainRenderer(renderManager: EntityRendererManager) : EntityRenderer<
             .endVertex()
     }
 
-    override fun getRenderOffset(entity: SpellChainEntity, partialTicks: Float): Vector3d {
-        return Vector3d.ZERO
+    override fun getRenderOffset(entity: SpellChainEntity, partialTicks: Float): Vec3 {
+        return Vec3.ZERO
     }
 
     override fun getTextureLocation(entity: SpellChainEntity): ResourceLocation {
@@ -209,23 +202,23 @@ class SpellChainRenderer(renderManager: EntityRendererManager) : EntityRenderer<
         // Ignores block and sky light levels and always renders the same
         private val FULLBRIGHT = LightTexture.pack(15, 15)
 
-        private val BASE_RENDER_DIRECTION = Vector3d(1.0, 0.0, 0.0)
+        private val BASE_RENDER_DIRECTION = Vec3(1.0, 0.0, 0.0)
 
         // The texture used by the model
         private val SPELL_CHAIN_TEXTURE = ResourceLocation("afraidofthedark:textures/entity/spell/chain.png")
 
         private val RENDER_TYPE: RenderType = @Suppress("INACCESSIBLE_TYPE") RenderType.create(
             "spell_chain",
-            DefaultVertexFormats.NEW_ENTITY,
-            GL11.GL_QUADS,
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
             256,
             false,
             true,
-            RenderType.State.builder()
-                .setTextureState(RenderState.TextureState(SPELL_CHAIN_TEXTURE, false, false))
-                .setTransparencyState(TransparencyState("no_transparency", { RenderSystem.disableBlend() }) {})
-                .setCullState(RenderState.CullState(false))
-                .setLightmapState(RenderState.LightmapState(false))
+            RenderType.CompositeState.builder()
+                .setTextureState(RenderStateShard.TextureStateShard(SPELL_CHAIN_TEXTURE, false, false))
+                .setTransparencyState(RenderStateShard.TransparencyStateShard("no_transparency", { RenderSystem.disableBlend() }) {})
+                .setCullState(RenderStateShard.CullStateShard(false))
+                .setLightmapState(RenderStateShard.LightmapStateShard(false))
                 .createCompositeState(true)
         )
     }

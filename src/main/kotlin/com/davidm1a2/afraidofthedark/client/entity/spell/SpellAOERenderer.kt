@@ -2,38 +2,33 @@ package com.davidm1a2.afraidofthedark.client.entity.spell
 
 import com.davidm1a2.afraidofthedark.client.entity.LateEntityRenderer
 import com.davidm1a2.afraidofthedark.common.entity.spell.SpellAOEEntity
-import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.IVertexBuilder
-import net.minecraft.client.renderer.IRenderTypeBuffer
+import com.mojang.blaze3d.vertex.DefaultVertexFormat
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.VertexConsumer
+import com.mojang.blaze3d.vertex.VertexFormat
+import com.mojang.math.Matrix3f
+import com.mojang.math.Matrix4f
 import net.minecraft.client.renderer.LightTexture
-import net.minecraft.client.renderer.RenderState
-import net.minecraft.client.renderer.RenderState.TransparencyState
+import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.renderer.RenderStateShard
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.EntityRenderer
-import net.minecraft.client.renderer.entity.EntityRendererManager
+import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.texture.OverlayTexture
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.vector.Matrix3f
-import net.minecraft.util.math.vector.Matrix4f
-import net.minecraft.util.math.vector.Vector3d
-import org.lwjgl.opengl.GL11
-import kotlin.math.PI
-import kotlin.math.ceil
-import kotlin.math.cos
-import kotlin.math.roundToInt
-import kotlin.math.sin
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Mth
+import net.minecraft.world.phys.Vec3
+import kotlin.math.*
 
-class SpellAOERenderer(renderManager: EntityRendererManager) : EntityRenderer<SpellAOEEntity>(renderManager), LateEntityRenderer {
+class SpellAOERenderer(renderManager: EntityRendererProvider.Context) : EntityRenderer<SpellAOEEntity>(renderManager), LateEntityRenderer {
     override fun render(
         spellAOE: SpellAOEEntity,
         entityYaw: Float,
         partialTicks: Float,
-        matrixStack: MatrixStack,
-        renderTypeBuffer: IRenderTypeBuffer,
+        matrixStack: PoseStack,
+        renderTypeBuffer: MultiBufferSource,
         packedLight: Int
     ) {
         val buffer = renderTypeBuffer.getBuffer(RENDER_TYPE)
@@ -55,7 +50,7 @@ class SpellAOERenderer(renderManager: EntityRendererManager) : EntityRenderer<Sp
             return
         }
         val ticksRemaining = spellAOE.tickCount
-        val alpha = MathHelper.lerp((ticksRemaining / lifespan).coerceIn(0f..1f), 100f, 0f).roundToInt()
+        val alpha = Mth.lerp((ticksRemaining / lifespan).coerceIn(0f..1f), 100f, 0f).roundToInt()
 
         val textureVStep = SPRITE_HEIGHT.toFloat() / TEXTURE_HEIGHT.toFloat()
         val step = ticksRemaining % SPRITE_COUNT
@@ -95,7 +90,7 @@ class SpellAOERenderer(renderManager: EntityRendererManager) : EntityRenderer<Sp
     private fun drawVertex(
         rotationMatrix: Matrix4f,
         normalMatrix: Matrix3f,
-        vertexBuilder: IVertexBuilder,
+        vertexBuilder: VertexConsumer,
         x: Double,
         y: Double,
         z: Double,
@@ -116,8 +111,8 @@ class SpellAOERenderer(renderManager: EntityRendererManager) : EntityRenderer<Sp
             .endVertex()
     }
 
-    override fun getRenderOffset(entity: SpellAOEEntity, partialTicks: Float): Vector3d {
-        return Vector3d.ZERO
+    override fun getRenderOffset(entity: SpellAOEEntity, partialTicks: Float): Vec3 {
+        return Vec3.ZERO
     }
 
     override fun getTextureLocation(entity: SpellAOEEntity): ResourceLocation {
@@ -137,14 +132,14 @@ class SpellAOERenderer(renderManager: EntityRendererManager) : EntityRenderer<Sp
 
         private val RENDER_TYPE: RenderType = @Suppress("INACCESSIBLE_TYPE") RenderType.create(
             "spell_aoe",
-            DefaultVertexFormats.NEW_ENTITY,
-            GL11.GL_QUADS,
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
             256,
             false,
             true,
-            RenderType.State.builder()
-                .setTextureState(RenderState.TextureState(SPELL_AOE_TEXTURE, false, false))
-                .setTransparencyState(TransparencyState("translucent_transparency", {
+            RenderType.CompositeState.builder()
+                .setTextureState(RenderStateShard.TextureStateShard(SPELL_AOE_TEXTURE, false, false))
+                .setTransparencyState(RenderStateShard.TransparencyStateShard("translucent_transparency", {
                     RenderSystem.enableBlend()
                     RenderSystem.blendFuncSeparate(
                         GlStateManager.SourceFactor.SRC_ALPHA,
@@ -156,8 +151,8 @@ class SpellAOERenderer(renderManager: EntityRendererManager) : EntityRenderer<Sp
                     RenderSystem.disableBlend()
                     RenderSystem.defaultBlendFunc()
                 })
-                .setWriteMaskState(RenderState.WriteMaskState(true, false))
-                .setCullState(RenderState.CullState(false))
+                .setWriteMaskState(RenderStateShard.WriteMaskStateShard(true, false))
+                .setCullState(RenderStateShard.CullStateShard(false))
                 .createCompositeState(false)
         )
     }

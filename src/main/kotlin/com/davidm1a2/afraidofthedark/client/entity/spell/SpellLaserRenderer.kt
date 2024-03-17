@@ -2,24 +2,17 @@ package com.davidm1a2.afraidofthedark.client.entity.spell
 
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.computeRotationTo
 import com.davidm1a2.afraidofthedark.common.entity.spell.SpellLaserEntity
-import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.IVertexBuilder
-import net.minecraft.client.renderer.IRenderTypeBuffer
-import net.minecraft.client.renderer.LightTexture
-import net.minecraft.client.renderer.RenderState
-import net.minecraft.client.renderer.RenderState.TransparencyState
-import net.minecraft.client.renderer.RenderType
+import com.mojang.blaze3d.vertex.*
+import com.mojang.math.Matrix3f
+import com.mojang.math.Matrix4f
+import com.mojang.math.Vector3f
+import net.minecraft.client.renderer.*
 import net.minecraft.client.renderer.entity.EntityRenderer
-import net.minecraft.client.renderer.entity.EntityRendererManager
+import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.texture.OverlayTexture
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.vector.Matrix3f
-import net.minecraft.util.math.vector.Matrix4f
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.util.math.vector.Vector3f
-import org.lwjgl.opengl.GL11
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.phys.Vec3
 import kotlin.math.roundToInt
 
 /**
@@ -28,13 +21,13 @@ import kotlin.math.roundToInt
  * @constructor just passes down fields and the render manager
  * @param renderManager The render manager to pass down
  */
-class SpellLaserRenderer(renderManager: EntityRendererManager) : EntityRenderer<SpellLaserEntity>(renderManager) {
+class SpellLaserRenderer(renderManager: EntityRendererProvider.Context) : EntityRenderer<SpellLaserEntity>(renderManager) {
     override fun render(
         spellLaser: SpellLaserEntity,
         entityYaw: Float,
         partialTicks: Float,
-        matrixStack: MatrixStack,
-        renderTypeBuffer: IRenderTypeBuffer,
+        matrixStack: PoseStack,
+        renderTypeBuffer: MultiBufferSource,
         packedLight: Int
     ) {
         val buffer = renderTypeBuffer.getBuffer(RENDER_TYPE)
@@ -70,7 +63,7 @@ class SpellLaserRenderer(renderManager: EntityRendererManager) : EntityRenderer<
         matrixStack.popPose()
     }
 
-    private fun drawSegment(matrixStack: MatrixStack, buffer: IVertexBuilder, lengthScale: Double, red: Int, green: Int, blue: Int) {
+    private fun drawSegment(matrixStack: PoseStack, buffer: VertexConsumer, lengthScale: Double, red: Int, green: Int, blue: Int) {
         val rotationMatrix = matrixStack.last().pose()
         val normalMatrix = matrixStack.last().normal()
         val rotationPerSprite = 180f / SPRITE_COUNT
@@ -86,7 +79,7 @@ class SpellLaserRenderer(renderManager: EntityRendererManager) : EntityRenderer<
     private fun drawVertex(
         rotationMatrix: Matrix4f,
         normalMatrix: Matrix3f,
-        vertexBuilder: IVertexBuilder,
+        vertexBuilder: VertexConsumer,
         x: Double,
         y: Double,
         z: Double,
@@ -106,8 +99,8 @@ class SpellLaserRenderer(renderManager: EntityRendererManager) : EntityRenderer<
             .endVertex()
     }
 
-    override fun getRenderOffset(entity: SpellLaserEntity, partialTicks: Float): Vector3d {
-        return Vector3d.ZERO
+    override fun getRenderOffset(entity: SpellLaserEntity, partialTicks: Float): Vec3 {
+        return Vec3.ZERO
     }
 
     override fun getTextureLocation(entity: SpellLaserEntity): ResourceLocation {
@@ -123,23 +116,23 @@ class SpellLaserRenderer(renderManager: EntityRendererManager) : EntityRenderer<
         // Ignores block and sky light levels and always renders the same
         private val FULLBRIGHT = LightTexture.pack(15, 15)
 
-        private val BASE_RENDER_DIRECTION = Vector3d(1.0, 0.0, 0.0)
+        private val BASE_RENDER_DIRECTION = Vec3(1.0, 0.0, 0.0)
 
         // The texture used by the model
         private val SPELL_LASER_TEXTURE = ResourceLocation("afraidofthedark:textures/entity/spell/laser.png")
 
         private val RENDER_TYPE: RenderType = @Suppress("INACCESSIBLE_TYPE") RenderType.create(
             "spell_laser",
-            DefaultVertexFormats.NEW_ENTITY,
-            GL11.GL_QUADS,
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
             1024,
             false,
             true,
-            RenderType.State.builder()
-                .setTextureState(RenderState.TextureState(SPELL_LASER_TEXTURE, false, false))
-                .setTransparencyState(TransparencyState("no_transparency", { RenderSystem.disableBlend() }) {})
-                .setCullState(RenderState.CullState(false))
-                .setLightmapState(RenderState.LightmapState(false))
+            RenderType.CompositeState.builder()
+                .setTextureState(RenderStateShard.TextureStateShard(SPELL_LASER_TEXTURE, false, false))
+                .setTransparencyState(RenderStateShard.TransparencyStateShard("no_transparency", { RenderSystem.disableBlend() }) {})
+                .setCullState(RenderStateShard.CullStateShard(false))
+                .setLightmapState(RenderStateShard.LightmapStateShard(false))
                 .createCompositeState(true)
         )
     }
