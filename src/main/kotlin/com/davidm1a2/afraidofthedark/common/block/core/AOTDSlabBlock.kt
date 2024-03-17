@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.block.core
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.block.SlabBlock
+import net.minecraft.world.level.block.SlabBlock
 
 /**
  * Base class for all AOTD slabs

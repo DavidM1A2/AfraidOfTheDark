@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.block.core
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.block.DoorBlock
-import net.minecraft.block.SoundType
+import net.minecraft.world.level.block.DoorBlock
+import net.minecraft.world.level.block.SoundType
 
 /**
  * Base class for any door blocks used by Afraid of the dark

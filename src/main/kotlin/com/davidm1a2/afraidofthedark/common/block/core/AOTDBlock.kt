@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.block.core
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.block.Block
+import net.minecraft.world.level.block.Block
 
 /**
  * Base class for any simple blocks used by Afraid of the dark

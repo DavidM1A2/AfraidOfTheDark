@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.block.core
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.block.BushBlock
-import net.minecraft.block.SoundType
+import net.minecraft.world.level.block.BushBlock
+import net.minecraft.world.level.block.SoundType
 
 /**
  * Base class for any bush blocks used by Afraid of the dark

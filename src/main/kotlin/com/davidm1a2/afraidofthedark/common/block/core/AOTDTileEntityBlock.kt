@@ -1,10 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.block.core
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.block.BlockState
-import net.minecraft.block.ContainerBlock
-import net.minecraft.tileentity.TileEntity
-import net.minecraft.world.IBlockReader
+import net.minecraft.world.level.block.BaseEntityBlock
 
 /**
  * Base class for all AOTD blocks that also contain tile entities
@@ -13,12 +10,8 @@ import net.minecraft.world.IBlockReader
  * @param name     The name of the block
  * @param properties The block properties
  */
-abstract class AOTDTileEntityBlock(name: String, properties: Properties) : ContainerBlock(properties), IShowBlockCreative {
+abstract class AOTDTileEntityBlock(name: String, properties: Properties) : BaseEntityBlock(properties), IShowBlockCreative {
     init {
         setRegistryName(Constants.MOD_ID, name)
-    }
-
-    override fun createTileEntity(state: BlockState, world: IBlockReader): TileEntity? {
-        return newBlockEntity(world)
     }
 }

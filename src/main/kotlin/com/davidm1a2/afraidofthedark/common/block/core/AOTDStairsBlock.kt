@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.block.core
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.block.BlockState
-import net.minecraft.block.StairsBlock
+import net.minecraft.world.level.block.StairBlock
+import net.minecraft.world.level.block.state.BlockState
 
 /**
  * Base class for AOTD stair blocks
@@ -12,7 +12,7 @@ import net.minecraft.block.StairsBlock
  * @param modelState The state that this block copies its texture from
  * @param properties The block properties
  */
-abstract class AOTDStairsBlock(baseName: String, modelState: () -> BlockState, properties: Properties) : StairsBlock(modelState, properties),
+abstract class AOTDStairsBlock(baseName: String, modelState: () -> BlockState, properties: Properties) : StairBlock(modelState, properties),
     IShowBlockCreative {
     init {
         this.setRegistryName(Constants.MOD_ID, baseName)
