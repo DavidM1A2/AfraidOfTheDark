@@ -1,17 +1,17 @@
 package com.davidm1a2.afraidofthedark.client.tileEntity
 
 import com.davidm1a2.afraidofthedark.common.tileEntity.FeyLightTileEntity
-import com.mojang.blaze3d.matrix.MatrixStack
-import net.minecraft.client.renderer.IRenderTypeBuffer
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher
+import com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 
-class FeyLightTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<FeyLightTileEntity>(tileEntityRendererDispatcher) {
+class FeyLightTileEntityRenderer(context: BlockEntityRendererProvider.Context) : BlockEntityRenderer<FeyLightTileEntity> {
     override fun render(
         feyLight: FeyLightTileEntity,
         partialTicks: Float,
-        matrixStack: MatrixStack,
-        renderType: IRenderTypeBuffer,
+        matrixStack: PoseStack,
+        renderType: MultiBufferSource,
         combinedLight: Int,
         combinedOverlay: Int
     ) {

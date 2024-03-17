@@ -2,23 +2,23 @@ package com.davidm1a2.afraidofthedark.client.tileEntity.spellCraftingTable
 
 import com.davidm1a2.afraidofthedark.common.block.SpellCraftingTableBlock
 import com.davidm1a2.afraidofthedark.common.tileEntity.SpellCraftingTableTileEntity
-import com.mojang.blaze3d.matrix.MatrixStack
-import net.minecraft.client.renderer.IRenderTypeBuffer
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.math.Vector3f
 import net.minecraft.client.renderer.LightTexture
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.vector.Vector3f
-import net.minecraft.world.LightType
-import net.minecraft.world.World
+import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
+import net.minecraft.core.BlockPos
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.LightLayer
 
-class SpellCraftingTableTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<SpellCraftingTableTileEntity>(tileEntityRendererDispatcher) {
+class SpellCraftingTableTileEntityRenderer(private val context: BlockEntityRendererProvider.Context) : BlockEntityRenderer<SpellCraftingTableTileEntity> {
     override fun render(
         spellCraftingTable: SpellCraftingTableTileEntity,
         partialTicks: Float,
-        matrixStack: MatrixStack,
-        renderTypeBuffer: IRenderTypeBuffer,
+        matrixStack: PoseStack,
+        renderTypeBuffer: MultiBufferSource,
         combinedLight: Int,
         combinedOverlay: Int
     ) {
@@ -28,9 +28,9 @@ class SpellCraftingTableTileEntityRenderer(tileEntityRendererDispatcher: TileEnt
         val facing = spellCraftingTable.blockState.getValue(SpellCraftingTableBlock.FACING)
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(-(facing.toYRot() + 90) % 360))
 
-        val world = renderer.level
+        val world = context.blockEntityRenderDispatcher.level
         val realLight = if (world != null) {
-            LightTexture.pack(getLightAround(world, LightType.BLOCK, spellCraftingTable.blockPos), getLightAround(world, LightType.SKY, spellCraftingTable.blockPos))
+            LightTexture.pack(getLightAround(world, LightLayer.BLOCK, spellCraftingTable.blockPos), getLightAround(world, LightLayer.SKY, spellCraftingTable.blockPos))
         } else {
             combinedLight
         }
@@ -38,7 +38,7 @@ class SpellCraftingTableTileEntityRenderer(tileEntityRendererDispatcher: TileEnt
         matrixStack.popPose()
     }
 
-    private fun getLightAround(world: World, lightType: LightType, pos: BlockPos): Int {
+    private fun getLightAround(world: Level, lightType: LightLayer, pos: BlockPos): Int {
         val lightListener = world.lightEngine.getLayerListener(lightType)
         return maxOf(
             lightListener.getLightValue(pos.above()),

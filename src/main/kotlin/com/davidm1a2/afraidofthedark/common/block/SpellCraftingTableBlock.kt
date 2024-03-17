@@ -35,6 +35,7 @@ import net.minecraft.util.math.shapes.VoxelShapes
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.IBlockReader
 import net.minecraft.world.World
+import net.minecraft.world.level.block.state.properties.DirectionProperty
 import java.util.*
 
 class SpellCraftingTableBlock : AOTDTileEntityBlock("spell_crafting_table", Properties.copy(ModBlocks.GRAVEWOOD_PLANKS).lightLevel { 5 }), IUseBlockItemStackRenderer {

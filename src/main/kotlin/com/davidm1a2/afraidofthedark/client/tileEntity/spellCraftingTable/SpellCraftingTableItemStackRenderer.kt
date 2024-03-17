@@ -1,20 +1,21 @@
 package com.davidm1a2.afraidofthedark.client.tileEntity.spellCraftingTable
 
-import com.mojang.blaze3d.matrix.MatrixStack
-import net.minecraft.client.renderer.IRenderTypeBuffer
-import net.minecraft.client.renderer.model.ItemCameraTransforms
-import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer
-import net.minecraft.item.ItemStack
-import net.minecraft.util.Direction
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.vector.Vector3f
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.math.Vector3f
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer
+import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.renderer.block.model.ItemTransforms
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
+import net.minecraft.core.Direction
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.item.ItemStack
 
-class SpellCraftingTableItemStackRenderer : ItemStackTileEntityRenderer() {
+class SpellCraftingTableItemStackRenderer(context: BlockEntityRendererProvider.Context) : BlockEntityWithoutLevelRenderer(context.blockEntityRenderDispatcher, context.modelSet) {
     override fun renderByItem(
         itemStack: ItemStack,
-        ignored: ItemCameraTransforms.TransformType,
-        matrixStack: MatrixStack,
-        renderTypeBuffer: IRenderTypeBuffer,
+        ignored: ItemTransforms.TransformType,
+        matrixStack: PoseStack,
+        renderTypeBuffer: MultiBufferSource,
         packedLight: Int,
         packedOverlay: Int
     ) {

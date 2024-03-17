@@ -2,24 +2,25 @@ package com.davidm1a2.afraidofthedark.client.tileEntity.magicCrystal
 
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.tileEntity.MagicCrystalTileEntity
-import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.renderer.IRenderTypeBuffer
-import net.minecraft.client.renderer.RenderState
+import com.mojang.blaze3d.vertex.DefaultVertexFormat
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.VertexFormat
+import com.mojang.math.Vector3f
+import net.minecraft.client.renderer.GameRenderer
+import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.renderer.RenderStateShard
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.vector.Vector3f
-import org.lwjgl.opengl.GL11
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
+import net.minecraft.resources.ResourceLocation
 
-class MagicCrystalTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<MagicCrystalTileEntity>(tileEntityRendererDispatcher) {
+class MagicCrystalTileEntityRenderer(context: BlockEntityRendererProvider.Context) : BlockEntityRenderer<MagicCrystalTileEntity> {
     override fun render(
         magicCrystal: MagicCrystalTileEntity,
         partialTicks: Float,
-        matrixStack: MatrixStack,
-        renderType: IRenderTypeBuffer,
+        matrixStack: PoseStack,
+        renderType: MultiBufferSource,
         combinedLight: Int,
         combinedOverlay: Int
     ) {
@@ -50,18 +51,17 @@ class MagicCrystalTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRen
         private val MAGIC_CRYSTAL_TEXTURE = ResourceLocation("afraidofthedark:textures/block/magic_crystal_te.png")
         private val RENDER_TYPE: RenderType = @Suppress("INACCESSIBLE_TYPE") RenderType.create(
             "magic_crystal",
-            DefaultVertexFormats.NEW_ENTITY,
-            GL11.GL_QUADS,
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
             256,
             false,
             false,
-            RenderType.State.builder()
-                .setTextureState(RenderState.TextureState(MAGIC_CRYSTAL_TEXTURE, false, false))
-                .setTransparencyState(RenderState.TransparencyState("no_transparency", { RenderSystem.disableBlend() }) {})
-                .setDiffuseLightingState(RenderState.DiffuseLightingState(true))
-                .setAlphaState(RenderState.AlphaState(0.003921569F))
-                .setLightmapState(RenderState.LightmapState(true))
-                .setOverlayState(RenderState.OverlayState(true))
+            RenderType.CompositeState.builder()
+                .setTextureState(RenderStateShard.TextureStateShard(MAGIC_CRYSTAL_TEXTURE, false, false))
+                .setTransparencyState(RenderStateShard.TransparencyStateShard("no_transparency", { RenderSystem.disableBlend() }) {})
+                .setShaderState(RenderStateShard.ShaderStateShard(GameRenderer::getNewEntityShader))
+                .setLightmapState(RenderStateShard.LightmapStateShard(true))
+                .setOverlayState(RenderStateShard.OverlayStateShard(true))
                 .createCompositeState(true)
         )
     }

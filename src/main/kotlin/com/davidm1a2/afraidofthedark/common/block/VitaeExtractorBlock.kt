@@ -31,6 +31,7 @@ import net.minecraft.util.math.shapes.ISelectionContext
 import net.minecraft.util.math.shapes.VoxelShape
 import net.minecraft.world.IBlockReader
 import net.minecraft.world.World
+import net.minecraft.world.level.block.state.properties.DirectionProperty
 import net.minecraftforge.common.ToolType
 import java.util.*
 

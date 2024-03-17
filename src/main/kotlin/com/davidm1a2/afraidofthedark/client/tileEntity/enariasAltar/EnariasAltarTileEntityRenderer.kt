@@ -1,24 +1,23 @@
 package com.davidm1a2.afraidofthedark.client.tileEntity.enariasAltar
 
 import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.EnariasAltarTileEntity
-import com.mojang.blaze3d.matrix.MatrixStack
-import net.minecraft.client.renderer.IRenderTypeBuffer
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.renderer.LightTexture
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.LightType
-import net.minecraft.world.World
+import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
+import net.minecraft.core.BlockPos
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.LightLayer
 
-class EnariasAltarTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRendererDispatcher) :
-    TileEntityRenderer<EnariasAltarTileEntity>(tileEntityRendererDispatcher) {
+class EnariasAltarTileEntityRenderer(private val context: BlockEntityRendererProvider.Context) : BlockEntityRenderer<EnariasAltarTileEntity> {
 
     override fun render(
         te: EnariasAltarTileEntity,
         partialTicks: Float,
-        matrixStack: MatrixStack,
-        renderTypeBuffer: IRenderTypeBuffer,
+        matrixStack: PoseStack,
+        renderTypeBuffer: MultiBufferSource,
         packedLight: Int,
         packedOverlay: Int
     ) {
@@ -27,9 +26,9 @@ class EnariasAltarTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRen
 
         matrixStack.pushPose()
         matrixStack.translate(0.5, 0.0, 0.5)
-        val world = renderer.level
+        val world = context.blockEntityRenderDispatcher.level
         val realLight = if (world != null) {
-            LightTexture.pack(getLightAround(world, LightType.BLOCK, te.blockPos), getLightAround(world, LightType.SKY, te.blockPos))
+            LightTexture.pack(getLightAround(world, LightLayer.BLOCK, te.blockPos), getLightAround(world, LightLayer.SKY, te.blockPos))
         } else {
             packedLight
         }
@@ -37,7 +36,7 @@ class EnariasAltarTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRen
         matrixStack.popPose()
     }
 
-    private fun getLightAround(world: World, lightType: LightType, pos: BlockPos): Int {
+    private fun getLightAround(world: Level, lightType: LightLayer, pos: BlockPos): Int {
         val lightListener = world.lightEngine.getLayerListener(lightType)
         return maxOf(
             lightListener.getLightValue(pos.above()),

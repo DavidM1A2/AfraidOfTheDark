@@ -1,43 +1,39 @@
 package com.davidm1a2.afraidofthedark.client.tileEntity
 
 import com.davidm1a2.afraidofthedark.common.tileEntity.VoidChestTileEntity
-import com.mojang.blaze3d.matrix.MatrixStack
-import net.minecraft.block.ChestBlock
-import net.minecraft.client.renderer.IRenderTypeBuffer
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.math.Vector3f
+import net.minecraft.client.model.geom.ModelPart
+import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.renderer.model.ModelRenderer
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.vector.Vector3f
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Mth
+import net.minecraft.world.level.block.ChestBlock
 
 /**
  * Code is almost completely copied from ChestTileEntityRenderer
  */
-class VoidChestTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRendererDispatcher) :
-    TileEntityRenderer<VoidChestTileEntity>(tileEntityRendererDispatcher) {
-    private val lid: ModelRenderer
-    private val bottom: ModelRenderer
-    private val latch: ModelRenderer
+class VoidChestTileEntityRenderer(context: BlockEntityRendererProvider.Context) : BlockEntityRenderer<VoidChestTileEntity> {
+    private val lid: ModelPart
+    private val bottom: ModelPart
+    private val latch: ModelPart
 
     init {
-        bottom = ModelRenderer(64, 64, 0, 19)
-        bottom.addBox(1.0f, 0.0f, 1.0f, 14.0f, 10.0f, 14.0f, 0.0f)
-        lid = ModelRenderer(64, 64, 0, 0)
-        lid.addBox(1.0f, 0.0f, 0.0f, 14.0f, 5.0f, 14.0f, 0.0f)
+        bottom = ModelPart(listOf(makeDefaultCube(0, 19, 1.0f, 0.0f, 1.0f, 14.0f, 10.0f, 14.0f)), emptyMap())
+        lid = ModelPart(listOf(makeDefaultCube(0, 0, 1.0f, 0.0f, 0.0f, 14.0f, 5.0f, 14.0f)), emptyMap())
         lid.y = 9.0f
         lid.z = 1.0f
-        latch = ModelRenderer(64, 64, 0, 0)
-        latch.addBox(7.0f, -1.0f, 15.0f, 2.0f, 4.0f, 1.0f, 0.0f)
+        latch = ModelPart(listOf(makeDefaultCube(0, 0, 7.0f, -1.0f, 15.0f, 2.0f, 4.0f, 1.0f)), emptyMap())
         latch.y = 8.0f
     }
 
     override fun render(
         voidChest: VoidChestTileEntity,
         partialTicks: Float,
-        matrixStack: MatrixStack,
-        renderType: IRenderTypeBuffer,
+        matrixStack: PoseStack,
+        renderType: MultiBufferSource,
         combinedLight: Int,
         combinedOverlay: Int
     ) {
@@ -47,7 +43,7 @@ class VoidChestTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRender
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(-voidChest.blockState.getValue(ChestBlock.FACING).toYRot()))
         matrixStack.translate(-0.5, -0.5, -0.5)
 
-        lid.xRot = -(MathHelper.lerp(partialTicks, voidChest.previousLidAngle, voidChest.lidAngle) * (Math.PI.toFloat() / 2f))
+        lid.xRot = -(Mth.lerp(partialTicks, voidChest.previousLidAngle, voidChest.lidAngle) * (Math.PI.toFloat() / 2f))
         latch.xRot = lid.xRot
         val buffer = renderType.getBuffer(RENDER_TYPE)
 
@@ -58,6 +54,9 @@ class VoidChestTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRender
         matrixStack.popPose()
     }
 
+    private fun makeDefaultCube(texOffsX: Int, texOffsY: Int, x: Float, y: Float, z: Float, width: Float, height: Float, depth: Float): ModelPart.Cube {
+        return ModelPart.Cube(texOffsX, texOffsY, x, y, z, width, height, depth, 0f, 0f, 0f, false, 64f, 64f)
+    }
 
     companion object {
         private val VOID_CHEST_TEXTURE = ResourceLocation("afraidofthedark:textures/block/void_chest/void_chest.png")

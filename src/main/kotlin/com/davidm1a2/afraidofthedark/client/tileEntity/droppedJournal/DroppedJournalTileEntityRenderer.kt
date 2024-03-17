@@ -1,27 +1,26 @@
 package com.davidm1a2.afraidofthedark.client.tileEntity.droppedJournal
 
 import com.davidm1a2.afraidofthedark.common.tileEntity.DroppedJournalTileEntity
-import com.mojang.blaze3d.matrix.MatrixStack
-import net.minecraft.client.renderer.IRenderTypeBuffer
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.math.Vector3f
 import net.minecraft.client.renderer.LightTexture
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.SharedSeedRandom
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.vector.Vector3f
-import net.minecraft.world.LightType
-import net.minecraft.world.World
-import java.util.Random
+import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
+import net.minecraft.core.BlockPos
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.LightLayer
+import net.minecraft.world.level.levelgen.WorldgenRandom
 
-class DroppedJournalTileEntityRenderer(tileEntityRendererDispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<DroppedJournalTileEntity>(tileEntityRendererDispatcher) {
-    private val random = SharedSeedRandom()
+class DroppedJournalTileEntityRenderer(private val context: BlockEntityRendererProvider.Context) : BlockEntityRenderer<DroppedJournalTileEntity> {
+    private val random = WorldgenRandom()
 
     override fun render(
         altarRuinsJournal: DroppedJournalTileEntity,
         partialTicks: Float,
-        matrixStack: MatrixStack,
-        renderType: IRenderTypeBuffer,
+        matrixStack: PoseStack,
+        renderType: MultiBufferSource,
         combinedLight: Int,
         combinedOverlay: Int
     ) {
@@ -35,9 +34,9 @@ class DroppedJournalTileEntityRenderer(tileEntityRendererDispatcher: TileEntityR
         random.setBaseChunkSeed(altarRuinsJournal.blockPos.x, altarRuinsJournal.blockPos.z)
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(random.nextFloat(0f, 360f)))
 
-        val world = renderer.level
+        val world = context.blockEntityRenderDispatcher.level
         val realLight = if (world != null) {
-            LightTexture.pack(getLightAround(world, LightType.BLOCK, altarRuinsJournal.blockPos), getLightAround(world, LightType.SKY, altarRuinsJournal.blockPos))
+            LightTexture.pack(getLightAround(world, LightLayer.BLOCK, altarRuinsJournal.blockPos), getLightAround(world, LightLayer.SKY, altarRuinsJournal.blockPos))
         } else {
             combinedLight
         }
@@ -54,7 +53,7 @@ class DroppedJournalTileEntityRenderer(tileEntityRendererDispatcher: TileEntityR
         matrixStack.popPose()
     }
 
-    private fun getLightAround(world: World, lightType: LightType, pos: BlockPos): Int {
+    private fun getLightAround(world: Level, lightType: LightLayer, pos: BlockPos): Int {
         val lightListener = world.lightEngine.getLayerListener(lightType)
         return maxOf(
             lightListener.getLightValue(pos.above()),
@@ -69,9 +68,5 @@ class DroppedJournalTileEntityRenderer(tileEntityRendererDispatcher: TileEntityR
         private val DROPPED_JOURNAL_MODEL = DroppedJournalTileEntityModel()
         private val DROPPED_JOURNAL_TEXTURE = ResourceLocation("afraidofthedark:textures/block/dropped_journal_te.png")
         private val RENDER_TYPE = DROPPED_JOURNAL_MODEL.renderType(DROPPED_JOURNAL_TEXTURE)
-
-        private fun Random.nextFloat(min: Float, max: Float): Float {
-            return min + nextFloat() * (max - min)
-        }
     }
 }
