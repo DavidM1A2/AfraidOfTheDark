@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.block.gravewood
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDSaplingBlock
-import net.minecraft.block.material.Material
+import net.minecraft.world.level.material.Material
 
 /**
  * Block representing a gravewood sapling

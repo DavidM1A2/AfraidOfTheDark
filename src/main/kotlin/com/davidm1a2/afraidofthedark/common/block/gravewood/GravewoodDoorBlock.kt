@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.block.gravewood
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDDoorBlock
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import net.minecraft.block.material.Material
+import net.minecraft.world.level.material.Material
 
 /**
  * Class representing a gravewood door block
