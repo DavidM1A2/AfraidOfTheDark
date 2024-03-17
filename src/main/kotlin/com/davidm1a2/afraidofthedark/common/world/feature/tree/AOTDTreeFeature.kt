@@ -1,96 +1,84 @@
 package com.davidm1a2.afraidofthedark.common.world.feature.tree
 
-import net.minecraft.block.BlockState
-import net.minecraft.state.properties.BlockStateProperties
-import net.minecraft.util.Direction
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.MutableBoundingBox
-import net.minecraft.util.math.shapes.BitSetVoxelShapePart
-import net.minecraft.world.ISeedReader
-import net.minecraft.world.IWorld
-import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.IWorldGenerationReader
-import net.minecraft.world.gen.feature.BaseTreeFeatureConfig
-import net.minecraft.world.gen.feature.Feature
-import net.minecraft.world.gen.feature.TreeFeature
-import net.minecraft.world.gen.feature.template.Template
-import java.util.Random
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.level.LevelWriter
+import net.minecraft.world.level.WorldGenLevel
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.level.levelgen.feature.Feature
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration
+import net.minecraft.world.level.levelgen.structure.BoundingBox
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate
+import net.minecraft.world.phys.shapes.BitSetDiscreteVoxelShape
 
 abstract class AOTDTreeFeature(
     private val log: BlockState,
     private val leaves: BlockState
-) : Feature<BaseTreeFeatureConfig>(BaseTreeFeatureConfig.CODEC) {
+) : Feature<TreeConfiguration>(TreeConfiguration.CODEC) {
     override fun place(
-        world: ISeedReader,
-        chunkGenerator: ChunkGenerator,
-        random: Random,
-        blockPos: BlockPos,
-        ignored: BaseTreeFeatureConfig
+        featurePlaceContext: FeaturePlaceContext<TreeConfiguration>
     ): Boolean {
         val logPositions = mutableSetOf<BlockPos>()
         val leafPositions = mutableSetOf<BlockPos>()
-        val boundingBox = MutableBoundingBox.getUnknownBox()
+        val boundingBox = BoundingBox.encapsulatingPositions(listOf(featurePlaceContext.origin())).get()
 
-        place(world, chunkGenerator, random, blockPos, logPositions, leafPositions, boundingBox)
+        place(featurePlaceContext, logPositions, leafPositions, boundingBox)
 
-        updateLeaves(world, boundingBox, logPositions, leafPositions)
+        updateLeaves(featurePlaceContext, boundingBox, logPositions, leafPositions)
         return true
     }
 
     abstract fun place(
-        world: ISeedReader,
-        chunkGenerator: ChunkGenerator,
-        random: Random,
-        blockPos: BlockPos,
+        featurePlaceContext: FeaturePlaceContext<TreeConfiguration>,
         logPositions: MutableSet<BlockPos>,
         leafPositions: MutableSet<BlockPos>,
-        boundingBox: MutableBoundingBox
+        boundingBox: BoundingBox
     )
 
-    protected fun setLog(world: IWorldGenerationReader, blockPos: BlockPos, logPositions: MutableSet<BlockPos>, boundingBox: MutableBoundingBox) {
+    protected fun setLog(world: WorldGenLevel, blockPos: BlockPos, logPositions: MutableSet<BlockPos>, boundingBox: BoundingBox) {
         setBlock(world, blockPos, log)
         logPositions.add(blockPos)
-        boundingBox.expand(MutableBoundingBox(blockPos, blockPos))
+        boundingBox.encapsulate(blockPos)
     }
 
-    protected fun setLeaf(world: IWorldGenerationReader, blockPos: BlockPos, leafPositions: MutableSet<BlockPos>, boundingBox: MutableBoundingBox) {
+    protected fun setLeaf(world: WorldGenLevel, blockPos: BlockPos, leafPositions: MutableSet<BlockPos>, boundingBox: BoundingBox) {
         setBlock(world, blockPos, leaves)
         leafPositions.add(blockPos)
-        boundingBox.expand(MutableBoundingBox(blockPos, blockPos))
+        boundingBox.encapsulate(BoundingBox(blockPos))
     }
 
     /**
      * Copy & Pasted from TreeFeature::updateLeaves. Tried my best to rename variables to make sense. It fixes the leaves' distance properties
      */
-    private fun updateLeaves(world: IWorld, boundingBox: MutableBoundingBox, logPositions: Set<BlockPos>, leafPositions: Set<BlockPos>) {
+    private fun updateLeaves(featurePlaceContext: FeaturePlaceContext<TreeConfiguration>, boundingBox: BoundingBox, logPositions: Set<BlockPos>, leafPositions: Set<BlockPos>) {
         val leafCheckIterationSets = List<MutableSet<BlockPos>>(6) { mutableSetOf() }
-        val voxelShape = BitSetVoxelShapePart(boundingBox.xSpan, boundingBox.ySpan, boundingBox.zSpan)
+        val voxelShape = BitSetDiscreteVoxelShape(boundingBox.xSpan, boundingBox.ySpan, boundingBox.zSpan)
 
         for (leafPosition in leafPositions) {
             if (boundingBox.isInside(leafPosition)) {
-                voxelShape.setFull(leafPosition.x - boundingBox.x0, leafPosition.y - boundingBox.y0, leafPosition.z - boundingBox.z0, true, true)
+                voxelShape.fill(leafPosition.x - boundingBox.minX(), leafPosition.y - boundingBox.minY(), leafPosition.z - boundingBox.minZ())
             }
         }
 
-        val tempBlockPos = BlockPos.Mutable()
+        val tempBlockPos = BlockPos.MutableBlockPos()
         for (logPosition in logPositions) {
             if (boundingBox.isInside(logPosition)) {
-                voxelShape.setFull(logPosition.x - boundingBox.x0, logPosition.y - boundingBox.y0, logPosition.z - boundingBox.z0, true, true)
+                voxelShape.fill(logPosition.x - boundingBox.minX(), logPosition.y - boundingBox.minY(), logPosition.z - boundingBox.minZ())
             }
             for (direction in Direction.values()) {
                 tempBlockPos.setWithOffset(logPosition, direction)
                 if (!logPositions.contains(tempBlockPos)) {
-                    val blockNextToLog = world.getBlockState(tempBlockPos)
+                    val blockNextToLog = featurePlaceContext.level().getBlockState(tempBlockPos)
                     if (blockNextToLog.hasProperty(BlockStateProperties.DISTANCE)) {
                         leafCheckIterationSets[0].add(tempBlockPos.immutable())
-                        TreeFeature.setBlockKnownShape(world, tempBlockPos, blockNextToLog.setValue(BlockStateProperties.DISTANCE, 1))
+                        setBlockKnownShape(featurePlaceContext.level(), tempBlockPos, blockNextToLog.setValue(BlockStateProperties.DISTANCE, 1))
                         if (boundingBox.isInside(tempBlockPos)) {
-                            voxelShape.setFull(
-                                tempBlockPos.x - boundingBox.x0,
-                                tempBlockPos.y - boundingBox.y0,
-                                tempBlockPos.z - boundingBox.z0,
-                                true,
-                                true
+                            voxelShape.fill(
+                                tempBlockPos.x - boundingBox.minX(),
+                                tempBlockPos.y - boundingBox.minY(),
+                                tempBlockPos.z - boundingBox.minZ()
                             )
                         }
                     }
@@ -103,24 +91,22 @@ abstract class AOTDTreeFeature(
             val nextSet = leafCheckIterationSets[index]
             for (blockPos in currentSet) {
                 if (boundingBox.isInside(blockPos)) {
-                    voxelShape.setFull(blockPos.x - boundingBox.x0, blockPos.y - boundingBox.y0, blockPos.z - boundingBox.z0, true, true)
+                    voxelShape.fill(blockPos.x - boundingBox.minX(), blockPos.y - boundingBox.minX(), blockPos.z - boundingBox.minZ())
                 }
                 for (direction in Direction.values()) {
                     tempBlockPos.setWithOffset(blockPos, direction)
                     if (!currentSet.contains(tempBlockPos) && !nextSet.contains(tempBlockPos)) {
-                        val leafState = world.getBlockState(tempBlockPos)
+                        val leafState = featurePlaceContext.level().getBlockState(tempBlockPos)
                         if (leafState.hasProperty(BlockStateProperties.DISTANCE)) {
                             val distance = leafState.getValue(BlockStateProperties.DISTANCE)
                             if (distance > index + 1) {
                                 val newLeafState = leafState.setValue(BlockStateProperties.DISTANCE, index + 1)
-                                TreeFeature.setBlockKnownShape(world, tempBlockPos, newLeafState)
+                                setBlockKnownShape(featurePlaceContext.level(), tempBlockPos, newLeafState)
                                 if (boundingBox.isInside(tempBlockPos)) {
-                                    voxelShape.setFull(
-                                        tempBlockPos.x - boundingBox.x0,
-                                        tempBlockPos.y - boundingBox.y0,
-                                        tempBlockPos.z - boundingBox.z0,
-                                        true,
-                                        true
+                                    voxelShape.fill(
+                                        tempBlockPos.x - boundingBox.minX(),
+                                        tempBlockPos.y - boundingBox.minY(),
+                                        tempBlockPos.z - boundingBox.minZ()
                                     )
                                 }
                                 nextSet.add(tempBlockPos.immutable())
@@ -131,6 +117,11 @@ abstract class AOTDTreeFeature(
             }
         }
 
-        Template.updateShapeAtEdge(world, 3, voxelShape, boundingBox.x0, boundingBox.y0, boundingBox.z0)
+        StructureTemplate.updateShapeAtEdge(featurePlaceContext.level(), 3, voxelShape, boundingBox.minX(), boundingBox.minY(), boundingBox.minZ())
+    }
+
+    // Copied from TreeFeature
+    private fun setBlockKnownShape(levelWriter: LevelWriter, blockPos: BlockPos, blockState: BlockState) {
+        levelWriter.setBlock(blockPos, blockState, 19)
     }
 }

@@ -5,10 +5,10 @@ import com.davidm1a2.afraidofthedark.common.block.core.IUseCustomBlockItem
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.ResearchUnlockingBlockItem
-import net.minecraft.block.material.Material
-import net.minecraft.block.material.MaterialColor
-import net.minecraft.item.BlockItem
-import net.minecraft.item.Item
+import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.Item
+import net.minecraft.world.level.material.Material
+import net.minecraft.world.level.material.MaterialColor
 
 /**
  * Class representing a mangrove log block

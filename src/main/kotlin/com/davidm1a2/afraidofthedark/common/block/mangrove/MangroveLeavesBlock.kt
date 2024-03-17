@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.block.mangrove
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDLeavesBlock
-import net.minecraft.block.material.Material
+import net.minecraft.world.level.material.Material
 
 /**
  * Mangrove leaves are grown by mangrove trees

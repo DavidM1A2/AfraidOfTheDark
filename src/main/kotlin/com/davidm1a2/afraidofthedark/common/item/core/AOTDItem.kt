@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item.core
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.item.Item
 import net.minecraft.world.item.Item
 
 /**

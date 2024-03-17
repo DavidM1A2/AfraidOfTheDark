@@ -2,14 +2,12 @@ package com.davidm1a2.afraidofthedark.common.world.feature.tree
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import net.minecraft.block.RotatedPillarBlock
-import net.minecraft.util.Direction
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.MutableBoundingBox
-import net.minecraft.world.ISeedReader
-import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.IWorldGenerationReader
-import java.util.Random
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.level.block.RotatedPillarBlock
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration
+import net.minecraft.world.level.levelgen.structure.BoundingBox
 import kotlin.math.sqrt
 
 class MangroveTreeFeature : AOTDTreeFeature(
@@ -21,27 +19,27 @@ class MangroveTreeFeature : AOTDTreeFeature(
     }
 
     override fun place(
-        world: ISeedReader,
-        chunkGenerator: ChunkGenerator,
-        random: Random,
-        blockPos: BlockPos,
+        featurePlaceContext: FeaturePlaceContext<TreeConfiguration>,
         logPositions: MutableSet<BlockPos>,
         leafPositions: MutableSet<BlockPos>,
-        boundingBox: MutableBoundingBox
+        boundingBox: BoundingBox
     ) {
         // Generate the trunk and root blocks
-        val topOfTrunk = generateBase(world, random, blockPos, logPositions, boundingBox)
+        val topOfTrunk = generateBase(featurePlaceContext, logPositions, boundingBox)
         // Generate branches and leaves
-        generateBranches(world, topOfTrunk, random, logPositions, leafPositions, boundingBox)
+        generateBranches(featurePlaceContext, topOfTrunk, logPositions, leafPositions, boundingBox)
     }
 
     private fun generateBase(
-        world: IWorldGenerationReader,
-        random: Random,
-        pos: BlockPos,
+        featurePlaceContext: FeaturePlaceContext<TreeConfiguration>,
         logPositions: MutableSet<BlockPos>,
-        boundingBox: MutableBoundingBox
+        boundingBox: BoundingBox
     ): BlockPos {
+        // Get fields from the context object
+        val random = featurePlaceContext.random()
+        val pos = featurePlaceContext.origin()
+        val level = featurePlaceContext.level()
+
         // The height to reach before the trunk starts is between 4 and 7 blocks
         val heightBeforeTrunk = random.nextInt(4) + 4
 
@@ -75,11 +73,11 @@ class MangroveTreeFeature : AOTDTreeFeature(
                     zDistanceFromTrunk--
                 }
 
-                setLog(world, currentPos, logPositions, boundingBox)
+                setLog(level, currentPos, logPositions, boundingBox)
 
                 // Have a 1/10 chance to generate an extra log one block up or down
                 if (random.nextDouble() < 0.1) {
-                    setLog(world, if (random.nextBoolean()) currentPos.above() else currentPos.below(), logPositions, boundingBox)
+                    setLog(level, if (random.nextBoolean()) currentPos.above() else currentPos.below(), logPositions, boundingBox)
                 }
 
                 // Always move up each iteration
@@ -101,7 +99,7 @@ class MangroveTreeFeature : AOTDTreeFeature(
                 }
 
                 // Set the block to log
-                setLog(world, currentPos, logPositions, boundingBox)
+                setLog(level, currentPos, logPositions, boundingBox)
             }
         }
 
@@ -119,7 +117,7 @@ class MangroveTreeFeature : AOTDTreeFeature(
             }
 
             // Set the block to log
-            setLog(world, currentPos, logPositions, boundingBox)
+            setLog(level, currentPos, logPositions, boundingBox)
 
             // Advance up the trunk
             currentPos = currentPos.above()
@@ -128,15 +126,18 @@ class MangroveTreeFeature : AOTDTreeFeature(
     }
 
     private fun generateBranches(
-        world: IWorldGenerationReader,
+        featurePlaceContext: FeaturePlaceContext<TreeConfiguration>,
         topOfTrunk: BlockPos,
-        random: Random,
         logPositions: MutableSet<BlockPos>,
         leafPositions: MutableSet<BlockPos>,
-        boundingBox: MutableBoundingBox
+        boundingBox: BoundingBox
     ) {
+        // Get fields from context
+        val level = featurePlaceContext.level()
+        val random = featurePlaceContext.random()
+
         // Create a leaf cluster at the top of the trunk
-        generateLeafCluster(world, random, topOfTrunk, logPositions, leafPositions, boundingBox)
+        generateLeafCluster(featurePlaceContext, topOfTrunk, logPositions, leafPositions, boundingBox)
 
         // 3 to 5 branches
         val numBranches = random.nextInt(3) + 3
@@ -151,10 +152,10 @@ class MangroveTreeFeature : AOTDTreeFeature(
             // Iterate branch length number of times to create the logs required
             for (j in 0 until branchLength) {
                 // Create a log block
-                setLog(world, currentBranchPos, logPositions, boundingBox)
+                setLog(level, currentBranchPos, logPositions, boundingBox)
                 // 10% chance to create a leaf cluster along the way
                 if (random.nextDouble() < 0.1) {
-                    generateLeafCluster(world, random, currentBranchPos, logPositions, leafPositions, boundingBox)
+                    generateLeafCluster(featurePlaceContext, currentBranchPos, logPositions, leafPositions, boundingBox)
                 }
                 // Move our position outwards by either moving in the dir1 or dir2 direction
                 currentBranchPos = currentBranchPos.relative(if (random.nextBoolean()) branchDir1 else branchDir2)
@@ -164,20 +165,23 @@ class MangroveTreeFeature : AOTDTreeFeature(
                 }
             }
             // End the branch with a leaf cluster
-            generateLeafCluster(world, random, currentBranchPos, logPositions, leafPositions, boundingBox)
+            generateLeafCluster(featurePlaceContext, currentBranchPos, logPositions, leafPositions, boundingBox)
         }
     }
 
     private fun generateLeafCluster(
-        world: IWorldGenerationReader,
-        random: Random,
+        featurePlaceContext: FeaturePlaceContext<TreeConfiguration>,
         location: BlockPos,
         logPositions: MutableSet<BlockPos>,
         leafPositions: MutableSet<BlockPos>,
-        boundingBox: MutableBoundingBox
+        boundingBox: BoundingBox
     ) {
+        // Grab fields from context
+        val random = featurePlaceContext.random()
+        val world = featurePlaceContext.level()
+
         // Set the center to a mangrove log
-        setLog(world, location, logPositions, boundingBox)
+        setLog(featurePlaceContext.level(), location, logPositions, boundingBox)
         // Leaf clusters will be 3 blocks tall and 5 wide
         for (x in -2..2) {
             for (y in -1..1) {

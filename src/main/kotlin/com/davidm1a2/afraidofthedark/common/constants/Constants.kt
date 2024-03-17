@@ -5,8 +5,8 @@
  */
 package com.davidm1a2.afraidofthedark.common.constants
 
-import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.CreativeModeTab
+import net.minecraft.world.item.ItemStack
 import java.time.ZoneOffset
 
 /**
@@ -17,7 +17,7 @@ object Constants {
     const val MOD_ID = "afraidofthedark"
 
     // Creative Tab for the mod
-    val AOTD_CREATIVE_TAB = object : ItemGroup(MOD_ID) {
+    val AOTD_CREATIVE_TAB = object : CreativeModeTab(MOD_ID) {
         /**
          * Getter for the mod creative tab icon
          *
