@@ -5,16 +5,16 @@ import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import net.minecraft.client.Minecraft
-import net.minecraft.client.audio.SoundEventAccessor
-import net.minecraft.client.audio.SoundHandler
-import net.minecraft.util.SoundCategory
+import net.minecraft.client.sounds.SoundManager
+import net.minecraft.client.sounds.WeighedSoundEvents
+import net.minecraft.sounds.SoundSource
 
 /**
  * Class representing the background music in the nightmare before killing enaria
  *
  * @constructor sets the sound event to play and sound category
  */
-class NightmareMusicSound : PlayerFollowingSound(ModSounds.NIGHTMARE_MUSIC, SoundCategory.AMBIENT) {
+class NightmareMusicSound : PlayerFollowingSound(ModSounds.NIGHTMARE_MUSIC, SoundSource.AMBIENT) {
     init {
         // This sound loops
         looping = true
@@ -29,7 +29,7 @@ class NightmareMusicSound : PlayerFollowingSound(ModSounds.NIGHTMARE_MUSIC, Soun
      * @param handler The sound handler
      * @return What the super method returns
      */
-    override fun resolve(handler: SoundHandler): SoundEventAccessor? {
+    override fun resolve(handler: SoundManager): WeighedSoundEvents? {
         val entityPlayer = Minecraft.getInstance().player!!
         if (entityPlayer.getResearch().isResearched(ModResearches.ARCH_SORCERESS)) {
             stop()

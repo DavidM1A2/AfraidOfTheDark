@@ -3,14 +3,14 @@ package com.davidm1a2.afraidofthedark.client.sound
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import net.minecraft.client.Minecraft
-import net.minecraft.util.SoundCategory
+import net.minecraft.sounds.SoundSource
 
 /**
  * Class representing the bell ringing sound in the nightmare
  *
  * @constructor sets the sound event to play and sound category
  */
-class BellsRingingSound : PlayerFollowingSound(ModSounds.BELLS, SoundCategory.AMBIENT) {
+class BellsRingingSound : PlayerFollowingSound(ModSounds.BELLS, SoundSource.AMBIENT) {
     init {
         // This sound loops
         looping = true

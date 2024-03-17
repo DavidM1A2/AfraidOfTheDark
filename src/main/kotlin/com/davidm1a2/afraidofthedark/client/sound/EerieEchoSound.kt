@@ -3,14 +3,14 @@ package com.davidm1a2.afraidofthedark.client.sound
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import net.minecraft.client.Minecraft
-import net.minecraft.util.SoundCategory
+import net.minecraft.sounds.SoundSource
 
 /**
  * Class representing the eerie echo that plays when entering the nightamre realm
  *
  * @constructor sets the sound event to play and category
  */
-class EerieEchoSound : PlayerFollowingSound(ModSounds.EERIE_ECHOS, SoundCategory.AMBIENT) {
+class EerieEchoSound : PlayerFollowingSound(ModSounds.EERIE_ECHOS, SoundSource.AMBIENT) {
     init {
         looping = false
         volume = 1.0f
