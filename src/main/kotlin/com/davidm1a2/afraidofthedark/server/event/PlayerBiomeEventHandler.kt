@@ -5,7 +5,7 @@ import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.LogicalSide
-import net.minecraftforge.fml.server.ServerLifecycleHooks
+import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks
 
 class PlayerBiomeEventHandler {
     private var ticksExisted = 0
