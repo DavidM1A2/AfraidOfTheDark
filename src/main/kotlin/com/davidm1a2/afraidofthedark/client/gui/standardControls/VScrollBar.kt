@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
 import java.util.function.Consumer
 
 /**

@@ -6,20 +6,16 @@ import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.HChainPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ListPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.keybindings.KeybindingUtils
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.spell.Spell
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.network.chat.TranslatableComponent
 
 /**
  * Spell selection/list gui allows players to create spells and keybind them
  */
-class SpellListScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.spell_list")) {
+class SpellListScreen : AOTDScreen(TranslatableComponent("screen.afraidofthedark.spell_list")) {
     private val scrollPanel: ListPane
     private val btnCreateSpell: ButtonPane
     private val guiSpells = mutableListOf<SpellListItem>()

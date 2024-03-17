@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.client.gui
 import com.davidm1a2.afraidofthedark.client.gui.FontCache.fontMap
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.FontLoader
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
 
 /**
  * A singleton class containing temporary client data to store

@@ -5,8 +5,8 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.mojang.blaze3d.matrix.MatrixStack
-import net.minecraft.util.ResourceLocation
+import com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Advanced control that displays a journal page sticker
@@ -30,9 +30,9 @@ class StickerPane(prefSize: Dimensions) : AOTDPane(prefSize = prefSize) {
     /**
      * Called to draw the control, just draws all of its children
      */
-    override fun draw(matrixStack: MatrixStack) {
+    override fun draw(poseStack: PoseStack) {
         if (this.isVisible) {
-            super.draw(matrixStack)
+            super.draw(poseStack)
         }
     }
 

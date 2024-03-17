@@ -11,9 +11,9 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.network.packets.other.CheatSheetUnlockPacket
 import com.davidm1a2.afraidofthedark.common.research.Research
+import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
-import net.minecraft.util.text.TextFormatting
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.network.chat.TranslatableComponent
 
 /**
  * Button that represents a research in the research GUI
@@ -70,11 +70,11 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
         // forceShowUnlocked means we've requested that the server unlock a research for us, but we might not have a response yet. Just assume
         // the unlock was successful and show the real tooltip if it's 'true'.
         hoverTexts = if (forceShowUnlocked || playerResearch.isResearched(this.research)) {
-            arrayOf(research.getName().string, "${TextFormatting.ITALIC}${research.getTooltip().string}")
+            arrayOf(research.getName().string, "${ChatFormatting.ITALIC}${research.getTooltip().string}")
         } else {
             arrayOf(
-                TranslationTextComponent("tooltip.afraidofthedark.gui.journal_research.question_mark").string,
-                TranslationTextComponent("tooltip.afraidofthedark.gui.journal_research.unknown_research").string,
+                TranslatableComponent("tooltip.afraidofthedark.gui.journal_research.question_mark").string,
+                TranslatableComponent("tooltip.afraidofthedark.gui.journal_research.unknown_research").string,
             )
         }
     }

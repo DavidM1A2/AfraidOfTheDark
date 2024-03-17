@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui.fontLibrary
 
 import com.davidm1a2.afraidofthedark.common.constants.ModClientConfiguration
 import net.minecraft.client.Minecraft
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
 import java.awt.Font
 
 /**

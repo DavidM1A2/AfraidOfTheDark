@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.client.gui.customControls
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
 import com.davidm1a2.afraidofthedark.common.utility.round
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.network.chat.TranslatableComponent
 
 /**
  * The icon for a spell delivery method on the scroll panel
@@ -15,8 +15,8 @@ class SpellDeliveryMethodIcon(deliveryMethod: SpellDeliveryMethod) : SpellCompon
         componentInstance.setDefaults()
         this.hoverTexts = arrayOf(
             deliveryMethod.getName().string,
-            TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.cost_multiplier", deliveryMethod.getMultiplicity(componentInstance).round(1)).string,
-            TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", deliveryMethod.getDeliveryCost(componentInstance).round(1)).string
+            TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.cost_multiplier", deliveryMethod.getMultiplicity(componentInstance).round(1)).string,
+            TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", deliveryMethod.getDeliveryCost(componentInstance).round(1)).string
         )
     }
 }

@@ -14,13 +14,13 @@ import com.davidm1a2.afraidofthedark.common.capabilities.hasStartedAOTD
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.item.ArcaneJournalItem
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Class used to create a journal opening UI
  */
-class ArcaneJournalOpenScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.arcane_journal_open")) {
+class ArcaneJournalOpenScreen : AOTDScreen(TranslatableComponent("screen.afraidofthedark.arcane_journal_open")) {
     init {
         // Add padding to our root pane
         contentPane.padding = Spacing(0.08)
@@ -69,7 +69,7 @@ class ArcaneJournalOpenScreen : AOTDScreen(TranslationTextComponent("screen.afra
 
                         // Play the open animation and chat message
                         entityPlayer.playSound(ModSounds.ARCANE_JOURNAL_OPEN, 4.0F, 1.0F)
-                        entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.arcane_journal.read"))
+                        entityPlayer.sendMessage(TranslatableComponent("message.afraidofthedark.arcane_journal.read"))
                     }
                     onClose()
                 }

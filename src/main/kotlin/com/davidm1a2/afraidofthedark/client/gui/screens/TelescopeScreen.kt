@@ -15,14 +15,14 @@ import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.item.telescope.TelescopeBaseItem
 import com.davidm1a2.afraidofthedark.common.network.packets.other.UpdateWatchedMeteorPacket
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.network.chat.TranslatableComponent
 import java.awt.Color
 import kotlin.random.Random
 
 /**
  * Gui screen that represents the telescope GUI
  */
-class TelescopeScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.telescope")) {
+class TelescopeScreen : AOTDScreen(TranslatableComponent("screen.afraidofthedark.telescope")) {
 
     init {
         // Create a panel that will hold all the UI contents

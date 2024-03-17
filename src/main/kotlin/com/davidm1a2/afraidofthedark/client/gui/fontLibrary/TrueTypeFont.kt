@@ -3,28 +3,20 @@ package com.davidm1a2.afraidofthedark.client.gui.fontLibrary
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.mojang.blaze3d.systems.RenderSystem
+import com.mojang.blaze3d.vertex.DefaultVertexFormat
+import com.mojang.blaze3d.vertex.Tesselator
+import com.mojang.blaze3d.vertex.VertexFormat
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.GLAllocation
-import net.minecraft.client.renderer.Tessellator
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.apache.logging.log4j.LogManager
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
-import java.awt.Color
-import java.awt.Font
-import java.awt.FontMetrics
-import java.awt.Graphics2D
-import java.awt.RenderingHints
+import java.awt.*
 import java.awt.image.BufferedImage
 import java.awt.image.DataBufferByte
 import java.awt.image.DataBufferInt
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.pow
-import kotlin.math.roundToInt
+import kotlin.math.*
 import kotlin.system.exitProcess
 
 /**
@@ -266,9 +258,9 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
         // Bind our custom texture sheet
         RenderSystem.bindTexture(fontTextureID)
-        val tessellator = Tessellator.getInstance()
+        val tessellator = Tesselator.getInstance()
         val bufferBuilder = tessellator.builder
-        bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR_TEX)
+        bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX)
         val red = rgba.red / 255f
         val green = rgba.green / 255f
         val blue = rgba.blue / 255f
@@ -332,7 +324,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         val srcWidth = abs(srcX2 - srcX)
         val srcHeight = abs(srcY2 - srcY)
         // Grab the tessellator instance and buffer builder
-        val bufferBuilder = Tessellator.getInstance().builder
+        val bufferBuilder = Tesselator.getInstance().builder
 
         // Add the 4 vertices that are used to draw the glyph. These must be done in this order
         bufferBuilder.vertex(drawX.toDouble(), (drawY + drawHeight).toDouble(), 0.0)
@@ -433,7 +425,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
                 // Not very familiar with OpenGl here, but create an int buffer and generate the texture from the byte buffer
 
-                val textureBuffer = GLAllocation.createByteBuffer(4).asIntBuffer()
+                val textureBuffer = BufferUtils.createByteBuffer(4).asIntBuffer()
                 GL11.glGenTextures(textureBuffer)
 
                 val textureId = textureBuffer.get(0)

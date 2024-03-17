@@ -2,23 +2,19 @@ package com.davidm1a2.afraidofthedark.client.gui.screens
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.FontCache
-import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
-import com.davidm1a2.afraidofthedark.client.gui.layout.Position
-import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ProcessSextantInputPacket
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.network.chat.TranslatableComponent
 import java.awt.Color
 
 /**
  * Gui screen that represents the sextant GUI
  */
-class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.sextant")) {
+class SextantScreen : AOTDScreen(TranslatableComponent("screen.afraidofthedark.sextant")) {
     private val angle: TextFieldPane
     private val latitude: TextFieldPane
     private val longitude: TextFieldPane
@@ -70,7 +66,7 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
             val longitudeText = longitude.getText()
             // If any of the fields are empty print a message
             if (dropAngleText.isEmpty() || latitudeText.isEmpty() || longitudeText.isEmpty()) {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.sextant.process.field_empty"))
+                entityPlayer.sendMessage(TranslatableComponent("message.afraidofthedark.sextant.process.field_empty"))
             }
 
             // If any field is invalid send the player an error, otherwise send the info to the server
@@ -83,7 +79,7 @@ class SextantScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedar
                     )
                 )
             } catch (e: NumberFormatException) {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.sextant.process.invalid_vals"))
+                entityPlayer.sendMessage(TranslatableComponent("message.afraidofthedark.sextant.process.invalid_vals"))
             }
             onClose()
         }

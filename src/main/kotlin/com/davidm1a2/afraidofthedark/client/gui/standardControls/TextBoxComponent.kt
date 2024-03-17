@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.client.gui.standardControls
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
-import com.mojang.blaze3d.matrix.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import java.awt.Color
 
 /**
@@ -24,7 +24,7 @@ class TextBoxComponent(
     /**
      * Draw the text given the width and height as bounds
      */
-    override fun draw(matrixStack: MatrixStack) {
+    override fun draw(poseStack: PoseStack) {
         if (this.isVisible && this.inBounds) {
             var yCoord = y.toFloat()
 

@@ -2,13 +2,9 @@ package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
-import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
-import com.davidm1a2.afraidofthedark.client.gui.layout.Position
-import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
-import com.mojang.blaze3d.matrix.MatrixStack
-import net.minecraft.util.SoundEvents
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
+import com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.sounds.SoundEvents
 import java.awt.Color
 
 /**
@@ -55,9 +51,9 @@ open class ButtonPane(
         }
     }
 
-    override fun draw(matrixStack: MatrixStack) {
+    override fun draw(poseStack: PoseStack) {
         if (this.isVisible) {
-            super.draw(matrixStack)
+            super.draw(poseStack)
             iconHovered?.isVisible = isHovered
             icon?.isVisible = iconHovered == null || !isHovered
         }

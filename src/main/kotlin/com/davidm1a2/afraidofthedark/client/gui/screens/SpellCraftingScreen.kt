@@ -10,12 +10,12 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import net.minecraft.client.Minecraft
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.network.chat.TranslatableComponent
 
 /**
  * Class representing the spell crating GUI screen used to edit spells
  */
-class SpellCraftingScreen(private val spell: Spell) : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.spell_crafting"), true) {
+class SpellCraftingScreen(private val spell: Spell) : AOTDScreen(TranslatableComponent("screen.afraidofthedark.spell_crafting"), true) {
     private val tablet: SpellTablet
     private val scroll: SpellScroll
 

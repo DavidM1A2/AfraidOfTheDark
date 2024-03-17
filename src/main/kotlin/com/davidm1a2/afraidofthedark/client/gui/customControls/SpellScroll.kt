@@ -7,21 +7,12 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.HChainPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ListPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextBoxComponent
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.VScrollBar
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.resources.ResourceLocation
 import java.awt.Color
 
 /**
@@ -133,7 +124,7 @@ class SpellScroll : StackPane() {
             // This cast is required even though IntelliJ doesn't agree
             @Suppress("USELESS_CAST")
             val spellComponent = componentInstance.component as SpellComponent<*>
-            name.text = TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.component_properties", spellComponent.getName()).string
+            name.text = TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.component_properties", spellComponent.getName()).string
 
             val closeEditor = ButtonPane(
                 ImagePane(ResourceLocation("afraidofthedark:textures/gui/backward_button.png")),
@@ -159,7 +150,7 @@ class SpellScroll : StackPane() {
             if (editableProperties.isEmpty()) {
                 val noPropsLine = TextBoxComponent(Dimensions(1.0, 0.1), FontCache.getOrCreate(26f))
                 noPropsLine.textColor = purpleText
-                noPropsLine.setText(TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.no_component_properties").string)
+                noPropsLine.setText(TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.no_component_properties").string)
                 propertyList.add(noPropsLine)
             } else {
                 // Go over each editable property and add an editor for it

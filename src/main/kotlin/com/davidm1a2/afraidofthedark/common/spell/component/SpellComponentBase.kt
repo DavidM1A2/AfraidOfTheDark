@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.research.Research
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent

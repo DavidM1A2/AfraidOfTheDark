@@ -4,11 +4,12 @@ import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.renderer.Tessellator
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats
-import org.lwjgl.opengl.GL11
+import com.mojang.blaze3d.vertex.DefaultVertexFormat
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.Tesselator
+import com.mojang.blaze3d.vertex.VertexFormat
+import net.minecraft.client.renderer.GameRenderer
 import java.awt.Color
 import kotlin.math.min
 import kotlin.math.sqrt
@@ -23,16 +24,17 @@ open class LineComponent(lineFrom: Position, lineTo: Position, offset: Position,
         this.prefSize = lineFrom.dimensionsBetween(lineTo)
     }
 
-    override fun draw(matrixStack: MatrixStack) {
+    override fun draw(poseStack: PoseStack) {
         if (this.isVisible) {
-            matrixStack.pushPose()
+            poseStack.pushPose()
             RenderSystem.enableBlend()
             RenderSystem.disableTexture()
+            RenderSystem.setShader(GameRenderer::getPositionColorShader)
 
-            val tes = Tessellator.getInstance()
+            val tes = Tesselator.getInstance()
             val bufferBuffer = tes.builder
 
-            bufferBuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR)
+            bufferBuffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR)
             val deltaX = width.toDouble()
             val deltaY = height.toDouble()
             val mag = sqrt(deltaX * deltaX + deltaY * deltaY)
@@ -72,7 +74,7 @@ open class LineComponent(lineFrom: Position, lineTo: Position, offset: Position,
 
             RenderSystem.enableTexture()
             RenderSystem.disableBlend()
-            matrixStack.popPose()
+            poseStack.popPose()
         }
     }
 }

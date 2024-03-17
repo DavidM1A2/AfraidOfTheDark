@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
-import com.mojang.blaze3d.matrix.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import java.awt.Color
 
 /**
@@ -26,7 +26,7 @@ open class LabelComponent(val font: TrueTypeFont, prefSize: Dimensions, gravity:
     /**
      * Draw function that gets called every frame. Draw the text
      */
-    override fun draw(matrixStack: MatrixStack) {
+    override fun draw(poseStack: PoseStack) {
         // If the label is visible, draw it
         if (this.isVisible && this.inBounds) {
             // Compute the x and y positions of the text

@@ -5,19 +5,15 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextBoxComponent
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentBase
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
-import com.mojang.blaze3d.matrix.MatrixStack
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.TranslationTextComponent
+import com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.resources.ResourceLocation
 import java.awt.Color
 
 /**
@@ -64,15 +60,15 @@ class SpellComponentPane(prefSize: Dimensions) : AOTDPane(prefSize = prefSize) {
             componentSlot.updateImageTexture(spellComponent.icon)
             when (spellComponent) {
                 is SpellPowerSource<*> -> {
-                    componentSlot.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.power_source", spellComponent.getName()).string)
+                    componentSlot.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.journal_page.power_source", spellComponent.getName()).string)
                     componentSocket.updateImageTexture(POWER_SOURCE_SOCKET_TEXTURE)
                 }
                 is SpellDeliveryMethod -> {
-                    componentSlot.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.delivery_method", spellComponent.getName()).string)
+                    componentSlot.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.journal_page.delivery_method", spellComponent.getName()).string)
                     componentSocket.updateImageTexture(DELIVERY_METHOD_SOCKET_TEXTURE)
                 }
                 else -> {
-                    componentSlot.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.effect", spellComponent.getName()).string)
+                    componentSlot.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.journal_page.effect", spellComponent.getName()).string)
                     componentSocket.updateImageTexture(EFFECT_SOCKET_TEXTURE)
                 }
             }
@@ -84,9 +80,9 @@ class SpellComponentPane(prefSize: Dimensions) : AOTDPane(prefSize = prefSize) {
                     val editableProperties = spellComponent.getEditableProperties()
                     if (editableProperties.isNotEmpty()) {
                         appendLine()
-                        appendLine(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.editable_properties_header").string)
+                        appendLine(TranslatableComponent("tooltip.afraidofthedark.gui.journal_page.editable_properties_header").string)
                         editableProperties.forEach {
-                            appendLine(TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.editable_property", it.getName(), it.getDescription()).string)
+                            appendLine(TranslatableComponent("tooltip.afraidofthedark.gui.journal_page.editable_property", it.getName(), it.getDescription()).string)
                         }
                     }
                 }
@@ -105,9 +101,9 @@ class SpellComponentPane(prefSize: Dimensions) : AOTDPane(prefSize = prefSize) {
     /**
      * Called to draw the control, just draws all of its children
      */
-    override fun draw(matrixStack: MatrixStack) {
+    override fun draw(poseStack: PoseStack) {
         if (this.isVisible) {
-            super.draw(matrixStack)
+            super.draw(poseStack)
         }
     }
 

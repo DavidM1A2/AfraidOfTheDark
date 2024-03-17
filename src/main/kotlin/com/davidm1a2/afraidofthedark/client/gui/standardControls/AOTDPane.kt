@@ -1,16 +1,13 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
-import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.MouseDragEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.MouseScrollEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.*
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.mojang.blaze3d.matrix.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.client.gui.screens.Screen
 import java.awt.Color
 import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.math.roundToInt
@@ -136,21 +133,21 @@ abstract class AOTDPane(
     /**
      * Draw function that gets called every frame. We want to draw all sub-components, so do that here
      */
-    override fun draw(matrixStack: MatrixStack) {
+    override fun draw(poseStack: PoseStack) {
         // Draw our component
-        super.draw(matrixStack)
+        super.draw(poseStack)
         // Then draw children
-        this.subComponents.forEach { it.draw(matrixStack) }
+        this.subComponents.forEach { it.draw(poseStack) }
     }
 
     /**
      * Draws the hover text that appears when we mouse over the control, also draws all sub-child hover text
      */
-    override fun drawOverlay(matrixStack: MatrixStack) {
+    override fun drawOverlay(poseStack: PoseStack, screen: Screen) {
         // Draw our component's hover text
-        super.drawOverlay(matrixStack)
+        super.drawOverlay(poseStack, screen)
         // Draw our children's hover text
-        this.subComponents.forEach { it.drawOverlay(matrixStack) }
+        this.subComponents.forEach { it.drawOverlay(poseStack, screen) }
     }
 
     /**

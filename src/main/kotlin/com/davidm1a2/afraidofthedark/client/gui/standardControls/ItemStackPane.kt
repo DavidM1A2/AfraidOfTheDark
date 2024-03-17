@@ -1,15 +1,15 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
-import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.systems.RenderSystem
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.Minecraft
-import net.minecraft.item.ItemStack
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.StringTextComponent
-import net.minecraftforge.fml.client.gui.GuiUtils
+import net.minecraft.client.gui.screens.Screen
+import net.minecraft.network.chat.TextComponent
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.item.ItemStack
+import java.util.*
 
 /**
  * Advanced control that displays an itemstack in a GUI
@@ -39,7 +39,7 @@ open class ItemStackPane(
     /**
      * Render the itemstack
      */
-    override fun draw(matrixStack: MatrixStack) {
+    override fun draw(poseStack: PoseStack) {
         // Ensure the control is visible
         if (this.isVisible) {
             // Test if we need to toggle the visibility of the highlit background
@@ -48,10 +48,10 @@ open class ItemStackPane(
                 highlight.isVisible = this.isHovered && !this.itemStack.isEmpty
             }
 
-            super.draw(matrixStack)
+            super.draw(poseStack)
 
             // Push a matrix before rendering the item, this code is taken from the inventory class
-            matrixStack.pushPose()
+            poseStack.pushPose()
 
             // Grab the render item to draw items
             val renderItem = Minecraft.getInstance().itemRenderer
@@ -68,32 +68,19 @@ open class ItemStackPane(
             }
 
             // Pop the matrix and disable the item lighting
-            matrixStack.popPose()
+            poseStack.popPose()
         }
     }
 
     /**
      * Draws the overlay that displays the highlit background and item name
      */
-    override fun drawOverlay(matrixStack: MatrixStack) {
+    override fun drawOverlay(poseStack: PoseStack, screen: Screen) {
         // Ensure the control is visible and we have an overlay to draw
         if (this.isVisible && highlight != null) {
             // Ensure the stack is hovered and the interior items are not null
             if (this.isHovered && !this.itemStack.isEmpty) {
-                // Get the window width and calculate the distance to the edge of the screen
-                val windowWidth = AOTDGuiUtility.getWindowWidthInMCCoords()
-                val windowHeight = AOTDGuiUtility.getWindowHeightInMCCoords()
-                GuiUtils.drawHoveringText(
-                    itemStack,
-                    matrixStack,
-                    listOf(StringTextComponent("${itemStack.hoverName.string} x${itemStack.count}")),
-                    x,
-                    y,
-                    windowWidth,
-                    windowHeight,
-                    200,
-                    fontRenderer
-                )
+                screen.renderTooltip(poseStack, listOf(TextComponent("${itemStack.hoverName.string} x${itemStack.count}")), Optional.empty(), x, y, fontRenderer, itemStack)
             }
         }
     }

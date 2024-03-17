@@ -3,26 +3,22 @@ package com.davidm1a2.afraidofthedark.client.gui.screens
 import com.davidm1a2.afraidofthedark.client.gui.FontCache
 import com.davidm1a2.afraidofthedark.client.gui.customControls.ResearchConnector
 import com.davidm1a2.afraidofthedark.client.gui.customControls.ResearchNode
-import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
-import com.davidm1a2.afraidofthedark.client.gui.layout.Position
-import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.RatioPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ScrollPane
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.research.Research
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.resources.ResourceLocation
 import java.awt.Color
 
 /**
  * The research GUI used by the journal to show what has been unlocked and what has not been unlocked
  */
 class ArcaneJournalResearchScreen(private val isCheatSheet: Boolean) :
-    AOTDScreen(TranslationTextComponent("screen.afraidofthedark.arcane_journal_research")) {
+    AOTDScreen(TranslatableComponent("screen.afraidofthedark.arcane_journal_research")) {
 
     private val researchTreeBase: ScrollPane = ScrollPane(4.0, 4.0, scrollOffset, 1.0, 0.25, scrollZoomRatio)
     private val scrollBackground: ImagePane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/arcane_journal_tech_tree/background.png"))

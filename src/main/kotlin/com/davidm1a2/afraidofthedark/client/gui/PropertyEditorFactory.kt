@@ -3,20 +3,14 @@ package com.davidm1a2.afraidofthedark.client.gui
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiComponent
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.DropdownPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.RatioPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextFieldPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.TogglePane
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.property.BooleanSpellComponentProperty
 import com.davidm1a2.afraidofthedark.common.spell.component.property.EnumSpellComponentProperty
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.resources.ResourceLocation
 import java.awt.Color
 
 object PropertyEditorFactory {
@@ -125,7 +119,7 @@ object PropertyEditorFactory {
                 propertyError.isVisible = false
             } catch (e: InvalidValueException) {
                 propertyError.isVisible = true
-                propertyError.setHoverText(TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.component_property_error", e.reason).string)
+                propertyError.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.component_property_error", e.reason).string)
             }
             changeCallback()
         }

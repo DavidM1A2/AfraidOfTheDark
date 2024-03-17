@@ -8,10 +8,10 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
-import com.mojang.blaze3d.matrix.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.SharedConstants
 import net.minecraft.client.Minecraft
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.SharedConstants
+import net.minecraft.resources.ResourceLocation
 import org.lwjgl.glfw.GLFW
 import java.awt.Color
 
@@ -72,9 +72,9 @@ class TextFieldPane(offset: Position = Position(0.0, 0.0), prefSize: Dimensions 
     /**
      * Only draw the text field if visible
      */
-    override fun draw(matrixStack: MatrixStack) {
+    override fun draw(poseStack: PoseStack) {
         if (this.isVisible) {
-            super.draw(matrixStack)
+            super.draw(poseStack)
         }
     }
 

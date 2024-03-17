@@ -10,7 +10,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.network.chat.TranslatableComponent
 
 /**
  * Class representing the tablet used in the spell crafting gui on the left
@@ -123,9 +123,9 @@ class SpellTablet(private val spell: Spell) : StackPane() {
     fun refreshCostLabel() {
         val selectedPowerSource = entityPlayer.getBasics().selectedPowerSource
         val costText = if (spell.isValid()) {
-            TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", selectedPowerSource.getFormattedCost(spell.getCost())).string
+            TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", selectedPowerSource.getFormattedCost(spell.getCost())).string
         } else {
-            TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.unknown_cost").string
+            TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.unknown_cost").string
         }
         spellCost.text = costText
         uiSpellStages.forEach {

@@ -10,6 +10,7 @@ import com.mojang.datafixers.util.Function10
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.item.Item
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent

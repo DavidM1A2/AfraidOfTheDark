@@ -6,12 +6,12 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.davidm1a2.afraidofthedark.client.gui.screens.AOTDScreen
-import com.mojang.blaze3d.matrix.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.Minecraft
-import net.minecraft.client.entity.player.ClientPlayerEntity
-import net.minecraft.client.gui.FontRenderer
-import net.minecraft.util.text.StringTextComponent
-import net.minecraftforge.fml.client.gui.GuiUtils
+import net.minecraft.client.gui.Font
+import net.minecraft.client.gui.screens.Screen
+import net.minecraft.client.player.LocalPlayer
+import net.minecraft.network.chat.TextComponent
 import java.awt.Color
 import java.awt.Point
 import java.awt.Rectangle
@@ -44,30 +44,18 @@ abstract class AOTDGuiComponent(
     /**
      * Draw function that gets called every frame. This needs to be overridden to draw custom controls
      */
-    open fun draw(matrixStack: MatrixStack) {}
+    open fun draw(poseStack: PoseStack) {}
 
     /**
      * Draws the hover text that appears when we mouse over the control
      */
-    open fun drawOverlay(matrixStack: MatrixStack) {
+    open fun drawOverlay(poseStack: PoseStack, screen: Screen) {
         // Make sure the control is visible and hovered
         if (this.isVisible && this.inBounds && this.isHovered && hoverTexts.isNotEmpty()) {
             // Grab the mouse X and Y coordinates to draw at
             val mouseX = AOTDGuiUtility.getMouseXInMCCoord()
             val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
-            // Get the window width and calculate the distance to the edge of the screen
-            val windowWidth = AOTDGuiUtility.getWindowWidthInMCCoords()
-            val windowHeight = AOTDGuiUtility.getWindowHeightInMCCoords()
-            GuiUtils.drawHoveringText(
-                matrixStack,
-                hoverTexts.toList().map { StringTextComponent(it) },
-                mouseX,
-                mouseY,
-                windowWidth,
-                windowHeight,
-                200,
-                fontRenderer
-            )
+            screen.renderComponentTooltip(poseStack, hoverTexts.toList().map { TextComponent(it) }, mouseX, mouseY, fontRenderer)
         }
     }
 
@@ -174,8 +162,8 @@ abstract class AOTDGuiComponent(
     open fun update() {}
 
     companion object {
-        val fontRenderer: FontRenderer = Minecraft.getInstance().font
-        val entityPlayer: ClientPlayerEntity
+        val fontRenderer: Font = Minecraft.getInstance().font
+        val entityPlayer: LocalPlayer
             get() = Minecraft.getInstance().player!!
     }
 }

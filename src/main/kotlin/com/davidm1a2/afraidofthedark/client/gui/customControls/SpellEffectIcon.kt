@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.client.gui.customControls
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
 import com.davidm1a2.afraidofthedark.common.utility.round
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.network.chat.TranslatableComponent
 
 /**
  * The icon for a spell effect on the scroll panel
@@ -14,7 +14,7 @@ class SpellEffectIcon(effect: SpellEffect) : SpellComponentIcon<SpellEffect>(eff
         componentInstance.setDefaults()
         this.hoverTexts = arrayOf(
             effect.getName().string,
-            TranslationTextComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", effect.getCost(componentInstance).round(1)).string
+            TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", effect.getCost(componentInstance).round(1)).string
         )
     }
 }

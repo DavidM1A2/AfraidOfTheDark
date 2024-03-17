@@ -4,11 +4,7 @@ import com.davidm1a2.afraidofthedark.client.gui.FontCache
 import com.davidm1a2.afraidofthedark.client.gui.customControls.ArcaneJournalPage
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
-import com.davidm1a2.afraidofthedark.client.gui.layout.Position
-import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
@@ -18,9 +14,9 @@ import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.research.Research
 import net.minecraft.client.Minecraft
-import net.minecraft.client.resources.I18n
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.client.resources.language.I18n
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.resources.ResourceLocation
 import org.lwjgl.glfw.GLFW
 import java.awt.Color
 import java.time.ZoneId
@@ -29,7 +25,7 @@ import java.time.format.DateTimeFormatter
 /**
  * Journal page UI which is shown when a player opens a page
  */
-class ArcaneJournalPageScreen(research: Research) : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.arcane_journal_page")) {
+class ArcaneJournalPageScreen(research: Research) : AOTDScreen(TranslatableComponent("screen.afraidofthedark.arcane_journal_page")) {
     private val forwardButton: ButtonPane
     private val backwardButton: ButtonPane
     private val leftPage: ArcaneJournalPage
@@ -51,7 +47,7 @@ class ArcaneJournalPageScreen(research: Research) : AOTDScreen(TranslationTextCo
 
         // Create a title label to contain the research name
         val titleLabel = LabelComponent(FontCache.getOrCreate(80f), Dimensions(1.0, 0.1), Gravity.TOP_CENTER)
-        titleLabel.text = if (isResearched) research.getName().string else TranslationTextComponent("tooltip.afraidofthedark.gui.journal_page.question_marks").string
+        titleLabel.text = if (isResearched) research.getName().string else TranslatableComponent("tooltip.afraidofthedark.gui.journal_page.question_marks").string
         titleLabel.textColor = titleColor
         titleLabel.textAlignment = TextAlignment.ALIGN_CENTER
         contentPane.add(titleLabel)

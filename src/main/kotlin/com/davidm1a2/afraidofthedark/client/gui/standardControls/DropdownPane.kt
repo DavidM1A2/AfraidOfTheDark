@@ -7,7 +7,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
 import kotlin.math.min
 
 class DropdownPane(val font: TrueTypeFont, val values: List<String>, defaultIndex: Int = -1) : StackPane() {

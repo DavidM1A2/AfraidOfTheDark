@@ -1,13 +1,11 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.systems.RenderSystem
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.AbstractGui
-import net.minecraft.util.ResourceLocation
+import net.minecraft.client.gui.GuiComponent
+import net.minecraft.resources.ResourceLocation
 import org.lwjgl.opengl.GL11
-import java.lang.Long.max
-import kotlin.math.floor
 import kotlin.math.min
 import kotlin.math.roundToInt
 
@@ -42,36 +40,32 @@ open class SpritePane : AOTDPane {
     /**
      * Draws the GUI image given the width and height
      */
-    override fun draw(matrixStack: MatrixStack) {
+    override fun draw(poseStack: PoseStack) {
         if (this.isVisible) {
             handleAnimation()
 
-            matrixStack.pushPose()
+            poseStack.pushPose()
             // Enable alpha blending
             RenderSystem.enableBlend()
-            // Set our alpha epsilon to 0 (so we get full alpha range)
-            RenderSystem.alphaFunc(GL11.GL_GREATER, 0.0F)
             // Set the color
-            RenderSystem.color4f(
+            RenderSystem.setShaderColor(
                 this.color.red / 255f,
                 this.color.green / 255f,
                 this.color.blue / 255f,
                 this.color.alpha / 255f
             )
             // Bind the texture to render
-            Minecraft.getInstance().textureManager.bind(this.spritesheetTexture)
+            RenderSystem.setShaderTexture(0, this.spritesheetTexture)
             // Check for invalid texture dimensions
             if (textureHeight > -1 && textureWidth > -1) {
                 val col = (curFrame % columns).toFloat()
                 val row = (curFrame / columns).toFloat()  // INTENTIONAL integer division
-                AbstractGui.blit(matrixStack, x, y, width, height, col, row, 1, 1, columns, rows)
+                GuiComponent.blit(poseStack, x, y, width, height, col, row, 1, 1, columns, rows)
             }
-            matrixStack.popPose()
-            // Reset the render system's alpha
-            RenderSystem.defaultAlphaFunc()
+            poseStack.popPose()
 
             // Draw the any children
-            super.draw(matrixStack)
+            super.draw(poseStack)
         }
     }
 
@@ -106,7 +100,7 @@ open class SpritePane : AOTDPane {
     }
 
     private fun loadTextureDimensions() {
-        Minecraft.getInstance().textureManager.bind(spritesheetTexture)
+        Minecraft.getInstance().textureManager.bindForSetup(spritesheetTexture)
         textureWidth = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH).toDouble()
         textureHeight = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_HEIGHT).toDouble()
         if (textureWidth.isNaN() || textureHeight.isNaN()) {

@@ -3,33 +3,24 @@ package com.davidm1a2.afraidofthedark.client.gui.screens
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableConsumer
 import com.davidm1a2.afraidofthedark.client.gui.dragAndDrop.DraggableProducer
-import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.MouseDragEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.MouseScrollEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.*
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiComponent
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.OverlayPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
-import com.mojang.blaze3d.matrix.MatrixStack
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
+import com.mojang.blaze3d.platform.InputConstants
 import com.mojang.blaze3d.systems.RenderSystem
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.Minecraft
-import net.minecraft.client.entity.player.ClientPlayerEntity
-import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.util.InputMappings
-import net.minecraft.util.text.ITextComponent
-import org.lwjgl.glfw.GLFW
+import net.minecraft.client.gui.screens.Screen
+import net.minecraft.client.player.LocalPlayer
+import net.minecraft.network.chat.Component
 import kotlin.math.roundToInt
 
 /**
  * Base class for all GuiScreens used by the mod, allows support for things such as action listeners and proper UI scaling
  */
-abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: Boolean = false) : Screen(name) {
+abstract class AOTDScreen(name: Component, private val dragAndDropEnabled: Boolean = false) : Screen(name) {
     // Don't cache these in a companion object, they can change!
-    val entityPlayer: ClientPlayerEntity
+    val entityPlayer: LocalPlayer
         get() = Minecraft.getInstance().player!!
 
     val contentPane = StackPane(AOTDGuiUtility.getWindowSizeInMCCoords())
@@ -44,7 +35,7 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
     override fun init() {
         super.init()
         // Clear all buttons on the screen
-        this.buttons.clear()
+        this.renderables.clear()
         // Draw the pane on the next draw cycle
         this.invalidate()
     }
@@ -67,21 +58,21 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
         this.isScreenValid = true
     }
 
-    override fun render(matrixStack: MatrixStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun render(poseStack: PoseStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
         // Enable blend so we can draw opacity
         RenderSystem.enableBlend()
         // If we want a gradient background draw that background
-        if (this.drawGradientBackground()) this.renderBackground(matrixStack)
+        if (this.drawGradientBackground()) this.renderBackground(poseStack)
         // Trigger an update if the screen has changed size
         if (contentPane.prefSize != AOTDGuiUtility.getWindowSizeInMCCoords()) isScreenValid = false
         // Perform an update if necessary
         if (!isScreenValid) this.update()
         // Draw the content pane
-        this.contentPane.draw(matrixStack)
+        this.contentPane.draw(poseStack)
         // Draw the overlay on top of the content pane
-        this.contentPane.drawOverlay(matrixStack)
+        this.contentPane.drawOverlay(poseStack, this)
         // Call the super method
-        super.render(matrixStack, mouseX, mouseY, partialTicks)
+        super.render(poseStack, mouseX, mouseY, partialTicks)
         // Disable blend now that we drew the UI
         RenderSystem.disableBlend()
     }
@@ -299,7 +290,7 @@ abstract class AOTDScreen(name: ITextComponent, private val dragAndDropEnabled: 
      */
     internal fun isInventoryKeybind(key: Int, scanCode: Int): Boolean {
         return Minecraft.getInstance().options.keyInventory.isActiveAndMatches(
-            InputMappings.getKey(
+            InputConstants.getKey(
                 key,
                 scanCode
             )

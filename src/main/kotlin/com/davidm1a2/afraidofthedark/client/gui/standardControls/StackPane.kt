@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.mojang.blaze3d.matrix.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
 
@@ -26,7 +26,7 @@ open class StackPane(
     /**
      * A panel can only be drawn inside of a box that may be scissored
      */
-    override fun draw(matrixStack: MatrixStack) {
+    override fun draw(poseStack: PoseStack) {
         // If scissor is enabled we use glScissor to force all drawing to happen inside of a box
         if (scissorEnabled) {
             // Compute the OpenGL X and Y screen coordinates to scissor
@@ -68,7 +68,7 @@ open class StackPane(
         }
 
         // Draw all sub-components
-        super.draw(matrixStack)
+        super.draw(poseStack)
 
         // If scissor was enabled disable it
         if (scissorEnabled) {

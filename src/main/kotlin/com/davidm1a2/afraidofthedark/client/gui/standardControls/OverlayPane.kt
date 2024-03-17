@@ -1,22 +1,21 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
-import com.mojang.blaze3d.matrix.MatrixStack
-import com.mojang.blaze3d.systems.RenderSystem
+import com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.client.gui.screens.Screen
 import java.awt.Point
 import java.awt.Rectangle
 
 open class OverlayPane(private val parent: AOTDPane?) : StackPane() {
 
-    override fun drawOverlay(matrixStack: MatrixStack) {
-        RenderSystem.disableLighting()
+    override fun drawOverlay(poseStack: PoseStack, screen: Screen) {
         for (child in getChildren()) {
-            child.draw(matrixStack)    // Draw children's content as an overlay
+            child.draw(poseStack)    // Draw children's content as an overlay
         }
         for (child in getChildren()) {
-            child.drawOverlay(matrixStack)    // Draw children's overlays on top of that
+            child.drawOverlay(poseStack, screen)    // Draw children's overlays on top of that
         }
-        super.drawOverlay(matrixStack) // Call our super method
+        super.drawOverlay(poseStack, screen) // Call our super method
     }
 
     override fun negotiateDimensions(width: Double, height: Double) {

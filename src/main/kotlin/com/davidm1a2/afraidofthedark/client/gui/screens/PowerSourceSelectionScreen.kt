@@ -4,30 +4,22 @@ import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.FontCache
 import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
-import com.davidm1a2.afraidofthedark.client.gui.layout.Position
-import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.LabelComponent
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.RadialPane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.SpritePane
-import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
+import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
-import net.minecraft.client.util.InputMappings
-import net.minecraft.util.text.TranslationTextComponent
+import com.mojang.blaze3d.platform.InputConstants
+import net.minecraft.network.chat.TranslatableComponent
 import org.lwjgl.glfw.GLFW
 import kotlin.math.PI
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 
-class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.afraidofthedark.power_source_selection")) {
+class PowerSourceSelectionScreen : AOTDScreen(TranslatableComponent("screen.afraidofthedark.power_source_selection")) {
     private val powerSourcePanes = mutableListOf<StackPane>()
     private val selectionIcons = mutableListOf<ImagePane>()
     private var radialMenuPane: RadialPane? = null
@@ -176,7 +168,7 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
     }
 
     override fun init() {
-        InputMappings.grabOrReleaseMouse(minecraft!!.window.window, GLFW.GLFW_CURSOR_DISABLED, 0.0, 0.0)
+        InputConstants.grabOrReleaseMouse(minecraft!!.window.window, GLFW.GLFW_CURSOR_DISABLED, 0.0, 0.0)
         super.init()
     }
 
@@ -191,7 +183,7 @@ class PowerSourceSelectionScreen : AOTDScreen(TranslationTextComponent("screen.a
     override fun onClose() {
         entityPlayer.getBasics().selectedPowerSource = selectedPowerSource ?: lastSelection
         entityPlayer.getBasics().syncSelectedPowerSource(entityPlayer)
-        InputMappings.grabOrReleaseMouse(minecraft!!.window.window, GLFW.GLFW_CURSOR_NORMAL, AOTDGuiUtility.getWindowWidthInMCCoords() / 2.0, AOTDGuiUtility.getWindowHeightInMCCoords() / 2.0)
+        InputConstants.grabOrReleaseMouse(minecraft!!.window.window, GLFW.GLFW_CURSOR_NORMAL, AOTDGuiUtility.getWindowWidthInMCCoords() / 2.0, AOTDGuiUtility.getWindowHeightInMCCoords() / 2.0)
         super.onClose()
     }
 

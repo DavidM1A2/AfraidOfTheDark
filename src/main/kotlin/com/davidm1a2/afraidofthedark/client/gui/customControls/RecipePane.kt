@@ -5,17 +5,17 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ItemStackPane
-import com.mojang.blaze3d.matrix.MatrixStack
-import net.minecraft.item.ItemStack
-import net.minecraft.item.crafting.IRecipe
-import net.minecraft.item.crafting.Ingredient
-import net.minecraft.util.ResourceLocation
+import com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.crafting.Ingredient
+import net.minecraft.world.item.crafting.Recipe
 import net.minecraftforge.common.crafting.IShapedRecipe
 
 /**
  * Advanced control that displays an entire crafting recipe
  */
-class RecipePane(prefSize: Dimensions, offset: Position = Position(0.0, 0.0), recipe: IRecipe<*>? = null) :
+class RecipePane(prefSize: Dimensions, offset: Position = Position(0.0, 0.0), recipe: Recipe<*>? = null) :
     AOTDPane(offset, prefSize) {
     private val craftingGrid: ImagePane =
         ImagePane(ResourceLocation("afraidofthedark:textures/gui/arcane_journal_page/crafting_grid.png"), ImagePane.DispMode.FIT_TO_PARENT)
@@ -52,10 +52,10 @@ class RecipePane(prefSize: Dimensions, offset: Position = Position(0.0, 0.0), re
     /**
      * Called to draw the control, just draws all of its children
      */
-    override fun draw(matrixStack: MatrixStack) {
+    override fun draw(poseStack: PoseStack) {
         // If we have no output itemstack we can't draw the recipe
         if (this.isVisible && !this.output.itemStack.isEmpty) {
-            super.draw(matrixStack)
+            super.draw(poseStack)
         }
     }
 
@@ -64,7 +64,7 @@ class RecipePane(prefSize: Dimensions, offset: Position = Position(0.0, 0.0), re
      *
      * @param recipe The recipe to draw
      */
-    fun setRecipe(recipe: IRecipe<*>?) {
+    fun setRecipe(recipe: Recipe<*>?) {
         // If the recipe is invalid just return
         if (recipe == null) {
             this.isVisible = false

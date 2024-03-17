@@ -6,14 +6,14 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.TextBoxComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentBase
-import net.minecraft.item.crafting.IRecipe
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.MathHelper
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Mth
+import net.minecraft.world.item.crafting.Recipe
 import java.awt.Color
 
 class ArcaneJournalPage(
     private val rawText: String,
-    private val recipes: List<IRecipe<*>>,
+    private val recipes: List<Recipe<*>>,
     private val stickers: List<ResourceLocation>,
     private val spellComponents: List<SpellComponentBase<*>>
 ) : StackPane() {
@@ -111,9 +111,9 @@ class ArcaneJournalPage(
 
         val lastTextIndex = textPerPage.size - 1
         val firstRecipeIndex = lastTextIndex + 1
-        val lastRecipeIndex = lastTextIndex + MathHelper.ceil(recipes.size / 2.0)
+        val lastRecipeIndex = lastTextIndex + Mth.ceil(recipes.size / 2.0)
         val firstStickerIndex = lastRecipeIndex + 1
-        val lastStickerIndex = lastRecipeIndex + MathHelper.ceil(stickers.size / 2.0)
+        val lastStickerIndex = lastRecipeIndex + Mth.ceil(stickers.size / 2.0)
         val firstSpellComponentIndex = lastStickerIndex + 1
         val lastSpellComponentIndex = lastStickerIndex + spellComponents.size
         if (index <= lastTextIndex) {
@@ -129,8 +129,8 @@ class ArcaneJournalPage(
 
     fun hasIndex(index: Int): Boolean {
         val maxIndex = textPerPage.size +
-            MathHelper.ceil(recipes.size / 2.0) +
-            MathHelper.ceil(stickers.size / 2.0) +
+                Mth.ceil(recipes.size / 2.0) +
+                Mth.ceil(stickers.size / 2.0) +
             spellComponents.size - 1
         return index <= maxIndex
     }
