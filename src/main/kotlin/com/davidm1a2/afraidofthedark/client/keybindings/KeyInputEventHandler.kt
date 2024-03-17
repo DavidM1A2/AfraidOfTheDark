@@ -9,7 +9,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.network.packets.other.SpellKeyPressPacket
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.network.chat.TranslatableComponent
 import net.minecraftforge.client.event.InputEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import org.lwjgl.glfw.GLFW
@@ -54,7 +54,7 @@ class KeyInputEventHandler {
             if (player.hasStartedAOTD()) {
                 Minecraft.getInstance().setScreen(PowerSourceSelectionScreen())
             } else {
-                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+                player.sendMessage(TranslatableComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
 
@@ -100,6 +100,6 @@ class KeyInputEventHandler {
                 return
             }
         }
-        entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.cloak_of_agility.no_cloak"))
+        entityPlayer.sendMessage(TranslatableComponent("message.afraidofthedark.cloak_of_agility.no_cloak"))
     }
 }

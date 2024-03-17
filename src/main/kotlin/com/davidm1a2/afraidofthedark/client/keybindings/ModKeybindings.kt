@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.keybindings
 
-import net.minecraft.client.settings.KeyBinding
+import net.minecraft.client.KeyMapping
 import org.lwjgl.glfw.GLFW
 
 /**
@@ -15,9 +15,9 @@ object ModKeybindings {
     private const val POWER_SOURCE_SELECTOR_NAME = "afraidofthedark.key.power_source_selector"
 
     // Public keybinding variables used to access the key states
-    val ROLL_WITH_CLOAK_OF_AGILITY = KeyBinding(ROLL_CLOAK_OF_AGILITY_NAME, GLFW.GLFW_KEY_G, CATEGORY_NAME)
-    val FIRE_WRIST_CROSSBOW = KeyBinding(FIRE_WRIST_CROSSBOW_NAME, GLFW.GLFW_KEY_Z, CATEGORY_NAME)
-    val POWER_SOURCE_SELECTOR = KeyBinding(POWER_SOURCE_SELECTOR_NAME, GLFW.GLFW_KEY_R, CATEGORY_NAME)
+    val ROLL_WITH_CLOAK_OF_AGILITY = KeyMapping(ROLL_CLOAK_OF_AGILITY_NAME, GLFW.GLFW_KEY_G, CATEGORY_NAME)
+    val FIRE_WRIST_CROSSBOW = KeyMapping(FIRE_WRIST_CROSSBOW_NAME, GLFW.GLFW_KEY_Z, CATEGORY_NAME)
+    val POWER_SOURCE_SELECTOR = KeyMapping(POWER_SOURCE_SELECTOR_NAME, GLFW.GLFW_KEY_R, CATEGORY_NAME)
 
     // A list of mod keybindings
     val KEY_BINDING_LIST = arrayOf(
