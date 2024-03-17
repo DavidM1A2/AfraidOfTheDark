@@ -1,14 +1,14 @@
 package com.davidm1a2.afraidofthedark.client.particle.base
 
-import com.mojang.blaze3d.vertex.IVertexBuilder
-import net.minecraft.client.renderer.ActiveRenderInfo
-import net.minecraft.client.world.ClientWorld
-import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.vector.Quaternion
-import net.minecraft.util.math.vector.Vector3f
+import com.mojang.blaze3d.vertex.VertexConsumer
+import com.mojang.math.Quaternion
+import com.mojang.math.Vector3f
+import net.minecraft.client.Camera
+import net.minecraft.client.multiplayer.ClientLevel
+import net.minecraft.util.Mth
 
 abstract class RotatedAOTDParticle(
-    world: ClientWorld,
+    world: ClientLevel,
     x: Double,
     y: Double,
     z: Double,
@@ -17,21 +17,21 @@ abstract class RotatedAOTDParticle(
     ySpeed: Double = 0.0,
     zSpeed: Double = 0.0
 ) : AOTDParticle(world, x, y, z, xSpeed, ySpeed, zSpeed) {
-    override fun render(vertexBuilder: IVertexBuilder, activeRenderInfo: ActiveRenderInfo, partialTicks: Float) {
+    override fun render(vertexBuilder: VertexConsumer, activeRenderInfo: Camera, partialTicks: Float) {
         render(vertexBuilder, activeRenderInfo, partialTicks, rotation)
     }
 
-    open fun render(vertexBuilder: IVertexBuilder, activeRenderInfo: ActiveRenderInfo, partialTicks: Float, rotation: Quaternion) {
+    open fun render(vertexBuilder: VertexConsumer, activeRenderInfo: Camera, partialTicks: Float, rotation: Quaternion) {
         // Copy & pasted from super::render except rotation is fixed to a direction
 
         val vector3d = activeRenderInfo.position
-        val x = (MathHelper.lerp(partialTicks.toDouble(), xo, x) - vector3d.x()).toFloat()
-        val y = (MathHelper.lerp(partialTicks.toDouble(), yo, y) - vector3d.y()).toFloat()
-        val z = (MathHelper.lerp(partialTicks.toDouble(), zo, z) - vector3d.z()).toFloat()
+        val x = (Mth.lerp(partialTicks.toDouble(), xo, x) - vector3d.x()).toFloat()
+        val y = (Mth.lerp(partialTicks.toDouble(), yo, y) - vector3d.y()).toFloat()
+        val z = (Mth.lerp(partialTicks.toDouble(), zo, z) - vector3d.z()).toFloat()
         // Changed this line
         val quaternion = rotation.copy()
         if (roll != 0.0f) {
-            val f3 = MathHelper.lerp(partialTicks, oRoll, roll)
+            val f3 = Mth.lerp(partialTicks, oRoll, roll)
             quaternion.mul(Vector3f.ZP.rotation(f3))
         }
 

@@ -2,15 +2,15 @@ package com.davidm1a2.afraidofthedark.client.particle
 
 import com.davidm1a2.afraidofthedark.client.particle.base.DelayedAOTDParticle
 import com.davidm1a2.afraidofthedark.common.particle.FlyParticleData
-import net.minecraft.client.particle.IAnimatedSprite
-import net.minecraft.client.particle.IParticleFactory
+import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.particle.Particle
-import net.minecraft.client.world.ClientWorld
+import net.minecraft.client.particle.ParticleProvider
+import net.minecraft.client.particle.SpriteSet
 import kotlin.math.PI
 import kotlin.math.sin
 
 class FlyParticle(
-    world: ClientWorld,
+    world: ClientLevel,
     private val startX: Double,
     private val startY: Double,
     private val startZ: Double,
@@ -47,10 +47,10 @@ class FlyParticle(
         zd = sin(age * sideSpeed + sinOffset2) * sideDistance
     }
 
-    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<FlyParticleData> {
+    class Factory(private val spriteSet: SpriteSet) : ParticleProvider<FlyParticleData> {
         override fun createParticle(
             particle: FlyParticleData,
-            world: ClientWorld,
+            world: ClientLevel,
             x: Double,
             y: Double,
             z: Double,

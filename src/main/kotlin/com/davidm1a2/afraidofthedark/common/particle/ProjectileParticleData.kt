@@ -5,11 +5,12 @@ import com.mojang.brigadier.StringReader
 import com.mojang.datafixers.util.Function4
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.network.PacketBuffer
 import net.minecraft.particles.IParticleData
 import net.minecraft.particles.ParticleType
 
-class ProjectileParticleData(val scale: Float, val red: Float, val green: Float, val blue: Float) : IParticleData {
+class ProjectileParticleData(val scale: Float, val red: Float, val green: Float, val blue: Float) : ParticleOptions {
     override fun getType(): ParticleType<*> {
         return ModParticles.PROJECTILE
     }

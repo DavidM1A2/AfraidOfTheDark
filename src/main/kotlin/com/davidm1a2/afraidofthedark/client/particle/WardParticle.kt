@@ -2,22 +2,22 @@ package com.davidm1a2.afraidofthedark.client.particle
 
 import com.davidm1a2.afraidofthedark.client.particle.base.RotatedAOTDParticle
 import com.davidm1a2.afraidofthedark.common.particle.WardParticleData
-import net.minecraft.client.particle.IAnimatedSprite
-import net.minecraft.client.particle.IParticleFactory
+import com.mojang.math.Vector3f
+import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.particle.Particle
-import net.minecraft.client.world.ClientWorld
-import net.minecraft.util.Direction
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.vector.Vector3f
+import net.minecraft.client.particle.ParticleProvider
+import net.minecraft.client.particle.SpriteSet
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
 
 class WardParticle(
-    world: ClientWorld,
+    world: ClientLevel,
     x: Double,
     y: Double,
     z: Double,
     scale: Float,
     private val direction: Direction,
-    private val spriteSet: IAnimatedSprite
+    private val spriteSet: SpriteSet
 ) : RotatedAOTDParticle(world, x, y, z, direction.rotation.apply { mul(Vector3f.XP.rotationDegrees(90f)) }) {
     init {
         // 0.4 second lifespan
@@ -38,10 +38,10 @@ class WardParticle(
         }
     }
 
-    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<WardParticleData> {
+    class Factory(private val spriteSet: SpriteSet) : ParticleProvider<WardParticleData> {
         override fun createParticle(
             particle: WardParticleData,
-            world: ClientWorld,
+            world: ClientLevel,
             x: Double,
             y: Double,
             z: Double,

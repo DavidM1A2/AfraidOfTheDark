@@ -2,17 +2,17 @@ package com.davidm1a2.afraidofthedark.client.particle
 
 import com.davidm1a2.afraidofthedark.client.particle.base.RotatedAOTDParticle
 import com.davidm1a2.afraidofthedark.common.particle.ShieldParticleData
-import net.minecraft.client.particle.IAnimatedSprite
-import net.minecraft.client.particle.IParticleFactory
-import net.minecraft.client.particle.IParticleRenderType
+import com.mojang.math.Vector3f
+import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.particle.Particle
-import net.minecraft.client.world.ClientWorld
-import net.minecraft.util.math.vector.Vector3f
+import net.minecraft.client.particle.ParticleProvider
+import net.minecraft.client.particle.ParticleRenderType
+import net.minecraft.client.particle.SpriteSet
 import kotlin.math.cos
 import kotlin.math.sin
 
 class ShieldParticle(
-    world: ClientWorld,
+    world: ClientLevel,
     x: Double,
     y: Double,
     z: Double,
@@ -32,7 +32,7 @@ class ShieldParticle(
         zd = 0.0
     }
 
-    override fun getRenderType(): IParticleRenderType {
+    override fun getRenderType(): ParticleRenderType {
         return PARTICLE_SHEET_TRANSLUCENT_NO_CULL
     }
 
@@ -61,10 +61,10 @@ class ShieldParticle(
         }
     }
 
-    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<ShieldParticleData> {
+    class Factory(private val spriteSet: SpriteSet) : ParticleProvider<ShieldParticleData> {
         override fun createParticle(
             particle: ShieldParticleData,
-            world: ClientWorld,
+            world: ClientLevel,
             x: Double,
             y: Double,
             z: Double,

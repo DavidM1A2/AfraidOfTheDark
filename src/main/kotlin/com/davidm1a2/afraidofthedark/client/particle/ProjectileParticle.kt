@@ -2,15 +2,15 @@ package com.davidm1a2.afraidofthedark.client.particle
 
 import com.davidm1a2.afraidofthedark.client.particle.base.AOTDParticle
 import com.davidm1a2.afraidofthedark.common.particle.ProjectileParticleData
-import net.minecraft.client.particle.IAnimatedSprite
-import net.minecraft.client.particle.IParticleFactory
-import net.minecraft.client.particle.IParticleRenderType
+import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.particle.Particle
-import net.minecraft.client.world.ClientWorld
-import net.minecraft.util.math.MathHelper
+import net.minecraft.client.particle.ParticleProvider
+import net.minecraft.client.particle.ParticleRenderType
+import net.minecraft.client.particle.SpriteSet
+import net.minecraft.util.Mth
 
 class ProjectileParticle(
-    world: ClientWorld,
+    world: ClientLevel,
     x: Double,
     y: Double,
     z: Double,
@@ -44,7 +44,7 @@ class ProjectileParticle(
         super.tick()
 
         // Shrink the particle over time
-        val newScale = MathHelper.lerp(age.toFloat() / lifetime, scale, scale / 2)
+        val newScale = Mth.lerp(age.toFloat() / lifetime, scale, scale / 2)
         // For whatever reason "scale" does quadSize *= newScale, so reset it to avoid exponential quad size growth
         scale(newScale)
         quadSize = baseQuadSize * newScale
@@ -57,14 +57,14 @@ class ProjectileParticle(
         zd = zd * 0.99
     }
 
-    override fun getRenderType(): IParticleRenderType {
+    override fun getRenderType(): ParticleRenderType {
         return PARTICLE_SHEET_TRANSLUCENT_NO_DEPTH_MASK
     }
 
-    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<ProjectileParticleData> {
+    class Factory(private val spriteSet: SpriteSet) : ParticleProvider<ProjectileParticleData> {
         override fun createParticle(
             particle: ProjectileParticleData,
-            world: ClientWorld,
+            world: ClientLevel,
             x: Double,
             y: Double,
             z: Double,

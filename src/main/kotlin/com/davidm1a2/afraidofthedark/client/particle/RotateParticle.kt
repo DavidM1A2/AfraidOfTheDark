@@ -2,20 +2,17 @@ package com.davidm1a2.afraidofthedark.client.particle
 
 import com.davidm1a2.afraidofthedark.client.particle.base.RotatedAOTDParticle
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.computeRotationTo
-import com.mojang.blaze3d.vertex.IVertexBuilder
-import net.minecraft.client.particle.IAnimatedSprite
-import net.minecraft.client.particle.IParticleFactory
-import net.minecraft.client.particle.IParticleRenderType
-import net.minecraft.client.particle.Particle
-import net.minecraft.client.renderer.ActiveRenderInfo
-import net.minecraft.client.world.ClientWorld
-import net.minecraft.particles.BasicParticleType
-import net.minecraft.util.math.vector.Quaternion
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.util.math.vector.Vector3f
+import com.mojang.blaze3d.vertex.VertexConsumer
+import com.mojang.math.Quaternion
+import com.mojang.math.Vector3f
+import net.minecraft.client.Camera
+import net.minecraft.client.multiplayer.ClientLevel
+import net.minecraft.client.particle.*
+import net.minecraft.core.particles.SimpleParticleType
+import net.minecraft.world.phys.Vec3
 
 class RotateParticle(
-    world: ClientWorld,
+    world: ClientLevel,
     x: Double,
     y: Double,
     z: Double,
@@ -23,7 +20,7 @@ class RotateParticle(
     yDir: Double,
     zDir: Double
 ) : RotatedAOTDParticle(world, x, y, z) {
-    private val baseRotation = BASE_DIRECTION.computeRotationTo(Vector3d(xDir, yDir, zDir))
+    private val baseRotation = BASE_DIRECTION.computeRotationTo(Vec3(xDir, yDir, zDir))
     private var ninetyDegreeRotatedRotation = Quaternion.ONE
 
     init {
@@ -36,13 +33,13 @@ class RotateParticle(
         zd = 0.0
     }
 
-    override fun render(vertexBuilder: IVertexBuilder, activeRenderInfo: ActiveRenderInfo, partialTicks: Float) {
+    override fun render(vertexBuilder: VertexConsumer, activeRenderInfo: Camera, partialTicks: Float) {
         // Render the particle twice, once at the standard rotation, and once 90 degrees more rotated.
         super.render(vertexBuilder, activeRenderInfo, partialTicks)
         render(vertexBuilder, activeRenderInfo, partialTicks, ninetyDegreeRotatedRotation)
     }
 
-    override fun getRenderType(): IParticleRenderType {
+    override fun getRenderType(): ParticleRenderType {
         return PARTICLE_SHEET_TRANSLUCENT_NO_CULL
     }
 
@@ -56,10 +53,10 @@ class RotateParticle(
         ninetyDegreeRotatedRotation.mul(Vector3f.XP.rotationDegrees(90f))
     }
 
-    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
+    class Factory(private val spriteSet: SpriteSet) : ParticleProvider<SimpleParticleType> {
         override fun createParticle(
-            particle: BasicParticleType,
-            world: ClientWorld,
+            particle: SimpleParticleType,
+            world: ClientLevel,
             x: Double,
             y: Double,
             z: Double,
@@ -74,6 +71,6 @@ class RotateParticle(
     }
 
     companion object {
-        private val BASE_DIRECTION = Vector3d(1.0, 0.0, 0.0)
+        private val BASE_DIRECTION = Vec3(1.0, 0.0, 0.0)
     }
 }

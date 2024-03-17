@@ -2,13 +2,13 @@ package com.davidm1a2.afraidofthedark.client.particle
 
 import com.davidm1a2.afraidofthedark.client.particle.base.DelayedAOTDParticle
 import com.davidm1a2.afraidofthedark.common.particle.ArrowTrailParticleData
-import net.minecraft.client.particle.IAnimatedSprite
-import net.minecraft.client.particle.IParticleFactory
+import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.particle.Particle
-import net.minecraft.client.world.ClientWorld
+import net.minecraft.client.particle.ParticleProvider
+import net.minecraft.client.particle.SpriteSet
 
 class ArrowTrailParticle(
-    world: ClientWorld,
+    world: ClientLevel,
     x: Double,
     y: Double,
     z: Double,
@@ -38,10 +38,10 @@ class ArrowTrailParticle(
         setPos(centerX, centerY, centerZ)
     }
 
-    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<ArrowTrailParticleData> {
+    class Factory(private val spriteSet: SpriteSet) : ParticleProvider<ArrowTrailParticleData> {
         override fun createParticle(
             particle: ArrowTrailParticleData,
-            world: ClientWorld,
+            world: ClientLevel,
             x: Double,
             y: Double,
             z: Double,

@@ -2,16 +2,16 @@ package com.davidm1a2.afraidofthedark.client.particle
 
 import com.davidm1a2.afraidofthedark.client.particle.base.DelayedAOTDParticle
 import com.davidm1a2.afraidofthedark.common.particle.SelfParticleData
-import net.minecraft.client.particle.IAnimatedSprite
-import net.minecraft.client.particle.IParticleFactory
+import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.particle.Particle
-import net.minecraft.client.world.ClientWorld
+import net.minecraft.client.particle.ParticleProvider
+import net.minecraft.client.particle.SpriteSet
 import kotlin.math.cos
 import kotlin.math.roundToInt
 import kotlin.math.sin
 
 class SelfParticle(
-    world: ClientWorld,
+    world: ClientLevel,
     private val startX: Double,
     private val startY: Double,
     private val startZ: Double,
@@ -40,10 +40,10 @@ class SelfParticle(
         )
     }
 
-    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<SelfParticleData> {
+    class Factory(private val spriteSet: SpriteSet) : ParticleProvider<SelfParticleData> {
         override fun createParticle(
             particle: SelfParticleData,
-            world: ClientWorld,
+            world: ClientLevel,
             x: Double,
             y: Double,
             z: Double,

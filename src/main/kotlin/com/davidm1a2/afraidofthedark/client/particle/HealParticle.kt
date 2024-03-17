@@ -2,17 +2,17 @@ package com.davidm1a2.afraidofthedark.client.particle
 
 import com.davidm1a2.afraidofthedark.client.particle.base.DelayedAOTDParticle
 import com.davidm1a2.afraidofthedark.common.particle.HealParticleData
-import net.minecraft.client.particle.IAnimatedSprite
-import net.minecraft.client.particle.IParticleFactory
+import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.particle.Particle
-import net.minecraft.client.world.ClientWorld
-import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.client.particle.ParticleProvider
+import net.minecraft.client.particle.SpriteSet
+import net.minecraft.world.phys.Vec3
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 
 class HealParticle(
-    world: ClientWorld,
+    world: ClientLevel,
     private val startX: Double,
     private val startY: Double,
     private val startZ: Double,
@@ -53,20 +53,20 @@ class HealParticle(
         zd = (targetPosition.z - z) / stickiness
     }
 
-    private fun computeTargetPosition(): Vector3d {
+    private fun computeTargetPosition(): Vec3 {
         val centerX = entity?.x ?: startX
         val centerY = entity?.y ?: startY
         val centerZ = entity?.z ?: startZ
         val targetX = centerX + targetOffsetX + sin(Math.toRadians(offsetDegrees.toDouble())) * width / 2 * 1.5
         val targetY = centerY + targetOffsetY
         val targetZ = centerZ + targetOffsetZ + cos(Math.toRadians(offsetDegrees.toDouble())) * width / 2 * 1.5
-        return Vector3d(targetX, targetY, targetZ)
+        return Vec3(targetX, targetY, targetZ)
     }
 
-    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<HealParticleData> {
+    class Factory(private val spriteSet: SpriteSet) : ParticleProvider<HealParticleData> {
         override fun createParticle(
             particle: HealParticleData,
-            world: ClientWorld,
+            world: ClientLevel,
             x: Double,
             y: Double,
             z: Double,

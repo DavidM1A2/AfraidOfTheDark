@@ -2,15 +2,15 @@ package com.davidm1a2.afraidofthedark.client.particle
 
 import com.davidm1a2.afraidofthedark.client.particle.base.AOTDParticle
 import com.davidm1a2.afraidofthedark.common.particle.CleanseParticleData
-import net.minecraft.client.particle.IAnimatedSprite
-import net.minecraft.client.particle.IParticleFactory
+import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.particle.Particle
-import net.minecraft.client.world.ClientWorld
+import net.minecraft.client.particle.ParticleProvider
+import net.minecraft.client.particle.SpriteSet
 import kotlin.math.cos
 import kotlin.math.sin
 
 class CleanseParticle(
-    world: ClientWorld,
+    world: ClientLevel,
     x: Double,
     y: Double,
     z: Double,
@@ -46,10 +46,10 @@ class CleanseParticle(
         setAlphaFadeInLastTicks(14f)
     }
 
-    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<CleanseParticleData> {
+    class Factory(private val spriteSet: SpriteSet) : ParticleProvider<CleanseParticleData> {
         override fun createParticle(
             particle: CleanseParticleData,
-            world: ClientWorld,
+            world: ClientLevel,
             x: Double,
             y: Double,
             z: Double,

@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.client.particle.base
 
-import net.minecraft.client.world.ClientWorld
+import net.minecraft.client.multiplayer.ClientLevel
 
 abstract class DelayedAOTDParticle(
-    world: ClientWorld,
+    world: ClientLevel,
     x: Double,
     y: Double,
     z: Double,

@@ -1,17 +1,17 @@
 package com.davidm1a2.afraidofthedark.client.particle
 
 import com.davidm1a2.afraidofthedark.client.particle.base.AOTDParticle
-import net.minecraft.client.particle.IAnimatedSprite
-import net.minecraft.client.particle.IParticleFactory
+import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.particle.Particle
-import net.minecraft.client.world.ClientWorld
-import net.minecraft.particles.BasicParticleType
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.MathHelper
-import net.minecraft.world.biome.Biome
+import net.minecraft.client.particle.ParticleProvider
+import net.minecraft.client.particle.SpriteSet
+import net.minecraft.core.BlockPos
+import net.minecraft.core.particles.SimpleParticleType
+import net.minecraft.util.Mth
+import net.minecraft.world.level.biome.Biome
 
 class DustCloudParticle(
-    world: ClientWorld,
+    world: ClientLevel,
     x: Double,
     y: Double,
     z: Double,
@@ -35,7 +35,7 @@ class DustCloudParticle(
         alpha = alpha * if (age < lifetime - 5) 0.95f else 0.5f
 
         // Expand the particle over time
-        val newScale = MathHelper.lerp(age.toFloat() / lifetime, minScale, maxScale)
+        val newScale = Mth.lerp(age.toFloat() / lifetime, minScale, maxScale)
         // For whatever reason "scale" does quadSize *= newScale, so reset it to avoid exponential quad size growth
         scale(newScale)
         quadSize = baseQuadSize * newScale
@@ -46,10 +46,10 @@ class DustCloudParticle(
         yd = yd - 0.03
     }
 
-    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
+    class Factory(private val spriteSet: SpriteSet) : ParticleProvider<SimpleParticleType> {
         override fun createParticle(
-            particle: BasicParticleType,
-            world: ClientWorld,
+            particle: SimpleParticleType,
+            world: ClientLevel,
             x: Double,
             y: Double,
             z: Double,
@@ -74,22 +74,22 @@ class DustCloudParticle(
 
         companion object {
             private val CATEGORY_TO_COLOR = mapOf(
-                Biome.Category.NONE to ParticleColor.GREY,
-                Biome.Category.TAIGA to ParticleColor.GREEN,
-                Biome.Category.EXTREME_HILLS to ParticleColor.BROWN,
-                Biome.Category.JUNGLE to ParticleColor.GREEN,
-                Biome.Category.MESA to ParticleColor.BROWN,
-                Biome.Category.SAVANNA to ParticleColor.BROWN,
-                Biome.Category.ICY to ParticleColor.GREY,
-                Biome.Category.THEEND to ParticleColor.GREY,
-                Biome.Category.BEACH to ParticleColor.BLUE,
-                Biome.Category.FOREST to ParticleColor.GREEN,
-                Biome.Category.OCEAN to ParticleColor.BLUE,
-                Biome.Category.DESERT to ParticleColor.BROWN,
-                Biome.Category.RIVER to ParticleColor.BLUE,
-                Biome.Category.SWAMP to ParticleColor.GREEN,
-                Biome.Category.MUSHROOM to ParticleColor.BROWN,
-                Biome.Category.NETHER to ParticleColor.GREY
+                Biome.BiomeCategory.NONE to ParticleColor.GREY,
+                Biome.BiomeCategory.TAIGA to ParticleColor.GREEN,
+                Biome.BiomeCategory.EXTREME_HILLS to ParticleColor.BROWN,
+                Biome.BiomeCategory.JUNGLE to ParticleColor.GREEN,
+                Biome.BiomeCategory.MESA to ParticleColor.BROWN,
+                Biome.BiomeCategory.SAVANNA to ParticleColor.BROWN,
+                Biome.BiomeCategory.ICY to ParticleColor.GREY,
+                Biome.BiomeCategory.THEEND to ParticleColor.GREY,
+                Biome.BiomeCategory.BEACH to ParticleColor.BLUE,
+                Biome.BiomeCategory.FOREST to ParticleColor.GREEN,
+                Biome.BiomeCategory.OCEAN to ParticleColor.BLUE,
+                Biome.BiomeCategory.DESERT to ParticleColor.BROWN,
+                Biome.BiomeCategory.RIVER to ParticleColor.BLUE,
+                Biome.BiomeCategory.SWAMP to ParticleColor.GREEN,
+                Biome.BiomeCategory.MUSHROOM to ParticleColor.BROWN,
+                Biome.BiomeCategory.NETHER to ParticleColor.GREY
             )
         }
     }

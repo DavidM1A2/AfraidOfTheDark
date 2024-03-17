@@ -1,12 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.particle.base
 
 import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.particle.IParticleRenderType
-import net.minecraft.client.particle.SpriteTexturedParticle
-import net.minecraft.client.renderer.BufferBuilder
-import net.minecraft.client.renderer.Tessellator
+import com.mojang.blaze3d.vertex.BufferBuilder
+import com.mojang.blaze3d.vertex.Tesselator
+import net.minecraft.client.multiplayer.ClientLevel
+import net.minecraft.client.particle.ParticleRenderType
+import net.minecraft.client.particle.TextureSheetParticle
 import net.minecraft.client.renderer.texture.TextureManager
-import net.minecraft.client.world.ClientWorld
 
 /**
  * Base class for all AOTD particles
@@ -21,14 +21,14 @@ import net.minecraft.client.world.ClientWorld
  * @param zSpeed  The z speed of the particle
  */
 abstract class AOTDParticle(
-    world: ClientWorld,
+    world: ClientLevel,
     x: Double,
     y: Double,
     z: Double,
     xSpeed: Double = 0.0,
     ySpeed: Double = 0.0,
     zSpeed: Double = 0.0
-) : SpriteTexturedParticle(world, x, y, z, xSpeed, ySpeed, zSpeed) {
+) : TextureSheetParticle(world, x, y, z, xSpeed, ySpeed, zSpeed) {
     init {
         quadSize = 0.2f
         xd = xSpeed
@@ -36,8 +36,8 @@ abstract class AOTDParticle(
         zd = zSpeed
     }
 
-    override fun getRenderType(): IParticleRenderType {
-        return IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT
+    override fun getRenderType(): ParticleRenderType {
+        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT
     }
 
     /**
@@ -84,14 +84,14 @@ abstract class AOTDParticle(
 
     companion object {
         // Copied and pasted from IParticleRenderType PARTICLE_SHEET_TRANSLUCENT, but without culling
-        internal val PARTICLE_SHEET_TRANSLUCENT_NO_CULL = object : IParticleRenderType {
+        internal val PARTICLE_SHEET_TRANSLUCENT_NO_CULL = object : ParticleRenderType {
             override fun begin(bufferBuilder: BufferBuilder, textureManager: TextureManager) {
                 RenderSystem.disableCull()
-                IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT.begin(bufferBuilder, textureManager)
+                ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT.begin(bufferBuilder, textureManager)
             }
 
-            override fun end(tessellator: Tessellator) {
-                IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT.end(tessellator)
+            override fun end(tessellator: Tesselator) {
+                ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT.end(tessellator)
                 RenderSystem.enableCull()
             }
 
@@ -101,14 +101,14 @@ abstract class AOTDParticle(
         }
 
         // Copied and pasted from IParticleRenderType PARTICLE_SHEET_TRANSLUCENT_NO_CULL, but without color depth buffer
-        internal val PARTICLE_SHEET_TRANSLUCENT_NO_DEPTH_MASK = object : IParticleRenderType {
+        internal val PARTICLE_SHEET_TRANSLUCENT_NO_DEPTH_MASK = object : ParticleRenderType {
             override fun begin(bufferBuilder: BufferBuilder, textureManager: TextureManager) {
                 // This enables the depth mask, so disable after this call
                 PARTICLE_SHEET_TRANSLUCENT_NO_CULL.begin(bufferBuilder, textureManager)
                 RenderSystem.depthMask(false)
             }
 
-            override fun end(tessellator: Tessellator) {
+            override fun end(tessellator: Tesselator) {
                 PARTICLE_SHEET_TRANSLUCENT_NO_CULL.end(tessellator)
                 RenderSystem.depthMask(true)
             }

@@ -5,11 +5,12 @@ import com.mojang.brigadier.StringReader
 import com.mojang.datafixers.util.Function4
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.network.PacketBuffer
 import net.minecraft.particles.IParticleData
 import net.minecraft.particles.ParticleType
 
-class ShieldParticleData(val entityId: Int, val offsetDegrees: Float, val radius: Float, val duration: Int) : IParticleData {
+class ShieldParticleData(val entityId: Int, val offsetDegrees: Float, val radius: Float, val duration: Int) : ParticleOptions {
     override fun getType(): ParticleType<*> {
         return ModParticles.SHIELD
     }

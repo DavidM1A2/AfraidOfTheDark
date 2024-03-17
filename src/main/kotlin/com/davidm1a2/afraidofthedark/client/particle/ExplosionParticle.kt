@@ -2,12 +2,12 @@ package com.davidm1a2.afraidofthedark.client.particle
 
 import com.davidm1a2.afraidofthedark.client.particle.base.AOTDParticle
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.ExplosionSpellEffect
-import net.minecraft.client.particle.IAnimatedSprite
-import net.minecraft.client.particle.IParticleFactory
+import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.particle.Particle
-import net.minecraft.client.world.ClientWorld
-import net.minecraft.particles.BasicParticleType
-import net.minecraft.util.math.MathHelper
+import net.minecraft.client.particle.ParticleProvider
+import net.minecraft.client.particle.SpriteSet
+import net.minecraft.core.particles.SimpleParticleType
+import net.minecraft.util.Mth
 import kotlin.math.PI
 import kotlin.math.sin
 import kotlin.math.sqrt
@@ -22,7 +22,7 @@ import kotlin.math.sqrt
  * @param z The z position of the spell cast effect
  */
 class ExplosionParticle(
-    world: ClientWorld,
+    world: ClientLevel,
     x: Double,
     y: Double,
     z: Double,
@@ -35,7 +35,7 @@ class ExplosionParticle(
         scale(random.nextFloat() * 3f + 1f)
 
         // 3-8 second lifespan based on radius
-        lifetime = MathHelper.lerp(explosionRadius / ExplosionSpellEffect.MAX_RADIUS, 60.0, 160.0).toInt()
+        lifetime = Mth.lerp(explosionRadius / ExplosionSpellEffect.MAX_RADIUS, 60.0, 160.0).toInt()
 
         // Random motion
         xd = (random.nextFloat() - 0.5) * 0.8 * sqrt(explosionRadius)
@@ -55,10 +55,10 @@ class ExplosionParticle(
         setColor(fadeAlpha, fadeAlpha, fadeAlpha)
     }
 
-    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
+    class Factory(private val spriteSet: SpriteSet) : ParticleProvider<SimpleParticleType> {
         override fun createParticle(
-            particle: BasicParticleType,
-            world: ClientWorld,
+            particle: SimpleParticleType,
+            world: ClientLevel,
             x: Double,
             y: Double,
             z: Double,

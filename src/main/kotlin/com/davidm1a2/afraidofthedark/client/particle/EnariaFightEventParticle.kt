@@ -1,11 +1,11 @@
 package com.davidm1a2.afraidofthedark.client.particle
 
 import com.davidm1a2.afraidofthedark.client.particle.base.AOTDParticle
-import net.minecraft.client.particle.IAnimatedSprite
-import net.minecraft.client.particle.IParticleFactory
+import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.particle.Particle
-import net.minecraft.client.world.ClientWorld
-import net.minecraft.particles.BasicParticleType
+import net.minecraft.client.particle.ParticleProvider
+import net.minecraft.client.particle.SpriteSet
+import net.minecraft.core.particles.SimpleParticleType
 
 /**
  * Particle representing the second part of enaria's spell cast
@@ -19,7 +19,7 @@ import net.minecraft.particles.BasicParticleType
  * @param zSpeed The z speed of the spell cast attack
  */
 class EnariaFightEventParticle(
-    world: ClientWorld,
+    world: ClientLevel,
     x: Double,
     y: Double,
     z: Double,
@@ -47,10 +47,10 @@ class EnariaFightEventParticle(
         yd = yd - 0.02
     }
 
-    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
+    class Factory(private val spriteSet: SpriteSet) : ParticleProvider<SimpleParticleType> {
         override fun createParticle(
-            particle: BasicParticleType,
-            world: ClientWorld,
+            particle: SimpleParticleType,
+            world: ClientLevel,
             x: Double,
             y: Double,
             z: Double,

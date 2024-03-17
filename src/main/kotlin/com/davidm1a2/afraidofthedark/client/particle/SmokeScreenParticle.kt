@@ -1,12 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.particle
 
 import com.davidm1a2.afraidofthedark.client.particle.base.AOTDParticle
-import net.minecraft.client.particle.IAnimatedSprite
-import net.minecraft.client.particle.IParticleFactory
+import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.particle.Particle
-import net.minecraft.client.world.ClientWorld
-import net.minecraft.particles.BasicParticleType
-import net.minecraft.util.math.MathHelper
+import net.minecraft.client.particle.ParticleProvider
+import net.minecraft.client.particle.SpriteSet
+import net.minecraft.core.particles.SimpleParticleType
+import net.minecraft.util.Mth
 
 /**
  * Particle used to create a smoke screen
@@ -18,7 +18,7 @@ import net.minecraft.util.math.MathHelper
  * @param z The z position of the smoke screen particle
  */
 class SmokeScreenParticle(
-    world: ClientWorld,
+    world: ClientLevel,
     x: Double,
     y: Double,
     z: Double
@@ -50,16 +50,16 @@ class SmokeScreenParticle(
         yd = yd * 0.95
         zd = zd * 0.95
         // Expand the particle over time
-        val newScale = MathHelper.lerp(age.toFloat() / lifetime, minScale, maxScale)
+        val newScale = Mth.lerp(age.toFloat() / lifetime, minScale, maxScale)
         // For whatever reason "scale" does quadSize *= newScale, so reset it to avoid exponential quad size growth
         scale(newScale)
         quadSize = baseQuadSize * newScale
     }
 
-    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<BasicParticleType> {
+    class Factory(private val spriteSet: SpriteSet) : ParticleProvider<SimpleParticleType> {
         override fun createParticle(
-            particle: BasicParticleType,
-            world: ClientWorld,
+            particle: SimpleParticleType,
+            world: ClientLevel,
             x: Double,
             y: Double,
             z: Double,

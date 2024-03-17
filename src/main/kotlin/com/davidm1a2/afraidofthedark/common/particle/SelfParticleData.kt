@@ -4,12 +4,13 @@ import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.mojang.brigadier.StringReader
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.network.PacketBuffer
 import net.minecraft.particles.IParticleData
 import net.minecraft.particles.ParticleType
 import java.util.function.BiFunction
 
-class SelfParticleData(val entityId: Int, val offsetDegrees: Float) : IParticleData {
+class SelfParticleData(val entityId: Int, val offsetDegrees: Float) : ParticleOptions {
     override fun getType(): ParticleType<*> {
         return ModParticles.SELF
     }

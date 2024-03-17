@@ -4,13 +4,14 @@ import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.mojang.brigadier.StringReader
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.network.PacketBuffer
 import net.minecraft.particles.IParticleData
 import net.minecraft.particles.ParticleType
 import net.minecraft.util.Direction
 import java.util.function.BiFunction
 
-class WardParticleData(val direction: Direction, val scale: Float = 2.5f) : IParticleData {
+class WardParticleData(val direction: Direction, val scale: Float = 2.5f) : ParticleOptions {
     override fun getType(): ParticleType<*> {
         return ModParticles.WARD
     }

@@ -2,17 +2,17 @@ package com.davidm1a2.afraidofthedark.client.particle
 
 import com.davidm1a2.afraidofthedark.client.particle.base.AOTDParticle
 import com.davidm1a2.afraidofthedark.common.particle.FeyParticleData
-import net.minecraft.client.particle.IAnimatedSprite
-import net.minecraft.client.particle.IParticleFactory
-import net.minecraft.client.particle.IParticleRenderType
+import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.particle.Particle
-import net.minecraft.client.world.ClientWorld
-import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.client.particle.ParticleProvider
+import net.minecraft.client.particle.ParticleRenderType
+import net.minecraft.client.particle.SpriteSet
+import net.minecraft.world.phys.Vec3
 import kotlin.math.cos
 import kotlin.math.sin
 
 class FeyParticle(
-    world: ClientWorld,
+    world: ClientLevel,
     x: Double,
     y: Double,
     z: Double,
@@ -34,8 +34,8 @@ class FeyParticle(
         yo = y
         zo = z + zOffset
 
-        val motionDir = Vector3d(xOffset, 0.0, zOffset)
-            .vectorTo(Vector3d(0.0, 0.0, 0.0))
+        val motionDir = Vec3(xOffset, 0.0, zOffset)
+            .vectorTo(Vec3(0.0, 0.0, 0.0))
             .normalize()
             .scale(0.06)
 
@@ -48,7 +48,7 @@ class FeyParticle(
         bCol = blue
     }
 
-    override fun getRenderType(): IParticleRenderType {
+    override fun getRenderType(): ParticleRenderType {
         return PARTICLE_SHEET_TRANSLUCENT_NO_DEPTH_MASK
     }
 
@@ -63,10 +63,10 @@ class FeyParticle(
         zd = zd * 0.9
     }
 
-    class Factory(private val spriteSet: IAnimatedSprite) : IParticleFactory<FeyParticleData> {
+    class Factory(private val spriteSet: SpriteSet) : ParticleProvider<FeyParticleData> {
         override fun createParticle(
             particle: FeyParticleData,
-            world: ClientWorld,
+            world: ClientLevel,
             x: Double,
             y: Double,
             z: Double,

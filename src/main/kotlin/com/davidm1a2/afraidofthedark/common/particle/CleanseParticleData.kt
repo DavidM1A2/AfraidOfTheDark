@@ -5,11 +5,12 @@ import com.mojang.brigadier.StringReader
 import com.mojang.datafixers.util.Function3
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.network.PacketBuffer
 import net.minecraft.particles.IParticleData
 import net.minecraft.particles.ParticleType
 
-class CleanseParticleData(val entityId: Int, val offsetDegrees: Float, val radius: Float) : IParticleData {
+class CleanseParticleData(val entityId: Int, val offsetDegrees: Float, val radius: Float) : ParticleOptions {
     override fun getType(): ParticleType<*> {
         return ModParticles.CLEANSE
     }
