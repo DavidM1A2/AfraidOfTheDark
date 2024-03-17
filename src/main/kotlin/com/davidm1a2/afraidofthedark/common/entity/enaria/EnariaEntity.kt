@@ -34,11 +34,12 @@ import net.minecraft.util.text.StringTextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.BossInfo
 import net.minecraft.world.World
+import net.minecraft.world.entity.Mob
 import net.minecraft.world.server.ServerBossInfo
 import net.minecraftforge.fml.network.NetworkHooks
 import kotlin.math.min
 
-class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : MobEntity(entityType, world), IMCAnimatedModel {
+class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob(entityType, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(WALK_CHANNEL, ARMTHROW_CHANNEL, AUTOATTACK_CHANNEL, SPELL_CHANNEL)
     private val bossInfo = ServerBossInfo(
         StringTextComponent("placeholder"),

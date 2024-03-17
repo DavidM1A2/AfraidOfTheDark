@@ -21,6 +21,7 @@ import net.minecraft.util.DamageSource
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.StringTextComponent
 import net.minecraft.world.World
+import net.minecraft.world.entity.FlyingMob
 import net.minecraftforge.fml.network.NetworkHooks
 import java.util.UUID
 
@@ -30,7 +31,7 @@ import java.util.UUID
  * @constructor sets the ghastly enaria entity properties
  * @property animHandler The animation handler used to manage animations
  */
-class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world: World) : FlyingEntity(entityType, world), IMCAnimatedModel {
+class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world: World) : FlyingMob(entityType, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(DANCE_CHANNEL)
 
     private var touchedPlayer: UUID? = null

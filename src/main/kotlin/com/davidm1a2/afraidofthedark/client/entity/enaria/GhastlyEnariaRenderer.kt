@@ -2,13 +2,13 @@ package com.davidm1a2.afraidofthedark.client.entity.enaria
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
-import com.mojang.blaze3d.matrix.MatrixStack
-import net.minecraft.client.renderer.IRenderTypeBuffer
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.math.Vector3f
+import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.renderer.entity.EntityRendererManager
+import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.MobRenderer
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.vector.Vector3f
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Renders the enaria model
@@ -16,9 +16,9 @@ import net.minecraft.util.math.vector.Vector3f
  * @constructor just initializes the render living renderer
  * @param renderManager The render manager to pass down
  */
-class GhastlyEnariaRenderer(renderManager: EntityRendererManager) :
+class GhastlyEnariaRenderer(renderManager: EntityRendererProvider.Context) :
     MobRenderer<GhastlyEnariaEntity, EnariaModel<GhastlyEnariaEntity>>(renderManager, ENARIA_MODEL, 0f) {
-    override fun setupRotations(enaria: GhastlyEnariaEntity, matrixStack: MatrixStack, bob: Float, yOffset: Float, partialTicks: Float) {
+    override fun setupRotations(enaria: GhastlyEnariaEntity, matrixStack: PoseStack, bob: Float, yOffset: Float, partialTicks: Float) {
         super.setupRotations(enaria, matrixStack, bob, yOffset, partialTicks)
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(180f))
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180f))
@@ -29,8 +29,8 @@ class GhastlyEnariaRenderer(renderManager: EntityRendererManager) :
         enaria: GhastlyEnariaEntity,
         entityYaw: Float,
         partialTicks: Float,
-        matrixStack: MatrixStack,
-        renderTypeBuffer: IRenderTypeBuffer,
+        matrixStack: PoseStack,
+        renderTypeBuffer: MultiBufferSource,
         packedLight: Int
     ) {
         enaria.getAnimationHandler().update()

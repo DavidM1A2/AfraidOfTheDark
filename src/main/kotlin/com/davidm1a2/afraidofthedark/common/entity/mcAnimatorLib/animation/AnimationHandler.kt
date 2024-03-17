@@ -3,10 +3,10 @@ package com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation
 import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRenderer
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.interpolate
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.slerp
+import com.mojang.math.Quaternion
 import net.minecraft.client.Minecraft
-import net.minecraft.util.math.vector.Quaternion
 import net.minecraftforge.fml.LogicalSide
-import net.minecraftforge.fml.common.thread.EffectiveSide
+import net.minecraftforge.fml.util.thread.EffectiveSide
 
 /**
  * Constructor takes in all available animation channels
