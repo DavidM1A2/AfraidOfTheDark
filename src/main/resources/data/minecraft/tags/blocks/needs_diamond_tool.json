@@ -1,5 +1,14 @@
 {
   "replace": false,
   "values": [
+    "afraidofthedark:crypt",
+    "afraidofthedark:dark_forest",
+    "afraidofthedark:desert_oasis",
+    "afraidofthedark:eldritch_obsidian",
+    "afraidofthedark:enaria_spawner",
+    "afraidofthedark:frost_phoenix_spawner",
+    "afraidofthedark:magic_crystal",
+    "afraidofthedark:observatory",
+    "afraidofthedark:witch_hut"
   ]
 }

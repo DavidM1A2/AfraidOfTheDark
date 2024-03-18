@@ -1,44 +1,40 @@
 package com.davidm1a2.afraidofthedark.common.block
 
-import com.davidm1a2.afraidofthedark.client.tileEntity.vitaeExtractor.VitaeExtractorItemStackRenderer
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
 import com.davidm1a2.afraidofthedark.common.block.core.IUseBlockItemStackRenderer
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.item.VitaeLanternItem
 import com.davidm1a2.afraidofthedark.common.tileEntity.VitaeExtractorTileEntity
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.HorizontalBlock
-import net.minecraft.block.material.Material
-import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.BlockItemUseContext
-import net.minecraft.item.ItemStack
-import net.minecraft.state.DirectionProperty
-import net.minecraft.state.StateContainer
-import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.ActionResultType
-import net.minecraft.util.Direction
-import net.minecraft.util.Hand
-import net.minecraft.util.Mirror
-import net.minecraft.util.Rotation
-import net.minecraft.util.SoundCategory
-import net.minecraft.util.SoundEvents
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.BlockRayTraceResult
-import net.minecraft.util.math.shapes.ISelectionContext
-import net.minecraft.util.math.shapes.VoxelShape
-import net.minecraft.world.IBlockReader
-import net.minecraft.world.World
+import net.minecraft.client.renderer.entity.ItemRenderer
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.sounds.SoundSource
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
+import net.minecraft.world.level.block.Mirror
+import net.minecraft.world.level.block.Rotation
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.DirectionProperty
-import net.minecraftforge.common.ToolType
+import net.minecraft.world.level.material.Material
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.*
 
 class VitaeExtractorBlock : AOTDTileEntityBlock(
     "vitae_extractor",
     Properties.of(Material.STONE)
-        .harvestTool(ToolType.PICKAXE)
         .requiresCorrectToolForDrops()
         .strength(1.5F, 6.0F)
 ), IUseBlockItemStackRenderer {
@@ -46,14 +42,14 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH))
     }
 
-    override fun use(blockState: BlockState, world: World, blockPos: BlockPos, playerEntity: PlayerEntity, hand: Hand, rayTraceResult: BlockRayTraceResult): ActionResultType {
+    override fun use(blockState: BlockState, world: Level, blockPos: BlockPos, playerEntity: Player, hand: InteractionHand, rayTraceResult: BlockHitResult): InteractionResult {
         val itemInHand = playerEntity.getItemInHand(hand)
-        val tileEntity = (world.getBlockEntity(blockPos) as? VitaeExtractorTileEntity) ?: return ActionResultType.FAIL
+        val tileEntity = (world.getBlockEntity(blockPos) as? VitaeExtractorTileEntity) ?: return InteractionResult.FAIL
         val lantern = tileEntity.getLantern()
 
         return if (itemInHand.isEmpty) {
             if (lantern.isEmpty) {
-                ActionResultType.CONSUME
+                InteractionResult.CONSUME
             } else {
                 if (!world.isClientSide) {
                     tileEntity.clearLantern()
@@ -64,12 +60,12 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
                         blockPos.y + 0.5,
                         blockPos.z + 0.5,
                         SoundEvents.ITEM_FRAME_REMOVE_ITEM,
-                        SoundCategory.BLOCKS,
+                        SoundSource.BLOCKS,
                         1.0f,
                         1.0f
                     )
                 }
-                ActionResultType.SUCCESS
+                InteractionResult.SUCCESS
             }
         } else if (itemInHand.item == ModItems.VITAE_LANTERN) {
             if (lantern.isEmpty) {
@@ -82,14 +78,14 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
                         blockPos.y + 0.5,
                         blockPos.z + 0.5,
                         SoundEvents.LANTERN_PLACE,
-                        SoundCategory.BLOCKS,
+                        SoundSource.BLOCKS,
                         1.0f,
                         1.0f
                     )
                 }
-                ActionResultType.SUCCESS
+                InteractionResult.SUCCESS
             } else {
-                ActionResultType.CONSUME
+                InteractionResult.CONSUME
             }
         } else if (tileEntity.isValidFuel(itemInHand)) {
             if (!world.isClientSide && !tileEntity.isBurningFuel()) {
@@ -98,13 +94,13 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
                     playerEntity.setItemInHand(hand, itemInHand.apply { shrink(1) })
                 }
             }
-            ActionResultType.SUCCESS
+            InteractionResult.SUCCESS
         } else {
-            ActionResultType.CONSUME
+            InteractionResult.CONSUME
         }
     }
 
-    override fun animateTick(blockState: BlockState, world: World, blockPos: BlockPos, random: Random) {
+    override fun animateTick(blockState: BlockState, world: Level, blockPos: BlockPos, random: Random) {
         val tileEntity = world.getBlockEntity(blockPos)
         if (tileEntity is VitaeExtractorTileEntity && tileEntity.isBurningFuel()) {
             summonParticle(blockState, world, blockPos, random)
@@ -120,7 +116,7 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
         }
     }
 
-    private fun summonParticle(blockState: BlockState, world: World, blockPos: BlockPos, random: Random) {
+    private fun summonParticle(blockState: BlockState, world: Level, blockPos: BlockPos, random: Random) {
         val centerX = blockPos.x + 0.5
         val centerY = blockPos.y.toDouble()
         val centerZ = blockPos.z + 0.5
@@ -142,19 +138,23 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
         world.addParticle(ModParticles.VITAE_EXTRACTOR_BURN, centerX + xOffset, centerY + yOffset, centerZ + zOffset, 0.0, 0.0, 0.0)
     }
 
-    override fun getCollisionShape(blockState: BlockState, worldIn: IBlockReader, pos: BlockPos, context: ISelectionContext): VoxelShape {
+    override fun getCollisionShape(blockState: BlockState, worldIn: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
         return SHAPE
     }
 
-    override fun getShape(blockState: BlockState, worldIn: IBlockReader, pos: BlockPos, context: ISelectionContext): VoxelShape {
+    override fun getShape(blockState: BlockState, worldIn: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
         return SHAPE
     }
 
-    override fun getISTER(): ItemStackTileEntityRenderer {
-        return VitaeExtractorItemStackRenderer()
+    override fun getItemRenderer(): ItemRenderer {
+        // TODO: Register VitaeExtractorItemStackRenderer for item via public void initializeClient(@Nonnull Consumer<IItemRenderProperties> consumer) {
+        // override fun getISTER(): ItemStackTileEntityRenderer {
+        //     return VitaeExtractorItemStackRenderer()
+        // }
+        TODO("Not yet implemented")
     }
 
-    override fun newBlockEntity(blockReader: IBlockReader): TileEntity {
+    override fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity {
         return VitaeExtractorTileEntity()
     }
 
@@ -166,16 +166,16 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
         return blockState.rotate(mirror.getRotation(blockState.getValue(FACING)))
     }
 
-    override fun getStateForPlacement(blockItemUseContext: BlockItemUseContext): BlockState {
+    override fun getStateForPlacement(blockItemUseContext: BlockPlaceContext): BlockState {
         return defaultBlockState().setValue(FACING, blockItemUseContext.horizontalDirection.opposite)
     }
 
-    override fun createBlockStateDefinition(builder: StateContainer.Builder<Block, BlockState>) {
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
         builder.add(FACING)
     }
 
     companion object {
         private val SHAPE = box(0.0, 0.0, 0.0, 16.0, 10.0, 16.0)
-        val FACING: DirectionProperty = HorizontalBlock.FACING
+        val FACING: DirectionProperty = HorizontalDirectionalBlock.FACING
     }
 }

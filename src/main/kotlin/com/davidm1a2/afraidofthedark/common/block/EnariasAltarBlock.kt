@@ -2,14 +2,14 @@ package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
 import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.EnariasAltarTileEntity
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.material.Material
-import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.shapes.ISelectionContext
-import net.minecraft.util.math.shapes.VoxelShape
-import net.minecraft.world.IBlockReader
+import net.minecraft.core.BlockPos
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.material.Material
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.VoxelShape
 
 /**
  * Enaria's altar block used in the nightmare to being crafting spells
@@ -22,11 +22,11 @@ class EnariasAltarBlock : AOTDTileEntityBlock(
         .lightLevel { 1 }
         .strength(50.0f, 1200.0f)
 ) {
-    override fun newBlockEntity(world: IBlockReader): TileEntity {
+    override fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity {
         return EnariasAltarTileEntity()
     }
 
-    override fun getShape(state: BlockState, world: IBlockReader, blockPos: BlockPos, context: ISelectionContext): VoxelShape {
+    override fun getShape(state: BlockState, world: BlockGetter, blockPos: BlockPos, context: CollisionContext): VoxelShape {
         return ENARIAS_ALTAR_SHAPE
     }
 

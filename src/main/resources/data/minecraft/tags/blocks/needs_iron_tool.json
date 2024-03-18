@@ -1,6 +1,14 @@
 {
   "replace": false,
   "values": [
-    "afraidofthedark:amorphous_eldritch_metal"
+    "afraidofthedark:amorphous_eldritch_metal",
+    "afraidofthedark:astral_silver_ore",
+    "afraidofthedark:gnomish_metal_plate",
+    "afraidofthedark:gnomish_metal_strut",
+    "afraidofthedark:igneous_block",
+    "afraidofthedark:meteor",
+    "afraidofthedark:star_metal_ore",
+    "afraidofthedark:sunstone_ore",
+    "afraidofthedark:void_chest"
   ]
 }

@@ -1,6 +1,29 @@
 {
   "replace": false,
   "values": [
-    "afraidofthedark:amorphous_eldritch_metal"
+    "afraidofthedark:amorphous_eldritch_metal",
+    "afraidofthedark:astral_silver_ore",
+    "afraidofthedark:crypt",
+    "afraidofthedark:dark_forest",
+    "afraidofthedark:desert_oasis",
+    "afraidofthedark:eldritch_obsidian",
+    "afraidofthedark:eldritch_stone",
+    "afraidofthedark:eldritch_stone_slab",
+    "afraidofthedark:eldritch_stone_stairs",
+    "afraidofthedark:eldritch_stone_wall",
+    "afraidofthedark:enarias_altar",
+    "afraidofthedark:enaria_spawner",
+    "afraidofthedark:frost_phoenix_spawner",
+    "afraidofthedark:gnomish_metal_plate",
+    "afraidofthedark:gnomish_metal_strut",
+    "afraidofthedark:igneous_block",
+    "afraidofthedark:magic_crystal",
+    "afraidofthedark:meteor",
+    "afraidofthedark:observatory",
+    "afraidofthedark:star_metal_ore",
+    "afraidofthedark:sunstone_ore",
+    "afraidofthedark:vitae_extractor",
+    "afraidofthedark:void_chest",
+    "afraidofthedark:witch_hut"
   ]
 }

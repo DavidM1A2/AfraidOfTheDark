@@ -1,26 +1,16 @@
 package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
-import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.tileEntity.EnariaSpawnerTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.GhastlyEnariaSpawnerTileEntity
-import net.minecraft.block.Block
-import net.minecraft.block.BlockRenderType
-import net.minecraft.block.BlockState
-import net.minecraft.block.HorizontalBlock
-import net.minecraft.block.material.Material
-import net.minecraft.item.BlockItemUseContext
-import net.minecraft.state.StateContainer
-import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.Direction
-import net.minecraft.util.Mirror
-import net.minecraft.util.Rotation
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.IBlockReader
-import net.minecraft.world.IWorld
-import net.minecraft.world.World
-import net.minecraftforge.common.ToolType
-import org.apache.logging.log4j.LogManager
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.level.LevelAccessor
+import net.minecraft.world.level.block.*
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.material.Material
 
 /**
  * Class representing the block that spawns enaria in the nightmare realm
@@ -31,58 +21,42 @@ class EnariaSpawnerBlock : AOTDTileEntityBlock(
     "enaria_spawner",
     Properties.of(Material.STONE)
         .strength(10.0f, 50.0f)
-        .harvestLevel(3)
-        .harvestTool(ToolType.PICKAXE)
 ) {
     init {
-        registerDefaultState(this.stateDefinition.any().setValue(HorizontalBlock.FACING, Direction.NORTH))
+        registerDefaultState(this.stateDefinition.any().setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH))
     }
 
     override fun displayInCreative(): Boolean {
         return false
     }
 
-    override fun getRenderShape(state: BlockState): BlockRenderType {
-        return BlockRenderType.MODEL
+    override fun getRenderShape(state: BlockState): RenderShape {
+        return RenderShape.MODEL
     }
 
-    override fun rotate(state: BlockState, world: IWorld, pos: BlockPos, rotation: Rotation): BlockState {
-        return state.setValue(HorizontalBlock.FACING, rotation.rotate(state.getValue(HorizontalBlock.FACING)))
+    override fun rotate(state: BlockState, world: LevelAccessor, pos: BlockPos, rotation: Rotation): BlockState {
+        return state.setValue(HorizontalDirectionalBlock.FACING, rotation.rotate(state.getValue(HorizontalDirectionalBlock.FACING)))
     }
 
     override fun rotate(state: BlockState, rotation: Rotation): BlockState {
-        return state.setValue(HorizontalBlock.FACING, rotation.rotate(state.getValue(HorizontalBlock.FACING)))
+        return state.setValue(HorizontalDirectionalBlock.FACING, rotation.rotate(state.getValue(HorizontalDirectionalBlock.FACING)))
     }
 
     override fun mirror(state: BlockState, mirrorIn: Mirror): BlockState {
-        return state.setValue(HorizontalBlock.FACING, mirrorIn.mirror(state.getValue(HorizontalBlock.FACING)))
+        return state.setValue(HorizontalDirectionalBlock.FACING, mirrorIn.mirror(state.getValue(HorizontalDirectionalBlock.FACING)))
     }
 
-    override fun getStateForPlacement(context: BlockItemUseContext): BlockState {
-        return this.defaultBlockState().setValue(HorizontalBlock.FACING, context.horizontalDirection)
+    override fun getStateForPlacement(context: BlockPlaceContext): BlockState {
+        return this.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, context.horizontalDirection)
     }
 
-    override fun createBlockStateDefinition(builder: StateContainer.Builder<Block, BlockState>) {
-        builder.add(HorizontalBlock.FACING)
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
+        builder.add(HorizontalDirectionalBlock.FACING)
     }
 
-    override fun newBlockEntity(world: IBlockReader): TileEntity? {
-        val dimType = when (world) {
-            is World -> world.dimension()
-            else -> throw IllegalStateException("Can't determine the world type for IBlockReader ${world::class.java.simpleName}")
-        }
-        // In the overworld we spawn a regular enaria, in the nightmare we spawn a ghastly enaria
-        return when (dimType) {
-            World.OVERWORLD -> EnariaSpawnerTileEntity()
-            ModDimensions.NIGHTMARE_WORLD -> GhastlyEnariaSpawnerTileEntity()
-            else -> {
-                LOGGER.warn("BlockEnariaSpawner should not exist in this dimension, defaulting to a NO-OP TileEntity.")
-                null
-            }
-        }
-    }
-
-    companion object {
-        private val LOGGER = LogManager.getLogger()
+    override fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity {
+        // TODO: Find a way to split Enaria & GhastlyEnariaSpawner TileEntities. Perhaps need to consolidate TEs, or make separate blocks
+        return EnariaSpawnerTileEntity()
+        // return GhastlyEnariaSpawnerTileEntity()?
     }
 }

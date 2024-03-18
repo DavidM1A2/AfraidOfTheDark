@@ -3,32 +3,30 @@ package com.davidm1a2.afraidofthedark.common.block
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlock
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.IGrowable
-import net.minecraft.block.SoundType
-import net.minecraft.block.material.Material
-import net.minecraft.entity.Entity
-import net.minecraft.entity.MobEntity
-import net.minecraft.entity.item.ItemEntity
-import net.minecraft.pathfinding.PathNodeType
-import net.minecraft.pathfinding.PathType
-import net.minecraft.state.IntegerProperty
-import net.minecraft.state.StateContainer
-import net.minecraft.util.DamageSource
-import net.minecraft.util.Direction
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.shapes.ISelectionContext
-import net.minecraft.util.math.shapes.VoxelShape
-import net.minecraft.world.IBlockReader
-import net.minecraft.world.IWorld
-import net.minecraft.world.IWorldReader
-import net.minecraft.world.World
-import net.minecraft.world.server.ServerWorld
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.Mob
+import net.minecraft.world.entity.item.ItemEntity
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelAccessor
+import net.minecraft.world.level.LevelReader
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.BonemealableBlock
+import net.minecraft.world.level.block.SoundType
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.IntegerProperty
+import net.minecraft.world.level.material.Material
+import net.minecraft.world.level.pathfinder.BlockPathTypes
+import net.minecraft.world.level.pathfinder.PathComputationType
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.VoxelShape
 import net.minecraftforge.common.IPlantable
 import net.minecraftforge.common.PlantType
-import net.minecraftforge.common.util.Constants
-import net.minecraftforge.common.util.Constants.BlockFlags
 import java.util.*
 
 /**
@@ -42,12 +40,12 @@ class ImbuedCactusBlock : AOTDBlock(
         .randomTicks()
         .sound(SoundType.WOOL)
         .strength(0.4f)
-), IPlantable, IGrowable {
+), IPlantable, BonemealableBlock {
     init {
         registerDefaultState(stateDefinition.any().setValue(AGE, 0))
     }
 
-    override fun tick(state: BlockState, world: ServerWorld, pos: BlockPos, rand: Random) {
+    override fun tick(state: BlockState, world: ServerLevel, pos: BlockPos, rand: Random) {
         if (!world.isAreaLoaded(pos, 1)) {
             return // Forge: prevent growing cactus from loading unloaded chunks with block update
         }
@@ -77,23 +75,23 @@ class ImbuedCactusBlock : AOTDBlock(
 
                     // If we're at max height, grow a blossom, otherwise grow a cactus block
                     if (currentHeight == MAX_HEIGHT) {
-                        world.setBlock(pos.above(), ModBlocks.IMBUED_CACTUS_BLOSSOM.defaultBlockState(), Constants.BlockFlags.DEFAULT)
+                        world.setBlock(pos.above(), ModBlocks.IMBUED_CACTUS_BLOSSOM.defaultBlockState(), UPDATE_ALL)
                     } else {
-                        world.setBlock(pos.above(), this.defaultBlockState(), Constants.BlockFlags.DEFAULT)
+                        world.setBlock(pos.above(), this.defaultBlockState(), UPDATE_ALL)
                     }
                 }
 
                 // Update age
-                world.setBlock(pos, state.setValue(AGE, age), BlockFlags.DEFAULT)
+                world.setBlock(pos, state.setValue(AGE, age), UPDATE_ALL)
             }
         }
     }
 
-    override fun getCollisionShape(blockState: BlockState, worldIn: IBlockReader, pos: BlockPos, context: ISelectionContext): VoxelShape {
+    override fun getCollisionShape(blockState: BlockState, worldIn: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
         return CACTUS_COLLISION_SHAPE
     }
 
-    override fun getShape(blockState: BlockState, worldIn: IBlockReader, pos: BlockPos, context: ISelectionContext): VoxelShape {
+    override fun getShape(blockState: BlockState, worldIn: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
         return CACTUS_SHAPE
     }
 
@@ -101,7 +99,7 @@ class ImbuedCactusBlock : AOTDBlock(
         state: BlockState,
         facing: Direction,
         facingState: BlockState,
-        world: IWorld,
+        world: LevelAccessor,
         currentPos: BlockPos,
         facingPos: BlockPos
     ): BlockState {
@@ -113,7 +111,7 @@ class ImbuedCactusBlock : AOTDBlock(
         return super.updateShape(state, facing, facingState, world, currentPos, facingPos)
     }
 
-    override fun canSurvive(state: BlockState, world: IWorldReader, pos: BlockPos): Boolean {
+    override fun canSurvive(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
         val blockStateBelow = world.getBlockState(pos.below())
         return blockStateBelow.block.canSustainPlant(
             blockStateBelow,
@@ -126,7 +124,7 @@ class ImbuedCactusBlock : AOTDBlock(
 
     override fun canSustainPlant(
         iBlockState: BlockState,
-        world: IBlockReader,
+        world: BlockGetter,
         blockPos: BlockPos,
         facing: Direction,
         iPlantable: IPlantable
@@ -135,33 +133,33 @@ class ImbuedCactusBlock : AOTDBlock(
         return plantStateToPlace.block == this || plantStateToPlace.block == ModBlocks.IMBUED_CACTUS_BLOSSOM
     }
 
-    override fun entityInside(state: BlockState, world: World, blockPos: BlockPos, entity: Entity) {
+    override fun entityInside(state: BlockState, world: Level, blockPos: BlockPos, entity: Entity) {
         if (entity !is ItemEntity || entity.item.item != ModItems.DESERT_FRUIT) {
             entity.hurt(DamageSource.CACTUS, 2.0f)
         }
     }
 
-    override fun createBlockStateDefinition(builder: StateContainer.Builder<Block, BlockState>) {
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
         builder.add(AGE)
     }
 
-    override fun isPathfindable(state: BlockState, world: IBlockReader, blockPos: BlockPos, pathType: PathType): Boolean {
+    override fun isPathfindable(state: BlockState, world: BlockGetter, blockPos: BlockPos, pathType: PathComputationType): Boolean {
         return false
     }
 
-    override fun getAiPathNodeType(blockState: BlockState, world: IBlockReader, pos: BlockPos, entity: MobEntity?): PathNodeType {
-        return PathNodeType.DAMAGE_CACTUS
+    override fun getAiPathNodeType(blockState: BlockState, world: BlockGetter, pos: BlockPos, entity: Mob?): BlockPathTypes {
+        return BlockPathTypes.DAMAGE_CACTUS
     }
 
-    override fun getPlantType(world: IBlockReader?, pos: BlockPos?): PlantType {
+    override fun getPlantType(world: BlockGetter?, pos: BlockPos?): PlantType {
         return PlantType.DESERT
     }
 
-    override fun getPlant(world: IBlockReader?, pos: BlockPos?): BlockState {
+    override fun getPlant(world: BlockGetter?, pos: BlockPos?): BlockState {
         return defaultBlockState()
     }
 
-    override fun isValidBonemealTarget(world: IBlockReader, blockPos: BlockPos, blockState: BlockState, isClientSide: Boolean): Boolean {
+    override fun isValidBonemealTarget(world: BlockGetter, blockPos: BlockPos, blockState: BlockState, isClientSide: Boolean): Boolean {
         // Compute the number of cactus blocks stacked
         var currentHeight = 0
         for (yOffset in 0 until MAX_HEIGHT) {
@@ -179,12 +177,12 @@ class ImbuedCactusBlock : AOTDBlock(
         return world.getBlockState(blockPos.above()).isAir
     }
 
-    override fun isBonemealSuccess(world: World, random: Random, blockPos: BlockPos, blockState: BlockState): Boolean {
+    override fun isBonemealSuccess(world: Level, random: Random, blockPos: BlockPos, blockState: BlockState): Boolean {
         return random.nextDouble() < 0.4
     }
 
-    override fun performBonemeal(world: ServerWorld, random: Random, blockPos: BlockPos, blockState: BlockState) {
-        world.setBlock(blockPos.above(), ModBlocks.IMBUED_CACTUS_BLOSSOM.defaultBlockState(), BlockFlags.DEFAULT)
+    override fun performBonemeal(world: ServerLevel, random: Random, blockPos: BlockPos, blockState: BlockState) {
+        world.setBlock(blockPos.above(), ModBlocks.IMBUED_CACTUS_BLOSSOM.defaultBlockState(), UPDATE_ALL)
     }
 
     companion object {

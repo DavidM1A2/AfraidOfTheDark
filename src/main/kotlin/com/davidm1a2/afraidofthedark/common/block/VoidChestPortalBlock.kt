@@ -7,12 +7,12 @@ import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.dimension.teleport
 import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
-import net.minecraft.block.BlockState
-import net.minecraft.block.material.Material
-import net.minecraft.entity.Entity
-import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.core.BlockPos
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.material.Material
 import net.minecraftforge.common.MinecraftForge
 
 /**
@@ -32,11 +32,11 @@ class VoidChestPortalBlock : AOTDBlock(
         return false
     }
 
-    override fun entityInside(state: BlockState, world: World, blockPos: BlockPos, entity: Entity) {
+    override fun entityInside(state: BlockState, world: Level, blockPos: BlockPos, entity: Entity) {
         // Server side processing only
         if (!world.isClientSide) {
             // Test if the entity is a player
-            if (entity is ServerPlayerEntity) {
+            if (entity is ServerPlayer) {
                 // This is a safeguard to ensure players get the SNOWY_ANOMALY research if they mine into a void chest instead of going through the amorphous eldritch metal
                 MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(entity, ModResearches.SNOWY_ANOMALY))
 

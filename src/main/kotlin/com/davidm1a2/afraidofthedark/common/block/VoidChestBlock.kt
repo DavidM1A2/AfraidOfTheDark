@@ -5,26 +5,25 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.tileEntity.VoidChestTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import net.minecraft.block.Block
-import net.minecraft.block.BlockRenderType
-import net.minecraft.block.BlockState
-import net.minecraft.block.HorizontalBlock
-import net.minecraft.block.material.Material
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.BlockItemUseContext
-import net.minecraft.state.StateContainer
-import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.ActionResultType
-import net.minecraft.util.Direction
-import net.minecraft.util.Hand
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.BlockRayTraceResult
-import net.minecraft.util.math.shapes.ISelectionContext
-import net.minecraft.util.math.shapes.VoxelShape
-import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.IBlockReader
-import net.minecraft.world.World
-import net.minecraftforge.common.ToolType
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
+import net.minecraft.world.level.block.RenderShape
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.material.Material
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.VoxelShape
 
 /**
  * Class representing a void chest that will be a tile entity as well
@@ -35,35 +34,33 @@ class VoidChestBlock : AOTDTileEntityBlock(
     "void_chest",
     Properties.of(Material.STONE)
         .strength(4.0f, 50.0f)
-        .harvestLevel(2)
-        .harvestTool(ToolType.PICKAXE)
         .requiresCorrectToolForDrops()
 ) {
     init {
         registerDefaultState(stateDefinition.any().setValue(FACING_PROPERTY, Direction.NORTH))
     }
 
-    override fun getRenderShape(state: BlockState): BlockRenderType {
-        return BlockRenderType.ENTITYBLOCK_ANIMATED
+    override fun getRenderShape(state: BlockState): RenderShape {
+        return RenderShape.ENTITYBLOCK_ANIMATED
     }
 
-    override fun getShape(state: BlockState, world: IBlockReader, blockPos: BlockPos, context: ISelectionContext): VoxelShape {
+    override fun getShape(state: BlockState, world: BlockGetter, blockPos: BlockPos, context: CollisionContext): VoxelShape {
         return VOID_CHEST_SHAPE
     }
 
-    override fun getStateForPlacement(context: BlockItemUseContext): BlockState? {
+    override fun getStateForPlacement(context: BlockPlaceContext): BlockState? {
         // Face the block depending on the placer's horizontal facing
         return this.defaultBlockState().setValue(FACING_PROPERTY, context.horizontalDirection.opposite)
     }
 
     override fun use(
         state: BlockState,
-        worldIn: World,
+        worldIn: Level,
         pos: BlockPos,
-        playerIn: PlayerEntity,
-        hand: Hand,
-        result: BlockRayTraceResult
-    ): ActionResultType {
+        playerIn: Player,
+        hand: InteractionHand,
+        result: BlockHitResult
+    ): InteractionResult {
         // Test if the tile entity at this position is a void chest (it should be!)
         val tileEntity = worldIn.getBlockEntity(pos)
         if (tileEntity is VoidChestTileEntity) {
@@ -72,23 +69,23 @@ class VoidChestBlock : AOTDTileEntityBlock(
                 // Let the player interact with the chest
                 tileEntity.interact(playerIn)
             } else if (!worldIn.isClientSide) {
-                playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.void_chest.dont_understand"))
+                playerIn.sendMessage(TranslatableComponent("message.afraidofthedark.void_chest.dont_understand"))
             }
         }
-        return ActionResultType.SUCCESS
+        return InteractionResult.SUCCESS
     }
 
-    override fun createBlockStateDefinition(builder: StateContainer.Builder<Block, BlockState>) {
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
         builder.add(FACING_PROPERTY)
     }
 
-    override fun newBlockEntity(world: IBlockReader): TileEntity {
+    override fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity {
         return VoidChestTileEntity()
     }
 
     companion object {
         // The facing property of the void chest which tells it which way to open/close
-        private val FACING_PROPERTY = HorizontalBlock.FACING
+        private val FACING_PROPERTY = HorizontalDirectionalBlock.FACING
 
         // The hitbox of the chest is smaller than usual
         private val VOID_CHEST_SHAPE = Block.box(1.0, 0.0, 1.0, 15.0, 14.0, 15.0)

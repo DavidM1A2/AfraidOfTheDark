@@ -3,26 +3,26 @@ package com.davidm1a2.afraidofthedark.common.block
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
 import com.davidm1a2.afraidofthedark.common.block.core.IShowBlockCreative
 import com.davidm1a2.afraidofthedark.common.tileEntity.DroppedJournalTileEntity
-import net.minecraft.block.BlockState
-import net.minecraft.block.Blocks
-import net.minecraft.block.material.Material
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.pathfinding.PathType
-import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.ActionResultType
-import net.minecraft.util.Direction
-import net.minecraft.util.Hand
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.BlockRayTraceResult
-import net.minecraft.util.math.RayTraceResult
-import net.minecraft.util.math.shapes.ISelectionContext
-import net.minecraft.util.math.shapes.VoxelShape
-import net.minecraft.world.IBlockReader
-import net.minecraft.world.IWorld
-import net.minecraft.world.IWorldReader
-import net.minecraft.world.World
-import net.minecraft.world.server.ServerWorld
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelAccessor
+import net.minecraft.world.level.LevelReader
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.material.Material
+import net.minecraft.world.level.pathfinder.PathComputationType
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.HitResult
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.*
 
 class DroppedJournalBlock : AOTDTileEntityBlock(
@@ -37,12 +37,12 @@ class DroppedJournalBlock : AOTDTileEntityBlock(
 
     override fun use(
         state: BlockState,
-        world: World,
+        world: Level,
         pos: BlockPos,
-        player: PlayerEntity,
-        hand: Hand,
-        result: BlockRayTraceResult
-    ): ActionResultType {
+        player: Player,
+        hand: InteractionHand,
+        result: BlockHitResult
+    ): InteractionResult {
         if (!world.isClientSide) {
             val droppedJournal = world.getBlockEntity(pos)
             if (droppedJournal is DroppedJournalTileEntity) {
@@ -50,10 +50,10 @@ class DroppedJournalBlock : AOTDTileEntityBlock(
                 world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState())
             }
         }
-        return ActionResultType.SUCCESS
+        return InteractionResult.SUCCESS
     }
 
-    override fun getPickBlock(state: BlockState, target: RayTraceResult, world: IBlockReader, pos: BlockPos, player: PlayerEntity): ItemStack {
+    override fun getPickBlock(state: BlockState, target: HitResult, world: BlockGetter, pos: BlockPos, player: Player): ItemStack {
         val droppedJournal = world.getBlockEntity(pos)
         if (droppedJournal is DroppedJournalTileEntity) {
             return droppedJournal.journalItem
@@ -61,7 +61,7 @@ class DroppedJournalBlock : AOTDTileEntityBlock(
         return ItemStack.EMPTY
     }
 
-    override fun tick(blockState: BlockState, world: ServerWorld, blockPos: BlockPos, random: Random) {
+    override fun tick(blockState: BlockState, world: ServerLevel, blockPos: BlockPos, random: Random) {
         if (!world.isAreaLoaded(blockPos, 1)) {
             return
         }
@@ -71,32 +71,32 @@ class DroppedJournalBlock : AOTDTileEntityBlock(
         }
     }
 
-    override fun updateShape(blockState: BlockState, direction: Direction, sideState: BlockState, world: IWorld, blockPos: BlockPos, sidePos: BlockPos): BlockState? {
+    override fun updateShape(blockState: BlockState, direction: Direction, sideState: BlockState, world: LevelAccessor, blockPos: BlockPos, sidePos: BlockPos): BlockState? {
         if (!blockState.canSurvive(world, blockPos)) {
             world.blockTicks.scheduleTick(blockPos, this, 1)
         }
         return super.updateShape(blockState, direction, sideState, world, blockPos, sidePos)
     }
 
-    override fun canSurvive(blockState: BlockState, worldReader: IWorldReader, blockPos: BlockPos): Boolean {
+    override fun canSurvive(blockState: BlockState, worldReader: LevelReader, blockPos: BlockPos): Boolean {
         val belowPos = blockPos.below()
         val belowState = worldReader.getBlockState(belowPos)
         return belowState.isCollisionShapeFullBlock(worldReader, belowPos) && belowState.material.blocksMotion()
     }
 
-    override fun isPathfindable(blockState: BlockState, blockReader: IBlockReader, blockPos: BlockPos, pathType: PathType): Boolean {
-        return if (pathType == PathType.AIR) true else super.isPathfindable(blockState, blockReader, blockPos, pathType)
+    override fun isPathfindable(blockState: BlockState, blockReader: BlockGetter, blockPos: BlockPos, pathType: PathComputationType): Boolean {
+        return if (pathType == PathComputationType.AIR) true else super.isPathfindable(blockState, blockReader, blockPos, pathType)
     }
 
-    override fun propagatesSkylightDown(blockState: BlockState, iBlockReader: IBlockReader, blockPos: BlockPos): Boolean {
+    override fun propagatesSkylightDown(blockState: BlockState, iBlockReader: BlockGetter, blockPos: BlockPos): Boolean {
         return true
     }
 
-    override fun newBlockEntity(blockReader: IBlockReader): TileEntity {
+    override fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity {
         return DroppedJournalTileEntity()
     }
 
-    override fun getShape(blockState: BlockState, worldIn: IBlockReader, pos: BlockPos, context: ISelectionContext): VoxelShape {
+    override fun getShape(blockState: BlockState, worldIn: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
         return DROPPED_JOURNAL_SHAPE
     }
 

@@ -1,5 +1,11 @@
 {
   "replace": false,
   "values": [
+    "afraidofthedark:eldritch_stone",
+    "afraidofthedark:eldritch_stone_slab",
+    "afraidofthedark:eldritch_stone_stairs",
+    "afraidofthedark:eldritch_stone_wall",
+    "afraidofthedark:enarias_altar",
+    "afraidofthedark:vitae_extractor"
   ]
 }

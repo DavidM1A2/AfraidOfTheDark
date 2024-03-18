@@ -7,42 +7,39 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import com.davidm1a2.afraidofthedark.common.tileEntity.MagicCrystalTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import net.minecraft.block.Block
-import net.minecraft.block.BlockRenderType
-import net.minecraft.block.BlockState
-import net.minecraft.block.material.Material
-import net.minecraft.block.material.PushReaction
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.BlockItemUseContext
-import net.minecraft.item.ItemStack
-import net.minecraft.state.BooleanProperty
-import net.minecraft.state.StateContainer
-import net.minecraft.state.properties.BlockStateProperties
-import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.ActionResultType
-import net.minecraft.util.Direction
-import net.minecraft.util.Hand
-import net.minecraft.util.math.AxisAlignedBB
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.BlockRayTraceResult
-import net.minecraft.util.math.shapes.ISelectionContext
-import net.minecraft.util.math.shapes.VoxelShape
-import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.IBlockReader
-import net.minecraft.world.IWorld
-import net.minecraft.world.World
-import net.minecraft.world.server.ServerWorld
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelAccessor
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.RenderShape
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.level.block.state.properties.BooleanProperty
+import net.minecraft.world.level.material.Material
+import net.minecraft.world.level.material.PushReaction
+import net.minecraft.world.phys.AABB
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.VoxelShape
 import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.common.ToolType
-import java.util.Random
+import java.util.*
 
 class MagicCrystalBlock : AOTDTileEntityBlock(
     "magic_crystal",
     Properties.of(Material.STONE)
         .strength(20.0f, 100.0f)
-        .harvestLevel(3)
-        .harvestTool(ToolType.PICKAXE)
 ) {
     init {
         registerDefaultState(this.stateDefinition.any().setValue(BOTTOM, false))
@@ -52,7 +49,7 @@ class MagicCrystalBlock : AOTDTileEntityBlock(
         return blockState.getOptionalValue(BOTTOM).orElse(false)
     }
 
-    override fun setPlacedBy(world: World, blockPos: BlockPos, blockState: BlockState, livingEntity: LivingEntity?, itemStack: ItemStack) {
+    override fun setPlacedBy(world: Level, blockPos: BlockPos, blockState: BlockState, livingEntity: LivingEntity?, itemStack: ItemStack) {
         if (!world.isClientSide) {
             for (i in 1 until BLOCK_HEIGHT) {
                 if (world.getBlockState(blockPos.above(i)).material.isReplaceable) {
@@ -69,7 +66,7 @@ class MagicCrystalBlock : AOTDTileEntityBlock(
         state: BlockState,
         facing: Direction,
         facingState: BlockState,
-        world: IWorld,
+        world: LevelAccessor,
         currentPos: BlockPos,
         facingPos: BlockPos
     ): BlockState {
@@ -81,13 +78,13 @@ class MagicCrystalBlock : AOTDTileEntityBlock(
         return super.updateShape(state, facing, facingState, world, currentPos, facingPos)
     }
 
-    override fun tick(state: BlockState, world: ServerWorld, pos: BlockPos, rand: Random) {
+    override fun tick(state: BlockState, world: ServerLevel, pos: BlockPos, rand: Random) {
         if (!isValid(world, pos)) {
             world.destroyBlock(pos, true)
         }
     }
 
-    private fun isValid(world: IBlockReader, pos: BlockPos): Boolean {
+    private fun isValid(world: LevelAccessor, pos: BlockPos): Boolean {
         if (isBottom(world.getBlockState(pos))) {
             for (i in 1 until BLOCK_HEIGHT) {
                 if (world.getBlockState(pos.above(i)).block != this) {
@@ -112,13 +109,13 @@ class MagicCrystalBlock : AOTDTileEntityBlock(
         }
     }
 
-    override fun getStateForPlacement(context: BlockItemUseContext): BlockState? {
+    override fun getStateForPlacement(context: BlockPlaceContext): BlockState? {
         // Don't place this too close to the top of the world
-        if (World.isOutsideBuildHeight(context.clickedPos.above(BLOCK_HEIGHT - 1))) {
+        if (context.level.isOutsideBuildHeight(context.clickedPos.above(BLOCK_HEIGHT - 1))) {
             return null
         }
 
-        val numBlockingEntities = context.level.getEntitiesOfClass(LivingEntity::class.java, AxisAlignedBB(context.clickedPos).expandTowards(0.0, BLOCK_HEIGHT - 1.0, 0.0)).size
+        val numBlockingEntities = context.level.getEntitiesOfClass(LivingEntity::class.java, AABB(context.clickedPos).expandTowards(0.0, BLOCK_HEIGHT - 1.0, 0.0)).size
         if (numBlockingEntities > 0) {
             return null
         }
@@ -133,13 +130,13 @@ class MagicCrystalBlock : AOTDTileEntityBlock(
         return defaultBlockState().setValue(BOTTOM, true)
     }
 
-    override fun use(blockState: BlockState, world: World, blockPos: BlockPos, player: PlayerEntity, hand: Hand, rayTraceResult: BlockRayTraceResult): ActionResultType {
+    override fun use(blockState: BlockState, world: Level, blockPos: BlockPos, player: Player, hand: InteractionHand, rayTraceResult: BlockHitResult): InteractionResult {
         val research = player.getResearch()
         if (!research.isResearched(ModResearches.ELEMENTAL_MAGIC)) {
             if (!world.isClientSide) {
-                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+                player.sendMessage(TranslatableComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
-            return ActionResultType.CONSUME
+            return InteractionResult.CONSUME
         }
 
         if (!world.isClientSide) {
@@ -152,33 +149,33 @@ class MagicCrystalBlock : AOTDTileEntityBlock(
                 vitaePercent < 1.0 -> "three_quarters"
                 else -> "full"
             }
-            player.sendMessage(TranslationTextComponent("message.afraidofthedark.magic_crystal.$translationKey"))
+            player.sendMessage(TranslatableComponent("message.afraidofthedark.magic_crystal.$translationKey"))
             MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(player, ModResearches.ADVANCED_MAGIC))
         }
-        return ActionResultType.SUCCESS
+        return InteractionResult.SUCCESS
     }
 
     override fun getPistonPushReaction(blockState: BlockState): PushReaction {
         return PushReaction.BLOCK
     }
 
-    override fun getRenderShape(blockState: BlockState): BlockRenderType {
-        return BlockRenderType.ENTITYBLOCK_ANIMATED
+    override fun getRenderShape(blockState: BlockState): RenderShape {
+        return RenderShape.ENTITYBLOCK_ANIMATED
     }
 
-    override fun newBlockEntity(world: IBlockReader): TileEntity {
+    override fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity {
         return MagicCrystalTileEntity()
     }
 
-    override fun getCollisionShape(blockState: BlockState, worldIn: IBlockReader, pos: BlockPos, context: ISelectionContext): VoxelShape {
+    override fun getCollisionShape(blockState: BlockState, worldIn: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
         return SHAPE
     }
 
-    override fun getShape(blockState: BlockState, worldIn: IBlockReader, pos: BlockPos, context: ISelectionContext): VoxelShape {
+    override fun getShape(blockState: BlockState, worldIn: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
         return SHAPE
     }
 
-    override fun createBlockStateDefinition(builder: StateContainer.Builder<Block, BlockState>) {
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
         builder.add(BOTTOM)
     }
 
