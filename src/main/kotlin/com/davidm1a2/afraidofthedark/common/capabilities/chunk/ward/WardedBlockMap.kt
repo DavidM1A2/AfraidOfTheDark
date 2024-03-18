@@ -3,11 +3,11 @@ package com.davidm1a2.afraidofthedark.common.capabilities.chunk.ward
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getWardedBlockMap
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.WardBlocksPacket
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.ChunkPos
-import net.minecraft.world.World
+import net.minecraft.core.BlockPos
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.level.Level
 import org.apache.logging.log4j.LogManager
 
 class WardedBlockMap : IWardedBlockMap {
@@ -27,7 +27,7 @@ class WardedBlockMap : IWardedBlockMap {
         map[chunkAdjustedPos.asLong()] = strength
     }
 
-    override fun sync(world: World, chunkPos: ChunkPos, playerEntity: PlayerEntity?, blockPos: BlockPos?) {
+    override fun sync(world: Level, chunkPos: ChunkPos, playerEntity: Player?, blockPos: BlockPos?) {
         if (world.isClientSide) {
             throw IllegalStateException("Only a server can sync warded blocks to clients")
         }
@@ -49,7 +49,7 @@ class WardedBlockMap : IWardedBlockMap {
                 if (playerEntity == null) {
                     AfraidOfTheDark.packetHandler.sendToChunk(packet, chunk)
                 } else {
-                    AfraidOfTheDark.packetHandler.sendTo(packet, playerEntity as ServerPlayerEntity)
+                    AfraidOfTheDark.packetHandler.sendTo(packet, playerEntity as ServerPlayer)
                 }
             }
 

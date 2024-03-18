@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.chunk.ward
 
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.ChunkPos
-import net.minecraft.world.World
+import net.minecraft.core.BlockPos
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.level.Level
 
 interface IWardedBlockMap {
     /**
@@ -35,5 +35,5 @@ interface IWardedBlockMap {
      * @param playerEntity The player to sync the data to. If null, all players watching the chunk are sent the data
      * @param blockPos An optional blockPos to sync the warded strength for. If omitted the entire map is synced
      */
-    fun sync(world: World, chunkPos: ChunkPos, playerEntity: PlayerEntity? = null, blockPos: BlockPos? = null)
+    fun sync(world: Level, chunkPos: ChunkPos, playerEntity: Player? = null, blockPos: BlockPos? = null)
 }

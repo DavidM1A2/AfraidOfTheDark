@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.capabilities
 
-import net.minecraft.nbt.INBT
-import net.minecraft.util.Direction
+import net.minecraft.core.Direction
+import net.minecraft.nbt.Tag
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.util.LazyOptional
 
@@ -11,7 +11,7 @@ import net.minecraftforge.common.util.LazyOptional
  * @property capability The capability
  * @property capabilityInstance The default instance of the capability
  */
-class CapabilityProvider<T>(private val capability: Capability<T>) : INullableCapabilitySerializable<INBT> {
+class CapabilityProvider<T>(private val capability: Capability<T>) : INullableCapabilitySerializable<Tag> {
     private val capabilityInstance = capability.defaultInstance
 
     /**
@@ -33,7 +33,7 @@ class CapabilityProvider<T>(private val capability: Capability<T>) : INullableCa
      *
      * @return The NBTTagCompound representing this capability
      */
-    override fun serializeNBT(): INBT {
+    override fun serializeNBT(): Tag {
         return this.capability.storage.writeNBT(this.capability, this.capabilityInstance, null)!!
     }
 
@@ -42,7 +42,7 @@ class CapabilityProvider<T>(private val capability: Capability<T>) : INullableCa
      *
      * @param nbt The NBT tag compound to read from
      */
-    override fun deserializeNBT(nbt: INBT) {
+    override fun deserializeNBT(nbt: Tag) {
         this.capability.storage.readNBT(this.capability, this.capabilityInstance, null, nbt)
     }
 }

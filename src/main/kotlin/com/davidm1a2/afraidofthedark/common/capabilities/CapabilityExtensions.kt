@@ -6,31 +6,26 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.IPlaye
 import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.IPlayerVoidChestData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.research.IPlayerResearch
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IPlayerSpellManager
-import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellCharmData
-import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellFreezeData
-import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellInnateData
-import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellLunarData
-import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellSolarData
-import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IPlayerSpellThermalData
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.*
 import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.IWorldIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.IWorldSpellStates
 import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.IWorldStructureMapper
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.world.World
-import net.minecraft.world.chunk.Chunk
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.chunk.LevelChunk
 
 // Extension functions to access these player capabilities more easily
 
-fun PlayerEntity.hasStartedAOTD(): Boolean {
+fun Player.hasStartedAOTD(): Boolean {
     return getResearch().isResearched(ModResearches.THE_JOURNEY_BEGINS)
 }
 
 /**
  * @return The player's 'PLAYER_BASICS' capability
  */
-fun PlayerEntity.getBasics(): IAOTDPlayerBasics {
+fun Player.getBasics(): IAOTDPlayerBasics {
     return this.getCapability(ModCapabilities.PLAYER_BASICS).orElseThrow {
         IllegalStateException("Could not get player's basics")
     }
@@ -39,7 +34,7 @@ fun PlayerEntity.getBasics(): IAOTDPlayerBasics {
 /**
  * @return The player's 'PLAYER_RESEARCH' capability
  */
-fun PlayerEntity.getResearch(): IPlayerResearch {
+fun Player.getResearch(): IPlayerResearch {
     return this.getCapability(ModCapabilities.PLAYER_RESEARCH).orElseThrow {
         IllegalStateException("Could not get player's research")
     }
@@ -48,7 +43,7 @@ fun PlayerEntity.getResearch(): IPlayerResearch {
 /**
  * @return The player's 'PLAYER_VOID_CHEST_DATA' capability
  */
-fun PlayerEntity.getVoidChestData(): IPlayerVoidChestData {
+fun Player.getVoidChestData(): IPlayerVoidChestData {
     return this.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA).orElseThrow {
         IllegalStateException("Could not get player's void chest data")
     }
@@ -57,7 +52,7 @@ fun PlayerEntity.getVoidChestData(): IPlayerVoidChestData {
 /**
  * @return The player's 'PLAYER_NIGHTMARE_DATA' capability
  */
-fun PlayerEntity.getNightmareData(): IPlayerNightmareData {
+fun Player.getNightmareData(): IPlayerNightmareData {
     return this.getCapability(ModCapabilities.PLAYER_NIGHTMARE_DATA).orElseThrow {
         IllegalStateException("Could not get player's nightmare data")
     }
@@ -66,7 +61,7 @@ fun PlayerEntity.getNightmareData(): IPlayerNightmareData {
 /**
  * @return The player's 'PLAYER_SPELL_MANAGER' capability
  */
-fun PlayerEntity.getSpellManager(): IPlayerSpellManager {
+fun Player.getSpellManager(): IPlayerSpellManager {
     return this.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER).orElseThrow {
         IllegalStateException("Could not get player's spell manager")
     }
@@ -75,7 +70,7 @@ fun PlayerEntity.getSpellManager(): IPlayerSpellManager {
 /**
  * @return The player's 'PLAYER_SPELL_FREEZE_DATA' capability
  */
-fun PlayerEntity.getSpellFreezeData(): IPlayerSpellFreezeData {
+fun Player.getSpellFreezeData(): IPlayerSpellFreezeData {
     return this.getCapability(ModCapabilities.PLAYER_SPELL_FREEZE_DATA).orElseThrow {
         IllegalStateException("Could not get player's freeze data")
     }
@@ -84,7 +79,7 @@ fun PlayerEntity.getSpellFreezeData(): IPlayerSpellFreezeData {
 /**
  * @return The player's 'PLAYER_SPELL_CHARM_DATA' capability
  */
-fun PlayerEntity.getSpellCharmData(): IPlayerSpellCharmData {
+fun Player.getSpellCharmData(): IPlayerSpellCharmData {
     return this.getCapability(ModCapabilities.PLAYER_SPELL_CHARM_DATA).orElseThrow {
         IllegalStateException("Could not get player's charm data")
     }
@@ -93,7 +88,7 @@ fun PlayerEntity.getSpellCharmData(): IPlayerSpellCharmData {
 /**
  * @return The player's 'PLAYER_SPELL_LUNAR_DATA' capability
  */
-fun PlayerEntity.getSpellLunarData(): IPlayerSpellLunarData {
+fun Player.getSpellLunarData(): IPlayerSpellLunarData {
     return this.getCapability(ModCapabilities.PLAYER_SPELL_LUNAR_DATA).orElseThrow {
         IllegalStateException("Could not get player's lunar data")
     }
@@ -102,7 +97,7 @@ fun PlayerEntity.getSpellLunarData(): IPlayerSpellLunarData {
 /**
  * @return The player's 'PLAYER_SPELL_SOLAR_DATA' capability
  */
-fun PlayerEntity.getSpellSolarData(): IPlayerSpellSolarData {
+fun Player.getSpellSolarData(): IPlayerSpellSolarData {
     return this.getCapability(ModCapabilities.PLAYER_SPELL_SOLAR_DATA).orElseThrow {
         IllegalStateException("Could not get player's solar data")
     }
@@ -111,7 +106,7 @@ fun PlayerEntity.getSpellSolarData(): IPlayerSpellSolarData {
 /**
  * @return The player's 'PLAYER_SPELL_THERMAL_DATA' capability
  */
-fun PlayerEntity.getSpellThermalData(): IPlayerSpellThermalData {
+fun Player.getSpellThermalData(): IPlayerSpellThermalData {
     return this.getCapability(ModCapabilities.PLAYER_SPELL_THERMAL_DATA).orElseThrow {
         IllegalStateException("Could not get player's thermal data")
     }
@@ -120,7 +115,7 @@ fun PlayerEntity.getSpellThermalData(): IPlayerSpellThermalData {
 /**
  * @return The player's 'PLAYER_SPELL_INNATE_DATA' capability
  */
-fun PlayerEntity.getSpellInnateData(): IPlayerSpellInnateData {
+fun Player.getSpellInnateData(): IPlayerSpellInnateData {
     return this.getCapability(ModCapabilities.PLAYER_SPELL_INNATE_DATA).orElseThrow {
         IllegalStateException("Could not get the player's innate data")
     }
@@ -129,7 +124,7 @@ fun PlayerEntity.getSpellInnateData(): IPlayerSpellInnateData {
 /**
  * @return The world's 'WORLD_SPELL_STATES' capability
  */
-fun World.getSpellStates(): IWorldSpellStates {
+fun Level.getSpellStates(): IWorldSpellStates {
     return this.getCapability(ModCapabilities.WORLD_SPELL_STATES).orElseThrow {
         IllegalStateException("Could not get world's spell state data")
     }
@@ -138,19 +133,19 @@ fun World.getSpellStates(): IWorldSpellStates {
 /**
  * @return The world's 'WORLD_ISLAND_VISITORS' capability
  */
-fun World.getIslandVisitors(): IWorldIslandVisitors {
+fun Level.getIslandVisitors(): IWorldIslandVisitors {
     return this.getCapability(ModCapabilities.WORLD_ISLAND_VISITORS).orElseThrow {
         IllegalStateException("Could not get world's island visitors data")
     }
 }
 
-fun World.getStructureMapper(): IWorldStructureMapper {
+fun Level.getStructureMapper(): IWorldStructureMapper {
     return this.getCapability(ModCapabilities.WORLD_STRUCTURE_MAPPER).orElseThrow {
         IllegalStateException("Could not get world's structure mapper data")
     }
 }
 
-fun Chunk.getWardedBlockMap(): IWardedBlockMap {
+fun LevelChunk.getWardedBlockMap(): IWardedBlockMap {
     return this.getCapability(ModCapabilities.WARDED_BLOCK_MAP).orElseThrow {
         IllegalStateException("Could not get chunk's warded block map")
     }
