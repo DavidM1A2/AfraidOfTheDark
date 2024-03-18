@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.block.sacred_mangrove
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDLeavesBlock
-import net.minecraft.block.material.Material
+import net.minecraft.world.level.material.Material
 
 /**
  * Sacred mangrove leaves are grown by sacred mangrove trees
