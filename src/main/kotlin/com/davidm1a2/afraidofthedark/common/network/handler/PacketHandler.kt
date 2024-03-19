@@ -9,6 +9,7 @@ import net.minecraft.world.World
 import net.minecraft.world.chunk.Chunk
 import net.minecraftforge.fml.network.NetworkRegistry
 import net.minecraftforge.fml.network.PacketDistributor
+import net.minecraftforge.fmllegacy.network.PacketDistributor
 
 /**
  * Miner's basic packet handler updated

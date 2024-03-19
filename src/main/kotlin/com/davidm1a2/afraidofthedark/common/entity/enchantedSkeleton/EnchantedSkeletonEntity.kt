@@ -13,36 +13,28 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Anima
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.item.BoneSwordItem
 import com.davidm1a2.afraidofthedark.common.network.packets.animation.AnimationPacket
-import net.minecraft.block.BlockState
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.Pose
-import net.minecraft.entity.ai.attributes.AttributeModifierMap
-import net.minecraft.entity.ai.attributes.Attributes
-import net.minecraft.entity.ai.goal.HurtByTargetGoal
-import net.minecraft.entity.ai.goal.LookAtGoal
-import net.minecraft.entity.ai.goal.LookRandomlyGoal
-import net.minecraft.entity.ai.goal.MeleeAttackGoal
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal
-import net.minecraft.entity.ai.goal.RandomWalkingGoal
-import net.minecraft.entity.ai.goal.SwimGoal
-import net.minecraft.entity.item.ItemEntity
-import net.minecraft.entity.monster.MonsterEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.potion.EffectInstance
-import net.minecraft.potion.Effects
-import net.minecraft.util.DamageSource
-import net.minecraft.util.SoundEvent
-import net.minecraft.util.SoundEvents
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
-import net.minecraft.world.entity.Mob
+import net.minecraft.core.BlockPos
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.Pose
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.ai.goal.*
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
+import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.monster.Monster
-import net.minecraftforge.fml.network.PacketDistributor
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraftforge.fmllegacy.network.PacketDistributor
 
 /**
  * Class representing an enchanted skeleton entity
@@ -51,7 +43,7 @@ import net.minecraftforge.fml.network.PacketDistributor
  * @param world The world the skeleton is spawning into
  * @property animHandler The animation handler used to manage animations
  */
-class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity>, world: World) : Monster(entityType, world), IMCAnimatedModel {
+class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity>, world: Level) : Monster(entityType, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(WALK_CHANNEL, ATTACK_CHANNEL, SPAWN_CHANNEL, IDLE_CHANNEL)
     private var playedSpawnAnimation = false
 
@@ -66,20 +58,20 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
     override fun registerGoals() {
         // Tasks should have a list of AI tasks with a priority associated with them. Lower priority is executed first
         // If the entity can swim and it's in water it must do that otherwise it will skin
-        goalSelector.addGoal(1, SwimGoal(this))
+        goalSelector.addGoal(1, FloatGoal(this))
         // If it's not swimming, test if we can engage in combat, if so do that
         goalSelector.addGoal(2, MeleeAttackGoal(this, MOVE_SPEED / 4, false))
         // If the entity isn't attacking then try to walk around
-        goalSelector.addGoal(3, RandomWalkingGoal(this, MOVE_SPEED / 4))
+        goalSelector.addGoal(3, RandomStrollGoal(this, MOVE_SPEED / 4))
         // If the entity isn't wandering then try to watch whatever entity is nearby
-        goalSelector.addGoal(4, LookAtGoal(this, PlayerEntity::class.java, AGRO_RANGE.toFloat()))
+        goalSelector.addGoal(4, LookAtPlayerGoal(this, Player::class.java, AGRO_RANGE.toFloat()))
         // If the entity isn't walking, attacking, or watching anything look idle
-        goalSelector.addGoal(5, LookRandomlyGoal(this))
+        goalSelector.addGoal(5, RandomLookAroundGoal(this))
         // Targeting tasks get executed when the entity wants to attack and select a target
         // If the entity is hurt by a player target that player
         targetSelector.addGoal(1, HurtByTargetGoal(this))
         // If the entity is not hurt find the nearest player to attack
-        targetSelector.addGoal(2, NearestAttackableTargetGoal(this, PlayerEntity::class.java, true))
+        targetSelector.addGoal(2, NearestAttackableTargetGoal(this, Player::class.java, true))
     }
 
     /**
@@ -99,8 +91,8 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
                 )
 
                 // Give the skeleton slowness and weakness for 3 seconds with level 100 so it can't do anything while spawning
-                addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, 60, 100))
-                addEffect(EffectInstance(Effects.WEAKNESS, 60, 100))
+                addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 100))
+                addEffect(MobEffectInstance(MobEffects.WEAKNESS, 60, 100))
 
                 // Set our flag
                 playedSpawnAnimation = true
@@ -137,9 +129,9 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
         // Server side processing only
         if (!level.isClientSide) {
             // Test if a player killed the skeleton
-            if (damageSource.entity is PlayerEntity) {
+            if (damageSource.entity is Player) {
                 // Grab a reference to the player
-                val killer = damageSource.entity as PlayerEntity
+                val killer = damageSource.entity as Player
                 // Grab the player's research
                 val playerResearch = killer.getResearch()
 
@@ -195,17 +187,17 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
         // Server side processing the hit only
         if (!entity.level.isClientSide) {
             // If the entity has slowness 100, then it is still spawning so it can't attack
-            this.getEffect(Effects.MOVEMENT_SLOWDOWN)?.let {
+            this.getEffect(MobEffects.MOVEMENT_SLOWDOWN)?.let {
                 if (it.amplifier == 100) {
                     return false
                 }
             }
 
             // Test if the entity is a player or not
-            if (entity is PlayerEntity) {
+            if (entity is Player) {
                 // Add slowness and weakness 1 to the player if hit by a skeleton
-                entity.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, 80, 0, false, true))
-                entity.addEffect(EffectInstance(Effects.WEAKNESS, 80, 0, false, true))
+                entity.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 0, false, true))
+                entity.addEffect(MobEffectInstance(MobEffects.WEAKNESS, 80, 0, false, true))
             }
 
             // Send a packet to the other players telling them the skeleton attacked
@@ -224,7 +216,7 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
         return 1.9f
     }
 
-    override fun readAdditionalSaveData(compound: CompoundNBT) {
+    override fun readAdditionalSaveData(compound: CompoundTag) {
         super.readAdditionalSaveData(compound)
         this.playedSpawnAnimation = if (compound.contains("played_spawn_animation")) {
             compound.getBoolean("played_spawn_animation")
@@ -233,7 +225,7 @@ class EnchantedSkeletonEntity(entityType: EntityType<out EnchantedSkeletonEntity
         }
     }
 
-    override fun addAdditionalSaveData(compound: CompoundNBT) {
+    override fun addAdditionalSaveData(compound: CompoundTag) {
         super.addAdditionalSaveData(compound)
         compound.putBoolean("played_spawn_animation", this.playedSpawnAnimation)
     }

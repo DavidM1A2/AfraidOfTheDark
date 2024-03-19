@@ -13,26 +13,23 @@ import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
-import net.minecraft.block.BlockState
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.Pose
-import net.minecraft.entity.ai.attributes.AttributeModifierMap
-import net.minecraft.entity.ai.attributes.Attributes
-import net.minecraft.entity.ai.goal.LookAtGoal
-import net.minecraft.entity.ai.goal.LookRandomlyGoal
-import net.minecraft.entity.ai.goal.RandomWalkingGoal
-import net.minecraft.entity.ai.goal.SwimGoal
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.util.DamageSource
-import net.minecraft.util.SoundEvent
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.core.BlockPos
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.PathfinderMob
+import net.minecraft.world.entity.Pose
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.ai.goal.FloatGoal
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.state.BlockState
 import kotlin.random.Random
 
 /**
@@ -42,7 +39,7 @@ import kotlin.random.Random
  * @param world The world the frog is spawning into
  * @property animHandler The animation handler used to manage animations
  */
-class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world: World) : PathfinderMob(entityType, world), IMCAnimatedModel {
+class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world: Level) : PathfinderMob(entityType, world), IMCAnimatedModel {
     // We don't need to write this to NBT data, it's not important to persist
     private var ticksUntilNextCastAttempt = MAX_TICKS_BETWEEN_CASTS
     private val animHandler = AnimationHandler(HOP_CHANNEL, CAST_CHANNEL)
@@ -60,13 +57,13 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
     override fun registerGoals() {
         // Tasks should have a list of AI tasks with a priority associated with them. Lower priority is executed first
         // If the entity can swim and it's in water it must do that otherwise it will sink
-        goalSelector.addGoal(1, SwimGoal(this))
+        goalSelector.addGoal(1, FloatGoal(this))
         // If the entity isn't attacking then try to walk around
-        goalSelector.addGoal(2, RandomWalkingGoal(this, 1.0, 20))
+        goalSelector.addGoal(2, RandomStrollGoal(this, 1.0, 20))
         // If the entity isn't wandering then try to watch whatever entity is nearby
-        goalSelector.addGoal(3, LookAtGoal(this, PlayerEntity::class.java, FOLLOW_RANGE.toFloat()))
+        goalSelector.addGoal(3, LookAtPlayerGoal(this, Player::class.java, FOLLOW_RANGE.toFloat()))
         // If the entity isn't walking, attacking, or watching anything look idle
-        goalSelector.addGoal(4, LookRandomlyGoal(this))
+        goalSelector.addGoal(4, RandomLookAroundGoal(this))
     }
 
     private fun createRandomSpellUnderCost(maxCost: Double): Spell {
@@ -208,14 +205,14 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
         return 0.2f
     }
 
-    override fun readAdditionalSaveData(compound: CompoundNBT) {
+    override fun readAdditionalSaveData(compound: CompoundTag) {
         super.readAdditionalSaveData(compound)
         if (compound.contains("spell")) {
             this.spell = Spell(compound.getCompound("spell"))
         }
     }
 
-    override fun addAdditionalSaveData(compound: CompoundNBT) {
+    override fun addAdditionalSaveData(compound: CompoundTag) {
         super.addAdditionalSaveData(compound)
         compound.put("spell", this.spell.serializeNBT())
     }
