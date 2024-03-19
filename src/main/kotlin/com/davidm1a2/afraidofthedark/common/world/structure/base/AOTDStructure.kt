@@ -92,9 +92,9 @@ abstract class AOTDStructure<T : FeatureConfiguration>(name: String, codec: Code
         x: Int,
         z: Int,
         chunkGen: ChunkGenerator,
+        levelHeightAccessor: LevelHeightAccessor,
         width: Int = getWidth(),
-        length: Int = getLength(),
-        levelHeightAccessor: LevelHeightAccessor
+        length: Int = getLength()
     ): Sequence<Int> {
         return sequence {
             yield(chunkGen.getBaseHeight(x - width / 2, z - length / 2, Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor))

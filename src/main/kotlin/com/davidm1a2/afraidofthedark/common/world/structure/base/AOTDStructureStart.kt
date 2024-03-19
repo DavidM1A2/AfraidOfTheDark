@@ -34,8 +34,8 @@ abstract class AOTDStructureStart<T : FeatureConfiguration>(
         val position = synchronized(structureMapper) {
             structureMapper.getStructureMapFor(chunkPos).getStructureCenterIn(chunkPos, feature)!!
         }
-        init(generator, position.x, position.z)
+        init(generator, position.x, position.z, levelHeightAccessor)
     }
 
-    abstract fun init(generator: ChunkGenerator, xPos: Int, zPos: Int)
+    abstract fun init(generator: ChunkGenerator, xPos: Int, zPos: Int, levelHeightAccessor: LevelHeightAccessor)
 }
