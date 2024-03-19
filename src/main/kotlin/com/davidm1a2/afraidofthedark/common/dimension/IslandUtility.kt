@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.common.dimension
 import com.davidm1a2.afraidofthedark.common.capabilities.getIslandVisitors
 import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.IslandData
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.core.BlockPos
+import net.minecraft.world.level.Level
 
 /**
  * Utility methods that deal with island index related things
@@ -17,7 +17,7 @@ object IslandUtility {
      * @param islandData The island data to compute position on
      * @return The position in the void chest that this player owns
      */
-    fun getOrAssignPlayerPositionalIndex(world: World, islandData: IslandData): Int {
+    fun getOrAssignPlayerPositionalIndex(world: Level, islandData: IslandData): Int {
         // -1 means unassigned, we need to compute the index first
         if (islandData.positionalIndex == -1) {
             // Compute this new player's index
@@ -36,7 +36,7 @@ object IslandUtility {
      * @param searchDistance The maximum distance to search for a spawn position
      * @return The block position that the player should spawn at, or null if it doesn't exist
      */
-    fun findValidSpawnLocation(world: World, blockPos: BlockPos, searchDistance: Int): BlockPos? {
+    fun findValidSpawnLocation(world: Level, blockPos: BlockPos, searchDistance: Int): BlockPos? {
         val xCenter = blockPos.x
         val yCenter = blockPos.y
         val zCenter = blockPos.z
@@ -60,7 +60,7 @@ object IslandUtility {
      * @param blockPos The position to test
      * @return True if the spot has a solid floor and air above, false otherwise
      */
-    fun isValidSpawnLocation(world: World, blockPos: BlockPos): Boolean {
+    fun isValidSpawnLocation(world: Level, blockPos: BlockPos): Boolean {
         val bottomBlock = world.getBlockState(blockPos)
         val bottomBlockMaterial = bottomBlock.material
         // If the material is solid and blocks movement it's valid

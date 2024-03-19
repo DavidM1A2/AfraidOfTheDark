@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.dimension
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraft.util.RegistryKey
-import net.minecraft.world.World
+import net.minecraft.resources.ResourceKey
+import net.minecraft.server.level.ServerPlayer
+import org.slf4j.event.Level
 
-fun ServerPlayerEntity.teleport(world: RegistryKey<World>) {
+fun ServerPlayer.teleport(world: ResourceKey<Level>) {
     AfraidOfTheDark.teleportQueue.teleport(this, world)
 }

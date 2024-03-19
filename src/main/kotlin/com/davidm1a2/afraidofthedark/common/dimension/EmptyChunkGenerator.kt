@@ -1,32 +1,34 @@
 package com.davidm1a2.afraidofthedark.common.dimension
 
-import net.minecraft.world.Blockreader
-import net.minecraft.world.IBlockReader
-import net.minecraft.world.IWorld
-import net.minecraft.world.biome.provider.BiomeProvider
-import net.minecraft.world.chunk.IChunk
-import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.Heightmap
-import net.minecraft.world.gen.WorldGenRegion
-import net.minecraft.world.gen.feature.structure.StructureManager
-import net.minecraft.world.gen.settings.DimensionStructuresSettings
+import net.minecraft.server.level.WorldGenRegion
+import net.minecraft.world.level.LevelHeightAccessor
+import net.minecraft.world.level.NoiseColumn
+import net.minecraft.world.level.StructureFeatureManager
+import net.minecraft.world.level.biome.BiomeSource
+import net.minecraft.world.level.chunk.ChunkAccess
+import net.minecraft.world.level.chunk.ChunkGenerator
+import net.minecraft.world.level.levelgen.Heightmap
+import net.minecraft.world.level.levelgen.StructureSettings
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
 
-abstract class EmptyChunkGenerator(biomeProvider: BiomeProvider, settings: DimensionStructuresSettings) : ChunkGenerator(biomeProvider, settings) {
+abstract class EmptyChunkGenerator(biomeProvider: BiomeSource, settings: StructureSettings) : ChunkGenerator(biomeProvider, settings) {
     override fun withSeed(seed: Long): ChunkGenerator {
         return this
     }
 
-    override fun buildSurfaceAndBedrock(worldGenRegion: WorldGenRegion, chunk: IChunk) {
+    override fun buildSurfaceAndBedrock(worldGenRegion: WorldGenRegion, chunk: ChunkAccess) {
     }
 
-    override fun fillFromNoise(world: IWorld, structureManager: StructureManager, chunk: IChunk) {
+    override fun fillFromNoise(executor: Executor, structureFeatureManager: StructureFeatureManager, chunk: ChunkAccess): CompletableFuture<ChunkAccess> {
+        return CompletableFuture.completedFuture(chunk)
     }
 
-    override fun getBaseHeight(x: Int, z: Int, heightmap: Heightmap.Type): Int {
+    override fun getBaseHeight(x: Int, z: Int, type: Heightmap.Types, heightAccessor: LevelHeightAccessor): Int {
         return 0
     }
 
-    override fun getBaseColumn(x: Int, z: Int): IBlockReader {
-        return Blockreader(emptyArray())
+    override fun getBaseColumn(x: Int, z: Int, heightAccessor: LevelHeightAccessor): NoiseColumn {
+        return NoiseColumn(0, emptyArray())
     }
 }
