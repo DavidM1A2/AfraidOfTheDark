@@ -10,12 +10,12 @@ import com.mojang.brigadier.builder.ArgumentBuilder
 import com.mojang.brigadier.builder.LiteralArgumentBuilder.literal
 import com.mojang.brigadier.builder.RequiredArgumentBuilder.argument
 import com.mojang.brigadier.context.CommandContext
-import net.minecraft.block.Blocks
-import net.minecraft.command.CommandSource
-import net.minecraft.command.ISuggestionProvider
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.text.StringTextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.commands.CommandSourceStack
+import net.minecraft.commands.SharedSuggestionProvider
+import net.minecraft.network.chat.TextComponent
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.block.Blocks
 import net.minecraftforge.event.RegisterCommandsEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
@@ -29,30 +29,31 @@ class AOTDCommands {
     @SubscribeEvent
     fun register(event: RegisterCommandsEvent) {
         event.dispatcher.register(
-            literal<CommandSource>("aotd")
-                .then(literal<CommandSource>("help").executesDefault {
+            literal<CommandSourceStack>("aotd")
+                .then(literal<CommandSourceStack>("help").executesDefault {
                     printHelp(it.source)
                 })
                 .then(
-                    literal<CommandSource>("debug")
+                    literal<CommandSourceStack>("debug")
                         .then(
-                            literal<CommandSource>("generateRaw")
+                            literal<CommandSourceStack>("generateRaw")
                                 .then(
-                                    argument<CommandSource, String>("schematic", word())
-                                        .suggests { _, builder -> ISuggestionProvider.suggest(ModSchematics.LIST.map { it.getName() }, builder) }
+                                    argument<CommandSourceStack, String>("schematic", word())
+                                        .suggests { _, builder -> SharedSuggestionProvider.suggest(ModSchematics.LIST.map { it.getName() }, builder) }
                                         .executesDefault { generateSchematic(it.source, ModSchematics.NAME_TO_SCHEMATIC[getString(it, "schematic")], false) })
                         )
                         .then(
-                            literal<CommandSource>("generateRawMarker")
-                                .then(argument<CommandSource, String>("schematic", word())
-                                    .suggests { _, builder -> ISuggestionProvider.suggest(ModSchematics.LIST.map { it.getName() }, builder) }
+                            literal<CommandSourceStack>("generateRawMarker")
+                                .then(
+                                    argument<CommandSourceStack, String>("schematic", word())
+                                        .suggests { _, builder -> SharedSuggestionProvider.suggest(ModSchematics.LIST.map { it.getName() }, builder) }
                                     .executesDefault { generateSchematic(it.source, ModSchematics.NAME_TO_SCHEMATIC[getString(it, "schematic")], true) })
                         )
                         .then(
-                            literal<CommandSource>("fillVoids").executesDefault { updateStructureVoids(it.source, true) }
+                            literal<CommandSourceStack>("fillVoids").executesDefault { updateStructureVoids(it.source, true) }
                         )
                         .then(
-                            literal<CommandSource>("removeVoids").executesDefault { updateStructureVoids(it.source, false) }
+                            literal<CommandSourceStack>("removeVoids").executesDefault { updateStructureVoids(it.source, false) }
                         )
                 )
                 .executesDefault { printHelp(it.source) }
@@ -66,12 +67,12 @@ class AOTDCommands {
         }
     }
 
-    private fun printHelp(sender: CommandSource) {
-        sender.sendSuccess(TranslationTextComponent("message.afraidofthedark.command.help.header"), false)
-        sender.sendSuccess(TranslationTextComponent("message.afraidofthedark.command.help.help"), false)
+    private fun printHelp(sender: CommandSourceStack) {
+        sender.sendSuccess(TranslatableComponent("message.afraidofthedark.command.help.header"), false)
+        sender.sendSuccess(TranslatableComponent("message.afraidofthedark.command.help.help"), false)
     }
 
-    private fun generateSchematic(sender: CommandSource, schematic: Schematic?, includeCornerMarkers: Boolean) {
+    private fun generateSchematic(sender: CommandSourceStack, schematic: Schematic?, includeCornerMarkers: Boolean) {
         val entity = sender.entity
         val world = sender.level
 
@@ -80,7 +81,7 @@ class AOTDCommands {
         }
 
         if (schematic == null) {
-            sender.sendFailure(StringTextComponent("Schematic was not found"))
+            sender.sendFailure(TextComponent("Schematic was not found"))
             return
         }
 
@@ -92,7 +93,7 @@ class AOTDCommands {
         }
     }
 
-    private fun updateStructureVoids(sender: CommandSource, makeVoids: Boolean) {
+    private fun updateStructureVoids(sender: CommandSourceStack, makeVoids: Boolean) {
         val entity = sender.entity
         val world = sender.level
 
@@ -103,16 +104,16 @@ class AOTDCommands {
         SchematicUtils.updateStructureVoids(world, entity!!.blockPosition(), makeVoids)
     }
 
-    private fun canExecuteDebugCommands(sender: CommandSource): Boolean {
+    private fun canExecuteDebugCommands(sender: CommandSourceStack): Boolean {
         val entity = sender.entity
 
         if (entity == null) {
-            sender.sendFailure(StringTextComponent("Command sender entity cannot be null"))
+            sender.sendFailure(TextComponent("Command sender entity cannot be null"))
             return false
         }
 
-        if (entity !is PlayerEntity || !DEVELOPERS.contains(entity.gameProfile.name)) {
-            sender.sendFailure(StringTextComponent("Debug commands can only be used by developers"))
+        if (entity !is Player || !DEVELOPERS.contains(entity.gameProfile.name)) {
+            sender.sendFailure(TextComponent("Debug commands can only be used by developers"))
             return false
         }
 
