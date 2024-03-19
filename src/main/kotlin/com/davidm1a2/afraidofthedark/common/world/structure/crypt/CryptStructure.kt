@@ -4,13 +4,14 @@ import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.base.MultiplierConfig
-import net.minecraft.util.RegistryKey
-import net.minecraft.world.biome.Biome
-import net.minecraft.world.biome.provider.BiomeProvider
-import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.feature.StructureFeature
-import net.minecraft.world.gen.feature.structure.Structure
-import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
+import net.minecraft.core.MappedRegistry
+import net.minecraft.world.level.LevelHeightAccessor
+import net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.biome.BiomeSource
+import net.minecraft.world.level.chunk.ChunkGenerator
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature
+import net.minecraft.world.level.levelgen.feature.StructureFeature
+import net.minecraft.world.level.levelgen.feature.StructureFeature.StructureStartFactory
 import java.util.Random
 
 class CryptStructure : AOTDStructure<MultiplierConfig>("crypt", MultiplierConfig.CODEC) {
@@ -22,13 +23,13 @@ class CryptStructure : AOTDStructure<MultiplierConfig>("crypt", MultiplierConfig
         return ModSchematics.CRYPT.getLength().toInt()
     }
 
-    override fun getStartFactory(): IStartFactory<MultiplierConfig> {
-        return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
-            CryptStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
+    override fun getStartFactory(): StructureStartFactory<MultiplierConfig> {
+        return StructureStartFactory { structure, chunkPos, reference, seed ->
+            CryptStructureStart(structure, chunkPos, reference, seed)
         }
     }
 
-    override fun configured(biome: RegistryKey<Biome>, category: Biome.Category): StructureFeature<MultiplierConfig, out Structure<MultiplierConfig>>? {
+    override fun configured(biome: MappedRegistry.RegistryEntry<Biome>, category: Biome.BiomeCategory): ConfiguredStructureFeature<MultiplierConfig, out StructureFeature<MultiplierConfig>>? {
         return if (category !in INCOMPATIBLE_BIOME_CATEGORIES) {
             configured(MultiplierConfig(1))
         } else {
@@ -36,11 +37,11 @@ class CryptStructure : AOTDStructure<MultiplierConfig>("crypt", MultiplierConfig
         }
     }
 
-    override fun configuredFlat(): StructureFeature<MultiplierConfig, out Structure<MultiplierConfig>> {
+    override fun configuredFlat(): ConfiguredStructureFeature<MultiplierConfig, out StructureFeature<MultiplierConfig>> {
         return configured(MISSING_CONFIG)
     }
 
-    override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
+    override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeSource, random: Random, xPos: Int, zPos: Int, levelHeightAccessor: LevelHeightAccessor): Boolean {
         val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, biomeProvider, MISSING_CONFIG)
             .map { it.multiplier }
             .minOrNull() ?: 0
@@ -50,7 +51,7 @@ class CryptStructure : AOTDStructure<MultiplierConfig>("crypt", MultiplierConfig
             return false
         }
 
-        val heights = getEdgeHeights(xPos, zPos, chunkGen)
+        val heights = getEdgeHeights(xPos, zPos, chunkGen, levelHeightAccessor)
         val maxHeight = heights.maxOrNull()!!
         val minHeight = heights.minOrNull()!!
         if (maxHeight - minHeight > 5) {
@@ -62,16 +63,16 @@ class CryptStructure : AOTDStructure<MultiplierConfig>("crypt", MultiplierConfig
     companion object {
         private val MISSING_CONFIG = MultiplierConfig(0)
         private val INCOMPATIBLE_BIOME_CATEGORIES = setOf(
-            Biome.Category.BEACH,
-            Biome.Category.EXTREME_HILLS,
-            Biome.Category.ICY,
-            Biome.Category.NETHER,
-            Biome.Category.OCEAN,
-            Biome.Category.RIVER,
-            Biome.Category.THEEND,
-            Biome.Category.NONE,
-            Biome.Category.MUSHROOM,
-            Biome.Category.SWAMP
+            Biome.BiomeCategory.BEACH,
+            Biome.BiomeCategory.EXTREME_HILLS,
+            Biome.BiomeCategory.ICY,
+            Biome.BiomeCategory.NETHER,
+            Biome.BiomeCategory.OCEAN,
+            Biome.BiomeCategory.RIVER,
+            Biome.BiomeCategory.THEEND,
+            Biome.BiomeCategory.NONE,
+            Biome.BiomeCategory.MUSHROOM,
+            Biome.BiomeCategory.SWAMP
         )
     }
 }
