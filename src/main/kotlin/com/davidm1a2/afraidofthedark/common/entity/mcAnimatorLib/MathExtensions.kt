@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib
 
-import net.minecraft.util.math.vector.Quaternion
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.util.math.vector.Vector3f
+import com.mojang.math.Quaternion
+import com.mojang.math.Vector3f
+import net.minecraft.world.phys.Vec3
 import kotlin.math.acos
 import kotlin.math.sin
 import kotlin.math.sqrt
@@ -72,9 +72,9 @@ fun Vector3f.interpolate(otherVec: Vector3f, percent: Float) {
  * Computes the rotation needed to go from the source vector to the target vector as a Quaternion. For more info see:
  * https://stackoverflow.com/questions/1171849/finding-quaternion-representing-the-rotation-from-one-vector-to-another/1171995#1171995
  */
-private val X_UNIT_VECTOR = Vector3d(1.0, 0.0, 0.0)
-private val Y_UNIT_VECTOR = Vector3d(0.0, 1.0, 0.0)
-fun Vector3d.computeRotationTo(target: Vector3d): Quaternion {
+private val X_UNIT_VECTOR = Vec3(1.0, 0.0, 0.0)
+private val Y_UNIT_VECTOR = Vec3(0.0, 1.0, 0.0)
+fun Vec3.computeRotationTo(target: Vec3): Quaternion {
     val normalizedBasis = this.normalize()
     val normalizedTarget = target.normalize()
     val angleBetweenVectors = normalizedBasis.dot(normalizedTarget)
@@ -110,13 +110,13 @@ fun Vector3d.computeRotationTo(target: Vector3d): Quaternion {
 }
 
 // Returns a pair of vectors that are both orthogonal to the original vector. The called on vector must be unit length
-fun Vector3d.getOrthogonalVectors(): Pair<Vector3d, Vector3d> {
-    if (this == Vector3d.ZERO) {
+fun Vec3.getOrthogonalVectors(): Pair<Vec3, Vec3> {
+    if (this == Vec3.ZERO) {
         return this to this
     }
 
     var leftRightDirection = Y_UNIT_VECTOR.cross(this)
-    if (leftRightDirection == Vector3d.ZERO) {
+    if (leftRightDirection == Vec3.ZERO) {
         leftRightDirection = X_UNIT_VECTOR
     }
     val upDownDirection = leftRightDirection.cross(this)

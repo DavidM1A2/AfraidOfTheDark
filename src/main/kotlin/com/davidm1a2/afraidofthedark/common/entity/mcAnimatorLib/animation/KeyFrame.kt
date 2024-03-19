@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation
 
-import net.minecraft.util.math.vector.Quaternion
-import net.minecraft.util.math.vector.Vector3f
+import com.mojang.math.Quaternion
+import com.mojang.math.Vector3f
 
 /**
  * Class was provided by the MC animator library
