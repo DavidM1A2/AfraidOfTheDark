@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.common.crafting.ResearchRequiredShapedRecip
 import mezz.jei.api.constants.VanillaTypes
 import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.recipe.category.extensions.vanilla.crafting.ICraftingCategoryExtension
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
 import net.minecraftforge.common.util.Size2i
 
 class CraftingCategoryExtension<T : ResearchRequiredRecipeBase<*>>(private val recipe: T) : ICraftingCategoryExtension {

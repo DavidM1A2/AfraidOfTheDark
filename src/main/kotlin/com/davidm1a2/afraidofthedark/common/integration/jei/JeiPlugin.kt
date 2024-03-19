@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.common.crafting.ResearchRequiredRecipeBase
 import mezz.jei.api.IModPlugin
 import mezz.jei.api.JeiPlugin
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
 
 @JeiPlugin
 class JeiPlugin : IModPlugin {
