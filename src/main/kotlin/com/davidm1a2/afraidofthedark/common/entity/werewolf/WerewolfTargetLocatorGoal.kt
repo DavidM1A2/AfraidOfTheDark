@@ -1,13 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.entity.werewolf
 
 import com.davidm1a2.afraidofthedark.common.capabilities.hasStartedAOTD
-import net.minecraft.entity.CreatureEntity
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityPredicate
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.ai.goal.TargetGoal
-import net.minecraft.entity.player.PlayerEntity
-import java.util.EnumSet
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.ai.goal.target.TargetGoal
+import net.minecraft.world.entity.ai.targeting.TargetingConditions
+import net.minecraft.world.entity.player.Player
+import java.util.*
 
 /**
  * Target location for werewolves, this will ignore players that have not started AOTD based on a flag
@@ -20,12 +19,12 @@ import java.util.EnumSet
  * @property targetEntity The entity that is currently targeted by the werewolf
  */
 class WerewolfTargetLocatorGoal internal constructor(
-    entityCreature: CreatureEntity,
+    entityCreature: WerewolfEntity,
     shouldCheckSight: Boolean,
     private val targetChance: Int
 ) : TargetGoal(entityCreature, shouldCheckSight, false) {
     private val sorter: Sorter
-    private val targetEntitySelector: (PlayerEntity) -> Boolean
+    private val targetEntitySelector: (Player) -> Boolean
     private var targetEntity: LivingEntity? = null
 
     init {
@@ -53,7 +52,7 @@ class WerewolfTargetLocatorGoal internal constructor(
             if (it.distanceTo(mob) > followRange) {
                 false
             } else {
-                canAttack(it, EntityPredicate.DEFAULT)
+                canAttack(it, TargetingConditions.DEFAULT)
             }
         }
     }
@@ -73,7 +72,7 @@ class WerewolfTargetLocatorGoal internal constructor(
 
             // Grab a list of nearby players sorted by distance
             val nearbyPlayers = mob.level.getEntitiesOfClass(
-                PlayerEntity::class.java,
+                Player::class.java,
                 mob.boundingBox.inflate(followRange, 4.0, followRange)
             )
                 .filter { targetEntitySelector(it) }

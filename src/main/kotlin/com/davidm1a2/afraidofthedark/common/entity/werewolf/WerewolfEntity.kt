@@ -14,29 +14,22 @@ import com.davidm1a2.afraidofthedark.common.entity.werewolf.animation.BiteChanne
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.animation.RunChannel
 import com.davidm1a2.afraidofthedark.common.network.packets.animation.AnimationPacket
 import com.davidm1a2.afraidofthedark.common.utility.damagesource.AstralSilverDamageSource
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.Pose
-import net.minecraft.entity.ai.attributes.AttributeModifierMap
-import net.minecraft.entity.ai.attributes.Attributes
-import net.minecraft.entity.ai.goal.HurtByTargetGoal
-import net.minecraft.entity.ai.goal.LookAtGoal
-import net.minecraft.entity.ai.goal.LookRandomlyGoal
-import net.minecraft.entity.ai.goal.MeleeAttackGoal
-import net.minecraft.entity.ai.goal.SwimGoal
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal
-import net.minecraft.entity.monster.MonsterEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.util.DamageSource
-import net.minecraft.util.EntityDamageSource
-import net.minecraft.util.SoundEvent
-import net.minecraft.world.World
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.damagesource.EntityDamageSource
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.Pose
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.ai.goal.*
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.monster.Monster
-import net.minecraftforge.fml.network.PacketDistributor
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.Level
+import net.minecraftforge.fmllegacy.network.PacketDistributor
 
 /**
  * Class representing a werewolf entity
@@ -45,12 +38,12 @@ import net.minecraftforge.fml.network.PacketDistributor
  * @param world The world the werewolf is a part of
  * @property animHandler Animation handler used by the werewolf
  */
-class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) : Monster(entityType, world), IMCAnimatedModel {
+class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: Level) : Monster(entityType, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(BITE_CHANNEL, RUN_CHANNEL)
 
     var canAttackAnyone: Boolean = false
 
-    constructor(world: World) : this(ModEntities.WEREWOLF, world)
+    constructor(world: Level) : this(ModEntities.WEREWOLF, world)
 
     init {
         // This werewolf is worth 10xp
@@ -59,15 +52,15 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
 
     override fun registerGoals() {
         // First priority is to swim and not drown
-        goalSelector.addGoal(1, SwimGoal(this))
+        goalSelector.addGoal(1, FloatGoal(this))
         // Second priority is to attack melee if possible
         goalSelector.addGoal(2, MeleeAttackGoal(this, 1.0, false))
         // If we can't attack or swim just wander around
-        goalSelector.addGoal(3, WaterAvoidingRandomWalkingGoal(this, MOVE_SPEED * 2))
+        goalSelector.addGoal(3, WaterAvoidingRandomStrollGoal(this, MOVE_SPEED * 2))
         // If we don't wander just look at the closest entity
-        goalSelector.addGoal(4, LookAtGoal(this, PlayerEntity::class.java, AGRO_RANGE.toFloat()))
+        goalSelector.addGoal(4, LookAtPlayerGoal(this, Player::class.java, AGRO_RANGE.toFloat()))
         // If nothing else triggers look idle
-        goalSelector.addGoal(5, LookRandomlyGoal(this))
+        goalSelector.addGoal(5, RandomLookAroundGoal(this))
         // For our target tasks we first test if we were hurt, and if so target what hurt us
         targetSelector.addGoal(1, HurtByTargetGoal(this))
         // Then introduce our custom werewolf target locator
@@ -104,8 +97,8 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
             // If the cause was from a player we perform further processing
             if (cause is EntityDamageSource) {
                 // Test if the killer was a player
-                if (cause.entity is PlayerEntity) {
-                    val killer = cause.entity as PlayerEntity
+                if (cause.entity is Player) {
+                    val killer = cause.entity as Player
                     val playerResearch = killer.getResearch()
                     if (playerResearch.isResearched(ModResearches.WEREWOLF_BLOOD)) {
                         killer.inventory.add(ItemStack(ModItems.WEREWOLF_BLOOD, 1))
@@ -126,7 +119,7 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
         // If the werewolf takes damage from a player that has not started the mod, agro them
         if (damageSource is EntityDamageSource) {
             val player = damageSource.entity
-            if (player is PlayerEntity) {
+            if (player is Player) {
                 if (!player.hasStartedAOTD()) {
                     canAttackAnyone = true
                 }
@@ -152,7 +145,7 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
 
         // Server side processing only
         if (!level.isClientSide) {
-            if (entity is PlayerEntity) {
+            if (entity is Player) {
                 // Show all players within 50 blocks the bite animation
                 AfraidOfTheDark.packetHandler.sendToAllAround(
                     AnimationPacket(this, "Bite", "Bite"),
@@ -216,7 +209,7 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
         return 1.3f
     }
 
-    override fun readAdditionalSaveData(compound: CompoundNBT) {
+    override fun readAdditionalSaveData(compound: CompoundTag) {
         super.readAdditionalSaveData(compound)
         this.canAttackAnyone = if (compound.contains("can_attack_anyone")) {
             compound.getBoolean("can_attack_anyone")
@@ -225,7 +218,7 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
         }
     }
 
-    override fun addAdditionalSaveData(compound: CompoundNBT) {
+    override fun addAdditionalSaveData(compound: CompoundTag) {
         super.addAdditionalSaveData(compound)
         compound.putBoolean("can_attack_anyone", this.canAttackAnyone)
     }
