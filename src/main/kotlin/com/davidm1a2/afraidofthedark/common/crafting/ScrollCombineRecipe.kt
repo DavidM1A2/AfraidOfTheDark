@@ -4,13 +4,12 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModRecipeSerializers
 import com.davidm1a2.afraidofthedark.common.item.ResearchScrollItem
-import net.minecraft.inventory.CraftingInventory
-import net.minecraft.item.ItemStack
-import net.minecraft.item.crafting.ICraftingRecipe
-import net.minecraft.item.crafting.IRecipeSerializer
-import net.minecraft.util.ResourceLocation
-import net.minecraft.world.World
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.inventory.CraftingContainer
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.CraftingRecipe
+import net.minecraft.world.item.crafting.RecipeSerializer
+import net.minecraft.world.level.Level
 
 /**
  * Class that registers a dynamic recipe allowing us to combine scroll pieces
@@ -25,7 +24,7 @@ class ScrollCombineRecipe : CraftingRecipe {
      * @param world The current world the object is being crafted in. Can be null even though it never is in vanilla. See: CoFH core
      * @return True if the recipe works, and false otherwise
      */
-    override fun matches(inv: CraftingInventory, world: World?): Boolean {
+    override fun matches(inv: CraftingContainer, world: Level?): Boolean {
         // Grab a list of non-empty stacks in the crafting grid
         val stacks = mutableListOf<ItemStack>()
         for (i in 0 until inv.containerSize) {
@@ -80,7 +79,7 @@ class ScrollCombineRecipe : CraftingRecipe {
      * @param inv The inventory containing items to put together
      * @return The resulting item
      */
-    override fun assemble(inv: CraftingInventory): ItemStack {
+    override fun assemble(inv: CraftingContainer): ItemStack {
         // Grab a list of non-empty stacks in the crafting grid
         val stacks = mutableListOf<ItemStack>()
         for (i in 0 until inv.containerSize) {
@@ -126,7 +125,7 @@ class ScrollCombineRecipe : CraftingRecipe {
         return ResourceLocation(Constants.MOD_ID, "scroll_combine")
     }
 
-    override fun getSerializer(): IRecipeSerializer<*> {
+    override fun getSerializer(): RecipeSerializer<*> {
         return ModRecipeSerializers.SCROLL_COMBINE_RECIPE
     }
 

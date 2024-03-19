@@ -3,20 +3,20 @@ package com.davidm1a2.afraidofthedark.common.crafting
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.inventory.CraftingInventory
-import net.minecraft.inventory.container.Container
-import net.minecraft.inventory.container.PlayerContainer
-import net.minecraft.inventory.container.WorkbenchContainer
-import net.minecraft.item.ItemStack
-import net.minecraft.item.crafting.ICraftingRecipe
-import net.minecraft.item.crafting.IRecipe
-import net.minecraft.item.crafting.IRecipeType
-import net.minecraft.item.crafting.Ingredient
-import net.minecraft.util.NonNullList
-import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper
+import net.minecraft.core.NonNullList
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.inventory.AbstractContainerMenu
+import net.minecraft.world.inventory.CraftingContainer
+import net.minecraft.world.inventory.CraftingMenu
+import net.minecraft.world.inventory.InventoryMenu
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.crafting.CraftingRecipe
+import net.minecraft.world.item.crafting.Ingredient
+import net.minecraft.world.item.crafting.Recipe
+import net.minecraft.world.item.crafting.RecipeType
+import net.minecraft.world.level.Level
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper
 import org.apache.commons.lang3.exception.ExceptionUtils
 import org.apache.logging.log4j.LogManager
 
@@ -27,8 +27,8 @@ import org.apache.logging.log4j.LogManager
  * @param baseRecipe   The base shapeless ore recipe to be automatically created using existing minecraft code
  * @param preRequisite The pre-requisite research to be required to craft this recipe
  */
-abstract class ResearchRequiredRecipeBase<T : IRecipe<CraftingInventory>>(val baseRecipe: T, internal val preRequisite: Research) :
-    IRecipe<CraftingInventory> by baseRecipe, ICraftingRecipe {
+abstract class ResearchRequiredRecipeBase<T : Recipe<CraftingContainer>>(val baseRecipe: T, internal val preRequisite: Research) :
+    Recipe<CraftingContainer> by baseRecipe, CraftingRecipe {
     /**
      * Used to check if a recipe matches current crafting inventory. Also checks if the player has the correct research
      *
@@ -36,7 +36,7 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe<CraftingInventory>>(val ba
      * @param world The current world the object is being crafted in. Can be null even though it never is in vanilla. See: CoFH core
      * @return True if the crafting recipe matches, false if it does not
      */
-    override fun matches(inv: CraftingInventory, world: World?): Boolean {
+    override fun matches(inv: CraftingContainer, world: Level?): Boolean {
         // Compute if the recipe matches first. IntelliJ claims "world" can't be null, but it 100% can be
         @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
         val matches = baseRecipe.matches(inv, world)
@@ -48,7 +48,7 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe<CraftingInventory>>(val ba
         if (!craftingPlayer.getResearch().isResearched(preRequisite)) {
             // Before returning false notify the player why the crafting failed if the recipe matched
             if (matches && !craftingPlayer.level.isClientSide) {
-                craftingPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.crafting.missing_research"))
+                craftingPlayer.sendMessage(TranslatableComponent("message.afraidofthedark.crafting.missing_research"))
             }
             return false
         }
@@ -62,7 +62,7 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe<CraftingInventory>>(val ba
     }
 
     // Default methods can't be delgated, see: https://kotlinlang.org/docs/reference/java-to-kotlin-interop.html#using-in-delegates
-    override fun getRemainingItems(inventory: CraftingInventory): NonNullList<ItemStack> {
+    override fun getRemainingItems(inventory: CraftingContainer): NonNullList<ItemStack> {
         return baseRecipe.getRemainingItems(inventory)
     }
 
@@ -83,16 +83,17 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe<CraftingInventory>>(val ba
          * @param inventory The crafting container to break into
          * @return The player who is crafting the recipe or null otherwise
          */
-        private fun findPlayer(inventory: CraftingInventory): PlayerEntity? {
+        private fun findPlayer(inventory: CraftingContainer): Player? {
+            // TOOD: Confirm reflection field SRG mappings
             try {
                 // Attempt to grab the container the player is crafting in
-                val container: Container? = ObfuscationReflectionHelper.getPrivateValue(CraftingInventory::class.java, inventory, "field_70465_c")
+                val container: AbstractContainerMenu? = ObfuscationReflectionHelper.getPrivateValue(CraftingContainer::class.java, inventory, "field_70465_c")
 
                 // Test if the container is a 2x2 grid or 'ContainerPlayer', if so return the player from the 'player' field
-                if (container is PlayerContainer) {
-                    return ObfuscationReflectionHelper.getPrivateValue(PlayerContainer::class.java, container, "field_82862_h")
-                } else if (container is WorkbenchContainer) {
-                    return ObfuscationReflectionHelper.getPrivateValue(WorkbenchContainer::class.java, container, "field_192390_i")
+                if (container is InventoryMenu) {
+                    return ObfuscationReflectionHelper.getPrivateValue(InventoryMenu::class.java, container, "field_82862_h")
+                } else if (container is CraftingMenu) {
+                    return ObfuscationReflectionHelper.getPrivateValue(CraftingMenu::class.java, container, "field_192390_i")
                 }
             }
             // If something goes wrong catch the exception and log it, then return null
@@ -103,7 +104,7 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe<CraftingInventory>>(val ba
         }
     }
 
-    override fun getType(): IRecipeType<*> {
+    override fun getType(): RecipeType<*> {
         return super.getType()
     }
 }

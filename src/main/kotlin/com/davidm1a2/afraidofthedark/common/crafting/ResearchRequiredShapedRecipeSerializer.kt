@@ -3,22 +3,22 @@ package com.davidm1a2.afraidofthedark.common.crafting
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.google.gson.JsonObject
-import net.minecraft.item.crafting.IRecipeSerializer
-import net.minecraft.item.crafting.ShapedRecipe
-import net.minecraft.network.PacketBuffer
-import net.minecraft.util.JSONUtils
-import net.minecraft.util.ResourceLocation
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.GsonHelper
+import net.minecraft.world.item.crafting.RecipeSerializer
+import net.minecraft.world.item.crafting.ShapedRecipe
 import net.minecraftforge.registries.ForgeRegistryEntry
 
 /**
  * Factory for research required shaped recipes. This type of recipe just ensures the proper research is done first
  */
-class ResearchRequiredShapedRecipeSerializer : ForgeRegistryEntry<IRecipeSerializer<*>>(), IRecipeSerializer<ResearchRequiredShapedRecipe> {
+class ResearchRequiredShapedRecipeSerializer : ForgeRegistryEntry<RecipeSerializer<*>>(), RecipeSerializer<ResearchRequiredShapedRecipe> {
     init {
         registryName = ResourceLocation(Constants.MOD_ID, "research_required_shaped_recipe")
     }
 
-    override fun toNetwork(buffer: PacketBuffer, recipe: ResearchRequiredShapedRecipe) {
+    override fun toNetwork(buffer: FriendlyByteBuf, recipe: ResearchRequiredShapedRecipe) {
         // Copy & Paste Start (from: SERIALIZER.write(buffer, recipe))
         buffer.writeVarInt(recipe.recipeWidth)
         buffer.writeVarInt(recipe.recipeHeight)
@@ -40,13 +40,13 @@ class ResearchRequiredShapedRecipeSerializer : ForgeRegistryEntry<IRecipeSeriali
 
         // Grab the pre-requisite recipe which is based on our research registry
         val preRequisite =
-            ModRegistries.RESEARCH.getValue(ResourceLocation(JSONUtils.getAsString(json, "required_research")))!!
+            ModRegistries.RESEARCH.getValue(ResourceLocation(GsonHelper.getAsString(json, "required_research")))!!
 
         // Return the research required shaped recipe
         return ResearchRequiredShapedRecipe(baseRecipe, preRequisite)
     }
 
-    override fun fromNetwork(recipeId: ResourceLocation, buffer: PacketBuffer): ResearchRequiredShapedRecipe {
+    override fun fromNetwork(recipeId: ResourceLocation, buffer: FriendlyByteBuf): ResearchRequiredShapedRecipe {
         val baseRecipe = SERIALIZER.fromNetwork(recipeId, buffer)!!
 
         val preRequisite = ModRegistries.RESEARCH.getValue(buffer.readResourceLocation())!!
