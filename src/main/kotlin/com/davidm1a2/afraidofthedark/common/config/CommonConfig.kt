@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.config
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.item.FlaskOfSoulsItem
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.LeechSpellPowerSource
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
 import net.minecraftforge.common.ForgeConfigSpec
 
 /**
