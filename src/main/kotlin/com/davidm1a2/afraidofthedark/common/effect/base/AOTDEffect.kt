@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.effect.base
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.potion.Effect
-import net.minecraft.potion.EffectType
+import net.minecraft.world.effect.MobEffect
+import net.minecraft.world.effect.MobEffectCategory
 import java.awt.Color
 
 /**
@@ -13,7 +13,7 @@ import java.awt.Color
  * @param effectType   The potion effect type
  * @param color        The color of the potion
  */
-open class AOTDEffect(name: String, effectType: EffectType, color: Color) : Effect(effectType, color.hashCode()) {
+open class AOTDEffect(name: String, effectType: MobEffectCategory, color: Color) : MobEffect(effectType, color.hashCode()) {
     init {
         this.setRegistryName(Constants.MOD_ID, name)
     }
