@@ -6,21 +6,20 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedMode
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.SpingChannel
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.projectile.ProjectileHelper
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.network.IPacket
-import net.minecraft.potion.EffectInstance
-import net.minecraft.potion.Effects
-import net.minecraft.util.DamageSource
-import net.minecraft.util.math.EntityRayTraceResult
-import net.minecraft.util.math.RayTraceResult
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.world.World
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.protocol.Packet
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
-import net.minecraftforge.fml.network.NetworkHooks
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.entity.projectile.ProjectileUtil
+import net.minecraft.world.level.Level
+import net.minecraft.world.phys.EntityHitResult
+import net.minecraft.world.phys.HitResult
+import net.minecraft.world.phys.Vec3
+import net.minecraftforge.fmllegacy.network.NetworkHooks
 import kotlin.math.sqrt
 
 /**
@@ -31,7 +30,7 @@ import kotlin.math.sqrt
  * @property shootingEntity The entity that fired the projectile
  * @property animHandler The animation handler used to manage animations
  */
-class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProjectileEntity>, world: World) : Entity(entityType, world),
+class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProjectileEntity>, world: Level) : Entity(entityType, world),
     IMCAnimatedModel {
     private var shootingEntity: SplinterDroneEntity? = null
     private val animHandler = AnimationHandler(SPING_CHANNEL)
@@ -47,7 +46,7 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
      * @param zVelocity      The z component of velocity of the projectile
      */
     constructor(
-        world: World,
+        world: Level,
         shootingEntity: SplinterDroneEntity,
         xVelocity: Double,
         yVelocity: Double,
@@ -61,7 +60,7 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
 
         val velocityMagnitude = sqrt(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity)
         // Update the acceleration vector by normalizing it and multiplying by speed
-        deltaMovement = Vector3d(
+        deltaMovement = Vec3(
             xVelocity / velocityMagnitude * PROJECTILE_SPEED,
             yVelocity / velocityMagnitude * PROJECTILE_SPEED,
             zVelocity / velocityMagnitude * PROJECTILE_SPEED
@@ -96,7 +95,7 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
                 this.ticksInAir = this.ticksInAir + 1
 
                 // Perform a ray cast to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
-                val rayTraceResult = ProjectileHelper.getHitResult(this) {
+                val rayTraceResult = ProjectileUtil.getHitResult(this) {
                     if (ticksInAir > 25) {
                         true
                     } else {
@@ -104,14 +103,14 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
                     }
                 }
 
-                if (rayTraceResult.type != RayTraceResult.Type.MISS) {
+                if (rayTraceResult.type != HitResult.Type.MISS) {
                     onImpact(rayTraceResult)
                 }
 
                 // Continue flying in the direction of motion, update the position
                 moveTo(x + deltaMovement.x, y + deltaMovement.y, z + deltaMovement.z)
             } else {
-                remove()
+                remove(RemovalReason.DISCARDED)
             }
         }
     }
@@ -121,24 +120,24 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
      *
      * @param result The result of the ray hitting an object
      */
-    private fun onImpact(result: RayTraceResult) {
+    private fun onImpact(result: HitResult) {
         // Only process server side
         if (!level.isClientSide) {
             // Only do something if we hit an entity
-            if (result is EntityRayTraceResult) {
+            if (result is EntityHitResult) {
                 // Cause a slight amount of damage
                 if (result.entity.hurt(getSplinterDroneProjectileDamage(this, shootingEntity), 1.0f)) {
                     // If we hit a player slow them
-                    if (result.entity is PlayerEntity) {
+                    if (result.entity is Player) {
                         // The player that was hit, add slowness
-                        val entityPlayer = result.entity as PlayerEntity
-                        entityPlayer.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, 60, 2, false, false))
+                        val entityPlayer = result.entity as Player
+                        entityPlayer.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 2, false, false))
                     }
                 }
             }
 
             // Kill the projectile
-            remove()
+            remove(RemovalReason.DISCARDED)
         }
     }
 
@@ -196,15 +195,15 @@ class SplinterDroneProjectileEntity(entityType: EntityType<out SplinterDroneProj
         return animHandler
     }
 
-    override fun getAddEntityPacket(): IPacket<*> {
+    override fun getAddEntityPacket(): Packet<*> {
         return NetworkHooks.getEntitySpawningPacket(this)
     }
 
-    override fun addAdditionalSaveData(compound: CompoundNBT) {
+    override fun addAdditionalSaveData(compound: CompoundTag) {
         this.ticksInAir = compound.getInt("ticks_in_air")
     }
 
-    override fun readAdditionalSaveData(compound: CompoundNBT) {
+    override fun readAdditionalSaveData(compound: CompoundTag) {
         compound.putInt("ticks_in_air", this.ticksInAir)
     }
 

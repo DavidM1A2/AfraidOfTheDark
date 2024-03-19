@@ -2,9 +2,10 @@ package com.davidm1a2.afraidofthedark.common.entity.splinterDrone
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.network.packets.animation.AnimationPacket
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.ai.goal.Goal
-import net.minecraftforge.fml.network.PacketDistributor
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.ai.behavior.BehaviorUtils
+import net.minecraft.world.entity.ai.goal.Goal
+import net.minecraftforge.fmllegacy.network.PacketDistributor
 
 /**
  * AI task that allows the splinter drone to attack nearby players
@@ -47,7 +48,7 @@ class SplinterDroneAttackGoal(private val splinterDrone: SplinterDroneEntity) : 
      * @return True if the attack should continue, false otherwise
      */
     override fun canContinueToUse(): Boolean {
-        return canUse() && splinterDrone.canSee(target!!)
+        return canUse() && BehaviorUtils.canSee(splinterDrone, target!!)
     }
 
     /**

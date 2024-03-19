@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.entity.splinterDrone
 
-import net.minecraft.entity.ai.controller.MovementController
-import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.world.entity.ai.control.MoveControl
+import net.minecraft.world.phys.Vec3
 import kotlin.math.ceil
 
 /**
@@ -11,7 +11,7 @@ import kotlin.math.ceil
  * @param splinterDrone The splinter drone entity to move
  * @property ticksUntilNextUpdate The number of ticks until we should re-compute pathing
  */
-class SplinterDroneMovementController(splinterDrone: SplinterDroneEntity) : MovementController(splinterDrone) {
+class SplinterDroneMovementController(splinterDrone: SplinterDroneEntity) : MoveControl(splinterDrone) {
     private var ticksUntilNextUpdate = 0
 
     /**
@@ -19,13 +19,13 @@ class SplinterDroneMovementController(splinterDrone: SplinterDroneEntity) : Move
      */
     override fun tick() {
         // Test if this move helper is updating and doesn't have a target, fly around
-        if (operation == Action.MOVE_TO && mob.target == null) {
+        if (operation == Operation.MOVE_TO && mob.target == null) {
             // If we should update perform a motion update
             if (ticksUntilNextUpdate-- <= 0) {
                 // Update this entity again in 2 - 7 ticks
                 ticksUntilNextUpdate = ticksUntilNextUpdate + mob.random.nextInt(5) + 2
 
-                val dir = Vector3d(wantedX - mob.x, wantedY - mob.y, wantedZ - mob.z)
+                val dir = Vec3(wantedX - mob.x, wantedY - mob.y, wantedZ - mob.z)
                 val dirLength = dir.length()
                 val dirNorm = dir.normalize()
 
@@ -33,13 +33,13 @@ class SplinterDroneMovementController(splinterDrone: SplinterDroneEntity) : Move
                 if (canReach(dirNorm, ceil(dirLength).toInt())) {
                     mob.deltaMovement = mob.deltaMovement.add(dirNorm.scale(speedModifier))
                 } else {
-                    operation = Action.WAIT
+                    operation = Operation.WAIT
                 }
             }
         }
     }
 
-    private fun canReach(direction: Vector3d, dirMagnitude: Int): Boolean {
+    private fun canReach(direction: Vec3, dirMagnitude: Int): Boolean {
         // Grab the entity bounding box
         var droneBoundingBox = mob.boundingBox
 

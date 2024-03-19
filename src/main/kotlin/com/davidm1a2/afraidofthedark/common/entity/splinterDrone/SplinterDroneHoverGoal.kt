@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.entity.splinterDrone
 
-import net.minecraft.entity.ai.attributes.Attributes
-import net.minecraft.entity.ai.goal.Goal
-import net.minecraft.util.math.BlockPos
-import java.util.EnumSet
+import net.minecraft.core.BlockPos
+import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.ai.goal.Goal
+import java.util.*
 import kotlin.math.floor
 import kotlin.math.sqrt
 

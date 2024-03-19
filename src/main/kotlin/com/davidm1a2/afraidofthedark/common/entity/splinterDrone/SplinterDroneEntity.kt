@@ -9,24 +9,19 @@ import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.Activ
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.ChargeChannel
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.IdleChannel
 import com.davidm1a2.afraidofthedark.common.network.packets.animation.AnimationPacket
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.FlyingEntity
-import net.minecraft.entity.MobEntity
-import net.minecraft.entity.Pose
-import net.minecraft.entity.ai.attributes.AttributeModifierMap
-import net.minecraft.entity.ai.attributes.Attributes
-import net.minecraft.entity.ai.goal.LookAtGoal
-import net.minecraft.entity.ai.goal.LookRandomlyGoal
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal
-import net.minecraft.entity.monster.IMob
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.world.World
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.FlyingMob
 import net.minecraft.world.entity.Mob
+import net.minecraft.world.entity.Pose
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
-import net.minecraftforge.fml.network.PacketDistributor
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.Level
+import net.minecraftforge.fmllegacy.network.PacketDistributor
 
 /**
  * The splinter drone entity in forbidden cities
@@ -35,11 +30,11 @@ import net.minecraftforge.fml.network.PacketDistributor
  * @param world The world that the splinter drone is in
  * @property animHandler The animation handler used to manage animations
  */
-class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world: World) : FlyingMob(entityType, world), IMob, IMCAnimatedModel {
+class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world: Level) : FlyingMob(entityType, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(ACTIVATE_CHANNEL, CHARGE_CHANNEL, IDLE_CHANNEL)
     private var playedSpawnAnimation = false
 
-    constructor(world: World) : this(ModEntities.SPLINTER_DRONE, world)
+    constructor(world: Level) : this(ModEntities.SPLINTER_DRONE, world)
 
     init {
         // Set the EXP value to 7
@@ -55,13 +50,13 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
         // First task is shooting the target if possible
         goalSelector.addGoal(0, SplinterDroneAttackGoal(this))
         // Task one is always to face the nearest player
-        goalSelector.addGoal(1, LookAtGoal(this, PlayerEntity::class.java, AGRO_RANGE.toFloat()))
+        goalSelector.addGoal(1, LookAtPlayerGoal(this, Player::class.java, AGRO_RANGE.toFloat()))
         // Task two is to hover over the ground and fly around
         goalSelector.addGoal(2, SplinterDroneHoverGoal(this))
         // Task three is to look idle and look around
-        goalSelector.addGoal(3, LookRandomlyGoal(this))
+        goalSelector.addGoal(3, RandomLookAroundGoal(this))
         // Find the nearest player to target
-        targetSelector.addGoal(0, NearestAttackableTargetGoal(this, PlayerEntity::class.java, true))
+        targetSelector.addGoal(0, NearestAttackableTargetGoal(this, Player::class.java, true))
     }
 
     /**
@@ -109,7 +104,7 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
         return true
     }
 
-    override fun readAdditionalSaveData(compound: CompoundNBT) {
+    override fun readAdditionalSaveData(compound: CompoundTag) {
         super.readAdditionalSaveData(compound)
         this.playedSpawnAnimation = if (compound.contains("played_spawn_animation")) {
             compound.getBoolean("played_spawn_animation")
@@ -118,7 +113,7 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
         }
     }
 
-    override fun addAdditionalSaveData(compound: CompoundNBT) {
+    override fun addAdditionalSaveData(compound: CompoundTag) {
         super.addAdditionalSaveData(compound)
         compound.putBoolean("played_spawn_animation", this.playedSpawnAnimation)
     }
