@@ -1,14 +1,14 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.world.structure
 
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.nbt.NBTUtil
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtUtils
+import net.minecraft.resources.ResourceLocation
 import net.minecraftforge.common.util.INBTSerializable
 import net.minecraftforge.registries.ForgeRegistries
 
-class StructureMapNode : INBTSerializable<CompoundNBT> {
+class StructureMapNode : INBTSerializable<CompoundTag> {
     var upperLeftChild: StructureMapNode? = null
     var upperRightChild: StructureMapNode? = null
     var lowerLeftChild: StructureMapNode? = null
@@ -34,11 +34,11 @@ class StructureMapNode : INBTSerializable<CompoundNBT> {
         return this.structurePos
     }
 
-    override fun serializeNBT(): CompoundNBT {
-        val nbt = CompoundNBT()
+    override fun serializeNBT(): CompoundTag {
+        val nbt = CompoundTag()
 
         structure?.let { nbt.putString(NBT_STRUCTURE, it.toString()) }
-        structurePos?.let { nbt.put(NBT_STRUCTURE_POSITION, NBTUtil.writeBlockPos(it)) }
+        structurePos?.let { nbt.put(NBT_STRUCTURE_POSITION, NbtUtils.writeBlockPos(it)) }
 
         upperLeftChild?.let { nbt.put(NBT_UPPER_LEFT_CHILD, it.serializeNBT()) }
         upperRightChild?.let { nbt.put(NBT_UPPER_RIGHT_CHILD, it.serializeNBT()) }
@@ -48,14 +48,14 @@ class StructureMapNode : INBTSerializable<CompoundNBT> {
         return nbt
     }
 
-    override fun deserializeNBT(nbt: CompoundNBT) {
+    override fun deserializeNBT(nbt: CompoundTag) {
         structure = if (nbt.contains(NBT_STRUCTURE)) {
             ResourceLocation(nbt.getString(NBT_STRUCTURE))
         } else {
             null
         }
         structurePos = if (nbt.contains(NBT_STRUCTURE_POSITION)) {
-            NBTUtil.readBlockPos(nbt.getCompound(NBT_STRUCTURE_POSITION))
+            NbtUtils.readBlockPos(nbt.getCompound(NBT_STRUCTURE_POSITION))
         } else {
             null
         }

@@ -2,18 +2,19 @@ package com.davidm1a2.afraidofthedark.common.capabilities.world.structure
 
 import com.davidm1a2.afraidofthedark.common.constants.ModStructures
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.util.SharedSeedRandom
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.ChunkPos
-import net.minecraft.world.biome.provider.BiomeProvider
-import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.feature.structure.Structure
+import net.minecraft.core.BlockPos
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.level.LevelHeightAccessor
+import net.minecraft.world.level.biome.BiomeSource
+import net.minecraft.world.level.chunk.ChunkGenerator
+import net.minecraft.world.level.levelgen.WorldgenRandom
+import net.minecraft.world.level.levelgen.feature.StructureFeature
 import net.minecraftforge.common.util.INBTSerializable
 import kotlin.math.min
 
-class StructureMap : INBTSerializable<CompoundNBT> {
-    private val random = SharedSeedRandom()
+class StructureMap : INBTSerializable<CompoundTag> {
+    private val random = WorldgenRandom()
     private var root: StructureMapNode? = null
 
     /**
@@ -24,7 +25,7 @@ class StructureMap : INBTSerializable<CompoundNBT> {
      * @param structure The structure to search for
      * @return The x, z position of the structure if it exists in this chunk, or null if it does not.
      */
-    fun getStructureCenterIn(chunkPos: ChunkPos, structure: Structure<*>): BlockPos? {
+    fun getStructureCenterIn(chunkPos: ChunkPos, structure: StructureFeature<*>): BlockPos? {
         var currentGridSize: StructureGridSize? = StructureGridSize.LARGEST_GRID_SIZE
         var currentGridNode: StructureMapNode? = root
 
@@ -70,23 +71,24 @@ class StructureMap : INBTSerializable<CompoundNBT> {
      * @param chunkGenerator The chunk generator used to test if a structure fits at this position
      * @param seed The seed to use
      */
-    fun planStructuresIn(chunkPos: ChunkPos, biomeProvider: BiomeProvider, chunkGenerator: ChunkGenerator, seed: Long) {
-        planStructuresIn(chunkPos, biomeProvider, chunkGenerator, seed, null, StructureGridSize.LARGEST_GRID_SIZE)
+    fun planStructuresIn(chunkPos: ChunkPos, biomeProvider: BiomeSource, chunkGenerator: ChunkGenerator, seed: Long, levelHeightAccessor: LevelHeightAccessor) {
+        planStructuresIn(chunkPos, biomeProvider, chunkGenerator, seed, null, StructureGridSize.LARGEST_GRID_SIZE, levelHeightAccessor)
     }
 
     private fun planStructuresIn(
         chunkPos: ChunkPos,
-        biomeProvider: BiomeProvider,
+        biomeProvider: BiomeSource,
         chunkGenerator: ChunkGenerator,
         seed: Long,
         previousNode: StructureMapNode?,
-        gridSize: StructureGridSize
+        gridSize: StructureGridSize,
+        levelHeightAccessor: LevelHeightAccessor
     ) {
         val plannedNode = if (previousNode == null) {
             // Plan the root (this is a special case)
             if (root == null) {
                 root = StructureMapNode()
-                tryPlacingStructuresFor(root!!, chunkPos, biomeProvider, chunkGenerator, seed, gridSize)
+                tryPlacingStructuresFor(root!!, chunkPos, biomeProvider, chunkGenerator, seed, gridSize, levelHeightAccessor)
             }
             root!!
         } else {
@@ -99,28 +101,28 @@ class StructureMap : INBTSerializable<CompoundNBT> {
                 currentXQuadrant == 0 && currentZQuadrant == 0 -> {
                     if (previousNode.lowerLeftChild == null) {
                         previousNode.lowerLeftChild = StructureMapNode()
-                        tryPlacingStructuresFor(previousNode.lowerLeftChild!!, chunkPos, biomeProvider, chunkGenerator, seed, gridSize)
+                        tryPlacingStructuresFor(previousNode.lowerLeftChild!!, chunkPos, biomeProvider, chunkGenerator, seed, gridSize, levelHeightAccessor)
                     }
                     previousNode.lowerLeftChild!!
                 }
                 currentXQuadrant == 1 && currentZQuadrant == 0 -> {
                     if (previousNode.lowerRightChild == null) {
                         previousNode.lowerRightChild = StructureMapNode()
-                        tryPlacingStructuresFor(previousNode.lowerRightChild!!, chunkPos, biomeProvider, chunkGenerator, seed, gridSize)
+                        tryPlacingStructuresFor(previousNode.lowerRightChild!!, chunkPos, biomeProvider, chunkGenerator, seed, gridSize, levelHeightAccessor)
                     }
                     previousNode.lowerRightChild!!
                 }
                 currentXQuadrant == 0 && currentZQuadrant == 1 -> {
                     if (previousNode.upperLeftChild == null) {
                         previousNode.upperLeftChild = StructureMapNode()
-                        tryPlacingStructuresFor(previousNode.upperLeftChild!!, chunkPos, biomeProvider, chunkGenerator, seed, gridSize)
+                        tryPlacingStructuresFor(previousNode.upperLeftChild!!, chunkPos, biomeProvider, chunkGenerator, seed, gridSize, levelHeightAccessor)
                     }
                     previousNode.upperLeftChild!!
                 }
                 currentXQuadrant == 1 && currentZQuadrant == 1 -> {
                     if (previousNode.upperRightChild == null) {
                         previousNode.upperRightChild = StructureMapNode()
-                        tryPlacingStructuresFor(previousNode.upperRightChild!!, chunkPos, biomeProvider, chunkGenerator, seed, gridSize)
+                        tryPlacingStructuresFor(previousNode.upperRightChild!!, chunkPos, biomeProvider, chunkGenerator, seed, gridSize, levelHeightAccessor)
                     }
                     previousNode.upperRightChild!!
                 }
@@ -129,17 +131,18 @@ class StructureMap : INBTSerializable<CompoundNBT> {
         }
 
         if (!plannedNode.hasStructure() && gridSize.nextSizeDown != null) {
-            planStructuresIn(chunkPos, biomeProvider, chunkGenerator, seed, plannedNode, gridSize.nextSizeDown)
+            planStructuresIn(chunkPos, biomeProvider, chunkGenerator, seed, plannedNode, gridSize.nextSizeDown, levelHeightAccessor)
         }
     }
 
     private fun tryPlacingStructuresFor(
         node: StructureMapNode,
         chunkPos: ChunkPos,
-        biomeProvider: BiomeProvider,
+        biomeProvider: BiomeSource,
         chunkGenerator: ChunkGenerator,
         seed: Long,
-        gridSize: StructureGridSize
+        gridSize: StructureGridSize,
+        levelHeightAccessor: LevelHeightAccessor
     ) {
         val gridPos = gridSize.toAbsoluteGridPos(chunkPos)
         random.setLargeFeatureSeed(seed, gridPos.x, gridPos.z)
@@ -156,7 +159,7 @@ class StructureMap : INBTSerializable<CompoundNBT> {
 
             // When we don't have any wiggle room to place the structure only try the one time
             if (wiggleRoom == 0) {
-                if (structure.canFitAt(chunkGenerator, biomeProvider, random, centerXPos, centerZPos)) {
+                if (structure.canFitAt(chunkGenerator, biomeProvider, random, centerXPos, centerZPos, levelHeightAccessor)) {
                     node.insertStructure(structure, BlockPos(centerXPos, 0, centerZPos))
                     return
                 }
@@ -168,7 +171,7 @@ class StructureMap : INBTSerializable<CompoundNBT> {
                     val xPos = centerXPos + xPosOffset
                     val zPos = centerZPos + zPosOffset
 
-                    if (structure.canFitAt(chunkGenerator, biomeProvider, random, xPos, zPos)) {
+                    if (structure.canFitAt(chunkGenerator, biomeProvider, random, xPos, zPos, levelHeightAccessor)) {
                         node.insertStructure(structure, BlockPos(xPos, 0, zPos))
                         return
                     }
@@ -177,15 +180,15 @@ class StructureMap : INBTSerializable<CompoundNBT> {
         }
     }
 
-    override fun serializeNBT(): CompoundNBT {
-        val nbt = CompoundNBT()
+    override fun serializeNBT(): CompoundTag {
+        val nbt = CompoundTag()
 
         root?.let { nbt.put(NBT_ROOT, it.serializeNBT()) }
 
         return nbt
     }
 
-    override fun deserializeNBT(nbt: CompoundNBT) {
+    override fun deserializeNBT(nbt: CompoundTag) {
         root = if (nbt.contains(NBT_ROOT)) {
             StructureMapNode().apply {
                 deserializeNBT(nbt.getCompound(NBT_ROOT))

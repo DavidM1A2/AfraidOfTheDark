@@ -3,22 +3,23 @@ package com.davidm1a2.afraidofthedark.common.world.structure.base
 import com.davidm1a2.afraidofthedark.common.capabilities.getStructureMapper
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.mojang.serialization.Codec
-import net.minecraft.util.RegistryKey
-import net.minecraft.util.SharedSeedRandom
-import net.minecraft.util.math.ChunkPos
-import net.minecraft.world.biome.Biome
-import net.minecraft.world.biome.provider.BiomeProvider
-import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.GenerationStage
-import net.minecraft.world.gen.Heightmap
-import net.minecraft.world.gen.feature.IFeatureConfig
-import net.minecraft.world.gen.feature.StructureFeature
-import net.minecraft.world.gen.feature.structure.Structure
-import net.minecraftforge.fml.server.ServerLifecycleHooks
-import java.util.Random
+import net.minecraft.core.MappedRegistry.RegistryEntry
+import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.level.LevelHeightAccessor
+import net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.biome.BiomeSource
+import net.minecraft.world.level.chunk.ChunkGenerator
+import net.minecraft.world.level.levelgen.GenerationStep
+import net.minecraft.world.level.levelgen.Heightmap
+import net.minecraft.world.level.levelgen.WorldgenRandom
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature
+import net.minecraft.world.level.levelgen.feature.StructureFeature
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration
+import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks
+import java.util.*
 import kotlin.math.max
 
-abstract class AOTDStructure<T : IFeatureConfig>(name: String, codec: Codec<T>) : Structure<T>(codec) {
+abstract class AOTDStructure<T : FeatureConfiguration>(name: String, codec: Codec<T>) : StructureFeature<T>(codec) {
     init {
         setRegistryName(Constants.MOD_ID, name)
     }
@@ -31,9 +32,9 @@ abstract class AOTDStructure<T : IFeatureConfig>(name: String, codec: Codec<T>) 
         return (max(getWidth(), getLength()) + 15) / 16
     }
 
-    override fun step(): GenerationStage.Decoration {
+    override fun step(): GenerationStep.Decoration {
         // Use this as default because it has the higher priority
-        return GenerationStage.Decoration.TOP_LAYER_MODIFICATION
+        return GenerationStep.Decoration.TOP_LAYER_MODIFICATION
     }
 
     /**
@@ -43,14 +44,14 @@ abstract class AOTDStructure<T : IFeatureConfig>(name: String, codec: Codec<T>) 
      * @param category The category the biome is in
      * @return The configured structure or null
      */
-    abstract fun configured(biome: RegistryKey<Biome>, category: Biome.Category): StructureFeature<T, out Structure<T>>?
+    abstract fun configured(biome: RegistryEntry<Biome>, category: Biome.BiomeCategory): ConfiguredStructureFeature<T, out StructureFeature<T>>?
 
     /**
      * The structure configuration when on a flat map
      *
      * @return The configured structure
      */
-    abstract fun configuredFlat(): StructureFeature<T, out Structure<T>>
+    abstract fun configuredFlat(): ConfiguredStructureFeature<T, out StructureFeature<T>>
 
     /**
      * Returns true if the structure would logically fit at a given x, z position. This simply considers biomes and heightmap, and nothing else
@@ -63,28 +64,27 @@ abstract class AOTDStructure<T : IFeatureConfig>(name: String, codec: Codec<T>) 
      * @param zPos The z position of the center of the structure
      * @return true if the structure would fit at a given location, false otherwise
      */
-    abstract fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean
+    abstract fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeSource, random: Random, xPos: Int, zPos: Int, levelHeightAccessor: LevelHeightAccessor): Boolean
 
     override fun isFeatureChunk(
         chunkGenerator: ChunkGenerator,
-        biomeProvider: BiomeProvider,
+        biomeProvider: BiomeSource,
         seed: Long,
-        random: SharedSeedRandom,
-        centerChunkX: Int,
-        centerChunkZ: Int,
+        random: WorldgenRandom,
+        centerChunkPos: ChunkPos,
         biome: Biome,
         featureChunkPos: ChunkPos,
-        config: T
+        config: T,
+        levelHeightAccessor: LevelHeightAccessor
     ): Boolean {
         val world = ServerLifecycleHooks.getCurrentServer()?.allLevels?.find { it.chunkSource.generator === chunkGenerator }
             ?: throw IllegalStateException("Could not determine which world chunk generator $chunkGenerator belongs to")
-        val chunkPos = ChunkPos(centerChunkX, centerChunkZ)
         val structureMapper = world.getStructureMapper()
         synchronized(structureMapper) {
-            val structureMap = structureMapper.getStructureMapFor(chunkPos)
+            val structureMap = structureMapper.getStructureMapFor(centerChunkPos)
 
-            structureMap.planStructuresIn(chunkPos, biomeProvider, chunkGenerator, seed)
-            return structureMap.getStructureCenterIn(chunkPos, this) != null
+            structureMap.planStructuresIn(centerChunkPos, biomeProvider, chunkGenerator, seed, levelHeightAccessor)
+            return structureMap.getStructureCenterIn(centerChunkPos, this) != null
         }
     }
 
@@ -93,25 +93,26 @@ abstract class AOTDStructure<T : IFeatureConfig>(name: String, codec: Codec<T>) 
         z: Int,
         chunkGen: ChunkGenerator,
         width: Int = getWidth(),
-        length: Int = getLength()
+        length: Int = getLength(),
+        levelHeightAccessor: LevelHeightAccessor
     ): Sequence<Int> {
         return sequence {
-            yield(chunkGen.getBaseHeight(x - width / 2, z - length / 2, Heightmap.Type.WORLD_SURFACE_WG))
-            yield(chunkGen.getBaseHeight(x + width / 2, z - length / 2, Heightmap.Type.WORLD_SURFACE_WG))
-            yield(chunkGen.getBaseHeight(x - width / 2, z + length / 2, Heightmap.Type.WORLD_SURFACE_WG))
-            yield(chunkGen.getBaseHeight(x + width / 2, z + length / 2, Heightmap.Type.WORLD_SURFACE_WG))
-            yield(chunkGen.getBaseHeight(x, z - length / 2, Heightmap.Type.WORLD_SURFACE_WG))
-            yield(chunkGen.getBaseHeight(x, z + length / 2, Heightmap.Type.WORLD_SURFACE_WG))
-            yield(chunkGen.getBaseHeight(x - width / 2, z, Heightmap.Type.WORLD_SURFACE_WG))
-            yield(chunkGen.getBaseHeight(x + width / 2, z, Heightmap.Type.WORLD_SURFACE_WG))
-            yield(chunkGen.getBaseHeight(x, z, Heightmap.Type.WORLD_SURFACE_WG))
+            yield(chunkGen.getBaseHeight(x - width / 2, z - length / 2, Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor))
+            yield(chunkGen.getBaseHeight(x + width / 2, z - length / 2, Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor))
+            yield(chunkGen.getBaseHeight(x - width / 2, z + length / 2, Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor))
+            yield(chunkGen.getBaseHeight(x + width / 2, z + length / 2, Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor))
+            yield(chunkGen.getBaseHeight(x, z - length / 2, Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor))
+            yield(chunkGen.getBaseHeight(x, z + length / 2, Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor))
+            yield(chunkGen.getBaseHeight(x - width / 2, z, Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor))
+            yield(chunkGen.getBaseHeight(x + width / 2, z, Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor))
+            yield(chunkGen.getBaseHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor))
         }
     }
 
     protected fun getInteriorConfigEstimate(
         x: Int,
         z: Int,
-        biomeProvider: BiomeProvider,
+        biomeProvider: BiomeSource,
         defaultIfAbsent: T?,
         width: Int = getWidth(),
         length: Int = getLength()
@@ -124,7 +125,7 @@ abstract class AOTDStructure<T : IFeatureConfig>(name: String, codec: Codec<T>) 
     protected fun getInteriorBiomeEstimate(
         x: Int,
         z: Int,
-        biomeProvider: BiomeProvider,
+        biomeProvider: BiomeSource,
         width: Int = getWidth(),
         length: Int = getLength()
     ): Sequence<Biome> {
@@ -141,7 +142,7 @@ abstract class AOTDStructure<T : IFeatureConfig>(name: String, codec: Codec<T>) 
         }
     }
 
-    private fun BiomeProvider.getNoiseBiomeAbsolute(x: Int, y: Int, z: Int): Biome {
+    private fun BiomeSource.getNoiseBiomeAbsolute(x: Int, y: Int, z: Int): Biome {
         return getNoiseBiome(x shr 2, y shr 2, z shr 2)
     }
 

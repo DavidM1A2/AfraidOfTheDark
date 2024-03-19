@@ -1,25 +1,21 @@
 package com.davidm1a2.afraidofthedark.common.schematic
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.block.BlockState
-import net.minecraft.block.Blocks
-import net.minecraft.entity.EntityType
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.nbt.CompressedStreamTools
-import net.minecraft.nbt.IntArrayNBT
-import net.minecraft.nbt.ListNBT
-import net.minecraft.nbt.NBTUtil
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.core.BlockPos
+import net.minecraft.nbt.*
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.state.BlockState
 import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.exception.ExceptionUtils
 import org.apache.logging.log4j.LogManager
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.LinkedList
-import java.util.UUID
+import java.util.*
 
 /**
  * Collection of utility methods used to debug, not used in actual play
@@ -61,7 +57,7 @@ object SchematicUtils {
             file.createNewFile()
 
             // Create a schematic NBT
-            val schematicNBT = CompoundNBT()
+            val schematicNBT = CompoundTag()
 
             // Write each of the w/l/h values to nbt
             schematicNBT.putShort("Width", schematic.getWidth())
@@ -81,12 +77,12 @@ object SchematicUtils {
             val stateToBlock = mutableMapOf<BlockState, Int>()
             val blocks = schematic.getBlocks()
             val blockIds = blocks.map { stateToBlock.computeIfAbsent(it) { lastBlockId++ } }.toIntArray()
-            schematicNBT.put("BlockIds", IntArrayNBT(blockIds))
-            schematicNBT.put("BlockIdData", ListNBT().apply { stateToBlock.keys.forEach { add(NBTUtil.writeBlockState(it)) } })
+            schematicNBT.put("BlockIds", IntArrayTag(blockIds))
+            schematicNBT.put("BlockIdData", ListTag().apply { stateToBlock.keys.forEach { add(NbtUtils.writeBlockState(it)) } })
 
             // Write the nbt to the file
             FileOutputStream(file).use {
-                CompressedStreamTools.writeCompressed(schematicNBT, it)
+                NbtIo.writeCompressed(schematicNBT, it)
             }
         }
         // Catch the exception and print it out
@@ -151,7 +147,7 @@ object SchematicUtils {
             .build()
 
         // Create an NBT compound to write to
-        val nbt = CompoundNBT()
+        val nbt = CompoundTag()
         nbt.putShort("width", schematic.getWidth())
         nbt.putShort("height", schematic.getHeight())
         nbt.putShort("length", schematic.getLength())
@@ -159,14 +155,14 @@ object SchematicUtils {
         // Write the NBT to the .meta file
         try {
             FileOutputStream(schematicMetaFile).use {
-                CompressedStreamTools.writeCompressed(nbt, it)
+                NbtIo.writeCompressed(nbt, it)
             }
         } catch (e: IOException) {
             System.err.println("Could not write schematic .meta file:\n${ExceptionUtils.getStackTrace(e)}")
         }
     }
 
-    fun placeRawSchematic(schematic: Schematic, world: World, position: BlockPos) {
+    fun placeRawSchematic(schematic: Schematic, world: Level, position: BlockPos) {
         val blocks = schematic.getBlocks()
         val width = schematic.getWidth()
         val height = schematic.getHeight()
@@ -221,8 +217,7 @@ object SchematicUtils {
                 putInt("z", absoluteTileEntityPosition.z)
             }
 
-            val blockState = getBlock(schematic, relativeTileEntityPosition.x, relativeTileEntityPosition.y, relativeTileEntityPosition.z)
-            world.getBlockEntity(absoluteTileEntityPosition)?.load(blockState, newTileEntityCompound)
+            world.getBlockEntity(absoluteTileEntityPosition)?.load(newTileEntityCompound)
         }
 
         // Get the list of entities inside this schematic
@@ -252,18 +247,18 @@ object SchematicUtils {
         }
     }
 
-    fun updateStructureVoids(world: World, position: BlockPos, add: Boolean = true) {
+    fun updateStructureVoids(world: Level, position: BlockPos, add: Boolean = true) {
         val blocksToUpdate = mutableSetOf<BlockPos>()
         val queue = LinkedList<BlockPos>()
 
         queue.add(position)
 
-        val shouldUpdate: (BlockState, BlockPos) -> Boolean = if (add) {
-            { state, pos ->
-                state.isAir(world, pos)
+        val shouldUpdate: (BlockState) -> Boolean = if (add) {
+            { state ->
+                state.isAir
             }
         } else {
-            { state, _ ->
+            { state ->
                 state.block == Blocks.STRUCTURE_VOID
             }
         }
@@ -272,7 +267,7 @@ object SchematicUtils {
             val pos = queue.pop()
             if (!blocksToUpdate.contains(pos)) {
                 val blockState = world.getBlockState(pos)
-                if (shouldUpdate(blockState, pos)) {
+                if (shouldUpdate(blockState)) {
                     blocksToUpdate.add(pos)
                     queue.add(pos.above())
                     queue.add(pos.below())

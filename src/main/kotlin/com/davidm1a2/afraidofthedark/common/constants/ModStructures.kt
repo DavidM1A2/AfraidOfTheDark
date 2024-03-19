@@ -16,8 +16,8 @@ import com.davidm1a2.afraidofthedark.common.world.structure.voidchestbox.VoidChe
 import com.davidm1a2.afraidofthedark.common.world.structure.voidchestbox.VoidChestBoxStructurePiece
 import com.davidm1a2.afraidofthedark.common.world.structure.voidchestportal.VoidChestPortalStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.witchhut.WitchHutStructure
-import net.minecraft.util.ResourceLocation
-import net.minecraft.world.gen.feature.structure.IStructurePieceType
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.level.levelgen.feature.StructurePieceType
 
 /**
  * A list of structures to be registered
@@ -53,9 +53,9 @@ object ModStructures {
         FROST_PHOENIX_PERCH_SMALL
     )
 
-    val SCHEMATIC_STRUCTURE_PIECE = IStructurePieceType { _, nbt -> SchematicStructurePiece(nbt) }
-    val VOID_BOX_STRUCTURE_PIECE = IStructurePieceType { _, nbt -> VoidChestBoxStructurePiece(nbt) }
-    val FORBIDDEN_CITY_STAIRWELL_CLIPPER_STRUCTURE_PIECE = IStructurePieceType { _, nbt -> ForbiddenCityStairwellClipperStructurePiece(nbt) }
+    val SCHEMATIC_STRUCTURE_PIECE = StructurePieceType { _, nbt -> SchematicStructurePiece(nbt) }
+    val VOID_BOX_STRUCTURE_PIECE = StructurePieceType { _, nbt -> VoidChestBoxStructurePiece(nbt) }
+    val FORBIDDEN_CITY_STAIRWELL_CLIPPER_STRUCTURE_PIECE = StructurePieceType { _, nbt -> ForbiddenCityStairwellClipperStructurePiece(nbt) }
 
     val STRUCTURE_PIECES = listOf(
         ResourceLocation(Constants.MOD_ID, "schematic_structure_piece") to SCHEMATIC_STRUCTURE_PIECE,

@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.world.structure
 
-import net.minecraft.util.math.ChunkPos
+import net.minecraft.world.level.ChunkPos
 
 interface IWorldStructureMapper {
     fun getStructureMapFor(chunkPos: ChunkPos): StructureMap

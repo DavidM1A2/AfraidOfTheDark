@@ -6,27 +6,24 @@ import com.davidm1a2.afraidofthedark.common.constants.ModStructures
 import com.davidm1a2.afraidofthedark.common.loot.loottable.LootTable
 import com.davidm1a2.afraidofthedark.common.schematic.Schematic
 import com.davidm1a2.afraidofthedark.common.schematic.SchematicUtils
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.Blocks
-import net.minecraft.block.StairsBlock
-import net.minecraft.entity.EntityType
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.state.properties.StairsShape
-import net.minecraft.tileentity.ChestTileEntity
-import net.minecraft.util.Direction
-import net.minecraft.util.Mirror
-import net.minecraft.util.Rotation
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.ChunkPos
-import net.minecraft.util.math.MutableBoundingBox
-import net.minecraft.world.ISeedReader
-import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.feature.structure.StructureManager
-import net.minecraft.world.gen.feature.structure.StructurePiece
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.level.StructureFeatureManager
+import net.minecraft.world.level.WorldGenLevel
+import net.minecraft.world.level.block.*
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.ChestBlockEntity
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.properties.StairsShape
+import net.minecraft.world.level.chunk.ChunkGenerator
+import net.minecraft.world.level.levelgen.structure.BoundingBox
+import net.minecraft.world.level.levelgen.structure.StructurePiece
 import net.minecraftforge.registries.ForgeRegistries
-import java.util.Random
-import java.util.UUID
+import java.util.*
 
 class SchematicStructurePiece : StructurePiece {
     private val schematic: Schematic
@@ -36,11 +33,11 @@ class SchematicStructurePiece : StructurePiece {
     // Some blocks aren't mirrored correctly by MC. Fix them here
     private val mirrorBlockFixer: Map<Block, (BlockState) -> BlockState> by lazy {
         ForgeRegistries.BLOCKS
-            .filterIsInstance<StairsBlock>()
+            .filterIsInstance<StairBlock>()
             .associateWith { this::fixStairState }
     }
 
-    constructor(nbt: CompoundNBT) : super(ModStructures.SCHEMATIC_STRUCTURE_PIECE, nbt) {
+    constructor(nbt: CompoundTag) : super(ModStructures.SCHEMATIC_STRUCTURE_PIECE, nbt) {
         val schematicName = nbt.getString(NBT_SCHEMATIC_NAME)
         this.schematic = ModSchematics.NAME_TO_SCHEMATIC[schematicName] ?: throw IllegalStateException("Schematic $schematicName was not found")
         if (nbt.contains(NBT_LOOT_TABLE_NAME)) {
@@ -58,26 +55,18 @@ class SchematicStructurePiece : StructurePiece {
         random: Random,
         schematic: Schematic,
         lootTable: LootTable? = null,
-        facing: Direction? = null
-    ) : super(ModStructures.SCHEMATIC_STRUCTURE_PIECE, 0) {
+        facing: Direction = getRandomHorizontalDirection(random)
+    ) : super(ModStructures.SCHEMATIC_STRUCTURE_PIECE, 0, makeBoundingBox(x, y, z, facing,
+            x + schematic.getWidth() - 1, y + schematic.getHeight() - 1, z + schematic.getLength() - 1)) {
+        require(facing in Direction.Plane.HORIZONTAL)
+
         this.schematic = schematic
         this.lootTable = lootTable
-
-        require(facing == null || facing in Direction.Plane.HORIZONTAL)
-
-        // The first random number is always 0. No idea why
-        random.nextInt(4)
-        orientation = facing ?: Direction.Plane.HORIZONTAL.getRandomDirection(random)
-        boundingBox = if (orientation?.axis == Direction.Axis.Z) {
-            MutableBoundingBox(x, y, z, x + schematic.getWidth() - 1, y + schematic.getHeight() - 1, z + schematic.getLength() - 1)
-        } else {
-            MutableBoundingBox(x, y, z, x + schematic.getLength() - 1, y + schematic.getHeight() - 1, z + schematic.getWidth() - 1)
-        }
+        this.orientation = facing
     }
 
     fun updateY(y: Int) {
-        boundingBox.y0 = y
-        boundingBox.y1 = y + schematic.getHeight() - 1
+        boundingBox.move(0, y - boundingBox.minY(), 0)
     }
 
     // Copy & Pasted from StructurePiece, used to expose the rotation and mirror fields
@@ -103,17 +92,17 @@ class SchematicStructurePiece : StructurePiece {
         }
     }
 
-    override fun addAdditionalSaveData(tagCompound: CompoundNBT) {
+    override fun addAdditionalSaveData(serverLevel: ServerLevel, tagCompound: CompoundTag) {
         tagCompound.putString(NBT_SCHEMATIC_NAME, this.schematic.getName())
         this.lootTable?.let { tagCompound.putString(NBT_LOOT_TABLE_NAME, it.name) }
     }
 
     override fun postProcess(
-        world: ISeedReader,
-        structureManager: StructureManager,
+        world: WorldGenLevel,
+        structureManager: StructureFeatureManager,
         chunkGenerator: ChunkGenerator,
         random: Random,
-        structureBoundingBox: MutableBoundingBox,
+        structureBoundingBox: BoundingBox,
         chunkPos: ChunkPos,
         structureBottomCenter: BlockPos
     ): Boolean {
@@ -123,7 +112,7 @@ class SchematicStructurePiece : StructurePiece {
         return true
     }
 
-    private fun generateBlocks(world: ISeedReader, structureBoundingBox: MutableBoundingBox) {
+    private fun generateBlocks(world: WorldGenLevel, structureBoundingBox: BoundingBox) {
         val blocks = schematic.getBlocks()
         val width = schematic.getWidth()
         val height = schematic.getHeight()
@@ -176,7 +165,7 @@ class SchematicStructurePiece : StructurePiece {
         }
     }
 
-    private fun generateTileEntities(world: ISeedReader, random: Random, structureBoundingBox: MutableBoundingBox) {
+    private fun generateTileEntities(world: WorldGenLevel, random: Random, structureBoundingBox: BoundingBox) {
         // Get the list of tile entities inside this schematic
         val tileEntities = schematic.getTileEntities()
         val length = schematic.getLength()
@@ -204,17 +193,17 @@ class SchematicStructurePiece : StructurePiece {
                         putInt("z", tileEntityPosition.z)
                     }
 
-                    tileEntity.load(SchematicUtils.getBlock(schematic, posX, posY, posZ), newTileEntityCompound)
+                    tileEntity.load(newTileEntityCompound)
 
                     if (mirror != Mirror.NONE) {
-                        tileEntity.mirror(mirror)
+                        tileEntity.blockState.mirror(mirror)
                     }
                     if (rotation != Rotation.NONE) {
-                        tileEntity.rotate(rotation)
+                        tileEntity.blockState.rotate(rotation)
                     }
 
                     // If the tile entity is a chest and we have a loot table then generate the chest
-                    if (tileEntity is ChestTileEntity) {
+                    if (tileEntity is ChestBlockEntity) {
                         lootTable?.generate(tileEntity, tileEntityCompound, random)
                     }
                 }
@@ -222,7 +211,7 @@ class SchematicStructurePiece : StructurePiece {
         }
     }
 
-    private fun generateEntities(world: ISeedReader, structureBoundingBox: MutableBoundingBox) {
+    private fun generateEntities(world: WorldGenLevel, structureBoundingBox: BoundingBox) {
         // Get the list of entities inside this schematic
         val entities = schematic.getEntities()
 
@@ -259,16 +248,16 @@ class SchematicStructurePiece : StructurePiece {
             x
         } else {
             when (orientation) {
-                Direction.NORTH, Direction.SOUTH -> boundingBox.x0 + x
-                Direction.WEST -> boundingBox.x1 - z
-                Direction.EAST -> boundingBox.x0 + z
+                Direction.NORTH, Direction.SOUTH -> boundingBox.minX() + x
+                Direction.WEST -> boundingBox.maxX() - z
+                Direction.EAST -> boundingBox.minX() + z
                 else -> x
             }
         }
     }
 
     private fun getWorldY(y: Double): Double {
-        return if (orientation == null) y else y + boundingBox.y0
+        return if (orientation == null) y else y + boundingBox.minY()
     }
 
     private fun getWorldZ(x: Double, z: Double): Double {
@@ -276,22 +265,22 @@ class SchematicStructurePiece : StructurePiece {
             z
         } else {
             when (orientation) {
-                Direction.NORTH -> boundingBox.z1 - z
-                Direction.SOUTH -> boundingBox.z0 + z
-                Direction.WEST, Direction.EAST -> boundingBox.z0 + x
+                Direction.NORTH -> boundingBox.maxZ() - z
+                Direction.SOUTH -> boundingBox.minZ() + z
+                Direction.WEST, Direction.EAST -> boundingBox.minZ() + x
                 else -> z
             }
         }
     }
 
     private fun fixStairState(state: BlockState): BlockState {
-        val facing = state.getValue(StairsBlock.FACING)
+        val facing = state.getValue(StairBlock.FACING)
         if (facing.axis == Direction.Axis.X) {
-            return when (state.getValue(StairsBlock.SHAPE)) {
-                StairsShape.INNER_LEFT -> state.setValue(StairsBlock.SHAPE, StairsShape.INNER_RIGHT)
-                StairsShape.INNER_RIGHT -> state.setValue(StairsBlock.SHAPE, StairsShape.INNER_LEFT)
-                StairsShape.OUTER_LEFT -> state.setValue(StairsBlock.SHAPE, StairsShape.OUTER_RIGHT)
-                StairsShape.OUTER_RIGHT -> state.setValue(StairsBlock.SHAPE, StairsShape.OUTER_LEFT)
+            return when (state.getValue(StairBlock.SHAPE)) {
+                StairsShape.INNER_LEFT -> state.setValue(StairBlock.SHAPE, StairsShape.INNER_RIGHT)
+                StairsShape.INNER_RIGHT -> state.setValue(StairBlock.SHAPE, StairsShape.INNER_LEFT)
+                StairsShape.OUTER_LEFT -> state.setValue(StairBlock.SHAPE, StairsShape.OUTER_RIGHT)
+                StairsShape.OUTER_RIGHT -> state.setValue(StairBlock.SHAPE, StairsShape.OUTER_LEFT)
                 else -> state
             }
         }
