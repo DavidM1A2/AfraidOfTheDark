@@ -1,12 +1,14 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.entity.ai.attributes.Attributes
-import net.minecraft.entity.ai.goal.Goal
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.potion.EffectInstance
-import net.minecraft.potion.Effects
-import java.util.EnumSet
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.ai.behavior.BehaviorUtils
+import net.minecraft.world.entity.ai.goal.Goal
+import net.minecraft.world.entity.player.Player
+import java.util.*
 
 /**
  * Ghastly enaria task that lets her chase players
@@ -15,7 +17,7 @@ import java.util.EnumSet
  * @property targetPlayer The target player enaria is chasing
  */
 class GhastlyEnariaPlayerChaseGoal(private val enaria: GhastlyEnariaEntity) : Goal() {
-    private var targetPlayer: PlayerEntity? = null
+    private var targetPlayer: Player? = null
 
     init {
         // Sync movement, look, and etc state
@@ -49,7 +51,7 @@ class GhastlyEnariaPlayerChaseGoal(private val enaria: GhastlyEnariaEntity) : Go
 
         // If there are no players nearby kill enaria
         if (targetPlayer == null || !targetPlayer!!.isAlive) {
-            enaria.remove()
+            enaria.remove(Entity.RemovalReason.DISCARDED)
         } else {
             // Otherwise follow the player if not benign
             if (!enaria.isBenign()) {
@@ -66,8 +68,8 @@ class GhastlyEnariaPlayerChaseGoal(private val enaria: GhastlyEnariaEntity) : Go
             enaria.lookAt(targetPlayer!!, 360f, 360f)
 
             // If the player can see enaria, add slowness 4 to the player
-            if (!enaria.isBenign() && targetPlayer!!.canSee(enaria)) {
-                targetPlayer!!.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, 60, 4, false, false))
+            if (!enaria.isBenign() && BehaviorUtils.canSee(targetPlayer!!, enaria)) {
+                targetPlayer!!.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 4, false, false))
             }
         }
     }

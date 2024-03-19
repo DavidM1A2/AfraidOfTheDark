@@ -8,17 +8,17 @@ import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
-import net.minecraft.block.Blocks
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.nbt.ListNBT
-import net.minecraft.nbt.NBTUtil
-import net.minecraft.util.DamageSource
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.world.server.ServerWorld
-import net.minecraftforge.common.util.Constants
+import net.minecraft.core.BlockPos
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.NbtUtils
+import net.minecraft.nbt.Tag
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.phys.Vec3
 import java.awt.Color
-import java.util.UUID
+import java.util.*
 import kotlin.random.Random
 
 class SummonSentinelsFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFightEvents.SummonSentinels) {
@@ -32,13 +32,13 @@ class SummonSentinelsFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, En
         enariaCastPosition = fight.enaria.blockPosition()
 
         // Summon 8 sentinels around the ice
-        val particlePositions = mutableListOf<Vector3d>()
+        val particlePositions = mutableListOf<Vec3>()
         for (x in -1..1) {
             for (z in -1..1) {
                 if (x != 0 || z != 0) {
                     val splinterDrone = SplinterDroneEntity(fight.enaria.level)
                     val position = fight.enaria.blockPosition().offset(x * 5, 0, z * 5)
-                    particlePositions.add(Vector3d(position.x + Random.nextDouble(), position.y + Random.nextDouble(), position.z + Random.nextDouble()))
+                    particlePositions.add(Vec3(position.x + Random.nextDouble(), position.y + Random.nextDouble(), position.z + Random.nextDouble()))
                     splinterDrone.setPos(position.x + 0.5, position.y.toDouble(), position.z + 0.5)
                     fight.enaria.level.addFreshEntity(splinterDrone)
                     splinterDroneIds.add(splinterDrone.uuid)
@@ -72,7 +72,7 @@ class SummonSentinelsFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, En
         val world = fight.enaria.level
         splinterDroneIds.forEach {
             // If we use entity.onKillCommand() they disappear without any animation, if we apply 99999 true damage they play the animation which looks better
-            (world as ServerWorld).getEntity(it)?.hurt(DamageSource.OUT_OF_WORLD, 99999f)
+            (world as ServerLevel).getEntity(it)?.hurt(DamageSource.OUT_OF_WORLD, 99999f)
         }
 
         // Clear out the ice
@@ -92,31 +92,31 @@ class SummonSentinelsFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, En
         return false
     }
 
-    override fun serializeNBT(): CompoundNBT {
+    override fun serializeNBT(): CompoundTag {
         val nbt = super.serializeNBT()
 
         nbt.putFloat(NBT_ENARIA_STARTING_HP, enariaStartingHp)
-        nbt.put(NBT_ENARIA_CAST_POSITION, NBTUtil.writeBlockPos(enariaCastPosition))
+        nbt.put(NBT_ENARIA_CAST_POSITION, NbtUtils.writeBlockPos(enariaCastPosition))
 
-        val splinterDroneIdNbts = ListNBT()
+        val splinterDroneIdNbts = ListTag()
         splinterDroneIds.forEach {
-            splinterDroneIdNbts.add(NBTUtil.createUUID(it))
+            splinterDroneIdNbts.add(NbtUtils.createUUID(it))
         }
         nbt.put(NBT_SPLINTER_DRONE_IDS, splinterDroneIdNbts)
 
         return nbt
     }
 
-    override fun deserializeNBT(nbt: CompoundNBT) {
+    override fun deserializeNBT(nbt: CompoundTag) {
         super.deserializeNBT(nbt)
 
         enariaStartingHp = nbt.getFloat(NBT_ENARIA_STARTING_HP)
-        enariaCastPosition = NBTUtil.readBlockPos(nbt.getCompound(NBT_ENARIA_CAST_POSITION))
+        enariaCastPosition = NbtUtils.readBlockPos(nbt.getCompound(NBT_ENARIA_CAST_POSITION))
 
-        val splinterDroneIdNbts = nbt.getList(NBT_SPLINTER_DRONE_IDS, Constants.NBT.TAG_INT_ARRAY)
+        val splinterDroneIdNbts = nbt.getList(NBT_SPLINTER_DRONE_IDS, Tag.TAG_INT_ARRAY.toInt())
         splinterDroneIds.clear()
         splinterDroneIdNbts.forEach {
-            splinterDroneIds.add(NBTUtil.loadUUID(it))
+            splinterDroneIds.add(NbtUtils.loadUUID(it))
         }
     }
 

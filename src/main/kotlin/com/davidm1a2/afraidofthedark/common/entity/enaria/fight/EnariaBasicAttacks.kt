@@ -8,9 +8,9 @@ import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
-import net.minecraft.command.arguments.EntityAnchorArgument
-import net.minecraft.util.SoundCategory
-import net.minecraft.util.SoundEvents
+import net.minecraft.commands.arguments.EntityAnchorArgument
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.sounds.SoundSource
 import java.awt.Color
 
 class EnariaBasicAttacks(private val fight: EnariaFight) {
@@ -117,7 +117,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 enaria.y,
                 enaria.z,
                 SoundEvents.ENDERMAN_TELEPORT,
-                SoundCategory.HOSTILE,
+                SoundSource.HOSTILE,
                 1.0f,
                 1.0f
             )
@@ -128,7 +128,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
                 enaria.y,
                 enaria.z,
                 SoundEvents.ENDERMAN_TELEPORT,
-                SoundCategory.HOSTILE,
+                SoundSource.HOSTILE,
                 1.0f,
                 1.0f
             )
@@ -144,7 +144,7 @@ class EnariaBasicAttacks(private val fight: EnariaFight) {
         }.minByOrNull {
             fight.enaria.distanceToSqr(it)
         }?.let {
-            fight.enaria.lookAt(EntityAnchorArgument.Type.EYES, it.position().add(0.0, 1.8, 0.0))
+            fight.enaria.lookAt(EntityAnchorArgument.Anchor.EYES, it.position().add(0.0, 1.8, 0.0))
         }
     }
 

@@ -2,8 +2,8 @@ package com.davidm1a2.afraidofthedark.common.entity.enaria.fight.events
 
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.entity.enaria.fight.EnariaFight
-import net.minecraft.block.Blocks
-import net.minecraft.nbt.CompoundNBT
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.world.level.block.Blocks
 
 class RegenerateRoomFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFightEvents.RegenerateRoom) {
     private var currentLayer: Int = 0
@@ -28,7 +28,7 @@ class RegenerateRoomFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, Ena
                     val expectedBlock = expectedBlockState.block
                     if (expectedBlock == Blocks.STRUCTURE_VOID) {
                         fight.enaria.level.setBlockAndUpdate(worldPos, Blocks.CAVE_AIR.defaultBlockState())
-                    } else if (!expectedBlockState.hasTileEntity() && expectedBlock != Blocks.AIR) {
+                    } else if (!expectedBlockState.hasBlockEntity() && expectedBlock != Blocks.AIR) {
                         fight.enaria.level.setBlockAndUpdate(worldPos, expectedBlockState)
                     }
                 }
@@ -45,7 +45,7 @@ class RegenerateRoomFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, Ena
         return currentLayer == 0
     }
 
-    override fun serializeNBT(): CompoundNBT {
+    override fun serializeNBT(): CompoundTag {
         val nbt = super.serializeNBT()
 
         nbt.putInt(NBT_CURRENT_LAYER, currentLayer)
@@ -54,7 +54,7 @@ class RegenerateRoomFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, Ena
         return nbt
     }
 
-    override fun deserializeNBT(nbt: CompoundNBT) {
+    override fun deserializeNBT(nbt: CompoundTag) {
         super.deserializeNBT(nbt)
 
         currentLayer = nbt.getInt(NBT_CURRENT_LAYER)

@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.utility
 
-import net.minecraft.util.Direction
-import net.minecraft.util.Rotation
+import net.minecraft.core.Direction
+import net.minecraft.world.level.block.Rotation
 
 fun Direction.toRotation(): Rotation {
     return when (this) {

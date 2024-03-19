@@ -7,26 +7,22 @@ import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.DanceChannel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.FlyingEntity
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.ai.attributes.AttributeModifierMap
-import net.minecraft.entity.ai.attributes.Attributes
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.network.IPacket
-import net.minecraft.network.datasync.DataSerializers
-import net.minecraft.network.datasync.EntityDataManager
-import net.minecraft.util.DamageSource
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.StringTextComponent
-import net.minecraft.world.World
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TextComponent
+import net.minecraft.network.protocol.Packet
+import net.minecraft.network.syncher.EntityDataSerializers
+import net.minecraft.network.syncher.SynchedEntityData
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.FlyingMob
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
-import net.minecraftforge.fml.network.NetworkHooks
-import java.util.UUID
+import net.minecraft.world.level.Level
+import net.minecraftforge.fmllegacy.network.NetworkHooks
+import java.util.*
 
 /**
  * Class representing the ghastly enaria entity
@@ -34,14 +30,14 @@ import java.util.UUID
  * @constructor sets the ghastly enaria entity properties
  * @property animHandler The animation handler used to manage animations
  */
-class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world: World) : FlyingMob(entityType, world), IMCAnimatedModel {
+class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world: Level) : FlyingMob(entityType, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(DANCE_CHANNEL)
 
     private var touchedPlayer: UUID? = null
 
     init {
         // The name of the entity, will be bold and red
-        this.customName = StringTextComponent("§c§lGhastly Enaria")
+        this.customName = TextComponent("§c§lGhastly Enaria")
         // Enable noclip so enaria can go through walls
         noPhysics = true
         // Add a custom move helper that moves her through walls
@@ -128,7 +124,7 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
      *
      * @return Red and bold nametag
      */
-    override fun getDisplayName(): ITextComponent {
+    override fun getDisplayName(): Component {
         return this.customName!!
     }
 
@@ -196,22 +192,22 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
         return animHandler
     }
 
-    override fun getAddEntityPacket(): IPacket<*> {
+    override fun getAddEntityPacket(): Packet<*> {
         return NetworkHooks.getEntitySpawningPacket(this)
     }
 
-    override fun readAdditionalSaveData(compound: CompoundNBT) {
+    override fun readAdditionalSaveData(compound: CompoundTag) {
         super.readAdditionalSaveData(compound)
         this.entityData[IS_BENIGN] = compound.getBoolean("is_benign")
     }
 
-    override fun addAdditionalSaveData(compound: CompoundNBT) {
+    override fun addAdditionalSaveData(compound: CompoundTag) {
         super.addAdditionalSaveData(compound)
         compound.putBoolean("is_benign", this.entityData[IS_BENIGN])
     }
 
     companion object {
-        private val IS_BENIGN = EntityDataManager.defineId(GhastlyEnariaEntity::class.java, DataSerializers.BOOLEAN)
+        private val IS_BENIGN = SynchedEntityData.defineId(GhastlyEnariaEntity::class.java, EntityDataSerializers.BOOLEAN)
 
         // Constants defining enaria parameters
         private const val MOVE_SPEED = 0.005

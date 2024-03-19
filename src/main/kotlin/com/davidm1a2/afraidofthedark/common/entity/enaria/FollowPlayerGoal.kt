@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria
 
-import net.minecraft.entity.ai.attributes.Attributes
-import net.minecraft.entity.ai.goal.Goal
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.ai.goal.Goal
+import net.minecraft.world.entity.player.Player
 
 /**
  * AI task to make an entity follow a target player
@@ -21,7 +21,7 @@ class FollowPlayerGoal(
     private val maxRange: Double,
     private val trackRange: Double
 ) : Goal() {
-    private var target: PlayerEntity? = null
+    private var target: Player? = null
     private var ticksUntilNextUpdate = 0
 
     /**
@@ -34,7 +34,7 @@ class FollowPlayerGoal(
 
         // Grab a list of nearby players
         val players =
-            entity.level.getEntitiesOfClass(PlayerEntity::class.java, entity.boundingBox.inflate(trackRange))
+            entity.level.getEntitiesOfClass(Player::class.java, entity.boundingBox.inflate(trackRange))
 
         // Grab the closest player, if there is no closest player return false
         val closestPlayer = players.minWithOrNull { p1, p2 -> p1.distanceTo(entity).compareTo(p2.distanceTo(entity)) } ?: return false

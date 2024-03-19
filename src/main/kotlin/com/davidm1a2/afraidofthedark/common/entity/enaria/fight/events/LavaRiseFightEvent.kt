@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria.fight.events
 
 import com.davidm1a2.afraidofthedark.common.entity.enaria.fight.EnariaFight
-import net.minecraft.block.Blocks
-import net.minecraft.nbt.CompoundNBT
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.world.level.block.Blocks
 import kotlin.random.Random
 
 class LavaRiseFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFightEvents.LavaRise) {
@@ -70,7 +70,7 @@ class LavaRiseFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFig
         }
     }
 
-    override fun serializeNBT(): CompoundNBT {
+    override fun serializeNBT(): CompoundTag {
         val nbt = super.serializeNBT()
 
         nbt.putInt(NBT_CURRENT_LAVA_LEVEL, currentLavaLevel)
@@ -80,7 +80,7 @@ class LavaRiseFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFig
         return nbt
     }
 
-    override fun deserializeNBT(nbt: CompoundNBT) {
+    override fun deserializeNBT(nbt: CompoundTag) {
         super.deserializeNBT(nbt)
 
         currentLavaLevel = nbt.getInt(NBT_CURRENT_LAVA_LEVEL)

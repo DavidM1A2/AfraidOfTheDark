@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria.fight.events
 
 import com.davidm1a2.afraidofthedark.common.entity.enaria.fight.EnariaFight
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.core.BlockPos
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.world.phys.Vec3
 import net.minecraftforge.common.util.INBTSerializable
 import kotlin.math.max
 import kotlin.math.min
@@ -12,7 +12,7 @@ import kotlin.random.Random
 abstract class EnariaFightEvent(
     protected val fight: EnariaFight,
     val type: EnariaFightEvents
-) : INBTSerializable<CompoundNBT> {
+) : INBTSerializable<CompoundTag> {
     abstract fun start()
 
     abstract fun tick()
@@ -46,8 +46,8 @@ abstract class EnariaFightEvent(
         }
     }
 
-    protected fun getRandomVectorBetween(pointOne: BlockPos, pointTwo: BlockPos): Vector3d {
-        return Vector3d(
+    protected fun getRandomVectorBetween(pointOne: BlockPos, pointTwo: BlockPos): Vec3 {
+        return Vec3(
             getRandomValueBetween(pointOne.x, pointTwo.x),
             getRandomValueBetween(pointOne.y, pointTwo.y),
             getRandomValueBetween(pointOne.z, pointTwo.z)
@@ -58,10 +58,10 @@ abstract class EnariaFightEvent(
         return Random.nextDouble(min(pointOne, pointTwo).toDouble(), max(pointOne, pointTwo).toDouble() + 1.0)
     }
 
-    override fun serializeNBT(): CompoundNBT {
-        return CompoundNBT()
+    override fun serializeNBT(): CompoundTag {
+        return CompoundTag()
     }
 
-    override fun deserializeNBT(nbt: CompoundNBT) {
+    override fun deserializeNBT(nbt: CompoundTag) {
     }
 }

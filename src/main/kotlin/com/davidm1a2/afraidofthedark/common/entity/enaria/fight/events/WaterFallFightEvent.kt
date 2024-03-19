@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria.fight.events
 
 import com.davidm1a2.afraidofthedark.common.entity.enaria.fight.EnariaFight
-import net.minecraft.block.Blocks
-import net.minecraft.nbt.CompoundNBT
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.world.level.block.Blocks
 import kotlin.random.Random
 
 class WaterFallFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFightEvents.WaterFall) {
@@ -65,7 +65,7 @@ class WaterFallFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFi
         return ticksUntilEnd <= 0 && ticksUntilWaterGone <= 0
     }
 
-    override fun serializeNBT(): CompoundNBT {
+    override fun serializeNBT(): CompoundTag {
         val nbt = super.serializeNBT()
 
         nbt.putInt(NBT_TICKS_UNTIL_END, ticksUntilEnd)
@@ -74,7 +74,7 @@ class WaterFallFightEvent(fight: EnariaFight) : EnariaFightEvent(fight, EnariaFi
         return nbt
     }
 
-    override fun deserializeNBT(nbt: CompoundNBT) {
+    override fun deserializeNBT(nbt: CompoundTag) {
         super.deserializeNBT(nbt)
         ticksUntilEnd = nbt.getInt(NBT_TICKS_UNTIL_END)
         ticksUntilWaterGone = nbt.getInt(NBT_TICKS_UNTIL_WATER_GONE)
