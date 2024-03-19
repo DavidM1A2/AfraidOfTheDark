@@ -10,28 +10,27 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedMode
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
-import net.minecraft.block.Blocks
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.projectile.ProjectileHelper
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.network.IPacket
-import net.minecraft.potion.EffectInstance
-import net.minecraft.potion.Effects
-import net.minecraft.util.DamageSource
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.RayTraceResult
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.world.World
+import net.minecraft.core.BlockPos
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.protocol.Packet
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
-import net.minecraftforge.fml.network.NetworkHooks
-import net.minecraftforge.fml.network.PacketDistributor
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.projectile.ProjectileUtil
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.phys.HitResult
+import net.minecraft.world.phys.Vec3
+import net.minecraftforge.fmllegacy.network.NetworkHooks
+import net.minecraftforge.fmllegacy.network.PacketDistributor
 import kotlin.math.ceil
 import kotlin.math.sqrt
 import kotlin.random.Random
 
-class FrostPhoenixProjectileEntity(entityType: EntityType<out FrostPhoenixProjectileEntity>, world: World) : Entity(entityType, world), IMCAnimatedModel {
+class FrostPhoenixProjectileEntity(entityType: EntityType<out FrostPhoenixProjectileEntity>, world: Level) : Entity(entityType, world), IMCAnimatedModel {
     private var shootingEntity: FrostPhoenixEntity? = null
     private val animHandler = AnimationHandler(FLY_CHANNEL)
     private var ticksInAir = 0
@@ -50,7 +49,7 @@ class FrostPhoenixProjectileEntity(entityType: EntityType<out FrostPhoenixProjec
 
         val directionMagnitude = sqrt(xDirection * xDirection + yDirection * yDirection + zDirection * zDirection)
         // Update the acceleration vector by normalizing it and multiplying by speed
-        deltaMovement = Vector3d(
+        deltaMovement = Vec3(
             xDirection / directionMagnitude * PROJECTILE_SPEED,
             yDirection / directionMagnitude * PROJECTILE_SPEED,
             zDirection / directionMagnitude * PROJECTILE_SPEED
@@ -79,7 +78,7 @@ class FrostPhoenixProjectileEntity(entityType: EntityType<out FrostPhoenixProjec
                 this.ticksInAir = this.ticksInAir + 1
 
                 // Perform a ray cast to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
-                val rayTraceResult = ProjectileHelper.getHitResult(this) {
+                val rayTraceResult = ProjectileUtil.getHitResult(this) {
                     if (ticksInAir > 25) {
                         true
                     } else {
@@ -87,19 +86,19 @@ class FrostPhoenixProjectileEntity(entityType: EntityType<out FrostPhoenixProjec
                     }
                 }
 
-                if (rayTraceResult.type != RayTraceResult.Type.MISS) {
+                if (rayTraceResult.type != HitResult.Type.MISS) {
                     onImpact(rayTraceResult)
                 }
 
                 // Continue flying in the direction of motion, update the position
                 moveTo(x + deltaMovement.x, y + deltaMovement.y, z + deltaMovement.z)
             } else {
-                remove()
+                remove(RemovalReason.DISCARDED)
             }
         }
     }
 
-    private fun onImpact(result: RayTraceResult) {
+    private fun onImpact(result: HitResult) {
         // Only process server side
         if (!level.isClientSide) {
             val nearbyEntities = level.getEntitiesOfClass(LivingEntity::class.java, boundingBox.inflate(HIT_RADIUS)) { it.distanceTo(this) < HIT_RADIUS }
@@ -119,7 +118,7 @@ class FrostPhoenixProjectileEntity(entityType: EntityType<out FrostPhoenixProjec
                 ParticlePacket.builder()
                     .particle(ModParticles.FREEZE)
                     .positions(positions)
-                    .speed(Vector3d.ZERO)
+                    .speed(Vec3.ZERO)
                     .build(),
                 PacketDistributor.TargetPoint(centerPosition.x, centerPosition.y, centerPosition.z, 100.0, level.dimension())
             )
@@ -127,7 +126,7 @@ class FrostPhoenixProjectileEntity(entityType: EntityType<out FrostPhoenixProjec
             // Slow all impacted entities
             for (nearbyEntity in nearbyEntities) {
                 if (nearbyEntity.hurt(ModDamageSources.getFrostPhoenixProjectileDamage(this, shootingEntity), 8f)) {
-                    nearbyEntity.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, 120, 2, false, false))
+                    nearbyEntity.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 2, false, false))
                 }
             }
 
@@ -153,7 +152,7 @@ class FrostPhoenixProjectileEntity(entityType: EntityType<out FrostPhoenixProjec
             playSound(ModSounds.FROST_PHOENIX_PROJECTILE_BREAK, 1.0f, random.nextFloat() * 0.2f + 1.0f)
 
             // Kill the projectile
-            remove()
+            remove(RemovalReason.DISCARDED)
         }
     }
 
@@ -188,15 +187,15 @@ class FrostPhoenixProjectileEntity(entityType: EntityType<out FrostPhoenixProjec
         return animHandler
     }
 
-    override fun getAddEntityPacket(): IPacket<*> {
+    override fun getAddEntityPacket(): Packet<*> {
         return NetworkHooks.getEntitySpawningPacket(this)
     }
 
-    override fun addAdditionalSaveData(compound: CompoundNBT) {
+    override fun addAdditionalSaveData(compound: CompoundTag) {
         this.ticksInAir = compound.getInt("ticks_in_air")
     }
 
-    override fun readAdditionalSaveData(compound: CompoundNBT) {
+    override fun readAdditionalSaveData(compound: CompoundTag) {
         compound.putInt("ticks_in_air", this.ticksInAir)
     }
 

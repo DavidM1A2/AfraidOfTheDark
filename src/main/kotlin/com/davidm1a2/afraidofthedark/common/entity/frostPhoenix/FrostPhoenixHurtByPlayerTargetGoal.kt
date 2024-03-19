@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.entity.frostPhoenix
 
-import net.minecraft.entity.EntityPredicate
-import net.minecraft.entity.ai.goal.TargetGoal
-import net.minecraft.entity.player.PlayerEntity
-import java.util.EnumSet
+import net.minecraft.world.entity.ai.goal.target.TargetGoal
+import net.minecraft.world.entity.ai.targeting.TargetingConditions
+import net.minecraft.world.entity.player.Player
+import java.util.*
 
 class FrostPhoenixHurtByPlayerTargetGoal(private val frostPhoenix: FrostPhoenixEntity) : TargetGoal(frostPhoenix, false) {
     private var lastRunTime = 0
@@ -19,7 +19,7 @@ class FrostPhoenixHurtByPlayerTargetGoal(private val frostPhoenix: FrostPhoenixE
         val lastHurtTime = mob.lastHurtByMobTimestamp
         val lastHurtMob = mob.lastHurtByMob
         return if (lastHurtTime != this.lastRunTime && lastHurtMob != null) {
-            if (lastHurtMob is PlayerEntity) {
+            if (lastHurtMob is Player) {
                 canAttack(lastHurtMob, HURT_BY_TARGETING)
             } else {
                 false
@@ -47,7 +47,7 @@ class FrostPhoenixHurtByPlayerTargetGoal(private val frostPhoenix: FrostPhoenixE
     }
 
     companion object {
-        private val HURT_BY_TARGETING = EntityPredicate().allowUnseeable().ignoreInvisibilityTesting()
+        private val HURT_BY_TARGETING = TargetingConditions.forCombat().ignoreLineOfSight().ignoreInvisibilityTesting()
 
         // Can fly up to 100 blocks away
         private const val MAX_DISTANCE_FROM_SPAWNER = 100

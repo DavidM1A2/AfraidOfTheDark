@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.entity.frostPhoenix
 
-import net.minecraft.command.arguments.EntityAnchorArgument
-import net.minecraft.entity.ai.attributes.Attributes
-import net.minecraft.entity.ai.goal.Goal
-import net.minecraft.util.math.vector.Vector3d
-import java.util.EnumSet
+import net.minecraft.commands.arguments.EntityAnchorArgument
+import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.ai.goal.Goal
+import net.minecraft.world.phys.Vec3
+import java.util.*
 import kotlin.math.sin
 
 abstract class FrostPhoenixMoveBaseGoal(protected val phoenix: FrostPhoenixEntity) : Goal() {
@@ -21,7 +21,7 @@ abstract class FrostPhoenixMoveBaseGoal(protected val phoenix: FrostPhoenixEntit
         flyPatternBaseOffsetZ = phoenix.random.nextDouble() * 2 * Math.PI
     }
 
-    protected fun getCurrentTargetPosition(): Vector3d {
+    protected fun getCurrentTargetPosition(): Vec3 {
         val spawnerPos = phoenix.spawnerPos
         val ticksAlive = phoenix.tickCount
         val currentTarget = phoenix.target
@@ -33,7 +33,7 @@ abstract class FrostPhoenixMoveBaseGoal(protected val phoenix: FrostPhoenixEntit
         val x = centerX + sin(flyPatternBaseOffsetX + currentOffset) * FrostPhoenixFlyGoal.FLY_DIAMETER
         val y = centerY + MAX_FLY_HEIGHT
         val z = centerZ + sin(2.0 * (flyPatternBaseOffsetZ + currentOffset)) / 2.0 * FrostPhoenixFlyGoal.FLY_DIAMETER
-        return Vector3d(x, y, z)
+        return Vec3(x, y, z)
     }
 
     protected fun flyTo(x: Double, y: Double, z: Double) {
@@ -42,7 +42,7 @@ abstract class FrostPhoenixMoveBaseGoal(protected val phoenix: FrostPhoenixEntit
     }
 
     protected fun lookAt(x: Double, y: Double, z: Double) {
-        phoenix.lookAt(EntityAnchorArgument.Type.EYES, Vector3d(x, y, z))
+        phoenix.lookAt(EntityAnchorArgument.Anchor.EYES, Vec3(x, y, z))
     }
 
     companion object {

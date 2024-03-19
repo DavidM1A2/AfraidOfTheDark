@@ -5,48 +5,32 @@ import com.davidm1a2.afraidofthedark.common.constants.ModDataSerializers
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
-import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.AttackChannel
-import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.FlyChannel
-import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.IdleFlapChannel
-import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.IdleLookChannel
-import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.LandChannel
-import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.LaunchChannel
+import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.animation.*
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.tileEntity.FrostPhoenixSpawnerTileEntity
-import net.minecraft.block.BlockState
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
-import net.minecraft.entity.EntitySize
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.MobEntity
-import net.minecraft.entity.MoverType
-import net.minecraft.entity.Pose
-import net.minecraft.entity.ai.attributes.AttributeModifierMap
-import net.minecraft.entity.ai.attributes.Attributes
-import net.minecraft.entity.ai.goal.LookAtGoal
-import net.minecraft.entity.ai.goal.LookRandomlyGoal
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.network.IPacket
-import net.minecraft.network.datasync.DataParameter
-import net.minecraft.network.datasync.DataSerializers
-import net.minecraft.network.datasync.EntityDataManager
-import net.minecraft.util.DamageSource
-import net.minecraft.util.SoundCategory
-import net.minecraft.util.SoundEvent
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.world.World
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.Mob
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.protocol.Packet
+import net.minecraft.network.syncher.EntityDataAccessor
+import net.minecraft.network.syncher.EntityDataSerializers
+import net.minecraft.network.syncher.SynchedEntityData
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.sounds.SoundSource
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.entity.*
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
-import net.minecraft.world.server.ServerWorld
-import net.minecraftforge.fml.network.NetworkHooks
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.Vec3
+import net.minecraftforge.fmllegacy.network.NetworkHooks
 import kotlin.math.sin
 
 class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: Level) : Mob(entityType, world), IMCAnimatedModel {
@@ -103,7 +87,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         entityData.define(STANCE, FrostPhoenixStance.STANDING)
     }
 
-    override fun onSyncedDataUpdated(dataParameter: DataParameter<*>) {
+    override fun onSyncedDataUpdated(dataParameter: EntityDataAccessor<*>) {
         super.onSyncedDataUpdated(dataParameter)
         if (dataParameter == STANCE) {
             refreshDimensions()
@@ -157,8 +141,8 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         goalSelector.addGoal(2, FrostPhoenixTakeOffGoal(this))
         goalSelector.addGoal(3, FrostPhoenixFlyGoal(this))
         goalSelector.addGoal(4, FrostPhoenixLandGoal(this))
-        goalSelector.addGoal(5, LookAtGoal(this, PlayerEntity::class.java, FOLLOW_RANGE.toFloat()))
-        goalSelector.addGoal(6, LookRandomlyGoal(this))
+        goalSelector.addGoal(5, LookAtPlayerGoal(this, Player::class.java, FOLLOW_RANGE.toFloat()))
+        goalSelector.addGoal(6, RandomLookAroundGoal(this))
         targetSelector.addGoal(0, FrostPhoenixHurtByPlayerTargetGoal(this))
     }
 
@@ -196,17 +180,17 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
             val player = Minecraft.getInstance().player!!
             if (stance == FrostPhoenixStance.FLYING || stance == FrostPhoenixStance.TAKING_OFF || stance == FrostPhoenixStance.LANDING) {
                 if (tickCount % 14 == 0) {
-                    AfraidOfTheDark.proxy.playSoundFixed(this, ModSounds.FROST_PHOENIX_FLY, SoundCategory.NEUTRAL, getVolumeByDistance(player, 45f), random.nextFloat() * 0.1f + 0.95f)
+                    AfraidOfTheDark.proxy.playSoundFixed(this, ModSounds.FROST_PHOENIX_FLY, SoundSource.NEUTRAL, getVolumeByDistance(player, 45f), random.nextFloat() * 0.1f + 0.95f)
                 }
             } else if (stance == FrostPhoenixStance.STORMING) {
                 if (tickCount % 5 == 0) {
-                    AfraidOfTheDark.proxy.playSoundFixed(this, ModSounds.FROST_PHOENIX_FLY, SoundCategory.NEUTRAL, getVolumeByDistance(player, 45f), random.nextFloat() * 0.1f + 1.0f)
+                    AfraidOfTheDark.proxy.playSoundFixed(this, ModSounds.FROST_PHOENIX_FLY, SoundSource.NEUTRAL, getVolumeByDistance(player, 45f), random.nextFloat() * 0.1f + 1.0f)
                 }
             }
         }
     }
 
-    private fun getVolumeByDistance(playerEntity: PlayerEntity, maxDistanceBlocks: Float): Float {
+    private fun getVolumeByDistance(playerEntity: Player, maxDistanceBlocks: Float): Float {
         val distance = playerEntity.distanceTo(this)
         if (distance >= maxDistanceBlocks) {
             return 0f
@@ -258,7 +242,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         return 1.5f
     }
 
-    override fun getDimensions(pose: Pose): EntitySize {
+    override fun getDimensions(pose: Pose): EntityDimensions {
         return if (stance == FrostPhoenixStance.STANDING || stance == FrostPhoenixStance.LANDING) {
             STANDING_DIMENSIONS
         } else {
@@ -275,14 +259,14 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
     override fun playStepSound(pos: BlockPos, state: BlockState) {
     }
 
-    override fun getSoundSource(): SoundCategory {
-        return SoundCategory.HOSTILE
+    override fun getSoundSource(): SoundSource {
+        return SoundSource.HOSTILE
     }
 
     override fun playAmbientSound() {
         if (level.isClientSide) {
             val player = Minecraft.getInstance().player!!
-            AfraidOfTheDark.proxy.playSoundFixed(this, ModSounds.FROST_PHOENIX_AMBIENT, SoundCategory.NEUTRAL, getVolumeByDistance(player, 100f), random.nextFloat() * 0.1f + 0.8f)
+            AfraidOfTheDark.proxy.playSoundFixed(this, ModSounds.FROST_PHOENIX_AMBIENT, SoundSource.NEUTRAL, getVolumeByDistance(player, 100f), random.nextFloat() * 0.1f + 0.8f)
         }
     }
 
@@ -298,13 +282,13 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         return ModSounds.FROST_PHOENIX_HURT
     }
 
-    override fun causeFallDamage(distance: Float, damageMultiplier: Float): Boolean {
+    override fun causeFallDamage(distance: Float, damageMultiplier: Float, damageSource: DamageSource): Boolean {
         return false
     }
 
     override fun checkFallDamage(distance: Double, onGround: Boolean, blockState: BlockState, location: BlockPos) {}
 
-    override fun travel(location: Vector3d) {
+    override fun travel(location: Vec3) {
         if (stance == FrostPhoenixStance.STANDING) {
             super.travel(location)
         } else {
@@ -317,7 +301,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
      *
      * @param location Location to go to
      */
-    private fun flyingTravel(location: Vector3d) {
+    private fun flyingTravel(location: Vec3) {
         if (this.isInWater) {
             moveRelative(0.02f, location)
             move(MoverType.SELF, deltaMovement)
@@ -330,7 +314,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
             val ground = BlockPos(this.x, this.y - 1.0, this.z)
             var movementModifier = 0.91f
             if (onGround) {
-                movementModifier = level.getBlockState(ground).getSlipperiness(level, ground, this) * 0.91f
+                movementModifier = level.getBlockState(ground).getFriction(level, ground, this) * 0.91f
             }
             val slipperinessModifier = 0.16277137f / (movementModifier * movementModifier * movementModifier)
             moveRelative(if (onGround) 0.1f * slipperinessModifier else 0.02f, location)
@@ -341,7 +325,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         calculateEntityAnimation(this, false)
     }
 
-    override fun readAdditionalSaveData(compound: CompoundNBT) {
+    override fun readAdditionalSaveData(compound: CompoundTag) {
         super.readAdditionalSaveData(compound)
         if (compound.contains("spawner_pos_x") && compound.contains("spawner_pos_y") && compound.contains("spawner_pos_z")) {
             this.spawnerPos = BlockPos(
@@ -357,7 +341,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
             this.combatManager.deserializeNBT(compound.getCompound("combat_manager"))
         }
         val world = level
-        if (compound.hasUUID("target_uuid") && world is ServerWorld) {
+        if (compound.hasUUID("target_uuid") && world is ServerLevel) {
             target = world.getEntity(compound.getUUID("target_uuid")) as? LivingEntity?
         }
     }
@@ -366,11 +350,11 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         return true
     }
 
-    override fun getAddEntityPacket(): IPacket<*> {
+    override fun getAddEntityPacket(): Packet<*> {
         return NetworkHooks.getEntitySpawningPacket(this)
     }
 
-    override fun addAdditionalSaveData(compound: CompoundNBT) {
+    override fun addAdditionalSaveData(compound: CompoundTag) {
         super.addAdditionalSaveData(compound)
         compound.putInt("spawner_pos_x", this.spawnerPos.x)
         compound.putInt("spawner_pos_y", this.spawnerPos.y)
@@ -381,8 +365,8 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
     }
 
     companion object {
-        private val SPAWNER_POS = EntityDataManager.defineId(FrostPhoenixEntity::class.java, DataSerializers.BLOCK_POS)
-        private val STANCE = EntityDataManager.defineId(FrostPhoenixEntity::class.java, ModDataSerializers.FROST_PHOENIX_STANCE)
+        private val SPAWNER_POS = SynchedEntityData.defineId(FrostPhoenixEntity::class.java, EntityDataSerializers.BLOCK_POS)
+        private val STANCE = SynchedEntityData.defineId(FrostPhoenixEntity::class.java, ModDataSerializers.FROST_PHOENIX_STANCE)
 
         // Constants defining phoenix parameters
         private const val MOVE_SPEED = 0.15
@@ -390,8 +374,8 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         private const val MAX_HEALTH = 240.0
         private const val KNOCKBACK_RESISTANCE = 1.0
 
-        private val STANDING_DIMENSIONS = EntitySize.scalable(1.3f, 5.8f)
-        private val FLYING_DIMENSIONS = EntitySize.scalable(3.8f, 1.9f)
+        private val STANDING_DIMENSIONS = EntityDimensions.scalable(1.3f, 5.8f)
+        private val FLYING_DIMENSIONS = EntityDimensions.scalable(3.8f, 1.9f)
 
         private val IDLE_FLAP_CHANNEL = IdleFlapChannel("IdleFlap", 24.0F, 21, ChannelMode.LINEAR)
         private val LAUNCH_CHANNEL = LaunchChannel("Launch", 24.0F, 21, ChannelMode.LINEAR)

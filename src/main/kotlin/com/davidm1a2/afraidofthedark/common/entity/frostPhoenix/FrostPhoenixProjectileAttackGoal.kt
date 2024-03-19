@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.entity.frostPhoenix
 
-import net.minecraft.entity.ai.goal.Goal
+import net.minecraft.world.entity.ai.goal.Goal
 
 class FrostPhoenixProjectileAttackGoal(private val frostPhoenix: FrostPhoenixEntity) : Goal() {
     override fun canUse(): Boolean {

@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.entity.frostPhoenix
 
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import java.time.Duration
 
 class FrostPhoenixFlapHealStormGoal(frostPhoenix: FrostPhoenixEntity) : FrostPhoenixMoveBaseGoal(frostPhoenix) {
@@ -34,7 +34,7 @@ class FrostPhoenixFlapHealStormGoal(frostPhoenix: FrostPhoenixEntity) : FrostPho
         // 3. The phoenix was not hurt by a player while storming
         val phoenixIsFlyingOrStorming = phoenix.stance == FrostPhoenixStance.FLYING || phoenix.combatManager.isStorming()
         val phoenixHasTarget = phoenix.target != null
-        val phoenixWasHurtByPlayerInStorm = phoenix.lastHurtByMobTimestamp >= stormStartTime && phoenix.lastHurtByMob is PlayerEntity
+        val phoenixWasHurtByPlayerInStorm = phoenix.lastHurtByMobTimestamp >= stormStartTime && phoenix.lastHurtByMob is Player
         return phoenixIsFlyingOrStorming && phoenixHasTarget && !phoenixWasHurtByPlayerInStorm
     }
 

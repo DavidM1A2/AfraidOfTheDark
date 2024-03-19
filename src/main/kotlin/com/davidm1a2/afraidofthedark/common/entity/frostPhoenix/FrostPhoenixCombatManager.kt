@@ -3,26 +3,26 @@ package com.davidm1a2.afraidofthedark.common.entity.frostPhoenix
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.network.packets.animation.AnimationPacket
-import net.minecraft.block.Blocks
-import net.minecraft.command.arguments.EntityAnchorArgument
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.ai.attributes.Attributes
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.nbt.IntArrayNBT
-import net.minecraft.network.play.server.SEntityVelocityPacket
-import net.minecraft.potion.EffectInstance
-import net.minecraft.potion.Effects
-import net.minecraft.util.math.AxisAlignedBB
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.commands.arguments.EntityAnchorArgument
+import net.minecraft.core.BlockPos
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.IntArrayTag
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.phys.AABB
+import net.minecraft.world.phys.Vec3
 import net.minecraftforge.common.util.INBTSerializable
 import org.apache.logging.log4j.LogManager
 
-class FrostPhoenixCombatManager(private val phoenix: FrostPhoenixEntity) : INBTSerializable<CompoundNBT> {
+class FrostPhoenixCombatManager(private val phoenix: FrostPhoenixEntity) : INBTSerializable<CompoundTag> {
     private var stormTicksLeft = 0
-    private var stormCenter = Vector3d(0.0, 0.0, 0.0)
+    private var stormCenter = Vec3(0.0, 0.0, 0.0)
     private var blocksChangedToSnow = mutableSetOf<BlockPos>()
 
     fun shootFireballAtTarget() {
@@ -59,18 +59,18 @@ class FrostPhoenixCombatManager(private val phoenix: FrostPhoenixEntity) : INBTS
 
         // Push away nearby entities
         val level = phoenix.level
-        val knockbackBox = AxisAlignedBB.unitCubeFromLowerCorner(stormCenter.subtract(-0.5, -0.5, -0.5)).inflate(KNOCKBACK_RADIUS_BLOCKS.toDouble())
+        val knockbackBox = AABB.unitCubeFromLowerCorner(stormCenter.subtract(-0.5, -0.5, -0.5)).inflate(KNOCKBACK_RADIUS_BLOCKS.toDouble())
         val nearbyEntities = level.getEntitiesOfClass(LivingEntity::class.java, knockbackBox) {
             it != phoenix && it.position().distanceTo(stormCenter) < KNOCKBACK_RADIUS_BLOCKS
         }
         for (entity in nearbyEntities) {
-            if (entity is PlayerEntity && entity.isSpectator) {
+            if (entity is Player && entity.isSpectator) {
                 continue
             }
             val awayDir = entity.position().subtract(stormCenter).normalize()
             entity.push(awayDir.x * STORM_KNOCKBACK_STRENGTH, 1.4 * STORM_KNOCKBACK_STRENGTH, awayDir.z * STORM_KNOCKBACK_STRENGTH)
-            if (entity is ServerPlayerEntity) {
-                entity.connection.send(SEntityVelocityPacket(entity))
+            if (entity is ServerPlayer) {
+                entity.connection.send(ClientboundSetEntityMotionPacket(entity))
             }
         }
 
@@ -100,7 +100,7 @@ class FrostPhoenixCombatManager(private val phoenix: FrostPhoenixEntity) : INBTS
         stormTicksLeft = stormTicksLeft - 1
         phoenix.heal(HEALTH_PER_TICK)
         // Target is null if it died or the player left the game
-        phoenix.target?.let { phoenix.lookAt(EntityAnchorArgument.Type.EYES, it.getEyePosition(1.0f)) }
+        phoenix.target?.let { phoenix.lookAt(EntityAnchorArgument.Anchor.EYES, it.getEyePosition(1.0f)) }
 
         if (stormTicksLeft % 20 == 0) {
             val nearbyLivingEntities = phoenix.level.getEntitiesOfClass(LivingEntity::class.java, phoenix.boundingBox.inflate(STORM_RADIUS_BLOCKS.toDouble())) {
@@ -108,7 +108,7 @@ class FrostPhoenixCombatManager(private val phoenix: FrostPhoenixEntity) : INBTS
             }
             for (livingEntity in nearbyLivingEntities) {
                 livingEntity.hurt(ModDamageSources.getFrostPhoenixStormDamage(phoenix), STORM_DAMAGE_PER_SECOND)
-                livingEntity.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, 100, 1))
+                livingEntity.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1))
             }
         }
     }
@@ -125,8 +125,8 @@ class FrostPhoenixCombatManager(private val phoenix: FrostPhoenixEntity) : INBTS
         blocksChangedToSnow.clear()
     }
 
-    override fun serializeNBT(): CompoundNBT {
-        val nbt = CompoundNBT()
+    override fun serializeNBT(): CompoundTag {
+        val nbt = CompoundTag()
 
         nbt.putInt("storm_ticks_left", stormTicksLeft)
 
@@ -134,16 +134,16 @@ class FrostPhoenixCombatManager(private val phoenix: FrostPhoenixEntity) : INBTS
         nbt.putDouble("storm_center_y", stormCenter.y)
         nbt.putDouble("storm_center_z", stormCenter.z)
 
-        val changedBlocksNbt = IntArrayNBT(blocksChangedToSnow.flatMap { sequenceOf(it.x, it.y, it.z) })
+        val changedBlocksNbt = IntArrayTag(blocksChangedToSnow.flatMap { sequenceOf(it.x, it.y, it.z) })
         nbt.put("changed_to_snow_positions", changedBlocksNbt)
 
         return nbt
     }
 
-    override fun deserializeNBT(nbt: CompoundNBT) {
+    override fun deserializeNBT(nbt: CompoundTag) {
         stormTicksLeft = nbt.getInt("storm_ticks_left")
 
-        stormCenter = Vector3d(
+        stormCenter = Vec3(
             nbt.getDouble("storm_center_x"),
             nbt.getDouble("storm_center_y"),
             nbt.getDouble("storm_center_z")
