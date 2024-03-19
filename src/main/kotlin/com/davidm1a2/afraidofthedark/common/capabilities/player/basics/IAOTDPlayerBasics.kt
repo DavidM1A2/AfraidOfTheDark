@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.basics
 
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.player.Player
 
 /**
  * An interface that is a base for AOTD player basic capabilities
@@ -16,7 +16,7 @@ interface IAOTDPlayerBasics {
      *
      * @param entityPlayer The player that started the mod
      */
-    fun startAOTD(entityPlayer: PlayerEntity)
+    fun startAOTD(entityPlayer: Player)
 
     /**
      * Sets the multiplicity of some key to some value. Used by the MultiplicityResearchTrigger
@@ -46,19 +46,19 @@ interface IAOTDPlayerBasics {
      *
      * @param entityPlayer The player that the data is being synced for
      */
-    fun syncWatchedMeteor(entityPlayer: PlayerEntity)
+    fun syncWatchedMeteor(entityPlayer: Player)
 
     /**
      * Syncs all selected power source data
      *
      * @param entityPlayer THe player that the data is being synced for
      */
-    fun syncSelectedPowerSource(entityPlayer: PlayerEntity)
+    fun syncSelectedPowerSource(entityPlayer: Player)
 
     /**
      * Syncs all player basic data from server -> client
      *
      * @param entityPlayer The player to sync to
      */
-    fun syncAll(entityPlayer: PlayerEntity)
+    fun syncAll(entityPlayer: Player)
 }

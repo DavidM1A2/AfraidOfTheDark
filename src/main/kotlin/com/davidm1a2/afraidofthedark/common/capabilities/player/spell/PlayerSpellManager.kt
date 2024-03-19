@@ -5,8 +5,8 @@ import com.davidm1a2.afraidofthedark.common.network.packets.capability.ClearSpel
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.SpellPacket
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.google.common.collect.HashBiMap
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.player.Player
 import org.apache.logging.log4j.LogManager
 import java.util.*
 
@@ -74,10 +74,10 @@ class PlayerSpellManager : IPlayerSpellManager {
         }
     }
 
-    override fun syncAll(entityPlayer: PlayerEntity) {
+    override fun syncAll(entityPlayer: Player) {
         // Clear the existing spells first
         if (isServerSide(entityPlayer)) {
-            AfraidOfTheDark.packetHandler.sendTo(ClearSpellsPacket(), entityPlayer as ServerPlayerEntity)
+            AfraidOfTheDark.packetHandler.sendTo(ClearSpellsPacket(), entityPlayer as ServerPlayer)
         } else {
             AfraidOfTheDark.packetHandler.sendToServer(ClearSpellsPacket())
         }
@@ -86,20 +86,20 @@ class PlayerSpellManager : IPlayerSpellManager {
         getSpells().forEach { sync(entityPlayer, it) }
     }
 
-    override fun sync(entityPlayer: PlayerEntity, spell: Spell) {
+    override fun sync(entityPlayer: Player, spell: Spell) {
         // Grab the keybind or null
         val keybinding = getKeybindingForSpell(spell)
         // Create the packet
         val syncSpellPacket = SpellPacket(spell, spellNetworkIdMapping[spell]!!, keybinding)
         // If we're on server side send the packet to the player, otherwise send it to the server
         if (isServerSide(entityPlayer)) {
-            AfraidOfTheDark.packetHandler.sendTo(syncSpellPacket, entityPlayer as ServerPlayerEntity)
+            AfraidOfTheDark.packetHandler.sendTo(syncSpellPacket, entityPlayer as ServerPlayer)
         } else {
             AfraidOfTheDark.packetHandler.sendToServer(syncSpellPacket)
         }
     }
 
-    private fun isServerSide(entityPlayer: PlayerEntity): Boolean {
+    private fun isServerSide(entityPlayer: Player): Boolean {
         return !entityPlayer.level.isClientSide
     }
 

@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.world.structure
 
-import net.minecraft.util.math.ChunkPos
+import net.minecraft.world.level.ChunkPos
 
 enum class StructureGridSize(val blockSize: Int, val nextSizeDown: StructureGridSize?) {
     SIZE_16(16, null),

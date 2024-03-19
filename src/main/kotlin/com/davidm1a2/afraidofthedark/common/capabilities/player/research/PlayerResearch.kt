@@ -4,8 +4,8 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.network.packets.capability.ResearchPacket
 import com.davidm1a2.afraidofthedark.common.research.Research
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.player.Player
 import java.time.ZonedDateTime
 
 /**
@@ -21,7 +21,7 @@ class PlayerResearch : IPlayerResearch {
         ModRegistries.RESEARCH.values.forEach { researchToUnlocked[it] = null }
     }
 
-    private fun isServerSide(entityPlayer: PlayerEntity): Boolean {
+    private fun isServerSide(entityPlayer: Player): Boolean {
         return !entityPlayer.level.isClientSide
     }
 
@@ -41,11 +41,11 @@ class PlayerResearch : IPlayerResearch {
         researchToUnlocked[research] = researchTime
     }
 
-    override fun sync(entityPlayer: PlayerEntity, notify: Boolean) {
+    override fun sync(entityPlayer: Player, notify: Boolean) {
         if (isServerSide(entityPlayer)) {
             AfraidOfTheDark.packetHandler.sendTo(
                 ResearchPacket(researchToUnlocked, notify),
-                entityPlayer as ServerPlayerEntity
+                entityPlayer as ServerPlayer
             )
         }
     }

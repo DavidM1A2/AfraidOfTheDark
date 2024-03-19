@@ -1,29 +1,29 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell
 
+import com.davidm1a2.afraidofthedark.common.capabilities.INullableCapabilitySerializable
+import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.spell.Spell
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.nbt.INBT
-import net.minecraft.nbt.ListNBT
-import net.minecraft.util.Direction
+import net.minecraft.core.Direction
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.Tag
 import net.minecraftforge.common.capabilities.Capability
-import net.minecraftforge.common.capabilities.Capability.IStorage
-import net.minecraftforge.common.util.Constants
+import net.minecraftforge.common.util.LazyOptional
 import org.apache.logging.log4j.LogManager
 
-/**
- * Default storage implementation for the AOTD spell manager
- */
-class PlayerSpellManagerStorage : IStorage<IPlayerSpellManager> {
-    override fun writeNBT(
-        capability: Capability<IPlayerSpellManager>,
-        instance: IPlayerSpellManager,
-        side: Direction?
-    ): INBT {
-        val compound = CompoundNBT()
+class PlayerSpellManagerCapabilitySerializer : INullableCapabilitySerializable<CompoundTag> {
+    private val instance: IPlayerSpellManager = PlayerSpellManager()
 
-        val spellListNbt = ListNBT()
+    override fun <V> getCapability(capability: Capability<V>?, side: Direction?): LazyOptional<V> {
+        return if (capability == ModCapabilities.PLAYER_SPELL_MANAGER) LazyOptional.of { instance }.cast() else LazyOptional.empty()
+    }
+
+    override fun serializeNBT(): CompoundTag {
+        val compound = CompoundTag()
+
+        val spellListNbt = ListTag()
         for (spell in instance.getSpells()) {
-            val spellListEntryNbt = CompoundNBT()
+            val spellListEntryNbt = CompoundTag()
 
             spellListEntryNbt.put(NBT_SPELL, spell.serializeNBT())
             val keybinding = instance.getKeybindingForSpell(spell)
@@ -38,15 +38,10 @@ class PlayerSpellManagerStorage : IStorage<IPlayerSpellManager> {
         return compound
     }
 
-    override fun readNBT(
-        capability: Capability<IPlayerSpellManager>,
-        instance: IPlayerSpellManager,
-        side: Direction?,
-        nbt: INBT
-    ) {
+    override fun deserializeNBT(nbt: CompoundTag?) {
         // Test if the nbt tag base is an NBT tag compound
-        if (nbt is CompoundNBT) {
-            val spellListNbt = nbt.getList(NBT_SPELL_LIST, Constants.NBT.TAG_COMPOUND)
+        if (nbt != null) {
+            val spellListNbt = nbt.getList(NBT_SPELL_LIST, Tag.TAG_COMPOUND.toInt())
             for (i in 0 until spellListNbt.size) {
                 val spellListEntryNbt = spellListNbt.getCompound(i)
                 val spellNbt = spellListEntryNbt.getCompound(NBT_SPELL)
@@ -59,7 +54,7 @@ class PlayerSpellManagerStorage : IStorage<IPlayerSpellManager> {
                 }
             }
         } else {
-            LOG.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
+            LOG.error("Attempted to deserialize an NBTBase that was null!")
         }
     }
 

@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.dimension
 
-import net.minecraft.nbt.ListNBT
-import net.minecraft.util.RegistryKey
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.core.BlockPos
+import net.minecraft.nbt.ListTag
+import net.minecraft.resources.ResourceKey
+import net.minecraft.world.level.Level
 
 /**
  * An interface that is a base for AOTD player nightmare data capabilities. This specific capability is only used server side!
@@ -18,7 +18,7 @@ import net.minecraft.world.World
 interface IPlayerNightmareData : IslandData {
     override var positionalIndex: Int
     var preTeleportPosition: BlockPos?
-    var preTeleportDimension: RegistryKey<World>?
+    var preTeleportDimension: ResourceKey<Level>?
     var preTeleportRespawnPosition: RespawnPosition?
-    var preTeleportPlayerInventory: ListNBT?
+    var preTeleportPlayerInventory: ListTag?
 }

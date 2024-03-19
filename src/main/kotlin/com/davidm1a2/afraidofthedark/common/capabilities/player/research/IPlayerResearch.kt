@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.research
 
 import com.davidm1a2.afraidofthedark.common.research.Research
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import java.time.ZonedDateTime
 
 /**
@@ -46,5 +46,5 @@ interface IPlayerResearch {
      * @param entityPlayer The player to sync research to
      * @param notify True if the player should be notified of any new researches, false otherwise
      */
-    fun sync(entityPlayer: PlayerEntity, notify: Boolean)
+    fun sync(entityPlayer: Player, notify: Boolean)
 }

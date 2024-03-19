@@ -12,7 +12,7 @@ import net.minecraftforge.common.util.LazyOptional
 import org.apache.logging.log4j.LogManager
 
 class WardedBlockMapCapabilitySerializer : INullableCapabilitySerializable<CompoundTag> {
-    private val instance = WardedBlockMap()
+    private val instance: IWardedBlockMap = WardedBlockMap()
 
     override fun <V> getCapability(capability: Capability<V>?, side: Direction?): LazyOptional<V> {
         return if (capability == ModCapabilities.WARDED_BLOCK_MAP) LazyOptional.of { instance }.cast() else LazyOptional.empty()

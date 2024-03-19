@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component
 
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
+import net.minecraft.core.BlockPos
 import net.minecraft.entity.Entity
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.NBTUtil
@@ -11,6 +12,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.fml.server.ServerLifecycleHooks
 import java.util.UUID

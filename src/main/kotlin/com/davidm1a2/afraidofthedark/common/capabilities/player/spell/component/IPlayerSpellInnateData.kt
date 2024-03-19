@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component
 
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 
 interface IPlayerSpellInnateData {
     var vitae: Double
@@ -11,12 +11,12 @@ interface IPlayerSpellInnateData {
      * @param entityPlayer The player to check
      * @return A positive vitae amount
      */
-    fun getMaxVitae(entityPlayer: PlayerEntity): Double
+    fun getMaxVitae(entityPlayer: Player): Double
 
     /**
      * Synchronizes innate data between server and client
      *
      * @param entityPlayer The player to sync innate data to
      */
-    fun sync(entityPlayer: PlayerEntity)
+    fun sync(entityPlayer: Player)
 }

@@ -1,21 +1,29 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.world.structure
 
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.nbt.INBT
-import net.minecraft.nbt.ListNBT
-import net.minecraft.util.Direction
+import com.davidm1a2.afraidofthedark.common.capabilities.INullableCapabilitySerializable
+import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import net.minecraft.core.Direction
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.Tag
 import net.minecraftforge.common.capabilities.Capability
-import net.minecraftforge.common.util.Constants
+import net.minecraftforge.common.util.LazyOptional
 import org.apache.logging.log4j.LogManager
 
-class WorldStructureMapperStorage : Capability.IStorage<IWorldStructureMapper> {
-    override fun writeNBT(capability: Capability<IWorldStructureMapper>, instance: IWorldStructureMapper, side: Direction?): INBT {
-        val nbt = CompoundNBT()
+class WorldStructureMapperCapabilitySerializer : INullableCapabilitySerializable<CompoundTag> {
+    private val instance: IWorldStructureMapper = WorldStructureMapper()
+
+    override fun <V> getCapability(capability: Capability<V>?, side: Direction?): LazyOptional<V> {
+        return if (capability == ModCapabilities.WORLD_STRUCTURE_MAPPER) LazyOptional.of { instance }.cast() else LazyOptional.empty()
+    }
+
+    override fun serializeNBT(): CompoundTag {
+        val nbt = CompoundTag()
 
         // Store structure maps
         val structureMaps = instance.getStructureMaps()
         val structureMapCoords = IntArray(structureMaps.size * 2)
-        val structureMapData = ListNBT()
+        val structureMapData = ListTag()
         var i = 0
         structureMaps.forEach {
             structureMapCoords[i++] = it.first.x
@@ -28,11 +36,11 @@ class WorldStructureMapperStorage : Capability.IStorage<IWorldStructureMapper> {
         return nbt
     }
 
-    override fun readNBT(capability: Capability<IWorldStructureMapper>, instance: IWorldStructureMapper, side: Direction?, nbt: INBT) {
-        if (nbt is CompoundNBT) {
+    override fun deserializeNBT(nbt: CompoundTag?) {
+        if (nbt != null) {
             // Read structure maps
             val structureMapCoords = nbt.getIntArray(NBT_STRUCTURE_MAP_COORDS_NBT)
-            val structureMapData = nbt.getList(NBT_STRUCTURE_MAP_DATA_NBT, Constants.NBT.TAG_COMPOUND)
+            val structureMapData = nbt.getList(NBT_STRUCTURE_MAP_DATA_NBT, Tag.TAG_COMPOUND.toInt())
             val structureMaps = mutableListOf<Pair<StructureGridPos, StructureMap>>()
             for (i in structureMapCoords.indices step 2) {
                 val chunkPos = StructureGridPos(structureMapCoords[i], structureMapCoords[i + 1], StructureGridSize.LARGEST_GRID_SIZE)

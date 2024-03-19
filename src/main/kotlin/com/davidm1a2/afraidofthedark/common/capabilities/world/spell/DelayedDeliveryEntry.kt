@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.common.capabilities.world.spell
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.DelaySpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.utility.getLookNormal
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
+import net.minecraft.nbt.CompoundTag
 import kotlin.math.ceil
 
 /**
@@ -35,7 +35,7 @@ class DelayedDeliveryEntry {
      *
      * @param nbt The NBT to read the state in from
      */
-    constructor(nbt: CompoundNBT) {
+    constructor(nbt: CompoundTag) {
         state = DeliveryTransitionState(nbt.getCompound(NBT_STATE))
         ticksLeft = nbt.getLong(NBT_TICKS_LEFT)
     }
@@ -45,8 +45,8 @@ class DelayedDeliveryEntry {
      *
      * @return The NBT that was saved to
      */
-    fun serializeNBT(): CompoundNBT {
-        val nbt = CompoundNBT()
+    fun serializeNBT(): CompoundTag {
+        val nbt = CompoundTag()
         nbt.put(NBT_STATE, state.writeToNbt())
         nbt.putLong(NBT_TICKS_LEFT, ticksLeft)
         return nbt
