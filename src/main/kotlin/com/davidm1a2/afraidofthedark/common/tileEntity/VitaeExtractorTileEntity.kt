@@ -7,6 +7,7 @@ import com.davidm1a2.afraidofthedark.common.item.VitaeLanternItem
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.core.BlockPos
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.ISidedInventory
 import net.minecraft.item.ItemStack
@@ -16,8 +17,9 @@ import net.minecraft.network.PacketDirection
 import net.minecraft.network.play.server.SUpdateTileEntityPacket
 import net.minecraft.tags.BlockTags
 import net.minecraft.util.Direction
+import net.minecraft.world.level.block.state.BlockState
 
-class VitaeExtractorTileEntity : AOTDTickingTileEntity(ModTileEntities.VITAE_EXTRACTOR), ISidedInventory {
+class VitaeExtractorTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTickingTileEntity(ModTileEntities.VITAE_EXTRACTOR), ISidedInventory {
     private var lantern: ItemStack = ItemStack.EMPTY
     private var fuelVitaePerTick: Float = 0f
     private var burnTicksLeft: Int = 0

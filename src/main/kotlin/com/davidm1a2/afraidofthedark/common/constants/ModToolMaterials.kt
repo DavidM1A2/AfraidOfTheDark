@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.utility.AOTDToolMaterial
-import net.minecraft.item.crafting.Ingredient
+import net.minecraft.world.item.crafting.Ingredient
 
 /**
  * Class storing tool material constants. These are registered through the enum helper class and not through the standard forge system

@@ -5,15 +5,17 @@ import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
 import net.minecraft.block.BlockState
+import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.NetworkManager
 import net.minecraft.network.PacketDirection
 import net.minecraft.network.play.server.SUpdateTileEntityPacket
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.MathHelper
+import net.minecraft.world.level.block.state.BlockState
 import kotlin.math.sin
 
-class MagicCrystalTileEntity : AOTDTickingTileEntity(ModTileEntities.MAGIC_CRYSTAL) {
+class MagicCrystalTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTickingTileEntity(ModTileEntities.MAGIC_CRYSTAL) {
     private var vitae: Double = 0.0
     private var prevRenderRotation: Double = 0.0
     private var renderRotation: Double = 0.0

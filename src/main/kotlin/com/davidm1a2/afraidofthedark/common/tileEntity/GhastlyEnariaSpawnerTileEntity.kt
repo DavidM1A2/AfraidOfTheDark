@@ -5,14 +5,16 @@ import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.AxisAlignedBB
+import net.minecraft.world.level.block.state.BlockState
 
 /**
  * Class that represents a ghastly enaria tile entity
  *
  * @constructor just sets the block type
  */
-class GhastlyEnariaSpawnerTileEntity : AOTDTickingTileEntity(ModTileEntities.GHASTLY_ENARIA_SPAWNER) {
+class GhastlyEnariaSpawnerTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTickingTileEntity(ModTileEntities.GHASTLY_ENARIA_SPAWNER) {
     /**
      * Update gets called every tick
      */

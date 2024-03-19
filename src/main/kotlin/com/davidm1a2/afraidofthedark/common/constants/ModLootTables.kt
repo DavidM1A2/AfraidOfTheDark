@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.loot.loottable.LootTable
-import net.minecraft.item.Items
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.item.Items
 
 /**
  * All mod loot tables used in afraid of the dark

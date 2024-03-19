@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
 
 /**
  * All the common configuration that AOTD gets from "afraidofthedark.cfg"

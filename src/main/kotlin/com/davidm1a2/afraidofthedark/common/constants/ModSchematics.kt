@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.schematic.Schematic
 import com.davidm1a2.afraidofthedark.common.schematic.SchematicBuilder
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
 
 /**
  * A static class containing all of our schematic references for us

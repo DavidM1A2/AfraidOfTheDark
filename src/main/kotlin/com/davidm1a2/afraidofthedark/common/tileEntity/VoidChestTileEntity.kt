@@ -12,6 +12,7 @@ import com.davidm1a2.afraidofthedark.common.network.packets.other.VoidChestPacke
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.block.BlockState
+import net.minecraft.core.BlockPos
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.item.NameTagItem
@@ -24,6 +25,7 @@ import net.minecraft.util.SoundEvents
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.common.MinecraftForge
@@ -45,7 +47,7 @@ import kotlin.math.sqrt
  * @property lastInteraction The last time (using system time) that the void chest was right clicked/interacted with
  */
 @OnlyIn(value = Dist.CLIENT, _interface = IChestLid::class)
-class VoidChestTileEntity : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), IChestLid {
+class VoidChestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), IChestLid {
     var lidAngle = 0f
         private set
     var previousLidAngle = 0f

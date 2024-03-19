@@ -10,13 +10,14 @@ import net.minecraft.item.crafting.ICraftingRecipe
 import net.minecraft.item.crafting.IRecipeSerializer
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
+import net.minecraft.world.item.crafting.CraftingRecipe
 
 /**
  * Class that registers a dynamic recipe allowing us to combine scroll pieces
  *
  * @constructor sets the registry name
  */
-class ScrollCombineRecipe : ICraftingRecipe {
+class ScrollCombineRecipe : CraftingRecipe {
     /**
      * True if the recipe is matched, false otherwise
      *

@@ -5,6 +5,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.util.EntityDamageSource
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.damagesource.EntityDamageSource
 
 class SpellDamageSource(private val spellDamageState: DeliveryTransitionState) : EntityDamageSource("afraidofthedark.spell", spellDamageState.casterEntity) {
     override fun getLocalizedDeathMessage(killedEntity: LivingEntity): ITextComponent {

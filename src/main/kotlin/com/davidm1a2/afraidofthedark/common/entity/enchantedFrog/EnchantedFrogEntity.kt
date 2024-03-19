@@ -29,7 +29,10 @@ import net.minecraft.util.DamageSource
 import net.minecraft.util.SoundEvent
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.PathfinderMob
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier
+import net.minecraft.world.entity.ai.attributes.Attributes
 import kotlin.random.Random
 
 /**
@@ -233,7 +236,7 @@ class EnchantedFrogEntity(entityType: EntityType<out EnchantedFrogEntity>, world
         /**
          * Gives the enchanted frog its entity attributes like movespeed
          */
-        fun buildAttributeModifiers(): AttributeModifierMap.MutableAttribute {
+        fun buildAttributeModifiers(): AttributeSupplier.Builder {
             return LivingEntity.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, MAX_HEALTH)
                 .add(Attributes.FOLLOW_RANGE, FOLLOW_RANGE)

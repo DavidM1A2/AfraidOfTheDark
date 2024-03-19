@@ -4,15 +4,17 @@ import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.particle.FeyParticleData
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
 import net.minecraft.block.BlockState
+import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.NetworkManager
 import net.minecraft.network.PacketDirection
 import net.minecraft.network.play.server.SUpdateTileEntityPacket
 import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.world.level.block.state.BlockState
 import java.awt.Color
 import kotlin.random.Random
 
-class FeyLightTileEntity : AOTDTickingTileEntity(ModTileEntities.FEY_LIGHT) {
+class FeyLightTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTickingTileEntity(ModTileEntities.FEY_LIGHT) {
     var color: Color = Color.MAGENTA
 
     override fun tick() {

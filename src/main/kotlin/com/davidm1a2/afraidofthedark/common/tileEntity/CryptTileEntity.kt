@@ -2,14 +2,16 @@ package com.davidm1a2.afraidofthedark.common.tileEntity
 
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDZoneTileEntity
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.AxisAlignedBB
+import net.minecraft.world.level.block.state.BlockState
 
 /**
  * Tile entity for the cryot block
  *
  * @constructor sets the block type of the tile entity
  */
-class CryptTileEntity : AOTDZoneTileEntity(ModTileEntities.CRYPT) {
+class CryptTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDZoneTileEntity(ModTileEntities.CRYPT) {
     override val zone: AxisAlignedBB by lazy {
         AxisAlignedBB(
             blockPos.x.toDouble(),

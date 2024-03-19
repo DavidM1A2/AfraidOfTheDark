@@ -17,6 +17,7 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Chann
 import com.davidm1a2.afraidofthedark.common.tileEntity.FrostPhoenixSpawnerTileEntity
 import net.minecraft.block.BlockState
 import net.minecraft.client.Minecraft
+import net.minecraft.core.BlockPos
 import net.minecraft.entity.EntitySize
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -39,12 +40,16 @@ import net.minecraft.util.SoundEvent
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.World
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.Mob
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier
+import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.level.Level
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.fml.network.NetworkHooks
 import kotlin.math.sin
 
-class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: World) : Mob(entityType, world), IMCAnimatedModel {
+class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: Level) : Mob(entityType, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(
         IDLE_FLAP_CHANNEL,
         LAUNCH_CHANNEL,
@@ -88,7 +93,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         setPersistenceRequired()
     }
 
-    constructor(world: World, spawnerPos: BlockPos) : this(ModEntities.FROST_PHOENIX, world) {
+    constructor(world: Level, spawnerPos: BlockPos) : this(ModEntities.FROST_PHOENIX, world) {
         this.spawnerPos = spawnerPos
     }
 
@@ -401,7 +406,7 @@ class FrostPhoenixEntity(entityType: EntityType<out FrostPhoenixEntity>, world: 
         /**
          * Gives the phoenix its entity attributes like movespeed
          */
-        fun buildAttributeModifiers(): AttributeModifierMap.MutableAttribute {
+        fun buildAttributeModifiers(): AttributeSupplier.Builder {
             return createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, MAX_HEALTH)
                 .add(Attributes.FOLLOW_RANGE, FOLLOW_RANGE)

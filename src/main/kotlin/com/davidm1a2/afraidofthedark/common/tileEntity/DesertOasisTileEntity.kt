@@ -10,9 +10,11 @@ import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEn
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDZoneTileEntity
 import net.minecraft.block.Blocks
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraftforge.fml.network.PacketDistributor
 import kotlin.math.cos
 import kotlin.math.sin
@@ -23,7 +25,7 @@ import kotlin.random.Random
  *
  * @constructor sets the block type of the tile entity
  */
-class DesertOasisTileEntity : AOTDZoneTileEntity(ModTileEntities.DESERT_OASIS) {
+class DesertOasisTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDZoneTileEntity(ModTileEntities.DESERT_OASIS) {
     override val zone: AxisAlignedBB by lazy {
         AxisAlignedBB(blockPos).inflate(
             ModSchematics.DESERT_OASIS.getWidth() / 2.0,

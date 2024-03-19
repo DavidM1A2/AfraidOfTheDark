@@ -4,9 +4,11 @@ import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.FrostPhoenixEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
 import net.minecraft.block.BlockState
+import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundNBT
+import net.minecraft.world.level.block.state.BlockState
 
-class FrostPhoenixSpawnerTileEntity : AOTDTickingTileEntity(ModTileEntities.FROST_PHOENIX_SPAWNER) {
+class FrostPhoenixSpawnerTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTickingTileEntity(ModTileEntities.FROST_PHOENIX_SPAWNER) {
     private var phoenixIsAlive = false
     private var respawnTime = 0L
 

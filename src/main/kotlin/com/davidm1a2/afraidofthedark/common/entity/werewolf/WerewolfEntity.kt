@@ -33,6 +33,8 @@ import net.minecraft.util.DamageSource
 import net.minecraft.util.EntityDamageSource
 import net.minecraft.util.SoundEvent
 import net.minecraft.world.World
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier
+import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.monster.Monster
 import net.minecraftforge.fml.network.PacketDistributor
 
@@ -244,8 +246,8 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: World) :
         /**
          * Sets entity attributes such as max health and movespeed
          */
-        fun buildAttributeModifiers(): AttributeModifierMap.MutableAttribute {
-            return MonsterEntity.createMonsterAttributes()
+        fun buildAttributeModifiers(): AttributeSupplier.Builder {
+            return createMonsterAttributes()
                 .add(Attributes.MAX_HEALTH, MAX_HEALTH)
                 .add(Attributes.FOLLOW_RANGE, FOLLOW_RANGE)
                 .add(Attributes.KNOCKBACK_RESISTANCE, KNOCKBACK_RESISTANCE)

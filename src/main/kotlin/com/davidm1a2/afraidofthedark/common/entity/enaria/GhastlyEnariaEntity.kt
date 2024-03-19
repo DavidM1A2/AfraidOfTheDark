@@ -22,6 +22,9 @@ import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.StringTextComponent
 import net.minecraft.world.World
 import net.minecraft.world.entity.FlyingMob
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier
+import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraftforge.fml.network.NetworkHooks
 import java.util.UUID
 
@@ -224,7 +227,7 @@ class GhastlyEnariaEntity(entityType: EntityType<out GhastlyEnariaEntity>, world
         /**
          * Sets entity attributes such as max health and movespeed
          */
-        fun buildAttributeModifiers(): AttributeModifierMap.MutableAttribute {
+        fun buildAttributeModifiers(): AttributeSupplier.Builder {
             return LivingEntity.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, MAX_HEALTH)
                 .add(Attributes.FOLLOW_RANGE, FOLLOW_RANGE)

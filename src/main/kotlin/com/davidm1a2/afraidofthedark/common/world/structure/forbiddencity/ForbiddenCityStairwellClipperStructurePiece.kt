@@ -12,6 +12,7 @@ import net.minecraft.world.ISeedReader
 import net.minecraft.world.gen.ChunkGenerator
 import net.minecraft.world.gen.feature.structure.StructureManager
 import net.minecraft.world.gen.feature.structure.StructurePiece
+import net.minecraft.world.level.levelgen.structure.StructurePiece
 import java.util.Random
 
 class ForbiddenCityStairwellClipperStructurePiece : StructurePiece {

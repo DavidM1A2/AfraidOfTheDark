@@ -4,11 +4,13 @@ import com.davidm1a2.afraidofthedark.common.constants.ModEffects
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDZoneTileEntity
+import net.minecraft.core.BlockPos
 import net.minecraft.entity.item.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.potion.EffectInstance
 import net.minecraft.util.math.AxisAlignedBB
+import net.minecraft.world.level.block.state.BlockState
 import kotlin.random.Random
 
 /**
@@ -16,7 +18,7 @@ import kotlin.random.Random
  *
  * @constructor sets the block type of the tile entity
  */
-class DarkForestTileEntity : AOTDZoneTileEntity(ModTileEntities.DARK_FOREST) {
+class DarkForestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDZoneTileEntity(ModTileEntities.DARK_FOREST) {
     override val zone: AxisAlignedBB by lazy {
         AxisAlignedBB(
             blockPos.x.toDouble(),

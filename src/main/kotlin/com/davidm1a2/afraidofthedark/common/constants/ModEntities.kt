@@ -1,40 +1,28 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.common.entity.bolt.AmorphousMetalBoltEntity
-import com.davidm1a2.afraidofthedark.common.entity.bolt.AstralSilverBoltEntity
-import com.davidm1a2.afraidofthedark.common.entity.bolt.EldritchMetalBoltEntity
-import com.davidm1a2.afraidofthedark.common.entity.bolt.IgneousBoltEntity
-import com.davidm1a2.afraidofthedark.common.entity.bolt.IronBoltEntity
-import com.davidm1a2.afraidofthedark.common.entity.bolt.StarMetalBoltEntity
-import com.davidm1a2.afraidofthedark.common.entity.bolt.VoidBoltEntity
-import com.davidm1a2.afraidofthedark.common.entity.bolt.WoodenBoltEntity
+import com.davidm1a2.afraidofthedark.common.entity.bolt.*
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EnariaEntity
 import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSkeletonEntity
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.FrostPhoenixEntity
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.FrostPhoenixProjectileEntity
-import com.davidm1a2.afraidofthedark.common.entity.spell.SpellAOEEntity
-import com.davidm1a2.afraidofthedark.common.entity.spell.SpellChainEntity
-import com.davidm1a2.afraidofthedark.common.entity.spell.SpellConeEntity
-import com.davidm1a2.afraidofthedark.common.entity.spell.SpellLaserEntity
-import com.davidm1a2.afraidofthedark.common.entity.spell.SpellProjectileEntity
-import com.davidm1a2.afraidofthedark.common.entity.spell.SpellWallEntity
+import com.davidm1a2.afraidofthedark.common.entity.spell.*
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneEntity
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.SplinterDroneProjectileEntity
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.WerewolfEntity
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityClassification
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.ai.attributes.AttributeModifierMap
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.MobCategory
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 
 /**
  * A static class containing all of our entity references for us
  */
 object ModEntities {
     // All mod entity static fields
-    val ENCHANTED_SKELETON = EntityType.Builder.of(::EnchantedSkeletonEntity, EntityClassification.MONSTER)
+    val ENCHANTED_SKELETON = EntityType.Builder.of(::EnchantedSkeletonEntity, MobCategory.MONSTER)
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
@@ -42,7 +30,7 @@ object ModEntities {
         .build("${Constants.MOD_ID}:enchanted_skeleton")
         .setRegistryNameGeneric("enchanted_skeleton")
 
-    val WEREWOLF = EntityType.Builder.of(::WerewolfEntity, EntityClassification.MONSTER)
+    val WEREWOLF = EntityType.Builder.of(::WerewolfEntity, MobCategory.MONSTER)
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
@@ -50,7 +38,7 @@ object ModEntities {
         .build("${Constants.MOD_ID}:werewolf")
         .setRegistryNameGeneric("werewolf")
 
-    val GHASTLY_ENARIA = EntityType.Builder.of(::GhastlyEnariaEntity, EntityClassification.MONSTER)
+    val GHASTLY_ENARIA = EntityType.Builder.of(::GhastlyEnariaEntity, MobCategory.MONSTER)
         .setTrackingRange(Constants.DISTANCE_BETWEEN_ISLANDS)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
@@ -60,7 +48,7 @@ object ModEntities {
         .build("${Constants.MOD_ID}:ghastly_enaria")
         .setRegistryNameGeneric("ghastly_enaria")
 
-    val SPLINTER_DRONE = EntityType.Builder.of(::SplinterDroneEntity, EntityClassification.MONSTER)
+    val SPLINTER_DRONE = EntityType.Builder.of(::SplinterDroneEntity, MobCategory.MONSTER)
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
@@ -68,7 +56,7 @@ object ModEntities {
         .fireImmune()
         .build("${Constants.MOD_ID}:splinter_drone")
         .setRegistryNameGeneric("splinter_drone")
-    val SPLINTER_DRONE_PROJECTILE = EntityType.Builder.of(::SplinterDroneProjectileEntity, EntityClassification.MISC)
+    val SPLINTER_DRONE_PROJECTILE = EntityType.Builder.of(::SplinterDroneProjectileEntity, MobCategory.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
@@ -78,7 +66,7 @@ object ModEntities {
         .build("${Constants.MOD_ID}:splinter_drone_projectile")
         .setRegistryNameGeneric("splinter_drone_projectile")
 
-    val ENARIA = EntityType.Builder.of(::EnariaEntity, EntityClassification.MONSTER)
+    val ENARIA = EntityType.Builder.of(::EnariaEntity, MobCategory.MONSTER)
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
@@ -88,7 +76,7 @@ object ModEntities {
         .build("${Constants.MOD_ID}:enaria")
         .setRegistryNameGeneric("enaria")
 
-    val ENCHANTED_FROG = EntityType.Builder.of(::EnchantedFrogEntity, EntityClassification.CREATURE)
+    val ENCHANTED_FROG = EntityType.Builder.of(::EnchantedFrogEntity, MobCategory.CREATURE)
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
@@ -96,14 +84,14 @@ object ModEntities {
         .build("${Constants.MOD_ID}:enchanted_frog")
         .setRegistryNameGeneric("enchanted_frog")
 
-    val FROST_PHOENIX = EntityType.Builder.of(::FrostPhoenixEntity, EntityClassification.MONSTER)
+    val FROST_PHOENIX = EntityType.Builder.of(::FrostPhoenixEntity, MobCategory.MONSTER)
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
         .sized(1.3f, 5.8f)
         .build("${Constants.MOD_ID}:frost_phoenix")
         .setRegistryNameGeneric("frost_phoenix")
-    val FROST_PHOENIX_PROJECTILE = EntityType.Builder.of(::FrostPhoenixProjectileEntity, EntityClassification.MISC)
+    val FROST_PHOENIX_PROJECTILE = EntityType.Builder.of(::FrostPhoenixProjectileEntity, MobCategory.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
@@ -114,7 +102,7 @@ object ModEntities {
         .setRegistryNameGeneric("frost_phoenix_projectile")
 
     // Spell entities
-    val SPELL_PROJECTILE = EntityType.Builder.of(::SpellProjectileEntity, EntityClassification.MISC)
+    val SPELL_PROJECTILE = EntityType.Builder.of(::SpellProjectileEntity, MobCategory.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
@@ -122,7 +110,7 @@ object ModEntities {
         .noSummon()
         .build("${Constants.MOD_ID}:spell_projectile")
         .setRegistryNameGeneric("spell_projectile")
-    val SPELL_LASER = EntityType.Builder.of(::SpellLaserEntity, EntityClassification.MISC)
+    val SPELL_LASER = EntityType.Builder.of(::SpellLaserEntity, MobCategory.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(100)
         .setShouldReceiveVelocityUpdates(false)
@@ -130,7 +118,7 @@ object ModEntities {
         .noSummon()
         .build("${Constants.MOD_ID}:spell_laser")
         .setRegistryNameGeneric("spell_laser")
-    val SPELL_AOE = EntityType.Builder.of(::SpellAOEEntity, EntityClassification.MISC)
+    val SPELL_AOE = EntityType.Builder.of(::SpellAOEEntity, MobCategory.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(100)
         .setShouldReceiveVelocityUpdates(false)
@@ -138,7 +126,7 @@ object ModEntities {
         .noSummon()
         .build("${Constants.MOD_ID}:spell_aoe")
         .setRegistryNameGeneric("spell_aoe")
-    val SPELL_CONE = EntityType.Builder.of(::SpellConeEntity, EntityClassification.MISC)
+    val SPELL_CONE = EntityType.Builder.of(::SpellConeEntity, MobCategory.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(100)
         .setShouldReceiveVelocityUpdates(false)
@@ -146,7 +134,7 @@ object ModEntities {
         .noSummon()
         .build("${Constants.MOD_ID}:spell_cone")
         .setRegistryNameGeneric("spell_cone")
-    val SPELL_WALL = EntityType.Builder.of(::SpellWallEntity, EntityClassification.MISC)
+    val SPELL_WALL = EntityType.Builder.of(::SpellWallEntity, MobCategory.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(100)
         .setShouldReceiveVelocityUpdates(false)
@@ -154,7 +142,7 @@ object ModEntities {
         .noSummon()
         .build("${Constants.MOD_ID}:spell_wall")
         .setRegistryNameGeneric("spell_wall")
-    val SPELL_CHAIN = EntityType.Builder.of(::SpellChainEntity, EntityClassification.MISC)
+    val SPELL_CHAIN = EntityType.Builder.of(::SpellChainEntity, MobCategory.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(100)
         .setShouldReceiveVelocityUpdates(false)
@@ -164,7 +152,7 @@ object ModEntities {
         .setRegistryNameGeneric("spell_chain")
 
     // 5 bolt entities
-    val WOODEN_BOLT = EntityType.Builder.of(::WoodenBoltEntity, EntityClassification.MISC)
+    val WOODEN_BOLT = EntityType.Builder.of(::WoodenBoltEntity, MobCategory.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
@@ -172,7 +160,7 @@ object ModEntities {
         .noSummon()
         .build("${Constants.MOD_ID}:wooden_bolt")
         .setRegistryNameGeneric("wooden_bolt")
-    val IRON_BOLT = EntityType.Builder.of(::IronBoltEntity, EntityClassification.MISC)
+    val IRON_BOLT = EntityType.Builder.of(::IronBoltEntity, MobCategory.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
@@ -180,7 +168,7 @@ object ModEntities {
         .noSummon()
         .build("${Constants.MOD_ID}:iron_bolt")
         .setRegistryNameGeneric("iron_bolt")
-    val ASTRAL_SILVER_BOLT = EntityType.Builder.of(::AstralSilverBoltEntity, EntityClassification.MISC)
+    val ASTRAL_SILVER_BOLT = EntityType.Builder.of(::AstralSilverBoltEntity, MobCategory.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
@@ -188,7 +176,7 @@ object ModEntities {
         .noSummon()
         .build("${Constants.MOD_ID}:astral_silver_bolt")
         .setRegistryNameGeneric("astral_silver_bolt")
-    val IGNEOUS_BOLT = EntityType.Builder.of(::IgneousBoltEntity, EntityClassification.MISC)
+    val IGNEOUS_BOLT = EntityType.Builder.of(::IgneousBoltEntity, MobCategory.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
@@ -196,7 +184,7 @@ object ModEntities {
         .noSummon()
         .build("${Constants.MOD_ID}:igneous_bolt")
         .setRegistryNameGeneric("igneous_bolt")
-    val STAR_METAL_BOLT = EntityType.Builder.of(::StarMetalBoltEntity, EntityClassification.MISC)
+    val STAR_METAL_BOLT = EntityType.Builder.of(::StarMetalBoltEntity, MobCategory.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
@@ -204,7 +192,7 @@ object ModEntities {
         .noSummon()
         .build("${Constants.MOD_ID}:star_metal_bolt")
         .setRegistryNameGeneric("star_metal_bolt")
-    val ELDRITCH_METAL_BOLT = EntityType.Builder.of(::EldritchMetalBoltEntity, EntityClassification.MISC)
+    val ELDRITCH_METAL_BOLT = EntityType.Builder.of(::EldritchMetalBoltEntity, MobCategory.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
@@ -212,7 +200,7 @@ object ModEntities {
         .noSummon()
         .build("${Constants.MOD_ID}:eldritch_metal_bolt")
         .setRegistryNameGeneric("eldritch_metal_bolt")
-    val AMORPHOUS_METAL_BOLT = EntityType.Builder.of(::AmorphousMetalBoltEntity, EntityClassification.MISC)
+    val AMORPHOUS_METAL_BOLT = EntityType.Builder.of(::AmorphousMetalBoltEntity, MobCategory.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
@@ -220,7 +208,7 @@ object ModEntities {
         .noSummon()
         .build("${Constants.MOD_ID}:amorphous_metal_bolt")
         .setRegistryNameGeneric("amorphous_metal_bolt")
-    val VOID_BOLT = EntityType.Builder.of(::VoidBoltEntity, EntityClassification.MISC)
+    val VOID_BOLT = EntityType.Builder.of(::VoidBoltEntity, MobCategory.MISC)
         .setTrackingRange(50)
         .setUpdateInterval(1)
         .setShouldReceiveVelocityUpdates(true)
@@ -257,7 +245,7 @@ object ModEntities {
     )
 
     // This is not ready to be initialized at the time ENTITY_LIST is, so delay it using a lazy initializer
-    val ENTITY_ATTRIBUTES: Array<Pair<EntityType<out LivingEntity>, AttributeModifierMap>> by lazy {
+    val ENTITY_ATTRIBUTES: Array<Pair<EntityType<out LivingEntity>, AttributeSupplier>> by lazy {
         arrayOf(
             ENARIA to EnariaEntity.buildAttributeModifiers().build(),
             GHASTLY_ENARIA to GhastlyEnariaEntity.buildAttributeModifiers().build(),

@@ -23,6 +23,9 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.world.World
 import net.minecraft.world.entity.FlyingMob
+import net.minecraft.world.entity.Mob
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier
+import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraftforge.fml.network.PacketDistributor
 
 /**
@@ -137,9 +140,9 @@ class SplinterDroneEntity(entityType: EntityType<out SplinterDroneEntity>, world
         /**
          * Sets entity attributes such as max health and movespeed
          */
-        fun buildAttributeModifiers(): AttributeModifierMap.MutableAttribute {
+        fun buildAttributeModifiers(): AttributeSupplier.Builder {
             // Make sure to register the attack damage attribute for this entity
-            return MobEntity.createLivingAttributes()
+            return Mob.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, MAX_HEALTH)
                 .add(Attributes.FOLLOW_RANGE, FOLLOW_RANGE)
                 .add(Attributes.KNOCKBACK_RESISTANCE, KNOCKBACK_RESISTANCE)

@@ -14,6 +14,7 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Chann
 import com.davidm1a2.afraidofthedark.common.tileEntity.EnariaSpawnerTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.damagesource.AstralSilverDamageSource
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
+import net.minecraft.core.BlockPos
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -34,12 +35,17 @@ import net.minecraft.util.text.StringTextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.BossInfo
 import net.minecraft.world.World
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Mob
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier
+import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.level.Level
 import net.minecraft.world.server.ServerBossInfo
 import net.minecraftforge.fml.network.NetworkHooks
 import kotlin.math.min
 
-class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob(entityType, world), IMCAnimatedModel {
+class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: Level) : Mob(entityType, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(WALK_CHANNEL, ARMTHROW_CHANNEL, AUTOATTACK_CHANNEL, SPELL_CHANNEL)
     private val bossInfo = ServerBossInfo(
         StringTextComponent("placeholder"),
@@ -67,7 +73,7 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
      *
      * @param world The world to spawn enaria in
      */
-    constructor(world: World, spawnerTilePos: BlockPos) : this(ModEntities.ENARIA, world) {
+    constructor(world: Level, spawnerTilePos: BlockPos) : this(ModEntities.ENARIA, world) {
         if (!world.isClientSide) {
             this.fight = EnariaFight(this, spawnerTilePos)
             this.spawnerTilePos = spawnerTilePos
@@ -288,7 +294,7 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: World) : Mob
         /**
          * Gives enaria her entity attributes like damage and movespeed
          */
-        fun buildAttributeModifiers(): AttributeModifierMap.MutableAttribute {
+        fun buildAttributeModifiers(): AttributeSupplier.Builder {
             return LivingEntity.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, MAX_HEALTH)
                 .add(Attributes.FOLLOW_RANGE, FOLLOW_RANGE)

@@ -5,14 +5,16 @@ import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDAnimatedTileEntity
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.world.level.block.state.BlockState
 import kotlin.math.sqrt
 import kotlin.random.Random
 
 /**
  * Enaria's altar tile entity which renders the animation
  */
-class EnariasAltarTileEntity : AOTDAnimatedTileEntity(
+class EnariasAltarTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDAnimatedTileEntity(
     ModTileEntities.ENARIAS_ALTAR,
     AnimationHandler(SLOW_CHANNEL, MEDIUM_CHANNEL, FAST_CHANNEL)
 ) {

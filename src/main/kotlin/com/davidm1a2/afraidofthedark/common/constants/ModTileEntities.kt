@@ -1,114 +1,101 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.common.tileEntity.CryptTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.DarkForestTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.DesertOasisTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.DroppedJournalTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.EnariaSpawnerTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.FeyLightTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.FrostPhoenixSpawnerTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.GhastlyEnariaSpawnerTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.MagicCrystalTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.ObservatoryTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.SpellCraftingTableTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.VitaeExtractorTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.VoidChestTileEntity
-import com.davidm1a2.afraidofthedark.common.tileEntity.WitchHutTileEntity
+import com.davidm1a2.afraidofthedark.common.tileEntity.*
 import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.EnariasAltarTileEntity
-import net.minecraft.tileentity.TileEntityType
+import net.minecraft.world.level.block.entity.BlockEntityType
 
 /**
  * A static class containing all of our tile entity references for us
  */
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 object ModTileEntities {
-    val VOID_CHEST: TileEntityType<VoidChestTileEntity> = TileEntityType
+    val VOID_CHEST: BlockEntityType<VoidChestTileEntity> = BlockEntityType
         .Builder
-        .of({ VoidChestTileEntity() }, ModBlocks.VOID_CHEST)
+        .of(::VoidChestTileEntity, ModBlocks.VOID_CHEST)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "void_chest")
         }
-    val CRYPT: TileEntityType<CryptTileEntity> = TileEntityType
+    val CRYPT: BlockEntityType<CryptTileEntity> = BlockEntityType
         .Builder
-        .of({ CryptTileEntity() }, ModBlocks.CRYPT)
+        .of(::CryptTileEntity, ModBlocks.CRYPT)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "crypt")
         }
-    val DARK_FOREST: TileEntityType<DarkForestTileEntity> = TileEntityType
+    val DARK_FOREST: BlockEntityType<DarkForestTileEntity> = BlockEntityType
         .Builder
-        .of({ DarkForestTileEntity() }, ModBlocks.DARK_FOREST)
+        .of(::DarkForestTileEntity, ModBlocks.DARK_FOREST)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "dark_forest")
         }
-    val OBSERVATORY: TileEntityType<ObservatoryTileEntity> = TileEntityType
+    val OBSERVATORY: BlockEntityType<ObservatoryTileEntity> = BlockEntityType
         .Builder
-        .of({ ObservatoryTileEntity() }, ModBlocks.OBSERVATORY)
+        .of(::ObservatoryTileEntity, ModBlocks.OBSERVATORY)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "observatory")
         }
-    val WITCH_HUT: TileEntityType<WitchHutTileEntity> = TileEntityType
+    val WITCH_HUT: BlockEntityType<WitchHutTileEntity> = BlockEntityType
         .Builder
-        .of({ WitchHutTileEntity() }, ModBlocks.WITCH_HUT)
+        .of(::WitchHutTileEntity, ModBlocks.WITCH_HUT)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "witch_hut")
         }
-    val GHASTLY_ENARIA_SPAWNER: TileEntityType<GhastlyEnariaSpawnerTileEntity> = TileEntityType
+    val GHASTLY_ENARIA_SPAWNER: BlockEntityType<GhastlyEnariaSpawnerTileEntity> = BlockEntityType
         .Builder
-        .of({ GhastlyEnariaSpawnerTileEntity() }, ModBlocks.ENARIA_SPAWNER)
+        .of(::GhastlyEnariaSpawnerTileEntity, ModBlocks.ENARIA_SPAWNER)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "ghastly_enaria_spawner")
         }
-    val ENARIA_SPAWNER: TileEntityType<EnariaSpawnerTileEntity> = TileEntityType
+    val ENARIA_SPAWNER: BlockEntityType<EnariaSpawnerTileEntity> = BlockEntityType
         .Builder
-        .of({ EnariaSpawnerTileEntity() }, ModBlocks.ENARIA_SPAWNER)
+        .of(::EnariaSpawnerTileEntity, ModBlocks.ENARIA_SPAWNER)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "enaria_spawner")
         }
-    val DESERT_OASIS: TileEntityType<DesertOasisTileEntity> = TileEntityType
+    val DESERT_OASIS: BlockEntityType<DesertOasisTileEntity> = BlockEntityType
         .Builder
-        .of({ DesertOasisTileEntity() }, ModBlocks.DESERT_OASIS)
+        .of(::DesertOasisTileEntity, ModBlocks.DESERT_OASIS)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "desert_oasis")
         }
-    val ENARIAS_ALTAR: TileEntityType<EnariasAltarTileEntity> = TileEntityType
+    val ENARIAS_ALTAR: BlockEntityType<EnariasAltarTileEntity> = BlockEntityType
         .Builder
-        .of({ EnariasAltarTileEntity() }, ModBlocks.ENARIAS_ALTAR)
+        .of(::EnariasAltarTileEntity, ModBlocks.ENARIAS_ALTAR)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "enarias_altar")
         }
-    val DROPPED_JOURNAL: TileEntityType<DroppedJournalTileEntity> = TileEntityType
+    val DROPPED_JOURNAL: BlockEntityType<DroppedJournalTileEntity> = BlockEntityType
         .Builder
-        .of({ DroppedJournalTileEntity() }, ModBlocks.DROPPED_JOURNAL)
+        .of(::DroppedJournalTileEntity, ModBlocks.DROPPED_JOURNAL)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "dropped_journal")
         }
-    val VITAE_EXTRACTOR: TileEntityType<VitaeExtractorTileEntity> = TileEntityType
+    val VITAE_EXTRACTOR: BlockEntityType<VitaeExtractorTileEntity> = BlockEntityType
         .Builder
-        .of({ VitaeExtractorTileEntity() }, ModBlocks.VITAE_EXTRACTOR)
+        .of(::VitaeExtractorTileEntity, ModBlocks.VITAE_EXTRACTOR)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "vitae_extractor")
         }
-    val MAGIC_CRYSTAL: TileEntityType<MagicCrystalTileEntity> = TileEntityType
+    val MAGIC_CRYSTAL: BlockEntityType<MagicCrystalTileEntity> = BlockEntityType
         .Builder
-        .of({ MagicCrystalTileEntity() }, ModBlocks.MAGIC_CRYSTAL)
+        .of(::MagicCrystalTileEntity, ModBlocks.MAGIC_CRYSTAL)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "magic_crystal")
         }
-    val SPELL_CRAFTING_TABLE: TileEntityType<SpellCraftingTableTileEntity> = TileEntityType
+    val SPELL_CRAFTING_TABLE: BlockEntityType<SpellCraftingTableTileEntity> = BlockEntityType
         .Builder
-        .of({ SpellCraftingTableTileEntity() }, ModBlocks.SPELL_CRAFTING_TABLE)
+        .of(::SpellCraftingTableTileEntity, ModBlocks.SPELL_CRAFTING_TABLE)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "spell_crafting_table")
         }
-    val FROST_PHOENIX_SPAWNER: TileEntityType<FrostPhoenixSpawnerTileEntity> = TileEntityType
+    val FROST_PHOENIX_SPAWNER: BlockEntityType<FrostPhoenixSpawnerTileEntity> = BlockEntityType
         .Builder
-        .of({ FrostPhoenixSpawnerTileEntity() }, ModBlocks.FROST_PHOENIX_SPAWNER)
+        .of(::FrostPhoenixSpawnerTileEntity, ModBlocks.FROST_PHOENIX_SPAWNER)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "frost_phoenix_spawner")
         }
-    val FEY_LIGHT: TileEntityType<FeyLightTileEntity> = TileEntityType
+    val FEY_LIGHT: BlockEntityType<FeyLightTileEntity> = BlockEntityType
         .Builder
-        .of({ FeyLightTileEntity() }, ModBlocks.FEY_LIGHT)
+        .of(::FeyLightTileEntity, ModBlocks.FEY_LIGHT)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "fey_light")
         }

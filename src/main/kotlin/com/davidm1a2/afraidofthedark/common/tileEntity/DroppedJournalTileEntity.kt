@@ -4,10 +4,12 @@ import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTileEntity
 import net.minecraft.block.BlockState
+import net.minecraft.core.BlockPos
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundNBT
+import net.minecraft.world.level.block.state.BlockState
 
-class DroppedJournalTileEntity : AOTDTileEntity(ModTileEntities.DROPPED_JOURNAL) {
+class DroppedJournalTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTileEntity(ModTileEntities.DROPPED_JOURNAL) {
     var journalItem: ItemStack = ItemStack(ModItems.ARCANE_JOURNAL)
         set(value) {
             setChanged()

@@ -8,17 +8,19 @@ import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDZoneTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.toRotation
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFaceBlock
+import net.minecraft.core.BlockPos
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
+import net.minecraft.world.level.block.state.BlockState
 
 /**
  * Tile entity that spawns enaria in the forbidden city
  *
  * @constructor just sets the enaria spawner block
  */
-class EnariaSpawnerTileEntity : AOTDZoneTileEntity(ModTileEntities.ENARIA_SPAWNER) {
+class EnariaSpawnerTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDZoneTileEntity(ModTileEntities.ENARIA_SPAWNER) {
     // Unfortunately world.getBlockState() only works right before the first tick, so lazily initialize this
     private val enariaFightStartTriggerBox: AxisAlignedBB by lazy {
         val direction = level!!.getBlockState(blockPos).getValue(HorizontalFaceBlock.FACING)

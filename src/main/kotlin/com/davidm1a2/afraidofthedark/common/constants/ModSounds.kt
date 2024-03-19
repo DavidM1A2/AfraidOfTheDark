@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.SoundEvent
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.sounds.SoundEvent
 
 /**
  * A class containing all sounds in AOTD
