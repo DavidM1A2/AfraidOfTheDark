@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
+import net.minecraft.world.item.ArrowItem
 
 abstract class AOTDBoltItem(
     name: String,
