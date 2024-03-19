@@ -9,29 +9,28 @@ import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionSt
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.ProjectileSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.utility.getLookNormal
 import com.davidm1a2.afraidofthedark.common.utility.getNormal
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.projectile.ProjectileHelper
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.network.IPacket
-import net.minecraft.network.PacketBuffer
-import net.minecraft.network.datasync.DataSerializers
-import net.minecraft.network.datasync.EntityDataManager
-import net.minecraft.util.DamageSource
-import net.minecraft.util.Direction
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.BlockRayTraceResult
-import net.minecraft.util.math.EntityRayTraceResult
-import net.minecraft.util.math.RayTraceContext
-import net.minecraft.util.math.RayTraceResult
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.world.World
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.protocol.Packet
+import net.minecraft.network.syncher.EntityDataSerializers
+import net.minecraft.network.syncher.SynchedEntityData
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.Entity
-import net.minecraft.world.server.ServerWorld
-import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData
-import net.minecraftforge.fml.network.NetworkHooks
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.projectile.ProjectileUtil
+import net.minecraft.world.level.ClipContext
+import net.minecraft.world.level.Level
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.EntityHitResult
+import net.minecraft.world.phys.HitResult
+import net.minecraft.world.phys.Vec3
+import net.minecraftforge.fmllegacy.common.registry.IEntityAdditionalSpawnData
+import net.minecraftforge.fmllegacy.network.NetworkHooks
 import java.awt.Color
-import java.util.UUID
+import java.util.*
 import java.util.function.Predicate
 
 /**
@@ -43,7 +42,7 @@ import java.util.function.Predicate
  */
 class SpellProjectileEntity(
     entityType: EntityType<out SpellProjectileEntity>,
-    world: World
+    world: Level
 ) : Entity(entityType, world), IEntityAdditionalSpawnData {
     private var shooter: Entity? = null
     private var casterEntityId: UUID? = null
@@ -61,12 +60,12 @@ class SpellProjectileEntity(
      * @param velocity    The velocity of the projectile, default will just be random velocity
      */
     constructor(
-        world: World,
+        world: Level,
         spell: Spell,
         spellIndex: Int,
         spellCaster: Entity?,
-        position: Vector3d,
-        velocity: Vector3d,
+        position: Vec3,
+        velocity: Vec3,
         shooter: Entity? = null
     ) : this(ModEntities.SPELL_PROJECTILE, world) {
         this.shooter = shooter
@@ -136,7 +135,7 @@ class SpellProjectileEntity(
                 val rayTraceResult = checkCollision()
 
                 // If the ray trace hit something, perform the hit effect
-                if (rayTraceResult.type != RayTraceResult.Type.MISS) {
+                if (rayTraceResult.type != HitResult.Type.MISS) {
                     onImpact(rayTraceResult)
                 }
             }
@@ -163,7 +162,7 @@ class SpellProjectileEntity(
                         blockPosition = blockPosition(),
                         direction = deltaMovement.normalize(),
                         normal = deltaMovement.getNormal(),
-                        casterEntity = casterEntityId?.let { (level as? ServerWorld)?.getEntity(it) },
+                        casterEntity = casterEntityId?.let { (level as? ServerLevel)?.getEntity(it) },
                         deliveryEntity = this
                     )
 
@@ -172,15 +171,15 @@ class SpellProjectileEntity(
                     currentDeliveryMethod.procEffects(state)
                     currentDeliveryMethod.transitionFrom(state)
 
-                    remove()
+                    remove(RemovalReason.DISCARDED)
                 }
             }
         } else {
-            remove()
+            remove(RemovalReason.DISCARDED)
         }
     }
 
-    private fun checkCollision(): RayTraceResult {
+    private fun checkCollision(): HitResult {
         val entityHitPredicate = Predicate<Entity> {
             if (ticksInAir > 25) {
                 true
@@ -192,28 +191,28 @@ class SpellProjectileEntity(
         // < 0.003 speed causes collision detection to break. Use custom logic
         if (deltaMovement.lengthSqr() < 0.00001) {
             val blockResult = level.clip(
-                RayTraceContext(
+                ClipContext(
                     position(),
                     position().add(0.0, 0.001, 0.0),
-                    RayTraceContext.BlockMode.COLLIDER,
-                    RayTraceContext.FluidMode.NONE,
+                    ClipContext.Block.COLLIDER,
+                    ClipContext.Fluid.NONE,
                     this
                 )
             )
-            if (blockResult.type != RayTraceResult.Type.MISS) {
+            if (blockResult.type != HitResult.Type.MISS) {
                 return blockResult
             }
 
             val entities = level.getEntities(this, boundingBox)
             for (entity in entities) {
                 if (entityHitPredicate.test(entity)) {
-                    return EntityRayTraceResult(entity)
+                    return EntityHitResult(entity)
                 }
             }
-            return BlockRayTraceResult.miss(position(), Direction.NORTH, blockPosition())
+            return BlockHitResult.miss(position(), Direction.NORTH, blockPosition())
         } else {
             // Perform a ray case to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
-            return ProjectileHelper.getHitResult(this, entityHitPredicate)
+            return ProjectileUtil.getHitResult(this, entityHitPredicate)
         }
     }
 
@@ -222,7 +221,7 @@ class SpellProjectileEntity(
      *
      * @param result The result of the ray hitting an object
      */
-    private fun onImpact(result: RayTraceResult) {
+    private fun onImpact(result: HitResult) {
         // Only process server side
         if (!level.isClientSide) {
             val spell = this.entityData[SPELL]
@@ -232,10 +231,10 @@ class SpellProjectileEntity(
             val currentStage = spell.getStage(spellIndex)
 
             // If we hit something process the hit
-            if (result.type != RayTraceResult.Type.MISS) {
+            if (result.type != HitResult.Type.MISS) {
                 val currentDeliveryMethod = currentStage!!.deliveryInstance!!.component
                 val direction = deltaMovement.normalize()
-                if (result.type == RayTraceResult.Type.BLOCK && result is BlockRayTraceResult) {
+                if (result.type == HitResult.Type.BLOCK && result is BlockHitResult) {
                     // Grab the hit position
                     var hitPos = BlockPos(result.location)
 
@@ -251,14 +250,14 @@ class SpellProjectileEntity(
                         blockPosition = hitPos,
                         direction = direction,
                         normal = deltaMovement.getNormal(),
-                        casterEntity = this.casterEntityId?.let { (level as? ServerWorld)?.getEntity(it) },
+                        casterEntity = this.casterEntityId?.let { (level as? ServerLevel)?.getEntity(it) },
                         deliveryEntity = this
                     )
 
                     // Proc the effects and transition
                     currentDeliveryMethod.procEffects(state)
                     currentDeliveryMethod.transitionFrom(state.copy(position = result.location.subtract(direction.scale(HIT_DELIVERY_TRANSITION_OFFSET))))
-                } else if (result.type == RayTraceResult.Type.ENTITY && result is EntityRayTraceResult) {
+                } else if (result.type == HitResult.Type.ENTITY && result is EntityHitResult) {
                     val entityHit = result.entity
                     val state = DeliveryTransitionState(
                         spell = spell,
@@ -268,7 +267,7 @@ class SpellProjectileEntity(
                         blockPosition = BlockPos(result.location),
                         direction = direction,
                         normal = deltaMovement.getNormal(),
-                        casterEntity = this.casterEntityId?.let { (level as? ServerWorld)?.getEntity(it) },
+                        casterEntity = this.casterEntityId?.let { (level as? ServerLevel)?.getEntity(it) },
                         entity = entityHit,
                         deliveryEntity = this
                     )
@@ -288,7 +287,7 @@ class SpellProjectileEntity(
             }
 
             // Kill the projectile
-            remove()
+            remove(RemovalReason.DISCARDED)
         }
     }
 
@@ -348,11 +347,11 @@ class SpellProjectileEntity(
         return false
     }
 
-    override fun getAddEntityPacket(): IPacket<*> {
+    override fun getAddEntityPacket(): Packet<*> {
         return NetworkHooks.getEntitySpawningPacket(this)
     }
 
-    override fun readAdditionalSaveData(compound: CompoundNBT) {
+    override fun readAdditionalSaveData(compound: CompoundTag) {
         this.entityData[SPELL] = Spell(compound.getCompound("spell"))
         this.entityData[SPELL_INDEX] = compound.getInt("spell_index")
         this.ticksInAir = compound.getInt("ticks_in_air")
@@ -364,7 +363,7 @@ class SpellProjectileEntity(
         }
     }
 
-    override fun addAdditionalSaveData(compound: CompoundNBT) {
+    override fun addAdditionalSaveData(compound: CompoundTag) {
         compound.put("spell", this.entityData[SPELL].serializeNBT())
         compound.putInt("spell_index", this.entityData[SPELL_INDEX])
         compound.putInt("ticks_in_air", this.ticksInAir)
@@ -376,12 +375,12 @@ class SpellProjectileEntity(
      * Spawn data is sent Server -> Client BEFORE the entity is spawned. We use this to ensure the client knows the spell's color before rendering
      */
 
-    override fun readSpawnData(additionalData: PacketBuffer) {
+    override fun readSpawnData(additionalData: FriendlyByteBuf) {
         this.entityData[SPELL] = Spell(additionalData.readNbt()!!)
         this.entityData[SPELL_INDEX] = additionalData.readInt()
     }
 
-    override fun writeSpawnData(buffer: PacketBuffer) {
+    override fun writeSpawnData(buffer: FriendlyByteBuf) {
         buffer.writeNbt(this.entityData[SPELL].serializeNBT())
         buffer.writeInt(this.entityData[SPELL_INDEX])
     }
@@ -389,7 +388,7 @@ class SpellProjectileEntity(
     companion object {
         private const val HIT_DELIVERY_TRANSITION_OFFSET = 0.01
 
-        private val SPELL = EntityDataManager.defineId(SpellProjectileEntity::class.java, ModDataSerializers.SPELL)
-        private val SPELL_INDEX = EntityDataManager.defineId(SpellProjectileEntity::class.java, DataSerializers.INT)
+        private val SPELL = SynchedEntityData.defineId(SpellProjectileEntity::class.java, ModDataSerializers.SPELL)
+        private val SPELL_INDEX = SynchedEntityData.defineId(SpellProjectileEntity::class.java, EntityDataSerializers.INT)
     }
 }

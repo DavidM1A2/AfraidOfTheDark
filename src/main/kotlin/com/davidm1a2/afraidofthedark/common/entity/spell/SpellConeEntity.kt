@@ -4,13 +4,13 @@ import com.davidm1a2.afraidofthedark.common.constants.ModDataSerializers
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.entity.spell.base.SpellEffectEntity
 import com.davidm1a2.afraidofthedark.common.utility.ConeUtils
-import net.minecraft.entity.EntityType
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.network.datasync.DataParameter
-import net.minecraft.network.datasync.DataSerializers
-import net.minecraft.network.datasync.EntityDataManager
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.world.World
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.syncher.EntityDataAccessor
+import net.minecraft.network.syncher.EntityDataSerializers
+import net.minecraft.network.syncher.SynchedEntityData
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.level.Level
+import net.minecraft.world.phys.Vec3
 import java.awt.Color
 
 class SpellConeEntity : SpellEffectEntity {
@@ -29,7 +29,7 @@ class SpellConeEntity : SpellEffectEntity {
         private set(value) {
             this.entityData[LENGTH] = value
         }
-    var direction: Vector3d
+    var direction: Vec3
         get() = this.entityData[DIRECTION]
         private set(value) {
             this.entityData[DIRECTION] = value
@@ -37,16 +37,16 @@ class SpellConeEntity : SpellEffectEntity {
 
     constructor(
         entityType: EntityType<out SpellConeEntity>,
-        world: World
+        world: Level
     ) : super(entityType, world)
 
     constructor(
-        world: World,
-        tipPos: Vector3d,
+        world: Level,
+        tipPos: Vec3,
         radius: Float,
         length: Float,
         color: Color,
-        direction: Vector3d
+        direction: Vec3
     ) : super(ModEntities.SPELL_CONE, world, tipPos, 12) {
         this.color = color
         this.radius = radius
@@ -59,25 +59,25 @@ class SpellConeEntity : SpellEffectEntity {
         this.entityData.define(COLOR, Color.WHITE)
         this.entityData.define(RADIUS, 1f)
         this.entityData.define(LENGTH, 2f)
-        this.entityData.define(DIRECTION, Vector3d(0.0, 1.0, 0.0))
+        this.entityData.define(DIRECTION, Vec3(0.0, 1.0, 0.0))
     }
 
-    override fun onSyncedDataUpdated(dataParameter: DataParameter<*>) {
+    override fun onSyncedDataUpdated(dataParameter: EntityDataAccessor<*>) {
         super.onSyncedDataUpdated(dataParameter)
         if (dataParameter == RADIUS || dataParameter == LENGTH || dataParameter == DIRECTION) {
             this.renderBoundingBox = ConeUtils.getBoundingBox(position(), direction, radius.toDouble(), length.toDouble())
         }
     }
 
-    override fun readAdditionalSaveData(compound: CompoundNBT) {
+    override fun readAdditionalSaveData(compound: CompoundTag) {
         super.readAdditionalSaveData(compound)
         this.color = Color(compound.getInt("red"), compound.getInt("green"), compound.getInt("blue"))
         this.radius = compound.getFloat("radius")
         this.length = compound.getFloat("length")
-        this.direction = Vector3d(compound.getDouble("direction_x"), compound.getDouble("direction_y"), compound.getDouble("direction_z"))
+        this.direction = Vec3(compound.getDouble("direction_x"), compound.getDouble("direction_y"), compound.getDouble("direction_z"))
     }
 
-    override fun addAdditionalSaveData(compound: CompoundNBT) {
+    override fun addAdditionalSaveData(compound: CompoundTag) {
         super.addAdditionalSaveData(compound)
         compound.putInt("red", color.red)
         compound.putInt("green", color.green)
@@ -90,9 +90,9 @@ class SpellConeEntity : SpellEffectEntity {
     }
 
     companion object {
-        private val COLOR = EntityDataManager.defineId(SpellConeEntity::class.java, ModDataSerializers.COLOR)
-        private val RADIUS = EntityDataManager.defineId(SpellConeEntity::class.java, DataSerializers.FLOAT)
-        private val LENGTH = EntityDataManager.defineId(SpellConeEntity::class.java, DataSerializers.FLOAT)
-        private val DIRECTION = EntityDataManager.defineId(SpellConeEntity::class.java, ModDataSerializers.VECTOR3D)
+        private val COLOR = SynchedEntityData.defineId(SpellConeEntity::class.java, ModDataSerializers.COLOR)
+        private val RADIUS = SynchedEntityData.defineId(SpellConeEntity::class.java, EntityDataSerializers.FLOAT)
+        private val LENGTH = SynchedEntityData.defineId(SpellConeEntity::class.java, EntityDataSerializers.FLOAT)
+        private val DIRECTION = SynchedEntityData.defineId(SpellConeEntity::class.java, ModDataSerializers.VECTOR3D)
     }
 }

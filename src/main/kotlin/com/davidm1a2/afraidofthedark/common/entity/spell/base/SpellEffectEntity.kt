@@ -1,34 +1,33 @@
 package com.davidm1a2.afraidofthedark.common.entity.spell.base
 
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.network.IPacket
-import net.minecraft.network.datasync.DataSerializers
-import net.minecraft.network.datasync.EntityDataManager
-import net.minecraft.util.math.AxisAlignedBB
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.world.World
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.protocol.Packet
+import net.minecraft.network.syncher.EntityDataSerializers
+import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.world.entity.Entity
-import net.minecraftforge.fml.network.NetworkHooks
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.level.Level
+import net.minecraft.world.phys.AABB
+import net.minecraft.world.phys.Vec3
+import net.minecraftforge.fmllegacy.network.NetworkHooks
 
 abstract class SpellEffectEntity(
     entityType: EntityType<*>,
-    world: World
+    world: Level
 ) : Entity(entityType, world) {
     // RenderBoundingBox defaults to 0 server side, and gets initialized properly client side
-    protected var renderBoundingBox: AxisAlignedBB = AxisAlignedBB.ofSize(0.0, 0.0, 0.0)
+    protected var renderBoundingBox = AABB(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
     var lifespanTicks: Int
         get() = this.entityData[LIFESPAN_TICKS]
         private set(value) {
             this.entityData[LIFESPAN_TICKS] = value
         }
 
-    constructor(entityType: EntityType<*>, world: World, startPos: Vector3d, lifespanTicks: Int) : this(entityType, world) {
+    constructor(entityType: EntityType<*>, world: Level, startPos: Vec3, lifespanTicks: Int) : this(entityType, world) {
         this.lifespanTicks = lifespanTicks
         this.setPos(startPos.x, startPos.y, startPos.z)
         this.setRot(0f, 0f)
-        this.deltaMovement = Vector3d(0.0, 0.0, 0.0)
+        this.deltaMovement = Vec3(0.0, 0.0, 0.0)
     }
 
     override fun tick() {
@@ -36,7 +35,7 @@ abstract class SpellEffectEntity(
 
         if (!level.isClientSide) {
             if (tickCount > lifespanTicks) {
-                remove()
+                remove(RemovalReason.DISCARDED)
             }
         }
     }
@@ -55,24 +54,24 @@ abstract class SpellEffectEntity(
         this.entityData.define(LIFESPAN_TICKS, 0)
     }
 
-    override fun getBoundingBoxForCulling(): AxisAlignedBB {
+    override fun getBoundingBoxForCulling(): AABB {
         return renderBoundingBox
     }
 
-    override fun readAdditionalSaveData(compound: CompoundNBT) {
+    override fun readAdditionalSaveData(compound: CompoundTag) {
         this.lifespanTicks = compound.getInt(NBT_LIFESPAN_TICKS)
     }
 
-    override fun addAdditionalSaveData(compound: CompoundNBT) {
+    override fun addAdditionalSaveData(compound: CompoundTag) {
         compound.putInt(NBT_LIFESPAN_TICKS, lifespanTicks)
     }
 
-    override fun getAddEntityPacket(): IPacket<*> {
+    override fun getAddEntityPacket(): Packet<*> {
         return NetworkHooks.getEntitySpawningPacket(this)
     }
 
     companion object {
         private const val NBT_LIFESPAN_TICKS = "lifespan_ticks"
-        private val LIFESPAN_TICKS = EntityDataManager.defineId(SpellEffectEntity::class.java, DataSerializers.INT)
+        private val LIFESPAN_TICKS = SynchedEntityData.defineId(SpellEffectEntity::class.java, EntityDataSerializers.INT)
     }
 }

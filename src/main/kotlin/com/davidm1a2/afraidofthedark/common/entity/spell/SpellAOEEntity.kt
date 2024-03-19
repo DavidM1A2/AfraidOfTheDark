@@ -3,14 +3,14 @@ package com.davidm1a2.afraidofthedark.common.entity.spell
 import com.davidm1a2.afraidofthedark.common.constants.ModDataSerializers
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.entity.spell.base.SpellEffectEntity
-import net.minecraft.entity.EntityType
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.network.datasync.DataParameter
-import net.minecraft.network.datasync.DataSerializers
-import net.minecraft.network.datasync.EntityDataManager
-import net.minecraft.util.math.AxisAlignedBB
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.world.World
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.syncher.EntityDataAccessor
+import net.minecraft.network.syncher.EntityDataSerializers
+import net.minecraft.network.syncher.SynchedEntityData
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.level.Level
+import net.minecraft.world.phys.AABB
+import net.minecraft.world.phys.Vec3
 import java.awt.Color
 
 class SpellAOEEntity : SpellEffectEntity {
@@ -27,12 +27,12 @@ class SpellAOEEntity : SpellEffectEntity {
 
     constructor(
         entityType: EntityType<out SpellAOEEntity>,
-        world: World
+        world: Level
     ) : super(entityType, world)
 
     constructor(
-        world: World,
-        startPos: Vector3d,
+        world: Level,
+        startPos: Vec3,
         radius: Float,
         color: Color
     ) : super(ModEntities.SPELL_AOE, world, startPos, 10) {
@@ -46,23 +46,23 @@ class SpellAOEEntity : SpellEffectEntity {
         this.entityData.define(RADIUS, 0f)
     }
 
-    override fun onSyncedDataUpdated(dataParameter: DataParameter<*>) {
+    override fun onSyncedDataUpdated(dataParameter: EntityDataAccessor<*>) {
         super.onSyncedDataUpdated(dataParameter)
         if (dataParameter == RADIUS) {
-            this.renderBoundingBox = AxisAlignedBB(
+            this.renderBoundingBox = AABB(
                 position().subtract(radius.toDouble(), radius.toDouble(), radius.toDouble()),
                 position().add(radius.toDouble(), radius.toDouble(), radius.toDouble())
             )
         }
     }
 
-    override fun readAdditionalSaveData(compound: CompoundNBT) {
+    override fun readAdditionalSaveData(compound: CompoundTag) {
         super.readAdditionalSaveData(compound)
         this.color = Color(compound.getInt("red"), compound.getInt("green"), compound.getInt("blue"))
         this.radius = compound.getFloat("radius")
     }
 
-    override fun addAdditionalSaveData(compound: CompoundNBT) {
+    override fun addAdditionalSaveData(compound: CompoundTag) {
         super.addAdditionalSaveData(compound)
         compound.putInt("red", color.red)
         compound.putInt("green", color.green)
@@ -71,7 +71,7 @@ class SpellAOEEntity : SpellEffectEntity {
     }
 
     companion object {
-        private val COLOR = EntityDataManager.defineId(SpellAOEEntity::class.java, ModDataSerializers.COLOR)
-        private val RADIUS = EntityDataManager.defineId(SpellAOEEntity::class.java, DataSerializers.FLOAT)
+        private val COLOR = SynchedEntityData.defineId(SpellAOEEntity::class.java, ModDataSerializers.COLOR)
+        private val RADIUS = SynchedEntityData.defineId(SpellAOEEntity::class.java, EntityDataSerializers.FLOAT)
     }
 }

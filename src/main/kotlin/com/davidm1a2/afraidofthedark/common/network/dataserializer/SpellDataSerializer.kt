@@ -3,8 +3,9 @@ package com.davidm1a2.afraidofthedark.common.network.dataserializer
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import net.minecraft.network.PacketBuffer
 import net.minecraft.network.datasync.IDataSerializer
+import net.minecraft.network.syncher.EntityDataSerializer
 
-class SpellDataSerializer : IDataSerializer<Spell> {
+class SpellDataSerializer : EntityDataSerializer<Spell> {
     override fun write(buffer: PacketBuffer, spell: Spell) {
         buffer.writeNbt(spell.serializeNBT())
     }
