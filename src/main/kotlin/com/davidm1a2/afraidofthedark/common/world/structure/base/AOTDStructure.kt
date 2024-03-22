@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getStructureMapper
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.mojang.serialization.Codec
 import net.minecraft.core.MappedRegistry.RegistryEntry
+import net.minecraft.resources.ResourceKey
 import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.LevelHeightAccessor
 import net.minecraft.world.level.biome.Biome
@@ -44,7 +45,7 @@ abstract class AOTDStructure<T : FeatureConfiguration>(name: String, codec: Code
      * @param category The category the biome is in
      * @return The configured structure or null
      */
-    abstract fun configured(biome: RegistryEntry<Biome>, category: Biome.BiomeCategory): ConfiguredStructureFeature<T, out StructureFeature<T>>?
+    abstract fun configured(biome: ResourceKey<Biome>, category: Biome.BiomeCategory): ConfiguredStructureFeature<T, out StructureFeature<T>>?
 
     /**
      * The structure configuration when on a flat map

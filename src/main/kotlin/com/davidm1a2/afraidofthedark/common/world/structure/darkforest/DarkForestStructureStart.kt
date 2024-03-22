@@ -6,25 +6,26 @@ import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.base.MultiplierConfig
 import com.davidm1a2.afraidofthedark.common.world.structure.base.SchematicStructurePiece
-import net.minecraft.util.Direction
-import net.minecraft.util.math.MutableBoundingBox
-import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.Heightmap
-import net.minecraft.world.gen.feature.structure.Structure
-import java.util.Random
+import net.minecraft.core.Direction
+import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.level.LevelHeightAccessor
+import net.minecraft.world.level.chunk.ChunkGenerator
+import net.minecraft.world.level.levelgen.Heightmap
+import net.minecraft.world.level.levelgen.feature.StructureFeature
+import java.util.*
 import kotlin.math.max
 import kotlin.math.min
 
-class DarkForestStructureStart(structure: Structure<MultiplierConfig>, chunkX: Int, chunkZ: Int, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
-    AOTDStructureStart<MultiplierConfig>(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
+class DarkForestStructureStart(structure: StructureFeature<MultiplierConfig>, chunkPos: ChunkPos, referenceIn: Int, seed: Long) :
+    AOTDStructureStart<MultiplierConfig>(structure, chunkPos, referenceIn, seed) {
 
-    override fun init(generator: ChunkGenerator, xPos: Int, zPos: Int) {
+    override fun init(generator: ChunkGenerator, xPos: Int, zPos: Int, levelHeightAccessor: LevelHeightAccessor) {
         val bedHouseWidth = ModSchematics.BED_HOUSE.getWidth()
         val bedHouseLength = ModSchematics.BED_HOUSE.getLength()
 
         val darkForest = feature as AOTDStructure<*>
 
-        val yPos = darkForest.getEdgeHeights(xPos, zPos, generator, bedHouseWidth.toInt(), bedHouseLength.toInt()).minOrNull()!! - 1
+        val yPos = darkForest.getEdgeHeights(xPos, zPos, generator, levelHeightAccessor, bedHouseWidth.toInt(), bedHouseLength.toInt()).minOrNull()!! - 1
 
         val width = darkForest.getWidth()
         val length = darkForest.getLength()
@@ -91,10 +92,10 @@ class DarkForestStructureStart(structure: Structure<MultiplierConfig>, chunkX: I
             }
             val prop = SchematicStructurePiece(x, 0, z, random, propSchematic)
 
-            val cornerHeight1 = generator.getBaseHeight(prop.boundingBox.x0, prop.boundingBox.z0, Heightmap.Type.WORLD_SURFACE_WG)
-            val cornerHeight2 = generator.getBaseHeight(prop.boundingBox.x1, prop.boundingBox.z0, Heightmap.Type.WORLD_SURFACE_WG)
-            val cornerHeight3 = generator.getBaseHeight(prop.boundingBox.x0, prop.boundingBox.z1, Heightmap.Type.WORLD_SURFACE_WG)
-            val cornerHeight4 = generator.getBaseHeight(prop.boundingBox.x1, prop.boundingBox.z1, Heightmap.Type.WORLD_SURFACE_WG)
+            val cornerHeight1 = generator.getBaseHeight(prop.boundingBox.minX(), prop.boundingBox.minZ(), Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor)
+            val cornerHeight2 = generator.getBaseHeight(prop.boundingBox.maxX(), prop.boundingBox.minZ(), Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor)
+            val cornerHeight3 = generator.getBaseHeight(prop.boundingBox.minX(), prop.boundingBox.maxZ(), Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor)
+            val cornerHeight4 = generator.getBaseHeight(prop.boundingBox.maxX(), prop.boundingBox.maxZ(), Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor)
             prop.updateY(min(min(cornerHeight1, cornerHeight2), min(cornerHeight3, cornerHeight4)))
 
             this.pieces.add(prop)
@@ -131,18 +132,18 @@ class DarkForestStructureStart(structure: Structure<MultiplierConfig>, chunkX: I
 
             val tree = SchematicStructurePiece(x, 0, z, random, treeSchematic)
 
-            val trunkHeight1 = generator.getBaseHeight(x + approximateTrunkWidth, z + approximateTrunkWidth, Heightmap.Type.WORLD_SURFACE_WG)
-            val trunkHeight2 = generator.getBaseHeight(x + approximateTrunkWidth, z - approximateTrunkWidth, Heightmap.Type.WORLD_SURFACE_WG)
-            val trunkHeight3 = generator.getBaseHeight(x - approximateTrunkWidth, z + approximateTrunkWidth, Heightmap.Type.WORLD_SURFACE_WG)
-            val trunkHeight4 = generator.getBaseHeight(x - approximateTrunkWidth, z - approximateTrunkWidth, Heightmap.Type.WORLD_SURFACE_WG)
-            val trunkHeightCenter = generator.getBaseHeight(x, z, Heightmap.Type.WORLD_SURFACE_WG)
+            val trunkHeight1 = generator.getBaseHeight(x + approximateTrunkWidth, z + approximateTrunkWidth, Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor)
+            val trunkHeight2 = generator.getBaseHeight(x + approximateTrunkWidth, z - approximateTrunkWidth, Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor)
+            val trunkHeight3 = generator.getBaseHeight(x - approximateTrunkWidth, z + approximateTrunkWidth, Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor)
+            val trunkHeight4 = generator.getBaseHeight(x - approximateTrunkWidth, z - approximateTrunkWidth, Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor)
+            val trunkHeightCenter = generator.getBaseHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor)
             // Trees need to have roots underground so move them down by 5, ensure it's above ground though
             tree.updateY(min(min(min(trunkHeight1, trunkHeight2), min(trunkHeight3, trunkHeight4)), trunkHeightCenter) - 5)
 
             this.pieces.add(tree)
         }
 
-        this.calculateBoundingBox()
+        this.createBoundingBox()
     }
 
     private fun Random.nextInt(min: Int, max: Int): Int {

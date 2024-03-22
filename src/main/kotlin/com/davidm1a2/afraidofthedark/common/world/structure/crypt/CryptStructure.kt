@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.base.MultiplierConfig
 import net.minecraft.core.MappedRegistry
+import net.minecraft.resources.ResourceKey
 import net.minecraft.world.level.LevelHeightAccessor
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.biome.BiomeSource
@@ -29,7 +30,7 @@ class CryptStructure : AOTDStructure<MultiplierConfig>("crypt", MultiplierConfig
         }
     }
 
-    override fun configured(biome: MappedRegistry.RegistryEntry<Biome>, category: Biome.BiomeCategory): ConfiguredStructureFeature<MultiplierConfig, out StructureFeature<MultiplierConfig>>? {
+    override fun configured(biome: ResourceKey<Biome>, category: Biome.BiomeCategory): ConfiguredStructureFeature<MultiplierConfig, out StructureFeature<MultiplierConfig>>? {
         return if (category !in INCOMPATIBLE_BIOME_CATEGORIES) {
             configured(MultiplierConfig(1))
         } else {

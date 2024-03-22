@@ -5,15 +5,16 @@ import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.base.MultiplierConfig
-import net.minecraft.util.RegistryKey
-import net.minecraft.world.biome.Biome
-import net.minecraft.world.biome.Biomes
-import net.minecraft.world.biome.provider.BiomeProvider
-import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.feature.StructureFeature
-import net.minecraft.world.gen.feature.structure.Structure
-import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
-import java.util.Random
+import net.minecraft.resources.ResourceKey
+import net.minecraft.world.level.LevelHeightAccessor
+import net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.biome.BiomeSource
+import net.minecraft.world.level.biome.Biomes
+import net.minecraft.world.level.chunk.ChunkGenerator
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature
+import net.minecraft.world.level.levelgen.feature.StructureFeature
+import net.minecraft.world.level.levelgen.feature.StructureFeature.StructureStartFactory
+import java.util.*
 
 class DarkForestStructure : AOTDStructure<MultiplierConfig>("dark_forest", MultiplierConfig.CODEC) {
     private val width: Int
@@ -43,13 +44,13 @@ class DarkForestStructure : AOTDStructure<MultiplierConfig>("dark_forest", Multi
         return length
     }
 
-    override fun getStartFactory(): IStartFactory<MultiplierConfig> {
-        return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
-            DarkForestStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
+    override fun getStartFactory(): StructureStartFactory<MultiplierConfig> {
+        return StructureStartFactory { structure, chunkPos, reference, seed ->
+            DarkForestStructureStart(structure, chunkPos, reference, seed)
         }
     }
 
-    override fun configured(biome: RegistryKey<Biome>, category: Biome.Category): StructureFeature<MultiplierConfig, out Structure<MultiplierConfig>>? {
+    override fun configured(biome: ResourceKey<Biome>, category: Biome.BiomeCategory): ConfiguredStructureFeature<MultiplierConfig, out StructureFeature<MultiplierConfig>>? {
         return when (biome) {
             ModBiomes.EERIE_FOREST -> configured(MultiplierConfig(2))
             in COMPATIBLE_HOUSE_BIOMES -> configured(MultiplierConfig(1))
@@ -57,11 +58,11 @@ class DarkForestStructure : AOTDStructure<MultiplierConfig>("dark_forest", Multi
         }
     }
 
-    override fun configuredFlat(): StructureFeature<MultiplierConfig, out Structure<MultiplierConfig>> {
+    override fun configuredFlat(): ConfiguredStructureFeature<MultiplierConfig, out StructureFeature<MultiplierConfig>> {
         return configured(MISSING_CONFIG)
     }
 
-    override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
+    override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeSource, random: Random, xPos: Int, zPos: Int, levelHeightAccessor: LevelHeightAccessor): Boolean {
         val biomeMultiplier = getInteriorConfigEstimate(xPos, zPos, biomeProvider, MISSING_CONFIG)
             .map { it.multiplier }
             .minOrNull() ?: 0
@@ -71,7 +72,7 @@ class DarkForestStructure : AOTDStructure<MultiplierConfig>("dark_forest", Multi
             return false
         }
 
-        val heights = getEdgeHeights(xPos, zPos, chunkGen, bedHouseWidth, bedHouseLength)
+        val heights = getEdgeHeights(xPos, zPos, chunkGen, levelHeightAccessor, bedHouseWidth, bedHouseLength)
         val maxHeight = heights.maxOrNull()!!
         val minHeight = heights.minOrNull()!!
         if (maxHeight - minHeight > 8) {
