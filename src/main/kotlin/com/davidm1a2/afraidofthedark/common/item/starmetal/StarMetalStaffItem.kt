@@ -56,7 +56,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
      * @param hand   The hand that the staff is being held in
      * @return Success if the staff went off, pass if not
      */
-    override fun use(world: Level, player: Player, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         // Get the item that the player was holding
         val heldItem = player.getItemInHand(hand)
 

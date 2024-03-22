@@ -48,7 +48,7 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
      * @param hand   The hand holding the item
      * @return The result of the right click
      */
-    override fun use(world: Level, player: Player, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         // Grab the held item
         val itemStack = player.getItemInHand(hand)
 

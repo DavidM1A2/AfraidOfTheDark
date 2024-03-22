@@ -19,6 +19,8 @@ import net.minecraft.util.NonNullList
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 
 /**
@@ -38,7 +40,7 @@ class ArcaneJournalItem : AOTDItem("arcane_journal", Properties().stacksTo(1)) {
      * Pass    = The call succeeded, but more calls can be made farther down the call stack.
      * Fail    = The call has failed to do what was intended and should stop here.
      */
-    override fun use(world: Level, player: Player, hand: InteractionHand): ActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         val heldItemStack = player.getItemInHand(hand)
 
         // Drop the journal
@@ -51,7 +53,7 @@ class ArcaneJournalItem : AOTDItem("arcane_journal", Properties().stacksTo(1)) {
                 if (!player.isCreative) {
                     player.setItemInHand(hand, ItemStack.EMPTY)
                 }
-                return ActionResult.success(heldItemStack)
+                return InteractionResultHolder.success(heldItemStack)
             }
         }
 

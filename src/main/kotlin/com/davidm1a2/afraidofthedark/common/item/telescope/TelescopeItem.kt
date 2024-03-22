@@ -30,7 +30,7 @@ class TelescopeItem : TelescopeBaseItem(130, "telescope") {
      * @param hand   The hand the telescope is in
      * @return The result of the right click
      */
-    override fun use(world: Level, player: Player, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         // Grab the itemstack the player is holding
         val itemStack = player.getItemInHand(hand)
 

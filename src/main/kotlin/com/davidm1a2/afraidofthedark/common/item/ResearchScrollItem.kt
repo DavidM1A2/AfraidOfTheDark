@@ -51,7 +51,7 @@ class ResearchScrollItem : AOTDItem("research_scroll", Properties()) {
      * @param hand   The hand the item is held in
      * @return The action result of the right click
      */
-    override fun use(world: Level, player: Player, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         // Grab the itemstack that represents the scroll
         val itemStack = player.getItemInHand(hand)
 

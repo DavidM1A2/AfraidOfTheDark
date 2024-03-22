@@ -31,7 +31,7 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
      * @param hand   The hand the item is in
      * @return The result of the right click
      */
-    override fun use(world: Level, player: Player, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         // Grab the held itemstack
         val heldItem = player.getItemInHand(hand)
         // Grab the player's spell manager

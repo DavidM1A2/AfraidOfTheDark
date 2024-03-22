@@ -43,7 +43,7 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().stacksTo
      * Pass    = The call succeeded, but more calls can be made farther down the call stack.
      * Fail    = The call has failed to do what was intended and should stop here.
      */
-    override fun use(world: Level, player: Player, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         val mainhandItem = player.mainHandItem
 
         // Server side processing only

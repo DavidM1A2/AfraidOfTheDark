@@ -46,7 +46,7 @@ class SleepingPotionItem : AOTDItem("sleeping_potion", Properties()) {
      * @param hand   The hand the player is using to hold the potion
      * @return SUCCESS since the potion drinking began
      */
-    override fun use(world: Level, player: Player, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         player.startUsingItem(hand)
         return ActionResult.success(player.getItemInHand(hand))
     }

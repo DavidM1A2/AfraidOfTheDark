@@ -39,7 +39,7 @@ class WristCrossbowItem : AOTDPerItemCooldownItem("wrist_crossbow", Properties()
         )
     }
 
-    override fun use(world: Level, player: Player, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         val itemStack = player.getItemInHand(hand)
         if (world.isClientSide) {
             val shot = shoot(player)
