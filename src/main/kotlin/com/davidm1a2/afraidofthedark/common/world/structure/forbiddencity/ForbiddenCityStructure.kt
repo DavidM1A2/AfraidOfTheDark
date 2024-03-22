@@ -3,18 +3,19 @@ package com.davidm1a2.afraidofthedark.common.world.structure.forbiddencity
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
-import net.minecraft.util.RegistryKey
-import net.minecraft.world.biome.Biome
-import net.minecraft.world.biome.provider.BiomeProvider
-import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.feature.IFeatureConfig
-import net.minecraft.world.gen.feature.NoFeatureConfig
-import net.minecraft.world.gen.feature.StructureFeature
-import net.minecraft.world.gen.feature.structure.Structure
-import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
-import java.util.Random
+import net.minecraft.resources.ResourceKey
+import net.minecraft.world.level.LevelHeightAccessor
+import net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.biome.BiomeSource
+import net.minecraft.world.level.chunk.ChunkGenerator
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature
+import net.minecraft.world.level.levelgen.feature.StructureFeature
+import net.minecraft.world.level.levelgen.feature.StructureFeature.StructureStartFactory
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration
+import java.util.*
 
-class ForbiddenCityStructure : AOTDStructure<NoFeatureConfig>("forbidden_city", NoFeatureConfig.CODEC) {
+class ForbiddenCityStructure : AOTDStructure<NoneFeatureConfiguration>("forbidden_city", NoneFeatureConfiguration.CODEC) {
     private val width: Int
     private val length: Int
 
@@ -40,25 +41,25 @@ class ForbiddenCityStructure : AOTDStructure<NoFeatureConfig>("forbidden_city", 
         return length
     }
 
-    override fun getStartFactory(): IStartFactory<NoFeatureConfig> {
-        return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
-            ForbiddenCityStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
+    override fun getStartFactory(): StructureStartFactory<NoneFeatureConfiguration> {
+        return StructureStartFactory { structure, chunkPos, reference, seed ->
+            ForbiddenCityStructureStart(structure, chunkPos, reference, seed)
         }
     }
 
-    override fun configured(biome: RegistryKey<Biome>, category: Biome.Category): StructureFeature<NoFeatureConfig, out Structure<NoFeatureConfig>>? {
+    override fun configured(biome: ResourceKey<Biome>, category: Biome.BiomeCategory): ConfiguredStructureFeature<NoneFeatureConfiguration, out StructureFeature<NoneFeatureConfiguration>>? {
         return if (category in VALID_BIOME_CATEGORIES) {
-            configured(IFeatureConfig.NONE)
+            configured(FeatureConfiguration.NONE)
         } else {
             null
         }
     }
 
-    override fun configuredFlat(): StructureFeature<NoFeatureConfig, out Structure<NoFeatureConfig>> {
-        return configured(IFeatureConfig.NONE)
+    override fun configuredFlat(): ConfiguredStructureFeature<NoneFeatureConfiguration, out StructureFeature<NoneFeatureConfiguration>> {
+        return configured(FeatureConfiguration.NONE)
     }
 
-    override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
+    override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeSource, random: Random, xPos: Int, zPos: Int, levelHeightAccessor: LevelHeightAccessor): Boolean {
         val chance = getOneInNValidChunks(3500) * ModCommonConfiguration.forbiddenCityFrequency
         if (random.nextDouble() >= chance) {
             return false
@@ -83,32 +84,32 @@ class ForbiddenCityStructure : AOTDStructure<NoFeatureConfig>("forbidden_city", 
         private val STAIRWELL_LENGTH = ModSchematics.STAIRWELL.getLength().toInt()
 
         private val VALID_BIOME_CATEGORIES = setOf(
-            Biome.Category.TAIGA,
-            Biome.Category.EXTREME_HILLS,
-            Biome.Category.JUNGLE,
-            Biome.Category.MESA,
-            Biome.Category.PLAINS,
-            Biome.Category.SAVANNA,
-            Biome.Category.ICY,
-            Biome.Category.BEACH,
-            Biome.Category.FOREST,
-            Biome.Category.OCEAN,
-            Biome.Category.DESERT,
-            Biome.Category.RIVER,
-            Biome.Category.SWAMP,
-            Biome.Category.MUSHROOM
+            Biome.BiomeCategory.TAIGA,
+            Biome.BiomeCategory.EXTREME_HILLS,
+            Biome.BiomeCategory.JUNGLE,
+            Biome.BiomeCategory.MESA,
+            Biome.BiomeCategory.PLAINS,
+            Biome.BiomeCategory.SAVANNA,
+            Biome.BiomeCategory.ICY,
+            Biome.BiomeCategory.BEACH,
+            Biome.BiomeCategory.FOREST,
+            Biome.BiomeCategory.OCEAN,
+            Biome.BiomeCategory.DESERT,
+            Biome.BiomeCategory.RIVER,
+            Biome.BiomeCategory.SWAMP,
+            Biome.BiomeCategory.MUSHROOM
         )
         private val VALID_STAIR_BIOME_CATEGORIES = setOf(
-            Biome.Category.TAIGA,
-            Biome.Category.EXTREME_HILLS,
-            Biome.Category.JUNGLE,
-            Biome.Category.MESA,
-            Biome.Category.PLAINS,
-            Biome.Category.SAVANNA,
-            Biome.Category.ICY,
-            Biome.Category.FOREST,
-            Biome.Category.DESERT,
-            Biome.Category.MUSHROOM
+            Biome.BiomeCategory.TAIGA,
+            Biome.BiomeCategory.EXTREME_HILLS,
+            Biome.BiomeCategory.JUNGLE,
+            Biome.BiomeCategory.MESA,
+            Biome.BiomeCategory.PLAINS,
+            Biome.BiomeCategory.SAVANNA,
+            Biome.BiomeCategory.ICY,
+            Biome.BiomeCategory.FOREST,
+            Biome.BiomeCategory.DESERT,
+            Biome.BiomeCategory.MUSHROOM
         )
     }
 }

@@ -5,18 +5,23 @@ import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.base.SchematicStructurePiece
-import net.minecraft.util.Direction
-import net.minecraft.util.SharedSeedRandom
-import net.minecraft.util.math.MutableBoundingBox
-import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.Heightmap
-import net.minecraft.world.gen.feature.NoFeatureConfig
-import net.minecraft.world.gen.feature.structure.Structure
+import net.minecraft.core.Direction
+import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.level.LevelHeightAccessor
+import net.minecraft.world.level.chunk.ChunkGenerator
+import net.minecraft.world.level.levelgen.Heightmap
+import net.minecraft.world.level.levelgen.WorldgenRandom
+import net.minecraft.world.level.levelgen.feature.StructureFeature
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration
+import net.minecraft.world.level.levelgen.structure.BoundingBox
 import kotlin.math.min
 
-class ForbiddenCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX: Int, chunkZ: Int, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
-    AOTDStructureStart<NoFeatureConfig>(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
-    override fun init(generator: ChunkGenerator, xPos: Int, zPos: Int) {
+class ForbiddenCityStructureStart(structure: StructureFeature<NoneFeatureConfiguration>, chunkPos: ChunkPos, referenceIn: Int, seed: Long) :
+    AOTDStructureStart<NoneFeatureConfiguration>(structure, chunkPos, referenceIn, seed) {
+
+    private var amountOfStairRemoved: Int = 0
+
+    override fun init(generator: ChunkGenerator, xPos: Int, zPos: Int, levelHeightAccessor: LevelHeightAccessor) {
         val forbiddenCity = feature as AOTDStructure<*>
         val width = forbiddenCity.getWidth()
         val length = forbiddenCity.getLength()
@@ -41,8 +46,6 @@ class ForbiddenCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX:
             .flatMap { listOf(it, it) }
             .shuffled(random)
             .iterator()
-
-        var amountOfStairRemoved = 0
 
         // floor 0 (bottom) or 1 (upper)
         for (floor in Floor.values()) {
@@ -80,18 +83,20 @@ class ForbiddenCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX:
                             val stairwell = ModSchematics.STAIRWELL
 
                             val groundHeight = listOf(
-                                generator.getBaseHeight(stairwellX, stairwellZ, Heightmap.Type.WORLD_SURFACE_WG),
-                                generator.getBaseHeight(stairwellX + stairwell.getWidth() - 1, stairwellZ, Heightmap.Type.WORLD_SURFACE_WG),
-                                generator.getBaseHeight(stairwellX, stairwellZ + stairwell.getLength() - 1, Heightmap.Type.WORLD_SURFACE_WG),
+                                generator.getBaseHeight(stairwellX, stairwellZ, Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor),
+                                generator.getBaseHeight(stairwellX + stairwell.getWidth() - 1, stairwellZ, Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor),
+                                generator.getBaseHeight(stairwellX, stairwellZ + stairwell.getLength() - 1, Heightmap.Types.WORLD_SURFACE_WG, levelHeightAccessor),
                                 generator.getBaseHeight(
                                     stairwellX + stairwell.getWidth() - 1,
                                     stairwellZ + stairwell.getLength() - 1,
-                                    Heightmap.Type.WORLD_SURFACE_WG
+                                    Heightmap.Types.WORLD_SURFACE_WG,
+                                    levelHeightAccessor
                                 ),
                                 generator.getBaseHeight(
                                     stairwellX + stairwell.getWidth() / 2,
                                     stairwellZ + stairwell.getLength() / 2,
-                                    Heightmap.Type.WORLD_SURFACE_WG
+                                    Heightmap.Types.WORLD_SURFACE_WG,
+                                    levelHeightAccessor
                                 )
                             ).maxOrNull()!!
 
@@ -228,9 +233,13 @@ class ForbiddenCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX:
             }
         }
 
-        this.calculateBoundingBox()
+        this.createBoundingBox()
+    }
+
+    override fun createBoundingBox(): BoundingBox {
         // Don't expand the bounding box past the upward stairs
-        this.boundingBox.y1 = this.boundingBox.y1 - amountOfStairRemoved
+        val baseBoundingBox = super.createBoundingBox()
+        return BoundingBox(baseBoundingBox.minX(), baseBoundingBox.minY(), baseBoundingBox.minZ(), baseBoundingBox.maxX(), baseBoundingBox.maxY() - amountOfStairRemoved, baseBoundingBox.maxZ())
     }
 
     private enum class Floor {
@@ -249,7 +258,7 @@ class ForbiddenCityStructureStart(structure: Structure<NoFeatureConfig>, chunkX:
         internal const val STAIR_OFFSET = 13
 
         private const val ROOMS_PER_ROW = 3
-        private val SEEDABLE_RANDOM = SharedSeedRandom()
+        private val SEEDABLE_RANDOM = WorldgenRandom()
 
         internal fun getSurfaceStairIndex(xPos: Int, zPos: Int): Int {
             SEEDABLE_RANDOM.setBaseChunkSeed(xPos shr 4, zPos shr 4)
