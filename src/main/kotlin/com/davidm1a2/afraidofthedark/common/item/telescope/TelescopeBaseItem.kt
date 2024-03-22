@@ -7,13 +7,13 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.ITooltipFlag
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.ItemStack
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
 
 /**
@@ -57,10 +57,10 @@ abstract class TelescopeBaseItem(val accuracy: Int, name: String) : AOTDItem(nam
             if (playerResearch.isResearched(research)) {
                 // Tell the player that they need to be higher to see through the clouds
                 if (!highEnough) {
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.telescope.not_high_enough"))
+                    player.sendMessage(TranslatableComponent("message.afraidofthedark.telescope.not_high_enough"))
                 }
             } else {
-                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+                player.sendMessage(TranslatableComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
 
@@ -71,7 +71,7 @@ abstract class TelescopeBaseItem(val accuracy: Int, name: String) : AOTDItem(nam
                 Minecraft.getInstance().setScreen(TelescopeScreen())
             }
         }
-        return ActionResult.success(itemStack)
+        return InteractionResultHolder.success(itemStack)
     }
 
     /**
@@ -82,14 +82,14 @@ abstract class TelescopeBaseItem(val accuracy: Int, name: String) : AOTDItem(nam
      * @param tooltip The tooltip to add to
      * @param flag  True if the advanced tooltip is set on, false otherwise
      */
-    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<Component>, flag: TooltipFlag) {
         val player = Minecraft.getInstance().player
 
         if (player != null && player.getResearch().isResearched(getRequiredResearch())) {
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.telescope.directions"))
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.telescope.accuracy", accuracy))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.telescope.directions"))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.telescope.accuracy", accuracy))
         } else {
-            tooltip.add(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+            tooltip.add(TranslatableComponent(LocalizationConstants.DONT_UNDERSTAND))
         }
     }
 

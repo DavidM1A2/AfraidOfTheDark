@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.property
 
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.TranslatableComponent
 
 /**
  * Special spell component property that allows for an enumerated set of options
@@ -17,7 +17,7 @@ internal class EnumSpellComponentProperty<T : Enum<T>>(
     override fun convertTo(newValue: String): T {
         val enumValue = values.find { it.name.equals(newValue, true) }
         if (enumValue == null) {
-            throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.enum.format", newValue))
+            throw InvalidValueException(TranslatableComponent("property_error.afraidofthedark.enum.format", newValue))
         } else {
             return enumValue
         }

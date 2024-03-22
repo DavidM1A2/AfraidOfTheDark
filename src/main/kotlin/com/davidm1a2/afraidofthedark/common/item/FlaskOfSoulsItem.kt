@@ -1,30 +1,26 @@
 package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
-import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
-import com.davidm1a2.afraidofthedark.common.constants.ModEntities
-import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.constants.*
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDPerItemCooldownItem
 import com.davidm1a2.afraidofthedark.common.item.core.IHasModelProperties
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.EntityType
+import net.minecraft.client.renderer.item.ClampedItemPropertyFunction
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.IItemPropertyGetter
-import net.minecraft.item.ItemStack
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.BlockRayTraceResult
-import net.minecraft.util.math.RayTraceContext
-import net.minecraft.util.math.RayTraceResult
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
+import net.minecraft.world.level.ClipContext
 import net.minecraft.world.level.Level
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.HitResult
 import org.apache.logging.log4j.LogManager
 import kotlin.random.Random
 
@@ -34,8 +30,8 @@ import kotlin.random.Random
  * @constructor sets the item name
  */
 class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties()), IHasModelProperties {
-    override fun getProperties(): List<Pair<ResourceLocation, IItemPropertyGetter>> {
-        return listOf(ResourceLocation(Constants.MOD_ID, "complete") to IItemPropertyGetter { stack, _, _ ->
+    override fun getProperties(): List<Pair<ResourceLocation, ClampedItemPropertyFunction>> {
+        return listOf(ResourceLocation(Constants.MOD_ID, "complete") to ClampedItemPropertyFunction { stack, _, _, _ ->
             if (isComplete(stack)) 1f else 0f
         })
     }
@@ -57,24 +53,24 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
             // Ensure the player has the right research
             if (player.getResearch().isResearched(ModResearches.FLASK_OF_SOULS)) {
                 // Ray trace where the player is looking
-                val rayTraceResult = getPlayerPOVHitResult(world, player, RayTraceContext.FluidMode.NONE)
+                val rayTraceResult = getPlayerPOVHitResult(world, player, ClipContext.Fluid.NONE)
 
                 // Test if we hit a block
-                if (rayTraceResult.type == RayTraceResult.Type.BLOCK && rayTraceResult is BlockRayTraceResult) {
+                if (rayTraceResult.type == HitResult.Type.BLOCK && rayTraceResult is BlockHitResult) {
                     val hitPos = rayTraceResult.blockPos
                     val hitFace = rayTraceResult.direction
                     val spawnPos = hitPos.relative(hitFace)
-                    // Test if the block right clicked is modifiable
+                    // Test if the block right-clicked is modifiable
                     if (world.mayInteract(player, hitPos) && player.mayUseItemAt(hitPos, hitFace, itemStack)) {
                         // If the entity was selected to spawn inside a liquid spawn it inside a liquid
                         spawnEntity(world, spawnPos.x + 0.5, spawnPos.y + 0.5, spawnPos.z + 0.5, itemStack, player)
                     }
                 }
             } else {
-                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+                player.sendMessage(TranslatableComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
-        return ActionResult.success(itemStack)
+        return InteractionResultHolder.success(itemStack)
     }
 
     /**
@@ -112,11 +108,11 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
                     }
                 } else {
                     entityPlayer.sendMessage(
-                        TranslationTextComponent("message.afraidofthedark.flask_of_souls.on_cooldown", cooldownRemainingInSeconds(itemStack))
+                        TranslatableComponent("message.afraidofthedark.flask_of_souls.on_cooldown", cooldownRemainingInSeconds(itemStack))
                     )
                 }
             } else {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.flask_of_souls.incomplete"))
+                entityPlayer.sendMessage(TranslatableComponent("message.afraidofthedark.flask_of_souls.incomplete"))
             }
         }
     }
@@ -159,24 +155,24 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
      * @param tooltip The tooltip to add to
      * @param flag  True if the advanced tooltip is set on, false otherwise
      */
-    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<Component>, flag: TooltipFlag) {
         val player = Minecraft.getInstance().player
         // If the player has the right research then show them flask stats
         if (player != null && player.getResearch().isResearched(ModResearches.FLASK_OF_SOULS)) {
             // If the flask is unbound show them information how to bind it
             if (getSpawnedEntity(stack) == null) {
-                tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.flask_of_souls.empty.line1"))
-                tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.flask_of_souls.empty.line2"))
-                tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.flask_of_souls.empty.line3"))
+                tooltip.add(TranslatableComponent("tooltip.afraidofthedark.flask_of_souls.empty.line1"))
+                tooltip.add(TranslatableComponent("tooltip.afraidofthedark.flask_of_souls.empty.line2"))
+                tooltip.add(TranslatableComponent("tooltip.afraidofthedark.flask_of_souls.empty.line3"))
             } else {
                 tooltip.add(
-                    TranslationTextComponent(
+                    TranslatableComponent(
                         "tooltip.afraidofthedark.flask_of_souls.incomplete.line1",
                         EntityType.byString(getSpawnedEntity(stack)!!.toString()).get().description
                     )
                 )
                 tooltip.add(
-                    TranslationTextComponent(
+                    TranslatableComponent(
                         "tooltip.afraidofthedark.flask_of_souls.incomplete.line2",
                         getKills(stack),
                         getKillsRequired(stack)
@@ -184,7 +180,7 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
                 )
             }
         } else {
-            tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TranslatableComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

@@ -6,12 +6,12 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDResearchRequiredHoeItem
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.Entity
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.ItemStack
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
 
 class AmorphousMetalHoeItem : AOTDResearchRequiredHoeItem("amorphous_metal_hoe", ModToolMaterials.AMORPHOUS_METAL, -7, 0.0f, ModResearches.CATALYSIS, Properties()) {
@@ -24,14 +24,14 @@ class AmorphousMetalHoeItem : AOTDResearchRequiredHoeItem("amorphous_metal_hoe",
         return super.onLeftClickEntity(stack, player, target)
     }
 
-    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
+    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<Component>, iTooltipFlag: TooltipFlag) {
         super.appendHoverText(itemStack, world, tooltip, iTooltipFlag)
 
         val player = Minecraft.getInstance().player
 
         if (player != null && player.getResearch().isResearched(requiredResearch)) {
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.amorphous_metal_tool.double_drops"))
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.amorphous_metal_tool.no_drops"))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.amorphous_metal_tool.double_drops"))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.amorphous_metal_tool.no_drops"))
         }
     }
 }

@@ -10,19 +10,19 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.Cas
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellCastResult
 import com.davidm1a2.afraidofthedark.common.utility.round
 import net.minecraft.block.Blocks
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
-import net.minecraft.util.DamageSource
+import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.TranslatableComponent
 import org.apache.logging.log4j.LogManager
 import kotlin.math.min
 
 class LeechSpellPowerSource : AOTDSpellPowerSource<LeechSpellPowerSource.LeechContext>("leech", ModResearches.BLOODBATH) {
     override fun cast(entity: Entity, spell: Spell, environment: CastEnvironment<LeechContext>): SpellCastResult {
         if (environment.vitaeAvailable < spell.getCost()) {
-            return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))
+            return SpellCastResult.failure(TranslatableComponent("${getUnlocalizedBaseName()}.not_enough_power"))
         }
 
         var vitaeToDistribute = spell.getCost()

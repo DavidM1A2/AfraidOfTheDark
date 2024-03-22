@@ -9,7 +9,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpel
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import net.minecraft.util.SoundCategory
-import net.minecraft.util.SoundEvents
+import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.level.Level
 
 /**

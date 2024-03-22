@@ -1,12 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.item.core
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.item.HoeItem
-import net.minecraft.item.IItemTier
+import net.minecraft.world.item.HoeItem
+import net.minecraft.world.item.Tier
 
 abstract class AOTDHoeItem(
     baseName: String,
-    toolMaterial: IItemTier,
+    toolMaterial: Tier,
     baseDamage: Int,
     attackSpeedMultiplier: Float,
     properties: Properties,

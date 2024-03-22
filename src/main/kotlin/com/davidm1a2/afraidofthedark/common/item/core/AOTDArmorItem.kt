@@ -1,13 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.item.core
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.entity.EquipmentSlot
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.inventory.EquipmentSlotType
-import net.minecraft.item.ArmorItem
-import net.minecraft.item.IArmorMaterial
-import net.minecraft.item.ItemStack
-import net.minecraft.util.DamageSource
+import net.minecraft.world.item.ArmorItem
+import net.minecraft.world.item.ArmorMaterial
+import net.minecraft.world.item.ItemStack
 
 /**
  * Base class for AOTD armor
@@ -20,8 +20,8 @@ import net.minecraft.util.DamageSource
  */
 abstract class AOTDArmorItem(
     baseName: String,
-    material: IArmorMaterial,
-    equipmentSlot: EquipmentSlotType,
+    material: ArmorMaterial,
+    equipmentSlot: EquipmentSlot,
     properties: Properties,
     displayInCreative: Boolean = true
 ) : ArmorItem(material, equipmentSlot, properties.apply {
@@ -45,7 +45,7 @@ abstract class AOTDArmorItem(
      *  -> Returning 1.0 will leave the damage unmodified
      *  -> Returning 1.5 will increase the damage by 50%
      */
-    abstract fun getDamageMultiplier(entity: LivingEntity, armorStack: ItemStack, source: DamageSource, slot: EquipmentSlotType): Double
+    abstract fun getDamageMultiplier(entity: LivingEntity, armorStack: ItemStack, source: DamageSource, slot: EquipmentSlot): Double
 
     /**
      * Tests if the player is wearing a full set of this armor type

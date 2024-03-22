@@ -4,21 +4,21 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import net.minecraft.block.BlockState
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.Entity
+import net.minecraft.core.BlockPos
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.IItemTier
-import net.minecraft.item.ItemStack
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Tier
+import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.state.BlockState
 
 abstract class AOTDResearchRequiredPickaxeItem(
     baseName: String,
-    toolMaterial: IItemTier,
+    toolMaterial: Tier,
     baseDamage: Int,
     attackSpeedMultiplier: Float,
     protected val requiredResearch: Research,
@@ -30,7 +30,7 @@ abstract class AOTDResearchRequiredPickaxeItem(
             super.canAttackBlock(blockState, world, blockPos, player)
         } else {
             if (!world.isClientSide) {
-                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+                player.sendMessage(TranslatableComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
             false
         }
@@ -44,11 +44,11 @@ abstract class AOTDResearchRequiredPickaxeItem(
         return super.onLeftClickEntity(stack, player, target)
     }
 
-    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
+    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<Component>, iTooltipFlag: TooltipFlag) {
         val player = Minecraft.getInstance().player
 
         if (player != null && !player.getResearch().isResearched(requiredResearch)) {
-            tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TranslatableComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 }

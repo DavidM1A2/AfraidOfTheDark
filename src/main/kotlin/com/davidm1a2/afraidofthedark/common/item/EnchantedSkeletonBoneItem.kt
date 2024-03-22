@@ -6,11 +6,12 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSkeletonEntity
 import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
-import net.minecraft.entity.item.ItemEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.ItemStack
-import net.minecraft.potion.EffectInstance
-import net.minecraft.potion.Effects
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.item.ItemEntity
 import net.minecraftforge.common.MinecraftForge
 
 /**
@@ -70,7 +71,7 @@ class EnchantedSkeletonBoneItem : AOTDItem("enchanted_skeleton_bone", Properties
                         0.0f
                     )
                     // Give the skeleton 2 ticks of invisibility to ensure players can't see them without their spawning animation
-                    skeleton.addEffect(EffectInstance(Effects.INVISIBILITY, 2))
+                    skeleton.addEffect(MobEffectInstance(MobEffects.INVISIBILITY, 2))
                     // Spawn the skeleton
                     world.addFreshEntity(skeleton)
                 }
@@ -97,7 +98,7 @@ class EnchantedSkeletonBoneItem : AOTDItem("enchanted_skeleton_bone", Properties
                 }
 
                 // Remove the bone item stacks
-                surroundingBones.forEach { it.remove() }
+                surroundingBones.forEach { it.remove(Entity.RemovalReason.DISCARDED) }
             }
         }
 

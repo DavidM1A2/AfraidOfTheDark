@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.network.handler
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.entity.player.ServerPlayer
 import net.minecraft.util.RegistryKey
 import net.minecraft.util.ResourceLocation

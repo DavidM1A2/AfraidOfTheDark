@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.property
 
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.TranslatableComponent
 
 /**
  * Special spell component property that encapsulates integer parsing
@@ -18,14 +18,14 @@ internal class IntSpellComponentProperty(
     override fun convertTo(newValue: String): Int {
         // Ensure the number is parsable
         val intValue = newValue.toIntOrNull()
-            ?: throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.integer.format", newValue))
+            ?: throw InvalidValueException(TranslatableComponent("property_error.afraidofthedark.integer.format", newValue))
 
         // Ensure the int is valid
         if (minValue != null && intValue < minValue) {
-            throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.integer.too_small", getName(), minValue))
+            throw InvalidValueException(TranslatableComponent("property_error.afraidofthedark.integer.too_small", getName(), minValue))
         }
         if (maxValue != null && intValue > maxValue) {
-            throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.integer.too_large", getName(), maxValue))
+            throw InvalidValueException(TranslatableComponent("property_error.afraidofthedark.integer.too_large", getName(), maxValue))
         }
         return intValue
     }

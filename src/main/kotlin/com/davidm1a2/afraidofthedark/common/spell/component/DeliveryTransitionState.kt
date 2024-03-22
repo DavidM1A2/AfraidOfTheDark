@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import net.minecraft.core.BlockPos
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.RegistryKey

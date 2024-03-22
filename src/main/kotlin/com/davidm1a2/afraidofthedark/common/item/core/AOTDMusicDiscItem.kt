@@ -1,9 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.item.core
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.item.Item
-import net.minecraft.item.MusicDiscItem
-import net.minecraft.util.SoundEvent
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.world.item.RecordItem
 
 /**
  * Base class for all AOTD items
@@ -17,7 +16,7 @@ abstract class AOTDMusicDiscItem(
     properties: Properties,
     soundEvent: SoundEvent,
     displayInCreative: Boolean = true
-) : MusicDiscItem(0, { soundEvent }, properties.apply {
+) : RecordItem(0, { soundEvent }, properties.apply {
     if (displayInCreative) {
         tab(Constants.AOTD_CREATIVE_TAB)
     }

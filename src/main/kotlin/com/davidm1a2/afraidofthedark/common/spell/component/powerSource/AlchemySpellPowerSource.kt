@@ -6,10 +6,10 @@ import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.CastEnvironment
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellCastResult
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.item.Items
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.TranslatableComponent
 import kotlin.math.ceil
 
 /**
@@ -18,11 +18,11 @@ import kotlin.math.ceil
 class AlchemySpellPowerSource : AOTDSpellPowerSource<Unit>("alchemy", ModResearches.ALCHEMY) {
     override fun cast(entity: Entity, spell: Spell, environment: CastEnvironment<Unit>): SpellCastResult {
         if (entity !is Player) {
-            return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))
+            return SpellCastResult.failure(TranslatableComponent("${getUnlocalizedBaseName()}.not_enough_power"))
         }
 
         if (environment.vitaeAvailable < spell.getCost()) {
-            return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))
+            return SpellCastResult.failure(TranslatableComponent("${getUnlocalizedBaseName()}.not_enough_power"))
         }
 
         var costRemaining = spell.getCost()

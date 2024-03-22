@@ -7,15 +7,15 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDArmorItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.Entity
-import net.minecraft.entity.LivingEntity
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EquipmentSlot
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.inventory.EquipmentSlotType
-import net.minecraft.item.ItemStack
-import net.minecraft.util.DamageSource
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
 
 /**
@@ -25,7 +25,7 @@ import net.minecraft.world.level.Level
  * @param baseName        The name of the item to be used by the game registry
  * @param equipmentSlot The slot that this armor pieces goes on, can be one of 4 options
  */
-class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
+class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlot) :
     AOTDArmorItem(baseName, ModArmorMaterials.STAR_METAL, equipmentSlot, Properties()) {
     /**
      * Gets the resource location path of the texture for the armor when worn by the player
@@ -36,9 +36,9 @@ class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
      * @param type   The subtype, can be null or "overlay"
      * @return Path of texture to bind, or null to use default
      */
-    override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EquipmentSlotType, type: String?): String {
+    override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EquipmentSlot, type: String?): String {
         // Star metal 1 is for helm, boots, and chest while Star metal 2 is for leggings
-        return if (slot == EquipmentSlotType.LEGS) {
+        return if (slot == EquipmentSlot.LEGS) {
             "afraidofthedark:textures/armor/star_metal_2.png"
         } else {
             "afraidofthedark:textures/armor/star_metal_1.png"
@@ -53,13 +53,13 @@ class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
      * @param tooltip The tooltip list to add to
      * @param flag  The flag telling us if advanced tooltips are on or not
      */
-    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<Component>, flag: TooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL)) {
-            tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_MAGIC_ARMOR_NEVER_BREAKS))
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.star_metal_armor.effect"))
+            tooltip.add(TranslatableComponent(LocalizationConstants.TOOLTIP_MAGIC_ARMOR_NEVER_BREAKS))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.star_metal_armor.effect"))
         } else {
-            tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TranslatableComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 
@@ -107,7 +107,7 @@ class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
             System.currentTimeMillis() > NBTHelper.getLong(itemStack, NBT_LAST_ABSORPTION_PROC)!! + ABSORPTION_PROC_CD_MILLIS
     }
 
-    override fun getDamageMultiplier(entity: LivingEntity, armorStack: ItemStack, source: DamageSource, slot: EquipmentSlotType): Double {
+    override fun getDamageMultiplier(entity: LivingEntity, armorStack: ItemStack, source: DamageSource, slot: EquipmentSlot): Double {
         // Compute armor properties for players only
         if (entity !is Player) {
             return 1.0

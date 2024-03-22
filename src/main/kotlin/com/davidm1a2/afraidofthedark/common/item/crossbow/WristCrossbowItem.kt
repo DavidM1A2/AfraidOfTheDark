@@ -13,16 +13,15 @@ import com.davidm1a2.afraidofthedark.common.item.core.IHasModelProperties
 import com.davidm1a2.afraidofthedark.common.network.packets.other.FireWristCrossbowPacket
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.LivingEntity
+import net.minecraft.client.renderer.item.ClampedItemPropertyFunction
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.IItemPropertyGetter
-import net.minecraft.item.ItemStack
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
 
 /**
@@ -31,9 +30,9 @@ import net.minecraft.world.level.Level
  * @constructor sets up item properties
  */
 class WristCrossbowItem : AOTDPerItemCooldownItem("wrist_crossbow", Properties()), IHasModelProperties {
-    override fun getProperties(): List<Pair<ResourceLocation, IItemPropertyGetter>> {
+    override fun getProperties(): List<Pair<ResourceLocation, ClampedItemPropertyFunction>> {
         return listOf(
-            ResourceLocation(Constants.MOD_ID, "is_loaded") to IItemPropertyGetter { stack: ItemStack, _: World?, _: LivingEntity? ->
+            ResourceLocation(Constants.MOD_ID, "is_loaded") to ClampedItemPropertyFunction { stack, _, _, _ ->
                 if (isOnCooldown(stack)) 0f else 1f
             }
         )
@@ -44,30 +43,30 @@ class WristCrossbowItem : AOTDPerItemCooldownItem("wrist_crossbow", Properties()
         if (world.isClientSide) {
             val shot = shoot(player)
             return if (shot) {
-                ActionResult.success(itemStack)
+                InteractionResultHolder.success(itemStack)
             } else {
-                ActionResult.fail(itemStack)
+                InteractionResultHolder.fail(itemStack)
             }
         }
 
-        return ActionResult.consume(itemStack)
+        return InteractionResultHolder.consume(itemStack)
     }
 
     fun shoot(player: Player): Boolean {
         if (!player.getResearch().isResearched(ModResearches.WRIST_CROSSBOW)) {
-            player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+            player.sendMessage(TranslatableComponent(LocalizationConstants.DONT_UNDERSTAND))
             return false
         }
 
         if (!player.inventory.contains(ItemStack(ModItems.WRIST_CROSSBOW))) {
-            player.sendMessage(TranslationTextComponent("message.afraidofthedark.wrist_crossbow.no_crossbow"))
+            player.sendMessage(TranslatableComponent("message.afraidofthedark.wrist_crossbow.no_crossbow"))
             return false
         }
 
         // Grab the currently selected bolt type
         val ammo = findAmmo(player)
         if (ammo == null) {
-            player.sendMessage(TranslationTextComponent("message.afraidofthedark.wrist_crossbow.no_bolt"))
+            player.sendMessage(TranslatableComponent("message.afraidofthedark.wrist_crossbow.no_bolt"))
             return false
         }
 
@@ -86,7 +85,7 @@ class WristCrossbowItem : AOTDPerItemCooldownItem("wrist_crossbow", Properties()
             }
         }
         // No valid wrist crossbow found
-        player.sendMessage(TranslationTextComponent("message.afraidofthedark.wrist_crossbow.reloading"))
+        player.sendMessage(TranslatableComponent("message.afraidofthedark.wrist_crossbow.reloading"))
 
         return false
     }
@@ -114,17 +113,17 @@ class WristCrossbowItem : AOTDPerItemCooldownItem("wrist_crossbow", Properties()
      * @param tooltip The tooltip to add to
      * @param flag  The flag telling us if advanced tooltips are on or off
      */
-    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<Component>, flag: TooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.WRIST_CROSSBOW)) {
             tooltip.add(
-                TranslationTextComponent(
+                TranslatableComponent(
                     "tooltip.afraidofthedark.wrist_crossbow.how_to_fire",
                     ModKeybindings.FIRE_WRIST_CROSSBOW.translatedKeyMessage
                 )
             )
         } else {
-            tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TranslatableComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

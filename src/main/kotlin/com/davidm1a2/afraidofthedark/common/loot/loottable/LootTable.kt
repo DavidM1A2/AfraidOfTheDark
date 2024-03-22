@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.loot.loottable
 
 import net.minecraft.inventory.ItemStackHelper
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.tileentity.ChestTileEntity
 import net.minecraft.util.IItemProvider

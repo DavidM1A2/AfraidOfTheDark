@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.property
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.TranslatableComponent
 import net.minecraftforge.registries.IForgeRegistry
 import net.minecraftforge.registries.IForgeRegistryEntry
 
@@ -20,14 +20,14 @@ internal class RegistryEntrySpellComponentProperty<T : IForgeRegistryEntry<T>>(
     }
 
     override fun convertTo(newValue: String): T {
-        val key = ResourceLocation.tryParse(newValue) ?: throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.registry_entry.invalid_resource_location", newValue))
+        val key = ResourceLocation.tryParse(newValue) ?: throw InvalidValueException(TranslatableComponent("property_error.afraidofthedark.registry_entry.invalid_resource_location", newValue))
 
-        val value = registry.getValue(key) ?: throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.registry_entry.missing_entry", newValue))
+        val value = registry.getValue(key) ?: throw InvalidValueException(TranslatableComponent("property_error.afraidofthedark.registry_entry.missing_entry", newValue))
 
         return if (filter == null || filter.invoke(value)) {
             value
         } else {
-            throw InvalidValueException(TranslationTextComponent("property_error.afraidofthedark.registry_entry.disallowed_entry", newValue))
+            throw InvalidValueException(TranslatableComponent("property_error.afraidofthedark.registry_entry.disallowed_entry", newValue))
         }
     }
 }

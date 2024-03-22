@@ -8,20 +8,21 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.item.core.IHasModelProperties
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.item.IItemPropertyGetter
-import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemStack
-import net.minecraft.util.NonNullList
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.client.renderer.item.ClampedItemPropertyFunction
+import net.minecraft.core.NonNullList
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.item.CreativeModeTab
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
 import kotlin.math.floor
+import kotlin.math.roundToInt
 
 class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IHasModelProperties {
-    override fun getProperties(): List<Pair<ResourceLocation, IItemPropertyGetter>> {
-        return listOf(ResourceLocation(Constants.MOD_ID, "vitae_step") to IItemPropertyGetter { itemStack, _, _ -> getChargeLevel(itemStack).ordinal.toFloat() })
+    override fun getProperties(): List<Pair<ResourceLocation, ClampedItemPropertyFunction>> {
+        return listOf(ResourceLocation(Constants.MOD_ID, "vitae_step") to ClampedItemPropertyFunction { itemStack, _, _, _ -> getChargeLevel(itemStack).ordinal.toFloat() })
     }
 
     fun addVitae(itemStack: ItemStack, vitae: Float): Float {
@@ -70,19 +71,15 @@ class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IH
         return 1000f
     }
 
-    override fun showDurabilityBar(itemStack: ItemStack?): Boolean {
+    override fun isBarVisible(itemStack: ItemStack): Boolean {
         return true
     }
 
-    override fun getDurabilityForDisplay(itemStack: ItemStack?): Double {
-        return if (itemStack == null) {
-            0.0
-        } else {
-            1.0 - getVitae(itemStack) / getMaxVitae(itemStack).toDouble()
-        }
+    override fun getBarWidth(itemStack: ItemStack): Int {
+        return (13*(1.0 - getVitae(itemStack) / getMaxVitae(itemStack).toDouble())).roundToInt()
     }
 
-    override fun fillItemCategory(group: ItemGroup, items: NonNullList<ItemStack>) {
+    override fun fillItemCategory(group: CreativeModeTab, items: NonNullList<ItemStack>) {
         if (allowdedIn(group)) {
             items.add(ItemStack(this, 1))
             // Show a filled lantern too in creative
@@ -90,13 +87,13 @@ class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IH
         }
     }
 
-    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
+    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<Component>, iTooltipFlag: TooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.VITAE_LANTERN)) {
             val percentFull = floor(getVitae(itemStack) / getMaxVitae(itemStack) * 100).toInt()
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.vitae_lantern.capacity", getVitae(itemStack).toInt(), getMaxVitae(itemStack).toInt(), percentFull))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.vitae_lantern.capacity", getVitae(itemStack).toInt(), getMaxVitae(itemStack).toInt(), percentFull))
         } else {
-            tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TranslatableComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

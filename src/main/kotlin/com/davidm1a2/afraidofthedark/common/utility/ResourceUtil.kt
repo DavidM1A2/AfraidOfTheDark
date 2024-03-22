@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.utility
 
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
 import java.io.InputStream
 
 /**

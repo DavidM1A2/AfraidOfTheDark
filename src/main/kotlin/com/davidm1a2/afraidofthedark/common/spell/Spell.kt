@@ -10,14 +10,14 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.utility.getLookNormal
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.ListNBT
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.TranslatableComponent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.util.Constants
 import net.minecraftforge.common.util.INBTSerializable
@@ -107,13 +107,13 @@ class Spell() : INBTSerializable<CompoundNBT> {
                             )
                         )
                 } else {
-                    entity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.invalid"))
+                    entity.sendMessage(TranslatableComponent("message.afraidofthedark.spell.invalid"))
                     if (entity !is Player) {
                         logger.info("Entity '${entity.name}' attempted to cast an invalid spell?")
                     }
                 }
             } else {
-                entity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.wrong_dimension"))
+                entity.sendMessage(TranslatableComponent("message.afraidofthedark.spell.wrong_dimension"))
                 if (entity !is Player) {
                     logger.info("Entity '${entity.name}' attempted to cast a spell in the nightmare?")
                 }

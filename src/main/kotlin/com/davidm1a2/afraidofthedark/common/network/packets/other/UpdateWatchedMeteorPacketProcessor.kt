@@ -9,7 +9,7 @@ import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.network.PacketBuffer
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.TranslatableComponent
 import net.minecraftforge.fml.network.NetworkDirection
 import net.minecraftforge.fml.network.NetworkEvent
 
@@ -56,9 +56,9 @@ class UpdateWatchedMeteorPacketProcessor : PacketProcessor<UpdateWatchedMeteorPa
             val longitude = player.random.nextInt(130) + 5
 
             // Tell the player about the meteor estimated values
-            player.sendMessage(TranslationTextComponent("message.afraidofthedark.falling_meteor.info.header", watchedMeteor.getName()))
-            player.sendMessage(TranslationTextComponent("message.afraidofthedark.falling_meteor.info.data", dropAngle, latitude, longitude))
-            player.sendMessage(TranslationTextComponent("message.afraidofthedark.falling_meteor.info.help"))
+            player.sendMessage(TranslatableComponent("message.afraidofthedark.falling_meteor.info.header", watchedMeteor.getName()))
+            player.sendMessage(TranslatableComponent("message.afraidofthedark.falling_meteor.info.data", dropAngle, latitude, longitude))
+            player.sendMessage(TranslatableComponent("message.afraidofthedark.falling_meteor.info.help"))
 
             if (player.getResearch().isResearched(watchedMeteor.prerequisiteResearch)) {
                 // Update the player's watched meteor and send them values

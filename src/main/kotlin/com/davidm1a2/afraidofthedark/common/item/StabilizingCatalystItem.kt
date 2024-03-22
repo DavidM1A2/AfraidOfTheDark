@@ -5,19 +5,20 @@ import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
-import net.minecraft.block.Blocks
-import net.minecraft.enchantment.EnchantmentHelper
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.item.ItemEntity
+import net.minecraft.core.particles.BlockParticleOption
+import net.minecraft.core.particles.ParticleTypes
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.sounds.SoundSource
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.ItemStack
-import net.minecraft.particles.BlockParticleData
-import net.minecraft.particles.ParticleTypes
-import net.minecraft.util.SoundCategory
-import net.minecraft.util.SoundEvents
-import net.minecraft.util.math.AxisAlignedBB
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.enchantment.EnchantmentHelper
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.phys.AABB
 import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.common.util.Constants.BlockFlags
+import kotlin.random.Random
 
 class StabilizingCatalystItem : AOTDItem("stabilizing_catalyst", Properties()) {
     override fun onEntityItemUpdate(stack: ItemStack, entity: ItemEntity): Boolean {
@@ -29,7 +30,7 @@ class StabilizingCatalystItem : AOTDItem("stabilizing_catalyst", Properties()) {
             val blockState = world.getBlockState(blockPosition)
             if (blockState.block == ModBlocks.AMORPHOUS_ELDRITCH_METAL) {
                 // And there's an eldritch metal tool there
-                val nearbyEldritchItems = world.getEntities(EntityType.ITEM, AxisAlignedBB(blockPosition)) { true }
+                val nearbyEldritchItems = world.getEntities(EntityType.ITEM, AABB(blockPosition)) { true }
                 for (nearbyEldritchItem in nearbyEldritchItems) {
                     val nearbyEldritchItemStack = nearbyEldritchItem.item
                     val newItem = TRANSFORMATION_MAP[nearbyEldritchItemStack.item]
@@ -38,10 +39,10 @@ class StabilizingCatalystItem : AOTDItem("stabilizing_catalyst", Properties()) {
                         if (world.isClientSide) {
                             for (i in 0..20) {
                                 world.addParticle(
-                                    BlockParticleData(ParticleTypes.BLOCK, blockState).setPos(blockPosition),
-                                    entity.x + (random.nextFloat() - 0.5),
+                                    BlockParticleOption(ParticleTypes.BLOCK, blockState).setPos(blockPosition),
+                                    entity.x + (Random.nextFloat() - 0.5),
                                     entity.y + 1,
-                                    entity.z + (random.nextFloat() - 0.5),
+                                    entity.z + (Random.nextFloat() - 0.5),
                                     0.0,
                                     0.0,
                                     0.0
@@ -49,15 +50,15 @@ class StabilizingCatalystItem : AOTDItem("stabilizing_catalyst", Properties()) {
                             }
                         }
 
-                        world.playSound(null, entity.blockPosition(), SoundEvents.LAVA_EXTINGUISH, SoundCategory.BLOCKS, 0.5f, 2.6f + (random.nextFloat() - random.nextFloat()) * 0.8f)
-                        world.playSound(null, entity.blockPosition(), SoundEvents.ANVIL_BREAK, SoundCategory.BLOCKS, 0.8f, 2.6f + (random.nextFloat() - random.nextFloat()) * 0.8f)
+                        world.playSound(null, entity.blockPosition(), SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 0.5f, 2.6f + (Random.nextFloat() - Random.nextFloat()) * 0.8f)
+                        world.playSound(null, entity.blockPosition(), SoundEvents.ANVIL_BREAK, SoundSource.BLOCKS, 0.8f, 2.6f + (Random.nextFloat() - Random.nextFloat()) * 0.8f)
 
                         val newItemStack = ItemStack(newItem, nearbyEldritchItemStack.count)
                         EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(nearbyEldritchItemStack), newItemStack)
                         val newItemEntity = ItemEntity(world, entity.x, entity.y, entity.z, newItemStack)
                         world.addFreshEntity(newItemEntity)
 
-                        world.setBlock(blockPosition, Blocks.AIR.defaultBlockState(), BlockFlags.DEFAULT)
+                        world.setBlock(blockPosition, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL)
                         entity.item.shrink(1)
                         if (entity.item.count <= 0) {
                             entity.kill()

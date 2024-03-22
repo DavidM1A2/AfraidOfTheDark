@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.utility
 
-import net.minecraft.item.IItemTier
-import net.minecraft.item.crafting.Ingredient
+import net.minecraft.world.item.Tier
+import net.minecraft.world.item.crafting.Ingredient
 
 class AOTDToolMaterial(
     private val harvestLevel: Int,
@@ -10,7 +10,7 @@ class AOTDToolMaterial(
     private val attackDamage: Float,
     private val enchantability: Int,
     private val repairMaterial: Ingredient
-) : IItemTier {
+) : Tier {
     override fun getLevel() = harvestLevel
     override fun getUses() = maxUses
     override fun getSpeed() = efficiency

@@ -8,16 +8,16 @@ import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDChargeableSwordItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.enchantment.EnchantmentHelper
-import net.minecraft.enchantment.Enchantments
-import net.minecraft.entity.Entity
-import net.minecraft.entity.MobEntity
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.ItemStack
-import net.minecraft.util.DamageSource
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
+import net.minecraft.world.item.enchantment.EnchantmentHelper
+import net.minecraft.world.item.enchantment.Enchantments
 import net.minecraft.world.level.Level
 import kotlin.math.sqrt
 
@@ -65,14 +65,14 @@ class StarMetalKhopeshItem : AOTDChargeableSwordItem(
      * @param tooltip The tooltip to return
      * @param flag True if advanced tooltips are on, false otherwise
      */
-    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<Component>, flag: TooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL)) {
-            tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.star_metal_khopesh.effect1"))
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.star_metal_khopesh.effect2"))
+            tooltip.add(TranslatableComponent(LocalizationConstants.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.star_metal_khopesh.effect1"))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.star_metal_khopesh.effect2"))
         } else {
-            tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TranslatableComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 
@@ -92,7 +92,7 @@ class StarMetalKhopeshItem : AOTDChargeableSwordItem(
         // Iterate over all entities within 5 blocks of the player
         for (entity in nearbyEntities) {
             // Only knock back living entities
-            if (entity is Player || entity is MobEntity) {
+            if (entity is Player || entity is Mob) {
                 // Compute the vector from player to entity
                 val motionX = entityPlayer.x - entity.x
                 val motionZ = entityPlayer.z - entity.z

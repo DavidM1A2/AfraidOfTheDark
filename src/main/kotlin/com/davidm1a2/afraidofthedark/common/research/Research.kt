@@ -13,7 +13,7 @@ import net.minecraft.item.Item
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.TranslatableComponent
 import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.ForgeRegistryEntry
 
@@ -38,19 +38,19 @@ class Research(
     val preRecipes: List<Item> by lazyPreRecipes
 
     fun getName(): ITextComponent {
-        return TranslationTextComponent("research.${registryName!!.namespace}.${registryName!!.path}.name")
+        return TranslatableComponent("research.${registryName!!.namespace}.${registryName!!.path}.name")
     }
 
     fun getTooltip(): ITextComponent {
-        return TranslationTextComponent("research.${registryName!!.namespace}.${registryName!!.path}.tooltip")
+        return TranslatableComponent("research.${registryName!!.namespace}.${registryName!!.path}.tooltip")
     }
 
     fun getPreText(): ITextComponent {
-        return TranslationTextComponent("research.${registryName!!.namespace}.${registryName!!.path}.pre_text")
+        return TranslatableComponent("research.${registryName!!.namespace}.${registryName!!.path}.pre_text")
     }
 
     fun getText(): ITextComponent {
-        return TranslationTextComponent("research.${registryName!!.namespace}.${registryName!!.path}.text")
+        return TranslatableComponent("research.${registryName!!.namespace}.${registryName!!.path}.text")
     }
 
     companion object {

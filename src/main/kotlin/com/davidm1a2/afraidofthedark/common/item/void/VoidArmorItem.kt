@@ -6,24 +6,24 @@ import com.davidm1a2.afraidofthedark.common.constants.ModArmorMaterials
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDArmorItem
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.Entity
-import net.minecraft.entity.LivingEntity
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EquipmentSlot
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.inventory.EquipmentSlotType
-import net.minecraft.item.ItemStack
-import net.minecraft.util.DamageSource
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
 
-class VoidArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) : AOTDArmorItem(baseName, ModArmorMaterials.VOID, equipmentSlot, Properties()) {
+class VoidArmorItem(baseName: String, equipmentSlot: EquipmentSlot) : AOTDArmorItem(baseName, ModArmorMaterials.VOID, equipmentSlot, Properties()) {
     override fun inventoryTick(itemStack: ItemStack, world: Level, entity: Entity, itemSlot: Int, isSelected: Boolean) {
         VoidCommons.processItem(itemStack, world)
     }
 
-    override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EquipmentSlotType, type: String?): String {
-        return if (slot == EquipmentSlotType.LEGS) {
+    override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EquipmentSlot, type: String?): String {
+        return if (slot == EquipmentSlot.LEGS) {
             "afraidofthedark:textures/armor/void_2.png"
         } else {
             "afraidofthedark:textures/armor/void_1.png"
@@ -33,20 +33,20 @@ class VoidArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) : AOTDAr
     override fun appendHoverText(
         stack: ItemStack,
         world: Level?,
-        tooltip: MutableList<ITextComponent>,
-        flag: ITooltipFlag
+        tooltip: MutableList<Component>,
+        flag: TooltipFlag
     ) {
         val player = Minecraft.getInstance().player
         if (player != null) {
             if (!player.getResearch().isResearched(ModResearches.AN_UNSETTLING_MATERIAL)) {
-                tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+                tooltip.add(TranslatableComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
             } else {
-                tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.void_tool.autorepair"))
+                tooltip.add(TranslatableComponent("tooltip.afraidofthedark.void_tool.autorepair"))
             }
         }
     }
 
-    override fun getDamageMultiplier(entity: LivingEntity, armorStack: ItemStack, source: DamageSource, slot: EquipmentSlotType): Double {
+    override fun getDamageMultiplier(entity: LivingEntity, armorStack: ItemStack, source: DamageSource, slot: EquipmentSlot): Double {
         // Compute armor properties for players only
         if (entity !is Player) {
             return 1.0

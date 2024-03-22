@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screen.inventory.ChestScreen
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.TranslatableComponent
 import net.minecraftforge.client.event.GuiOpenEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
@@ -17,11 +17,11 @@ class ClientNightmareHandler {
             val gui = event.gui
             if (gui is ChestScreen) {
                 val title = gui.title
-                if (title is TranslationTextComponent && title.key.contains("enderchest")) {
+                if (title is TranslatableComponent && title.key.contains("enderchest")) {
                     // Close the chest and don't show the gui
                     gui.menu.container.stopOpen(player)
                     event.isCanceled = true
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.nightmare.enderchest"))
+                    player.sendMessage(TranslatableComponent("message.afraidofthedark.nightmare.enderchest"))
                 }
             }
         }

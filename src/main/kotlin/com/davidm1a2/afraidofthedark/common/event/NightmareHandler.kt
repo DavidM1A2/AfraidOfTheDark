@@ -25,7 +25,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.world.entity.player.Player
 import net.minecraft.entity.player.ServerPlayer
 import net.minecraft.inventory.ItemStackHelper
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.nbt.ListNBT
 import net.minecraft.util.Direction
 import net.minecraft.util.RegistryKey
@@ -33,7 +33,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.TranslatableComponent
 import net.minecraft.world.level.Level
 import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.server.ServerWorld
@@ -286,7 +286,7 @@ class NightmareHandler {
 
                 // If we didn't find a valid spot around the player's position then throw an error and reject the teleport
                 if (preTeleportPosition == null) {
-                    entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.dimension.nightmare.no_spawn"))
+                    entityPlayer.sendMessage(TranslatableComponent("message.afraidofthedark.dimension.nightmare.no_spawn"))
                     return true
                 } else {
                     playerNightmareData.preTeleportPosition = preTeleportPosition

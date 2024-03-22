@@ -3,18 +3,18 @@ package com.davidm1a2.afraidofthedark.common.item.core
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import net.minecraft.entity.Entity
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.MobEntity
+import net.minecraft.client.renderer.item.ClampedItemPropertyFunction
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.IItemPropertyGetter
-import net.minecraft.item.IItemTier
-import net.minecraft.item.ItemStack
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Tier
 import net.minecraft.world.level.Level
+import kotlin.math.roundToInt
 
 /**
  * Base class for swords that don't have durability but charge instead
@@ -27,7 +27,7 @@ import net.minecraft.world.level.Level
  */
 abstract class AOTDChargeableSwordItem(
     baseName: String,
-    toolMaterial: IItemTier,
+    toolMaterial: Tier,
     damageAmplifier: Int,
     attackSpeed: Float,
     properties: Properties,
@@ -35,10 +35,10 @@ abstract class AOTDChargeableSwordItem(
 ) : AOTDSwordItem(baseName, toolMaterial, damageAmplifier, attackSpeed, properties, displayInCreative), IHasModelProperties {
     protected var percentChargePerAttack = 5.0
 
-    override fun getProperties(): List<Pair<ResourceLocation, IItemPropertyGetter>> {
+    override fun getProperties(): List<Pair<ResourceLocation, ClampedItemPropertyFunction>> {
         return listOf(
             // Emit a charged = 1 property when charged, 0 otherwise
-            ResourceLocation(Constants.MOD_ID, "charged") to IItemPropertyGetter { stack: ItemStack, _: World?, _: LivingEntity? ->
+            ResourceLocation(Constants.MOD_ID, "charged") to ClampedItemPropertyFunction { stack, _, _, _ ->
                 if (isFullyCharged(stack)) 1f else 0f
             }
         )
@@ -46,7 +46,7 @@ abstract class AOTDChargeableSwordItem(
 
     override fun onLeftClickEntity(stack: ItemStack, player: Player, target: Entity): Boolean {
         // Only charge on hitting entity living entities not armor stands
-        if (target is Player || target is MobEntity) {
+        if (target is Player || target is Mob) {
             addCharge(stack, percentChargePerAttack)
         }
         return super.onLeftClickEntity(stack, player, target)
@@ -59,8 +59,8 @@ abstract class AOTDChargeableSwordItem(
      * @param stack The itemstack to get durability for
      * @return 0 for 100% charged or 1 for 0% charged
      */
-    override fun getDurabilityForDisplay(stack: ItemStack): Double {
-        return 1.0 - getCharge(stack) / 100.0
+    override fun getBarWidth(stack: ItemStack): Int {
+        return (13*(1.0 - getCharge(stack) / 100.0)).roundToInt()
     }
 
     /**
@@ -69,7 +69,7 @@ abstract class AOTDChargeableSwordItem(
      * @param stack The itemstack to show charge bar for
      * @return True to show 'durability'
      */
-    override fun showDurabilityBar(stack: ItemStack): Boolean {
+    override fun isBarVisible(stack: ItemStack): Boolean {
         return true
     }
 
@@ -81,7 +81,7 @@ abstract class AOTDChargeableSwordItem(
      * @param handIn   The hand the right click was triggered from
      * @return Success if the sword fired its ability, pass otherwise
      */
-    override fun use(worldIn: World, playerIn: Player, handIn: Hand): ActionResult<ItemStack> {
+    override fun use(worldIn: Level, playerIn: Player, handIn: InteractionHand): InteractionResultHolder<ItemStack> {
         val swordStack = playerIn.getItemInHand(handIn)
         // Server side processing only
         if (!worldIn.isClientSide) {
@@ -93,12 +93,12 @@ abstract class AOTDChargeableSwordItem(
                     addCharge(swordStack, -100.0)
                 }
             } else {
-                playerIn.sendMessage(TranslationTextComponent("message.afraidofthedark.chargable_sword.not_enough_energy"))
+                playerIn.sendMessage(TranslatableComponent("message.afraidofthedark.chargable_sword.not_enough_energy"))
             }
         }
 
         // Fail to avoid the move animation on item use
-        return ActionResult.fail(swordStack)
+        return InteractionResultHolder.fail(swordStack)
     }
 
     /**

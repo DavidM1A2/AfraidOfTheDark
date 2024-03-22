@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.item.core
 
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 
 /**
  * Special version of the per-item cooldown class that ensures all items share a cooldown instead of all having unique cooldowns

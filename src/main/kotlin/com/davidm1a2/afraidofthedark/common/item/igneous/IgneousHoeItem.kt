@@ -7,12 +7,12 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDResearchRequiredHoeItem
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.Entity
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.ItemStack
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
 
 class IgneousHoeItem : AOTDResearchRequiredHoeItem("igneous_hoe", ModToolMaterials.IGNEOUS, -8, 0.0f, ModResearches.IGNEOUS, Properties()) {
@@ -33,14 +33,14 @@ class IgneousHoeItem : AOTDResearchRequiredHoeItem("igneous_hoe", ModToolMateria
         return true
     }
 
-    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
+    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<Component>, iTooltipFlag: TooltipFlag) {
         super.appendHoverText(itemStack, world, tooltip, iTooltipFlag)
 
         val player = Minecraft.getInstance().player
 
         if (player != null && player.getResearch().isResearched(requiredResearch)) {
-            tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.igneous_tool.autosmelt"))
+            tooltip.add(TranslatableComponent(LocalizationConstants.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.igneous_tool.autosmelt"))
         }
     }
 }

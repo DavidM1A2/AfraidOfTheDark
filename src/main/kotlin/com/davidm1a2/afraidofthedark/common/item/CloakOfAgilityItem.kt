@@ -7,15 +7,15 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDSharedCooldownItem
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.ITooltipFlag
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.ItemStack
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
+import net.minecraft.world.phys.Vec3
 
 /**
  * Cloak of agility item used to dash around
@@ -23,33 +23,33 @@ import net.minecraft.world.level.Level
  * @constructor sets up item properties
  */
 class CloakOfAgilityItem : AOTDSharedCooldownItem("cloak_of_agility", Properties()) {
-    override fun use(world: Level, playerEntity: Player, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, playerEntity: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         val itemStack = playerEntity.getItemInHand(hand)
         if (world.isClientSide) {
             val wasSuccess = roll(playerEntity, itemStack)
             return if (wasSuccess) {
-                ActionResult.success(itemStack)
+                InteractionResultHolder.success(itemStack)
             } else {
-                ActionResult.fail(itemStack)
+                InteractionResultHolder.fail(itemStack)
             }
         }
 
-        return ActionResult.consume(itemStack)
+        return InteractionResultHolder.consume(itemStack)
     }
 
     fun roll(player: Player, cloakStack: ItemStack): Boolean {
         if (!player.getResearch().isResearched(ModResearches.CLOAK_OF_AGILITY)) {
-            player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+            player.sendMessage(TranslatableComponent(LocalizationConstants.DONT_UNDERSTAND))
             return false
         }
 
         if (!player.isOnGround) {
-            player.sendMessage(TranslationTextComponent("message.afraidofthedark.cloak_of_agility.not_grounded"))
+            player.sendMessage(TranslatableComponent("message.afraidofthedark.cloak_of_agility.not_grounded"))
             return false
         }
 
         if (isOnCooldown(cloakStack)) {
-            player.sendMessage(TranslationTextComponent("message.afraidofthedark.cloak_of_agility.too_tired", cooldownRemainingInSeconds(cloakStack)))
+            player.sendMessage(TranslatableComponent("message.afraidofthedark.cloak_of_agility.too_tired", cooldownRemainingInSeconds(cloakStack)))
             return false
         }
 
@@ -59,9 +59,9 @@ class CloakOfAgilityItem : AOTDSharedCooldownItem("cloak_of_agility", Properties
         // If the player is not moving roll in the direction the player is looking, otherwise roll in the direction the player is moving
         var motionDirection = if (player.deltaMovement.x <= 0.01 && player.deltaMovement.x >= -0.01 && player.deltaMovement.z <= 0.01 && player.deltaMovement.z >= -0.01) {
             val lookDirection = player.lookAngle
-            Vector3d(lookDirection.x, 0.0, lookDirection.z)
+            Vec3(lookDirection.x, 0.0, lookDirection.z)
         } else {
-            Vector3d(player.deltaMovement.x, 0.0, player.deltaMovement.z)
+            Vec3(player.deltaMovement.x, 0.0, player.deltaMovement.z)
         }
 
         // Normalize the motion vector
@@ -85,19 +85,19 @@ class CloakOfAgilityItem : AOTDSharedCooldownItem("cloak_of_agility", Properties
      * @param tooltip The tooltip to add to
      * @param flag  True if the advanced flag is set or false otherwise
      */
-    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<Component>, flag: TooltipFlag) {
         val player = Minecraft.getInstance().player
         // If the player has the research show them what key is used to roll, otherwise tell them they don't know how to use the cloak
         if (player != null && player.getResearch().isResearched(ModResearches.CLOAK_OF_AGILITY)) {
             tooltip.add(
-                TranslationTextComponent(
+                TranslatableComponent(
                     "tooltip.afraidofthedark.cloak_of_agility.line1",
                     ROLL_WITH_CLOAK_OF_AGILITY.translatedKeyMessage
                 )
             )
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.cloak_of_agility.line2"))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.cloak_of_agility.line2"))
         } else {
-            tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TranslatableComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import net.minecraft.block.BlockState
 import net.minecraft.client.renderer.color.IBlockColor
 import net.minecraft.item.BlockItem
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.FoliageColors
 import net.minecraft.world.IBlockDisplayReader

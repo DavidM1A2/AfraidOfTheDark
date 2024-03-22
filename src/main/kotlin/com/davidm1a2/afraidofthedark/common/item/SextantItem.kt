@@ -7,11 +7,11 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.ItemStack
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 
 /**
@@ -40,9 +40,9 @@ class SextantItem : AOTDItem("sextant", Properties().stacksTo(1)) {
         // If the player does not have the research send him a chat message from the server
         else {
             if (!world.isClientSide) {
-                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+                player.sendMessage(TranslatableComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
-        return ActionResult.success(itemStack)
+        return InteractionResultHolder.success(itemStack)
     }
 }

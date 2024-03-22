@@ -2,14 +2,14 @@ package com.davidm1a2.afraidofthedark.common.item.core
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.research.Research
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.IItemTier
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Tier
 
 abstract class AOTDResearchRequiredSwordItem(
     baseName: String,
-    toolMaterial: IItemTier,
+    toolMaterial: Tier,
     damageAmplifier: Int,
     attackSpeed: Float,
     protected val requiredResearch: Research,

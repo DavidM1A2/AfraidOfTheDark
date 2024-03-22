@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.utility
 
-import net.minecraft.item.ItemStack
-import net.minecraft.nbt.CompoundNBT
+import net.minecraft.world.item.ItemStack
+import net.minecraft.nbt.CompoundTag
 
 /**
  * Class that lets us work with itemstack NBT more easily
@@ -39,7 +39,7 @@ object NBTHelper {
     private fun initNBTTagCompound(itemStack: ItemStack) {
         // Make sure the item stack has an NBT tag compound, if not add it
         if (itemStack.tag == null) {
-            itemStack.tag = CompoundNBT()
+            itemStack.tag = CompoundTag()
         }
     }
 
@@ -266,7 +266,7 @@ object NBTHelper {
      * @param keyName   The name of the key to store the double with
      * @param keyValue  The nbt compound to store with that key value
      */
-    fun setCompound(itemStack: ItemStack, keyName: String, keyValue: CompoundNBT) {
+    fun setCompound(itemStack: ItemStack, keyName: String, keyValue: CompoundTag) {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the nbt compound value onto the tag compound
@@ -280,7 +280,7 @@ object NBTHelper {
      * @param keyName   The key that contains the data we want to retrieve
      * @return The nbt compound value represented by the key or null if it was not present
      */
-    fun getCompound(itemStack: ItemStack, keyName: String): CompoundNBT? {
+    fun getCompound(itemStack: ItemStack, keyName: String): CompoundTag? {
         return if (hasTag(itemStack, keyName)) {
             itemStack.tag!!.getCompound(keyName)
         } else null

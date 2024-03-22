@@ -1,12 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.item.core
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.item.AxeItem
-import net.minecraft.item.IItemTier
+import net.minecraft.world.item.AxeItem
+import net.minecraft.world.item.Tier
 
 abstract class AOTDAxeItem(
     baseName: String,
-    toolMaterial: IItemTier,
+    toolMaterial: Tier,
     baseDamage: Float,
     attackSpeedMultiplier: Float,
     properties: Properties,

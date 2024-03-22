@@ -1,11 +1,11 @@
 package com.davidm1a2.afraidofthedark.common.utility
 
-import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.world.phys.Vec3
 import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sin
 
-fun Vector3d.rotateAround(axis: Vector3d, radians: Double): Vector3d {
+fun Vec3.rotateAround(axis: Vec3, radians: Double): Vec3 {
     // Use the Rodrigues formula to construct a rotation matrix around "axis" "radians" amount
     // https://math.stackexchange.com/questions/2741515/rotation-around-a-vector
     val basisMatrix = Matrix3d(
@@ -28,11 +28,11 @@ fun Vector3d.rotateAround(axis: Vector3d, radians: Double): Vector3d {
     return rotationMatrix.mul(this)
 }
 
-fun Vector3d.getNormal(upBasis: Vector3d = Vector3d(0.0, 1.0, 0.0)): Vector3d {
+fun Vec3.getNormal(upBasis: Vec3 = Vec3(0.0, 1.0, 0.0)): Vec3 {
     val leftRightDir = this.cross(upBasis).normalize()
     // Edge case when the vector we're getting the normal for is 0, 1, 0
-    if (leftRightDir == Vector3d.ZERO) {
-        return Vector3d.ZERO
+    if (leftRightDir == Vec3.ZERO) {
+        return Vec3.ZERO
     }
     return leftRightDir.cross(this).normalize()
 }

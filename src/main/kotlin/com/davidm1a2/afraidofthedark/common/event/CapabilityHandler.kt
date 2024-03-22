@@ -12,7 +12,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getSpellThermalData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.level.Level

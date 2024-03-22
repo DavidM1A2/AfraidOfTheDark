@@ -9,18 +9,15 @@ import com.davidm1a2.afraidofthedark.common.tileEntity.DroppedJournalTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.world.entity.player.Player
-import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemStack
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.NonNullList
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.core.NonNullList
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
 
 /**
@@ -92,12 +89,12 @@ class ArcaneJournalItem : AOTDItem("arcane_journal", Properties().stacksTo(1)) {
         } else {
             // Send chat messages on server side only
             if (!world.isClientSide) {
-                player.sendMessage(TranslationTextComponent("message.afraidofthedark.arcane_journal.cant_comprehend"))
+                player.sendMessage(TranslatableComponent("message.afraidofthedark.arcane_journal.cant_comprehend"))
             }
         }
 
         // Return success because the journal processed the right click successfully
-        return ActionResult.success(heldItemStack)
+        return InteractionResultHolder.success(heldItemStack)
     }
 
     fun isCheatSheet(itemStack: ItemStack): Boolean {
@@ -133,7 +130,7 @@ class ArcaneJournalItem : AOTDItem("arcane_journal", Properties().stacksTo(1)) {
      * @param group The creative tab that we can add items to if we want, we don't use this
      * @param items A list of items (one cheatsheet, and one regular journal)
      */
-    override fun fillItemCategory(group: ItemGroup, items: NonNullList<ItemStack>) {
+    override fun fillItemCategory(group: CreativeModeTab, items: NonNullList<ItemStack>) {
         // Ensure that the item is in the creative tab first...
         if (allowdedIn(group)) {
             // Two item stacks one standard and one cheatsheet journal
@@ -155,20 +152,20 @@ class ArcaneJournalItem : AOTDItem("arcane_journal", Properties().stacksTo(1)) {
      * @param tooltip The tooltip that we need to fill out
      * @param flag  The flag telling us if we should show advanced or normal tooltips
      */
-    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<Component>, flag: TooltipFlag) {
         // If the stack has an owner tag, show who owns the stack, otherwise show that the journal is not bound
         if (NBTHelper.hasTag(stack, NBT_OWNER)) {
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.arcane_journal.owned", NBTHelper.getString(stack, NBT_OWNER)))
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.arcane_journal.drop"))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.arcane_journal.owned", NBTHelper.getString(stack, NBT_OWNER)))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.arcane_journal.drop"))
         } else {
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.arcane_journal.unowned"))
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.arcane_journal.drop"))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.arcane_journal.unowned"))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.arcane_journal.drop"))
         }
 
         // If the journal is a cheat sheet, show that
         if (NBTHelper.hasTag(stack, NBT_CHEAT_SHEET)) {
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.arcane_journal.cheatsheet.line1"))
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.arcane_journal.cheatsheet.line2"))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.arcane_journal.cheatsheet.line1"))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.arcane_journal.cheatsheet.line2"))
         }
     }
 

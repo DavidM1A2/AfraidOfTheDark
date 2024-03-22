@@ -5,11 +5,11 @@ import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.CastEnvironment
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellCastResult
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.util.DamageSource
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.util.text.TranslatableComponent
 import kotlin.math.ceil
 
 /**
@@ -18,15 +18,15 @@ import kotlin.math.ceil
 class HealthSpellPowerSource : AOTDSpellPowerSource<Unit>("health", ModResearches.BLOOD_MAGIC) {
     override fun cast(entity: Entity, spell: Spell, environment: CastEnvironment<Unit>): SpellCastResult {
         if (entity !is LivingEntity) {
-            return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))
+            return SpellCastResult.failure(TranslatableComponent("${getUnlocalizedBaseName()}.not_enough_power"))
         }
 
         if (entity.hurtTime > 0) {
-            return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.was_just_hurt"))
+            return SpellCastResult.failure(TranslatableComponent("${getUnlocalizedBaseName()}.was_just_hurt"))
         }
 
         if (environment.vitaeAvailable < spell.getCost()) {
-            return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))
+            return SpellCastResult.failure(TranslatableComponent("${getUnlocalizedBaseName()}.not_enough_power"))
         }
 
         // Creative/Spectator players can't take dmg

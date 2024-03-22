@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.item.eldritchmetal
 
-import net.minecraft.entity.Entity
-import net.minecraft.entity.LivingEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.potion.EffectInstance
-import net.minecraft.potion.Effects
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import java.time.Duration
 
@@ -26,13 +26,13 @@ object EldritchMetalCommons {
                     if (timeSinceKill > TIME_BEFORE_EFFECTS) {
                         val multipleOver = ((timeSinceKill - TIME_BEFORE_EFFECTS) / TIME_BEFORE_EFFECTS.toDouble()).toInt().coerceAtMost(MAX_MULTIPLIER - 1)
                         // Add blindness for 2 seconds upon getting hungry for the first time
-                        if (!entity.hasEffect(Effects.HUNGER) || !entity.hasEffect(Effects.MOVEMENT_SLOWDOWN)) {
-                            entity.addEffect(EffectInstance(Effects.BLINDNESS, 40, 0, false, true))
+                        if (!entity.hasEffect(MobEffects.HUNGER) || !entity.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
+                            entity.addEffect(MobEffectInstance(MobEffects.BLINDNESS, 40, 0, false, true))
                         }
                         // Up to hunger 10
-                        entity.addEffect(EffectInstance(Effects.HUNGER, CHECK_FREQUENCY + 20, multipleOver, false, true))
+                        entity.addEffect(MobEffectInstance(MobEffects.HUNGER, CHECK_FREQUENCY + 20, multipleOver, false, true))
                         // Up to slowness 5
-                        entity.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, CHECK_FREQUENCY + 20, multipleOver / 2, false, true))
+                        entity.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, CHECK_FREQUENCY + 20, multipleOver / 2, false, true))
                     }
                 }
             }

@@ -6,19 +6,19 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDSharedCooldownItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import net.minecraft.entity.Entity
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.MobEntity
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.player.Player
-import net.minecraft.entity.player.ServerPlayer
-import net.minecraft.item.ItemStack
-import net.minecraft.network.play.server.SEntityVelocityPacket
-import net.minecraft.network.play.server.SPlayerPositionLookPacket
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
+import net.minecraft.world.phys.Vec3
 
 /**
  * Class representing a star metal staff that can do a (fizz e from LoL)
@@ -38,7 +38,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
         // Check if the entity is a player
         if (entity is Player) {
             // If the item isn't selected or the active item isn't in the offhand ensure the player isn't invincible
-            if (!isSelected && !(entity.usedItemHand == Hand.OFF_HAND && entity.useItem == stack)) {
+            if (!isSelected && !(entity.usedItemHand == InteractionHand.OFF_HAND && entity.useItem == stack)) {
                 // If a star metal staff is not selected make sure the player can take damage
                 if (!entity.isCreative && entity.abilities.invulnerable && isInUse(stack)) {
                     entity.abilities.invulnerable = false
@@ -72,7 +72,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
                 // Set the player's velocity to 0 with a 0.5 vertical velocity
                 if (!world.isClientSide) {
                     (player as ServerPlayer).connection.send(
-                        SEntityVelocityPacket(player.id, Vector3d(0.0, 0.5, 0.0))
+                        ClientboundSetEntityMotionPacket(player.id, Vec3(0.0, 0.5, 0.0))
                     )
                 }
 
@@ -86,23 +86,23 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
                 player.startUsingItem(hand)
 
                 // We're good to go, return success
-                return ActionResult.success(heldItem)
+                return InteractionResultHolder.success(heldItem)
             } else {
                 // If the staff is on cooldown say that
                 if (!world.isClientSide) {
                     player.sendMessage(
-                        TranslationTextComponent("message.afraidofthedark.star_metal_staff.on_cooldown", cooldownRemainingInSeconds(heldItem))
+                        TranslatableComponent("message.afraidofthedark.star_metal_staff.on_cooldown", cooldownRemainingInSeconds(heldItem))
                     )
                 }
-                return ActionResult.fail(heldItem)
+                return InteractionResultHolder.fail(heldItem)
             }
         } else {
             // If the player has the wrong research print an error
             if (!world.isClientSide) {
-                player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+                player.sendMessage(TranslatableComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
         }
-        return ActionResult.pass(heldItem)
+        return InteractionResultHolder.pass(heldItem)
     }
 
     /**
@@ -146,7 +146,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
                         z,
                         entityLivingBase.yRot,
                         entityLivingBase.xRot,
-                        setOf(SPlayerPositionLookPacket.Flags.X_ROT, SPlayerPositionLookPacket.Flags.Y_ROT)
+                        setOf(ClientboundPlayerPositionPacket.RelativeArgument.X_ROT, ClientboundPlayerPositionPacket.RelativeArgument.Y_ROT)
                     )
                 }
             }
@@ -221,7 +221,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
         // Go over all nearby entities
         for (entity in entityList) {
             // If the entity is a player or anything living push it back
-            if (entity is Player || entity is MobEntity) {
+            if (entity is Player || entity is Mob) {
                 val direction = entity.position()
                     .subtract(entityPlayer.position())
                     .normalize()

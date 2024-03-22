@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTileEntity
 import net.minecraft.block.BlockState
 import net.minecraft.core.BlockPos
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.world.level.block.state.BlockState
 

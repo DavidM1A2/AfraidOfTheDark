@@ -1,21 +1,21 @@
 package com.davidm1a2.afraidofthedark.common.utility
 
-import net.minecraft.util.math.AxisAlignedBB
-import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.world.phys.AABB
+import net.minecraft.world.phys.Vec3
 
 object ConeUtils {
     fun getBoundingBox(
-        position: Vector3d,
-        direction: Vector3d,
+        position: Vec3,
+        direction: Vec3,
         radius: Double,
         length: Double,
-        normal: Vector3d = Vector3d(0.0, 1.0, 0.0)
-    ): AxisAlignedBB {
+        normal: Vec3 = Vec3(0.0, 1.0, 0.0)
+    ): AABB {
         var upDir = normal
         val downDir = upDir.reverse()
         var leftDir = direction.cross(upDir).normalize()
-        if (leftDir == Vector3d.ZERO) {
-            upDir = Vector3d(1.0, 0.0, 0.0)
+        if (leftDir == Vec3.ZERO) {
+            upDir = Vec3(1.0, 0.0, 0.0)
             leftDir = direction.cross(upDir).normalize()
         }
         val rightDir = leftDir.reverse()
@@ -35,6 +35,6 @@ object ConeUtils {
         val maxY = maxOf(position.y, cornerOne.y, cornerTwo.y, cornerThree.y, cornerFour.y)
         val maxZ = maxOf(position.z, cornerOne.z, cornerTwo.z, cornerThree.z, cornerFour.z)
 
-        return AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ)
+        return AABB(minX, minY, minZ, maxX, maxY, maxZ)
     }
 }

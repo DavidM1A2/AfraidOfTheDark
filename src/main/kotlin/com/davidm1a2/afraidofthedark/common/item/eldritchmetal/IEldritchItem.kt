@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.item.eldritchmetal
 
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 
 interface IEldritchItem {
     fun setLastKillTime(itemStack: ItemStack, lastKillTime: Long) {

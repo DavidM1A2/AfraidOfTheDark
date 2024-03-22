@@ -7,16 +7,16 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import net.minecraft.client.util.ITooltipFlag
+import net.minecraft.core.NonNullList
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemStack
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.NonNullList
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.item.CreativeModeTab
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
 import java.time.ZonedDateTime
 
@@ -32,7 +32,7 @@ class ResearchScrollItem : AOTDItem("research_scroll", Properties()) {
      * @param group The creative tab to get sub-items for
      * @param items The sub-items
      */
-    override fun fillItemCategory(group: ItemGroup, items: NonNullList<ItemStack>) {
+    override fun fillItemCategory(group: CreativeModeTab, items: NonNullList<ItemStack>) {
         if (allowdedIn(group)) {
             // Add one itemstack for each research
             for (research in ModRegistries.RESEARCH) {
@@ -74,21 +74,21 @@ class ResearchScrollItem : AOTDItem("research_scroll", Properties()) {
                         playerResearch.setResearch(scrollResearch, ZonedDateTime.now(Constants.DEFAULT_TIME_ZONE))
                         playerResearch.sync(player, true)
                     } else {
-                        player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.incomplete"))
+                        player.sendMessage(TranslatableComponent("message.afraidofthedark.research_scroll.incomplete"))
                     }
                 }
                 // If the player does not yet have the research then state that they need additional research first
                 else if (!playerResearch.isResearched(scrollResearch)) {
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.cant_understand"))
+                    player.sendMessage(TranslatableComponent("message.afraidofthedark.research_scroll.cant_understand"))
                 }
                 // If the player does have the research tell them
                 else {
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.already_researched"))
+                    player.sendMessage(TranslatableComponent("message.afraidofthedark.research_scroll.already_researched"))
                 }
             }
             // No valid research detected
             else {
-                player.sendMessage(TranslationTextComponent("message.afraidofthedark.research_scroll.corrupt"))
+                player.sendMessage(TranslatableComponent("message.afraidofthedark.research_scroll.corrupt"))
             }
         }
         return super.use(world, player, hand)
@@ -102,12 +102,12 @@ class ResearchScrollItem : AOTDItem("research_scroll", Properties()) {
      * @param tooltip The tooltip of the research
      * @param flag  If the advanced details is on or off
      */
-    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<Component>, flag: TooltipFlag) {
         val scrollResearch = getScrollResearch(stack)
         if (scrollResearch != null) {
             if (isPart(stack)) {
                 tooltip.add(
-                    TranslationTextComponent(
+                    TranslatableComponent(
                         "tooltip.afraidofthedark.research_scroll.part",
                         getPartNumber(stack),
                         getNumberParts(stack),
@@ -116,14 +116,14 @@ class ResearchScrollItem : AOTDItem("research_scroll", Properties()) {
                 )
             } else {
                 tooltip.add(
-                    TranslationTextComponent(
+                    TranslatableComponent(
                         "tooltip.afraidofthedark.research_scroll.complete",
                         scrollResearch.getName()
                     )
                 )
             }
         } else {
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.research_scroll.corrupt"))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.research_scroll.corrupt"))
         }
     }
 

@@ -5,16 +5,16 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.screen.ReadBookScreen
-import net.minecraft.client.resources.I18n
+import net.minecraft.client.gui.screens.inventory.BookViewScreen
+import net.minecraft.client.resources.language.I18n
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.StringTag
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
-import net.minecraft.nbt.ListNBT
-import net.minecraft.nbt.StringNBT
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 
 /**
@@ -31,21 +31,21 @@ class InsanitysHeightsItem : AOTDItem("insanitys_heights", Properties().stacksTo
      * @param hand   The hand the player is holding the item in
      * @return Success, the UI opened
      */
-    override fun use(worldIn: World, player: Player, hand: Hand): ActionResult<ItemStack> {
+    override fun use(worldIn: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         val heldItem = player.getItemInHand(hand)
         // Show the player the book if they're in the nightmare
         if (worldIn.dimension() == ModDimensions.NIGHTMARE_WORLD) {
             if (worldIn.isClientSide) {
                 // A hint book itemstack used purely to open the book GUI, it's never actually given to the player
                 val hintBook = createHintBook()
-                Minecraft.getInstance().setScreen(ReadBookScreen(ReadBookScreen.WrittenBookInfo(hintBook)))
+                Minecraft.getInstance().setScreen(BookViewScreen(BookViewScreen.WrittenBookAccess(hintBook)))
             }
         } else {
             if (!worldIn.isClientSide) {
-                player.sendMessage(TranslationTextComponent("message.afraidofthedark.insanitys_heights.dont_understand"))
+                player.sendMessage(TranslatableComponent("message.afraidofthedark.insanitys_heights.dont_understand"))
             }
         }
-        return ActionResult.success(heldItem)
+        return InteractionResultHolder.success(heldItem)
     }
 
     private fun createHintBook(): ItemStack {
@@ -57,11 +57,11 @@ class InsanitysHeightsItem : AOTDItem("insanitys_heights", Properties().stacksTo
         return toReturn
     }
 
-    private fun createPages(): ListNBT {
-        val pages = ListNBT()
+    private fun createPages(): ListTag {
+        val pages = ListTag()
         val bookText = I18n.get("nightmarebook.text").split(";;")
         bookText.forEach {
-            pages.add(StringNBT.valueOf(it))
+            pages.add(StringTag.valueOf(it))
         }
         return pages
     }

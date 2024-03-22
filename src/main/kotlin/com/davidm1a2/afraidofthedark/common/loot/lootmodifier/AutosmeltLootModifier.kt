@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.loot.lootmodifier
 
 import net.minecraft.inventory.Inventory
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.item.crafting.FurnaceRecipe
 import net.minecraft.item.crafting.IRecipeType
 import net.minecraft.loot.LootContext

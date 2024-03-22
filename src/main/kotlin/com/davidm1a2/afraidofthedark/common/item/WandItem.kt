@@ -7,13 +7,13 @@ import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.ITooltipFlag
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.ItemStack
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
 import kotlin.math.ceil
 
@@ -57,7 +57,7 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
                     // Send the message server side
                     if (!world.isClientSide) {
                         player.sendMessage(
-                            TranslationTextComponent(
+                            TranslatableComponent(
                                 "message.afraidofthedark.wand.spell_set",
                                 next.name
                             )
@@ -75,13 +75,13 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
                 if (toCast != null) {
                     toCast.attemptToCast(player)
                 } else {
-                    player.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.no_bound_spell"))
+                    player.sendMessage(TranslatableComponent("message.afraidofthedark.wand.no_bound_spell"))
                 }
             }
         }
 
         // Fail the result so that
-        return ActionResult.fail(heldItem)
+        return InteractionResultHolder.fail(heldItem)
     }
 
     /**
@@ -100,7 +100,7 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
 
             // Server side sending only, tell the player the spell was updated
             if (!entityPlayer.level.isClientSide) {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.spell_set", first.name))
+                entityPlayer.sendMessage(TranslatableComponent("message.afraidofthedark.wand.spell_set", first.name))
             }
 
             // Set the NBT spell
@@ -108,7 +108,7 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
         } else {
             // Server side sending only, tell the player he/she has no spells to bind to the wand yet
             if (!entityPlayer.level.isClientSide) {
-                entityPlayer.sendMessage(TranslationTextComponent("message.afraidofthedark.wand.no_spells"))
+                entityPlayer.sendMessage(TranslatableComponent("message.afraidofthedark.wand.no_spells"))
             }
         }
     }
@@ -151,7 +151,7 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
      * @param tooltip The tooltip that we need to fill out
      * @param flag  The flag telling us if we should show advanced or normal tooltips
      */
-    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<Component>, flag: TooltipFlag) {
         val player = Minecraft.getInstance().player
 
         // Need to test if player is null during client init
@@ -163,17 +163,17 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
 
                 // If the spell is non-null show the spell's stats
                 if (spell != null) {
-                    tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.wand.spell_name", spell.name))
-                    tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.wand.spell_cost", ceil(spell.getCost())))
+                    tooltip.add(TranslatableComponent("tooltip.afraidofthedark.wand.spell_name", spell.name))
+                    tooltip.add(TranslatableComponent("tooltip.afraidofthedark.wand.spell_cost", ceil(spell.getCost())))
                 } else {
-                    tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.wand.spell_invalid"))
+                    tooltip.add(TranslatableComponent("tooltip.afraidofthedark.wand.spell_invalid"))
                 }
             } else {
-                tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.wand.no_spell"))
-                tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.wand.set_spell"))
+                tooltip.add(TranslatableComponent("tooltip.afraidofthedark.wand.no_spell"))
+                tooltip.add(TranslatableComponent("tooltip.afraidofthedark.wand.set_spell"))
             }
         } else {
-            tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TranslatableComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

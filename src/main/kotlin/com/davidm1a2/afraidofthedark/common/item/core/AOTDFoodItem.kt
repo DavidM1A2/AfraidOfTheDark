@@ -1,8 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.item.core
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.item.Food
-import net.minecraft.item.Item
+import net.minecraft.world.food.FoodProperties
 import net.minecraft.world.item.Item
 
 /**
@@ -23,7 +22,7 @@ abstract class AOTDFoodItem(
     if (displayInCreative) {
         tab(Constants.AOTD_CREATIVE_TAB)
     }
-    food(Food.Builder()
+    food(FoodProperties.Builder()
         .nutrition(foodAmount)
         .saturationMod(saturation)
         .apply { if (isWolfFood) meat() }

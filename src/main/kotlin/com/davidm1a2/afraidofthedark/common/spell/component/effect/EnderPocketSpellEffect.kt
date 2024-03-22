@@ -13,7 +13,7 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.container.ChestContainer
 import net.minecraft.inventory.container.SimpleNamedContainerProvider
 import net.minecraft.stats.Stats
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.TranslatableComponent
 
 /**
  * Effect that creates an ender chest
@@ -43,7 +43,7 @@ class EnderPocketSpellEffect : AOTDSpellEffect("ender_pocket", ModResearches.POC
                     inventory,
                     enderChest
                 )
-            }, TranslationTextComponent("container.enderchest")))
+            }, TranslatableComponent("container.enderchest")))
             entity.awardStat(Stats.OPEN_ENDERCHEST)
         } else {
             return ProcResult.failure()

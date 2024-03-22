@@ -5,11 +5,11 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDResearchRequiredSwordItem
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.Entity
-import net.minecraft.item.ItemStack
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
 
 class VoidSaberItem : AOTDResearchRequiredSwordItem(
@@ -27,15 +27,15 @@ class VoidSaberItem : AOTDResearchRequiredSwordItem(
     override fun appendHoverText(
         itemStack: ItemStack,
         world: Level?,
-        tooltip: MutableList<ITextComponent>,
-        iTooltipFlag: ITooltipFlag
+        tooltip: MutableList<Component>,
+        iTooltipFlag: TooltipFlag
     ) {
         super.appendHoverText(itemStack, world, tooltip, iTooltipFlag)
 
         val player = Minecraft.getInstance().player
 
         if (player != null && player.getResearch().isResearched(requiredResearch)) {
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.void_tool.autorepair"))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.void_tool.autorepair"))
         }
     }
 }

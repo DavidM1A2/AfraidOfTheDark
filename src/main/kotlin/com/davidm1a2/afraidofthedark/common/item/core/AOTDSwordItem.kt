@@ -1,9 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.item.core
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.item.IItemTier
-import net.minecraft.item.SwordItem
 import net.minecraft.world.item.SwordItem
+import net.minecraft.world.item.Tier
 
 /**
  * Base class for all AOTD swords
@@ -15,7 +14,7 @@ import net.minecraft.world.item.SwordItem
  */
 abstract class AOTDSwordItem(
     baseName: String,
-    toolMaterial: IItemTier,
+    toolMaterial: Tier,
     damageAmplifier: Int,
     attackSpeed: Float,
     properties: Properties,

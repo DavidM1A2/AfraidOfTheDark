@@ -13,24 +13,25 @@ import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.ITooltipFlag
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.ItemStack
-import net.minecraft.item.ItemUseContext
-import net.minecraft.util.ActionResult
-import net.minecraft.util.ActionResultType
-import net.minecraft.util.Hand
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
+import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
 import net.minecraftforge.common.MinecraftForge
+import kotlin.math.roundToInt
 
 class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
     private val preRequisiteResearch: Research? by lazy {
         ModResearches.SPELL_SCROLLS.preRequisite
     }
 
-    override fun useOn(itemUseContext: ItemUseContext): ActionResultType {
+    override fun useOn(itemUseContext: UseOnContext): InteractionResult {
         val world = itemUseContext.level
         val blockState = world.getBlockState(itemUseContext.clickedPos)
         val player = itemUseContext.player
@@ -49,40 +50,40 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
                     }
                 } else {
                     if (!world.isClientSide) {
-                        player.sendMessage(TranslationTextComponent("message.afraidofthedark.spell_scroll.unknown_component"))
+                        player.sendMessage(TranslatableComponent("message.afraidofthedark.spell_scroll.unknown_component"))
                     }
                 }
-                return ActionResultType.CONSUME
+                return InteractionResult.CONSUME
             }
         }
         return super.useOn(itemUseContext)
     }
 
-    override fun use(world: Level, playerEntity: Player, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, playerEntity: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         val itemStack = playerEntity.getItemInHand(hand)
 
         if (preRequisiteResearch != null && !playerEntity.getResearch().isResearched(preRequisiteResearch!!)) {
             if (!world.isClientSide) {
-                playerEntity.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+                playerEntity.sendMessage(TranslatableComponent(LocalizationConstants.DONT_UNDERSTAND))
             }
-            return ActionResult.fail(itemStack)
+            return InteractionResultHolder.fail(itemStack)
         }
 
         val spell = getSpell(itemStack)
         if (spell == null) {
             if (!world.isClientSide) {
-                playerEntity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell_scroll.empty"))
+                playerEntity.sendMessage(TranslatableComponent("message.afraidofthedark.spell_scroll.empty"))
             }
-            return ActionResult.pass(itemStack)
+            return InteractionResultHolder.pass(itemStack)
         }
 
         val uses = getUses(itemStack)
         if (uses < 1) {
             if (!world.isClientSide) {
-                playerEntity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell_scroll.no_uses_left"))
+                playerEntity.sendMessage(TranslatableComponent("message.afraidofthedark.spell_scroll.no_uses_left"))
             }
             itemStack.shrink(1)
-            return ActionResult.success(itemStack)
+            return InteractionResultHolder.success(itemStack)
         }
 
         val newUses = if (playerEntity.isCreative) {
@@ -98,19 +99,20 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
             spell.attemptToCast(playerEntity, isSpellScroll = true)
         }
 
-        return ActionResult.success(itemStack)
+        return InteractionResultHolder.success(itemStack)
     }
 
-    override fun getDurabilityForDisplay(stack: ItemStack): Double {
+    override fun getBarWidth(stack: ItemStack): Int {
         return if (isEmpty(stack)) {
-            0.0
+            0
         } else {
             val uses = getUses(stack)
             val maxUses = getMaxUses(stack)
             if (maxUses == 0 || uses > maxUses || uses < 0) {
-                0.0
+                0
             } else {
-                1 - (uses.toDouble() / maxUses.toDouble())
+                // Bar is 13px wide at max
+                (13*(1 - (uses.toDouble() / maxUses.toDouble()))).roundToInt()
             }
         }
     }
@@ -119,16 +121,16 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
         return !isEmpty(stack)
     }
 
-    override fun showDurabilityBar(stack: ItemStack): Boolean {
+    override fun isBarVisible(stack: ItemStack): Boolean {
         return !isEmpty(stack)
     }
 
-    override fun getName(itemStack: ItemStack): ITextComponent {
+    override fun getName(itemStack: ItemStack): Component {
         val spell = getSpell(itemStack)
         return if (spell == null) {
-            TranslationTextComponent("item.afraidofthedark.spell_scroll")
+            TranslatableComponent("item.afraidofthedark.spell_scroll")
         } else {
-            TranslationTextComponent("item.afraidofthedark.spell_scroll_filled", spell.name)
+            TranslatableComponent("item.afraidofthedark.spell_scroll_filled", spell.name)
         }
     }
 
@@ -152,7 +154,7 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
     private fun learnSpell(playerEntity: Player, spell: Spell) {
         val world = playerEntity.level
         if (!world.isClientSide) {
-            playerEntity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell_scroll.learn_spell", spell.name))
+            playerEntity.sendMessage(TranslatableComponent("message.afraidofthedark.spell_scroll.learn_spell", spell.name))
         }
         if (world.isClientSide) {
             playerEntity.playSound(ModSounds.SCROLL_LEARNED, 2f, 1f)
@@ -189,19 +191,19 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
         return NBTHelper.getInteger(itemStack, NBT_MAX_USES) ?: 1
     }
 
-    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
+    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<Component>, iTooltipFlag: TooltipFlag) {
         val player = Minecraft.getInstance().player
 
         if (player != null && (preRequisiteResearch == null || player.getResearch().isResearched(preRequisiteResearch!!))) {
             val spell = getSpell(itemStack)
             if (spell == null) {
-                tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.spell_scroll.empty"))
+                tooltip.add(TranslatableComponent("tooltip.afraidofthedark.spell_scroll.empty"))
             } else {
-                tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.spell_scroll.spell_name", spell.name))
-                tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.spell_scroll.uses_remaining", getUses(itemStack)))
+                tooltip.add(TranslatableComponent("tooltip.afraidofthedark.spell_scroll.spell_name", spell.name))
+                tooltip.add(TranslatableComponent("tooltip.afraidofthedark.spell_scroll.uses_remaining", getUses(itemStack)))
                 for ((index, spellStage) in spell.spellStages.withIndex()) {
                     tooltip.add(
-                        TranslationTextComponent(
+                        TranslatableComponent(
                             "tooltip.afraidofthedark.spell_scroll.spell_stage",
                             index + 1,
                             spellStage.deliveryInstance?.component?.getName() ?: "-",
@@ -214,7 +216,7 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
                 }
             }
         } else {
-            tooltip.add(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
+            tooltip.add(TranslatableComponent(LocalizationConstants.DONT_UNDERSTAND))
         }
     }
 

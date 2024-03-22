@@ -6,7 +6,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.TranslatableComponent
 import net.minecraftforge.registries.ForgeRegistryEntry
 import net.minecraftforge.registries.IForgeRegistryEntry
 
@@ -37,10 +37,10 @@ abstract class SpellComponentBase<T : IForgeRegistryEntry<T>>(
     }
 
     fun getName(): ITextComponent {
-        return TranslationTextComponent("${getUnlocalizedBaseName()}.name")
+        return TranslatableComponent("${getUnlocalizedBaseName()}.name")
     }
 
     fun getDescription(): ITextComponent {
-        return TranslationTextComponent("${getUnlocalizedBaseName()}.description")
+        return TranslatableComponent("${getUnlocalizedBaseName()}.description")
     }
 }

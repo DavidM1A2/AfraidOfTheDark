@@ -8,7 +8,7 @@ import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.block.Blocks
 import net.minecraft.network.PacketBuffer
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.TranslatableComponent
 import net.minecraft.world.level.Level
 import net.minecraftforge.fml.network.NetworkDirection
 import net.minecraftforge.fml.network.NetworkEvent
@@ -64,7 +64,7 @@ class ProcessSextantInputPacketProcessor : PacketProcessor<ProcessSextantInputPa
                         zLocOfDrop + (if (Random.nextBoolean()) -1 else 1) * Random.nextInt(accuracy + 1)
 
                     player.sendMessage(
-                        TranslationTextComponent("message.afraidofthedark.meteor.location", xLocOfDrop.roundToInt(), zLocOfDrop.roundToInt())
+                        TranslatableComponent("message.afraidofthedark.meteor.location", xLocOfDrop.roundToInt(), zLocOfDrop.roundToInt())
                     )
 
                     // Clear the player's watched meteors so that the same meteor can't be used twice
@@ -77,7 +77,7 @@ class ProcessSextantInputPacketProcessor : PacketProcessor<ProcessSextantInputPa
             }
             // The values aren't correct so show an error
             else {
-                player.sendMessage(TranslationTextComponent("message.afraidofthedark.meteor.process.invalid_vals"))
+                player.sendMessage(TranslatableComponent("message.afraidofthedark.meteor.process.invalid_vals"))
             }
         }
     }

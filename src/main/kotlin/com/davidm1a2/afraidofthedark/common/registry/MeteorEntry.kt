@@ -9,7 +9,7 @@ import net.minecraft.block.Block
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.TranslatableComponent
 import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.ForgeRegistryEntry
 import org.apache.logging.log4j.LogManager
@@ -49,7 +49,7 @@ class MeteorEntry(
      * @return The unlocalized name of the meteor entry
      */
     fun getName(): ITextComponent {
-        return TranslationTextComponent("meteor_entry.${registryName!!.namespace}.${registryName!!.path}")
+        return TranslatableComponent("meteor_entry.${registryName!!.namespace}.${registryName!!.path}")
     }
 
     companion object {

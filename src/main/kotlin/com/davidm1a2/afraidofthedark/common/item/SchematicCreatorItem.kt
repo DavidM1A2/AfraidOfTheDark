@@ -5,22 +5,22 @@ import com.davidm1a2.afraidofthedark.common.schematic.CachedSchematic
 import com.davidm1a2.afraidofthedark.common.schematic.SchematicUtils
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import net.minecraft.block.Blocks
-import net.minecraft.client.util.ITooltipFlag
+import net.minecraft.core.BlockPos
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.DoubleTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.NbtUtils
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TextComponent
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.nbt.DoubleNBT
-import net.minecraft.nbt.ListNBT
-import net.minecraft.nbt.NBTUtil
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.math.AxisAlignedBB
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.StringTextComponent
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
+import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.phys.AABB
 import org.apache.commons.lang3.RandomStringUtils
 import java.io.File
 import kotlin.math.max
@@ -54,35 +54,35 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().stacksTo
                 if (NBTHelper.hasTag(mainhandItem, NBT_POS_1) && NBTHelper.hasTag(mainhandItem, NBT_POS_2)) {
                     val schematicName = saveStructure(
                         world,
-                        NBTUtil.readBlockPos(NBTHelper.getCompound(mainhandItem, NBT_POS_1)!!),
-                        NBTUtil.readBlockPos(NBTHelper.getCompound(mainhandItem, NBT_POS_2)!!),
+                        NbtUtils.readBlockPos(NBTHelper.getCompound(mainhandItem, NBT_POS_1)!!),
+                        NbtUtils.readBlockPos(NBTHelper.getCompound(mainhandItem, NBT_POS_2)!!),
                         mainhandItem.hoverName.string
                     )
 
                     // If the name is empty it means the name is invalid
                     if (schematicName.isNotEmpty()) {
-                        player.sendMessage(StringTextComponent("Schematic '$schematicName' saved successfully"))
+                        player.sendMessage(TextComponent("Schematic '$schematicName' saved successfully"))
                     } else {
                         player.sendMessage(
-                            StringTextComponent("Schematic '${mainhandItem.hoverName.string}' has an invalid name (No ., \\, /, or space)")
+                            TextComponent("Schematic '${mainhandItem.hoverName.string}' has an invalid name (No ., \\, /, or space)")
                         )
                     }
                 } else {
-                    player.sendMessage(StringTextComponent("Please set pos1 and pos2 before saving"))
+                    player.sendMessage(TextComponent("Please set pos1 and pos2 before saving"))
                 }
             } else {
                 // If the player is sneaking, set pos2, otherwise set pos 1
                 if (player.isCrouching) {
-                    NBTHelper.setCompound(mainhandItem, NBT_POS_2, NBTUtil.writeBlockPos(player.blockPosition().below()))
-                    player.sendMessage(StringTextComponent("Pos2 set: " + player.blockPosition().below().toString()))
+                    NBTHelper.setCompound(mainhandItem, NBT_POS_2, NbtUtils.writeBlockPos(player.blockPosition().below()))
+                    player.sendMessage(TextComponent("Pos2 set: " + player.blockPosition().below().toString()))
                 } else {
-                    NBTHelper.setCompound(mainhandItem, NBT_POS_1, NBTUtil.writeBlockPos(player.blockPosition().below()))
-                    player.sendMessage(StringTextComponent("Pos1 set: " + player.blockPosition().below()))
+                    NBTHelper.setCompound(mainhandItem, NBT_POS_1, NbtUtils.writeBlockPos(player.blockPosition().below()))
+                    player.sendMessage(TextComponent("Pos1 set: " + player.blockPosition().below()))
                 }
             }
         }
 
-        return ActionResult.success(mainhandItem)
+        return InteractionResultHolder.success(mainhandItem)
     }
 
     /**
@@ -103,15 +103,15 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().stacksTo
         val length = largePos.z - smallPos.z + 1
 
         // Get all entities in the schematic, write them to NBT and save them
-        val entities = world.getEntities(null, AxisAlignedBB(smallPos, largePos), null)
-        val nbtEntites = ListNBT()
+        val entities = world.getEntities(null, AABB(smallPos, largePos)) { true }
+        val nbtEntites = ListTag()
         entities.forEach {
             nbtEntites.add(it.serializeNBT().apply {
                 relativizeEntityPos(this, smallPos)
             })
         }
 
-        val nbtTileEntities = ListNBT()
+        val nbtTileEntities = ListTag()
         val blocks = Array(width * height * length) { Blocks.AIR.defaultBlockState() }
 
         var index = 0
@@ -162,12 +162,12 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().stacksTo
      * @param nbt The compound to update
      * @param baseCorner The corner to be relative to
      */
-    private fun relativizeEntityPos(nbt: CompoundNBT, baseCorner: BlockPos) {
-        val absolutePos = nbt.get("Pos") as ListNBT
-        nbt.put("Pos", ListNBT().apply {
-            add(DoubleNBT.valueOf(absolutePos.getDouble(0) - baseCorner.x))
-            add(DoubleNBT.valueOf(absolutePos.getDouble(1) - baseCorner.y))
-            add(DoubleNBT.valueOf(absolutePos.getDouble(2) - baseCorner.z))
+    private fun relativizeEntityPos(nbt: CompoundTag, baseCorner: BlockPos) {
+        val absolutePos = nbt.get("Pos") as ListTag
+        nbt.put("Pos", ListTag().apply {
+            add(DoubleTag.valueOf(absolutePos.getDouble(0) - baseCorner.x))
+            add(DoubleTag.valueOf(absolutePos.getDouble(1) - baseCorner.y))
+            add(DoubleTag.valueOf(absolutePos.getDouble(2) - baseCorner.z))
         })
     }
 
@@ -177,7 +177,7 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().stacksTo
      * @param nbt The compound to update
      * @param baseCorner The corner to be relative to
      */
-    private fun relativizeTileEntityPos(nbt: CompoundNBT, baseCorner: BlockPos) {
+    private fun relativizeTileEntityPos(nbt: CompoundTag, baseCorner: BlockPos) {
         // Make x, y, z relative to the corner
         nbt.putInt("x", nbt.getInt("x") - baseCorner.x)
         nbt.putInt("y", nbt.getInt("y") - baseCorner.y)
@@ -192,13 +192,13 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().stacksTo
      * @param tooltip The tooltip of the item
      * @param flag  If the advanced details is on or off
      */
-    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
-        tooltip.add(StringTextComponent("Note: This item is for mod developer use only"))
-        tooltip.add(StringTextComponent("Pos1: " + (NBTHelper.getCompound(stack, NBT_POS_1)?.let { NBTUtil.readBlockPos(it).toString() } ?: "None")))
-        tooltip.add(StringTextComponent("Pos2: " + (NBTHelper.getCompound(stack, NBT_POS_2)?.let { NBTUtil.readBlockPos(it).toString() } ?: "None")))
-        tooltip.add(StringTextComponent("Right click to set pos1"))
-        tooltip.add(StringTextComponent("Shift+Right click to set pos2"))
-        tooltip.add(StringTextComponent("Right click with a diamond in hand to save the schematic"))
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<Component>, flag: TooltipFlag) {
+        tooltip.add(TextComponent("Note: This item is for mod developer use only"))
+        tooltip.add(TextComponent("Pos1: " + (NBTHelper.getCompound(stack, NBT_POS_1)?.let { NbtUtils.readBlockPos(it).toString() } ?: "None")))
+        tooltip.add(TextComponent("Pos2: " + (NBTHelper.getCompound(stack, NBT_POS_2)?.let { NbtUtils.readBlockPos(it).toString() } ?: "None")))
+        tooltip.add(TextComponent("Right click to set pos1"))
+        tooltip.add(TextComponent("Shift+Right click to set pos2"))
+        tooltip.add(TextComponent("Right click with a diamond in hand to save the schematic"))
     }
 
     companion object {

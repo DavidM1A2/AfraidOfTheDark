@@ -5,15 +5,15 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDResearchRequiredHoeItem
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.Entity
-import net.minecraft.entity.item.ItemEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.item.ItemUseContext
-import net.minecraft.item.Items
-import net.minecraft.util.ActionResultType
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.item.ItemEntity
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
+import net.minecraft.world.item.TooltipFlag
+import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
 import net.minecraftforge.common.Tags
 import kotlin.random.Random
@@ -23,7 +23,7 @@ class VoidHoeItem : AOTDResearchRequiredHoeItem("void_hoe", ModToolMaterials.VOI
         VoidCommons.processItem(itemStack, world)
     }
 
-    override fun useOn(context: ItemUseContext): ActionResultType {
+    override fun useOn(context: UseOnContext): InteractionResult {
         val result = super.useOn(context)
         if (result.consumesAction()) {
             val level = context.level
@@ -46,14 +46,14 @@ class VoidHoeItem : AOTDResearchRequiredHoeItem("void_hoe", ModToolMaterials.VOI
     }
 
 
-    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
+    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<Component>, iTooltipFlag: TooltipFlag) {
         super.appendHoverText(itemStack, world, tooltip, iTooltipFlag)
 
         val player = Minecraft.getInstance().player
 
         if (player != null && player.getResearch().isResearched(requiredResearch)) {
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.void_tool.drop_seeds"))
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.void_tool.autorepair"))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.void_tool.drop_seeds"))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.void_tool.autorepair"))
         }
     }
 }

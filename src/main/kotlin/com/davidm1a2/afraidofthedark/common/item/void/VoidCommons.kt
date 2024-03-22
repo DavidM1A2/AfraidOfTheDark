@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item.void
 
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import kotlin.math.max
 

@@ -2,14 +2,14 @@ package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.common.constants.ModEffects
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
-import net.minecraft.item.UseAction
-import net.minecraft.potion.EffectInstance
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
+import net.minecraft.world.item.UseAnim
 import net.minecraft.world.level.Level
 
 /**
@@ -34,8 +34,8 @@ class SleepingPotionItem : AOTDItem("sleeping_potion", Properties()) {
      * @param stack The item stack being drunk
      * @return DRINK since this is a potion
      */
-    override fun getUseAnimation(stack: ItemStack): UseAction {
-        return UseAction.DRINK
+    override fun getUseAnimation(stack: ItemStack): UseAnim {
+        return UseAnim.DRINK
     }
 
     /**
@@ -48,7 +48,7 @@ class SleepingPotionItem : AOTDItem("sleeping_potion", Properties()) {
      */
     override fun use(world: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         player.startUsingItem(hand)
-        return ActionResult.success(player.getItemInHand(hand))
+        return InteractionResultHolder.success(player.getItemInHand(hand))
     }
 
     /**
@@ -59,12 +59,12 @@ class SleepingPotionItem : AOTDItem("sleeping_potion", Properties()) {
      * @param entityLiving The entity that drunk the potion
      * @return The itemstack that this item became
      */
-    override fun finishUsingItem(stack: ItemStack, worldIn: World, entityLiving: LivingEntity): ItemStack {
+    override fun finishUsingItem(stack: ItemStack, worldIn: Level, entityLiving:  LivingEntity): ItemStack {
         // Server side only processing
         if (!worldIn.isClientSide) {
             // This potion only effects players
             if (entityLiving is Player) {
-                entityLiving.addEffect(EffectInstance(ModEffects.SLEEPING, 4800, 0, false, true))
+                entityLiving.addEffect(MobEffectInstance(ModEffects.SLEEPING, 4800, 0, false, true))
                 // If the player is not in creative mode reduce the bottle stack size by 1 and return the bottle
                 if (!entityLiving.isCreative) {
                     stack.shrink(1)

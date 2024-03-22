@@ -3,11 +3,12 @@ package com.davidm1a2.afraidofthedark.common.item.core
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.network.packets.other.CooldownSyncPacket
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
-import net.minecraft.entity.player.ServerPlayer
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import kotlin.math.ceil
 import kotlin.math.max
+import kotlin.math.roundToInt
 
 /**
  * Class representing an item that has a cooldown
@@ -80,9 +81,9 @@ abstract class AOTDPerItemCooldownItem(
      * @param stack The itemstack to show durability for
      * @return Value between 0 to 1 of what percent of the durability bar to show
      */
-    override fun getDurabilityForDisplay(stack: ItemStack): Double {
+    override fun getBarWidth(stack: ItemStack): Int {
         val millisecondsElapsed = System.currentTimeMillis() - serverClientTimeDifference - getLastUseTime(stack)
-        return max(0.0, 1 - millisecondsElapsed.toDouble() / getCooldownInMilliseconds(stack).toDouble())
+        return (13.0*max(0.0, 1 - millisecondsElapsed.toDouble() / getCooldownInMilliseconds(stack).toDouble())).roundToInt()
     }
 
     /**
@@ -104,7 +105,7 @@ abstract class AOTDPerItemCooldownItem(
      * @param itemStack The stack to show current CD for
      * @return True to show the CD bar
      */
-    override fun showDurabilityBar(itemStack: ItemStack): Boolean {
+    override fun isBarVisible(itemStack: ItemStack): Boolean {
         return true
     }
 

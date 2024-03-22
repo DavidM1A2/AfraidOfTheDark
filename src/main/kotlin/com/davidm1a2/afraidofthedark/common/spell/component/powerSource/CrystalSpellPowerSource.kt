@@ -8,8 +8,8 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.Cas
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellCastResult
 import com.davidm1a2.afraidofthedark.common.tileEntity.MagicCrystalTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.round
-import net.minecraft.entity.Entity
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.entity.Entity
+import net.minecraft.util.text.TranslatableComponent
 import net.minecraft.world.level.Level
 
 class CrystalSpellPowerSource : AOTDSpellPowerSource<CrystalSpellPowerSource.CrystalContext>("crystal", ModResearches.ADVANCED_MAGIC) {
@@ -19,7 +19,7 @@ class CrystalSpellPowerSource : AOTDSpellPowerSource<CrystalSpellPowerSource.Cry
         val z = entity.z
 
         if (environment.vitaeAvailable < spell.getCost()) {
-            return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))
+            return SpellCastResult.failure(TranslatableComponent("${getUnlocalizedBaseName()}.not_enough_power"))
         }
 
         val nearestCrystals = environment.context.nearbyCrystals.sortedWith { first, second ->

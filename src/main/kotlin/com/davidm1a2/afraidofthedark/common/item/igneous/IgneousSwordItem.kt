@@ -7,20 +7,21 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDChargeableSwordItem
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.enchantment.EnchantmentHelper
-import net.minecraft.enchantment.Enchantments
-import net.minecraft.entity.Entity
-import net.minecraft.entity.MobEntity
+import net.minecraft.core.BlockPos
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.ItemStack
-import net.minecraft.util.math.AxisAlignedBB
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.RayTraceContext
-import net.minecraft.util.math.RayTraceResult
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
+import net.minecraft.world.item.enchantment.EnchantmentHelper
+import net.minecraft.world.item.enchantment.Enchantments
+import net.minecraft.world.level.ClipContext
 import net.minecraft.world.level.Level
+import net.minecraft.world.phys.AABB
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.HitResult
 import kotlin.math.max
 
 /**
@@ -51,7 +52,8 @@ class IgneousSwordItem : AOTDChargeableSwordItem(
         // If igneous is researched allow the sword to function
         if (player.getResearch().isResearched(ModResearches.IGNEOUS)) {
             // The fire burn time is heavily upgraded by fire aspect enchantment
-            target.remainingFireTicks = max(target.remainingFireTicks, 100 + EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT, player) * 100)
+            target.remainingFireTicks = max(target.remainingFireTicks, 100 + EnchantmentHelper.getEnchantmentLevel(
+                Enchantments.FIRE_ASPECT, player) * 100)
             // Attack the entity from silver damage
             target.hurt(getSilverDamage(player), damage)
         } else {
@@ -69,15 +71,15 @@ class IgneousSwordItem : AOTDChargeableSwordItem(
      * @param tooltip The tooltip to return
      * @param flag True if advanced tooltips are on, false otherwise
      */
-    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<Component>, flag: TooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.IGNEOUS)) {
-            tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.igneous_sword.line1"))
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.igneous_sword.line2"))
-            tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.igneous_sword.line3"))
+            tooltip.add(TranslatableComponent(LocalizationConstants.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.igneous_sword.line1"))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.igneous_sword.line2"))
+            tooltip.add(TranslatableComponent("tooltip.afraidofthedark.igneous_sword.line3"))
         } else {
-            tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TranslatableComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 
@@ -97,22 +99,22 @@ class IgneousSwordItem : AOTDChargeableSwordItem(
         // The vector we want to ray trace to
         val toVec = fromVec.add(lookDir.scale(SPECIAL_FIRE_RANGE_BLOCKS.toDouble()))
 
-        val context = RayTraceContext(fromVec, toVec, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.ANY, entityPlayer)
+        val context = ClipContext(fromVec, toVec, ClipContext.Block.COLLIDER, ClipContext.Fluid.ANY, entityPlayer)
         // Perform the ray trace
-        val rayTraceResult: RayTraceResult? = world.clip(context)
+        val rayTraceResult: BlockHitResult = world.clip(context)
 
         // Ensure we hit something
-        if (rayTraceResult?.location != null) {
+        if (rayTraceResult.type != HitResult.Type.MISS) {
             // Grab the hit block position
             val hitPos = BlockPos(rayTraceResult.location.x, rayTraceResult.location.y, rayTraceResult.location.z)
             // Grab all surrounding entities
             val surroundingEntities = world.getEntities(
                 entityPlayer,
-                AxisAlignedBB(hitPos).inflate(HIT_RANGE.toDouble())
+                AABB(hitPos).inflate(HIT_RANGE.toDouble())
             )
 
             // Set each entity living on fire
-            surroundingEntities.filter { it is MobEntity || it is Player }.forEach { it.remainingFireTicks = max(it.remainingFireTicks, 100) }
+            surroundingEntities.filter { it is Mob || it is Player }.forEach { it.remainingFireTicks = max(it.remainingFireTicks, 100) }
 
             // True, the effect was procd
             return true

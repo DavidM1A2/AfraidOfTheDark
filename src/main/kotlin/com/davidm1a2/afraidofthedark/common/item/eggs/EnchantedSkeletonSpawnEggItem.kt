@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDSpawnEggItem
 
 class EnchantedSkeletonSpawnEggItem : AOTDSpawnEggItem(
     "enchanted_skeleton_spawn_egg",
-    ModEntities.ENCHANTED_SKELETON,
+    { ModEntities.ENCHANTED_SKELETON },
     0x996600,
     0xe69900,
     Properties()
