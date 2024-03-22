@@ -22,8 +22,8 @@ import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import com.davidm1a2.afraidofthedark.common.world.structure.base.SchematicStructurePiece
 import net.minecraft.block.Blocks
 import net.minecraft.client.Minecraft
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.entity.player.ServerPlayer
 import net.minecraft.inventory.ItemStackHelper
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.ListNBT
@@ -34,7 +34,7 @@ import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.common.MinecraftForge
@@ -67,7 +67,7 @@ class NightmareHandler {
                         .filter { it.getTouchedPlayer() != null }
                         .forEach {
                             val player = world.getEntity(it.getTouchedPlayer()!!)
-                            if (player != null && player is ServerPlayerEntity) {
+                            if (player != null && player is ServerPlayer) {
                                 // Kill enaria, she's now unloaded (can't use .setDead()) or we get an index out of bounds exception?
                                 it.kill()
 
@@ -105,8 +105,8 @@ class NightmareHandler {
 
                 // If the player has the nightmare research (or can research it) send them to the nightmare realm
                 if (playerResearch.isResearched(ModResearches.NIGHTMARE_REALM.preRequisite!!)) {
-                    event.setResult(PlayerEntity.SleepResult.OTHER_PROBLEM)
-                    (entityPlayer as ServerPlayerEntity).teleport(ModDimensions.NIGHTMARE_WORLD)
+                    event.setResult(Player.SleepResult.OTHER_PROBLEM)
+                    (entityPlayer as ServerPlayer).teleport(ModDimensions.NIGHTMARE_WORLD)
                 }
             }
         }
@@ -190,7 +190,7 @@ class NightmareHandler {
             if (event.player.level.dimension() == ModDimensions.NIGHTMARE_WORLD) {
                 val nightmareData = event.player.getNightmareData()
                 // Send the player back to their original dimension
-                (event.player as ServerPlayerEntity).teleport(nightmareData.preTeleportDimension!!)
+                (event.player as ServerPlayer).teleport(nightmareData.preTeleportDimension!!)
             }
         }
     }
@@ -241,8 +241,8 @@ class NightmareHandler {
             val toDimension = event.dimension
 
             // Test if the entity is a player, if so process it
-            if (event.entity is ServerPlayerEntity) {
-                val entityPlayer = event.entity as ServerPlayerEntity
+            if (event.entity is ServerPlayer) {
+                val entityPlayer = event.entity as ServerPlayer
 
                 // Process the pre-teleport server side, if it returns true then we cancel the TP
                 if (processPreTeleport(entityPlayer, fromDimension, toDimension)) {
@@ -260,7 +260,7 @@ class NightmareHandler {
      * @param dimensionTo   The dimension the player is going to
      * @return True to cancel the teleport, false otherwise
      */
-    private fun processPreTeleport(entityPlayer: ServerPlayerEntity, dimensionFrom: RegistryKey<World>, dimensionTo: RegistryKey<World>): Boolean {
+    private fun processPreTeleport(entityPlayer: ServerPlayer, dimensionFrom: RegistryKey<World>, dimensionTo: RegistryKey<World>): Boolean {
         // If we're going to dimension NIGHTMARE then we need to do some preprocesing and tests to ensure the player can continue
         if (dimensionTo == ModDimensions.NIGHTMARE_WORLD) {
             // We can't go from nightmare to nightmare
@@ -329,7 +329,7 @@ class NightmareHandler {
             val toDimension = event.to
 
             // Get the player teleporting
-            val entityPlayer = event.player as ServerPlayerEntity
+            val entityPlayer = event.player as ServerPlayer
 
             // Process the post-teleport server side
             processPostTeleport(entityPlayer, fromDimension, toDimension)
@@ -343,7 +343,7 @@ class NightmareHandler {
      * @param dimensionFrom The dimension the player was in
      * @param dimensionTo   The dimension the player is now in
      */
-    private fun processPostTeleport(entityPlayer: ServerPlayerEntity, dimensionFrom: RegistryKey<World>, dimensionTo: RegistryKey<World>) {
+    private fun processPostTeleport(entityPlayer: ServerPlayer, dimensionFrom: RegistryKey<World>, dimensionTo: RegistryKey<World>) {
         // If the player entered the nightmare dimension then set their position
         val playerNightmareData = entityPlayer.getNightmareData()
 
@@ -436,7 +436,7 @@ class NightmareHandler {
      *
      * @param entityPlayer The player to reset stats for
      */
-    private fun resetPlayerStats(entityPlayer: PlayerEntity) {
+    private fun resetPlayerStats(entityPlayer: Player) {
         entityPlayer.deltaMovement = Vector3d(0.0, 0.0, 0.0)
         entityPlayer.health = 20f
         entityPlayer.foodData.foodLevel = 20
@@ -452,7 +452,7 @@ class NightmareHandler {
      * @param entityPlayer The player to create a journal for
      * @return The created journal
      */
-    private fun createNamedJournal(entityPlayer: PlayerEntity): ItemStack {
+    private fun createNamedJournal(entityPlayer: Player): ItemStack {
         val toReturn = ItemStack(ModItems.ARCANE_JOURNAL, 1)
         ModItems.ARCANE_JOURNAL.setOwner(toReturn, entityPlayer.gameProfile.name)
         return toReturn
@@ -466,7 +466,7 @@ class NightmareHandler {
      * @param nightmareWorld The nightmare world being tested
      * @param islandPos      The position of this player's island realm
      */
-    private fun testForEnariasAltar(entityPlayer: ServerPlayerEntity, nightmareWorld: ServerWorld, islandPos: BlockPos) {
+    private fun testForEnariasAltar(entityPlayer: ServerPlayer, nightmareWorld: ServerWorld, islandPos: BlockPos) {
         // Grab the player's research, if he has enaria generate the altar if needed
         val playerResearch = entityPlayer.getResearch()
         if (playerResearch.isResearched(ModResearches.ARCH_SORCERESS)) {

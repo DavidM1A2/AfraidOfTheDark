@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.tileEntity.core
 import com.davidm1a2.afraidofthedark.common.event.custom.PlayerEnterZoneEvent
 import com.davidm1a2.afraidofthedark.common.event.custom.PlayerExitZoneEvent
 import net.minecraft.block.BlockState
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.ListNBT
 import net.minecraft.nbt.NBTUtil
@@ -39,7 +39,7 @@ abstract class AOTDZoneTileEntity(tileEntityType: TileEntityType<*>) : AOTDTicki
         // If we've existed for a multiple of 40 ticks perform a check for nearby players
         if (ticksExisted % TICKS_BETWEEN_PLAYER_CHECKS == 0L) {
             // Grab all nearby players
-            val nearbyPlayers = level!!.getEntitiesOfClass(PlayerEntity::class.java, zone)
+            val nearbyPlayers = level!!.getEntitiesOfClass(Player::class.java, zone)
             for (entityPlayer in nearbyPlayers) {
                 if (!playersInZone.contains(entityPlayer.uuid)) {
                     playersInZone.add(entityPlayer.uuid)
@@ -62,7 +62,7 @@ abstract class AOTDZoneTileEntity(tileEntityType: TileEntityType<*>) : AOTDTicki
     }
 
     // NOT abstract, because a subclass shouldn't be forced to override it
-    protected open fun playerInZone(player: PlayerEntity) {}
+    protected open fun playerInZone(player: Player) {}
 
     override fun load(blockState: BlockState, compound: CompoundNBT) {
         super.load(blockState, compound)

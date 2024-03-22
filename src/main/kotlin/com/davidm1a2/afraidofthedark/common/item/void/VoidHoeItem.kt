@@ -14,12 +14,12 @@ import net.minecraft.item.Items
 import net.minecraft.util.ActionResultType
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import net.minecraftforge.common.Tags
 import kotlin.random.Random
 
 class VoidHoeItem : AOTDResearchRequiredHoeItem("void_hoe", ModToolMaterials.VOID, -35, 0.0f, ModResearches.AN_UNSETTLING_MATERIAL, Properties()) {
-    override fun inventoryTick(itemStack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean) {
+    override fun inventoryTick(itemStack: ItemStack, world: Level, entity: Entity, itemSlot: Int, isSelected: Boolean) {
         VoidCommons.processItem(itemStack, world)
     }
 
@@ -46,7 +46,7 @@ class VoidHoeItem : AOTDResearchRequiredHoeItem("void_hoe", ModToolMaterials.VOI
     }
 
 
-    override fun appendHoverText(itemStack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
+    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
         super.appendHoverText(itemStack, world, tooltip, iTooltipFlag)
 
         val player = Minecraft.getInstance().player

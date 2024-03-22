@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraftforge.event.entity.living.LivingDeathEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import kotlin.math.ceil
@@ -22,9 +22,9 @@ class VitaeLanternHandler {
     fun onLivingDeathEvent(event: LivingDeathEvent) {
         // Ensure a player killed the entity. Make sure the entity is an entity living
         val killedEntity = event.entity
-        if (event.source.entity is PlayerEntity && killedEntity is LivingEntity) {
+        if (event.source.entity is Player && killedEntity is LivingEntity) {
             // Grab the killer player
-            val entityPlayer = event.source.entity as PlayerEntity
+            val entityPlayer = event.source.entity as Player
             val vitaeLantern = ModItems.VITAE_LANTERN
 
             // Ensure the player has the right research

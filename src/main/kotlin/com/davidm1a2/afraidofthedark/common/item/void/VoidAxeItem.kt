@@ -10,7 +10,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 class VoidAxeItem : AOTDResearchRequiredAxeItem(
     "void_axe",
@@ -20,13 +20,13 @@ class VoidAxeItem : AOTDResearchRequiredAxeItem(
     ModResearches.AN_UNSETTLING_MATERIAL,
     Properties()
 ) {
-    override fun inventoryTick(itemStack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean) {
+    override fun inventoryTick(itemStack: ItemStack, world: Level, entity: Entity, itemSlot: Int, isSelected: Boolean) {
         VoidCommons.processItem(itemStack, world)
     }
 
     override fun appendHoverText(
         itemStack: ItemStack,
-        world: World?,
+        world: Level?,
         tooltip: MutableList<ITextComponent>,
         iTooltipFlag: ITooltipFlag
     ) {

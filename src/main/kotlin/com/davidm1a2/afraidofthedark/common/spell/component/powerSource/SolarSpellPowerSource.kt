@@ -8,13 +8,13 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.Cas
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellCastResult
 import com.davidm1a2.afraidofthedark.common.utility.round
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.entity.player.ServerPlayer
 import net.minecraft.util.text.TranslationTextComponent
 
 class SolarSpellPowerSource : AOTDSpellPowerSource<Unit>("solar", ModResearches.MAGIC_MASTERY) {
     override fun cast(entity: Entity, spell: Spell, environment: CastEnvironment<Unit>): SpellCastResult {
-        if (entity !is PlayerEntity) {
+        if (entity !is Player) {
             return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))
         }
 
@@ -24,13 +24,13 @@ class SolarSpellPowerSource : AOTDSpellPowerSource<Unit>("solar", ModResearches.
 
         val solarData = entity.getSpellSolarData()
         solarData.vitae = solarData.vitae - spell.getCost()
-        solarData.sync(entity as ServerPlayerEntity)
+        solarData.sync(entity as ServerPlayer)
 
         return SpellCastResult.success()
     }
 
     override fun computeCastEnvironment(entity: Entity): CastEnvironment<Unit> {
-        if (entity !is PlayerEntity) {
+        if (entity !is Player) {
             return CastEnvironment.noVitae(Unit)
         }
 

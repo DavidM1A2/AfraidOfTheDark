@@ -3,14 +3,14 @@ package com.davidm1a2.afraidofthedark.common.item
 import com.davidm1a2.afraidofthedark.common.constants.ModEffects
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.item.UseAction
 import net.minecraft.potion.EffectInstance
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 /**
  * Potion that gives you the drowsy potion effect
@@ -46,7 +46,7 @@ class SleepingPotionItem : AOTDItem("sleeping_potion", Properties()) {
      * @param hand   The hand the player is using to hold the potion
      * @return SUCCESS since the potion drinking began
      */
-    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, hand: Hand): ActionResult<ItemStack> {
         player.startUsingItem(hand)
         return ActionResult.success(player.getItemInHand(hand))
     }
@@ -63,7 +63,7 @@ class SleepingPotionItem : AOTDItem("sleeping_potion", Properties()) {
         // Server side only processing
         if (!worldIn.isClientSide) {
             // This potion only effects players
-            if (entityLiving is PlayerEntity) {
+            if (entityLiving is Player) {
                 entityLiving.addEffect(EffectInstance(ModEffects.SLEEPING, 4800, 0, false, true))
                 // If the player is not in creative mode reduce the bottle stack size by 1 and return the bottle
                 if (!entityLiving.isCreative) {

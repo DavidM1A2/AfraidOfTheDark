@@ -9,7 +9,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpel
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import kotlin.math.PI
 import kotlin.random.Random
 
@@ -50,7 +50,7 @@ class FeedSpellEffect : AOTDSpellEffect("feed", ModResearches.APPRENTICE_ASCENDE
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         val entity = state.entity
-        if (entity is PlayerEntity) {
+        if (entity is Player) {
             val foodStats = entity.foodData
             foodStats.eat(getHungerAmount(instance), getSaturationAmount(instance).toFloat())
             val particleOffset = Random.nextFloat() * PI.toFloat() * 2

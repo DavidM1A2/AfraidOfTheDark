@@ -10,7 +10,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResu
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.SoundEvents
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 /**
  * Teleports the spell owner to the hit location
@@ -23,7 +23,7 @@ class TeleportSpellEffect : AOTDSpellEffect("teleport", ModResearches.POCKET_DIM
      * @param instance The instance of the effect
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
-        val world: World = state.world
+        val world: Level = state.world
         val spellCaster = state.casterEntity
         if (spellCaster != null) {
             val position = state.position

@@ -5,8 +5,8 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getSpellThermalData
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
 import com.davidm1a2.afraidofthedark.common.research.Research
 import net.minecraft.block.Blocks
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.entity.player.ServerPlayer
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.LogicalSide
@@ -31,7 +31,7 @@ class SpellThermalHandler {
         }
     }
 
-    private fun tickThermalVitae(entityPlayer: PlayerEntity) {
+    private fun tickThermalVitae(entityPlayer: Player) {
         val thermalData = entityPlayer.getSpellThermalData()
 
         val oldThermalVitae = thermalData.vitae
@@ -41,11 +41,11 @@ class SpellThermalHandler {
 
         // Small optimization, only sync on an actual update
         if (oldThermalVitae != thermalData.vitae) {
-            thermalData.sync(entityPlayer as ServerPlayerEntity)
+            thermalData.sync(entityPlayer as ServerPlayer)
         }
     }
 
-    private fun tickBiome(entityPlayer: PlayerEntity) {
+    private fun tickBiome(entityPlayer: Player) {
         // Wiki says Temp is 0 [cold] to 4 [hot], but it's actually from 0-2?
         val biomeTemperature = entityPlayer.level.getBiome(entityPlayer.blockPosition()).getTemperature(entityPlayer.blockPosition())
         val vitaeChange = (biomeTemperature - 1.0).coerceIn(0.0, 1.0) * BIOME_VITAE_MODIFIER_PER_INTERVAL
@@ -54,7 +54,7 @@ class SpellThermalHandler {
         thermalData.vitae = (thermalData.vitae + vitaeChange).coerceIn(0.0, thermalData.getMaxVitae(entityPlayer.level))
     }
 
-    private fun tickDepth(entityPlayer: PlayerEntity) {
+    private fun tickDepth(entityPlayer: Player) {
         // 0-64 gain vitae. 64-256 lose vitae. Treat 128-256 the same
         val depth = entityPlayer.blockPosition().y.coerceIn(0, 128)
         val vitaeChange = if (depth <= 64) {
@@ -67,7 +67,7 @@ class SpellThermalHandler {
         thermalData.vitae = (thermalData.vitae + vitaeChange).coerceIn(0.0, thermalData.getMaxVitae(entityPlayer.level))
     }
 
-    private fun tickNearbyBlocks(entityPlayer: PlayerEntity) {
+    private fun tickNearbyBlocks(entityPlayer: Player) {
         val world = entityPlayer.level
 
         var currentHeatEstimate = Double.NEGATIVE_INFINITY

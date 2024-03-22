@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.research.trigger.base
 
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.mojang.serialization.Codec
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.eventbus.api.Event
 import kotlin.reflect.KClass
@@ -15,11 +15,11 @@ class ConfiguredResearchTrigger<E : Event, C : ResearchTriggerConfig, T : Resear
         return trigger.getEventType(config)
     }
 
-    fun getAffectedPlayer(event: E): PlayerEntity? {
+    fun getAffectedPlayer(event: E): Player? {
         return trigger.getAffectedPlayer(event, config)
     }
 
-    fun shouldUnlock(player: PlayerEntity, event: E): Boolean {
+    fun shouldUnlock(player: Player, event: E): Boolean {
         return trigger.shouldUnlock(player, event, config)
     }
 

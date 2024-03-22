@@ -4,8 +4,8 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellLunarData
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
 import com.davidm1a2.afraidofthedark.common.research.Research
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.entity.player.ServerPlayer
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.LogicalSide
@@ -29,7 +29,7 @@ class SpellLunarHandler {
         }
     }
 
-    private fun tickLunarVitae(entityPlayer: PlayerEntity) {
+    private fun tickLunarVitae(entityPlayer: Player) {
         val lunarData = entityPlayer.getSpellLunarData()
 
         val oldLunarVitae = lunarData.vitae
@@ -51,7 +51,7 @@ class SpellLunarHandler {
 
         // Small optimization, only sync on an actual update
         if (oldLunarVitae != lunarData.vitae) {
-            lunarData.sync(entityPlayer as ServerPlayerEntity)
+            lunarData.sync(entityPlayer as ServerPlayer)
         }
     }
 

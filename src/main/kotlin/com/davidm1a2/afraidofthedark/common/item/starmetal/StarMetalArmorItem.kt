@@ -10,13 +10,13 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.inventory.EquipmentSlotType
 import net.minecraft.item.ItemStack
 import net.minecraft.util.DamageSource
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 /**
  * Class representing the 4 different pieces of star metal armor
@@ -53,7 +53,7 @@ class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
      * @param tooltip The tooltip list to add to
      * @param flag  The flag telling us if advanced tooltips are on or not
      */
-    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL)) {
             tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_MAGIC_ARMOR_NEVER_BREAKS))
@@ -70,7 +70,7 @@ class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
      * @param world     The world the player is in
      * @param player    The player that is wearing the armor
      */
-    override fun onArmorTick(itemStack: ItemStack, world: World, player: PlayerEntity) {
+    override fun onArmorTick(itemStack: ItemStack, world: Level, player: Player) {
         // Dead players don't have capabilities
         if (player.isAlive) {
             // We have to test client and server side since absorption is client side :(
@@ -109,7 +109,7 @@ class StarMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) :
 
     override fun getDamageMultiplier(entity: LivingEntity, armorStack: ItemStack, source: DamageSource, slot: EquipmentSlotType): Double {
         // Compute armor properties for players only
-        if (entity !is PlayerEntity) {
+        if (entity !is Player) {
             return 1.0
         }
 

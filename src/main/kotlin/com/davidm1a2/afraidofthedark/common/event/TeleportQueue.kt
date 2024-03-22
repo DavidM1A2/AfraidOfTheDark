@@ -1,16 +1,16 @@
 package com.davidm1a2.afraidofthedark.common.event
 
-import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.entity.player.ServerPlayer
 import net.minecraft.util.RegistryKey
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.LogicalSide
 
 class TeleportQueue {
-    private val playersToTeleport = mutableMapOf<ServerPlayerEntity, RegistryKey<World>>()
+    private val playersToTeleport = mutableMapOf<ServerPlayer, RegistryKey<World>>()
 
-    fun teleport(player: ServerPlayerEntity, world: RegistryKey<World>) {
+    fun teleport(player: ServerPlayer, world: RegistryKey<World>) {
         playersToTeleport[player] = world
     }
 

@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.research.trigger
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.event.custom.CastSpellEvent
 import com.davidm1a2.afraidofthedark.common.research.trigger.base.ResearchTrigger
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import kotlin.reflect.KClass
 
 class PlayerCastResearchTrigger : ResearchTrigger<CastSpellEvent, PlayerCastResearchTriggerConfig>(PlayerCastResearchTriggerConfig.CODEC) {
@@ -15,11 +15,11 @@ class PlayerCastResearchTrigger : ResearchTrigger<CastSpellEvent, PlayerCastRese
         return CastSpellEvent::class
     }
 
-    override fun getAffectedPlayer(event: CastSpellEvent, config: PlayerCastResearchTriggerConfig): PlayerEntity? {
-        return event.entity as? PlayerEntity
+    override fun getAffectedPlayer(event: CastSpellEvent, config: PlayerCastResearchTriggerConfig): Player? {
+        return event.entity as? Player
     }
 
-    override fun shouldUnlock(player: PlayerEntity, event: CastSpellEvent, config: PlayerCastResearchTriggerConfig): Boolean {
+    override fun shouldUnlock(player: Player, event: CastSpellEvent, config: PlayerCastResearchTriggerConfig): Boolean {
         if (config.powerSource == null || config.powerSource == event.powerSourceUsed) {
             if (config.deliveryMethod == null || event.spell.hasDeliveryMethod(config.deliveryMethod!!)) {
                 if (config.effect == null || event.spell.hasEffect(config.effect!!)) {

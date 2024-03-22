@@ -7,7 +7,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.Cas
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellCastResult
 import com.davidm1a2.afraidofthedark.common.utility.round
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 
 class SpellScrollPowerSource : AOTDSpellPowerSource<Unit>("spell_scroll", ModResearches.THE_JOURNEY_BEGINS) {
     override fun cast(entity: Entity, spell: Spell, environment: CastEnvironment<Unit>): SpellCastResult {
@@ -22,7 +22,7 @@ class SpellScrollPowerSource : AOTDSpellPowerSource<Unit>("spell_scroll", ModRes
         return vitae.round(1)
     }
 
-    override fun shouldShowInSpellEditor(player: PlayerEntity): Boolean {
+    override fun shouldShowInSpellEditor(player: Player): Boolean {
         return false
     }
 }

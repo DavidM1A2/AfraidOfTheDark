@@ -10,7 +10,7 @@ import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
@@ -18,7 +18,8 @@ import net.minecraft.util.Hand
 import net.minecraft.util.NonNullList
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.level.Level
 
 /**
  * Class representing the journal item
@@ -37,7 +38,7 @@ class ArcaneJournalItem : AOTDItem("arcane_journal", Properties().stacksTo(1)) {
      * Pass    = The call succeeded, but more calls can be made farther down the call stack.
      * Fail    = The call has failed to do what was intended and should stop here.
      */
-    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, hand: InteractionHand): ActionResult<ItemStack> {
         val heldItemStack = player.getItemInHand(hand)
 
         // Drop the journal
@@ -119,7 +120,7 @@ class ArcaneJournalItem : AOTDItem("arcane_journal", Properties().stacksTo(1)) {
         }
     }
 
-    override fun onCraftedBy(itemStack: ItemStack, world: World, playerEntity: PlayerEntity) {
+    override fun onCraftedBy(itemStack: ItemStack, world: Level, playerEntity: Player) {
         // If we craft a journal, bind it to the crafter
         setOwner(itemStack, playerEntity.gameProfile.name)
     }
@@ -152,7 +153,7 @@ class ArcaneJournalItem : AOTDItem("arcane_journal", Properties().stacksTo(1)) {
      * @param tooltip The tooltip that we need to fill out
      * @param flag  The flag telling us if we should show advanced or normal tooltips
      */
-    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         // If the stack has an owner tag, show who owns the stack, otherwise show that the journal is not bound
         if (NBTHelper.hasTag(stack, NBT_OWNER)) {
             tooltip.add(TranslationTextComponent("tooltip.afraidofthedark.arcane_journal.owned", NBTHelper.getString(stack, NBT_OWNER)))

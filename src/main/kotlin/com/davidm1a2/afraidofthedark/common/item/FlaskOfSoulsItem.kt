@@ -13,7 +13,7 @@ import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.EntityType
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.IItemPropertyGetter
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
@@ -24,7 +24,7 @@ import net.minecraft.util.math.RayTraceContext
 import net.minecraft.util.math.RayTraceResult
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import org.apache.logging.log4j.LogManager
 import kotlin.random.Random
 
@@ -48,7 +48,7 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
      * @param hand   The hand holding the item
      * @return The result of the right click
      */
-    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, hand: Hand): ActionResult<ItemStack> {
         // Grab the held item
         val itemStack = player.getItemInHand(hand)
 
@@ -87,7 +87,7 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
      * @param itemStack    The itemstack used to spawn the entity
      * @param entityPlayer The player that is spawning the entity
      */
-    private fun spawnEntity(world: World, x: Double, y: Double, z: Double, itemStack: ItemStack, entityPlayer: PlayerEntity) {
+    private fun spawnEntity(world: Level, x: Double, y: Double, z: Double, itemStack: ItemStack, entityPlayer: Player) {
         // Server side processing only
         if (!world.isClientSide) {
             // Flask has enough charges to be used
@@ -159,7 +159,7 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
      * @param tooltip The tooltip to add to
      * @param flag  True if the advanced tooltip is set on, false otherwise
      */
-    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         // If the player has the right research then show them flask stats
         if (player != null && player.getResearch().isResearched(ModResearches.FLASK_OF_SOULS)) {

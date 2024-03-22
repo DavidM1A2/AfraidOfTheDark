@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellCharmData
 import net.minecraft.command.arguments.EntityAnchorArgument
-import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.entity.player.ServerPlayer
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -40,7 +40,7 @@ class SpellCharmHandler {
                         // A player cant charm themselves
                         if (entityPlayer.uuid != charmingEntityId) {
                             // Set the player's look to be at the charming entity
-                            (entityPlayer as ServerPlayerEntity).lookAt(EntityAnchorArgument.Type.EYES, charmingEntity, EntityAnchorArgument.Type.EYES)
+                            (entityPlayer as ServerPlayer).lookAt(EntityAnchorArgument.Type.EYES, charmingEntity, EntityAnchorArgument.Type.EYES)
                         }
                     }
                 }

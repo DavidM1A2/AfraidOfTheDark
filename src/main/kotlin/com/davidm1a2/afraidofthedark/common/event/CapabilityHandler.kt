@@ -13,9 +13,9 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.util.ResourceLocation
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import net.minecraft.world.chunk.Chunk
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.event.AttachCapabilitiesEvent
@@ -77,7 +77,7 @@ class CapabilityHandler {
     @SubscribeEvent
     fun onAttachCapabilitiesEntity(event: AttachCapabilitiesEvent<Entity>) {
         // If the entity is a player then add any player specific capabilities
-        if (event.getObject() is PlayerEntity) {
+        if (event.getObject() is Player) {
             event.addCapability(
                 ResourceLocation(Constants.MOD_ID, "player_basics"),
                 CapabilityProvider(ModCapabilities.PLAYER_BASICS)
@@ -133,8 +133,8 @@ class CapabilityHandler {
     @SubscribeEvent
     fun onEntityJoinWorld(event: EntityJoinWorldEvent) {
         // When the player joins the world
-        if (event.entity is PlayerEntity) {
-            val entityPlayer = event.entity as PlayerEntity
+        if (event.entity is Player) {
+            val entityPlayer = event.entity as Player
             // The server will have correct data, the client needs new data
             if (!event.world.isClientSide) {
                 entityPlayer.getBasics().syncAll(entityPlayer)
@@ -177,7 +177,7 @@ class CapabilityHandler {
         }
     }
 
-    private fun <T> copyCapability(oldPlayer: PlayerEntity, newPlayer: PlayerEntity, capability: Capability<T>) {
+    private fun <T> copyCapability(oldPlayer: Player, newPlayer: Player, capability: Capability<T>) {
         val oldCapability = oldPlayer.getCapability(capability).resolve().get()
         val newCapability = newPlayer.getCapability(capability).resolve().get()
         if (oldCapability == null || newCapability == null) {

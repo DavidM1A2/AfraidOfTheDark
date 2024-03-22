@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.common.item.core
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.network.packets.other.CooldownSyncPacket
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.entity.player.ServerPlayer
 import net.minecraft.item.ItemStack
 import kotlin.math.ceil
 import kotlin.math.max
@@ -40,14 +40,14 @@ abstract class AOTDPerItemCooldownItem(
      * @param itemStack    The item to set on cooldown
      * @param entityPlayer The player that is holding the item
      */
-    open fun setOnCooldown(itemStack: ItemStack, entityPlayer: PlayerEntity) {
+    open fun setOnCooldown(itemStack: ItemStack, entityPlayer: Player) {
         NBTHelper.setLong(itemStack, NBT_LAST_USE_TIME, System.currentTimeMillis())
 
         // We need to update the client of the new cooldown, so send a packet
         if (!entityPlayer.level.isClientSide) {
             AfraidOfTheDark.packetHandler.sendTo(
                 CooldownSyncPacket(System.currentTimeMillis(), this),
-                entityPlayer as ServerPlayerEntity
+                entityPlayer as ServerPlayer
             )
         }
     }

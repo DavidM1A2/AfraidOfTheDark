@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraftforge.event.entity.living.LivingDeathEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
@@ -21,9 +21,9 @@ class FlaskOfSoulsHandler {
     @SubscribeEvent
     fun onLivingDeathEvent(event: LivingDeathEvent) {
         // Ensure a player killed the entity. Make sure the entity is an entity living
-        if (event.source.entity is PlayerEntity && event.entity is LivingEntity) {
+        if (event.source.entity is Player && event.entity is LivingEntity) {
             // Grab the killer player
-            val entityPlayer = event.source.entity as PlayerEntity
+            val entityPlayer = event.source.entity as Player
             val flaskOfSouls = ModItems.FLASK_OF_SOULS
 
             // Ensure the player has the right research

@@ -8,14 +8,14 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDSharedCooldownItem
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 /**
  * Cloak of agility item used to dash around
@@ -23,7 +23,7 @@ import net.minecraft.world.World
  * @constructor sets up item properties
  */
 class CloakOfAgilityItem : AOTDSharedCooldownItem("cloak_of_agility", Properties()) {
-    override fun use(world: World, playerEntity: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, playerEntity: Player, hand: Hand): ActionResult<ItemStack> {
         val itemStack = playerEntity.getItemInHand(hand)
         if (world.isClientSide) {
             val wasSuccess = roll(playerEntity, itemStack)
@@ -37,7 +37,7 @@ class CloakOfAgilityItem : AOTDSharedCooldownItem("cloak_of_agility", Properties
         return ActionResult.consume(itemStack)
     }
 
-    fun roll(player: PlayerEntity, cloakStack: ItemStack): Boolean {
+    fun roll(player: Player, cloakStack: ItemStack): Boolean {
         if (!player.getResearch().isResearched(ModResearches.CLOAK_OF_AGILITY)) {
             player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
             return false
@@ -85,7 +85,7 @@ class CloakOfAgilityItem : AOTDSharedCooldownItem("cloak_of_agility", Properties
      * @param tooltip The tooltip to add to
      * @param flag  True if the advanced flag is set or false otherwise
      */
-    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         // If the player has the research show them what key is used to roll, otherwise tell them they don't know how to use the cloak
         if (player != null && player.getResearch().isResearched(ModResearches.CLOAK_OF_AGILITY)) {

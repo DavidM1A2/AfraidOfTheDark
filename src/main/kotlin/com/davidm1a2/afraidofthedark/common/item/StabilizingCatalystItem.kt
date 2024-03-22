@@ -9,7 +9,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.item.ItemEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemStack
 import net.minecraft.particles.BlockParticleData
 import net.minecraft.particles.ParticleTypes
@@ -65,7 +65,7 @@ class StabilizingCatalystItem : AOTDItem("stabilizing_catalyst", Properties()) {
                         nearbyEldritchItem.kill()
 
                         world.getEntitiesOfClass(
-                            PlayerEntity::class.java,
+                            Player::class.java,
                             entity.boundingBox.inflate(RESEARCH_UNLOCK_RADIUS)
                         ).forEach {
                             MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(it, ModResearches.CATALYSIS))

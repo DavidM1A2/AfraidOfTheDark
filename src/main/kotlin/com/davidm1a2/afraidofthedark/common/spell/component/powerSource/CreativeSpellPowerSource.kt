@@ -8,7 +8,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.Cas
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellCastResult
 import com.davidm1a2.afraidofthedark.common.utility.round
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.util.text.TranslationTextComponent
 
 /**
@@ -25,7 +25,7 @@ class CreativeSpellPowerSource : AOTDSpellPowerSource<Unit>("creative", ModResea
 
     override fun computeCastEnvironment(entity: Entity): CastEnvironment<Unit> {
         // Need to check "is EnchantedFrogEntity" for backward compatibility :(
-        return if ((entity is PlayerEntity && entity.isCreative) || entity is EnchantedFrogEntity) {
+        return if ((entity is Player && entity.isCreative) || entity is EnchantedFrogEntity) {
             CastEnvironment.infiniteVitae(Unit)
         } else {
             CastEnvironment.noVitae(Unit)
@@ -36,7 +36,7 @@ class CreativeSpellPowerSource : AOTDSpellPowerSource<Unit>("creative", ModResea
         return vitae.round(1)
     }
 
-    override fun shouldShowInSpellEditor(player: PlayerEntity): Boolean {
+    override fun shouldShowInSpellEditor(player: Player): Boolean {
         if (!player.isCreative) {
             return false
         }

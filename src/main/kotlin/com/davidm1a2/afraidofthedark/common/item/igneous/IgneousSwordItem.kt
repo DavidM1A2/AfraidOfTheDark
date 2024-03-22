@@ -12,7 +12,7 @@ import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.Entity
 import net.minecraft.entity.MobEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
@@ -20,7 +20,7 @@ import net.minecraft.util.math.RayTraceContext
 import net.minecraft.util.math.RayTraceResult
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import kotlin.math.max
 
 /**
@@ -47,7 +47,7 @@ class IgneousSwordItem : AOTDChargeableSwordItem(
      * @param target The entity that was clicked
      * @return True to cancel the interaction, false otherwise
      */
-    override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, target: Entity): Boolean {
+    override fun onLeftClickEntity(stack: ItemStack, player: Player, target: Entity): Boolean {
         // If igneous is researched allow the sword to function
         if (player.getResearch().isResearched(ModResearches.IGNEOUS)) {
             // The fire burn time is heavily upgraded by fire aspect enchantment
@@ -69,7 +69,7 @@ class IgneousSwordItem : AOTDChargeableSwordItem(
      * @param tooltip The tooltip to return
      * @param flag True if advanced tooltips are on, false otherwise
      */
-    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.IGNEOUS)) {
             tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
@@ -89,7 +89,7 @@ class IgneousSwordItem : AOTDChargeableSwordItem(
      * @param entityPlayer The player who used the charge attack
      * @return True if the location being aimed at is valid, false otherwise
      */
-    override fun performChargeAttack(itemStack: ItemStack, world: World, entityPlayer: PlayerEntity): Boolean {
+    override fun performChargeAttack(itemStack: ItemStack, world: Level, entityPlayer: Player): Boolean {
         // Grab the player's eye posiiton and look vector
         val fromVec = entityPlayer.getEyePosition(0f)
         val lookDir = entityPlayer.lookAngle
@@ -112,7 +112,7 @@ class IgneousSwordItem : AOTDChargeableSwordItem(
             )
 
             // Set each entity living on fire
-            surroundingEntities.filter { it is MobEntity || it is PlayerEntity }.forEach { it.remainingFireTicks = max(it.remainingFireTicks, 100) }
+            surroundingEntities.filter { it is MobEntity || it is Player }.forEach { it.remainingFireTicks = max(it.remainingFireTicks, 100) }
 
             // True, the effect was procd
             return true

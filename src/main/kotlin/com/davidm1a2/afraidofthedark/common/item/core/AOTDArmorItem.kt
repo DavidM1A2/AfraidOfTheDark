@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.item.core
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.inventory.EquipmentSlotType
 import net.minecraft.item.ArmorItem
 import net.minecraft.item.IArmorMaterial
@@ -53,7 +53,7 @@ abstract class AOTDArmorItem(
      * @param entityPlayer The player to test
      * @return True if the player is wearing all armor of this type, false otherwise
      */
-    protected fun isWearingFullArmor(entityPlayer: PlayerEntity): Boolean {
+    protected fun isWearingFullArmor(entityPlayer: Player): Boolean {
         val armorInventory = entityPlayer.inventory.armor
         val armorClass = this.javaClass
         return armorClass.isInstance(armorInventory[0].item) &&

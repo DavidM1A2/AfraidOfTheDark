@@ -8,13 +8,13 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.Cas
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellCastResult
 import com.davidm1a2.afraidofthedark.common.utility.round
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.util.text.TranslationTextComponent
 import kotlin.math.ceil
 
 class VitaeLanternSpellPowerSource : AOTDSpellPowerSource<Unit>("vitae_lantern", ModResearches.VITAE_LANTERN) {
     override fun cast(entity: Entity, spell: Spell, environment: CastEnvironment<Unit>): SpellCastResult {
-        if (entity !is PlayerEntity) {
+        if (entity !is Player) {
             return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))
         }
 
@@ -45,7 +45,7 @@ class VitaeLanternSpellPowerSource : AOTDSpellPowerSource<Unit>("vitae_lantern",
     }
 
     override fun computeCastEnvironment(entity: Entity): CastEnvironment<Unit> {
-        if (entity !is PlayerEntity) {
+        if (entity !is Player) {
             return CastEnvironment.noVitae(Unit)
         }
 

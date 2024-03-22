@@ -8,7 +8,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.IItemTier
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUseContext
@@ -16,7 +16,7 @@ import net.minecraft.util.ActionResultType
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 abstract class AOTDResearchRequiredAxeItem(
     baseName: String,
@@ -41,7 +41,7 @@ abstract class AOTDResearchRequiredAxeItem(
         return ActionResultType.FAIL
     }
 
-    override fun canAttackBlock(blockState: BlockState, world: World, blockPos: BlockPos, player: PlayerEntity): Boolean {
+    override fun canAttackBlock(blockState: BlockState, world: Level, blockPos: BlockPos, player: Player): Boolean {
         return if (player.getResearch().isResearched(requiredResearch)) {
             super.canAttackBlock(blockState, world, blockPos, player)
         } else {
@@ -52,7 +52,7 @@ abstract class AOTDResearchRequiredAxeItem(
         }
     }
 
-    override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, target: Entity): Boolean {
+    override fun onLeftClickEntity(stack: ItemStack, player: Player, target: Entity): Boolean {
         if (!player.getResearch().isResearched(requiredResearch)) {
             return true
         }
@@ -60,7 +60,7 @@ abstract class AOTDResearchRequiredAxeItem(
         return super.onLeftClickEntity(stack, player, target)
     }
 
-    override fun appendHoverText(itemStack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
+    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
 
         if (player != null && !player.getResearch().isResearched(requiredResearch)) {

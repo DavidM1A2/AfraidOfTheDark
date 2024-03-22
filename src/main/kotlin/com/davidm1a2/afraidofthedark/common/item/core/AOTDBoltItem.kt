@@ -6,13 +6,13 @@ import com.davidm1a2.afraidofthedark.common.entity.bolt.BoltEntity
 import com.davidm1a2.afraidofthedark.common.research.Research
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.entity.projectile.AbstractArrowEntity
 import net.minecraft.item.ArrowItem
 import net.minecraft.item.ItemStack
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import net.minecraft.world.item.ArrowItem
 
 abstract class AOTDBoltItem(
@@ -32,16 +32,16 @@ abstract class AOTDBoltItem(
     /**
      * Called by vanilla to create an arrow entity from a bolt item. Based on research and item set parameters
      */
-    override fun createArrow(world: World, itemStack: ItemStack, shooter: LivingEntity): AbstractArrowEntity {
+    override fun createArrow(world: Level, itemStack: ItemStack, shooter: LivingEntity): AbstractArrowEntity {
         val bolt = createBolt(world)
-        val hasResearch = requiredResearch?.let { (shooter as? PlayerEntity)?.getResearch()?.isResearched(it) ?: false } ?: true
+        val hasResearch = requiredResearch?.let { (shooter as? Player)?.getResearch()?.isResearched(it) ?: false } ?: true
         bolt.initUsingShooter(shooter, hasResearch)
         return bolt
     }
 
-    abstract fun createBolt(world: World): BoltEntity
+    abstract fun createBolt(world: Level): BoltEntity
 
-    override fun appendHoverText(itemStack: ItemStack, world: World?, tooltips: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltips: MutableList<ITextComponent>, flag: ITooltipFlag) {
         tooltips.add(TranslationTextComponent("tooltip.afraidofthedark.bolt.requires_crossbow"))
     }
 }

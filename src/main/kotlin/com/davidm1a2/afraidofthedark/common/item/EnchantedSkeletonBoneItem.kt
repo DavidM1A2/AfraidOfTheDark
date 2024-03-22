@@ -7,7 +7,7 @@ import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSk
 import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import net.minecraft.entity.item.ItemEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemStack
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
@@ -77,7 +77,7 @@ class EnchantedSkeletonBoneItem : AOTDItem("enchanted_skeleton_bone", Properties
 
                 // Give all players in range of the summoned skeletons a research if possible
                 world.getEntitiesOfClass(
-                    PlayerEntity::class.java,
+                    Player::class.java,
                     entityItem.boundingBox.inflate(RESEARCH_UNLOCK_RADIUS.toDouble())
                 ).forEach {
                     MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(it, ModResearches.REANIMATION))

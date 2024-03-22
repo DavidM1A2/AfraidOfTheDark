@@ -7,12 +7,12 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 /**
  * Class representing the telescope item used to track meteors
@@ -26,7 +26,7 @@ class SextantItem : AOTDItem("sextant", Properties().stacksTo(1)) {
      * @param hand   The hand the telescope is in
      * @return The result of the right click
      */
-    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, hand: Hand): ActionResult<ItemStack> {
         val itemStack = player.getItemInHand(hand)
         val playerResearch = player.getResearch()
 

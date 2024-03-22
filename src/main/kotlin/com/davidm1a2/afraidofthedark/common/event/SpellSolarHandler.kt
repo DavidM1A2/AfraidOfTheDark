@@ -4,8 +4,8 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellSolarData
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
 import com.davidm1a2.afraidofthedark.common.research.Research
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.entity.player.ServerPlayer
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.LogicalSide
@@ -29,7 +29,7 @@ class SpellSolarHandler {
         }
     }
 
-    private fun tickSolarVitae(entityPlayer: PlayerEntity) {
+    private fun tickSolarVitae(entityPlayer: Player) {
         val solarData = entityPlayer.getSpellSolarData()
 
         val oldSolarVitae = solarData.vitae
@@ -45,7 +45,7 @@ class SpellSolarHandler {
 
         // Small optimization, only sync on an actual update
         if (oldSolarVitae != solarData.vitae) {
-            solarData.sync(entityPlayer as ServerPlayerEntity)
+            solarData.sync(entityPlayer as ServerPlayer)
         }
     }
 

@@ -8,14 +8,14 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDResearchRequiredAxeIte
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemStack
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 class AmorphousMetalAxeItem : AOTDResearchRequiredAxeItem("amorphous_metal_axe", ModToolMaterials.AMORPHOUS_METAL, 5.0f, -3f, ModResearches.CATALYSIS, Properties()) {
-    override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, target: Entity): Boolean {
+    override fun onLeftClickEntity(stack: ItemStack, player: Player, target: Entity): Boolean {
         if (player.getResearch().isResearched(requiredResearch)) {
             target.hurt(ModDamageSources.getSilverDamage(player), attackDamage)
             return false
@@ -24,7 +24,7 @@ class AmorphousMetalAxeItem : AOTDResearchRequiredAxeItem("amorphous_metal_axe",
         return super.onLeftClickEntity(stack, player, target)
     }
 
-    override fun appendHoverText(itemStack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
+    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
         super.appendHoverText(itemStack, world, tooltip, iTooltipFlag)
 
         val player = Minecraft.getInstance().player

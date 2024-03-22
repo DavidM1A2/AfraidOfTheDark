@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.registry.Registry
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.fml.server.ServerLifecycleHooks
@@ -44,7 +44,7 @@ class DeliveryTransitionState {
     constructor(
         spell: Spell,
         stageIndex: Int,
-        world: World,
+        world: Level,
         position: Vector3d,
         blockPosition: BlockPos,
         direction: Vector3d,
@@ -149,7 +149,7 @@ class DeliveryTransitionState {
     fun copy(
         spell: Spell? = null,
         stageIndex: Int? = null,
-        world: World? = null,
+        world: Level? = null,
         position: Vector3d? = null,
         blockPosition: BlockPos? = null,
         direction: Vector3d? = null,

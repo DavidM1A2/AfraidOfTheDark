@@ -16,7 +16,7 @@ import net.minecraft.util.NonNullList
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import kotlin.math.floor
 
 class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IHasModelProperties {
@@ -90,7 +90,7 @@ class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IH
         }
     }
 
-    override fun appendHoverText(itemStack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
+    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.VITAE_LANTERN)) {
             val percentFull = floor(getVitae(itemStack) / getMaxVitae(itemStack) * 100).toInt()

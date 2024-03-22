@@ -17,7 +17,7 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.RayTraceContext
 import net.minecraft.util.math.RayTraceResult
 import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 class ChainSpellDeliveryMethod : AOTDSpellDeliveryMethod("chain", ModResearches.APPRENTICE_ASCENDED) {
     init {
@@ -55,7 +55,7 @@ class ChainSpellDeliveryMethod : AOTDSpellDeliveryMethod("chain", ModResearches.
         spell: Spell,
         stageIndex: Int,
         casterEntity: Entity?,
-        world: World,
+        world: Level,
         position: Vector3d,
         lastHitCenterPos: Vector3d,
         hopsRemaining: Int,

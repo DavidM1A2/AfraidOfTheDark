@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModStructures
 import com.google.common.collect.ImmutableMap
 import net.minecraft.util.RegistryKey
 import net.minecraft.util.registry.Registry
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import net.minecraft.world.gen.FlatChunkGenerator
 import net.minecraft.world.gen.FlatGenerationSettings
 import net.minecraft.world.gen.feature.StructureFeature

@@ -9,13 +9,13 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.inventory.EquipmentSlotType
 import net.minecraft.item.ItemStack
 import net.minecraft.util.DamageSource
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 class AmorphousMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) : AOTDArmorItem(baseName, ModArmorMaterials.AMORPHOUS_METAL, equipmentSlot, Properties()) {
     override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EquipmentSlotType, type: String?): String {
@@ -26,7 +26,7 @@ class AmorphousMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType
         }
     }
 
-    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null) {
             if (player.getResearch().isResearched(ModResearches.CATALYSIS)) {
@@ -40,7 +40,7 @@ class AmorphousMetalArmorItem(baseName: String, equipmentSlot: EquipmentSlotType
 
     override fun getDamageMultiplier(entity: LivingEntity, armorStack: ItemStack, source: DamageSource, slot: EquipmentSlotType): Double {
         // Compute armor properties for players only
-        if (entity !is PlayerEntity) {
+        if (entity !is Player) {
             return 1.0
         }
 

@@ -9,8 +9,8 @@ import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.MobEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.entity.player.ServerPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.network.play.server.SEntityVelocityPacket
 import net.minecraft.network.play.server.SPlayerPositionLookPacket
@@ -18,7 +18,7 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 /**
  * Class representing a star metal staff that can do a (fizz e from LoL)
@@ -34,9 +34,9 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
      * @param itemSlot The slot in the entities inventory that the item is in
      * @param isSelected True if the item is selected, false otherwise
      */
-    override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean) {
+    override fun inventoryTick(stack: ItemStack, world: Level, entity: Entity, itemSlot: Int, isSelected: Boolean) {
         // Check if the entity is a player
-        if (entity is PlayerEntity) {
+        if (entity is Player) {
             // If the item isn't selected or the active item isn't in the offhand ensure the player isn't invincible
             if (!isSelected && !(entity.usedItemHand == Hand.OFF_HAND && entity.useItem == stack)) {
                 // If a star metal staff is not selected make sure the player can take damage
@@ -56,7 +56,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
      * @param hand   The hand that the staff is being held in
      * @return Success if the staff went off, pass if not
      */
-    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, hand: Hand): ActionResult<ItemStack> {
         // Get the item that the player was holding
         val heldItem = player.getItemInHand(hand)
 
@@ -71,7 +71,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
 
                 // Set the player's velocity to 0 with a 0.5 vertical velocity
                 if (!world.isClientSide) {
-                    (player as ServerPlayerEntity).connection.send(
+                    (player as ServerPlayer).connection.send(
                         SEntityVelocityPacket(player.id, Vector3d(0.0, 0.5, 0.0))
                     )
                 }
@@ -119,7 +119,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
         var count = count
         if (!entityLivingBase.level.isClientSide) {
             // Ensure the entity using the item is a player
-            if (entityLivingBase is PlayerEntity) {
+            if (entityLivingBase is Player) {
                 // Figure out how many ticks the item has been in use
                 count = getUseDuration(stack) - count
 
@@ -140,7 +140,7 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
                     val x = NBTHelper.getDouble(stack, NBT_X_POSITION)!!
                     val y = NBTHelper.getDouble(stack, NBT_Y_POSITION)!!
                     val z = NBTHelper.getDouble(stack, NBT_Z_POSITION)!!
-                    (entityLivingBase as ServerPlayerEntity).connection.teleport(
+                    (entityLivingBase as ServerPlayer).connection.teleport(
                         x,
                         y,
                         z,
@@ -161,12 +161,12 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
      * @param entityLiving The entity holding the item
      * @return The itemstack to return after the current stack was used
      */
-    override fun finishUsingItem(stack: ItemStack, world: World, entityLiving: LivingEntity): ItemStack {
+    override fun finishUsingItem(stack: ItemStack, world: Level, entityLiving: LivingEntity): ItemStack {
         // Update the item NBT so it's not in use
         setInUse(stack, false)
 
         // Only test players
-        if (entityLiving is PlayerEntity) {
+        if (entityLiving is Player) {
             // If the player is not creative let them take damage again
             if (!entityLiving.isCreative) {
                 entityLiving.abilities.invulnerable = false
@@ -187,12 +187,12 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
      * @param entityLiving The entity that was using the staff
      * @param timeLeft The ticks left before the use would've been complete
      */
-    override fun releaseUsing(stack: ItemStack, world: World, entityLiving: LivingEntity, timeLeft: Int) {
+    override fun releaseUsing(stack: ItemStack, world: Level, entityLiving: LivingEntity, timeLeft: Int) {
         // Update the item NBT so it's not in use
         setInUse(stack, false)
 
         // Ensure the entity is a player
-        if (entityLiving is PlayerEntity) {
+        if (entityLiving is Player) {
             // If the player is not in creative let them take damage again
             if (!entityLiving.isCreative) {
                 entityLiving.abilities.invulnerable = false
@@ -214,14 +214,14 @@ class StarMetalStaffItem : AOTDSharedCooldownItem("star_metal_staff", Properties
      * @param world The world the knockback is happening in
      * @param entityPlayer The player that caused the knockback
      */
-    private fun performKnockback(world: World, entityPlayer: PlayerEntity) {
+    private fun performKnockback(world: Level, entityPlayer: Player) {
         // Grab all entities around the player
         val entityList = world.getEntities(entityPlayer, entityPlayer.boundingBox.inflate(10.0))
 
         // Go over all nearby entities
         for (entity in entityList) {
             // If the entity is a player or anything living push it back
-            if (entity is PlayerEntity || entity is MobEntity) {
+            if (entity is Player || entity is MobEntity) {
                 val direction = entity.position()
                     .subtract(entityPlayer.position())
                     .normalize()

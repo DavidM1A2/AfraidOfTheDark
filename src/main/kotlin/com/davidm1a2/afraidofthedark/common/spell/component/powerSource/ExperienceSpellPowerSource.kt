@@ -6,7 +6,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOT
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.CastEnvironment
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellCastResult
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.util.text.TranslationTextComponent
 import kotlin.math.ceil
 
@@ -15,7 +15,7 @@ import kotlin.math.ceil
  */
 class ExperienceSpellPowerSource : AOTDSpellPowerSource<Unit>("experience", ModResearches.WISDOM) {
     override fun cast(entity: Entity, spell: Spell, environment: CastEnvironment<Unit>): SpellCastResult {
-        if (entity !is PlayerEntity) {
+        if (entity !is Player) {
             return SpellCastResult.failure(TranslationTextComponent("${getUnlocalizedBaseName()}.not_enough_power"))
         }
 
@@ -30,7 +30,7 @@ class ExperienceSpellPowerSource : AOTDSpellPowerSource<Unit>("experience", ModR
     }
 
     override fun computeCastEnvironment(entity: Entity): CastEnvironment<Unit> {
-        if (entity !is PlayerEntity) {
+        if (entity !is Player) {
             return CastEnvironment.noVitae(Unit)
         }
 

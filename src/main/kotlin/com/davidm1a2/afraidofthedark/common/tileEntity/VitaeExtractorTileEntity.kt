@@ -8,7 +8,7 @@ import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntit
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.core.BlockPos
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.inventory.ISidedInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundNBT
@@ -180,7 +180,7 @@ class VitaeExtractorTileEntity(blockPos: BlockPos, blockState: BlockState) : AOT
         }
     }
 
-    override fun stillValid(playerEntity: PlayerEntity): Boolean {
+    override fun stillValid(playerEntity: Player): Boolean {
         return false
     }
 

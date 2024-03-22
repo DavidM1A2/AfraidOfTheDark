@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.research.Research
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
@@ -32,7 +32,7 @@ abstract class SpellComponentBase<T : IForgeRegistryEntry<T>>(
 
     abstract fun getUnlocalizedBaseName(): String
 
-    open fun shouldShowInSpellEditor(player: PlayerEntity): Boolean {
+    open fun shouldShowInSpellEditor(player: Player): Boolean {
         return prerequisiteResearch == null || player.getResearch().isResearched(prerequisiteResearch)
     }
 

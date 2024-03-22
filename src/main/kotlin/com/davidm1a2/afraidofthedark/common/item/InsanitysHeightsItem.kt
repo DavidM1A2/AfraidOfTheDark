@@ -7,7 +7,7 @@ import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screen.ReadBookScreen
 import net.minecraft.client.resources.I18n
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.nbt.ListNBT
@@ -15,7 +15,7 @@ import net.minecraft.nbt.StringNBT
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 /**
  * Class representing the "Insanity's Heights" book you get in the nightmare realm
@@ -31,7 +31,7 @@ class InsanitysHeightsItem : AOTDItem("insanitys_heights", Properties().stacksTo
      * @param hand   The hand the player is holding the item in
      * @return Success, the UI opened
      */
-    override fun use(worldIn: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(worldIn: World, player: Player, hand: Hand): ActionResult<ItemStack> {
         val heldItem = player.getItemInHand(hand)
         // Show the player the book if they're in the nightmare
         if (worldIn.dimension() == ModDimensions.NIGHTMARE_WORLD) {

@@ -9,16 +9,16 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.inventory.EquipmentSlotType
 import net.minecraft.item.ItemStack
 import net.minecraft.util.DamageSource
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 class VoidArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) : AOTDArmorItem(baseName, ModArmorMaterials.VOID, equipmentSlot, Properties()) {
-    override fun inventoryTick(itemStack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean) {
+    override fun inventoryTick(itemStack: ItemStack, world: Level, entity: Entity, itemSlot: Int, isSelected: Boolean) {
         VoidCommons.processItem(itemStack, world)
     }
 
@@ -32,7 +32,7 @@ class VoidArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) : AOTDAr
 
     override fun appendHoverText(
         stack: ItemStack,
-        world: World?,
+        world: Level?,
         tooltip: MutableList<ITextComponent>,
         flag: ITooltipFlag
     ) {
@@ -48,7 +48,7 @@ class VoidArmorItem(baseName: String, equipmentSlot: EquipmentSlotType) : AOTDAr
 
     override fun getDamageMultiplier(entity: LivingEntity, armorStack: ItemStack, source: DamageSource, slot: EquipmentSlotType): Double {
         // Compute armor properties for players only
-        if (entity !is PlayerEntity) {
+        if (entity !is Player) {
             return 1.0
         }
 

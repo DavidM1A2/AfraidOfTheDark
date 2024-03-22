@@ -9,7 +9,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpel
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.entity.player.ServerPlayer
 import net.minecraft.network.play.server.SEntityVelocityPacket
 import kotlin.math.ceil
 
@@ -38,7 +38,7 @@ class PushSpellEffect : AOTDSpellEffect("push", ModResearches.CLOAK_OF_AGILITY) 
             if (entityHit.deltaMovement.y >= 0) {
                 entityHit.fallDistance = 0f
             }
-            if (entityHit is ServerPlayerEntity) {
+            if (entityHit is ServerPlayer) {
                 entityHit.connection.send(SEntityVelocityPacket(entityHit))
             }
             val particles = List(ceil(strength).toInt()) {

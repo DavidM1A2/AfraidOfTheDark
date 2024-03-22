@@ -6,15 +6,15 @@ import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.particle.WardParticleData
 import net.minecraft.block.Blocks
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.entity.player.ServerPlayer
 import net.minecraft.util.Direction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.BlockRayTraceResult
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.RayTraceResult
 import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.chunk.ChunkPrimerWrapper
 import net.minecraft.world.chunk.ChunkStatus
@@ -29,7 +29,7 @@ import net.minecraftforge.fml.LogicalSide
 import kotlin.random.Random
 
 class SpellWardHandler {
-    private val chunksToSync = mutableMapOf<PlayerEntity, DelayedWardSyncEntry>()
+    private val chunksToSync = mutableMapOf<Player, DelayedWardSyncEntry>()
 
     // Events related to break speed
 
@@ -155,13 +155,13 @@ class SpellWardHandler {
         }
     }
 
-    private fun getWardStrength(world: World, blockPos: BlockPos): Int? {
+    private fun getWardStrength(world: Level, blockPos: BlockPos): Int? {
         val chunk = world.getChunk(blockPos.x shr 4, blockPos.z shr 4)
         val wardedBlockMap = chunk.getWardedBlockMap()
         return wardedBlockMap.getWardStrength(blockPos)
     }
 
-    private fun spawnWardParticle(world: World, pos: Vector3d, direction: Direction) {
+    private fun spawnWardParticle(world: Level, pos: Vector3d, direction: Direction) {
         AfraidOfTheDark.packetHandler.sendToAllAround(
             ParticlePacket.builder()
                 .particle(WardParticleData(direction, 0.5f))
@@ -175,7 +175,7 @@ class SpellWardHandler {
         )
     }
 
-    private fun spawnWardParticle(world: World, blockPos: BlockPos) {
+    private fun spawnWardParticle(world: Level, blockPos: BlockPos) {
         val directions = Direction.values().toList()
         val positions = directions.map {
             Vector3d(blockPos.x + 0.5, blockPos.y + 0.5, blockPos.z + 0.5)
@@ -235,7 +235,7 @@ class SpellWardHandler {
         }
     }
 
-    private fun trySyncingWardedBlocks(world: World, player: PlayerEntity, chunkPos: ChunkPos): Boolean {
+    private fun trySyncingWardedBlocks(world: Level, player: Player, chunkPos: ChunkPos): Boolean {
         val wardedBlockMap = when (val chunk = world.getChunk(chunkPos.x, chunkPos.z, ChunkStatus.FULL, false)) {
             is Chunk -> chunk.getWardedBlockMap()
             is ChunkPrimerWrapper -> chunk.wrapped.getCapability(ModCapabilities.WARDED_BLOCK_MAP).resolve().orElse(null)
@@ -245,7 +245,7 @@ class SpellWardHandler {
         return if (wardedBlockMap == null) {
             false
         } else {
-            wardedBlockMap.sync(world, chunkPos, player as ServerPlayerEntity)
+            wardedBlockMap.sync(world, chunkPos, player as ServerPlayer)
             true
         }
     }
@@ -261,8 +261,8 @@ class SpellWardHandler {
     }
 
     private data class DelayedWardSyncEntry(
-        val world: World,
-        val player: PlayerEntity,
+        val world: Level,
+        val player: Player,
         val chunkPositions: MutableSet<ChunkPos> = mutableSetOf(),
         var ticksUntilNextTry: Int = TICKS_PER_WARD_SYNC_ATTEMPT / 2
     )

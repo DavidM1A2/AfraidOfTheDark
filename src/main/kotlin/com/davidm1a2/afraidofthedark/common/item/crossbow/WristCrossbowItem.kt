@@ -15,7 +15,7 @@ import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.IItemPropertyGetter
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
@@ -23,7 +23,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 /**
  * Class representing a wrist-mounted crossbow
@@ -39,7 +39,7 @@ class WristCrossbowItem : AOTDPerItemCooldownItem("wrist_crossbow", Properties()
         )
     }
 
-    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, hand: Hand): ActionResult<ItemStack> {
         val itemStack = player.getItemInHand(hand)
         if (world.isClientSide) {
             val shot = shoot(player)
@@ -53,7 +53,7 @@ class WristCrossbowItem : AOTDPerItemCooldownItem("wrist_crossbow", Properties()
         return ActionResult.consume(itemStack)
     }
 
-    fun shoot(player: PlayerEntity): Boolean {
+    fun shoot(player: Player): Boolean {
         if (!player.getResearch().isResearched(ModResearches.WRIST_CROSSBOW)) {
             player.sendMessage(TranslationTextComponent(LocalizationConstants.DONT_UNDERSTAND))
             return false
@@ -91,7 +91,7 @@ class WristCrossbowItem : AOTDPerItemCooldownItem("wrist_crossbow", Properties()
         return false
     }
 
-    private fun findAmmo(player: PlayerEntity): AOTDBoltItem? {
+    private fun findAmmo(player: Player): AOTDBoltItem? {
         for (itemStack in player.inventory.items) {
             val item = itemStack.item
             if (item is AOTDBoltItem) {
@@ -114,7 +114,7 @@ class WristCrossbowItem : AOTDPerItemCooldownItem("wrist_crossbow", Properties()
      * @param tooltip The tooltip to add to
      * @param flag  The flag telling us if advanced tooltips are on or off
      */
-    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.WRIST_CROSSBOW)) {
             tooltip.add(

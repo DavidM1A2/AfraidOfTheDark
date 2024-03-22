@@ -7,12 +7,12 @@ import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.text.StringTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import org.apache.logging.log4j.LogManager
 
 /**
@@ -25,7 +25,7 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
     /// Code below here is not documented due to its temporary nature used for testing
     ///
 
-    override fun use(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
+    override fun use(worldIn: World, playerIn: Player, handIn: Hand): ActionResult<ItemStack> {
         if (worldIn.isClientSide) {
         } else {
 //            val time = System.currentTimeMillis()
@@ -41,7 +41,7 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
         return super.use(worldIn, playerIn, handIn)
     }
 
-    override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, entity: Entity): Boolean {
+    override fun onLeftClickEntity(stack: ItemStack, player: Player, entity: Entity): Boolean {
         if (!player.level.isClientSide)
             if (entity is EnchantedFrogEntity) {
                 val s = entity.spell

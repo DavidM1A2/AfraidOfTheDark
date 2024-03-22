@@ -13,8 +13,8 @@ import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntit
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.block.BlockState
 import net.minecraft.core.BlockPos
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.entity.player.ServerPlayer
 import net.minecraft.item.NameTagItem
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.ListNBT
@@ -24,7 +24,7 @@ import net.minecraft.util.SoundCategory
 import net.minecraft.util.SoundEvents
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
@@ -56,7 +56,7 @@ class VoidChestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTick
     private var owner: UUID? = null
     private val friends: MutableSet<UUID> = mutableSetOf()
     private var indexToGoTo = 0
-    private var playerToSend: PlayerEntity? = null
+    private var playerToSend: Player? = null
     private var lastInteraction: Long = 0
 
     override fun getOpenNess(partialTicks: Float): Float {
@@ -147,7 +147,7 @@ class VoidChestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTick
                                 } else {
                                     playerVoidChestData.friendsIndex = indexToGoTo
                                 }
-                                (playerToSend as ServerPlayerEntity).teleport(ModDimensions.VOID_CHEST_WORLD)
+                                (playerToSend as ServerPlayer).teleport(ModDimensions.VOID_CHEST_WORLD)
                             }
                         }
                     } else {
@@ -165,7 +165,7 @@ class VoidChestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTick
      *
      * @param entityPlayer The player that opened the chest
      */
-    fun interact(entityPlayer: PlayerEntity) {
+    fun interact(entityPlayer: Player) {
         // Server side processing only
         if (!level!!.isClientSide) {
             // If the chest has no owner attempt to set this player as the owner
@@ -227,7 +227,7 @@ class VoidChestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTick
      *
      * @param entityPlayer The player that opened the chest
      */
-    fun openChest(entityPlayer: PlayerEntity?) {
+    fun openChest(entityPlayer: Player?) {
         lastInteraction = System.currentTimeMillis()
         shouldBeOpen = true
         playerToSend = entityPlayer

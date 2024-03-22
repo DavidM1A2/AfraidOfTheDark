@@ -8,7 +8,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.container.ChestContainer
 import net.minecraft.inventory.container.SimpleNamedContainerProvider
@@ -28,7 +28,7 @@ class EnderPocketSpellEffect : AOTDSpellEffect("ender_pocket", ModResearches.POC
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         // If we hit a player open the ender chest GUI
         val entity = state.entity
-        if (entity is PlayerEntity) {
+        if (entity is Player) {
             createParticlesAt(
                 state, ParticlePacket.builder()
                     .particle(ModParticles.ENDER)
@@ -37,7 +37,7 @@ class EnderPocketSpellEffect : AOTDSpellEffect("ender_pocket", ModResearches.POC
                     .build()
             )
             val enderChest = entity.enderChestInventory
-            entity.openMenu(SimpleNamedContainerProvider({ inner: Int, inventory: PlayerInventory, _: PlayerEntity ->
+            entity.openMenu(SimpleNamedContainerProvider({ inner: Int, inventory: PlayerInventory, _: Player ->
                 ChestContainer.threeRows(
                     inner,
                     inventory,

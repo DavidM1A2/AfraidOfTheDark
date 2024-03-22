@@ -8,13 +8,13 @@ import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import kotlin.math.ceil
 
 /**
@@ -31,7 +31,7 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
      * @param hand   The hand the item is in
      * @return The result of the right click
      */
-    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, hand: Hand): ActionResult<ItemStack> {
         // Grab the held itemstack
         val heldItem = player.getItemInHand(hand)
         // Grab the player's spell manager
@@ -90,7 +90,7 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
      * @param entityPlayer The player who has spells
      * @param itemStack    The itemstack to set the first spell on
      */
-    private fun setSpellToFirstAvailable(entityPlayer: PlayerEntity, itemStack: ItemStack) {
+    private fun setSpellToFirstAvailable(entityPlayer: Player, itemStack: ItemStack) {
         // Grab the player's spell manager
         val spellManager = entityPlayer.getSpellManager()
 
@@ -151,7 +151,7 @@ class WandItem : AOTDItem("wand", Properties().stacksTo(1)) {
      * @param tooltip The tooltip that we need to fill out
      * @param flag  The flag telling us if we should show advanced or normal tooltips
      */
-    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
 
         // Need to test if player is null during client init

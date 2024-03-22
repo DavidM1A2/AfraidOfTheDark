@@ -2,13 +2,13 @@ package com.davidm1a2.afraidofthedark.common.item.core
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.IItemPropertyGetter
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ShieldItem
 import net.minecraft.util.DamageSource
 import net.minecraft.util.ResourceLocation
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 abstract class AOTDShieldItem(
     baseName: String,
@@ -40,5 +40,5 @@ abstract class AOTDShieldItem(
         return false
     }
 
-    open fun onBlock(entity: PlayerEntity, damageSource: DamageSource) {}
+    open fun onBlock(entity: Player, damageSource: DamageSource) {}
 }

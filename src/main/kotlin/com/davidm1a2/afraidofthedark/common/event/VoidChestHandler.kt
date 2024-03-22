@@ -6,10 +6,10 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.entity.player.ServerPlayer
 import net.minecraft.util.RegistryKey
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -32,8 +32,8 @@ class VoidChestHandler {
             val toDimension = event.dimension
 
             // Test if the entity is a player, if so process it
-            if (event.entity is ServerPlayerEntity) {
-                val entityPlayer = event.entity as ServerPlayerEntity
+            if (event.entity is ServerPlayer) {
+                val entityPlayer = event.entity as ServerPlayer
                 // Process the pre-teleport server side, if it returns true then we cancel the TP
                 if (processPreTeleport(entityPlayer, fromDimension, toDimension)) {
                     event.isCanceled = true
@@ -50,7 +50,7 @@ class VoidChestHandler {
      * @param dimensionTo   The dimension the player is going to
      * @return True to cancel the teleport, false otherwise
      */
-    private fun processPreTeleport(entityPlayer: ServerPlayerEntity, dimensionFrom: RegistryKey<World>, dimensionTo: RegistryKey<World>): Boolean {
+    private fun processPreTeleport(entityPlayer: ServerPlayer, dimensionFrom: RegistryKey<World>, dimensionTo: RegistryKey<World>): Boolean {
         // If we're going to dimension VOID_CHEST then we need to do some preprocesing and tests to ensure the player can continue
         if (dimensionTo == ModDimensions.VOID_CHEST_WORLD) {
             // We can't go from void chest to void chest
@@ -109,7 +109,7 @@ class VoidChestHandler {
             val toDimension = event.to
 
             // Get the player teleporting
-            val entityPlayer = event.player as ServerPlayerEntity
+            val entityPlayer = event.player as ServerPlayer
             // Process the post-teleport server side
             processPostTeleport(entityPlayer, fromDimension, toDimension)
         }
@@ -122,7 +122,7 @@ class VoidChestHandler {
      * @param dimensionFrom The dimension the player was in
      * @param dimensionTo   The dimension the player is now in
      */
-    private fun processPostTeleport(entityPlayer: ServerPlayerEntity, dimensionFrom: RegistryKey<World>, dimensionTo: RegistryKey<World>) {
+    private fun processPostTeleport(entityPlayer: ServerPlayer, dimensionFrom: RegistryKey<World>, dimensionTo: RegistryKey<World>) {
         // If the player entered the void chest dimension then set their position
         if (dimensionTo == ModDimensions.VOID_CHEST_WORLD) {
             // Grab the player's void chest data

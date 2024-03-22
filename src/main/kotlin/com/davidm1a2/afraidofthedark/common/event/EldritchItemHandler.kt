@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.item.eldritchmetal.IEldritchItem
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.util.EntityDamageSource
 import net.minecraftforge.event.entity.living.LivingDeathEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -12,7 +12,7 @@ class EldritchItemHandler {
         val source = event.source
         if (source is EntityDamageSource) {
             val entity = source.entity
-            if (entity is PlayerEntity) {
+            if (entity is Player) {
                 val now = System.currentTimeMillis()
                 for (itemStack in entity.inventory.items + entity.inventory.armor + entity.inventory.offhand) {
                     if (!itemStack.isEmpty) {

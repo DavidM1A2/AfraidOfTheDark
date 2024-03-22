@@ -2,10 +2,10 @@ package com.davidm1a2.afraidofthedark.common.network.handler
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.entity.player.ServerPlayer
 import net.minecraft.util.RegistryKey
 import net.minecraft.util.ResourceLocation
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import net.minecraft.world.chunk.Chunk
 import net.minecraftforge.fml.network.NetworkRegistry
 import net.minecraftforge.fml.network.PacketDistributor
@@ -69,7 +69,7 @@ class PacketHandler {
      * @param packet the packet to send.
      * @param player  the player to send the packet to.
      */
-    fun <C> sendTo(packet: C, player: ServerPlayerEntity) {
+    fun <C> sendTo(packet: C, player: ServerPlayer) {
         sendRaw(packet, PacketDistributor.PLAYER.with { player })
     }
 

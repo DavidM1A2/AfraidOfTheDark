@@ -13,7 +13,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import java.time.Duration
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -86,7 +86,7 @@ class DigSpellEffect : AOTDDurationSpellEffect("dig", ModResearches.APPRENTICE_A
      * @param blockPos The pos the block is at
      * @return True if the block can be destroyed, false otherwise
      */
-    private fun canBlockBeDestroyed(world: World, blockPos: BlockPos): Boolean {
+    private fun canBlockBeDestroyed(world: Level, blockPos: BlockPos): Boolean {
         val blockState = world.getBlockState(blockPos)
         return blockState.getDestroySpeed(world, blockPos) != -1f && !blockState.isAir
     }

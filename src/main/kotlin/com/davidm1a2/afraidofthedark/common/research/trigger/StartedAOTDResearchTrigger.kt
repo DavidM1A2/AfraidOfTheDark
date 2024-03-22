@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.event.custom.PlayerStartedAfraidOfTheDarkEvent
 import com.davidm1a2.afraidofthedark.common.research.trigger.base.NoResearchTriggerConfig
 import com.davidm1a2.afraidofthedark.common.research.trigger.base.ResearchTrigger
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import kotlin.reflect.KClass
 
 class StartedAOTDResearchTrigger :
@@ -17,11 +17,11 @@ class StartedAOTDResearchTrigger :
         return PlayerStartedAfraidOfTheDarkEvent::class
     }
 
-    override fun getAffectedPlayer(event: PlayerStartedAfraidOfTheDarkEvent, config: NoResearchTriggerConfig): PlayerEntity? {
+    override fun getAffectedPlayer(event: PlayerStartedAfraidOfTheDarkEvent, config: NoResearchTriggerConfig): Player? {
         return event.player
     }
 
-    override fun shouldUnlock(player: PlayerEntity, event: PlayerStartedAfraidOfTheDarkEvent, config: NoResearchTriggerConfig): Boolean {
+    override fun shouldUnlock(player: Player, event: PlayerStartedAfraidOfTheDarkEvent, config: NoResearchTriggerConfig): Boolean {
         return true
     }
 }

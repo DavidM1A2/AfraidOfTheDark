@@ -6,7 +6,7 @@ import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.MobEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.IItemPropertyGetter
 import net.minecraft.item.IItemTier
 import net.minecraft.item.ItemStack
@@ -14,7 +14,7 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 /**
  * Base class for swords that don't have durability but charge instead
@@ -44,9 +44,9 @@ abstract class AOTDChargeableSwordItem(
         )
     }
 
-    override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, target: Entity): Boolean {
+    override fun onLeftClickEntity(stack: ItemStack, player: Player, target: Entity): Boolean {
         // Only charge on hitting entity living entities not armor stands
-        if (target is PlayerEntity || target is MobEntity) {
+        if (target is Player || target is MobEntity) {
             addCharge(stack, percentChargePerAttack)
         }
         return super.onLeftClickEntity(stack, player, target)
@@ -81,7 +81,7 @@ abstract class AOTDChargeableSwordItem(
      * @param handIn   The hand the right click was triggered from
      * @return Success if the sword fired its ability, pass otherwise
      */
-    override fun use(worldIn: World, playerIn: PlayerEntity, handIn: Hand): ActionResult<ItemStack> {
+    override fun use(worldIn: World, playerIn: Player, handIn: Hand): ActionResult<ItemStack> {
         val swordStack = playerIn.getItemInHand(handIn)
         // Server side processing only
         if (!worldIn.isClientSide) {
@@ -109,7 +109,7 @@ abstract class AOTDChargeableSwordItem(
      * @param entityPlayer The player who used the charge attack
      * @return True if the charge attack went off, false otherwise
      */
-    abstract fun performChargeAttack(itemStack: ItemStack, world: World, entityPlayer: PlayerEntity): Boolean
+    abstract fun performChargeAttack(itemStack: ItemStack, world: Level, entityPlayer: Player): Boolean
 
     /**
      * Returns the amount of charge a given sword has

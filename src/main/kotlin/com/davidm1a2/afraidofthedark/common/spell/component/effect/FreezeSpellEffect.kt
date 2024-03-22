@@ -11,11 +11,11 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResu
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import net.minecraft.block.Blocks
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
 import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.random.Random
@@ -32,7 +32,7 @@ class FreezeSpellEffect : AOTDDurationSpellEffect("freeze", ModResearches.ELEMEN
      * @param state The state that the spell is in
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
-        val world: World = state.world
+        val world: Level = state.world
         val blockPos = state.blockPosition
         val entity = state.entity
 
@@ -41,7 +41,7 @@ class FreezeSpellEffect : AOTDDurationSpellEffect("freeze", ModResearches.ELEMEN
             // We can only freeze a living entity
             if (entity is LivingEntity) {
                 // If we hit a player, freeze their position and direction
-                if (entity is PlayerEntity) {
+                if (entity is Player) {
                     val freezeData = entity.getSpellFreezeData()
                     freezeData.freezeTicks = max(freezeData.freezeTicks, ceil(getDuration(instance) * 20).toInt())
                     freezeData.freezePosition = Vector3d(entity.x, entity.y, entity.z)

@@ -12,7 +12,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResu
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.potion.EffectType
 import net.minecraft.util.math.vector.Vector3d
 import kotlin.math.max
@@ -86,7 +86,7 @@ class CleanseSpellEffect : AOTDSpellEffect("cleanse", ModResearches.ADVANCED_MAG
             }
 
             // Unfreeze and uncharm the player
-            if (entity is PlayerEntity && getSpellEffects(instance)) {
+            if (entity is Player && getSpellEffects(instance)) {
                 val freezeData = entity.getSpellFreezeData()
                 freezeData.freezeTicks = 0
                 freezeData.sync(entity)

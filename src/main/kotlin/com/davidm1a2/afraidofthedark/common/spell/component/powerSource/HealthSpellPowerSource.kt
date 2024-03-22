@@ -7,7 +7,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.Cas
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellCastResult
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.util.DamageSource
 import net.minecraft.util.text.TranslationTextComponent
 import kotlin.math.ceil
@@ -30,7 +30,7 @@ class HealthSpellPowerSource : AOTDSpellPowerSource<Unit>("health", ModResearche
         }
 
         // Creative/Spectator players can't take dmg
-        if (entity !is PlayerEntity || (!entity.isCreative && !entity.isSpectator)) {
+        if (entity !is Player || (!entity.isCreative && !entity.isSpectator)) {
             val hpCost = spell.getCost() / VITAE_PER_HP
             entity.hurt(DamageSource.OUT_OF_WORLD, hpCost.toFloat())
         }

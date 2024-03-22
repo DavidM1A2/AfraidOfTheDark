@@ -13,12 +13,12 @@ import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.Entity
 import net.minecraft.entity.MobEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemStack
 import net.minecraft.util.DamageSource
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import kotlin.math.sqrt
 
 /**
@@ -45,7 +45,7 @@ class StarMetalKhopeshItem : AOTDChargeableSwordItem(
      * @param target The entity that was clicked
      * @return True to cancel the interaction, false otherwise
      */
-    override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, target: Entity): Boolean {
+    override fun onLeftClickEntity(stack: ItemStack, player: Player, target: Entity): Boolean {
         // If star metal is researched allow the sword to function
         if (player.getResearch().isResearched(ModResearches.STAR_METAL)) {
             // Ensure the clicked entity was non-null
@@ -65,7 +65,7 @@ class StarMetalKhopeshItem : AOTDChargeableSwordItem(
      * @param tooltip The tooltip to return
      * @param flag True if advanced tooltips are on, false otherwise
      */
-    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL)) {
             tooltip.add(TranslationTextComponent(LocalizationConstants.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
@@ -84,7 +84,7 @@ class StarMetalKhopeshItem : AOTDChargeableSwordItem(
      * @param entityPlayer The player who used the charge attack
      * @return True if the charge attack went off, false otherwise
      */
-    override fun performChargeAttack(itemStack: ItemStack, world: World, entityPlayer: PlayerEntity): Boolean {
+    override fun performChargeAttack(itemStack: ItemStack, world: Level, entityPlayer: Player): Boolean {
         val nearbyEntities = world.getEntities(
             entityPlayer,
             entityPlayer.boundingBox.inflate(HIT_RANGE.toDouble())
@@ -92,7 +92,7 @@ class StarMetalKhopeshItem : AOTDChargeableSwordItem(
         // Iterate over all entities within 5 blocks of the player
         for (entity in nearbyEntities) {
             // Only knock back living entities
-            if (entity is PlayerEntity || entity is MobEntity) {
+            if (entity is Player || entity is MobEntity) {
                 // Compute the vector from player to entity
                 val motionX = entityPlayer.x - entity.x
                 val motionZ = entityPlayer.z - entity.z
@@ -133,7 +133,7 @@ class StarMetalKhopeshItem : AOTDChargeableSwordItem(
      * @param itemSlot The slot the khopesh is in
      * @param isSelected True if the sword is selected, false otherwise
      */
-    override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean) {
+    override fun inventoryTick(stack: ItemStack, world: Level, entity: Entity, itemSlot: Int, isSelected: Boolean) {
         // Only spin the player if the stack is spinning the player
         if (shouldSpin(stack)) {
             // Reduce the ticks remaining by one

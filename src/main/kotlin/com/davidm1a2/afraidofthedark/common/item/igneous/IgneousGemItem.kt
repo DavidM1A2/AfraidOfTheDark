@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.item.igneous
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import net.minecraft.entity.Entity
 import net.minecraft.item.ItemStack
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import kotlin.math.max
 
 /**
@@ -21,7 +21,7 @@ class IgneousGemItem : AOTDItem("igneous_gem", Properties()) {
      * @param itemSlot The slot the item is in
      * @param isSelected True if the item is selected, false otherwise
      */
-    override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean) {
+    override fun inventoryTick(stack: ItemStack, world: Level, entity: Entity, itemSlot: Int, isSelected: Boolean) {
         entity.remainingFireTicks = max(entity.remainingFireTicks, 20)
     }
 }

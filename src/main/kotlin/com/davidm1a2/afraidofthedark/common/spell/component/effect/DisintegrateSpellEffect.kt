@@ -12,7 +12,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEff
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.block.Blocks
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -79,7 +79,7 @@ class DisintegrateSpellEffect : AOTDSpellEffect("disintegrate", ModResearches.MA
      * @param blockPos The pos the block is at
      * @return True if the block can be destroyed, false otherwise
      */
-    private fun canBlockBeDestroyed(world: World, blockPos: BlockPos): Boolean {
+    private fun canBlockBeDestroyed(world: Level, blockPos: BlockPos): Boolean {
         val blockState = world.getBlockState(blockPos)
         return blockState.getDestroySpeed(world, blockPos) != -1f && !blockState.isAir
     }

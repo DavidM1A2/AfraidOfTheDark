@@ -7,7 +7,7 @@ import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.block.Blocks
 import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.nbt.CompoundNBT
@@ -20,7 +20,7 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.StringTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import org.apache.commons.lang3.RandomStringUtils
 import java.io.File
 import kotlin.math.max
@@ -43,7 +43,7 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().stacksTo
      * Pass    = The call succeeded, but more calls can be made farther down the call stack.
      * Fail    = The call has failed to do what was intended and should stop here.
      */
-    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, hand: Hand): ActionResult<ItemStack> {
         val mainhandItem = player.mainHandItem
 
         // Server side processing only
@@ -93,7 +93,7 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().stacksTo
      * @param pos2 The second block position
      * @return The name of the structure file, or empty string indicating error
      */
-    private fun saveStructure(world: World, pos1: BlockPos, pos2: BlockPos, name: String): String {
+    private fun saveStructure(world: Level, pos1: BlockPos, pos2: BlockPos, name: String): String {
         val smallPos = BlockPos(min(pos1.x, pos2.x), min(pos1.y, pos2.y), min(pos1.z, pos2.z))
         val largePos = BlockPos(max(pos1.x, pos2.x), max(pos1.y, pos2.y), max(pos1.z, pos2.z))
 
@@ -192,7 +192,7 @@ class SchematicCreatorItem : AOTDItem("schematic_creator", Properties().stacksTo
      * @param tooltip The tooltip of the item
      * @param flag  If the advanced details is on or off
      */
-    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         tooltip.add(StringTextComponent("Note: This item is for mod developer use only"))
         tooltip.add(StringTextComponent("Pos1: " + (NBTHelper.getCompound(stack, NBT_POS_1)?.let { NBTUtil.readBlockPos(it).toString() } ?: "None")))
         tooltip.add(StringTextComponent("Pos2: " + (NBTHelper.getCompound(stack, NBT_POS_2)?.let { NBTUtil.readBlockPos(it).toString() } ?: "None")))

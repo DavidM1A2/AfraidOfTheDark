@@ -9,7 +9,7 @@ import com.davidm1a2.afraidofthedark.common.utility.toRotation
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFaceBlock
 import net.minecraft.core.BlockPos
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
@@ -49,7 +49,7 @@ class EnariaSpawnerTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTD
                 // And the fight is not on cooldown...
                 if (ticksExisted >= this.fightCooldownTime) {
                     // And a player that qualifies for the fight is nearby...
-                    val playersEligibleToFight = level!!.getEntitiesOfClass(PlayerEntity::class.java, enariaFightStartTriggerBox) {
+                    val playersEligibleToFight = level!!.getEntitiesOfClass(Player::class.java, enariaFightStartTriggerBox) {
                         it.getResearch().canResearch(ModResearches.ARCH_SORCERESS) || it.getResearch().canResearch(ModResearches.INFERNO)
                     }
                     if (playersEligibleToFight.isNotEmpty()) {

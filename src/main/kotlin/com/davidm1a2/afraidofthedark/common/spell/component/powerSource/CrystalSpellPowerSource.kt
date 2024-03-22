@@ -10,7 +10,7 @@ import com.davidm1a2.afraidofthedark.common.tileEntity.MagicCrystalTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.round
 import net.minecraft.entity.Entity
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 class CrystalSpellPowerSource : AOTDSpellPowerSource<CrystalSpellPowerSource.CrystalContext>("crystal", ModResearches.ADVANCED_MAGIC) {
     override fun cast(entity: Entity, spell: Spell, environment: CastEnvironment<CrystalContext>): SpellCastResult {
@@ -51,7 +51,7 @@ class CrystalSpellPowerSource : AOTDSpellPowerSource<CrystalSpellPowerSource.Cry
         return CastEnvironment.withVitae(nearbyCrystals.sumOf { it.getVitae() }, nearbyCrystals.sumOf { it.getMaxVitae() }, CrystalContext(nearbyCrystals))
     }
 
-    private fun getNearbyCrystals(world: World, x: Double, y: Double, z: Double): Sequence<MagicCrystalTileEntity> {
+    private fun getNearbyCrystals(world: Level, x: Double, y: Double, z: Double): Sequence<MagicCrystalTileEntity> {
         return world
             .blockEntityList
             .asSequence()

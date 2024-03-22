@@ -9,7 +9,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.network.PacketBuffer
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import net.minecraftforge.fml.network.NetworkDirection
 import net.minecraftforge.fml.network.NetworkEvent
 import org.apache.logging.log4j.LogManager
@@ -90,7 +90,7 @@ class ProcessSextantInputPacketProcessor : PacketProcessor<ProcessSextantInputPa
      * @param xPos        The X position the meteor is at
      * @param zPos        The Z position the meteor is at
      */
-    private fun dropMeteor(world: World, meteorEntry: MeteorEntry, xPos: Int, zPos: Int) {
+    private fun dropMeteor(world: Level, meteorEntry: MeteorEntry, xPos: Int, zPos: Int) {
         // We need to compute the y position, start at the top and work our way down
         var yPos = 255
         // Grab the top block

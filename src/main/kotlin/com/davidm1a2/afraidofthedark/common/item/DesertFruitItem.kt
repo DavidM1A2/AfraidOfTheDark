@@ -6,9 +6,9 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDFoodItem
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemStack
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import net.minecraftforge.common.MinecraftForge
 
 /**
@@ -17,9 +17,9 @@ import net.minecraftforge.common.MinecraftForge
  * @constructor initializes the item name
  */
 class DesertFruitItem : AOTDFoodItem("desert_fruit", 6, 2.0f, Properties()) {
-    override fun finishUsingItem(itemStack: ItemStack, world: World, livingEntity: LivingEntity): ItemStack {
+    override fun finishUsingItem(itemStack: ItemStack, world: Level, livingEntity: LivingEntity): ItemStack {
         // Upon eating the fruit we get max innate vitae! Don't sync server->client since this function gets called on both sides
-        if (livingEntity is PlayerEntity) {
+        if (livingEntity is Player) {
             if (livingEntity.hasStartedAOTD()) {
                 val innateData = livingEntity.getSpellInnateData()
                 innateData.vitae = innateData.getMaxVitae(livingEntity)

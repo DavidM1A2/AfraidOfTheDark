@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
-import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.entity.player.ServerPlayer
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.LogicalSide
@@ -38,7 +38,7 @@ class SpellFreezeHandler {
                     val freezePosition = playerFreezeData.freezePosition!!
 
                     // Freeze the player's location
-                    (entityPlayer as ServerPlayerEntity).connection.teleport(
+                    (entityPlayer as ServerPlayer).connection.teleport(
                         freezePosition.x,
                         freezePosition.y,
                         freezePosition.z,

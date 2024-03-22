@@ -6,7 +6,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EnchantedSkeletonEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDSwordItem
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemStack
 import net.minecraft.util.DamageSource
 import net.minecraft.util.SoundEvents
@@ -31,7 +31,7 @@ class BoneSwordItem : AOTDSwordItem(
      * @param entity The entity that was clicked on
      * @return True to cancel the interaction, false otherwise
      */
-    override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, entity: Entity): Boolean {
+    override fun onLeftClickEntity(stack: ItemStack, player: Player, entity: Entity): Boolean {
         // If the sword is about to break cancel the interaction and don't let it break!
         if (stack.damageValue == stack.maxDamage - 1) {
             return true

@@ -11,7 +11,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEff
 import com.davidm1a2.afraidofthedark.common.utility.getLookNormal
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.ListNBT
 import net.minecraft.util.SoundCategory
@@ -58,7 +58,7 @@ class Spell() : INBTSerializable<CompoundNBT> {
                 // If the spell is valid continue, if not print an error
                 if (isValid()) {
                     // Determine the selected power source
-                    val selectedPowerSource = if (entity is PlayerEntity && !isSpellScroll) {
+                    val selectedPowerSource = if (entity is Player && !isSpellScroll) {
                         entity.getBasics().selectedPowerSource
                     } else {
                         ModSpellPowerSources.SPELL_SCROLL
@@ -69,7 +69,7 @@ class Spell() : INBTSerializable<CompoundNBT> {
                     // If we failed for some reason, let the entity know
                     if (!castResult.wasSuccessful()) {
                         entity.sendMessage(castResult.failureMessage!!)
-                        if (entity !is PlayerEntity) {
+                        if (entity !is Player) {
                             logger.info("Entity '${entity.name}' attempted to cast a spell without enough power?")
                         }
                         return
@@ -108,13 +108,13 @@ class Spell() : INBTSerializable<CompoundNBT> {
                         )
                 } else {
                     entity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.invalid"))
-                    if (entity !is PlayerEntity) {
+                    if (entity !is Player) {
                         logger.info("Entity '${entity.name}' attempted to cast an invalid spell?")
                     }
                 }
             } else {
                 entity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell.wrong_dimension"))
-                if (entity !is PlayerEntity) {
+                if (entity !is Player) {
                     logger.info("Entity '${entity.name}' attempted to cast a spell in the nightmare?")
                 }
             }

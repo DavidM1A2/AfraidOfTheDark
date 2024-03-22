@@ -7,14 +7,14 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDShieldItem
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.DamageSource
 import net.minecraft.util.Hand
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import java.util.concurrent.Callable
 import kotlin.math.max
 
@@ -23,7 +23,7 @@ class IgneousShieldItem : AOTDShieldItem("igneous_shield", Properties().setISTER
         return false
     }
 
-    override fun use(world: World, playerEntity: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, playerEntity: Player, hand: Hand): ActionResult<ItemStack> {
         return if (playerEntity.getResearch().isResearched(ModResearches.IGNEOUS)) {
             super.use(world, playerEntity, hand)
         } else {
@@ -31,7 +31,7 @@ class IgneousShieldItem : AOTDShieldItem("igneous_shield", Properties().setISTER
         }
     }
 
-    override fun appendHoverText(itemStack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
+    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
         super.appendHoverText(itemStack, world, tooltip, iTooltipFlag)
 
         val player = Minecraft.getInstance().player
@@ -43,7 +43,7 @@ class IgneousShieldItem : AOTDShieldItem("igneous_shield", Properties().setISTER
         }
     }
 
-    override fun onBlock(entity: PlayerEntity, damageSource: DamageSource) {
+    override fun onBlock(entity: Player, damageSource: DamageSource) {
         val dmgSourceEntity = damageSource.entity
         if (dmgSourceEntity != null) {
             dmgSourceEntity.remainingFireTicks = max(dmgSourceEntity.remainingFireTicks, 40)

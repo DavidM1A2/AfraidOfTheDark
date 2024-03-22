@@ -14,7 +14,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraftforge.fml.network.PacketDistributor
 
 class ImbueSpellDeliveryMethod : AOTDSpellDeliveryMethod("imbue", ModResearches.SCROLL_FORMATION) {
@@ -35,7 +35,7 @@ class ImbueSpellDeliveryMethod : AOTDSpellDeliveryMethod("imbue", ModResearches.
         val entity = state.entity
         val position = state.position
         val world = state.world
-        if (entity !is PlayerEntity) {
+        if (entity !is Player) {
             AfraidOfTheDark.packetHandler.sendToAllAround(
                 ParticlePacket.builder()
                     .particle(ModParticles.IMBUE_FIZZLE)

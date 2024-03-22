@@ -5,7 +5,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.Effects
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import java.time.Duration
 
 object EldritchMetalCommons {
@@ -13,7 +13,7 @@ object EldritchMetalCommons {
     private const val MAX_MULTIPLIER = 10
     val TIME_BEFORE_EFFECTS = Duration.ofMinutes(5).toMillis()
 
-    fun processItem(itemStack: ItemStack, world: World, entity: Entity) {
+    fun processItem(itemStack: ItemStack, world: Level, entity: Entity) {
         if (!world.isClientSide) {
             if (entity.tickCount % CHECK_FREQUENCY == 0) {
                 if (entity is LivingEntity) {

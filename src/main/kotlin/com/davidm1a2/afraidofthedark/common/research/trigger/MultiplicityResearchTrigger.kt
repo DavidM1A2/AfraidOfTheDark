@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.research.trigger
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.research.trigger.base.ResearchTrigger
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraftforge.eventbus.api.Event
 import kotlin.reflect.KClass
 
@@ -16,11 +16,11 @@ class MultiplicityResearchTrigger : ResearchTrigger<Event, MultiplicityResearchT
         return config.baseTrigger.getEventType()
     }
 
-    override fun getAffectedPlayer(event: Event, config: MultiplicityResearchTriggerConfig): PlayerEntity? {
+    override fun getAffectedPlayer(event: Event, config: MultiplicityResearchTriggerConfig): Player? {
         return config.baseTrigger.getAffectedPlayer(event)
     }
 
-    override fun shouldUnlock(player: PlayerEntity, event: Event, config: MultiplicityResearchTriggerConfig): Boolean {
+    override fun shouldUnlock(player: Player, event: Event, config: MultiplicityResearchTriggerConfig): Boolean {
         val wouldUnlock = config.baseTrigger.shouldUnlock(player, event)
         if (!wouldUnlock) {
             return false

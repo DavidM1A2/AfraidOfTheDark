@@ -14,7 +14,7 @@ import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUseContext
 import net.minecraft.util.ActionResult
@@ -22,7 +22,7 @@ import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import net.minecraftforge.common.MinecraftForge
 
 class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
@@ -58,7 +58,7 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
         return super.useOn(itemUseContext)
     }
 
-    override fun use(world: World, playerEntity: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, playerEntity: Player, hand: Hand): ActionResult<ItemStack> {
         val itemStack = playerEntity.getItemInHand(hand)
 
         if (preRequisiteResearch != null && !playerEntity.getResearch().isResearched(preRequisiteResearch!!)) {
@@ -132,7 +132,7 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
         }
     }
 
-    private fun knowsSpellComponents(playerEntity: PlayerEntity, spell: Spell): Boolean {
+    private fun knowsSpellComponents(playerEntity: Player, spell: Spell): Boolean {
         val research = playerEntity.getResearch()
         for (spellStage in spell.spellStages) {
             var prereqResearch = spellStage.deliveryInstance?.component?.prerequisiteResearch
@@ -149,7 +149,7 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
         return true
     }
 
-    private fun learnSpell(playerEntity: PlayerEntity, spell: Spell) {
+    private fun learnSpell(playerEntity: Player, spell: Spell) {
         val world = playerEntity.level
         if (!world.isClientSide) {
             playerEntity.sendMessage(TranslationTextComponent("message.afraidofthedark.spell_scroll.learn_spell", spell.name))
@@ -189,7 +189,7 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
         return NBTHelper.getInteger(itemStack, NBT_MAX_USES) ?: 1
     }
 
-    override fun appendHoverText(itemStack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
+    override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, iTooltipFlag: ITooltipFlag) {
         val player = Minecraft.getInstance().player
 
         if (player != null && (preRequisiteResearch == null || player.getResearch().isResearched(preRequisiteResearch!!))) {

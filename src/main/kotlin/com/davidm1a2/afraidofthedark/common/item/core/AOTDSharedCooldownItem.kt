@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item.core
 
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemStack
 
 /**
@@ -20,7 +20,7 @@ abstract class AOTDSharedCooldownItem(
      * @param itemStack    The item to set on cooldown
      * @param entityPlayer The player that is holding the item
      */
-    override fun setOnCooldown(itemStack: ItemStack, entityPlayer: PlayerEntity) {
+    override fun setOnCooldown(itemStack: ItemStack, entityPlayer: Player) {
         // For all items in the player's inventory that are of the same item set them on cooldown as well
         for (newStack in entityPlayer.inventory.items + entityPlayer.inventory.offhand) {
             if (itemStack.item == newStack.item) {

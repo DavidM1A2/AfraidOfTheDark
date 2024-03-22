@@ -8,7 +8,7 @@ import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
@@ -17,7 +17,7 @@ import net.minecraft.util.NonNullList
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import java.time.ZonedDateTime
 
 /**
@@ -51,7 +51,7 @@ class ResearchScrollItem : AOTDItem("research_scroll", Properties()) {
      * @param hand   The hand the item is held in
      * @return The action result of the right click
      */
-    override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, hand: Hand): ActionResult<ItemStack> {
         // Grab the itemstack that represents the scroll
         val itemStack = player.getItemInHand(hand)
 
@@ -102,7 +102,7 @@ class ResearchScrollItem : AOTDItem("research_scroll", Properties()) {
      * @param tooltip The tooltip of the research
      * @param flag  If the advanced details is on or off
      */
-    override fun appendHoverText(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+    override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val scrollResearch = getScrollResearch(stack)
         if (scrollResearch != null) {
             if (isPart(stack)) {
