@@ -4,14 +4,15 @@ import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.base.BooleanConfig
-import net.minecraft.util.RegistryKey
-import net.minecraft.world.biome.Biome
-import net.minecraft.world.biome.provider.BiomeProvider
-import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.feature.StructureFeature
-import net.minecraft.world.gen.feature.structure.Structure
-import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
-import java.util.Random
+import net.minecraft.resources.ResourceKey
+import net.minecraft.world.level.LevelHeightAccessor
+import net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.biome.BiomeSource
+import net.minecraft.world.level.chunk.ChunkGenerator
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature
+import net.minecraft.world.level.levelgen.feature.StructureFeature
+import net.minecraft.world.level.levelgen.feature.StructureFeature.StructureStartFactory
+import java.util.*
 
 class DesertOasisStructure : AOTDStructure<BooleanConfig>("desert_oasis", BooleanConfig.CODEC) {
     override fun getWidth(): Int {
@@ -22,13 +23,13 @@ class DesertOasisStructure : AOTDStructure<BooleanConfig>("desert_oasis", Boolea
         return ModSchematics.DESERT_OASIS.getLength().toInt()
     }
 
-    override fun getStartFactory(): IStartFactory<BooleanConfig> {
-        return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
-            DesertOasisStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
+    override fun getStartFactory(): StructureStartFactory<BooleanConfig> {
+        return StructureStartFactory { structure, chunkPos, reference, seed ->
+            DesertOasisStructureStart(structure, chunkPos, reference, seed)
         }
     }
 
-    override fun configured(biome: RegistryKey<Biome>, category: Biome.Category): StructureFeature<BooleanConfig, out Structure<BooleanConfig>>? {
+    override fun configured(biome: ResourceKey<Biome>, category: Biome.BiomeCategory): ConfiguredStructureFeature<BooleanConfig, out StructureFeature<BooleanConfig>>? {
         return if (category in VALID_BIOME_CATEGORIES) {
             configured(BooleanConfig(true))
         } else {
@@ -36,11 +37,11 @@ class DesertOasisStructure : AOTDStructure<BooleanConfig>("desert_oasis", Boolea
         }
     }
 
-    override fun configuredFlat(): StructureFeature<BooleanConfig, out Structure<BooleanConfig>> {
+    override fun configuredFlat(): ConfiguredStructureFeature<BooleanConfig, out StructureFeature<BooleanConfig>> {
         return configured(MISSING_CONFIG)
     }
 
-    override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
+    override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeSource, random: Random, xPos: Int, zPos: Int, levelHeightAccessor: LevelHeightAccessor): Boolean {
         val numValidTiles = getInteriorConfigEstimate(xPos, zPos, biomeProvider, MISSING_CONFIG)
             .count { it.supported }
 
@@ -60,8 +61,8 @@ class DesertOasisStructure : AOTDStructure<BooleanConfig>("desert_oasis", Boolea
         private val MISSING_CONFIG = BooleanConfig(false)
 
         private val VALID_BIOME_CATEGORIES = setOf(
-            Biome.Category.DESERT,
-            Biome.Category.RIVER
+            Biome.BiomeCategory.DESERT,
+            Biome.BiomeCategory.RIVER
         )
     }
 }
