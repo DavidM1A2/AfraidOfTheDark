@@ -1,13 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.loot.loottable
 
-import net.minecraft.inventory.ItemStackHelper
+import net.minecraft.core.NonNullList
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.ContainerHelper
 import net.minecraft.world.item.ItemStack
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.tileentity.ChestTileEntity
-import net.minecraft.util.IItemProvider
-import net.minecraft.util.NonNullList
-import net.minecraft.util.ResourceLocation
-import java.util.Random
+import net.minecraft.world.level.ItemLike
+import net.minecraft.world.level.block.entity.ChestBlockEntity
+import java.util.*
 
 /**
  * Class representing a loot table that can be used by schematics to generate loot
@@ -15,7 +15,7 @@ import java.util.Random
  * @constructor initializes the loot table
  * @param itemProviderToLootTable The loot table entries that make up this loot table
  */
-class LootTable(val name: String, itemProviderToLootTable: Map<IItemProvider?, ResourceLocation>) {
+class LootTable(val name: String, itemProviderToLootTable: Map<ItemLike?, ResourceLocation>) {
     private val itemToLootTable = itemProviderToLootTable.mapKeys { it.key?.asItem() }
 
     /**
@@ -23,10 +23,10 @@ class LootTable(val name: String, itemProviderToLootTable: Map<IItemProvider?, R
      *
      * @param chest The chest to generate loot in
      */
-    fun generate(chest: ChestTileEntity, chestNBT: CompoundNBT, random: Random) {
+    fun generate(chest: ChestBlockEntity, chestNBT: CompoundTag, random: Random) {
         // Can't use chest.getStackInSlot() since it requires a valid world object
         val items = NonNullList.withSize(chest.containerSize, ItemStack.EMPTY)
-        ItemStackHelper.loadAllItems(chestNBT, items)
+        ContainerHelper.loadAllItems(chestNBT, items)
         // Iterate over the chest's inventory
         for (i in 0 until chest.containerSize) {
             val stackInSlot = items[i]

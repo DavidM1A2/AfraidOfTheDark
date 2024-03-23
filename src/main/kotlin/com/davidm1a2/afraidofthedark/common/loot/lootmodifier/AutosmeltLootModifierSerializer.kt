@@ -2,8 +2,8 @@ package com.davidm1a2.afraidofthedark.common.loot.lootmodifier
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.google.gson.JsonObject
-import net.minecraft.loot.conditions.ILootCondition
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer
 
 class AutosmeltLootModifierSerializer : GlobalLootModifierSerializer<AutosmeltLootModifier>() {
@@ -11,7 +11,7 @@ class AutosmeltLootModifierSerializer : GlobalLootModifierSerializer<AutosmeltLo
         setRegistryName(Constants.MOD_ID, "autosmelt")
     }
 
-    override fun read(location: ResourceLocation, obj: JsonObject, conditions: Array<out ILootCondition>): AutosmeltLootModifier {
+    override fun read(location: ResourceLocation, obj: JsonObject, conditions: Array<out LootItemCondition>): AutosmeltLootModifier {
         return AutosmeltLootModifier(conditions)
     }
 

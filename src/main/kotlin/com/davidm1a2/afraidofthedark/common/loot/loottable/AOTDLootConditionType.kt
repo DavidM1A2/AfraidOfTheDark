@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.loot.loottable
 
-import net.minecraft.loot.ILootSerializer
-import net.minecraft.loot.LootConditionType
-import net.minecraft.loot.conditions.ILootCondition
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.level.storage.loot.Serializer
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition
+import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType
 
-abstract class AOTDLootConditionType(serializer: ILootSerializer<out ILootCondition>, val registryName: ResourceLocation) : LootConditionType(serializer)
+abstract class AOTDLootConditionType(serializer: Serializer<out LootItemCondition>, val registryName: ResourceLocation) : LootItemConditionType(serializer)

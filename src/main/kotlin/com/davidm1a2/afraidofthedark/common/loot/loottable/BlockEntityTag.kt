@@ -4,31 +4,30 @@ import com.davidm1a2.afraidofthedark.common.constants.ModLootConditions
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
-import net.minecraft.loot.ILootSerializer
-import net.minecraft.loot.LootConditionType
-import net.minecraft.loot.LootContext
-import net.minecraft.loot.LootParameter
-import net.minecraft.loot.LootParameters
-import net.minecraft.loot.conditions.ILootCondition
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.nbt.INBT
-import net.minecraft.util.JSONUtils
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.Tag
+import net.minecraft.util.GsonHelper
+import net.minecraft.world.level.storage.loot.LootContext
+import net.minecraft.world.level.storage.loot.parameters.LootContextParam
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition
+import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType
 
 class BlockEntityTag(
     private val key: String,
     private val value: String?,
     private val operator: Operator
-) : ILootCondition {
-    override fun getType(): LootConditionType {
+) : LootItemCondition {
+    override fun getType(): LootItemConditionType {
         return ModLootConditions.BLOCK_ENTITY_TAG
     }
 
-    override fun getReferencedContextParams(): MutableSet<LootParameter<*>> {
-        return mutableSetOf(LootParameters.BLOCK_ENTITY)
+    override fun getReferencedContextParams(): MutableSet<LootContextParam<*>> {
+        return mutableSetOf(LootContextParams.BLOCK_ENTITY)
     }
 
     override fun test(lootContext: LootContext): Boolean {
-        val nbt = lootContext.getParamOrNull(LootParameters.BLOCK_ENTITY)?.serializeNBT() ?: return false
+        val nbt = lootContext.getParamOrNull(LootContextParams.BLOCK_ENTITY)?.serializeNBT() ?: return false
 
         return when (operator) {
             Operator.KEY_EXISTS -> nbt.contains(key)
@@ -39,11 +38,11 @@ class BlockEntityTag(
         }
     }
 
-    private fun extractLowestNbtTag(nbt: CompoundNBT): INBT? {
+    private fun extractLowestNbtTag(nbt: CompoundTag): Tag? {
         val subKeys = key.split(".")
-        var lowestNbtTag: INBT = nbt
+        var lowestNbtTag: Tag = nbt
         for (subKey in subKeys) {
-            if (lowestNbtTag !is CompoundNBT) {
+            if (lowestNbtTag !is CompoundTag) {
                 return null
             }
             lowestNbtTag = lowestNbtTag.get(subKey) ?: return null
@@ -51,7 +50,7 @@ class BlockEntityTag(
         return lowestNbtTag
     }
 
-    internal class Serializer : ILootSerializer<BlockEntityTag> {
+    internal class Serializer : net.minecraft.world.level.storage.loot.Serializer<BlockEntityTag> {
         override fun serialize(jsonObject: JsonObject, blockEntityTag: BlockEntityTag, context: JsonSerializationContext) {
             jsonObject.addProperty("key", blockEntityTag.key)
             blockEntityTag.value?.let { jsonObject.addProperty("value", it) }
@@ -59,13 +58,13 @@ class BlockEntityTag(
         }
 
         override fun deserialize(jsonObject: JsonObject, context: JsonDeserializationContext): BlockEntityTag {
-            val key = JSONUtils.getAsString(jsonObject, "key")
+            val key = GsonHelper.getAsString(jsonObject, "key")
             val value = if (jsonObject.has("value")) {
-                JSONUtils.getAsString(jsonObject, "value")
+                GsonHelper.getAsString(jsonObject, "value")
             } else {
                 null
             }
-            val operator = Operator.valueOf(JSONUtils.getAsString(jsonObject, "operator"))
+            val operator = Operator.valueOf(GsonHelper.getAsString(jsonObject, "operator"))
 
             return BlockEntityTag(key, value, operator)
         }
