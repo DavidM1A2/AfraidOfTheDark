@@ -1,13 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.network.dataserializer
 
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.network.PacketBuffer
-import net.minecraft.network.datasync.IDataSerializer
-import net.minecraft.util.math.AxisAlignedBB
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.syncher.EntityDataSerializer
+import net.minecraft.world.phys.AABB
 
-class AABBDataSerializer : IDataSerializer<AxisAlignedBB> {
-    override fun write(buffer: PacketBuffer, aabb: AxisAlignedBB) {
-        val values = CompoundNBT()
+class AABBDataSerializer : EntityDataSerializer<AABB> {
+    override fun write(buffer: FriendlyByteBuf, aabb: AABB) {
+        val values = CompoundTag()
         values.putDouble("minX", aabb.minX)
         values.putDouble("minY", aabb.minY)
         values.putDouble("minZ", aabb.minZ)
@@ -17,7 +17,7 @@ class AABBDataSerializer : IDataSerializer<AxisAlignedBB> {
         buffer.writeNbt(values)
     }
 
-    override fun read(buffer: PacketBuffer): AxisAlignedBB {
+    override fun read(buffer: FriendlyByteBuf): AABB {
         val values = buffer.readNbt()!!
         val minX = values.getDouble("minX")
         val minY = values.getDouble("minY")
@@ -25,10 +25,10 @@ class AABBDataSerializer : IDataSerializer<AxisAlignedBB> {
         val maxX = values.getDouble("maxX")
         val maxY = values.getDouble("maxY")
         val maxZ = values.getDouble("maxZ")
-        return AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ)
+        return AABB(minX, minY, minZ, maxX, maxY, maxZ)
     }
 
-    override fun copy(aabb: AxisAlignedBB): AxisAlignedBB {
-        return AxisAlignedBB(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ)
+    override fun copy(aabb: AABB): AABB {
+        return AABB(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ)
     }
 }

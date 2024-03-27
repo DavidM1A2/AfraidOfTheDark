@@ -1,14 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.network.handler
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.Entity
-import net.minecraft.entity.player.ServerPlayer
-import net.minecraft.util.RegistryKey
-import net.minecraft.util.ResourceLocation
 import net.minecraft.world.level.Level
-import net.minecraft.world.chunk.Chunk
-import net.minecraftforge.fml.network.NetworkRegistry
-import net.minecraftforge.fml.network.PacketDistributor
+import net.minecraft.world.level.chunk.LevelChunk
+import net.minecraftforge.fmllegacy.network.NetworkRegistry
 import net.minecraftforge.fmllegacy.network.PacketDistributor
 
 /**
@@ -93,7 +92,7 @@ class PacketHandler {
      * @param z         the z coordinate.
      * @param range     the radius.
      */
-    fun <C> sendToAllAround(packet: C, dimension: RegistryKey<World>, x: Double, y: Double, z: Double, range: Double) {
+    fun <C> sendToAllAround(packet: C, dimension: ResourceKey<Level>, x: Double, y: Double, z: Double, range: Double) {
         this.sendToAllAround(packet, PacketDistributor.TargetPoint(x, y, z, range, dimension))
     }
 
@@ -114,7 +113,7 @@ class PacketHandler {
      * @param packet     the packet to send.
      * @param dimensionType the dimension to send the packet to.
      */
-    fun <C> sendToDimension(packet: C, dimensionType: RegistryKey<World>) {
+    fun <C> sendToDimension(packet: C, dimensionType: ResourceKey<Level>) {
         sendRaw(packet, PacketDistributor.DIMENSION.with { dimensionType })
     }
 
@@ -124,7 +123,7 @@ class PacketHandler {
      * @param packet the packet to send.
      * @param chunk  the chunk to send the packet to.
      */
-    fun <C> sendToChunk(packet: C, chunk: Chunk) {
+    fun <C> sendToChunk(packet: C, chunk: LevelChunk) {
         sendRaw(packet, PacketDistributor.TRACKING_CHUNK.with { chunk })
     }
 

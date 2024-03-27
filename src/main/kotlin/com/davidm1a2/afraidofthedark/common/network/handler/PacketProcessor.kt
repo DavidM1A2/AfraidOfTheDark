@@ -1,12 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.network.handler
 
-import net.minecraft.network.PacketBuffer
-import net.minecraftforge.fml.network.NetworkEvent
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraftforge.fmllegacy.network.NetworkEvent
 
 interface PacketProcessor<T> {
-    fun encode(msg: T, buf: PacketBuffer)
+    fun encode(msg: T, buf: FriendlyByteBuf)
 
-    fun decode(buf: PacketBuffer): T
+    fun decode(buf: FriendlyByteBuf): T
 
     fun process(msg: T, ctx: NetworkEvent.Context)
 
