@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.registry
 
 import com.mojang.serialization.Codec
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
 import net.minecraftforge.registries.IForgeRegistry
 import net.minecraftforge.registries.IForgeRegistryEntry
-import java.util.Optional
+import java.util.*
 
 /**
  * Creates a codec which only deserializes its contents when needed

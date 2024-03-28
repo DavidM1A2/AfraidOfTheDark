@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.mojang.serialization.Codec
 import com.mojang.serialization.JsonOps
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
 import java.io.InputStreamReader
 
 object JsonCodecLoader {

@@ -5,11 +5,10 @@ import com.davidm1a2.afraidofthedark.common.research.Research
 import com.mojang.datafixers.util.Function7
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.block.Block
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslatableComponent
+import net.minecraft.world.level.block.Block
 import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.ForgeRegistryEntry
 import org.apache.logging.log4j.LogManager
@@ -48,7 +47,7 @@ class MeteorEntry(
     /**
      * @return The unlocalized name of the meteor entry
      */
-    fun getName(): ITextComponent {
+    fun getName(): Component {
         return TranslatableComponent("meteor_entry.${registryName!!.namespace}.${registryName!!.path}")
     }
 
