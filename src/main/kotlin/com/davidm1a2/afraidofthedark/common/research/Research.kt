@@ -9,11 +9,10 @@ import com.davidm1a2.afraidofthedark.common.research.trigger.base.ConfiguredRese
 import com.mojang.datafixers.util.Function10
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.item.Item
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslatableComponent
+import net.minecraft.world.item.Item
 import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.ForgeRegistryEntry
 
@@ -37,19 +36,19 @@ class Research(
     val recipes: List<Item> by lazyRecipes
     val preRecipes: List<Item> by lazyPreRecipes
 
-    fun getName(): ITextComponent {
+    fun getName(): Component {
         return TranslatableComponent("research.${registryName!!.namespace}.${registryName!!.path}.name")
     }
 
-    fun getTooltip(): ITextComponent {
+    fun getTooltip(): Component {
         return TranslatableComponent("research.${registryName!!.namespace}.${registryName!!.path}.tooltip")
     }
 
-    fun getPreText(): ITextComponent {
+    fun getPreText(): Component {
         return TranslatableComponent("research.${registryName!!.namespace}.${registryName!!.path}.pre_text")
     }
 
-    fun getText(): ITextComponent {
+    fun getText(): Component {
         return TranslatableComponent("research.${registryName!!.namespace}.${registryName!!.path}.text")
     }
 

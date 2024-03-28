@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.common.research.trigger
 import com.davidm1a2.afraidofthedark.common.research.trigger.base.ResearchTriggerConfig
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.entity.EntityType
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.EntityType
 import java.util.function.BiFunction
 
 class PlayerHurtResearchTriggerConfig(attackingEntityTypeId: ResourceLocation, val mustSurvive: Boolean) : ResearchTriggerConfig {

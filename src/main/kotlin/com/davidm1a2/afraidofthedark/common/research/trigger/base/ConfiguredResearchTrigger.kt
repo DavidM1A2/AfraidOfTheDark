@@ -2,8 +2,8 @@ package com.davidm1a2.afraidofthedark.common.research.trigger.base
 
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.mojang.serialization.Codec
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.player.Player
-import net.minecraft.util.ResourceLocation
 import net.minecraftforge.eventbus.api.Event
 import kotlin.reflect.KClass
 

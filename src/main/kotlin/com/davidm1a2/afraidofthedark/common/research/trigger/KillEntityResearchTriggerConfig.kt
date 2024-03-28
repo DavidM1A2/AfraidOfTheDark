@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.common.registry.lazy
 import com.davidm1a2.afraidofthedark.common.research.trigger.base.ResearchTriggerConfig
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.entity.EntityType
+import net.minecraft.world.entity.EntityType
 import net.minecraftforge.registries.ForgeRegistries
 import java.util.function.Function
 

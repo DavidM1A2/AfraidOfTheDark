@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.common.research.trigger.base.ResearchTrigge
 import com.mojang.datafixers.util.Function3
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
 import net.minecraftforge.eventbus.api.Event
 
 class MultiplicityResearchTriggerConfig(

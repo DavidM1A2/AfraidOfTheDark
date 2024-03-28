@@ -3,7 +3,6 @@ package com.davidm1a2.afraidofthedark.common.research.trigger
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.research.trigger.base.ResearchTrigger
 import net.minecraft.world.entity.player.Player
-import net.minecraftforge.common.ForgeHooks
 import net.minecraftforge.event.world.BlockEvent
 import kotlin.reflect.KClass
 
@@ -22,6 +21,6 @@ class BlockBrokenResearchTrigger : ResearchTrigger<BlockEvent.BreakEvent, BlockB
 
     override fun shouldUnlock(player: Player, event: BlockEvent.BreakEvent, config: BlockBrokenResearchTriggerConfig): Boolean {
         val stateMatches = config.blockOrState.map({ event.state == it }, { event.state.block == it })
-        return stateMatches && (ForgeHooks.canHarvestBlock(event.state, player, event.world, event.pos) || !config.mustDrop)
+        return stateMatches && (event.state.canHarvestBlock(event.world, event.pos, player) || !config.mustDrop)
     }
 }

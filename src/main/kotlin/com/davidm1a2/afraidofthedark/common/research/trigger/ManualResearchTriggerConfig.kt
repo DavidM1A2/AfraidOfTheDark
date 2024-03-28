@@ -10,10 +10,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import java.util.function.Function
 
 /**
- * @param LazyResearch The research that this manual trigger will look for
+ * @param lazyResearch The research that this manual trigger will look for
  */
-class ManualResearchTriggerConfig(LazyResearch: Lazy<Research>) : ResearchTriggerConfig {
-    val research: Research by LazyResearch
+class ManualResearchTriggerConfig(lazyResearch: Lazy<Research>) : ResearchTriggerConfig {
+    val research: Research by lazyResearch
 
     companion object {
         val CODEC: Codec<ManualResearchTriggerConfig> = RecordCodecBuilder.create {
