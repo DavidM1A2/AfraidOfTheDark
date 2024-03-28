@@ -1,23 +1,15 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.research
 
-import com.davidm1a2.afraidofthedark.common.capabilities.INullableCapabilitySerializable
+import com.davidm1a2.afraidofthedark.common.capabilities.AOTDCapabilitySerializer
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import net.minecraft.core.Direction
 import net.minecraft.nbt.CompoundTag
-import net.minecraftforge.common.capabilities.Capability
-import net.minecraftforge.common.util.LazyOptional
-import org.apache.logging.log4j.LogManager
 import java.time.Instant
 import java.time.ZonedDateTime
 
-class PlayerResearchCapabilitySerializer : INullableCapabilitySerializable<CompoundTag> {
-    private val instance: IPlayerResearch = PlayerResearch()
-
-    override fun <V> getCapability(capability: Capability<V>?, side: Direction?): LazyOptional<V> {
-        return if (capability == ModCapabilities.PLAYER_RESEARCH) LazyOptional.of { instance }.cast() else LazyOptional.empty()
-    }
+class PlayerResearchCapabilitySerializer(instance: IPlayerResearch = PlayerResearch()) : AOTDCapabilitySerializer<IPlayerResearch, CompoundTag>(instance) {
+    override fun getCapability() = ModCapabilities.PLAYER_RESEARCH
 
     override fun serializeNBT(): CompoundTag {
         // Create a compound to write
@@ -32,24 +24,15 @@ class PlayerResearchCapabilitySerializer : INullableCapabilitySerializable<Compo
         return compound
     }
 
-    override fun deserializeNBT(nbt: CompoundTag?) {
-        // Test if the nbt tag base is an NBT tag compound
-        if (nbt != null) {
-            // For each research if we have researched it unlock that research in our instance
-            for (research in ModRegistries.RESEARCH) {
-                val unlockTime = if (nbt.contains(research.registryName.toString())) {
-                    ZonedDateTime.ofInstant(Instant.ofEpochMilli(nbt.getLong(research.registryName.toString())), Constants.DEFAULT_TIME_ZONE)
-                } else {
-                    null
-                }
-                instance.setResearch(research, unlockTime)
+    override fun deserializeNBTSafe(nbt: CompoundTag) {
+        // For each research if we have researched it unlock that research in our instance
+        for (research in ModRegistries.RESEARCH) {
+            val unlockTime = if (nbt.contains(research.registryName.toString())) {
+                ZonedDateTime.ofInstant(Instant.ofEpochMilli(nbt.getLong(research.registryName.toString())), Constants.DEFAULT_TIME_ZONE)
+            } else {
+                null
             }
-        } else {
-            LOG.error("Attempted to deserialize an NBTBase that was null!")
+            instance.setResearch(research, unlockTime)
         }
-    }
-
-    companion object {
-        private val LOG = LogManager.getLogger()
     }
 }

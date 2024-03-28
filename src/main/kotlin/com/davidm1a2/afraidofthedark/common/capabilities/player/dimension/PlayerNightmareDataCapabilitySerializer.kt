@@ -1,24 +1,16 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.dimension
 
-import com.davidm1a2.afraidofthedark.common.capabilities.INullableCapabilitySerializable
+import com.davidm1a2.afraidofthedark.common.capabilities.AOTDCapabilitySerializer
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
-import net.minecraft.core.Direction
 import net.minecraft.core.Registry
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtUtils
 import net.minecraft.nbt.Tag
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
-import net.minecraftforge.common.capabilities.Capability
-import net.minecraftforge.common.util.LazyOptional
-import org.apache.logging.log4j.LogManager
 
-class PlayerNightmareDataCapabilitySerializer : INullableCapabilitySerializable<CompoundTag> {
-    private val instance: IPlayerNightmareData = PlayerNightmareData()
-
-    override fun <V> getCapability(capability: Capability<V>?, side: Direction?): LazyOptional<V> {
-        return if (capability == ModCapabilities.PLAYER_NIGHTMARE_DATA) LazyOptional.of { instance }.cast() else LazyOptional.empty()
-    }
+class PlayerNightmareDataCapabilitySerializer(instance: IPlayerNightmareData = PlayerNightmareData()) : AOTDCapabilitySerializer<IPlayerNightmareData, CompoundTag>(instance) {
+    override fun getCapability() = ModCapabilities.PLAYER_NIGHTMARE_DATA
 
     override fun serializeNBT(): CompoundTag {
         // Create a compound to write
@@ -31,46 +23,39 @@ class PlayerNightmareDataCapabilitySerializer : INullableCapabilitySerializable<
         return compound
     }
 
-    override fun deserializeNBT(nbt: CompoundTag?) {
-        // Test if the nbt tag base is an NBT tag compound
-        if (nbt != null) {
-            // The compound to read from
-            instance.positionalIndex = nbt.getInt(NBT_POSITIONAL_INDEX)
-            if (nbt.contains(NBT_PRE_TELEPORT_INVENTORY)) {
-                instance.preTeleportPlayerInventory = nbt.getList(
-                    NBT_PRE_TELEPORT_INVENTORY,
-                    Tag.TAG_COMPOUND.toInt()
-                )
-            } else {
-                instance.preTeleportPlayerInventory = null
-            }
-
-            if (nbt.contains(NBT_PRE_TELEPORT_POSITION)) {
-                instance.preTeleportPosition =
-                    NbtUtils.readBlockPos(nbt.getCompound(NBT_PRE_TELEPORT_POSITION))
-            } else {
-                instance.preTeleportPosition = null
-            }
-
-            if (nbt.contains(NBT_PRE_TELEPORT_DIMENSION)) {
-                instance.preTeleportDimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, ResourceLocation(nbt.getString(NBT_PRE_TELEPORT_DIMENSION)))
-            } else {
-                instance.preTeleportDimension = null
-            }
-
-            if (nbt.contains(NBT_PRE_TELEPORT_RESPAWN_POSITION)) {
-                instance.preTeleportRespawnPosition = RespawnPosition.from(nbt.getCompound(NBT_PRE_TELEPORT_RESPAWN_POSITION))
-            } else {
-                instance.preTeleportRespawnPosition = null
-            }
+    override fun deserializeNBTSafe(nbt: CompoundTag) {
+        // The compound to read from
+        instance.positionalIndex = nbt.getInt(NBT_POSITIONAL_INDEX)
+        if (nbt.contains(NBT_PRE_TELEPORT_INVENTORY)) {
+            instance.preTeleportPlayerInventory = nbt.getList(
+                NBT_PRE_TELEPORT_INVENTORY,
+                Tag.TAG_COMPOUND.toInt()
+            )
         } else {
-            LOG.error("Attempted to deserialize an NBTBase that was null!")
+            instance.preTeleportPlayerInventory = null
+        }
+
+        if (nbt.contains(NBT_PRE_TELEPORT_POSITION)) {
+            instance.preTeleportPosition =
+                NbtUtils.readBlockPos(nbt.getCompound(NBT_PRE_TELEPORT_POSITION))
+        } else {
+            instance.preTeleportPosition = null
+        }
+
+        if (nbt.contains(NBT_PRE_TELEPORT_DIMENSION)) {
+            instance.preTeleportDimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, ResourceLocation(nbt.getString(NBT_PRE_TELEPORT_DIMENSION)))
+        } else {
+            instance.preTeleportDimension = null
+        }
+
+        if (nbt.contains(NBT_PRE_TELEPORT_RESPAWN_POSITION)) {
+            instance.preTeleportRespawnPosition = RespawnPosition.from(nbt.getCompound(NBT_PRE_TELEPORT_RESPAWN_POSITION))
+        } else {
+            instance.preTeleportRespawnPosition = null
         }
     }
 
     companion object {
-        private val LOG = LogManager.getLogger()
-
         // Constant IDs used in NBT
         private const val NBT_POSITIONAL_INDEX = "positional_index"
         private const val NBT_PRE_TELEPORT_INVENTORY = "pre_teleport_inventory"
