@@ -7,18 +7,18 @@ import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
-import net.minecraft.network.PacketBuffer
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.TranslatableComponent
-import net.minecraftforge.fml.network.NetworkDirection
-import net.minecraftforge.fml.network.NetworkEvent
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.resources.ResourceLocation
+import net.minecraftforge.fmllegacy.network.NetworkDirection
+import net.minecraftforge.fmllegacy.network.NetworkEvent
 
 /**
  * Packet that can be sent from client -> server to tell the server to make a meteor for us, and server -> client
  * to tell the client what meteor lat/long/drop_angle/type they are watching
  */
 class UpdateWatchedMeteorPacketProcessor : PacketProcessor<UpdateWatchedMeteorPacket> {
-    override fun encode(msg: UpdateWatchedMeteorPacket, buf: PacketBuffer) {
+    override fun encode(msg: UpdateWatchedMeteorPacket, buf: FriendlyByteBuf) {
         if (msg.watchedMeteor != null) {
             val meteor = msg.watchedMeteor
             buf.writeUtf(meteor.meteor.registryName.toString())
@@ -31,7 +31,7 @@ class UpdateWatchedMeteorPacketProcessor : PacketProcessor<UpdateWatchedMeteorPa
         }
     }
 
-    override fun decode(buf: PacketBuffer): UpdateWatchedMeteorPacket {
+    override fun decode(buf: FriendlyByteBuf): UpdateWatchedMeteorPacket {
         val meteorEntryString = buf.readUtf()
         val meteorEntry = if (meteorEntryString == "none") {
             null

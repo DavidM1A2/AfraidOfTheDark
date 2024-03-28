@@ -4,15 +4,15 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import net.minecraft.client.Minecraft
-import net.minecraft.network.PacketBuffer
-import net.minecraftforge.fml.network.NetworkDirection
-import net.minecraftforge.fml.network.NetworkEvent
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraftforge.fmllegacy.network.NetworkDirection
+import net.minecraftforge.fmllegacy.network.NetworkEvent
 
 /**
  * This is a packet that is sent to server or client to ensure a given spell is saved in the spell manager
  */
 class SpellPacketProcessor : PacketProcessor<SpellPacket> {
-    override fun encode(msg: SpellPacket, buf: PacketBuffer) {
+    override fun encode(msg: SpellPacket, buf: FriendlyByteBuf) {
         // First write if we have a keybind
         val hasKeybind = msg.keybind != null
         buf.writeBoolean(hasKeybind)
@@ -29,7 +29,7 @@ class SpellPacketProcessor : PacketProcessor<SpellPacket> {
         buf.writeNbt(msg.spell.serializeNBT())
     }
 
-    override fun decode(buf: PacketBuffer): SpellPacket {
+    override fun decode(buf: FriendlyByteBuf): SpellPacket {
         // First test if we have a keybind
         val hasKeybind = buf.readBoolean()
         val keybind = if (hasKeybind) buf.readUtf() else null

@@ -5,13 +5,13 @@ import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
 import com.davidm1a2.afraidofthedark.common.registry.MeteorEntry
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import net.minecraft.block.Blocks
-import net.minecraft.network.PacketBuffer
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.text.TranslatableComponent
+import net.minecraft.core.BlockPos
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.world.level.Level
-import net.minecraftforge.fml.network.NetworkDirection
-import net.minecraftforge.fml.network.NetworkEvent
+import net.minecraft.world.level.block.Blocks
+import net.minecraftforge.fmllegacy.network.NetworkDirection
+import net.minecraftforge.fmllegacy.network.NetworkEvent
 import org.apache.logging.log4j.LogManager
 import kotlin.math.roundToInt
 import kotlin.random.Random
@@ -20,13 +20,13 @@ import kotlin.random.Random
  * Packet sent from client to server to tell the server to validate sextant information and tell us where a meteor landed
  */
 class ProcessSextantInputPacketProcessor : PacketProcessor<ProcessSextantInputPacket> {
-    override fun encode(msg: ProcessSextantInputPacket, buf: PacketBuffer) {
+    override fun encode(msg: ProcessSextantInputPacket, buf: FriendlyByteBuf) {
         buf.writeInt(msg.dropAngle)
         buf.writeInt(msg.latitude)
         buf.writeInt(msg.longitude)
     }
 
-    override fun decode(buf: PacketBuffer): ProcessSextantInputPacket {
+    override fun decode(buf: FriendlyByteBuf): ProcessSextantInputPacket {
         return ProcessSextantInputPacket(
             buf.readInt(),
             buf.readInt(),
@@ -191,7 +191,7 @@ class ProcessSextantInputPacketProcessor : PacketProcessor<ProcessSextantInputPa
             Blocks.CLAY,
             Blocks.WATER,
             Blocks.LAVA,
-            Blocks.GRASS_PATH
+            Blocks.DIRT_PATH
         )
     }
 }

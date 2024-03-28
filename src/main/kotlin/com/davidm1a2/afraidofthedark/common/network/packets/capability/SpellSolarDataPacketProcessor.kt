@@ -3,16 +3,16 @@ package com.davidm1a2.afraidofthedark.common.network.packets.capability
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellSolarData
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
 import net.minecraft.client.Minecraft
-import net.minecraft.network.PacketBuffer
-import net.minecraftforge.fml.network.NetworkDirection
-import net.minecraftforge.fml.network.NetworkEvent
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraftforge.fmllegacy.network.NetworkDirection
+import net.minecraftforge.fmllegacy.network.NetworkEvent
 
 class SpellSolarDataPacketProcessor : PacketProcessor<SpellSolarDataPacket> {
-    override fun encode(msg: SpellSolarDataPacket, buf: PacketBuffer) {
+    override fun encode(msg: SpellSolarDataPacket, buf: FriendlyByteBuf) {
         buf.writeDouble(msg.vitae)
     }
 
-    override fun decode(buf: PacketBuffer): SpellSolarDataPacket {
+    override fun decode(buf: FriendlyByteBuf): SpellSolarDataPacket {
         return SpellSolarDataPacket(buf.readDouble())
     }
 

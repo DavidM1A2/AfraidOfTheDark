@@ -6,20 +6,20 @@ import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
-import net.minecraft.network.PacketBuffer
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.TranslatableComponent
-import net.minecraftforge.fml.network.NetworkDirection
-import net.minecraftforge.fml.network.NetworkEvent
+import net.minecraftforge.fmllegacy.network.NetworkDirection
+import net.minecraftforge.fmllegacy.network.NetworkEvent
 import java.time.ZonedDateTime
 
 class CheatSheetUnlockPacketProcessor : PacketProcessor<CheatSheetUnlockPacket> {
-    override fun encode(msg: CheatSheetUnlockPacket, buf: PacketBuffer) {
+    override fun encode(msg: CheatSheetUnlockPacket, buf: FriendlyByteBuf) {
         buf.writeUtf(msg.research.registryName.toString())
     }
 
-    override fun decode(buf: PacketBuffer): CheatSheetUnlockPacket {
+    override fun decode(buf: FriendlyByteBuf): CheatSheetUnlockPacket {
         return CheatSheetUnlockPacket(ModRegistries.RESEARCH.getValue(ResourceLocation(buf.readUtf()))!!)
     }
 

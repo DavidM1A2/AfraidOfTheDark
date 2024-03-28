@@ -6,10 +6,10 @@ import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.event.ResearchOverlayHandler
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
 import net.minecraft.client.Minecraft
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.network.PacketBuffer
-import net.minecraftforge.fml.network.NetworkDirection
-import net.minecraftforge.fml.network.NetworkEvent
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraftforge.fmllegacy.network.NetworkDirection
+import net.minecraftforge.fmllegacy.network.NetworkEvent
 import java.time.Instant
 import java.time.ZonedDateTime
 
@@ -17,12 +17,12 @@ import java.time.ZonedDateTime
  * Packet used to sync research between server and client
  */
 class ResearchPacketProcessor(private val researchOverlayHandler: ResearchOverlayHandler) : PacketProcessor<ResearchPacket> {
-    override fun encode(msg: ResearchPacket, buf: PacketBuffer) {
+    override fun encode(msg: ResearchPacket, buf: FriendlyByteBuf) {
         // Write the notify flag first
         buf.writeBoolean(msg.notifyNewResearch)
 
         // Create a compound to write to
-        val data = CompoundNBT()
+        val data = CompoundTag()
         // For each research write a boolean if that research is researched
         msg.researchToUnlocked.forEach { (research, researchDate) ->
             if (researchDate != null) {
@@ -34,7 +34,7 @@ class ResearchPacketProcessor(private val researchOverlayHandler: ResearchOverla
         buf.writeNbt(data)
     }
 
-    override fun decode(buf: PacketBuffer): ResearchPacket {
+    override fun decode(buf: FriendlyByteBuf): ResearchPacket {
         // Read the notify flag first
         val notifyNewResearch = buf.readBoolean()
 

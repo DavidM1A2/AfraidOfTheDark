@@ -2,12 +2,12 @@ package com.davidm1a2.afraidofthedark.common.network.packets.other
 
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
 import net.minecraft.client.Minecraft
-import net.minecraft.network.PacketBuffer
-import net.minecraft.particles.IParticleData
-import net.minecraft.particles.ParticleType
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraftforge.fml.network.NetworkDirection
-import net.minecraftforge.fml.network.NetworkEvent
+import net.minecraft.core.particles.ParticleOptions
+import net.minecraft.core.particles.ParticleType
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.world.phys.Vec3
+import net.minecraftforge.fmllegacy.network.NetworkDirection
+import net.minecraftforge.fmllegacy.network.NetworkEvent
 import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.ForgeRegistry
 import kotlin.math.max
@@ -16,7 +16,7 @@ import kotlin.math.max
  * Custom packet used to make the client create a particle effect
  */
 class ParticlePacketProcessor : PacketProcessor<ParticlePacket> {
-    override fun encode(msg: ParticlePacket, buf: PacketBuffer) {
+    override fun encode(msg: ParticlePacket, buf: FriendlyByteBuf) {
         buf.writeInt(msg.particles.size)
         buf.writeInt(msg.positions.size)
         buf.writeInt(msg.speeds.size)
@@ -40,28 +40,28 @@ class ParticlePacketProcessor : PacketProcessor<ParticlePacket> {
         }
     }
 
-    override fun decode(buf: PacketBuffer): ParticlePacket {
+    override fun decode(buf: FriendlyByteBuf): ParticlePacket {
         val numParticles = buf.readInt()
         val numPositions = buf.readInt()
         val numSpeeds = buf.readInt()
         val iterations = buf.readInt()
 
-        val particles = mutableListOf<IParticleData>()
-        val positions = mutableListOf<Vector3d>()
-        val speeds = mutableListOf<Vector3d>()
+        val particles = mutableListOf<ParticleOptions>()
+        val positions = mutableListOf<Vec3>()
+        val speeds = mutableListOf<Vec3>()
 
         for (ignored in 0 until numParticles) {
             @Suppress("UNCHECKED_CAST")
-            val particleType = PARTICLE_TYPES.getValue(buf.readInt()) as ParticleType<IParticleData>
+            val particleType = PARTICLE_TYPES.getValue(buf.readInt()) as ParticleType<ParticleOptions>
             particles.add(particleType.deserializer.fromNetwork(particleType, buf))
         }
 
         for (ignored in 0 until numPositions) {
-            positions.add(Vector3d(buf.readDouble(), buf.readDouble(), buf.readDouble()))
+            positions.add(Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble()))
         }
 
         for (ignored in 0 until numSpeeds) {
-            speeds.add(Vector3d(buf.readDouble(), buf.readDouble(), buf.readDouble()))
+            speeds.add(Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble()))
         }
 
         return ParticlePacket.builder()

@@ -2,19 +2,19 @@ package com.davidm1a2.afraidofthedark.common.network.packets.other
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
-import net.minecraft.network.PacketBuffer
-import net.minecraftforge.fml.network.NetworkDirection
-import net.minecraftforge.fml.network.NetworkEvent
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraftforge.fmllegacy.network.NetworkDirection
+import net.minecraftforge.fmllegacy.network.NetworkEvent
 
 /**
  * Packet sent from client to server to tell the server that a spell keybinding was pressed
  */
 class SpellKeyPressPacketProcessor : PacketProcessor<SpellKeyPressPacket> {
-    override fun encode(msg: SpellKeyPressPacket, buf: PacketBuffer) {
+    override fun encode(msg: SpellKeyPressPacket, buf: FriendlyByteBuf) {
         buf.writeUtf(msg.keyPressedName)
     }
 
-    override fun decode(buf: PacketBuffer): SpellKeyPressPacket {
+    override fun decode(buf: FriendlyByteBuf): SpellKeyPressPacket {
         return SpellKeyPressPacket(buf.readUtf())
     }
 

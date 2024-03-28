@@ -2,21 +2,21 @@ package com.davidm1a2.afraidofthedark.common.network.packets.other
 
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDPerItemCooldownItem
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
-import net.minecraft.item.Item
-import net.minecraft.network.PacketBuffer
-import net.minecraftforge.fml.network.NetworkDirection
-import net.minecraftforge.fml.network.NetworkEvent
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.world.item.Item
+import net.minecraftforge.fmllegacy.network.NetworkDirection
+import net.minecraftforge.fmllegacy.network.NetworkEvent
 
 /**
  * Packet used to update the client of the server-client time difference used to show item cooldowns
  */
 class CooldownSyncPacketProcessor : PacketProcessor<CooldownSyncPacket> {
-    override fun encode(msg: CooldownSyncPacket, buf: PacketBuffer) {
+    override fun encode(msg: CooldownSyncPacket, buf: FriendlyByteBuf) {
         buf.writeLong(msg.timeServer)
         buf.writeInt(Item.getId(msg.itemToSync))
     }
 
-    override fun decode(buf: PacketBuffer): CooldownSyncPacket {
+    override fun decode(buf: FriendlyByteBuf): CooldownSyncPacket {
         return CooldownSyncPacket(
             buf.readLong(),
             Item.byId(buf.readInt()) as AOTDPerItemCooldownItem

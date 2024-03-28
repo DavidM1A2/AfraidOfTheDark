@@ -3,24 +3,24 @@ package com.davidm1a2.afraidofthedark.common.network.packets.other
 import com.davidm1a2.afraidofthedark.common.network.packets.EntityPacketProcessor
 import com.davidm1a2.afraidofthedark.common.tileEntity.VoidChestTileEntity
 import net.minecraft.client.Minecraft
-import net.minecraft.network.PacketBuffer
-import net.minecraft.util.math.BlockPos
-import net.minecraftforge.fml.network.NetworkDirection
-import net.minecraftforge.fml.network.NetworkEvent
+import net.minecraft.core.BlockPos
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraftforge.fmllegacy.network.NetworkDirection
+import net.minecraftforge.fmllegacy.network.NetworkEvent
 import org.apache.logging.log4j.LogManager
 
 /**
  * Packet that tells other players in the area that a void chest has been opened
  */
 class VoidChestPacketProcessor : EntityPacketProcessor<VoidChestPacket>() {
-    override fun encode(msg: VoidChestPacket, buf: PacketBuffer) {
+    override fun encode(msg: VoidChestPacket, buf: FriendlyByteBuf) {
         writeEntityData(msg, buf)
         buf.writeInt(msg.chestX)
         buf.writeInt(msg.chestY)
         buf.writeInt(msg.chestZ)
     }
 
-    override fun decode(buf: PacketBuffer): VoidChestPacket {
+    override fun decode(buf: FriendlyByteBuf): VoidChestPacket {
         val (uuid, id) = readEntityData(buf)
         return VoidChestPacket(
             uuid,

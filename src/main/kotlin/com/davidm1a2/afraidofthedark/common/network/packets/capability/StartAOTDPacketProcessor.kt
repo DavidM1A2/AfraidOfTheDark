@@ -2,19 +2,19 @@ package com.davidm1a2.afraidofthedark.common.network.packets.capability
 
 import com.davidm1a2.afraidofthedark.common.event.custom.PlayerStartedAfraidOfTheDarkEvent
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
-import net.minecraft.network.PacketBuffer
+import net.minecraft.network.FriendlyByteBuf
 import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.fml.network.NetworkDirection
-import net.minecraftforge.fml.network.NetworkEvent
+import net.minecraftforge.fmllegacy.network.NetworkDirection
+import net.minecraftforge.fmllegacy.network.NetworkEvent
 
 /**
  * This is a packet that is sent from a client to the server that tells the server a player has begun the mod
  */
 class StartAOTDPacketProcessor : PacketProcessor<StartAOTDPacket> {
-    override fun encode(msg: StartAOTDPacket, buf: PacketBuffer) {
+    override fun encode(msg: StartAOTDPacket, buf: FriendlyByteBuf) {
     }
 
-    override fun decode(buf: PacketBuffer): StartAOTDPacket {
+    override fun decode(buf: FriendlyByteBuf): StartAOTDPacket {
         return StartAOTDPacket()
     }
 

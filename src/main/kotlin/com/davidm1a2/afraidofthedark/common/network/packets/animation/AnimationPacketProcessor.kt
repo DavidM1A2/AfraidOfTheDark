@@ -3,22 +3,22 @@ package com.davidm1a2.afraidofthedark.common.network.packets.animation
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.network.packets.EntityPacketProcessor
 import net.minecraft.client.Minecraft
-import net.minecraft.network.PacketBuffer
-import net.minecraftforge.fml.network.NetworkDirection
-import net.minecraftforge.fml.network.NetworkEvent
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraftforge.fmllegacy.network.NetworkDirection
+import net.minecraftforge.fmllegacy.network.NetworkEvent
 
 /**
  * Packet used to synchronize animations that are started server side and run client side
  */
 class AnimationPacketProcessor : EntityPacketProcessor<AnimationPacket>() {
-    override fun encode(msg: AnimationPacket, buf: PacketBuffer) {
+    override fun encode(msg: AnimationPacket, buf: FriendlyByteBuf) {
         writeEntityData(msg, buf)
         buf.writeUtf(msg.animationName)
         buf.writeInt(msg.higherPriorityAnims.size)
         msg.higherPriorityAnims.forEach { buf.writeUtf(it) }
     }
 
-    override fun decode(buf: PacketBuffer): AnimationPacket {
+    override fun decode(buf: FriendlyByteBuf): AnimationPacket {
         val (uuid, id) = readEntityData(buf)
 
         return AnimationPacket(

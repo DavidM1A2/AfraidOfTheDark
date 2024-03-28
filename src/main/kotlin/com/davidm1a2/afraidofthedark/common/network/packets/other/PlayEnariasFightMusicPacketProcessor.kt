@@ -3,23 +3,23 @@ package com.davidm1a2.afraidofthedark.common.network.packets.other
 import com.davidm1a2.afraidofthedark.client.sound.EnariaFightMusicSound
 import com.davidm1a2.afraidofthedark.common.network.packets.EntityPacketProcessor
 import net.minecraft.client.Minecraft
-import net.minecraft.client.audio.ISound
-import net.minecraft.network.PacketBuffer
-import net.minecraftforge.fml.network.NetworkDirection
-import net.minecraftforge.fml.network.NetworkEvent
+import net.minecraft.client.resources.sounds.SoundInstance
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraftforge.fmllegacy.network.NetworkDirection
+import net.minecraftforge.fmllegacy.network.NetworkEvent
 
 /**
  * Class used to tell the player to play the enaria fight music
  */
 class PlayEnariasFightMusicPacketProcessor : EntityPacketProcessor<PlayEnariasFightMusicPacket>() {
-    private var currentMusicInstance: ISound? = null
+    private var currentMusicInstance: SoundInstance? = null
 
-    override fun encode(msg: PlayEnariasFightMusicPacket, buf: PacketBuffer) {
+    override fun encode(msg: PlayEnariasFightMusicPacket, buf: FriendlyByteBuf) {
         writeEntityData(msg, buf)
         buf.writeBoolean(msg.playMusic)
     }
 
-    override fun decode(buf: PacketBuffer): PlayEnariasFightMusicPacket {
+    override fun decode(buf: FriendlyByteBuf): PlayEnariasFightMusicPacket {
         val (uuid, id) = readEntityData(buf)
         return PlayEnariasFightMusicPacket(
             uuid,

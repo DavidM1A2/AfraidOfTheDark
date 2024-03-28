@@ -7,21 +7,21 @@ import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
 import com.davidm1a2.afraidofthedark.common.event.custom.PlayerChangePowerSourceEvent
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
 import net.minecraft.client.Minecraft
-import net.minecraft.network.PacketBuffer
-import net.minecraft.util.ResourceLocation
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.resources.ResourceLocation
 import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.fml.network.NetworkDirection
-import net.minecraftforge.fml.network.NetworkEvent
+import net.minecraftforge.fmllegacy.network.NetworkDirection
+import net.minecraftforge.fmllegacy.network.NetworkEvent
 
 /**
  * Packet that can be sent to tell the server or client what power source the player has selected
  */
 class UpdateSelectedPowerSourcePacketProcessor : PacketProcessor<UpdateSelectedPowerSourcePacket> {
-    override fun encode(msg: UpdateSelectedPowerSourcePacket, buf: PacketBuffer) {
+    override fun encode(msg: UpdateSelectedPowerSourcePacket, buf: FriendlyByteBuf) {
         buf.writeUtf(msg.selectedPowerSource.registryName!!.toString())
     }
 
-    override fun decode(buf: PacketBuffer): UpdateSelectedPowerSourcePacket {
+    override fun decode(buf: FriendlyByteBuf): UpdateSelectedPowerSourcePacket {
         val selectedPowerSourceRegistryName = ResourceLocation(buf.readUtf())
         val selectedPowerSource = ModRegistries.SPELL_POWER_SOURCES.getValue(selectedPowerSourceRegistryName)
         return if (selectedPowerSource == null) {

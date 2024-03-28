@@ -3,16 +3,16 @@ package com.davidm1a2.afraidofthedark.common.network.packets.capability
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
 import net.minecraft.client.Minecraft
-import net.minecraft.network.PacketBuffer
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraftforge.fml.network.NetworkDirection
-import net.minecraftforge.fml.network.NetworkEvent
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.world.phys.Vec3
+import net.minecraftforge.fmllegacy.network.NetworkDirection
+import net.minecraftforge.fmllegacy.network.NetworkEvent
 
 /**
  * This is a packet that is sent from a client to the server that updates the number of ticks the player will be frozen for
  */
 class SpellFreezeDataPacketProcessor : PacketProcessor<SpellFreezeDataPacket> {
-    override fun encode(msg: SpellFreezeDataPacket, buf: PacketBuffer) {
+    override fun encode(msg: SpellFreezeDataPacket, buf: FriendlyByteBuf) {
         buf.writeInt(msg.freezeTicks)
         if (msg.freezeTicks > 0) {
             buf.writeDouble(msg.position!!.x)
@@ -23,12 +23,12 @@ class SpellFreezeDataPacketProcessor : PacketProcessor<SpellFreezeDataPacket> {
         }
     }
 
-    override fun decode(buf: PacketBuffer): SpellFreezeDataPacket {
+    override fun decode(buf: FriendlyByteBuf): SpellFreezeDataPacket {
         val freezeTicks = buf.readInt()
         return if (freezeTicks > 0) {
             SpellFreezeDataPacket(
                 freezeTicks,
-                Vector3d(buf.readDouble(), buf.readDouble(), buf.readDouble()),
+                Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble()),
                 buf.readFloat(),
                 buf.readFloat()
             )

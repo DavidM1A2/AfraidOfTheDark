@@ -3,17 +3,17 @@ package com.davidm1a2.afraidofthedark.common.network.packets.capability
 import com.davidm1a2.afraidofthedark.common.capabilities.getWardedBlockMap
 import com.davidm1a2.afraidofthedark.common.network.handler.PacketProcessor
 import net.minecraft.client.Minecraft
-import net.minecraft.network.PacketBuffer
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.ChunkPos
-import net.minecraftforge.fml.network.NetworkDirection
-import net.minecraftforge.fml.network.NetworkEvent
+import net.minecraft.core.BlockPos
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.world.level.ChunkPos
+import net.minecraftforge.fmllegacy.network.NetworkDirection
+import net.minecraftforge.fmllegacy.network.NetworkEvent
 
 /**
  * This is a packet that is sent from server to a client that tells the client what blocks are warded in a chunk
  */
 class WardBlocksPacketProcessor : PacketProcessor<WardBlocksPacket> {
-    override fun encode(msg: WardBlocksPacket, buf: PacketBuffer) {
+    override fun encode(msg: WardBlocksPacket, buf: FriendlyByteBuf) {
         buf.writeInt(msg.chunkPos.x)
         buf.writeInt(msg.chunkPos.z)
 
@@ -30,7 +30,7 @@ class WardBlocksPacketProcessor : PacketProcessor<WardBlocksPacket> {
         buf.writeLongArray(unwardedBlocks.map { it.first.asLong() }.toLongArray())
     }
 
-    override fun decode(buf: PacketBuffer): WardBlocksPacket {
+    override fun decode(buf: FriendlyByteBuf): WardBlocksPacket {
         val chunkPos = ChunkPos(buf.readInt(), buf.readInt())
 
         val wardedBlockCount = buf.readInt()
