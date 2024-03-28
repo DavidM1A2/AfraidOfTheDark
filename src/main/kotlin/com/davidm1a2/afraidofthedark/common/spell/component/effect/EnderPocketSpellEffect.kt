@@ -8,12 +8,12 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import net.minecraft.world.entity.player.Player
-import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.inventory.container.ChestContainer
-import net.minecraft.inventory.container.SimpleNamedContainerProvider
+import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.stats.Stats
-import net.minecraft.util.text.TranslatableComponent
+import net.minecraft.world.SimpleMenuProvider
+import net.minecraft.world.entity.player.Inventory
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.inventory.ChestMenu
 
 /**
  * Effect that creates an ender chest
@@ -37,8 +37,8 @@ class EnderPocketSpellEffect : AOTDSpellEffect("ender_pocket", ModResearches.POC
                     .build()
             )
             val enderChest = entity.enderChestInventory
-            entity.openMenu(SimpleNamedContainerProvider({ inner: Int, inventory: PlayerInventory, _: Player ->
-                ChestContainer.threeRows(
+            entity.openMenu(SimpleMenuProvider({ inner: Int, inventory: Inventory, _: Player ->
+                ChestMenu.threeRows(
                     inner,
                     inventory,
                     enderChest

@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.property
 
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
-import net.minecraft.util.text.TranslatableComponent
+import net.minecraft.network.chat.TranslatableComponent
 
 /**
  * Special spell component property that encapsulates integer parsing

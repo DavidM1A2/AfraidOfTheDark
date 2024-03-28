@@ -9,9 +9,9 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpel
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import net.minecraft.block.IGrowable
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraftforge.common.util.Constants
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.BonemealableBlock
+import net.minecraft.world.phys.Vec3
 import kotlin.random.Random
 
 /**
@@ -43,10 +43,10 @@ class GrowSpellEffect : AOTDSpellEffect("grow", ModResearches.APPRENTICE_ASCENDE
         var blockState = world.getBlockState(position)
 
         // If we hit a block that crops might be on check the block above and below and to if we can grow on that instead
-        if (blockState.block !is IGrowable) {
+        if (blockState.block !is BonemealableBlock) {
             position = position.above()
             blockState = world.getBlockState(position)
-            if (blockState.block !is IGrowable) {
+            if (blockState.block !is BonemealableBlock) {
                 position = position.below(2)
                 blockState = world.getBlockState(position)
             }
@@ -56,11 +56,11 @@ class GrowSpellEffect : AOTDSpellEffect("grow", ModResearches.APPRENTICE_ASCENDE
         var blockValid = false
         // Grob the block at the current position if it's a type 'IGrowable'
         for (ignored in 0 until getStrength(instance)) {
-            if (blockState.block !is IGrowable) {
+            if (blockState.block !is BonemealableBlock) {
                 break
             }
 
-            val iGrowable = blockState.block as IGrowable
+            val iGrowable = blockState.block as BonemealableBlock
             if (!iGrowable.isValidBonemealTarget(world, position, blockState, false)) {
                 break
             }
@@ -76,14 +76,14 @@ class GrowSpellEffect : AOTDSpellEffect("grow", ModResearches.APPRENTICE_ASCENDE
         }
 
         if (blockUpdated) {
-            world.sendBlockUpdated(position, blockState, blockState, Constants.BlockFlags.BLOCK_UPDATE)
+            world.sendBlockUpdated(position, blockState, blockState, Block.UPDATE_CLIENTS)
         }
         if (blockValid) {
             createParticlesAt(
                 state, ParticlePacket.builder()
                     .particle(ModParticles.GROW)
                     .positions(List(if (blockUpdated) 5 else 2) {
-                        Vector3d(position.x + Random.nextDouble(), position.y + Random.nextDouble(), position.z + Random.nextDouble())
+                        Vec3(position.x + Random.nextDouble(), position.y + Random.nextDouble(), position.z + Random.nextDouble())
                     })
                     .build()
             )

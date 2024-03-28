@@ -8,9 +8,12 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.Cas
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellCastResult
 import com.davidm1a2.afraidofthedark.common.tileEntity.MagicCrystalTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.round
+import net.minecraft.core.BlockPos
+import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.world.entity.Entity
-import net.minecraft.util.text.TranslatableComponent
+import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
+import kotlin.math.ceil
 
 class CrystalSpellPowerSource : AOTDSpellPowerSource<CrystalSpellPowerSource.CrystalContext>("crystal", ModResearches.ADVANCED_MAGIC) {
     override fun cast(entity: Entity, spell: Spell, environment: CastEnvironment<CrystalContext>): SpellCastResult {
@@ -51,23 +54,37 @@ class CrystalSpellPowerSource : AOTDSpellPowerSource<CrystalSpellPowerSource.Cry
         return CastEnvironment.withVitae(nearbyCrystals.sumOf { it.getVitae() }, nearbyCrystals.sumOf { it.getMaxVitae() }, CrystalContext(nearbyCrystals))
     }
 
-    private fun getNearbyCrystals(world: Level, x: Double, y: Double, z: Double): Sequence<MagicCrystalTileEntity> {
-        return world
-            .blockEntityList
-            .asSequence()
-            .filter { it.type == ModTileEntities.MAGIC_CRYSTAL }
-            .map { it as MagicCrystalTileEntity }
-            .filter { it.isMaster() }
-            .filter { it.blockPos.distSqr(x, y, z, false) < MAX_CRYSTAL_RANGE_SQUARED }
+    private fun getNearbyCrystals(world: Level, x: Double, y: Double, z: Double): List<MagicCrystalTileEntity> {
+        val nearbyCrystals = mutableListOf<MagicCrystalTileEntity>()
+        val centerChunkPos = ChunkPos(BlockPos(x, y, z))
+        val chunkCheckRange = ceil(MAX_CRYSTAL_RANGE / 16.0).toInt()
+
+        for (xOffset in -chunkCheckRange..chunkCheckRange) {
+            for (zOffset in -chunkCheckRange..chunkCheckRange) {
+                val chunkX = centerChunkPos.x + xOffset
+                val chunkZ = centerChunkPos.z + zOffset
+                if (world.hasChunk(chunkX, chunkZ)) {
+                    val chunk = world.getChunk(chunkX, chunkZ)
+                    nearbyCrystals.addAll(chunk.blockEntities
+                        .values
+                        .filter { it.type == ModTileEntities.MAGIC_CRYSTAL }
+                        .map { it as MagicCrystalTileEntity }
+                        .filter { it.isMaster() }
+                        .filter { it.blockPos.distSqr(x, y, z, false) < MAX_CRYSTAL_RANGE * MAX_CRYSTAL_RANGE })
+                }
+            }
+        }
+
+        return nearbyCrystals
     }
 
     override fun getSourceSpecificCost(vitae: Double): Double {
         return vitae.round(1)
     }
 
-    class CrystalContext(val nearbyCrystals: Sequence<MagicCrystalTileEntity>)
+    class CrystalContext(val nearbyCrystals: List<MagicCrystalTileEntity>)
 
     companion object {
-        private const val MAX_CRYSTAL_RANGE_SQUARED = 24 * 24
+        private const val MAX_CRYSTAL_RANGE = 24
     }
 }

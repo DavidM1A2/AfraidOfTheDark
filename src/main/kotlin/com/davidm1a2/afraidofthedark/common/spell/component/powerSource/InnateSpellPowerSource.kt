@@ -7,10 +7,10 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOT
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.CastEnvironment
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellCastResult
 import com.davidm1a2.afraidofthedark.common.utility.round
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.entity.player.ServerPlayer
-import net.minecraft.util.text.TranslatableComponent
 
 class InnateSpellPowerSource : AOTDSpellPowerSource<Unit>("innate", ModResearches.THE_JOURNEY_BEGINS) {
     override fun cast(entity: Entity, spell: Spell, environment: CastEnvironment<Unit>): SpellCastResult {

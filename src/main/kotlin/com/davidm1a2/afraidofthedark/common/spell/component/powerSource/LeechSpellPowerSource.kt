@@ -9,13 +9,13 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOT
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.CastEnvironment
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellCastResult
 import com.davidm1a2.afraidofthedark.common.utility.round
-import net.minecraft.block.Blocks
-import net.minecraft.world.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.LivingEntity
+import net.minecraft.core.BlockPos
+import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.world.damagesource.DamageSource
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.text.TranslatableComponent
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.level.block.Blocks
 import org.apache.logging.log4j.LogManager
 import kotlin.math.min
 
@@ -104,7 +104,7 @@ class LeechSpellPowerSource : AOTDSpellPowerSource<LeechSpellPowerSource.LeechCo
                 return@getEntitiesOfClass false
             }
             // Don't leech entities through walls
-            if (!it.canSee(entity)) {
+            if (!it.hasLineOfSight(entity)) {
                 return@getEntitiesOfClass false
             }
             true

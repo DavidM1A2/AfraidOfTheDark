@@ -9,8 +9,8 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraftforge.fml.network.PacketDistributor
+import net.minecraft.world.phys.Vec3
+import net.minecraftforge.fmllegacy.network.PacketDistributor
 
 /**
  * Creates a smoke screen at a given effect location
@@ -32,7 +32,7 @@ class SmokeScreenSpellEffect : AOTDSpellEffect("smoke_screen", ModResearches.POC
             ParticlePacket.builder()
                 .particle(ModParticles.SMOKE_SCREEN)
                 .position(position.add(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5))
-                .speed(Vector3d.ZERO)
+                .speed(Vec3.ZERO)
                 .build(),
             PacketDistributor.TargetPoint(position.x, position.y, position.z, 128.0, state.world.dimension())
         )

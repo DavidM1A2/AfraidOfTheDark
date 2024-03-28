@@ -8,9 +8,9 @@ import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionSt
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraftforge.fml.network.PacketDistributor
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.phys.Vec3
+import net.minecraftforge.fmllegacy.network.PacketDistributor
 
 /**
  * Entry used to store a reference to a delivery method
@@ -57,7 +57,7 @@ abstract class SpellDeliveryMethod(id: ResourceLocation, prerequisiteResearch: R
                 ParticlePacket.builder()
                     .particle(ModParticles.FIZZLE)
                     .position(state.position)
-                    .speed(Vector3d(0.0, 0.1, 0.0))
+                    .speed(Vec3(0.0, 0.1, 0.0))
                     .build(),
                 PacketDistributor.TargetPoint(state.position.x, state.position.y, state.position.z, 100.0, state.world.dimension())
             )

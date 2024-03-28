@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
-import net.minecraft.nbt.CompoundNBT
+import net.minecraft.nbt.CompoundTag
 import net.minecraftforge.common.util.INBTSerializable
 
 /**
@@ -14,7 +14,7 @@ import net.minecraftforge.common.util.INBTSerializable
  * @property deliveryInstance The delivery method for this spell stage, can be null
  * @property effects A list of 4 effects for this spell stage, each can be null but the array can't be
  */
-class SpellStage : INBTSerializable<CompoundNBT> {
+class SpellStage : INBTSerializable<CompoundTag> {
     var deliveryInstance: SpellComponentInstance<SpellDeliveryMethod>? = null
     val effects: Array<SpellComponentInstance<SpellEffect>?> = arrayOfNulls(MAX_EFFECTS_PER_STAGE)
 
@@ -31,7 +31,7 @@ class SpellStage : INBTSerializable<CompoundNBT> {
      *
      * @param spellStageNBT The NBT containing the spell stage's information
      */
-    internal constructor(spellStageNBT: CompoundNBT) {
+    internal constructor(spellStageNBT: CompoundTag) {
         deserializeNBT(spellStageNBT)
     }
 
@@ -72,8 +72,8 @@ class SpellStage : INBTSerializable<CompoundNBT> {
      *
      * @return An NBT compound with all this spell stage's data
      */
-    override fun serializeNBT(): CompoundNBT {
-        val nbt = CompoundNBT()
+    override fun serializeNBT(): CompoundTag {
+        val nbt = CompoundTag()
 
         // The spell stage delivery method can be null, double check that it isn't before writing it and its state
         deliveryInstance?.let { nbt.put(NBT_DELIVERY_METHOD, it.serializeNBT()) }
@@ -89,7 +89,7 @@ class SpellStage : INBTSerializable<CompoundNBT> {
      *
      * @param nbt The NBT compound to read from
      */
-    override fun deserializeNBT(nbt: CompoundNBT) {
+    override fun deserializeNBT(nbt: CompoundTag) {
         // The spell stage delivery method can be null, double check that it exists before reading it and its state
         if (nbt.contains(NBT_DELIVERY_METHOD)) {
             deliveryInstance = SpellDeliveryMethodInstance.createFromNBT(nbt.getCompound(NBT_DELIVERY_METHOD))

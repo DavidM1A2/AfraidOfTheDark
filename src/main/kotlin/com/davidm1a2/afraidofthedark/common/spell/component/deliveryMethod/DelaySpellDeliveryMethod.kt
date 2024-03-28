@@ -10,8 +10,8 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraftforge.fml.network.PacketDistributor
+import net.minecraft.world.phys.Vec3
+import net.minecraftforge.fmllegacy.network.PacketDistributor
 import java.time.Duration
 
 /**
@@ -48,7 +48,7 @@ class DelaySpellDeliveryMethod : AOTDSpellDeliveryMethod("delay", ModResearches.
                 .particle(ModParticles.DELAY)
                 .position(position)
                 // Speed's x coordinate is actually the scale of the particle
-                .speed(Vector3d(state.entity?.bbWidth?.times(1.5) ?: 1.2, 1.0, 1.0))
+                .speed(Vec3(state.entity?.bbWidth?.times(1.5) ?: 1.2, 1.0, 1.0))
                 .build(),
             PacketDistributor.TargetPoint(position.x, position.y, position.z, 100.0, world.dimension())
         )

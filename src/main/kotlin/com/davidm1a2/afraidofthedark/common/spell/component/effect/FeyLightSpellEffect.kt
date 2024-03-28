@@ -9,7 +9,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResu
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import com.davidm1a2.afraidofthedark.common.tileEntity.FeyLightTileEntity
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import java.awt.Color
 
 class FeyLightSpellEffect : AOTDSpellEffect("fey_light", ModResearches.THE_JOURNEY_BEGINS) {

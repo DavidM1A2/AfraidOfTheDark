@@ -15,7 +15,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.world.entity.player.Player
-import net.minecraftforge.fml.network.PacketDistributor
+import net.minecraftforge.fmllegacy.network.PacketDistributor
 
 class ImbueSpellDeliveryMethod : AOTDSpellDeliveryMethod("imbue", ModResearches.SCROLL_FORMATION) {
     init {

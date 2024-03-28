@@ -9,8 +9,8 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpel
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.item.ArmorStandEntity
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.decoration.ArmorStand
 
 /**
  * Effect that heals a hit entity
@@ -37,7 +37,7 @@ class HealSpellEffect : AOTDSpellEffect("heal", ModResearches.APPRENTICE_ASCENDE
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         val entity = state.entity
-        if (entity is LivingEntity && entity !is ArmorStandEntity) {
+        if (entity is LivingEntity && entity !is ArmorStand) {
             val healAmount = getAmount(instance)
             val particles = List(healAmount) {
                 HealParticleData(entity.id, it * 360f / healAmount)

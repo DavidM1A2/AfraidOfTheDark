@@ -9,11 +9,11 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpel
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.SoundCategory
-import net.minecraft.util.SoundEvent
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
-import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.sounds.SoundSource
+import net.minecraft.world.phys.Vec3
 import net.minecraftforge.registries.ForgeRegistries
 
 /**
@@ -57,12 +57,12 @@ class SonicDisruptionSpellEffect : AOTDSpellEffect("sonic_disruption", ModResear
         val world = state.world
         val volume = getVolume(instance)
         val pitch = getPitch(instance)
-        world.playSound(null, state.position.x, state.position.y, state.position.z, getSound(instance), SoundCategory.PLAYERS, volume, pitch)
+        world.playSound(null, state.position.x, state.position.y, state.position.z, getSound(instance), SoundSource.PLAYERS, volume, pitch)
         createParticlesAt(
             state, ParticlePacket.builder()
                 .position(state.position)
                 // Particle scale is passed as the X coordinate of the "speed"
-                .speed(Vector3d(volume.toDouble(), 0.0, 0.0))
+                .speed(Vec3(volume.toDouble(), 0.0, 0.0))
                 .particle(ModParticles.SONIC_DISRUPTION)
                 .build()
         )

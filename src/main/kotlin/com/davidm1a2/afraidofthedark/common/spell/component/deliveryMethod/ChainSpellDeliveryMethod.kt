@@ -11,13 +11,13 @@ import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellCompon
 import com.davidm1a2.afraidofthedark.common.utility.getLookNormal
 import com.davidm1a2.afraidofthedark.common.utility.getNormal
 import net.minecraft.world.entity.Entity
-import net.minecraft.entity.EntityPredicate
-import net.minecraft.entity.LivingEntity
-import net.minecraft.util.math.AxisAlignedBB
-import net.minecraft.util.math.RayTraceContext
-import net.minecraft.util.math.RayTraceResult
-import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.ai.targeting.TargetingConditions
+import net.minecraft.world.level.ClipContext
 import net.minecraft.world.level.Level
+import net.minecraft.world.phys.AABB
+import net.minecraft.world.phys.HitResult
+import net.minecraft.world.phys.Vec3
 
 class ChainSpellDeliveryMethod : AOTDSpellDeliveryMethod("chain", ModResearches.APPRENTICE_ASCENDED) {
     init {
@@ -56,8 +56,8 @@ class ChainSpellDeliveryMethod : AOTDSpellDeliveryMethod("chain", ModResearches.
         stageIndex: Int,
         casterEntity: Entity?,
         world: Level,
-        position: Vector3d,
-        lastHitCenterPos: Vector3d,
+        position: Vec3,
+        lastHitCenterPos: Vec3,
         hopsRemaining: Int,
         maxRange: Double,
         hitEntities: MutableSet<LivingEntity> = mutableSetOf()
@@ -67,10 +67,7 @@ class ChainSpellDeliveryMethod : AOTDSpellDeliveryMethod("chain", ModResearches.
             return
         }
 
-        val predicate = EntityPredicate()
-            .allowInvulnerable()
-            .allowSameTeam()
-            .allowNonAttackable()
+        val predicate = TargetingConditions.forCombat()
             .range(maxRange)
             .selector { it !in hitEntities && it.canSee(position) }
 
@@ -81,7 +78,7 @@ class ChainSpellDeliveryMethod : AOTDSpellDeliveryMethod("chain", ModResearches.
             position.x,
             position.y,
             position.z,
-            AxisAlignedBB(position.x - maxRange, position.y - maxRange, position.z - maxRange, position.x + maxRange, position.y + maxRange, position.z + maxRange)
+            AABB(position.x - maxRange, position.y - maxRange, position.z - maxRange, position.x + maxRange, position.y + maxRange, position.z + maxRange)
         )
 
         // No entity to chain to, we're done
@@ -118,20 +115,20 @@ class ChainSpellDeliveryMethod : AOTDSpellDeliveryMethod("chain", ModResearches.
     }
 
     // Copy & Pasted from LivingEntity::canSee(Entity), except uses a position instead of an entity
-    private fun LivingEntity.canSee(position: Vector3d): Boolean {
-        val startPos = Vector3d(this.x, this.eyeY, this.z)
+    private fun LivingEntity.canSee(position: Vec3): Boolean {
+        val startPos = Vec3(this.x, this.eyeY, this.z)
         return if (position.distanceToSqr(startPos) > 128.0 * 128.0) {
             false
         } else {
             level.clip(
-                RayTraceContext(
+                ClipContext(
                     startPos,
                     position,
-                    RayTraceContext.BlockMode.COLLIDER,
-                    RayTraceContext.FluidMode.NONE,
+                    ClipContext.Block.COLLIDER,
+                    ClipContext.Fluid.NONE,
                     this
                 )
-            ).type == RayTraceResult.Type.MISS //Forge Backport MC-209819
+            ).type == HitResult.Type.MISS //Forge Backport MC-209819
         }
     }
 

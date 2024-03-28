@@ -8,16 +8,16 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import net.minecraft.command.arguments.EntityAnchorArgument
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.effect.LightningBoltEntity
+import net.minecraft.commands.arguments.EntityAnchorArgument
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LightningBolt
 
 class LightningSpellEffect : AOTDSpellEffect("lightning", ModResearches.INSANITY) {
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         val position = state.position
-        val lightningBolt = LightningBoltEntity(EntityType.LIGHTNING_BOLT, state.world)
+        val lightningBolt = LightningBolt(EntityType.LIGHTNING_BOLT, state.world)
         lightningBolt.setPos(position.x, position.y, position.z)
-        lightningBolt.lookAt(EntityAnchorArgument.Type.FEET, state.direction)
+        lightningBolt.lookAt(EntityAnchorArgument.Anchor.FEET, state.direction)
         state.world.addFreshEntity(lightningBolt)
         createParticlesAt(
             state, ParticlePacket.builder()

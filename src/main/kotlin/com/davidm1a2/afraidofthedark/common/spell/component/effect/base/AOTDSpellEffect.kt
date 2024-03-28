@@ -5,8 +5,8 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
-import net.minecraft.util.ResourceLocation
-import net.minecraftforge.fml.network.PacketDistributor
+import net.minecraft.resources.ResourceLocation
+import net.minecraftforge.fmllegacy.network.PacketDistributor
 
 abstract class AOTDSpellEffect(name: String, prerequisiteResearch: Research? = null) : SpellEffect(ResourceLocation(Constants.MOD_ID, name), prerequisiteResearch) {
     companion object {

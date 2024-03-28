@@ -9,10 +9,10 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDura
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import net.minecraft.entity.LivingEntity
-import net.minecraft.potion.EffectInstance
-import net.minecraft.potion.Effects
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.level.Level
 import java.time.Duration
 import kotlin.math.abs
@@ -47,8 +47,8 @@ class DigSpellEffect : AOTDDurationSpellEffect("dig", ModResearches.APPRENTICE_A
         if (entity is LivingEntity) {
             val speed = getSpeed(instance)
             if (speed != 0) {
-                val effectType = if (speed >= 0) Effects.DIG_SPEED else Effects.DIG_SLOWDOWN
-                val effect = EffectInstance(effectType, ceil(getDuration(instance) * 20).toInt(), abs(speed) - 1)
+                val effectType = if (speed >= 0) MobEffects.DIG_SPEED else MobEffects.DIG_SLOWDOWN
+                val effect = MobEffectInstance(effectType, ceil(getDuration(instance) * 20).toInt(), abs(speed) - 1)
                 entity.addEffect(effect)
                 createParticlesAt(
                     state, ParticlePacket.builder()

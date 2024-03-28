@@ -2,8 +2,8 @@ package com.davidm1a2.afraidofthedark.common.spell.component.property
 
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.TranslatableComponent
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.resources.ResourceLocation
 import net.minecraftforge.registries.IForgeRegistry
 import net.minecraftforge.registries.IForgeRegistryEntry
 

@@ -11,12 +11,12 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDura
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import net.minecraft.entity.LivingEntity
-import net.minecraft.potion.EffectInstance
-import net.minecraft.potion.Effects
-import net.minecraft.util.Direction
-import net.minecraft.util.math.ChunkPos
-import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.core.Direction
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.phys.Vec3
 import java.time.Duration
 import kotlin.math.ceil
 
@@ -39,7 +39,7 @@ class WardSpellEffect : AOTDDurationSpellEffect("ward", ModResearches.APPRENTICE
         val world = state.world
         if (entityHit is LivingEntity) {
             val durationTicks = ceil(getDuration(instance) * 20).toInt()
-            entityHit.addEffect(EffectInstance(Effects.DAMAGE_RESISTANCE, durationTicks, (getStrength(instance) - 1).coerceAtMost(3)))
+            entityHit.addEffect(MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, durationTicks, (getStrength(instance) - 1).coerceAtMost(3)))
             val particles = List(4) { ShieldParticleData(entityHit.id, it * 90f, entityHit.bbWidth * 1.2f, durationTicks) }
             createParticlesAt(
                 state, ParticlePacket.builder()
@@ -58,7 +58,7 @@ class WardSpellEffect : AOTDDurationSpellEffect("ward", ModResearches.APPRENTICE
                 wardedBlockMap.wardBlock(blockPosition, getStrength(instance))
                 wardedBlockMap.sync(world, chunkPos, blockPos = blockPosition)
                 val particlePositions = Direction.values().map {
-                    Vector3d(blockPosition.x + 0.5, blockPosition.y + 0.5, blockPosition.z + 0.5)
+                    Vec3(blockPosition.x + 0.5, blockPosition.y + 0.5, blockPosition.z + 0.5)
                         .add(it.stepX * 0.505, it.stepY * 0.505, it.stepZ * 0.505)
                 }
                 val particles = Direction.values().map { WardParticleData(it) }

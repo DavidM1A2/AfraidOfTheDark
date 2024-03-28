@@ -10,7 +10,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import com.davidm1a2.afraidofthedark.common.utility.rotateAround
-import net.minecraftforge.fml.network.PacketDistributor
+import net.minecraftforge.fmllegacy.network.PacketDistributor
 
 class RotateSpellDeliveryMethod : AOTDSpellDeliveryMethod("rotate", ModResearches.FORBIDDEN_CITY) {
     init {

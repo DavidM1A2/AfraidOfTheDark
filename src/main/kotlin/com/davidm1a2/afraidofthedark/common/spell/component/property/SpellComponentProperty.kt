@@ -2,8 +2,8 @@ package com.davidm1a2.afraidofthedark.common.spell.component.property
 
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslatableComponent
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
 
 /**
  * Class containing information about a property of a spell component (power source, effect, or delivery method)
@@ -48,11 +48,11 @@ abstract class SpellComponentProperty<T>(
         return convertFrom(value)
     }
 
-    fun getName(): ITextComponent {
+    fun getName(): Component {
         return TranslatableComponent("$baseName.name")
     }
 
-    fun getDescription(): ITextComponent {
+    fun getDescription(): Component {
         return TranslatableComponent("$baseName.description")
     }
 }

@@ -9,8 +9,8 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpel
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import net.minecraft.entity.projectile.AbstractArrowEntity
-import net.minecraft.entity.projectile.ArrowEntity
+import net.minecraft.world.entity.projectile.AbstractArrow
+import net.minecraft.world.entity.projectile.Arrow
 import kotlin.math.ceil
 
 class SummonArrowEffect : AOTDSpellEffect("summon_arrow", ModResearches.WRIST_CROSSBOW) {
@@ -35,11 +35,11 @@ class SummonArrowEffect : AOTDSpellEffect("summon_arrow", ModResearches.WRIST_CR
         val position = state.position
         val direction = state.direction
 
-        val arrowEntity = ArrowEntity(world, position.x, position.y, position.z)
+        val arrowEntity = Arrow(world, position.x, position.y, position.z)
 
         arrowEntity.owner = state.entity
         arrowEntity.shoot(direction.x, direction.y, direction.z, speed, 0f)
-        arrowEntity.pickup = AbstractArrowEntity.PickupStatus.DISALLOWED
+        arrowEntity.pickup = AbstractArrow.Pickup.DISALLOWED
         world.addFreshEntity(arrowEntity)
         createParticlesAt(
             state, ParticlePacket.builder()

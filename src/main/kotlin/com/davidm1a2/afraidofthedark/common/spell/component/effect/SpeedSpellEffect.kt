@@ -9,11 +9,11 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDura
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import net.minecraft.entity.AreaEffectCloudEntity
-import net.minecraft.entity.LivingEntity
-import net.minecraft.potion.EffectInstance
-import net.minecraft.potion.Effects
-import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.AreaEffectCloud
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.phys.Vec3
 import java.time.Duration
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -43,22 +43,22 @@ class SpeedSpellEffect : AOTDDurationSpellEffect("speed", ModResearches.CLOAK_OF
         }
 
         val duration = ceil(getDuration(instance) * 20).toInt()
-        val effectType = if (multiplier >= 0) Effects.MOVEMENT_SPEED else Effects.MOVEMENT_SLOWDOWN
+        val effectType = if (multiplier >= 0) MobEffects.MOVEMENT_SPEED else MobEffects.MOVEMENT_SLOWDOWN
         val effectAmplifier = abs(multiplier) - 1
-        val effect = EffectInstance(effectType, duration, effectAmplifier)
+        val effect = MobEffectInstance(effectType, duration, effectAmplifier)
 
         if (entityHit is LivingEntity) {
             entityHit.addEffect(effect)
             val particleSpeeds = List(5) {
-                Vector3d.directionFromRotation(entityHit.xRot, entityHit.yRot)
+                Vec3.directionFromRotation(entityHit.xRot, entityHit.yRot)
                     .reverse()
                     // Remove the y component
-                    .let { Vector3d(it.x, (Random.nextDouble() * entityHit.bbHeight / 2 + entityHit.bbHeight / 2) * 0.25, it.z) }
+                    .let { Vec3(it.x, (Random.nextDouble() * entityHit.bbHeight / 2 + entityHit.bbHeight / 2) * 0.25, it.z) }
                     // Normalize the direction
                     .normalize()
                     // Set the y component to upwards, perturb the x and z components
                     .let {
-                        Vector3d(
+                        Vec3(
                             it.x * 0.2 + (Random.nextDouble() - 0.5) * 0.2,
                             (Random.nextDouble() * entityHit.bbHeight / 2 + entityHit.bbHeight / 2) * 0.25,
                             it.z * 0.2 + (Random.nextDouble() - 0.5) * 0.2
@@ -74,10 +74,10 @@ class SpeedSpellEffect : AOTDDurationSpellEffect("speed", ModResearches.CLOAK_OF
             )
         } else {
             val world = state.world
-            val aoePotion = AreaEffectCloudEntity(world, exactPosition.x, exactPosition.y, exactPosition.z)
+            val aoePotion = AreaEffectCloud(world, exactPosition.x, exactPosition.y, exactPosition.z)
             aoePotion.addEffect(effect)
             aoePotion.owner = state.casterEntity as? LivingEntity
-            aoePotion.setRadiusPerTick(0f)
+            aoePotion.radiusPerTick = 0f
             aoePotion.duration = duration
             world.addFreshEntity(aoePotion)
             createParticlesAt(
@@ -85,7 +85,7 @@ class SpeedSpellEffect : AOTDDurationSpellEffect("speed", ModResearches.CLOAK_OF
                     .particle(ModParticles.DUST_CLOUD)
                     .position(state.position)
                     .speed(
-                        Vector3d(Random.nextDouble() - 0.5, 0.0, Random.nextDouble() - 0.5)
+                        Vec3(Random.nextDouble() - 0.5, 0.0, Random.nextDouble() - 0.5)
                             .normalize()
                             .scale(0.2)
                             .add(0.0, Random.nextDouble() * 0.3 + 0.3, 0.0)

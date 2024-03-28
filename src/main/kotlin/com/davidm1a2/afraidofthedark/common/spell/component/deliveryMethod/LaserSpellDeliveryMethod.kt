@@ -9,10 +9,10 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import com.davidm1a2.afraidofthedark.common.utility.getLookNormal
+import net.minecraft.core.BlockPos
 import net.minecraft.world.entity.Entity
-import net.minecraft.util.math.AxisAlignedBB
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.RayTraceContext
+import net.minecraft.world.level.ClipContext
+import net.minecraft.world.phys.AABB
 import java.awt.Color
 
 /**
@@ -68,8 +68,8 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod("laser", ModResearches.
         val endPos = startPos.add(direction.scale(getRange(state.getCurrentStage().deliveryInstance!!)))
 
         // Perform a ray trace, this will not hit blocks
-        val hitLiquids = if (getHitLiquids(state.getCurrentStage().deliveryInstance!!)) RayTraceContext.FluidMode.ANY else RayTraceContext.FluidMode.NONE
-        val rayTraceResult = world.clip(RayTraceContext(startPos, endPos, RayTraceContext.BlockMode.COLLIDER, hitLiquids, entity))
+        val hitLiquids = if (getHitLiquids(state.getCurrentStage().deliveryInstance!!)) ClipContext.Fluid.ANY else ClipContext.Fluid.NONE
+        val rayTraceResult = world.clip(ClipContext(startPos, endPos, ClipContext.Block.COLLIDER, hitLiquids, entity))
 
         // Compute the hit vector
         var hitPos = rayTraceResult.location
@@ -80,7 +80,7 @@ class LaserSpellDeliveryMethod : AOTDSpellDeliveryMethod("laser", ModResearches.
         // has the entire possible ray inside. Then grab entities inside, then intersect each of their hitboxes manually
         val potentialHitEntities = world.getEntitiesOfClass(
             Entity::class.java,
-            AxisAlignedBB(startPos.x, startPos.y, startPos.z, hitPos.x, hitPos.y, hitPos.z)
+            AABB(startPos.x, startPos.y, startPos.z, hitPos.x, hitPos.y, hitPos.z)
         )
 
         val hitEntity = potentialHitEntities

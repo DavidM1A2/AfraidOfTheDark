@@ -3,10 +3,10 @@ package com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentBase
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.Entity
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslatableComponent
 
 /**
  * Entry used to store a reference to a power source
@@ -62,7 +62,7 @@ abstract class SpellPowerSource<T>(id: ResourceLocation, prerequisiteResearch: R
      *
      * @return A description describing how cost is computed
      */
-    fun getCostOverview(): ITextComponent {
+    fun getCostOverview(): Component {
         return TranslatableComponent("${getUnlocalizedBaseName()}.cost_overview")
     }
 
@@ -72,7 +72,7 @@ abstract class SpellPowerSource<T>(id: ResourceLocation, prerequisiteResearch: R
      * @param rawCost The raw spell cost
      * @return A description of the cost as a nicely formatted string
      */
-    fun getFormattedCost(rawCost: Double): ITextComponent {
+    fun getFormattedCost(rawCost: Double): Component {
         return TranslatableComponent("${getUnlocalizedBaseName()}.formatted_cost", getSourceSpecificCost(rawCost))
     }
 

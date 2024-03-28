@@ -10,9 +10,9 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraftforge.fml.network.PacketDistributor
+import net.minecraft.core.BlockPos
+import net.minecraft.world.phys.Vec3
+import net.minecraftforge.fmllegacy.network.PacketDistributor
 import java.awt.Color
 import kotlin.random.Random
 
@@ -99,7 +99,7 @@ class WallSpellDeliveryMethod : AOTDSpellDeliveryMethod("wall", ModResearches.AP
                 ParticlePacket.builder()
                     .particle(ModParticles.FIZZLE)
                     .positions(positions)
-                    .speed(Vector3d(0.0, 0.1, 0.0))
+                    .speed(Vec3(0.0, 0.1, 0.0))
                     .build(),
                 PacketDistributor.TargetPoint(position.x, position.y, position.z, 100.0, world.dimension())
             )

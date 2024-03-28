@@ -2,11 +2,10 @@ package com.davidm1a2.afraidofthedark.common.spell.component
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.research.Research
-import net.minecraft.world.entity.player.Player
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TranslatableComponent
+import net.minecraft.world.entity.player.Player
 import net.minecraftforge.registries.ForgeRegistryEntry
 import net.minecraftforge.registries.IForgeRegistryEntry
 
@@ -36,11 +35,11 @@ abstract class SpellComponentBase<T : IForgeRegistryEntry<T>>(
         return prerequisiteResearch == null || player.getResearch().isResearched(prerequisiteResearch)
     }
 
-    fun getName(): ITextComponent {
+    fun getName(): Component {
         return TranslatableComponent("${getUnlocalizedBaseName()}.name")
     }
 
-    fun getDescription(): ITextComponent {
+    fun getDescription(): Component {
         return TranslatableComponent("${getUnlocalizedBaseName()}.description")
     }
 }

@@ -9,7 +9,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionSt
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
-import net.minecraftforge.fml.network.PacketDistributor
+import net.minecraftforge.fmllegacy.network.PacketDistributor
 
 /**
  * Self delivery method delivers the spell to the caster

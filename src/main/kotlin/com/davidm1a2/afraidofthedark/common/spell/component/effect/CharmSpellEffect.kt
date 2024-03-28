@@ -7,9 +7,9 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDurationSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import net.minecraft.entity.passive.AnimalEntity
+import net.minecraft.core.particles.ParticleTypes
+import net.minecraft.world.entity.animal.Animal
 import net.minecraft.world.entity.player.Player
-import net.minecraft.particles.ParticleTypes
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.math.ceil
 
@@ -28,7 +28,7 @@ class CharmSpellEffect : AOTDDurationSpellEffect("charm", ModResearches.ADVANCED
         val entity = state.entity
         val spellOwner = state.casterEntity
         // If we hit an entity that is an animal set them in love
-        if (entity is AnimalEntity) {
+        if (entity is Animal) {
             entity.setInLove(spellOwner as? Player)
         } else if (entity is Player && spellOwner != null) {
             // Grab the player's charm data

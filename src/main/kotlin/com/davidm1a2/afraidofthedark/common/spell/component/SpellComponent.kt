@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component
 
 import com.davidm1a2.afraidofthedark.common.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Editable spell component piece

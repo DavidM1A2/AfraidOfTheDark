@@ -10,16 +10,16 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.utility.getLookNormal
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
+import net.minecraft.core.BlockPos
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.Tag
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.sounds.SoundSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.nbt.ListNBT
-import net.minecraft.util.SoundCategory
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.util.text.TranslatableComponent
+import net.minecraft.world.phys.Vec3
 import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.common.util.Constants
 import net.minecraftforge.common.util.INBTSerializable
 import org.apache.logging.log4j.LogManager
 
@@ -29,7 +29,7 @@ import org.apache.logging.log4j.LogManager
  * @property name The spell's name, can't be null (empty by default)
  * @property spellStages The list of spell stages this spell can go through, can have 0 - inf elements
  */
-class Spell() : INBTSerializable<CompoundNBT> {
+class Spell() : INBTSerializable<CompoundTag> {
     // Empty spell name is default
     var name: String = ""
     val spellStages = mutableListOf<SpellStage>()
@@ -39,7 +39,7 @@ class Spell() : INBTSerializable<CompoundNBT> {
      *
      * @param nbt The NBT containing the spell's information
      */
-    constructor(nbt: CompoundNBT) : this() {
+    constructor(nbt: CompoundTag) : this() {
         deserializeNBT(nbt)
     }
 
@@ -50,7 +50,7 @@ class Spell() : INBTSerializable<CompoundNBT> {
      * @param direction The direction the spell should be casted, defaults to the look vec
      * @param isSpellScroll True if the cast is coming from a spell scroll
      */
-    fun attemptToCast(entity: Entity, direction: Vector3d = entity.lookAngle, isSpellScroll: Boolean = false) {
+    fun attemptToCast(entity: Entity, direction: Vec3 = entity.lookAngle, isSpellScroll: Boolean = false) {
         // Server side processing only
         if (!entity.level.isClientSide) {
             // Make sure the player isn't in the nightmare realm
@@ -83,7 +83,7 @@ class Spell() : INBTSerializable<CompoundNBT> {
                         null,
                         entity.blockPosition(),
                         ModSounds.SPELL_CAST,
-                        SoundCategory.PLAYERS,
+                        SoundSource.PLAYERS,
                         1.0f,
                         (0.8f + Math.random() * 0.4).toFloat()
                     )
@@ -193,14 +193,14 @@ class Spell() : INBTSerializable<CompoundNBT> {
      *
      * @return An NBT compound with all this spell's data
      */
-    override fun serializeNBT(): CompoundNBT {
-        val nbt = CompoundNBT()
+    override fun serializeNBT(): CompoundTag {
+        val nbt = CompoundTag()
 
         // Write each field to NBT
         nbt.putString(NBT_NAME, name)
 
         // Write each spell stage to NBT
-        val spellStagesNBT = ListNBT()
+        val spellStagesNBT = ListTag()
         spellStages.forEach { spellStagesNBT.add(it.serializeNBT()) }
         nbt.put(NBT_SPELL_STAGES, spellStagesNBT)
         return nbt
@@ -211,12 +211,12 @@ class Spell() : INBTSerializable<CompoundNBT> {
      *
      * @param nbt The NBT compound to read from
      */
-    override fun deserializeNBT(nbt: CompoundNBT) {
+    override fun deserializeNBT(nbt: CompoundTag) {
         // Read each field from NBT
         name = nbt.getString(NBT_NAME)
 
         // Read each spell stage from NBT
-        val spellStagesNBT = nbt.getList(NBT_SPELL_STAGES, Constants.NBT.TAG_COMPOUND)
+        val spellStagesNBT = nbt.getList(NBT_SPELL_STAGES, Tag.TAG_COMPOUND.toInt())
         spellStages.clear()
         for (i in 0 until spellStagesNBT.size) {
             // Grab the spell stage NBT, read it into the spell stage, and add it
@@ -237,10 +237,6 @@ class Spell() : INBTSerializable<CompoundNBT> {
 
     companion object {
         private val logger = LogManager.getLogger()
-
-        // Constants used for spell tiers
-        private const val SPELL_TIER2_CUTOFF = 100
-        private const val SPELL_TIER3_CUTOFF = 500
 
         // Constants used for NBT serialization/deserialiation
         private const val NBT_NAME = "name"

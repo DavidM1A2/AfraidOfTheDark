@@ -9,8 +9,8 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpel
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.world.Explosion
+import net.minecraft.world.level.Explosion
+import net.minecraft.world.phys.Vec3
 import kotlin.math.floor
 
 /**
@@ -47,11 +47,11 @@ class ExplosionSpellEffect : AOTDSpellEffect("explosion", ModResearches.MAGIC_MA
                 .particle(ModParticles.EXPLOSION)
                 .position(position)
                 // Particle's 'speed' isn't actually speed. It's the explosion's radius. We'll re-use the speed's x coordinate though since it's unused
-                .speed(Vector3d(getRadius(instance).toDouble(), 0.0, 0.0))
+                .speed(Vec3(getRadius(instance).toDouble(), 0.0, 0.0))
                 .iterations(numParticles)
                 .build()
         )
-        world.explode(null, position.x, position.y - 0.01f, position.z, getRadius(instance), Explosion.Mode.BREAK)
+        world.explode(null, position.x, position.y - 0.01f, position.z, getRadius(instance), Explosion.BlockInteraction.BREAK)
         return ProcResult.success()
     }
 

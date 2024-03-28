@@ -6,10 +6,10 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import net.minecraft.block.Blocks
-import net.minecraft.block.FireBlock
-import net.minecraft.particles.ParticleTypes
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
+import net.minecraft.core.particles.ParticleTypes
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.FireBlock
 
 /**
  * Effect that extinguishes fire

@@ -11,9 +11,9 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import com.davidm1a2.afraidofthedark.common.utility.getNormal
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraftforge.fml.network.PacketDistributor
+import net.minecraft.core.BlockPos
+import net.minecraft.world.phys.Vec3
+import net.minecraftforge.fmllegacy.network.PacketDistributor
 import java.awt.Color
 import kotlin.math.ceil
 import kotlin.math.pow
@@ -82,13 +82,13 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod("aoe", ModResearches.ADVA
                     if (distance <= radius && (!shellOnly || (radius - distance) < 1.5)) {
                         var direction = aoePos.subtract(centerPos).normalize()
                         // Direction may be 0 if aoePos = centerPos. In this case, move it up
-                        if (direction == Vector3d.ZERO) {
-                            direction = Vector3d(0.0, 1.0, 0.0)
+                        if (direction == Vec3.ZERO) {
+                            direction = Vec3(0.0, 1.0, 0.0)
                         }
                         var normal = direction.getNormal()
                         // Straight up means we can't know our normal. Just use 1, 0, 0
-                        if (normal == Vector3d.ZERO) {
-                            normal = Vector3d(1.0, 0.0, 0.0)
+                        if (normal == Vec3.ZERO) {
+                            normal = Vec3(1.0, 0.0, 0.0)
                         }
 
                         val newState = DeliveryTransitionState(
@@ -128,7 +128,7 @@ class AOESpellDeliveryMethod : AOTDSpellDeliveryMethod("aoe", ModResearches.ADVA
                 ParticlePacket.builder()
                     .particle(ModParticles.FIZZLE)
                     .positions(positions)
-                    .speed(Vector3d(0.0, 0.1, 0.0))
+                    .speed(Vec3(0.0, 0.1, 0.0))
                     .build(),
                 PacketDistributor.TargetPoint(state.position.x, state.position.y, state.position.z, 100.0, state.world.dimension())
             )

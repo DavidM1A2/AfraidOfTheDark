@@ -12,9 +12,9 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import com.davidm1a2.afraidofthedark.common.utility.ConeUtils
 import com.davidm1a2.afraidofthedark.common.utility.getNormal
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraftforge.fml.network.PacketDistributor
+import net.minecraft.core.BlockPos
+import net.minecraft.world.phys.Vec3
+import net.minecraftforge.fmllegacy.network.PacketDistributor
 import java.awt.Color
 import kotlin.math.PI
 import kotlin.math.ceil
@@ -89,17 +89,17 @@ class ConeSpellDeliveryMethod : AOTDSpellDeliveryMethod("cone", ModResearches.MA
         for (x in minX..maxX) {
             for (y in minY..maxY) {
                 for (z in minZ..maxZ) {
-                    val conePos = Vector3d(x.toDouble(), y.toDouble(), z.toDouble())
+                    val conePos = Vec3(x.toDouble(), y.toDouble(), z.toDouble())
                     if (isWithinCone(tipPos, forwardDir, length, radius, conePos, shellOnly)) {
                         var newDirection = conePos.subtract(tipPos).normalize()
                         // Direction may be 0 if conePos = tipPos. In this case, move it up
-                        if (newDirection == Vector3d.ZERO) {
-                            newDirection = Vector3d(0.0, 1.0, 0.0)
+                        if (newDirection == Vec3.ZERO) {
+                            newDirection = Vec3(0.0, 1.0, 0.0)
                         }
                         var newNormal = newDirection.getNormal()
                         // Straight up means we can't know our normal. Just use 1, 0, 0
-                        if (newNormal == Vector3d.ZERO) {
-                            newNormal = Vector3d(1.0, 0.0, 0.0)
+                        if (newNormal == Vec3.ZERO) {
+                            newNormal = Vec3(1.0, 0.0, 0.0)
                         }
 
                         val newState = DeliveryTransitionState(
@@ -135,14 +135,14 @@ class ConeSpellDeliveryMethod : AOTDSpellDeliveryMethod("cone", ModResearches.MA
                 ParticlePacket.builder()
                     .particle(ModParticles.FIZZLE)
                     .positions(positions)
-                    .speed(Vector3d(0.0, 0.1, 0.0))
+                    .speed(Vec3(0.0, 0.1, 0.0))
                     .build(),
                 PacketDistributor.TargetPoint(tipPos.x, tipPos.y, tipPos.z, 100.0, world.dimension())
             )
         }
     }
 
-    private fun isWithinCone(tip: Vector3d, direction: Vector3d, height: Double, radius: Double, point: Vector3d, shellOnly: Boolean): Boolean {
+    private fun isWithinCone(tip: Vec3, direction: Vec3, height: Double, radius: Double, point: Vec3, shellOnly: Boolean): Boolean {
         // To detect if a point is within the cone or not, we can use: https://stackoverflow.com/questions/12826117/how-can-i-detect-if-a-point-is-inside-a-cone-or-not-in-3d-space
         val coneDistance = point.subtract(tip).dot(direction)
         if (coneDistance < 0 || coneDistance > height) {

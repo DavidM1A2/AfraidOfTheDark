@@ -5,7 +5,6 @@ import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.ai.attributes.Attributes
-import net.minecraft.world.entity.ai.behavior.BehaviorUtils
 import net.minecraft.world.entity.ai.goal.Goal
 import net.minecraft.world.entity.player.Player
 import java.util.*
@@ -68,7 +67,7 @@ class GhastlyEnariaPlayerChaseGoal(private val enaria: GhastlyEnariaEntity) : Go
             enaria.lookAt(targetPlayer!!, 360f, 360f)
 
             // If the player can see enaria, add slowness 4 to the player
-            if (!enaria.isBenign() && BehaviorUtils.canSee(targetPlayer!!, enaria)) {
+            if (!enaria.isBenign() && targetPlayer!!.hasLineOfSight(enaria)) {
                 targetPlayer!!.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 4, false, false))
             }
         }

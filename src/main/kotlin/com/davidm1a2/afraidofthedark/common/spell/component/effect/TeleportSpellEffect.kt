@@ -8,8 +8,8 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import net.minecraft.util.SoundCategory
 import net.minecraft.sounds.SoundEvents
+import net.minecraft.sounds.SoundSource
 import net.minecraft.world.level.Level
 
 /**
@@ -42,7 +42,7 @@ class TeleportSpellEffect : AOTDSpellEffect("teleport", ModResearches.POCKET_DIM
                 position.y,
                 position.z,
                 SoundEvents.ENDERMAN_TELEPORT,
-                SoundCategory.PLAYERS,
+                SoundSource.PLAYERS,
                 2.5f,
                 1.0f
             )
@@ -62,7 +62,7 @@ class TeleportSpellEffect : AOTDSpellEffect("teleport", ModResearches.POCKET_DIM
                 position.y,
                 position.z,
                 SoundEvents.ENDERMAN_TELEPORT,
-                SoundCategory.PLAYERS,
+                SoundSource.PLAYERS,
                 2.5f,
                 1.0f
             )

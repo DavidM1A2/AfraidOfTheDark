@@ -9,13 +9,13 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDurationSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import net.minecraft.block.Blocks
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.potion.EffectInstance
-import net.minecraft.potion.Effects
-import net.minecraft.util.math.vector.Vector3d
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.phys.Vec3
 import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.random.Random
@@ -44,11 +44,11 @@ class FreezeSpellEffect : AOTDDurationSpellEffect("freeze", ModResearches.ELEMEN
                 if (entity is Player) {
                     val freezeData = entity.getSpellFreezeData()
                     freezeData.freezeTicks = max(freezeData.freezeTicks, ceil(getDuration(instance) * 20).toInt())
-                    freezeData.freezePosition = Vector3d(entity.x, entity.y, entity.z)
+                    freezeData.freezePosition = Vec3(entity.x, entity.y, entity.z)
                     freezeData.freezeYaw = entity.yRot
                     freezeData.freezePitch = entity.xRot
                 } else {
-                    entity.addEffect(EffectInstance(Effects.MOVEMENT_SLOWDOWN, ceil(getDuration(instance) * 20).toInt(), 99))
+                    entity.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, ceil(getDuration(instance) * 20).toInt(), 99))
                 }
                 val width = entity.bbWidth * 2.5
                 val height = entity.bbHeight
@@ -63,7 +63,7 @@ class FreezeSpellEffect : AOTDDurationSpellEffect("freeze", ModResearches.ELEMEN
                             )
                         })
                         // Speed's x isn't speed, but the duration that the freeze will last
-                        .speed(Vector3d(getDuration(instance) * 20, 0.0, 0.0))
+                        .speed(Vec3(getDuration(instance) * 20, 0.0, 0.0))
                         .build()
                 )
             } else {
@@ -77,14 +77,14 @@ class FreezeSpellEffect : AOTDDurationSpellEffect("freeze", ModResearches.ELEMEN
                     state, ParticlePacket.builder()
                         .particle(ModParticles.FREEZE)
                         .positions(List(4) {
-                            Vector3d(
+                            Vec3(
                                 blockPos.x + if (Random.nextBoolean()) 1.01 else -0.01,
                                 blockPos.y + if (Random.nextBoolean()) 1.01 else -0.01,
                                 blockPos.z + if (Random.nextBoolean()) 1.01 else -0.01
                             )
                         })
                         // Speed's x isn't speed, but the duration that the freeze will last
-                        .speed(Vector3d(20.0, 0.0, 0.0))
+                        .speed(Vec3(20.0, 0.0, 0.0))
                         .build()
                 )
             } else {

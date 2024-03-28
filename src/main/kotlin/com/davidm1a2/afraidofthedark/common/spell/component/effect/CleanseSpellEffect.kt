@@ -11,10 +11,10 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpel
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.effect.MobEffectCategory
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.potion.EffectType
-import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.world.phys.Vec3
 import kotlin.math.max
 import kotlin.random.Random
 
@@ -67,15 +67,15 @@ class CleanseSpellEffect : AOTDSpellEffect("cleanse", ModResearches.ADVANCED_MAG
         if (entity != null) {
             // Clear potion effects
             if (entity is LivingEntity) {
-                val effectTypesToClear = mutableSetOf<EffectType>()
+                val effectTypesToClear = mutableSetOf<MobEffectCategory>()
                 if (getBeneficialPotionEffects(instance)) {
-                    effectTypesToClear.add(EffectType.BENEFICIAL)
+                    effectTypesToClear.add(MobEffectCategory.BENEFICIAL)
                 }
                 if (getNeutralPotionEffects(instance)) {
-                    effectTypesToClear.add(EffectType.NEUTRAL)
+                    effectTypesToClear.add(MobEffectCategory.NEUTRAL)
                 }
                 if (getHarmfulPotionEffects(instance)) {
-                    effectTypesToClear.add(EffectType.HARMFUL)
+                    effectTypesToClear.add(MobEffectCategory.HARMFUL)
                 }
 
                 entity.activeEffects.map { it.effect }.forEach {
@@ -108,8 +108,8 @@ class CleanseSpellEffect : AOTDSpellEffect("cleanse", ModResearches.ADVANCED_MAG
             createParticlesAt(
                 state, ParticlePacket.builder()
                     .particles(particles)
-                    .position(Vector3d(entity.x, entity.y, entity.z))
-                    .speed(Vector3d.ZERO)
+                    .position(Vec3(entity.x, entity.y, entity.z))
+                    .speed(Vec3.ZERO)
                     .build()
             )
         } else {

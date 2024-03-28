@@ -5,9 +5,9 @@ import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.CastEnvironment
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellCastResult
+import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.util.text.TranslatableComponent
 import kotlin.math.ceil
 
 /**

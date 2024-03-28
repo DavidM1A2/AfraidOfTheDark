@@ -3,7 +3,6 @@ package com.davidm1a2.afraidofthedark.common.entity.splinterDrone
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.network.packets.animation.AnimationPacket
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.ai.behavior.BehaviorUtils
 import net.minecraft.world.entity.ai.goal.Goal
 import net.minecraftforge.fmllegacy.network.PacketDistributor
 
@@ -48,7 +47,7 @@ class SplinterDroneAttackGoal(private val splinterDrone: SplinterDroneEntity) : 
      * @return True if the attack should continue, false otherwise
      */
     override fun canContinueToUse(): Boolean {
-        return canUse() && BehaviorUtils.canSee(splinterDrone, target!!)
+        return canUse() && splinterDrone.hasLineOfSight(target!!)
     }
 
     /**

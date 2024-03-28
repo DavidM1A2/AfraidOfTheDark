@@ -8,9 +8,9 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDDurationSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.ProcResult
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import net.minecraft.block.Blocks
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.core.BlockPos
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.phys.Vec3
 import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.random.Random
@@ -29,7 +29,7 @@ class BurnSpellEffect : AOTDDurationSpellEffect("burn", ModResearches.ELEMENTAL_
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>): ProcResult {
         val entity = state.entity
         if (entity != null) {
-            val particlePositions = List<Vector3d>(8) {
+            val particlePositions = List<Vec3>(8) {
                 entity.position().add(
                     (Random.nextDouble() - 0.5) * entity.boundingBox.xsize * 1.5,
                     (Random.nextDouble() - 0.5) * entity.boundingBox.ysize * 0.8,
@@ -41,7 +41,7 @@ class BurnSpellEffect : AOTDDurationSpellEffect("burn", ModResearches.ELEMENTAL_
                     .particle(ModParticles.FIRE)
                     .positions(particlePositions)
                     .speed(
-                        Vector3d(
+                        Vec3(
                             Random.nextDouble() * 0.01 - 0.005,
                             0.1,
                             Random.nextDouble() * 0.01 - 0.005
@@ -62,7 +62,7 @@ class BurnSpellEffect : AOTDDurationSpellEffect("burn", ModResearches.ELEMENTAL_
                             .particle(ModParticles.FIRE)
                             .position(state.position)
                             .speed(
-                                Vector3d(
+                                Vec3(
                                     Random.nextDouble() * 0.01 - 0.005,
                                     0.1,
                                     Random.nextDouble() * 0.01 - 0.005
