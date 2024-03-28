@@ -6,16 +6,15 @@ import com.mojang.datafixers.util.Function4
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.particles.ParticleOptions
-import net.minecraft.network.PacketBuffer
-import net.minecraft.particles.IParticleData
-import net.minecraft.particles.ParticleType
+import net.minecraft.core.particles.ParticleType
+import net.minecraft.network.FriendlyByteBuf
 
 class FeyParticleData(val offsetDegrees: Float, val red: Float, val green: Float, val blue: Float) : ParticleOptions {
     override fun getType(): ParticleType<*> {
         return ModParticles.FEY
     }
 
-    override fun writeToNetwork(packetBuffer: PacketBuffer) {
+    override fun writeToNetwork(packetBuffer: FriendlyByteBuf) {
         packetBuffer.writeFloat(offsetDegrees)
         packetBuffer.writeFloat(red)
         packetBuffer.writeFloat(green)
@@ -38,12 +37,12 @@ class FeyParticleData(val offsetDegrees: Float, val red: Float, val green: Float
             }))
         }
 
-        val DESERIALIZER = object : IParticleData.IDeserializer<FeyParticleData> {
+        val DESERIALIZER = object : ParticleOptions.Deserializer<FeyParticleData> {
             override fun fromCommand(particleType: ParticleType<FeyParticleData>, stringReader: StringReader): FeyParticleData {
                 return FeyParticleData(stringReader.readFloat(), stringReader.readFloat(), stringReader.readFloat(), stringReader.readFloat())
             }
 
-            override fun fromNetwork(particleType: ParticleType<FeyParticleData>, packetBuffer: PacketBuffer): FeyParticleData {
+            override fun fromNetwork(particleType: ParticleType<FeyParticleData>, packetBuffer: FriendlyByteBuf): FeyParticleData {
                 return FeyParticleData(packetBuffer.readFloat(), packetBuffer.readFloat(), packetBuffer.readFloat(), packetBuffer.readFloat())
             }
         }

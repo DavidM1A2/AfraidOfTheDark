@@ -6,16 +6,15 @@ import com.mojang.datafixers.util.Function3
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.particles.ParticleOptions
-import net.minecraft.network.PacketBuffer
-import net.minecraft.particles.IParticleData
-import net.minecraft.particles.ParticleType
+import net.minecraft.core.particles.ParticleType
+import net.minecraft.network.FriendlyByteBuf
 
 class CleanseParticleData(val entityId: Int, val offsetDegrees: Float, val radius: Float) : ParticleOptions {
     override fun getType(): ParticleType<*> {
         return ModParticles.CLEANSE
     }
 
-    override fun writeToNetwork(packetBuffer: PacketBuffer) {
+    override fun writeToNetwork(packetBuffer: FriendlyByteBuf) {
         packetBuffer.writeVarInt(entityId)
         packetBuffer.writeFloat(offsetDegrees)
         packetBuffer.writeFloat(radius)
@@ -36,12 +35,12 @@ class CleanseParticleData(val entityId: Int, val offsetDegrees: Float, val radiu
             }))
         }
 
-        val DESERIALIZER = object : IParticleData.IDeserializer<CleanseParticleData> {
+        val DESERIALIZER = object : ParticleOptions.Deserializer<CleanseParticleData> {
             override fun fromCommand(particleType: ParticleType<CleanseParticleData>, stringReader: StringReader): CleanseParticleData {
                 return CleanseParticleData(-1, 0f, 1f)
             }
 
-            override fun fromNetwork(particleType: ParticleType<CleanseParticleData>, packetBuffer: PacketBuffer): CleanseParticleData {
+            override fun fromNetwork(particleType: ParticleType<CleanseParticleData>, packetBuffer: FriendlyByteBuf): CleanseParticleData {
                 return CleanseParticleData(packetBuffer.readVarInt(), packetBuffer.readFloat(), packetBuffer.readFloat())
             }
         }

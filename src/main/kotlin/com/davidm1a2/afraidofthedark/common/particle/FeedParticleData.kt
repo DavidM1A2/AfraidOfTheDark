@@ -6,16 +6,15 @@ import com.mojang.datafixers.util.Function3
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.particles.ParticleOptions
-import net.minecraft.network.PacketBuffer
-import net.minecraft.particles.IParticleData
-import net.minecraft.particles.ParticleType
+import net.minecraft.core.particles.ParticleType
+import net.minecraft.network.FriendlyByteBuf
 
 class FeedParticleData(val entityId: Int, val offsetDegrees: Float, val radius: Float) : ParticleOptions {
     override fun getType(): ParticleType<*> {
         return ModParticles.FEED
     }
 
-    override fun writeToNetwork(packetBuffer: PacketBuffer) {
+    override fun writeToNetwork(packetBuffer: FriendlyByteBuf) {
         packetBuffer.writeVarInt(entityId)
         packetBuffer.writeFloat(offsetDegrees)
         packetBuffer.writeFloat(radius)
@@ -36,12 +35,12 @@ class FeedParticleData(val entityId: Int, val offsetDegrees: Float, val radius: 
             }))
         }
 
-        val DESERIALIZER = object : IParticleData.IDeserializer<FeedParticleData> {
+        val DESERIALIZER = object : ParticleOptions.Deserializer<FeedParticleData> {
             override fun fromCommand(particleType: ParticleType<FeedParticleData>, stringReader: StringReader): FeedParticleData {
                 return FeedParticleData(-1, 0f, 1f)
             }
 
-            override fun fromNetwork(particleType: ParticleType<FeedParticleData>, packetBuffer: PacketBuffer): FeedParticleData {
+            override fun fromNetwork(particleType: ParticleType<FeedParticleData>, packetBuffer: FriendlyByteBuf): FeedParticleData {
                 return FeedParticleData(packetBuffer.readVarInt(), packetBuffer.readFloat(), packetBuffer.readFloat())
             }
         }

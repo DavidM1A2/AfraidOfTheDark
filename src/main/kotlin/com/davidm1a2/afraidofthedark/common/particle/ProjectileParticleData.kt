@@ -6,16 +6,15 @@ import com.mojang.datafixers.util.Function4
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.particles.ParticleOptions
-import net.minecraft.network.PacketBuffer
-import net.minecraft.particles.IParticleData
-import net.minecraft.particles.ParticleType
+import net.minecraft.core.particles.ParticleType
+import net.minecraft.network.FriendlyByteBuf
 
 class ProjectileParticleData(val scale: Float, val red: Float, val green: Float, val blue: Float) : ParticleOptions {
     override fun getType(): ParticleType<*> {
         return ModParticles.PROJECTILE
     }
 
-    override fun writeToNetwork(packetBuffer: PacketBuffer) {
+    override fun writeToNetwork(packetBuffer: FriendlyByteBuf) {
         packetBuffer.writeFloat(scale)
         packetBuffer.writeFloat(red)
         packetBuffer.writeFloat(green)
@@ -38,12 +37,12 @@ class ProjectileParticleData(val scale: Float, val red: Float, val green: Float,
             }))
         }
 
-        val DESERIALIZER = object : IParticleData.IDeserializer<ProjectileParticleData> {
+        val DESERIALIZER = object : ParticleOptions.Deserializer<ProjectileParticleData> {
             override fun fromCommand(particleType: ParticleType<ProjectileParticleData>, stringReader: StringReader): ProjectileParticleData {
                 return ProjectileParticleData(stringReader.readFloat(), stringReader.readFloat(), stringReader.readFloat(), stringReader.readFloat())
             }
 
-            override fun fromNetwork(particleType: ParticleType<ProjectileParticleData>, packetBuffer: PacketBuffer): ProjectileParticleData {
+            override fun fromNetwork(particleType: ParticleType<ProjectileParticleData>, packetBuffer: FriendlyByteBuf): ProjectileParticleData {
                 return ProjectileParticleData(packetBuffer.readFloat(), packetBuffer.readFloat(), packetBuffer.readFloat(), packetBuffer.readFloat())
             }
         }

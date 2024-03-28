@@ -5,9 +5,8 @@ import com.mojang.brigadier.StringReader
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.particles.ParticleOptions
-import net.minecraft.network.PacketBuffer
-import net.minecraft.particles.IParticleData
-import net.minecraft.particles.ParticleType
+import net.minecraft.core.particles.ParticleType
+import net.minecraft.network.FriendlyByteBuf
 import java.util.function.BiFunction
 
 class ArrowTrailParticleData(val entityId: Int, val delayTicks: Int) : ParticleOptions {
@@ -15,7 +14,7 @@ class ArrowTrailParticleData(val entityId: Int, val delayTicks: Int) : ParticleO
         return ModParticles.ARROW_TRAIL
     }
 
-    override fun writeToNetwork(packetBuffer: PacketBuffer) {
+    override fun writeToNetwork(packetBuffer: FriendlyByteBuf) {
         packetBuffer.writeVarInt(entityId)
         packetBuffer.writeVarInt(delayTicks)
     }
@@ -34,12 +33,12 @@ class ArrowTrailParticleData(val entityId: Int, val delayTicks: Int) : ParticleO
             }))
         }
 
-        val DESERIALIZER = object : IParticleData.IDeserializer<ArrowTrailParticleData> {
+        val DESERIALIZER = object : ParticleOptions.Deserializer<ArrowTrailParticleData> {
             override fun fromCommand(particleType: ParticleType<ArrowTrailParticleData>, stringReader: StringReader): ArrowTrailParticleData {
                 return ArrowTrailParticleData(-1, 0)
             }
 
-            override fun fromNetwork(particleType: ParticleType<ArrowTrailParticleData>, packetBuffer: PacketBuffer): ArrowTrailParticleData {
+            override fun fromNetwork(particleType: ParticleType<ArrowTrailParticleData>, packetBuffer: FriendlyByteBuf): ArrowTrailParticleData {
                 return ArrowTrailParticleData(packetBuffer.readVarInt(), packetBuffer.readVarInt())
             }
         }

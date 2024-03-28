@@ -6,16 +6,15 @@ import com.mojang.datafixers.util.Function4
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.particles.ParticleOptions
-import net.minecraft.network.PacketBuffer
-import net.minecraft.particles.IParticleData
-import net.minecraft.particles.ParticleType
+import net.minecraft.core.particles.ParticleType
+import net.minecraft.network.FriendlyByteBuf
 
 class ShieldParticleData(val entityId: Int, val offsetDegrees: Float, val radius: Float, val duration: Int) : ParticleOptions {
     override fun getType(): ParticleType<*> {
         return ModParticles.SHIELD
     }
 
-    override fun writeToNetwork(packetBuffer: PacketBuffer) {
+    override fun writeToNetwork(packetBuffer: FriendlyByteBuf) {
         packetBuffer.writeVarInt(entityId)
         packetBuffer.writeFloat(offsetDegrees)
         packetBuffer.writeFloat(radius)
@@ -38,12 +37,12 @@ class ShieldParticleData(val entityId: Int, val offsetDegrees: Float, val radius
             }))
         }
 
-        val DESERIALIZER = object : IParticleData.IDeserializer<ShieldParticleData> {
+        val DESERIALIZER = object : ParticleOptions.Deserializer<ShieldParticleData> {
             override fun fromCommand(particleType: ParticleType<ShieldParticleData>, stringReader: StringReader): ShieldParticleData {
                 return ShieldParticleData(-1, 0f, 1f, 20)
             }
 
-            override fun fromNetwork(particleType: ParticleType<ShieldParticleData>, packetBuffer: PacketBuffer): ShieldParticleData {
+            override fun fromNetwork(particleType: ParticleType<ShieldParticleData>, packetBuffer: FriendlyByteBuf): ShieldParticleData {
                 return ShieldParticleData(packetBuffer.readVarInt(), packetBuffer.readFloat(), packetBuffer.readFloat(), packetBuffer.readVarInt())
             }
         }

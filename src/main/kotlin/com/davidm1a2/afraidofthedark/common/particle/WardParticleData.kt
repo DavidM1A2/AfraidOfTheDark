@@ -4,11 +4,10 @@ import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.mojang.brigadier.StringReader
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.Direction
 import net.minecraft.core.particles.ParticleOptions
-import net.minecraft.network.PacketBuffer
-import net.minecraft.particles.IParticleData
-import net.minecraft.particles.ParticleType
-import net.minecraft.util.Direction
+import net.minecraft.core.particles.ParticleType
+import net.minecraft.network.FriendlyByteBuf
 import java.util.function.BiFunction
 
 class WardParticleData(val direction: Direction, val scale: Float = 2.5f) : ParticleOptions {
@@ -16,7 +15,7 @@ class WardParticleData(val direction: Direction, val scale: Float = 2.5f) : Part
         return ModParticles.WARD
     }
 
-    override fun writeToNetwork(packetBuffer: PacketBuffer) {
+    override fun writeToNetwork(packetBuffer: FriendlyByteBuf) {
         packetBuffer.writeVarInt(direction.ordinal)
         packetBuffer.writeFloat(scale)
     }
@@ -35,12 +34,12 @@ class WardParticleData(val direction: Direction, val scale: Float = 2.5f) : Part
             }))
         }
 
-        val DESERIALIZER = object : IParticleData.IDeserializer<WardParticleData> {
+        val DESERIALIZER = object : ParticleOptions.Deserializer<WardParticleData> {
             override fun fromCommand(particleType: ParticleType<WardParticleData>, stringReader: StringReader): WardParticleData {
                 return WardParticleData(Direction.UP)
             }
 
-            override fun fromNetwork(particleType: ParticleType<WardParticleData>, packetBuffer: PacketBuffer): WardParticleData {
+            override fun fromNetwork(particleType: ParticleType<WardParticleData>, packetBuffer: FriendlyByteBuf): WardParticleData {
                 return WardParticleData(Direction.values()[packetBuffer.readVarInt()], packetBuffer.readFloat())
             }
         }

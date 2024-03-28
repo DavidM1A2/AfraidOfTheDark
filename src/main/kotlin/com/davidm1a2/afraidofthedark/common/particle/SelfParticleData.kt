@@ -5,9 +5,8 @@ import com.mojang.brigadier.StringReader
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.particles.ParticleOptions
-import net.minecraft.network.PacketBuffer
-import net.minecraft.particles.IParticleData
-import net.minecraft.particles.ParticleType
+import net.minecraft.core.particles.ParticleType
+import net.minecraft.network.FriendlyByteBuf
 import java.util.function.BiFunction
 
 class SelfParticleData(val entityId: Int, val offsetDegrees: Float) : ParticleOptions {
@@ -15,7 +14,7 @@ class SelfParticleData(val entityId: Int, val offsetDegrees: Float) : ParticleOp
         return ModParticles.SELF
     }
 
-    override fun writeToNetwork(packetBuffer: PacketBuffer) {
+    override fun writeToNetwork(packetBuffer: FriendlyByteBuf) {
         packetBuffer.writeVarInt(entityId)
         packetBuffer.writeFloat(offsetDegrees)
     }
@@ -34,12 +33,12 @@ class SelfParticleData(val entityId: Int, val offsetDegrees: Float) : ParticleOp
             }))
         }
 
-        val DESERIALIZER = object : IParticleData.IDeserializer<SelfParticleData> {
+        val DESERIALIZER = object : ParticleOptions.Deserializer<SelfParticleData> {
             override fun fromCommand(particleType: ParticleType<SelfParticleData>, stringReader: StringReader): SelfParticleData {
                 return SelfParticleData(-1, 0f)
             }
 
-            override fun fromNetwork(particleType: ParticleType<SelfParticleData>, packetBuffer: PacketBuffer): SelfParticleData {
+            override fun fromNetwork(particleType: ParticleType<SelfParticleData>, packetBuffer: FriendlyByteBuf): SelfParticleData {
                 return SelfParticleData(packetBuffer.readVarInt(), packetBuffer.readFloat())
             }
         }
