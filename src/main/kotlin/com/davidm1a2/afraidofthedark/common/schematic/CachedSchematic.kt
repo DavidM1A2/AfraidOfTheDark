@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.schematic
 
-import net.minecraft.block.BlockState
-import net.minecraft.nbt.ListNBT
+import net.minecraft.nbt.ListTag
+import net.minecraft.world.level.block.state.BlockState
 
 /**
  * Object representation of a schematic file that stores everything in memory. This optimizes for the fastest possible generation time
@@ -18,12 +18,12 @@ import net.minecraft.nbt.ListNBT
  */
 class CachedSchematic internal constructor(
     private val name: String,
-    private val tileEntities: ListNBT,
+    private val tileEntities: ListTag,
     private val width: Short,
     private val height: Short,
     private val length: Short,
     private val blocks: Array<BlockState>,
-    private val entities: ListNBT
+    private val entities: ListTag
 ) : Schematic {
     /**
      * @return The name of the schematic
@@ -35,7 +35,7 @@ class CachedSchematic internal constructor(
     /**
      * @return A list of tile entities in the schematic region
      */
-    override fun getTileEntities(): ListNBT {
+    override fun getTileEntities(): ListTag {
         return tileEntities
     }
 
@@ -70,7 +70,7 @@ class CachedSchematic internal constructor(
     /**
      * @return A list of entities in the schematic region
      */
-    override fun getEntities(): ListNBT {
+    override fun getEntities(): ListTag {
         return entities
     }
 }

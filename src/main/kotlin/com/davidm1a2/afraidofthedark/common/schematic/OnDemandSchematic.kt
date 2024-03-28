@@ -2,17 +2,12 @@ package com.davidm1a2.afraidofthedark.common.schematic
 
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.utility.ResourceUtil
-import net.minecraft.block.BlockState
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.nbt.CompressedStreamTools
-import net.minecraft.nbt.ListNBT
-import net.minecraft.nbt.NBTUtil
-import net.minecraft.util.ResourceLocation
-import net.minecraftforge.common.util.Constants
+import net.minecraft.nbt.*
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.level.block.state.BlockState
 import org.apache.logging.log4j.LogManager
 import java.io.IOException
-import java.util.Timer
-import java.util.TimerTask
+import java.util.*
 
 /**
  * Object representation of a schematic file that only caches block data in memory when needed. This optimizes for the
@@ -38,9 +33,9 @@ class OnDemandSchematic internal constructor(
     private val length: Short
 ) : Schematic {
     private var lastTimeAccessed: Long? = null
-    private var tileEntities: ListNBT? = null
+    private var tileEntities: ListTag? = null
     private var blocks: Array<BlockState>? = null
-    private var entities: ListNBT? = null
+    private var entities: ListTag? = null
 
     init {
         synchronized(ON_DEMAND_SCHEMATICS) { ON_DEMAND_SCHEMATICS.add(this) }
@@ -58,7 +53,7 @@ class OnDemandSchematic internal constructor(
                 // Grab an input stream to the schematic file
                 val inputStream = ResourceUtil.readServerResource(schematicLocation)
                 // Read the NBT data from the file
-                val nbtData = CompressedStreamTools.readCompressed(inputStream)
+                val nbtData = NbtIo.readCompressed(inputStream)
 
                 // Read the entities and tile entities
                 tileEntities = nbtData.getList("TileEntities", 10)
@@ -67,10 +62,10 @@ class OnDemandSchematic internal constructor(
                 // Read the block ids
                 val blockIds = nbtData.getIntArray("BlockIds")
                 // Read the map of block name to id
-                val blockMapData = nbtData.getList("BlockIdData", Constants.NBT.TAG_COMPOUND).map { (it as CompoundNBT) }
+                val blockMapData = nbtData.getList("BlockIdData", Tag.TAG_COMPOUND.toInt()).map { (it as CompoundTag) }
 
                 // Convert block names to block pointer references
-                val blockMapBlocks = blockMapData.map { NBTUtil.readBlockState(it) }
+                val blockMapBlocks = blockMapData.map { NbtUtils.readBlockState(it) }
                 // Map each block id to block pointer
                 this.blocks = blockIds.map { blockMapBlocks[it] }.toTypedArray()
 
@@ -117,7 +112,7 @@ class OnDemandSchematic internal constructor(
      * @return A list of tile entities in the schematic region
      */
     @Synchronized
-    override fun getTileEntities(): ListNBT {
+    override fun getTileEntities(): ListTag {
         demandCache()
         return tileEntities!!
     }
@@ -156,7 +151,7 @@ class OnDemandSchematic internal constructor(
      * @return A list of entities in the schematic region
      */
     @Synchronized
-    override fun getEntities(): ListNBT {
+    override fun getEntities(): ListTag {
         demandCache()
         return entities!!
     }

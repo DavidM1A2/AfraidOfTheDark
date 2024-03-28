@@ -2,11 +2,11 @@ package com.davidm1a2.afraidofthedark.common.schematic
 
 import com.davidm1a2.afraidofthedark.common.utility.ResourceUtil
 import com.electronwill.nightconfig.toml.TomlFormat
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.nbt.CompressedStreamTools
-import net.minecraft.nbt.NBTUtil
-import net.minecraft.util.ResourceLocation
-import net.minecraftforge.common.util.Constants
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtIo
+import net.minecraft.nbt.NbtUtils
+import net.minecraft.nbt.Tag
+import net.minecraft.resources.ResourceLocation
 import net.minecraftforge.fml.loading.FMLPaths
 import org.apache.commons.io.FilenameUtils
 import org.apache.logging.log4j.LogManager
@@ -76,7 +76,7 @@ class SchematicBuilder {
         val schematicName = FilenameUtils.getBaseName(resourceLocation!!.path)
         // Read the NBT data from the file
         val nbtData = ResourceUtil.readServerResource(resourceLocation!!).use {
-            CompressedStreamTools.readCompressed(it)
+            NbtIo.readCompressed(it)
         }
 
         // Begin processing the data
@@ -92,10 +92,10 @@ class SchematicBuilder {
         // Read the block ids
         val blockIds = nbtData.getIntArray("BlockIds")
         // Read the map of block name to id
-        val blockMapData = nbtData.getList("BlockIdData", Constants.NBT.TAG_COMPOUND).map { (it as CompoundNBT) }
+        val blockMapData = nbtData.getList("BlockIdData", Tag.TAG_COMPOUND.toInt()).map { (it as CompoundTag) }
 
         // Convert block names to block pointer references
-        val blockMapBlocks = blockMapData.map { NBTUtil.readBlockState(it) }
+        val blockMapBlocks = blockMapData.map { NbtUtils.readBlockState(it) }
         // Map each block id to block pointer
         val blocks = blockIds.map { blockMapBlocks[it] }.toTypedArray()
 
@@ -117,7 +117,7 @@ class SchematicBuilder {
         // Grab an input stream to the schematic meta file
         val inputStream = ResourceUtil.readServerResource(metaLocation)
         // Read the NBT data from the file
-        val nbtData = CompressedStreamTools.readCompressed(inputStream)
+        val nbtData = NbtIo.readCompressed(inputStream)
 
         // Grab the 3 fields stored in the .meta field
         val width = nbtData.getShort("width")
