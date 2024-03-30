@@ -6,15 +6,16 @@ import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.base.BooleanConfig
 import com.davidm1a2.afraidofthedark.common.world.structure.base.SchematicStructurePiece
-import net.minecraft.util.math.MutableBoundingBox
-import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.feature.structure.Structure
+import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.level.LevelHeightAccessor
+import net.minecraft.world.level.chunk.ChunkGenerator
+import net.minecraft.world.level.levelgen.feature.StructureFeature
 
-class ObservatoryStructureStart(structure: Structure<BooleanConfig>, chunkX: Int, chunkZ: Int, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
-    AOTDStructureStart<BooleanConfig>(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
+class ObservatoryStructureStart(structure: StructureFeature<BooleanConfig>, chunkPos: ChunkPos, referenceIn: Int, seed: Long) :
+    AOTDStructureStart<BooleanConfig>(structure, chunkPos, referenceIn, seed) {
 
-    override fun init(generator: ChunkGenerator, xPos: Int, zPos: Int) {
-        val yPos = (feature as AOTDStructure<*>).getEdgeHeights(xPos, zPos, generator).minOrNull()!! - 1
+    override fun init(generator: ChunkGenerator, xPos: Int, zPos: Int, levelHeightAccessor: LevelHeightAccessor) {
+        val yPos = (feature as AOTDStructure<*>).getEdgeHeights(xPos, zPos, generator, levelHeightAccessor).minOrNull()!! - 1
 
         this.pieces.add(
             SchematicStructurePiece(
@@ -26,6 +27,6 @@ class ObservatoryStructureStart(structure: Structure<BooleanConfig>, chunkX: Int
                 ModLootTables.OBSERVATORY
             )
         )
-        this.calculateBoundingBox()
+        this.createBoundingBox()
     }
 }

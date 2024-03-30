@@ -4,14 +4,15 @@ import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.base.MultiplierConfig
-import net.minecraft.util.RegistryKey
-import net.minecraft.world.biome.Biome
-import net.minecraft.world.biome.provider.BiomeProvider
-import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.feature.StructureFeature
-import net.minecraft.world.gen.feature.structure.Structure
-import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
-import java.util.Random
+import net.minecraft.resources.ResourceKey
+import net.minecraft.world.level.LevelHeightAccessor
+import net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.biome.BiomeSource
+import net.minecraft.world.level.chunk.ChunkGenerator
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature
+import net.minecraft.world.level.levelgen.feature.StructureFeature
+import net.minecraft.world.level.levelgen.feature.StructureFeature.StructureStartFactory
+import java.util.*
 
 class MagicCrystalStructure : AOTDStructure<MultiplierConfig>("magic_crystal", MultiplierConfig.CODEC) {
     override fun getWidth(): Int {
@@ -22,13 +23,13 @@ class MagicCrystalStructure : AOTDStructure<MultiplierConfig>("magic_crystal", M
         return ModSchematics.MAGIC_CRYSTAL.getLength().toInt()
     }
 
-    override fun getStartFactory(): IStartFactory<MultiplierConfig> {
-        return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
-            MagicCrystalStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
+    override fun getStartFactory(): StructureStartFactory<MultiplierConfig> {
+        return StructureStartFactory { structure, chunkPos, reference, seed ->
+            MagicCrystalStructureStart(structure, chunkPos, reference, seed)
         }
     }
 
-    override fun configured(biome: RegistryKey<Biome>, category: Biome.Category): StructureFeature<MultiplierConfig, out Structure<MultiplierConfig>>? {
+    override fun configured(biome: ResourceKey<Biome>, category: Biome.BiomeCategory): ConfiguredStructureFeature<MultiplierConfig, out StructureFeature<MultiplierConfig>>? {
         return if (category !in INCOMPATIBLE_BIOME_CATEGORIES) {
             configured(MultiplierConfig(1))
         } else {
@@ -36,17 +37,17 @@ class MagicCrystalStructure : AOTDStructure<MultiplierConfig>("magic_crystal", M
         }
     }
 
-    override fun configuredFlat(): StructureFeature<MultiplierConfig, out Structure<MultiplierConfig>> {
+    override fun configuredFlat(): ConfiguredStructureFeature<MultiplierConfig, out StructureFeature<MultiplierConfig>> {
         return configured(MISSING_CONFIG)
     }
 
-    override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
+    override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeSource, random: Random, xPos: Int, zPos: Int, levelHeightAccessor: LevelHeightAccessor): Boolean {
         val chance = getOneInNValidChunks(400) * ModCommonConfiguration.magicCrystalMultiplier
         if (random.nextDouble() >= chance) {
             return false
         }
 
-        val heights = getEdgeHeights(xPos, zPos, chunkGen)
+        val heights = getEdgeHeights(xPos, zPos, chunkGen, levelHeightAccessor)
         val maxHeight = heights.maxOrNull()!!
         val minHeight = heights.minOrNull()!!
         if (maxHeight - minHeight > 2) {
@@ -58,11 +59,11 @@ class MagicCrystalStructure : AOTDStructure<MultiplierConfig>("magic_crystal", M
     companion object {
         private val MISSING_CONFIG = MultiplierConfig(0)
         private val INCOMPATIBLE_BIOME_CATEGORIES = setOf(
-            Biome.Category.NETHER,
-            Biome.Category.OCEAN,
-            Biome.Category.RIVER,
-            Biome.Category.THEEND,
-            Biome.Category.NONE
+            Biome.BiomeCategory.NETHER,
+            Biome.BiomeCategory.OCEAN,
+            Biome.BiomeCategory.RIVER,
+            Biome.BiomeCategory.THEEND,
+            Biome.BiomeCategory.NONE
         )
     }
 }

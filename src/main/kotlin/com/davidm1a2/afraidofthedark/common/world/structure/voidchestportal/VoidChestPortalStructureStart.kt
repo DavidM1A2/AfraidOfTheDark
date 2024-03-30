@@ -2,34 +2,33 @@ package com.davidm1a2.afraidofthedark.common.world.structure.voidchestportal
 
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.SchematicStructurePiece
-import net.minecraft.util.Direction
-import net.minecraft.util.math.MutableBoundingBox
-import net.minecraft.util.registry.DynamicRegistries
-import net.minecraft.world.biome.Biome
-import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.feature.NoFeatureConfig
-import net.minecraft.world.gen.feature.structure.Structure
-import net.minecraft.world.gen.feature.structure.StructureStart
-import net.minecraft.world.gen.feature.template.TemplateManager
+import net.minecraft.core.Direction
+import net.minecraft.core.RegistryAccess
+import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.level.LevelHeightAccessor
+import net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.chunk.ChunkGenerator
+import net.minecraft.world.level.levelgen.feature.StructureFeature
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration
+import net.minecraft.world.level.levelgen.structure.StructureStart
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager
 
 class VoidChestPortalStructureStart(
-    structure: Structure<NoFeatureConfig>,
-    chunkX: Int,
-    chunkZ: Int,
-    boundsIn: MutableBoundingBox,
+    structure: StructureFeature<NoneFeatureConfiguration>,
+    chunkPos: ChunkPos,
     referenceIn: Int,
     seed: Long
-) : StructureStart<NoFeatureConfig>(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
+) : StructureStart<NoneFeatureConfiguration>(structure, chunkPos, referenceIn, seed) {
     override fun generatePieces(
-        dynamicRegistries: DynamicRegistries,
+        dynamicRegistries: RegistryAccess,
         generator: ChunkGenerator,
-        templateManagerIn: TemplateManager,
-        centerChunkX: Int,
-        centerChunkZ: Int,
+        templateManagerIn: StructureManager,
+        chunkPos: ChunkPos,
         biomeIn: Biome,
-        config: NoFeatureConfig
+        config: NoneFeatureConfiguration,
+        levelHeightAccessor: LevelHeightAccessor
     ) {
-        val startX = chunkX * 16
+        val startX = chunkPos.x * 16
         val endX = startX + 15
         val multipleOf1000 = endX / 1000
         val posX = multipleOf1000 * 1000 + 16
@@ -44,6 +43,6 @@ class VoidChestPortalStructureStart(
                 facing = Direction.NORTH
             )
         )
-        this.calculateBoundingBox()
+        this.createBoundingBox()
     }
 }

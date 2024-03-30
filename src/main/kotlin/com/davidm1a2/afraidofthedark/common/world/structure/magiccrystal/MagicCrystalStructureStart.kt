@@ -5,15 +5,16 @@ import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.base.MultiplierConfig
 import com.davidm1a2.afraidofthedark.common.world.structure.base.SchematicStructurePiece
-import net.minecraft.util.math.MutableBoundingBox
-import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.feature.structure.Structure
+import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.level.LevelHeightAccessor
+import net.minecraft.world.level.chunk.ChunkGenerator
+import net.minecraft.world.level.levelgen.feature.StructureFeature
 
-class MagicCrystalStructureStart(structure: Structure<MultiplierConfig>, chunkX: Int, chunkZ: Int, boundsIn: MutableBoundingBox, referenceIn: Int, seed: Long) :
-    AOTDStructureStart<MultiplierConfig>(structure, chunkX, chunkZ, boundsIn, referenceIn, seed) {
+class MagicCrystalStructureStart(structure: StructureFeature<MultiplierConfig>, chunkPos: ChunkPos, referenceIn: Int, seed: Long) :
+    AOTDStructureStart<MultiplierConfig>(structure, chunkPos, referenceIn, seed) {
 
-    override fun init(generator: ChunkGenerator, xPos: Int, zPos: Int) {
-        val yPos = (feature as AOTDStructure<*>).getEdgeHeights(xPos, zPos, generator).minOrNull()!!
+    override fun init(generator: ChunkGenerator, xPos: Int, zPos: Int, levelHeightAccessor: LevelHeightAccessor) {
+        val yPos = (feature as AOTDStructure<*>).getEdgeHeights(xPos, zPos, generator, levelHeightAccessor).minOrNull()!!
 
         this.pieces.add(
             SchematicStructurePiece(
@@ -24,6 +25,6 @@ class MagicCrystalStructureStart(structure: Structure<MultiplierConfig>, chunkX:
                 ModSchematics.MAGIC_CRYSTAL
             )
         )
-        this.calculateBoundingBox()
+        this.createBoundingBox()
     }
 }

@@ -1,36 +1,34 @@
 package com.davidm1a2.afraidofthedark.common.world.structure.voidchestbox
 
 import com.davidm1a2.afraidofthedark.common.constants.ModStructures
-import net.minecraft.block.Blocks
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.ChunkPos
-import net.minecraft.util.math.MutableBoundingBox
-import net.minecraft.world.ISeedReader
-import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.feature.structure.StructureManager
-import net.minecraft.world.gen.feature.structure.StructurePiece
+import net.minecraft.core.BlockPos
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.level.StructureFeatureManager
+import net.minecraft.world.level.WorldGenLevel
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.chunk.ChunkGenerator
+import net.minecraft.world.level.levelgen.structure.BoundingBox
 import net.minecraft.world.level.levelgen.structure.StructurePiece
-import java.util.Random
+import java.util.*
 
 class VoidChestBoxStructurePiece : StructurePiece {
-    constructor(nbt: CompoundNBT) : super(ModStructures.VOID_BOX_STRUCTURE_PIECE, nbt)
+    constructor(nbt: CompoundTag) : super(ModStructures.VOID_BOX_STRUCTURE_PIECE, nbt)
 
-    constructor(xPos: Int) : super(ModStructures.VOID_BOX_STRUCTURE_PIECE, 0) {
-        this.boundingBox = MutableBoundingBox(xPos, 100, 0, xPos + 48, 100 + 48, 0 + 48)
-    }
+    constructor(xPos: Int) : super(ModStructures.VOID_BOX_STRUCTURE_PIECE, 0, BoundingBox(xPos, 100, 0, xPos + 48, 100 + 48, 0 + 48))
 
     override fun postProcess(
-        world: ISeedReader,
-        structureManager: StructureManager,
+        world: WorldGenLevel,
+        structureManager: StructureFeatureManager,
         chunkGenerator: ChunkGenerator,
         random: Random,
-        structureBoundingBox: MutableBoundingBox,
+        structureBoundingBox: BoundingBox,
         chunkPos: ChunkPos,
         structureBottomCenter: BlockPos
     ): Boolean {
         val barrier = Blocks.BARRIER.defaultBlockState()
-        val xPos = this.boundingBox.x0
+        val xPos = this.boundingBox.minX()
 
         for (i in 0..48) {
             for (j in 0..48) {
@@ -52,6 +50,6 @@ class VoidChestBoxStructurePiece : StructurePiece {
         return true
     }
 
-    override fun addAdditionalSaveData(tagCompound: CompoundNBT) {
+    override fun addAdditionalSaveData(level: ServerLevel, compoundTag: CompoundTag) {
     }
 }

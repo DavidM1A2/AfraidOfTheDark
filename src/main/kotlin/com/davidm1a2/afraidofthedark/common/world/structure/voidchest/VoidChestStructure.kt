@@ -4,15 +4,16 @@ import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.base.BooleanConfig
-import net.minecraft.util.RegistryKey
-import net.minecraft.world.biome.Biome
-import net.minecraft.world.biome.Biomes
-import net.minecraft.world.biome.provider.BiomeProvider
-import net.minecraft.world.gen.ChunkGenerator
-import net.minecraft.world.gen.feature.StructureFeature
-import net.minecraft.world.gen.feature.structure.Structure
-import net.minecraft.world.gen.feature.structure.Structure.IStartFactory
-import java.util.Random
+import net.minecraft.resources.ResourceKey
+import net.minecraft.world.level.LevelHeightAccessor
+import net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.biome.BiomeSource
+import net.minecraft.world.level.biome.Biomes
+import net.minecraft.world.level.chunk.ChunkGenerator
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature
+import net.minecraft.world.level.levelgen.feature.StructureFeature
+import net.minecraft.world.level.levelgen.feature.StructureFeature.StructureStartFactory
+import java.util.*
 
 class VoidChestStructure : AOTDStructure<BooleanConfig>("void_chest", BooleanConfig.CODEC) {
     override fun getWidth(): Int {
@@ -23,13 +24,13 @@ class VoidChestStructure : AOTDStructure<BooleanConfig>("void_chest", BooleanCon
         return ModSchematics.VOID_CHEST.getLength().toInt()
     }
 
-    override fun getStartFactory(): IStartFactory<BooleanConfig> {
-        return IStartFactory { structure, chunkX, chunkZ, mutableBoundingBox, reference, seed ->
-            VoidChestStructureStart(structure, chunkX, chunkZ, mutableBoundingBox, reference, seed)
+    override fun getStartFactory(): StructureStartFactory<BooleanConfig> {
+        return StructureStartFactory { structure, chunkPos, reference, seed ->
+            VoidChestStructureStart(structure, chunkPos, reference, seed)
         }
     }
 
-    override fun configured(biome: RegistryKey<Biome>, category: Biome.Category): StructureFeature<BooleanConfig, out Structure<BooleanConfig>>? {
+    override fun configured(biome: ResourceKey<Biome>, category: Biome.BiomeCategory): ConfiguredStructureFeature<BooleanConfig, out StructureFeature<BooleanConfig>>? {
         return if (biome in COMPATIBLE_BIOMES) {
             configured(BooleanConfig(true))
         } else {
@@ -37,11 +38,11 @@ class VoidChestStructure : AOTDStructure<BooleanConfig>("void_chest", BooleanCon
         }
     }
 
-    override fun configuredFlat(): StructureFeature<BooleanConfig, out Structure<BooleanConfig>> {
+    override fun configuredFlat(): ConfiguredStructureFeature<BooleanConfig, out StructureFeature<BooleanConfig>> {
         return configured(BooleanConfig(false))
     }
 
-    override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeProvider, random: Random, xPos: Int, zPos: Int): Boolean {
+    override fun canFitAt(chunkGen: ChunkGenerator, biomeProvider: BiomeSource, random: Random, xPos: Int, zPos: Int, levelHeightAccessor: LevelHeightAccessor): Boolean {
         val chance = getOneInNValidChunks(150) * ModCommonConfiguration.voidChestMultiplier
         if (random.nextDouble() >= chance) {
             return false
@@ -52,7 +53,7 @@ class VoidChestStructure : AOTDStructure<BooleanConfig>("void_chest", BooleanCon
             return false
         }
 
-        val heights = getEdgeHeights(xPos, zPos, chunkGen)
+        val heights = getEdgeHeights(xPos, zPos, chunkGen, levelHeightAccessor)
         val maxHeight = heights.maxOrNull()!!
         val minHeight = heights.minOrNull()!!
         if (maxHeight - minHeight > 8) {
