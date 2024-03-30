@@ -2,19 +2,24 @@ package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.biome.BiomeGenerationSettings
+import net.minecraft.world.level.biome.BiomeSpecialEffects
+import net.minecraft.world.level.biome.MobSpawnSettings
 import net.minecraftforge.common.BiomeDictionary
 import net.minecraftforge.common.BiomeManager
+import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 
 class BiomeRegister {
-// TODO: Delete in 1.17?
-//    @SubscribeEvent
-//    fun registerBiomes(event: RegistryEvent.Register<Biome>) {
-//        // For some reason we have to register a dummy version of each overworld biome in code so MC knows about it during the create world screen. It
-//        // gets overwritten once the real json file is loaded during world creation. TODO: In 1.17 this shouldn't be needed
-//        event.registry.registerAll(*ModBiomes.LIST.map { makeDummyBiome(it.location()) }.toTypedArray())
-//    }
+    @SubscribeEvent
+    fun registerBiomes(event: RegistryEvent.Register<Biome>) {
+        // For some reason we have to register a dummy version of each overworld biome in code so MC knows about it during the create world screen. It
+        // gets overwritten once the real json file is loaded during world creation. TODO: In 1.18 or later this shouldn't be needed...?
+        event.registry.registerAll(*ModBiomes.LIST.map { makeDummyBiome(it.location()) }.toTypedArray())
+    }
 
     @SubscribeEvent
     fun commonSetupEvent(event: FMLCommonSetupEvent) {
@@ -39,25 +44,25 @@ class BiomeRegister {
         }
     }
 
-//    private fun makeDummyBiome(registryName: ResourceLocation): Biome {
-//        // Fill in all required fields
-//        return Biome.BiomeBuilder()
-//            .depth(0f)
-//            .downfall(0f)
-//            .temperature(0f)
-//            .scale(0f)
-//            .biomeCategory(Biome.BiomeCategory.NONE)
-//            .generationSettings(BiomeGenerationSettings.EMPTY)
-//            .mobSpawnSettings(MobSpawnSettings.EMPTY)
-//            .precipitation(Biome.Precipitation.NONE)
-//            .specialEffects(
-//                BiomeSpecialEffects.Builder()
-//                    .fogColor(0)
-//                    .waterColor(0)
-//                    .waterFogColor(0)
-//                    .skyColor(0)
-//                    .build()
-//            )
-//            .build().apply { setRegistryName(registryName) }
-//    }
+    private fun makeDummyBiome(registryName: ResourceLocation): Biome {
+        // Fill in all required fields
+        return Biome.BiomeBuilder()
+            .depth(0f)
+            .downfall(0f)
+            .temperature(0f)
+            .scale(0f)
+            .biomeCategory(Biome.BiomeCategory.NONE)
+            .generationSettings(BiomeGenerationSettings.EMPTY)
+            .mobSpawnSettings(MobSpawnSettings.EMPTY)
+            .precipitation(Biome.Precipitation.NONE)
+            .specialEffects(
+                BiomeSpecialEffects.Builder()
+                    .fogColor(0)
+                    .waterColor(0)
+                    .waterFogColor(0)
+                    .skyColor(0)
+                    .build()
+            )
+            .build().apply { setRegistryName(registryName) }
+    }
 }
