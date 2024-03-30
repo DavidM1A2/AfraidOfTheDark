@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.client.event
 
 import com.davidm1a2.afraidofthedark.client.entity.LateEntityRenderer
+import com.mojang.blaze3d.vertex.Tesselator
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.IRenderTypeBuffer
-import net.minecraft.client.renderer.Tessellator
-import net.minecraft.client.renderer.culling.ClippingHelper
+import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.renderer.culling.Frustum
 import net.minecraftforge.client.event.RenderWorldLastEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
@@ -17,10 +17,10 @@ class ClientLateRenderHandler {
 
         val mc = Minecraft.getInstance()
         val rendererManager = mc.entityRenderDispatcher
-        val renderTypeBuffer = IRenderTypeBuffer.immediate(Tessellator.getInstance().builder)
+        val renderTypeBuffer = MultiBufferSource.immediate(Tesselator.getInstance().builder)
 
         val cameraPos = mc.gameRenderer.mainCamera.position
-        val clippingHandler = ClippingHelper(matrixStack.last().pose(), projectionMatrix).apply {
+        val clippingHandler = Frustum(matrixStack.last().pose(), projectionMatrix).apply {
             prepare(cameraPos.x, cameraPos.y, cameraPos.z)
         }
 

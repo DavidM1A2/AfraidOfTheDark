@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.client.event
 
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.item.core.IHasModelProperties
-import net.minecraft.item.ItemModelsProperties
+import net.minecraft.client.renderer.item.ItemProperties
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 
@@ -15,7 +15,7 @@ class ItemModelPropertyRegister {
                 .forEach {
                     val properties = (it as IHasModelProperties).getProperties()
                     for (property in properties) {
-                        ItemModelsProperties.register(it, property.first, property.second)
+                        ItemProperties.register(it, property.first, property.second)
                     }
                 }
         }

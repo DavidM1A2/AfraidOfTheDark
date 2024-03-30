@@ -2,14 +2,14 @@ package com.davidm1a2.afraidofthedark.client.event
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDLeavesBlock
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import net.minecraft.block.BlockState
-import net.minecraft.client.renderer.color.IBlockColor
-import net.minecraft.item.BlockItem
+import net.minecraft.client.color.block.BlockColor
+import net.minecraft.client.renderer.BiomeColors
+import net.minecraft.core.BlockPos
+import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.ItemStack
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.FoliageColors
-import net.minecraft.world.IBlockDisplayReader
-import net.minecraft.world.biome.BiomeColors
+import net.minecraft.world.level.BlockAndTintGetter
+import net.minecraft.world.level.FoliageColor
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraftforge.client.event.ColorHandlerEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
@@ -32,12 +32,12 @@ class ModColorRegister {
 
         // Register a block color handler so that leaf blocks are colored properly when placed
         blockColors.register(
-            IBlockColor { _: BlockState, blockAccess: IBlockDisplayReader?, pos: BlockPos?, _: Int ->
+            BlockColor { _: BlockState, blockAccess: BlockAndTintGetter?, pos: BlockPos?, _: Int ->
                 // Make sure we were passed valid parameters
-                return@IBlockColor if (blockAccess != null && pos != null) {
+                return@BlockColor if (blockAccess != null && pos != null) {
                     BiomeColors.getAverageFoliageColor(blockAccess, pos)
                 } else {
-                    FoliageColors.getDefaultColor()
+                    FoliageColor.getDefaultColor()
                 }
             }, *leafBlocks
         )

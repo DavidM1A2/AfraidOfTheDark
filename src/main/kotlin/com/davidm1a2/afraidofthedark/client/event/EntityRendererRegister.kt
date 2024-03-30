@@ -7,46 +7,40 @@ import com.davidm1a2.afraidofthedark.client.entity.enchantedFrog.EnchantedFrogRe
 import com.davidm1a2.afraidofthedark.client.entity.enchantedSkeleton.EnchantedSkeletonRenderer
 import com.davidm1a2.afraidofthedark.client.entity.frostPhoenix.FrostPhoenixProjectileRenderer
 import com.davidm1a2.afraidofthedark.client.entity.frostPhoenix.FrostPhoenixRenderer
-import com.davidm1a2.afraidofthedark.client.entity.spell.SpellAOERenderer
-import com.davidm1a2.afraidofthedark.client.entity.spell.SpellChainRenderer
-import com.davidm1a2.afraidofthedark.client.entity.spell.SpellConeRenderer
-import com.davidm1a2.afraidofthedark.client.entity.spell.SpellLaserRenderer
-import com.davidm1a2.afraidofthedark.client.entity.spell.SpellProjectileRenderer
-import com.davidm1a2.afraidofthedark.client.entity.spell.SpellWallRenderer
+import com.davidm1a2.afraidofthedark.client.entity.spell.*
 import com.davidm1a2.afraidofthedark.client.entity.splinterDrone.SplinterDroneProjectileRenderer
 import com.davidm1a2.afraidofthedark.client.entity.splinterDrone.SplinterDroneRenderer
 import com.davidm1a2.afraidofthedark.client.entity.werewolf.WerewolfRenderer
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
+import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.fml.client.registry.RenderingRegistry
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 
 class EntityRendererRegister {
     @SubscribeEvent
-    fun fmlClientSetupEvent(event: FMLClientSetupEvent) {
+    fun registerRenderersEvent(event: RegisterRenderers) {
         // Register all of our renderers
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.ENCHANTED_SKELETON) { EnchantedSkeletonRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.WEREWOLF) { WerewolfRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.GHASTLY_ENARIA) { GhastlyEnariaRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPLINTER_DRONE) { SplinterDroneRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPLINTER_DRONE_PROJECTILE) { SplinterDroneProjectileRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.ENARIA) { EnariaRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.WOODEN_BOLT) { AOTDBoltRenderer("wooden_bolt", it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.IRON_BOLT) { AOTDBoltRenderer("iron_bolt", it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.ASTRAL_SILVER_BOLT) { AOTDBoltRenderer("astral_silver_bolt", it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.IGNEOUS_BOLT) { AOTDBoltRenderer("igneous_bolt", it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.STAR_METAL_BOLT) { AOTDBoltRenderer("star_metal_bolt", it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.ELDRITCH_METAL_BOLT) { AOTDBoltRenderer("eldritch_metal_bolt", it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.AMORPHOUS_METAL_BOLT) { AOTDBoltRenderer("amorphous_metal_bolt", it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.VOID_BOLT) { AOTDBoltRenderer("void_bolt", it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_PROJECTILE) { SpellProjectileRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_LASER) { SpellLaserRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_AOE) { SpellAOERenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_WALL) { SpellWallRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_CONE) { SpellConeRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPELL_CHAIN) { SpellChainRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.ENCHANTED_FROG) { EnchantedFrogRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.FROST_PHOENIX) { FrostPhoenixRenderer(it) }
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.FROST_PHOENIX_PROJECTILE) { FrostPhoenixProjectileRenderer(it) }
+        event.registerEntityRenderer(ModEntities.ENCHANTED_SKELETON, ::EnchantedSkeletonRenderer)
+        event.registerEntityRenderer(ModEntities.WEREWOLF, ::WerewolfRenderer)
+        event.registerEntityRenderer(ModEntities.GHASTLY_ENARIA, ::GhastlyEnariaRenderer)
+        event.registerEntityRenderer(ModEntities.SPLINTER_DRONE, ::SplinterDroneRenderer)
+        event.registerEntityRenderer(ModEntities.SPLINTER_DRONE_PROJECTILE, ::SplinterDroneProjectileRenderer)
+        event.registerEntityRenderer(ModEntities.ENARIA, ::EnariaRenderer)
+        event.registerEntityRenderer(ModEntities.WOODEN_BOLT) { AOTDBoltRenderer("wooden_bolt", it) }
+        event.registerEntityRenderer(ModEntities.IRON_BOLT) { AOTDBoltRenderer("iron_bolt", it) }
+        event.registerEntityRenderer(ModEntities.ASTRAL_SILVER_BOLT) { AOTDBoltRenderer("astral_silver_bolt", it) }
+        event.registerEntityRenderer(ModEntities.IGNEOUS_BOLT) { AOTDBoltRenderer("igneous_bolt", it) }
+        event.registerEntityRenderer(ModEntities.STAR_METAL_BOLT) { AOTDBoltRenderer("star_metal_bolt", it) }
+        event.registerEntityRenderer(ModEntities.ELDRITCH_METAL_BOLT) { AOTDBoltRenderer("eldritch_metal_bolt", it) }
+        event.registerEntityRenderer(ModEntities.AMORPHOUS_METAL_BOLT) { AOTDBoltRenderer("amorphous_metal_bolt", it) }
+        event.registerEntityRenderer(ModEntities.VOID_BOLT) { AOTDBoltRenderer("void_bolt", it) }
+        event.registerEntityRenderer(ModEntities.SPELL_PROJECTILE, ::SpellProjectileRenderer)
+        event.registerEntityRenderer(ModEntities.SPELL_LASER, ::SpellLaserRenderer)
+        event.registerEntityRenderer(ModEntities.SPELL_AOE, ::SpellAOERenderer)
+        event.registerEntityRenderer(ModEntities.SPELL_WALL, ::SpellWallRenderer)
+        event.registerEntityRenderer(ModEntities.SPELL_CONE, ::SpellConeRenderer)
+        event.registerEntityRenderer(ModEntities.SPELL_CHAIN, ::SpellChainRenderer)
+        event.registerEntityRenderer(ModEntities.ENCHANTED_FROG, ::EnchantedFrogRenderer)
+        event.registerEntityRenderer(ModEntities.FROST_PHOENIX, ::FrostPhoenixRenderer)
+        event.registerEntityRenderer(ModEntities.FROST_PHOENIX_PROJECTILE, ::FrostPhoenixProjectileRenderer)
     }
 }
