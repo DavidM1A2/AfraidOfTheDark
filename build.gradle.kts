@@ -28,6 +28,7 @@ buildscript {
         }
     }
     dependencies {
+        // TODO: If upgraded to 6+, fix 'lazyToken("minecraft_classpath")' in TODO below
         classpath("net.minecraftforge.gradle", "ForgeGradle", "5.1.+") {
             isChanging = true
         }
@@ -66,6 +67,13 @@ configure<UserDevExtension> {
         property("forge.logging.console.level", "info")
         mods.create("afraidofthedark") {
             source(the<JavaPluginExtension>().sourceSets.getByName("main"))
+        }
+    }
+
+    // TODO: Replace with minecraftLibrary in FG6 https://docs.minecraftforge.net/en/fg-6.x/dependencies/#non-minecraft-dependencies
+    runs.all {
+        lazyToken("minecraft_classpath") {
+            configurations["shadow"].copyRecursive().resolve().joinToString(separator = File.pathSeparator) { it.absolutePath }
         }
     }
 }
