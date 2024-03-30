@@ -12,5 +12,7 @@
   "piglin_safe": true,
   "fixed_time": 18000,
   "has_skylight": false,
-  "has_ceiling": false
+  "has_ceiling": false,
+  "min_y": 0,
+  "height": 256
 }
