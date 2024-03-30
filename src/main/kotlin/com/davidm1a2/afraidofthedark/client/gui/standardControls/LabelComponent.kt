@@ -46,6 +46,7 @@ open class LabelComponent(val font: TrueTypeFont, prefSize: Dimensions, gravity:
 
             // Draw the string at (x, y) with the correct color and scale
             this.font.drawString(
+                poseStack,
                 xCoord,
                 yCoord,
                 this.fitText,

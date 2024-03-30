@@ -4,12 +4,10 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.mojang.blaze3d.platform.TextureUtil
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.DefaultVertexFormat
-import com.mojang.blaze3d.vertex.Tesselator
-import com.mojang.blaze3d.vertex.VertexFormat
+import com.mojang.blaze3d.vertex.*
 import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.GameRenderer
 import org.apache.logging.log4j.LogManager
-import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
 import java.awt.*
 import java.awt.image.BufferedImage
@@ -233,6 +231,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      * @param rgba The color to use when drawing the string
      */
     fun drawString(
+        poseStack: PoseStack,
         x: Float,
         y: Float,
         stringToDraw: String,
@@ -241,31 +240,24 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
     ) {
         // The current glyph being drawn
         var characterGlyph: CharacterGlyph
-        var totalWidth = 0
         var drawX = 0
         var drawY = 0
 
         // Multiply the scale by the overall gui scale
         val guiScale = calcGuiScale()
 
-        // Get the width of the widest line of text
-        for (line in stringToDraw.split("\n")) {
-            var lineLen = 0
-            for (ch in line) {
-                lineLen += fontMetrics.charWidth(ch)
-            }
-            if (lineLen > totalWidth) totalWidth = lineLen
-        }
-
-        // Bind our custom texture sheet
-        RenderSystem.bindTexture(fontTextureID)
-        val tessellator = Tesselator.getInstance()
-        val bufferBuilder = tessellator.builder
-        bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX)
+        poseStack.pushPose()
+        RenderSystem.enableBlend()
+        RenderSystem.setShader(GameRenderer::getPositionTexShader)
         val red = rgba.red / 255f
         val green = rgba.green / 255f
         val blue = rgba.blue / 255f
         val alpha = rgba.alpha / 255f
+        RenderSystem.setShaderColor(red, green, blue, alpha)
+        // Bind our custom texture sheet
+        RenderSystem.setShaderTexture(0, fontTextureID)
+        val tessellator = Tesselator.getInstance()
+        val bufferBuilder = tessellator.builder
         for (line in stringToDraw.split("\n")) {
             // Set start position
             drawX = when (textAlignment) {
@@ -279,6 +271,8 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 characterGlyph = glyphs[currentChar] ?: glyphs[DEFAULT_CHARACTER]!!
                 // Draw a letter
                 drawQuad(
+                    poseStack,
+                    bufferBuilder,
                     drawX * guiScale + x,
                     drawY * guiScale + y,
                     (drawX + characterGlyph.width) * guiScale + x,
@@ -286,25 +280,22 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                     characterGlyph.storedX.toFloat(),
                     characterGlyph.storedY.toFloat(),
                     characterGlyph.storedX.toFloat() + characterGlyph.width,
-                    characterGlyph.storedY.toFloat() + characterGlyph.height,
-                    red,
-                    green,
-                    blue,
-                    alpha
+                    characterGlyph.storedY.toFloat() + characterGlyph.height
                 )
                 drawX += characterGlyph.width
             }
             // On newline
             drawY += height
         }
-        // Finally draw the screen now that all the glyphs are in place
-        tessellator.end()
+        poseStack.popPose()
     }
 
     /**
      * Draws a glyph using a quad on the screen
      */
     private fun drawQuad(
+        poseStack: PoseStack,
+        bufferBuilder: BufferBuilder,
         drawX: Float,
         drawY: Float,
         drawX2: Float,
@@ -312,38 +303,34 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         srcX: Float,
         srcY: Float,
         srcX2: Float,
-        srcY2: Float,
-        r: Float,
-        g: Float,
-        b: Float,
-        a: Float
+        srcY2: Float
     ) {
+        val pose = poseStack.last().pose()
+        bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX)
+
         // Compute the width and height of the glyph to draw
         val drawWidth = abs(drawX2 - drawX)
         val drawHeight = abs(drawY2 - drawY)
         // Compute the width and height of the glyph on the source
         val srcWidth = abs(srcX2 - srcX)
         val srcHeight = abs(srcY2 - srcY)
-        // Grab the tessellator instance and buffer builder
-        val bufferBuilder = Tesselator.getInstance().builder
 
         // Add the 4 vertices that are used to draw the glyph. These must be done in this order
-        bufferBuilder.vertex(drawX.toDouble(), (drawY + drawHeight).toDouble(), 0.0)
-            .color(r, g, b, a)
+        bufferBuilder.vertex(pose, drawX, drawY + drawHeight, 0f)
             .uv(srcX / textureWidth, (srcY + srcHeight) / textureHeight)
             .endVertex()
-        bufferBuilder.vertex((drawX + drawWidth).toDouble(), (drawY + drawHeight).toDouble(), 0.0)
-            .color(r, g, b, a)
+        bufferBuilder.vertex(pose, drawX + drawWidth, drawY + drawHeight, 0f)
             .uv((srcX + srcWidth) / textureWidth, (srcY + srcHeight) / textureHeight)
             .endVertex()
-        bufferBuilder.vertex((drawX + drawWidth).toDouble(), drawY.toDouble(), 0.0)
-            .color(r, g, b, a)
+        bufferBuilder.vertex(pose, drawX + drawWidth, drawY, 0f)
             .uv((srcX + srcWidth) / textureWidth, srcY / textureHeight)
             .endVertex()
-        bufferBuilder.vertex(drawX.toDouble(), drawY.toDouble(), 0.0)
-            .color(r, g, b, a)
+        bufferBuilder.vertex(pose, drawX, drawY, 0f)
             .uv(srcX / textureWidth, srcY / textureHeight)
             .endVertex()
+
+        bufferBuilder.end()
+        BufferUploader.end(bufferBuilder)
     }
 
     /**
@@ -364,11 +351,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      * Destroys the font and releases the resources
      */
     fun destroy() {
-        // Create the buffer with the texture id, bind the texture, and delete the texture
-        val scratch = BufferUtils.createIntBuffer(1)
-        scratch.put(0, fontTextureID)
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0)
-        GL11.glDeleteTextures(scratch)
+        TextureUtil.releaseTextureId(fontTextureID)
     }
 
     /**
@@ -406,19 +389,20 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 val height = bufferedImage.height
                 // Get the number of bytes per pixel
                 val bitsPerPixel = bufferedImage.colorModel.pixelSize
+                val bytesPerPixel = bitsPerPixel / 8
                 val byteBuffer: ByteBuffer
                 // Grab the data buffer used by the buffered image
                 val db = bufferedImage.data.dataBuffer
                 // If it's an int buffer write each int to the data buffer 4 bytes at a time
                 if (db is DataBufferInt) {
                     byteBuffer =
-                        ByteBuffer.allocateDirect(width * height * (bitsPerPixel / 8)).order(ByteOrder.nativeOrder())
+                        ByteBuffer.allocateDirect(width * height * bytesPerPixel).order(ByteOrder.nativeOrder())
                     db.data.forEach { byteBuffer.putInt(it) }
                 }
                 // If it's a byte buffer write it directly into the buffer
                 else {
                     byteBuffer =
-                        ByteBuffer.allocateDirect(width * height * (bitsPerPixel / 8)).order(ByteOrder.nativeOrder())
+                        ByteBuffer.allocateDirect(width * height * bytesPerPixel).order(ByteOrder.nativeOrder())
                     byteBuffer.put((db as DataBufferByte).data)
                 }
                 // We need to flip the bytes so they get drawn correctly
@@ -427,7 +411,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 // Not very familiar with OpenGl here, but create an int buffer and generate the texture from the byte buffer
 
                 val textureId = TextureUtil.generateTextureId()
-                RenderSystem.setShaderTexture(0, textureId)
+                RenderSystem.bindTextureForSetup(textureId)
 
                 RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP)
                 RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP)
@@ -438,7 +422,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 RenderSystem.pixelStore(GL11.GL_UNPACK_ROW_LENGTH, 0)
                 RenderSystem.pixelStore(GL11.GL_UNPACK_SKIP_ROWS, 0)
                 RenderSystem.pixelStore(GL11.GL_UNPACK_SKIP_PIXELS, 0)
-                RenderSystem.pixelStore(GL11.GL_UNPACK_ALIGNMENT, bitsPerPixel / 8)
+                RenderSystem.pixelStore(GL11.GL_UNPACK_ALIGNMENT, bytesPerPixel)
 
                 GL11.glTexImage2D(
                     GL11.GL_TEXTURE_2D,
@@ -451,7 +435,6 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                     GL11.GL_UNSIGNED_BYTE,
                     byteBuffer
                 )
-                RenderSystem.setShaderTexture(0, 0)
 
                 // Return the texture ID
                 return textureId

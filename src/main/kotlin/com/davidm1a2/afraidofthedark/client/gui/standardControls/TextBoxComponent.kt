@@ -39,6 +39,7 @@ class TextBoxComponent(
                 }
 
                 this.font.drawString(
+                    poseStack,
                     xCoord,
                     yCoord,
                     line,
