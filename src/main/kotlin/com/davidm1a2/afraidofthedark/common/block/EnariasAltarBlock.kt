@@ -1,11 +1,15 @@
 package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
+import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.EnariasAltarTileEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.BlockEntityTicker
+import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.material.Material
 import net.minecraft.world.phys.shapes.CollisionContext
@@ -23,7 +27,15 @@ class EnariasAltarBlock : AOTDTileEntityBlock(
         .strength(50.0f, 1200.0f)
 ) {
     override fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity {
-        return EnariasAltarTileEntity()
+        return EnariasAltarTileEntity(blockPos, blockState)
+    }
+
+    override fun <T : BlockEntity> getTicker(level: Level, blockState: BlockState, type: BlockEntityType<T>): BlockEntityTicker<T>? {
+        return if (level.isClientSide) {
+            createTickerHelper(type, ModTileEntities.ENARIAS_ALTAR, EnariasAltarTileEntity::clientTick)
+        } else {
+            null
+        }
     }
 
     override fun getShape(state: BlockState, world: BlockGetter, blockPos: BlockPos, context: CollisionContext): VoxelShape {

@@ -11,26 +11,24 @@ import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEv
 import com.davidm1a2.afraidofthedark.common.network.packets.other.VoidChestPacket
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import net.minecraft.block.BlockState
+import com.mojang.authlib.GameProfile
 import net.minecraft.core.BlockPos
-import net.minecraft.world.entity.player.Player
-import net.minecraft.entity.player.ServerPlayer
-import net.minecraft.item.NameTagItem
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.nbt.ListNBT
-import net.minecraft.nbt.LongNBT
-import net.minecraft.tileentity.IChestLid
-import net.minecraft.util.SoundCategory
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.LongTag
+import net.minecraft.nbt.Tag
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.util.text.TranslatableComponent
+import net.minecraft.sounds.SoundSource
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.NameTagItem
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.entity.LidBlockEntity
 import net.minecraft.world.level.block.state.BlockState
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
+import net.minecraft.world.phys.Vec3
 import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.common.util.Constants
-import java.util.UUID
+import java.util.*
 import kotlin.math.sqrt
 
 /**
@@ -46,8 +44,7 @@ import kotlin.math.sqrt
  * @property playerToSend The current player that has opened the chest and will be sent soon
  * @property lastInteraction The last time (using system time) that the void chest was right clicked/interacted with
  */
-@OnlyIn(value = Dist.CLIENT, _interface = IChestLid::class)
-class VoidChestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST), IChestLid {
+class VoidChestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTickingTileEntity(ModTileEntities.VOID_CHEST, blockPos, blockState), LidBlockEntity {
     var lidAngle = 0f
         private set
     var previousLidAngle = 0f
@@ -64,103 +61,6 @@ class VoidChestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTick
     }
 
     /**
-     * Called every game tick to update the tile entity
-     */
-    override fun tick() {
-        super.tick()
-        val x = blockPos.x
-        val y = blockPos.y
-        val z = blockPos.z
-
-        // Check every 20 ticks if it's time to close the chest or not
-        if (ticksExisted % 10 == 0L) {
-            if (System.currentTimeMillis() - lastInteraction > MILLIS_TO_CLOSE_CHEST) {
-                shouldBeOpen = false
-            }
-        }
-
-        // Set the last lid angle to be the current lid angle
-        previousLidAngle = lidAngle
-
-        // If the lid is closed and the chest should be open play the open sound
-        if (shouldBeOpen && lidAngle == 0f) {
-            level!!.playSound(
-                null,
-                x + 0.5,
-                y + 0.5,
-                z + 0.5,
-                SoundEvents.CHEST_OPEN,
-                SoundCategory.BLOCKS,
-                0.5f,
-                level!!.random.nextFloat() * 0.1f + 0.9f
-            )
-        }
-
-        // If the chest should be open make it suck in the current player that opened the chest
-        if (shouldBeOpen && playerToSend != null) {
-            // Compute a vector pointing to the chest and then pull that player in that direction
-            val velocity = Vector3d.atCenterOf(blockPos)
-                .subtract(playerToSend!!.x, playerToSend!!.y, playerToSend!!.z)
-                .normalize()
-            val distanceSqToPlayer = playerToSend!!.distanceToSqr(Vector3d.atCenterOf(blockPos))
-
-            // Inverse square law, force decreases as player gets more distant
-            val adjustedVelocity = velocity.scale((PULL_FORCE * 1 / distanceSqToPlayer).coerceIn(0.01, 0.25))
-            playerToSend!!.push(adjustedVelocity.x, adjustedVelocity.y, adjustedVelocity.z)
-        }
-
-        // Update the lid's angle if it's in transition from open to closed or closed to open
-        if (!shouldBeOpen && lidAngle > 0 || shouldBeOpen && lidAngle < 1) {
-            // Either add or subtract from the lid angle depending on if we're opening or closing
-            lidAngle = if (shouldBeOpen) {
-                lidAngle + OPEN_CLOSE_SPEED
-            } else {
-                lidAngle - OPEN_CLOSE_SPEED
-            }
-
-            // Clamp the angle between 0 and 1
-            lidAngle = lidAngle.coerceIn(0f, 1f)
-
-            // If the chest is closing play the closing sound and send the player to the void chest dimension
-            if (lidAngle < 0.5 && previousLidAngle >= 0.5) {
-                level!!.playSound(
-                    null,
-                    x + 0.5,
-                    y + 0.5,
-                    z + 0.5f.toDouble(),
-                    SoundEvents.CHEST_CLOSE,
-                    SoundCategory.BLOCKS,
-                    0.5f,
-                    level!!.random.nextFloat() * 0.1f + 0.9f
-                )
-                // Ensure the player we're sending is valid
-                if (playerToSend != null) {
-                    // Only allow void chest usage in the overworld
-                    if (level!!.dimension() == World.OVERWORLD) {
-                        // Temp, send the player to the void chest here if they are close enough to it
-                        if (sqrt(playerToSend!!.distanceToSqr(Vector3d.atCenterOf(blockPos))) < DISTANCE_TO_SEND_PLAYER) {
-                            if (!level!!.isClientSide) {
-                                val playerVoidChestData = playerToSend!!.getVoidChestData()
-                                // If the player we're sending is the owner send them to their home dimension, otherwise send them to their friend's dimension
-                                if (playerToSend!!.gameProfile.id == owner) {
-                                    playerVoidChestData.friendsIndex = -1
-                                } else {
-                                    playerVoidChestData.friendsIndex = indexToGoTo
-                                }
-                                (playerToSend as ServerPlayer).teleport(ModDimensions.VOID_CHEST_WORLD)
-                            }
-                        }
-                    } else {
-                        if (!level!!.isClientSide) {
-                            playerToSend!!.sendMessage(TranslatableComponent("message.afraidofthedark.void_chest.wrong_dimension"))
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * Called when a player right clicks the chest
      *
      * @param entityPlayer The player that opened the chest
@@ -171,7 +71,7 @@ class VoidChestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTick
             // If the chest has no owner attempt to set this player as the owner
             if (owner == null) {
                 owner = entityPlayer.gameProfile.id
-                val voidChestWorld: World = level!!.server!!.getLevel(ModDimensions.VOID_CHEST_WORLD)!!
+                val voidChestWorld: Level = level!!.server!!.getLevel(ModDimensions.VOID_CHEST_WORLD)!!
                 val playerVoidChestData = entityPlayer.getVoidChestData()
                 indexToGoTo = getOrAssignPlayerPositionalIndex(voidChestWorld, playerVoidChestData)
                 entityPlayer.sendMessage(TranslatableComponent("message.afraidofthedark.void_chest.owner_set", entityPlayer.gameProfile.name))
@@ -198,7 +98,7 @@ class VoidChestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTick
                     MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(entityPlayer, ModResearches.VOID_PARTY))
                 } else {
                     openChest(entityPlayer)
-                    AfraidOfTheDark.packetHandler.sendToDimension(VoidChestPacket(entityPlayer, blockPos.x, blockPos.y, blockPos.z), World.OVERWORLD)
+                    AfraidOfTheDark.packetHandler.sendToDimension(VoidChestPacket(entityPlayer, blockPos.x, blockPos.y, blockPos.z), Level.OVERWORLD)
                 }
             } else if (friends.contains(entityPlayer.gameProfile.id)) {
                 // Test if the player is trying to edit a chest's friend list that isnt theirs
@@ -213,7 +113,7 @@ class VoidChestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTick
                             blockPos.x,
                             blockPos.y,
                             blockPos.z
-                        ), World.OVERWORLD
+                        ), Level.OVERWORLD
                     )
                 }
             } else {
@@ -241,7 +141,7 @@ class VoidChestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTick
      */
     private fun getID(playerName: String): UUID? {
         val gameProfileForUsername = level!!.server!!.profileCache.get(playerName)
-        return gameProfileForUsername?.id
+        return gameProfileForUsername.map(GameProfile::getId).orElse(null)
     }
 
     /**
@@ -250,7 +150,7 @@ class VoidChestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTick
      * @param compound The NBT compound to write to
      * @return The NBT compound representing this void chest tile entity
      */
-    override fun save(compound: CompoundNBT): CompoundNBT {
+    override fun save(compound: CompoundTag): CompoundTag {
         // Start by writing any default MC things to the NBT
         super.save(compound)
 
@@ -262,11 +162,11 @@ class VoidChestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTick
         // Write the index to go to as an integer
         compound.putInt(NBT_INDEX_TO_GO_TO, indexToGoTo)
 
-        val friendNBT = ListNBT()
+        val friendNBT = ListTag()
         // For each friend append two new NBTLongs, one for most sig bits and one for least sig bits
         friends.forEach {
-            friendNBT.add(LongNBT.valueOf(it.leastSignificantBits))
-            friendNBT.add(LongNBT.valueOf(it.mostSignificantBits))
+            friendNBT.add(LongTag.valueOf(it.leastSignificantBits))
+            friendNBT.add(LongTag.valueOf(it.mostSignificantBits))
         }
 
         // Set the friends NBT to be this array
@@ -279,9 +179,9 @@ class VoidChestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTick
      *
      * @param compound The NBT compound to read from
      */
-    override fun load(blockState: BlockState, compound: CompoundNBT) {
+    override fun load(compound: CompoundTag) {
         // Start by reading any default MC things from the NBT
-        super.load(blockState, compound)
+        super.load(compound)
 
         // Read the owner tag, it could potentially not exist...
         owner = if (compound.contains(NBT_OWNER)) {
@@ -294,13 +194,13 @@ class VoidChestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTick
         indexToGoTo = compound.getInt(NBT_INDEX_TO_GO_TO)
 
         // Read all the chest's friends list in
-        val friendIDParts = compound.getList(NBT_FRIENDS, Constants.NBT.TAG_LONG)
+        val friendIDParts = compound.getList(NBT_FRIENDS, Tag.TAG_LONG.toInt())
         var i = 0
         while (i < friendIDParts.size) {
             val friendIDLeast = friendIDParts[i]
             val friendIDMost = friendIDParts[i + 1]
             // Ensure the tags are the correct type
-            if (friendIDLeast is LongNBT && friendIDMost is LongNBT) {
+            if (friendIDLeast is LongTag && friendIDMost is LongTag) {
                 // Add the friend back in from least and most significant bits
                 friends.add(UUID(friendIDMost.asLong, friendIDLeast.asLong))
             }
@@ -319,5 +219,100 @@ class VoidChestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTick
         private const val PULL_FORCE = 1.0
         private const val OPEN_CLOSE_SPEED = 0.1f
         private const val DISTANCE_TO_SEND_PLAYER = 2.0
+
+        fun tick(level: Level, blockPos: BlockPos, blockState: BlockState, blockEntity: VoidChestTileEntity) {
+            baseTick(level, blockPos, blockState, blockEntity)
+
+            val x = blockPos.x
+            val y = blockPos.y
+            val z = blockPos.z
+
+            // Check every 20 ticks if it's time to close the chest or not
+            if (blockEntity.ticksExisted % 10 == 0L) {
+                if (System.currentTimeMillis() - blockEntity.lastInteraction > MILLIS_TO_CLOSE_CHEST) {
+                    blockEntity.shouldBeOpen = false
+                }
+            }
+
+            // Set the last lid angle to be the current lid angle
+            blockEntity.previousLidAngle = blockEntity.lidAngle
+
+            // If the lid is closed and the chest should be open play the open sound
+            if (blockEntity.shouldBeOpen && blockEntity.lidAngle == 0f) {
+                level.playSound(
+                    null,
+                    x + 0.5,
+                    y + 0.5,
+                    z + 0.5,
+                    SoundEvents.CHEST_OPEN,
+                    SoundSource.BLOCKS,
+                    0.5f,
+                    level.random.nextFloat() * 0.1f + 0.9f
+                )
+            }
+
+            // If the chest should be open make it suck in the current player that opened the chest
+            if (blockEntity.shouldBeOpen && blockEntity.playerToSend != null) {
+                // Compute a vector pointing to the chest and then pull that player in that direction
+                val velocity = Vec3.atCenterOf(blockPos)
+                    .subtract(blockEntity.playerToSend!!.x, blockEntity.playerToSend!!.y, blockEntity.playerToSend!!.z)
+                    .normalize()
+                val distanceSqToPlayer = blockEntity.playerToSend!!.distanceToSqr(Vec3.atCenterOf(blockPos))
+
+                // Inverse square law, force decreases as player gets more distant
+                val adjustedVelocity = velocity.scale((PULL_FORCE * 1 / distanceSqToPlayer).coerceIn(0.01, 0.25))
+                blockEntity.playerToSend!!.push(adjustedVelocity.x, adjustedVelocity.y, adjustedVelocity.z)
+            }
+
+            // Update the lid's angle if it's in transition from open to closed or closed to open
+            if (!blockEntity.shouldBeOpen && blockEntity.lidAngle > 0 || blockEntity.shouldBeOpen && blockEntity.lidAngle < 1) {
+                // Either add or subtract from the lid angle depending on if we're opening or closing
+                blockEntity.lidAngle = if (blockEntity.shouldBeOpen) {
+                    blockEntity.lidAngle + OPEN_CLOSE_SPEED
+                } else {
+                    blockEntity.lidAngle - OPEN_CLOSE_SPEED
+                }
+
+                // Clamp the angle between 0 and 1
+                blockEntity.lidAngle = blockEntity.lidAngle.coerceIn(0f, 1f)
+
+                // If the chest is closing play the closing sound and send the player to the void chest dimension
+                if (blockEntity.lidAngle < 0.5 && blockEntity.previousLidAngle >= 0.5) {
+                    level.playSound(
+                        null,
+                        x + 0.5,
+                        y + 0.5,
+                        z + 0.5f.toDouble(),
+                        SoundEvents.CHEST_CLOSE,
+                        SoundSource.BLOCKS,
+                        0.5f,
+                        level.random.nextFloat() * 0.1f + 0.9f
+                    )
+                    // Ensure the player we're sending is valid
+                    if (blockEntity.playerToSend != null) {
+                        // Only allow void chest usage in the overworld
+                        if (level.dimension() == Level.OVERWORLD) {
+                            // Temp, send the player to the void chest here if they are close enough to it
+                            if (sqrt(blockEntity.playerToSend!!.distanceToSqr(Vec3.atCenterOf(blockPos))) < DISTANCE_TO_SEND_PLAYER) {
+                                if (!level.isClientSide) {
+                                    val playerVoidChestData = blockEntity.playerToSend!!.getVoidChestData()
+                                    // If the player we're sending is the owner send them to their home dimension, otherwise send them to their friend's dimension
+                                    if (blockEntity.playerToSend!!.gameProfile.id == blockEntity.owner) {
+                                        playerVoidChestData.friendsIndex = -1
+                                    } else {
+                                        playerVoidChestData.friendsIndex = blockEntity.indexToGoTo
+                                    }
+                                    (blockEntity.playerToSend as ServerPlayer).teleport(ModDimensions.VOID_CHEST_WORLD)
+                                }
+                            }
+                        } else {
+                            if (!level.isClientSide) {
+                                blockEntity.playerToSend!!.sendMessage(TranslatableComponent("message.afraidofthedark.void_chest.wrong_dimension"))
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

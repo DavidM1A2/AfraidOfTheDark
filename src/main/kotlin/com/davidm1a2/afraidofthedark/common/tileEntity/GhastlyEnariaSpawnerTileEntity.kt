@@ -6,29 +6,26 @@ import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
 import net.minecraft.core.BlockPos
-import net.minecraft.util.math.AxisAlignedBB
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.AABB
 
 /**
  * Class that represents a ghastly enaria tile entity
  *
  * @constructor just sets the block type
  */
-class GhastlyEnariaSpawnerTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTickingTileEntity(ModTileEntities.GHASTLY_ENARIA_SPAWNER) {
-    /**
-     * Update gets called every tick
-     */
-    override fun tick() {
-        super.tick()
-        // Server side only processing
-        if (level?.isClientSide == false) {
+class GhastlyEnariaSpawnerTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTickingTileEntity(ModTileEntities.GHASTLY_ENARIA_SPAWNER, blockPos, blockState) {
+    companion object {
+        fun serverTick(level: Level, blockPos: BlockPos, blockState: BlockState, blockEntity: FrostPhoenixSpawnerTileEntity) {
+            baseTick(level, blockPos, blockState, blockEntity)
             // Only check every 100 ticks
-            if (ticksExisted % 100 == 0L) {
+            if (blockEntity.ticksExisted % 100 == 0L) {
                 // Find all nearby enaria entities
                 val distanceBetweenIslands = Constants.DISTANCE_BETWEEN_ISLANDS / 2
-                val enariaEntities = level!!.getEntitiesOfClass(
+                val enariaEntities = level.getEntitiesOfClass(
                     GhastlyEnariaEntity::class.java,
-                    AxisAlignedBB(blockPos, blockPos.above()).inflate(
+                    AABB(blockPos, blockPos.above()).inflate(
                         distanceBetweenIslands.toDouble(),
                         distanceBetweenIslands.toDouble(),
                         distanceBetweenIslands.toDouble()
@@ -49,7 +46,7 @@ class GhastlyEnariaSpawnerTileEntity(blockPos: BlockPos, blockState: BlockState)
                         level!!.random.nextFloat(),
                         0f
                     )
-                    level!!.addFreshEntity(enariaSpawn)
+                    level.addFreshEntity(enariaSpawn)
                 }
             }
         }

@@ -5,42 +5,24 @@ import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.item.VitaeLanternItem
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
 import net.minecraft.core.BlockPos
-import net.minecraft.world.entity.player.Player
-import net.minecraft.inventory.ISidedInventory
-import net.minecraft.world.item.ItemStack
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.network.NetworkManager
-import net.minecraft.network.PacketDirection
-import net.minecraft.network.play.server.SUpdateTileEntityPacket
+import net.minecraft.core.Direction
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.Connection
+import net.minecraft.network.protocol.PacketFlow
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket
 import net.minecraft.tags.BlockTags
-import net.minecraft.util.Direction
+import net.minecraft.world.WorldlyContainer
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
 
-class VitaeExtractorTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTickingTileEntity(ModTileEntities.VITAE_EXTRACTOR), ISidedInventory {
+class VitaeExtractorTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTickingTileEntity(ModTileEntities.VITAE_EXTRACTOR, blockPos, blockState), WorldlyContainer {
     private var lantern: ItemStack = ItemStack.EMPTY
     private var fuelVitaePerTick: Float = 0f
     private var burnTicksLeft: Int = 0
-
-    override fun tick() {
-        super.tick()
-
-        if (isBurningFuel()) {
-            if (!lantern.isEmpty) {
-                ModItems.VITAE_LANTERN.addVitae(lantern, fuelVitaePerTick)
-            }
-
-            burnTicksLeft = burnTicksLeft - 1
-            if (burnTicksLeft == 0) {
-                fuelVitaePerTick = 0f
-                setChangedAndTellClients()
-            } else {
-                setChanged()
-            }
-        }
-    }
 
     fun insertLantern(lantern: ItemStack) {
         if (lantern.item != ModItems.VITAE_LANTERN) {
@@ -93,19 +75,19 @@ class VitaeExtractorTileEntity(blockPos: BlockPos, blockState: BlockState) : AOT
         this.burnTicksLeft = 0
     }
 
-    override fun getUpdatePacket(): SUpdateTileEntityPacket {
-        return SUpdateTileEntityPacket(blockPos, -1, save(CompoundNBT()))
+    override fun getUpdatePacket(): ClientboundBlockEntityDataPacket {
+        return ClientboundBlockEntityDataPacket(blockPos, -1, save(CompoundTag()))
     }
 
-    override fun onDataPacket(net: NetworkManager, pkt: SUpdateTileEntityPacket) {
+    override fun onDataPacket(net: Connection, pkt: ClientboundBlockEntityDataPacket) {
         // Don't accept any changes from client -> server, only process server -> client
-        if (net.direction == PacketDirection.CLIENTBOUND) {
-            load(blockState, pkt.tag)
+        if (net.direction == PacketFlow.CLIENTBOUND) {
+            load(pkt.tag)
         }
     }
 
-    override fun getUpdateTag(): CompoundNBT {
-        return save(CompoundNBT())
+    override fun getUpdateTag(): CompoundTag {
+        return save(CompoundTag())
     }
 
     private fun getFuelValue(itemStack: ItemStack): Float {
@@ -114,7 +96,7 @@ class VitaeExtractorTileEntity(blockPos: BlockPos, blockState: BlockState) : AOT
             ?: 0f
     }
 
-    override fun save(compound: CompoundNBT): CompoundNBT {
+    override fun save(compound: CompoundTag): CompoundTag {
         super.save(compound)
         compound.put("lantern", lantern.serializeNBT())
         compound.putInt("burn_ticks_left", burnTicksLeft)
@@ -122,8 +104,8 @@ class VitaeExtractorTileEntity(blockPos: BlockPos, blockState: BlockState) : AOT
         return compound
     }
 
-    override fun load(blockState: BlockState, compound: CompoundNBT) {
-        super.load(blockState, compound)
+    override fun load(compound: CompoundTag) {
+        super.load(compound)
         lantern = ItemStack.of(compound.getCompound("lantern"))
         burnTicksLeft = compound.getInt("burn_ticks_left")
         fuelVitaePerTick = compound.getFloat("fuel_vitae_per_tick")
@@ -265,6 +247,23 @@ class VitaeExtractorTileEntity(blockPos: BlockPos, blockState: BlockState) : AOT
             BlockTags.WOODEN_STAIRS to NATURE_VALUE * 0.75f
         ).map {
             it.first.values.map(Block::asItem).toSet() to it.second
+        }
+
+        fun tick(level: Level, blockPos: BlockPos, blockState: BlockState, blockEntity: VitaeExtractorTileEntity) {
+            baseTick(level, blockPos, blockState, blockEntity)
+            if (blockEntity.isBurningFuel()) {
+                if (!blockEntity.lantern.isEmpty) {
+                    ModItems.VITAE_LANTERN.addVitae(blockEntity.lantern, blockEntity.fuelVitaePerTick)
+                }
+
+                blockEntity.burnTicksLeft = blockEntity.burnTicksLeft - 1
+                if (blockEntity.burnTicksLeft == 0) {
+                    blockEntity.fuelVitaePerTick = 0f
+                    blockEntity.setChangedAndTellClients()
+                } else {
+                    setChanged(level, blockPos, blockState)
+                }
+            }
         }
     }
 }

@@ -75,7 +75,7 @@ class SpellCraftingTableBlock : AOTDTileEntityBlock("spell_crafting_table", Prop
     }
 
     override fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity {
-        return SpellCraftingTableTileEntity()
+        return SpellCraftingTableTileEntity(blockPos, blockState)
     }
 
     override fun getCollisionShape(blockState: BlockState, worldIn: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {

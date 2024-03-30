@@ -3,17 +3,18 @@ package com.davidm1a2.afraidofthedark.common.tileEntity
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDZoneTileEntity
 import net.minecraft.core.BlockPos
-import net.minecraft.util.math.AxisAlignedBB
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.AABB
 
 /**
  * Tile entity for the dark forest block that makes players drowsy
  *
  * @constructor sets the block type of the tile entity
  */
-class WitchHutTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDZoneTileEntity(ModTileEntities.WITCH_HUT) {
-    override val zone: AxisAlignedBB by lazy {
-        AxisAlignedBB(
+class WitchHutTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDZoneTileEntity(ModTileEntities.WITCH_HUT, blockPos, blockState) {
+    override val zone: AABB by lazy {
+        AABB(
             blockPos.x.toDouble(),
             blockPos.y.toDouble(),
             blockPos.z.toDouble(),
@@ -25,5 +26,9 @@ class WitchHutTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDZoneT
 
     companion object {
         private const val CHECK_RANGE = 5.0
+
+        fun serverTick(level: Level, blockPos: BlockPos, blockState: BlockState, blockEntity: AOTDZoneTileEntity) {
+            AOTDZoneTileEntity.serverTick(level, blockPos, blockState, blockEntity)
+        }
     }
 }

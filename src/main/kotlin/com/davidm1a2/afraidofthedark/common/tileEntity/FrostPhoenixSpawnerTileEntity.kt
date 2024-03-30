@@ -3,45 +3,27 @@ package com.davidm1a2.afraidofthedark.common.tileEntity
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.frostPhoenix.FrostPhoenixEntity
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
-import net.minecraft.block.BlockState
 import net.minecraft.core.BlockPos
-import net.minecraft.nbt.CompoundNBT
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 
-class FrostPhoenixSpawnerTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTickingTileEntity(ModTileEntities.FROST_PHOENIX_SPAWNER) {
+class FrostPhoenixSpawnerTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTickingTileEntity(ModTileEntities.FROST_PHOENIX_SPAWNER, blockPos, blockState) {
     private var phoenixIsAlive = false
     private var respawnTime = 0L
-
-    override fun tick() {
-        super.tick()
-        if (!level!!.isClientSide) {
-            if (!phoenixIsAlive) {
-                if (ticksExisted >= respawnTime) {
-                    spawnFrostPhoenix()
-                }
-            }
-        }
-    }
-
-    private fun spawnFrostPhoenix() {
-        phoenixIsAlive = true
-        val phoenix = FrostPhoenixEntity(level!!, blockPos)
-        phoenix.setPos(blockPos.x + 0.5, blockPos.y + 2.0, blockPos.z + 0.5)
-        level!!.addFreshEntity(phoenix)
-    }
 
     fun reportPhoenixGone() {
         phoenixIsAlive = false
         respawnTime = ticksExisted + RESPAWN_COOLDOWN_TICKS
     }
 
-    override fun load(blockState: BlockState, compound: CompoundNBT) {
-        super.load(blockState, compound)
+    override fun load(compound: CompoundTag) {
+        super.load(compound)
         phoenixIsAlive = compound.getBoolean(NBT_PHOENIX_IS_ALIVE)
         respawnTime = compound.getLong(NBT_RESPAWN_TIME)
     }
 
-    override fun save(compound: CompoundNBT): CompoundNBT {
+    override fun save(compound: CompoundTag): CompoundTag {
         super.save(compound)
         compound.putBoolean(NBT_PHOENIX_IS_ALIVE, phoenixIsAlive)
         compound.putLong(NBT_RESPAWN_TIME, respawnTime)
@@ -54,5 +36,21 @@ class FrostPhoenixSpawnerTileEntity(blockPos: BlockPos, blockState: BlockState) 
 
         // 30 seconds before it can respawn
         private const val RESPAWN_COOLDOWN_TICKS = 20 * 30 * 1
+
+        fun serverTick(level: Level, blockPos: BlockPos, blockState: BlockState, blockEntity: FrostPhoenixSpawnerTileEntity) {
+            baseTick(level, blockPos, blockState, blockEntity)
+            if (!blockEntity.phoenixIsAlive) {
+                if (blockEntity.ticksExisted >= blockEntity.respawnTime) {
+                    spawnFrostPhoenix(level, blockPos, blockEntity)
+                }
+            }
+        }
+
+        private fun spawnFrostPhoenix(level: Level, blockPos: BlockPos, blockEntity: FrostPhoenixSpawnerTileEntity) {
+            blockEntity.phoenixIsAlive = true
+            val phoenix = FrostPhoenixEntity(level, blockPos)
+            phoenix.setPos(blockPos.x + 0.5, blockPos.y + 2.0, blockPos.z + 0.5)
+            level.addFreshEntity(phoenix)
+        }
     }
 }

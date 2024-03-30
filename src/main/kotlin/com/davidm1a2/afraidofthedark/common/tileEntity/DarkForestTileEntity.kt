@@ -5,12 +5,13 @@ import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDZoneTileEntity
 import net.minecraft.core.BlockPos
+import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
-import net.minecraft.potion.EffectInstance
-import net.minecraft.util.math.AxisAlignedBB
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.AABB
 import kotlin.random.Random
 
 /**
@@ -18,9 +19,9 @@ import kotlin.random.Random
  *
  * @constructor sets the block type of the tile entity
  */
-class DarkForestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDZoneTileEntity(ModTileEntities.DARK_FOREST) {
-    override val zone: AxisAlignedBB by lazy {
-        AxisAlignedBB(
+class DarkForestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDZoneTileEntity(ModTileEntities.DARK_FOREST, blockPos, blockState) {
+    override val zone: AABB by lazy {
+        AABB(
             blockPos.x.toDouble(),
             blockPos.y.toDouble(),
             blockPos.z.toDouble(),
@@ -32,27 +33,7 @@ class DarkForestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDZon
 
     override fun playerInZone(player: Player) {
         // 6 seconds of sleeping potion effect
-        player.addEffect(EffectInstance(ModEffects.SLEEPING, 120, 0, true, false))
-    }
-
-    override fun tick() {
-        super.tick()
-        // Server side processing only
-        if (level?.isClientSide == false) {
-            spawnCultistTome()
-        }
-    }
-
-    private fun spawnCultistTome() {
-        if (ticksExisted % TICKS_BETWEEN_CULTIST_TOME_CHECKS == 0L) {
-            // Spawn a cultist tome
-            val tomeX = blockPos.x + Random.nextDouble(-TOME_SPAWN_RANGE, TOME_SPAWN_RANGE)
-            val tomeY = blockPos.y - 7.0
-            val tomeZ = blockPos.z + Random.nextDouble(-TOME_SPAWN_RANGE, TOME_SPAWN_RANGE)
-
-            val tome = ItemEntity(level!!, tomeX, tomeY, tomeZ, ItemStack(ModItems.CULTIST_TOME))
-            level!!.addFreshEntity(tome)
-        }
+        player.addEffect(MobEffectInstance(ModEffects.SLEEPING, 120, 0, true, false))
     }
 
     companion object {
@@ -64,5 +45,18 @@ class DarkForestTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDZon
 
         // The range from the dark forest block we can spawn cultist tomes at
         private const val TOME_SPAWN_RANGE = 7.5
+
+        fun serverTick(level: Level, blockPos: BlockPos, blockState: BlockState, blockEntity: DarkForestTileEntity) {
+            AOTDZoneTileEntity.serverTick(level, blockPos, blockState, blockEntity)
+            if (blockEntity.ticksExisted % TICKS_BETWEEN_CULTIST_TOME_CHECKS == 0L) {
+                // Spawn a cultist tome
+                val tomeX = blockPos.x + Random.nextDouble(-TOME_SPAWN_RANGE, TOME_SPAWN_RANGE)
+                val tomeY = blockPos.y - 7.0
+                val tomeZ = blockPos.z + Random.nextDouble(-TOME_SPAWN_RANGE, TOME_SPAWN_RANGE)
+
+                val tome = ItemEntity(level, tomeX, tomeY, tomeZ, ItemStack(ModItems.CULTIST_TOME))
+                level.addFreshEntity(tome)
+            }
+        }
     }
 }

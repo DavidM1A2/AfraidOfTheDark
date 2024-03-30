@@ -1,13 +1,17 @@
 package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
+import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.tileEntity.EnariaSpawnerTileEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.BlockEntityTicker
+import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.material.Material
@@ -56,7 +60,15 @@ class EnariaSpawnerBlock : AOTDTileEntityBlock(
 
     override fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity {
         // TODO: Find a way to split Enaria & GhastlyEnariaSpawner TileEntities. Perhaps need to consolidate TEs, or make separate blocks
-        return EnariaSpawnerTileEntity()
+        return EnariaSpawnerTileEntity(blockPos, blockState)
         // return GhastlyEnariaSpawnerTileEntity()?
+    }
+
+    override fun <T : BlockEntity?> getTicker(level: Level, blockState: BlockState, type: BlockEntityType<T>): BlockEntityTicker<T>? {
+        return if (level.isClientSide) {
+            null
+        } else {
+            createTickerHelper(type, ModTileEntities.ENARIA_SPAWNER, EnariaSpawnerTileEntity::serverTick)
+        }
     }
 }

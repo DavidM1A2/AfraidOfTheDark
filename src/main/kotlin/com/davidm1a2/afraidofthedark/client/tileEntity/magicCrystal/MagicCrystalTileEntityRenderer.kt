@@ -46,6 +46,10 @@ class MagicCrystalTileEntityRenderer(context: BlockEntityRendererProvider.Contex
         matrixStack.popPose()
     }
 
+    override fun getViewDistance(): Int {
+        return 192
+    }
+
     companion object {
         private val MAGIC_CRYSTAL_MODEL = MagicCrystalTileEntityModel()
         private val MAGIC_CRYSTAL_TEXTURE = ResourceLocation("afraidofthedark:textures/block/magic_crystal_te.png")

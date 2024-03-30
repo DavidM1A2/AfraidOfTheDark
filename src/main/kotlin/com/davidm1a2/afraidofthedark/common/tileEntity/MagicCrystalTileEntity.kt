@@ -4,18 +4,18 @@ import com.davidm1a2.afraidofthedark.common.block.MagicCrystalBlock
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
-import net.minecraft.block.BlockState
 import net.minecraft.core.BlockPos
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.network.NetworkManager
-import net.minecraft.network.PacketDirection
-import net.minecraft.network.play.server.SUpdateTileEntityPacket
-import net.minecraft.util.math.AxisAlignedBB
-import net.minecraft.util.math.MathHelper
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.Connection
+import net.minecraft.network.protocol.PacketFlow
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket
+import net.minecraft.util.Mth
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.AABB
 import kotlin.math.sin
 
-class MagicCrystalTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTickingTileEntity(ModTileEntities.MAGIC_CRYSTAL) {
+class MagicCrystalTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTickingTileEntity(ModTileEntities.MAGIC_CRYSTAL, blockPos, blockState) {
     private var vitae: Double = 0.0
     private var prevRenderRotation: Double = 0.0
     private var renderRotation: Double = 0.0
@@ -66,28 +66,12 @@ class MagicCrystalTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDT
         return master != NO_MASTER
     }
 
-    override fun tick() {
-        super.tick()
-        if (level?.isClientSide == true) {
-            val percentFull = getVitae() / getMaxVitae()
-            prevRenderHeightOffset = renderHeightOffset
-            renderHeightOffset = sin((ticksExisted) * BOB_SPEED * percentFull) * 0.5 + 0.5
-            prevRenderRotation = renderRotation
-            renderRotation = (renderRotation + SPIN_SPEED * percentFull)
-            // If we've gone full circle wrap around. Update prevRenderRotation to be negative temporarily to fix interpolation
-            if (renderRotation > 360) {
-                prevRenderRotation = prevRenderRotation - renderRotation
-                renderRotation = renderRotation % 360
-            }
-        }
-    }
-
     fun getRenderHeightOffset(partialTicks: Float): Double {
-        return MathHelper.lerp(partialTicks.toDouble(), prevRenderHeightOffset, renderHeightOffset)
+        return Mth.lerp(partialTicks.toDouble(), prevRenderHeightOffset, renderHeightOffset)
     }
 
     fun getRenderRotation(partialTicks: Float): Double {
-        return MathHelper.lerp(partialTicks.toDouble(), prevRenderRotation, renderRotation)
+        return Mth.lerp(partialTicks.toDouble(), prevRenderRotation, renderRotation)
     }
 
     fun setMaxVitae() {
@@ -141,37 +125,33 @@ class MagicCrystalTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDT
         return MAX_VITAE
     }
 
-    override fun getRenderBoundingBox(): AxisAlignedBB {
+    override fun getRenderBoundingBox(): AABB {
         return super.getRenderBoundingBox().expandTowards(0.0, 16.0 * (MagicCrystalBlock.BLOCK_HEIGHT - 1), 0.0)
     }
 
-    override fun getViewDistance(): Double {
-        return 192.0
+    override fun getUpdatePacket(): ClientboundBlockEntityDataPacket {
+        return ClientboundBlockEntityDataPacket(blockPos, -1, save(CompoundTag()))
     }
 
-    override fun getUpdatePacket(): SUpdateTileEntityPacket {
-        return SUpdateTileEntityPacket(blockPos, -1, save(CompoundNBT()))
-    }
-
-    override fun onDataPacket(net: NetworkManager, pkt: SUpdateTileEntityPacket) {
+    override fun onDataPacket(net: Connection, pkt: ClientboundBlockEntityDataPacket) {
         // Don't accept any changes from client -> server, only process server -> client
-        if (net.direction == PacketDirection.CLIENTBOUND) {
-            load(blockState, pkt.tag)
+        if (net.direction == PacketFlow.CLIENTBOUND) {
+            load(pkt.tag)
         }
     }
 
-    override fun getUpdateTag(): CompoundNBT {
-        return save(CompoundNBT())
+    override fun getUpdateTag(): CompoundTag {
+        return save(CompoundTag())
     }
 
-    override fun save(compound: CompoundNBT): CompoundNBT {
+    override fun save(compound: CompoundTag): CompoundTag {
         super.save(compound)
         compound.putDouble("vitae", vitae)
         return compound
     }
 
-    override fun load(blockState: BlockState, compound: CompoundNBT) {
-        super.load(blockState, compound)
+    override fun load(compound: CompoundTag) {
+        super.load(compound)
         vitae = compound.getDouble("vitae")
     }
 
@@ -179,6 +159,20 @@ class MagicCrystalTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDT
         private const val BOB_SPEED = 0.1
         private const val SPIN_SPEED = 1.2
         private const val MAX_VITAE = 100000.0
-        private val NO_MASTER = MagicCrystalTileEntity()
+        private val NO_MASTER = MagicCrystalTileEntity(BlockPos.ZERO, ModBlocks.MAGIC_CRYSTAL.defaultBlockState())
+
+        fun clientTick(level: Level, blockPos: BlockPos, blockState: BlockState, blockEntity: MagicCrystalTileEntity) {
+            baseTick(level, blockPos, blockState, blockEntity)
+            val percentFull = blockEntity.getVitae() / blockEntity.getMaxVitae()
+            blockEntity.prevRenderHeightOffset = blockEntity.renderHeightOffset
+            blockEntity.renderHeightOffset = sin((blockEntity.ticksExisted) * BOB_SPEED * percentFull) * 0.5 + 0.5
+            blockEntity.prevRenderRotation = blockEntity.renderRotation
+            blockEntity.renderRotation = (blockEntity.renderRotation + SPIN_SPEED * percentFull)
+            // If we've gone full circle wrap around. Update prevRenderRotation to be negative temporarily to fix interpolation
+            if (blockEntity.renderRotation > 360) {
+                blockEntity.prevRenderRotation = blockEntity.prevRenderRotation - blockEntity.renderRotation
+                blockEntity.renderRotation = blockEntity.renderRotation % 360
+            }
+        }
     }
 }
