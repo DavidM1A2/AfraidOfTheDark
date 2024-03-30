@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
+import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
@@ -62,9 +63,7 @@ open class StackPane(
             }
 
             // Push the current scissor bit and enable scissor
-            GL11.glPushAttrib(GL11.GL_SCISSOR_BIT)
-            GL11.glEnable(GL11.GL_SCISSOR_TEST)
-            GL11.glScissor(realX, realY, realWidth, realHeight)
+            RenderSystem.enableScissor(realX, realY, realWidth, realHeight)
         }
 
         // Draw all sub-components
@@ -73,8 +72,7 @@ open class StackPane(
         // If scissor was enabled disable it
         if (scissorEnabled) {
             // Disable scissor and pop the old bit
-            GL11.glDisable(GL11.GL_SCISSOR_TEST)
-            GL11.glPopAttrib()
+            RenderSystem.disableScissor()
         }
     }
 }
