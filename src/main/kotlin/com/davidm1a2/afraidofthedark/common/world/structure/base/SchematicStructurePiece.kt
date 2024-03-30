@@ -5,7 +5,6 @@ import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.constants.ModStructures
 import com.davidm1a2.afraidofthedark.common.loot.loottable.LootTable
 import com.davidm1a2.afraidofthedark.common.schematic.Schematic
-import com.davidm1a2.afraidofthedark.common.schematic.SchematicUtils
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.nbt.CompoundTag
@@ -15,7 +14,6 @@ import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.StructureFeatureManager
 import net.minecraft.world.level.WorldGenLevel
 import net.minecraft.world.level.block.*
-import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.entity.ChestBlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.StairsShape
@@ -56,8 +54,11 @@ class SchematicStructurePiece : StructurePiece {
         schematic: Schematic,
         lootTable: LootTable? = null,
         facing: Direction = getRandomHorizontalDirection(random)
-    ) : super(ModStructures.SCHEMATIC_STRUCTURE_PIECE, 0, makeBoundingBox(x, y, z, facing,
-            x + schematic.getWidth() - 1, y + schematic.getHeight() - 1, z + schematic.getLength() - 1)) {
+    ) : super(
+        ModStructures.SCHEMATIC_STRUCTURE_PIECE,
+        0,
+        makeBoundingBox(x, y, z, facing, schematic.getWidth().toInt(), schematic.getHeight().toInt(), schematic.getLength().toInt())
+    ) {
         require(facing in Direction.Plane.HORIZONTAL)
 
         this.schematic = schematic
