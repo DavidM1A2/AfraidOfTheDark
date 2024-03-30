@@ -17,7 +17,6 @@ import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper
-import org.apache.commons.lang3.reflect.FieldUtils
 import org.apache.logging.log4j.LogManager
 
 class StructureGenerationRegister {
@@ -88,7 +87,6 @@ class StructureGenerationRegister {
 
         // StructureSettings::structureConfig
         private val STRUCTURE_CONFIG_FIELD = ObfuscationReflectionHelper.findField(StructureSettings::class.java, "f_64582_").apply {
-            FieldUtils.removeFinalModifier(this)
             isAccessible = true
         }
 

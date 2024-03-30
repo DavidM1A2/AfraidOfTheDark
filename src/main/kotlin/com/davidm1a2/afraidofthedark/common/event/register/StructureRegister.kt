@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.ModStructures
+import com.davidm1a2.afraidofthedark.common.utility.AOTDReflectionUtils
 import com.google.common.collect.ImmutableMap
 import net.minecraft.core.Registry
 import net.minecraft.data.BuiltinRegistries
@@ -11,7 +12,6 @@ import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper
-import org.apache.commons.lang3.reflect.FieldUtils
 import org.apache.logging.log4j.LogManager
 
 /**
@@ -47,12 +47,12 @@ class StructureRegister {
                 /*
                 The StructureSeparationSettings need to be added to the DimensionStructuresSettings's static map used when saving the world's chunks.
                  */
+                @Suppress("UNCHECKED_CAST")
                 val currentDefaultSeparationSettings = DEFAULTS_FIELD.get(null) as ImmutableMap<StructureFeature<*>, StructureFeatureConfiguration>
                 try {
                     if (!currentDefaultSeparationSettings.containsKey(structure)) {
-                        DEFAULTS_FIELD.set(
-                            null,
-                            ImmutableMap.builder<StructureFeature<*>, StructureFeatureConfiguration>()
+                        AOTDReflectionUtils.setStaticFinalField(
+                            DEFAULTS_FIELD, ImmutableMap.builder<StructureFeature<*>, StructureFeatureConfiguration>()
                                 .putAll(currentDefaultSeparationSettings)
                                 .put(structure, DEFAULT_STRUCTURE_SEPARATION_SETTINGS)
                                 .build()
@@ -95,13 +95,11 @@ class StructureRegister {
 
         // StructureSettings::DEFAULTS
         private val DEFAULTS_FIELD = ObfuscationReflectionHelper.findField(StructureSettings::class.java, "f_64580_").apply {
-            FieldUtils.removeFinalModifier(this)
             isAccessible = true
         }
 
         // StructureSettings::structureConfig
         private val STRUCTURE_CONFIG_FIELD = ObfuscationReflectionHelper.findField(StructureSettings::class.java, "f_64582_").apply {
-            FieldUtils.removeFinalModifier(this)
             isAccessible = true
         }
 
