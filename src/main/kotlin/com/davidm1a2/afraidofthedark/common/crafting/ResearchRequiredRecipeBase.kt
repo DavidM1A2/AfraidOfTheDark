@@ -84,16 +84,17 @@ abstract class ResearchRequiredRecipeBase<T : Recipe<CraftingContainer>>(val bas
          * @return The player who is crafting the recipe or null otherwise
          */
         private fun findPlayer(inventory: CraftingContainer): Player? {
-            // TOOD: Confirm reflection field SRG mappings
             try {
-                // Attempt to grab the container the player is crafting in
-                val container: AbstractContainerMenu? = ObfuscationReflectionHelper.getPrivateValue(CraftingContainer::class.java, inventory, "field_70465_c")
+                // CraftingContainer::menu
+                val container: AbstractContainerMenu? = ObfuscationReflectionHelper.getPrivateValue(CraftingContainer::class.java, inventory, "f_39323_")
 
                 // Test if the container is a 2x2 grid or 'ContainerPlayer', if so return the player from the 'player' field
                 if (container is InventoryMenu) {
-                    return ObfuscationReflectionHelper.getPrivateValue(InventoryMenu::class.java, container, "field_82862_h")
+                    // InventoryMenu::owner
+                    return ObfuscationReflectionHelper.getPrivateValue(InventoryMenu::class.java, container, "f_39703_")
                 } else if (container is CraftingMenu) {
-                    return ObfuscationReflectionHelper.getPrivateValue(CraftingMenu::class.java, container, "field_192390_i")
+                    // CraftingMenu::player
+                    return ObfuscationReflectionHelper.getPrivateValue(CraftingMenu::class.java, container, "f_39351_")
                 }
             }
             // If something goes wrong catch the exception and log it, then return null

@@ -14,10 +14,11 @@ class DimensionRenderInfoRegister {
     @SubscribeEvent
     fun fmlClientSetupEvent(event: FMLClientSetupEvent) {
         event.enqueueWork {
+            // DimensionSpecialEffects::EFFECTS
             val effects = ObfuscationReflectionHelper.getPrivateValue<Object2ObjectMap<ResourceLocation, DimensionSpecialEffects>, DimensionSpecialEffects>(
                 DimensionSpecialEffects::class.java,
                 null,
-                "field_239208_a_"
+                "f_108857_"
             ) ?: throw IllegalStateException("Field 'EFFECTS' could not be reflected out of DimensionRenderInfo")
             effects[ResourceLocation(Constants.MOD_ID, "nightmare_effects")] = NightmareRenderInfo()
             effects[ResourceLocation(Constants.MOD_ID, "void_chest_effects")] = VoidChestRenderInfo()

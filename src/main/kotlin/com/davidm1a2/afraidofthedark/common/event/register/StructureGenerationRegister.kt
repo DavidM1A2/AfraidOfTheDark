@@ -85,16 +85,15 @@ class StructureGenerationRegister {
     companion object {
         private val LOG = LogManager.getLogger()
 
-        // TODO: Figure out new obfuscation mappings
 
         // StructureSettings::structureConfig
-        private val STRUCTURE_CONFIG_FIELD = ObfuscationReflectionHelper.findField(StructureSettings::class.java, "field_236193_d_").apply {
+        private val STRUCTURE_CONFIG_FIELD = ObfuscationReflectionHelper.findField(StructureSettings::class.java, "f_64582_").apply {
             FieldUtils.removeFinalModifier(this)
             isAccessible = true
         }
 
         // FlatLevelGeneratorSettings::STRUCTURE_FEATURES
-        private val STRUCTURE_FEATURES_FIELD = ObfuscationReflectionHelper.findField(FlatLevelGeneratorSettings::class.java, "field_202247_j").apply {
+        private val STRUCTURE_FEATURES_FIELD = ObfuscationReflectionHelper.findField(FlatLevelGeneratorSettings::class.java, "f_70349_").apply {
             isAccessible = true
         }
     }

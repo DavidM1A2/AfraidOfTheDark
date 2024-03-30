@@ -94,13 +94,13 @@ class StructureRegister {
         private val LOG = LogManager.getLogger()
 
         // StructureSettings::DEFAULTS
-        private val DEFAULTS_FIELD = ObfuscationReflectionHelper.findField(StructureSettings::class.java, "field_236191_b_").apply {
+        private val DEFAULTS_FIELD = ObfuscationReflectionHelper.findField(StructureSettings::class.java, "f_64580_").apply {
             FieldUtils.removeFinalModifier(this)
             isAccessible = true
         }
 
         // StructureSettings::structureConfig
-        private val STRUCTURE_CONFIG_FIELD = ObfuscationReflectionHelper.findField(StructureSettings::class.java, "field_236193_d_").apply {
+        private val STRUCTURE_CONFIG_FIELD = ObfuscationReflectionHelper.findField(StructureSettings::class.java, "f_64582_").apply {
             FieldUtils.removeFinalModifier(this)
             isAccessible = true
         }
