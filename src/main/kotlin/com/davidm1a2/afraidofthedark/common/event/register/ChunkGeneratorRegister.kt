@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.common.event.register
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.dimension.NightmareChunkGenerator
 import com.davidm1a2.afraidofthedark.common.dimension.VoidChestChunkGenerator
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.registry.Registry
+import net.minecraft.core.Registry
+import net.minecraft.resources.ResourceLocation
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 

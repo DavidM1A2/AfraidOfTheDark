@@ -2,15 +2,15 @@ package com.davidm1a2.afraidofthedark.client.tileEntity.spellCraftingTable
 
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Vector3f
+import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.block.model.ItemTransforms
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import net.minecraft.core.Direction
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
 
-class SpellCraftingTableItemStackRenderer(context: BlockEntityRendererProvider.Context) : BlockEntityWithoutLevelRenderer(context.blockEntityRenderDispatcher, context.modelSet) {
+class SpellCraftingTableItemStackRenderer : BlockEntityWithoutLevelRenderer(Minecraft.getInstance().blockEntityRenderDispatcher, Minecraft.getInstance().entityModels) {
     override fun renderByItem(
         itemStack: ItemStack,
         ignored: ItemTransforms.TransformType,

@@ -1,13 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.block
 
+import com.davidm1a2.afraidofthedark.client.tileEntity.vitaeExtractor.VitaeExtractorItemStackRenderer
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
-import com.davidm1a2.afraidofthedark.common.block.core.IUseBlockItemStackRenderer
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.item.VitaeLanternItem
 import com.davidm1a2.afraidofthedark.common.tileEntity.VitaeExtractorTileEntity
-import net.minecraft.client.renderer.entity.ItemRenderer
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.sounds.SoundEvents
@@ -33,6 +33,7 @@ import net.minecraft.world.level.material.Material
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraftforge.client.IItemRenderProperties
 import java.util.*
 
 class VitaeExtractorBlock : AOTDTileEntityBlock(
@@ -40,7 +41,7 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
     Properties.of(Material.STONE)
         .requiresCorrectToolForDrops()
         .strength(1.5F, 6.0F)
-), IUseBlockItemStackRenderer {
+), IItemRenderProperties {
     init {
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH))
     }
@@ -149,12 +150,8 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
         return SHAPE
     }
 
-    override fun getItemRenderer(): ItemRenderer {
-        // TODO: Register VitaeExtractorItemStackRenderer for item via public void initializeClient(@Nonnull Consumer<IItemRenderProperties> consumer) {
-        // override fun getISTER(): ItemStackTileEntityRenderer {
-        //     return VitaeExtractorItemStackRenderer()
-        // }
-        TODO("Not yet implemented")
+    override fun getItemStackRenderer(): BlockEntityWithoutLevelRenderer {
+        return VitaeExtractorItemStackRenderer()
     }
 
     override fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity {

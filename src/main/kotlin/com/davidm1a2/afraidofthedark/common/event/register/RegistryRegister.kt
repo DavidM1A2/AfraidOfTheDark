@@ -8,7 +8,7 @@ import com.davidm1a2.afraidofthedark.common.research.trigger.base.ResearchTrigge
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
 import net.minecraftforge.event.RegistryEvent.NewRegistry
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.registries.RegistryBuilder

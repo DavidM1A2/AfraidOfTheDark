@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import net.minecraft.item.Item
+import net.minecraft.world.item.Item
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 

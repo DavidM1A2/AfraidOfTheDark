@@ -1,10 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.item.igneous
 
+import com.davidm1a2.afraidofthedark.client.item.igneousShield.IgneousShieldItemStackRenderer
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDShieldItem
 import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.world.InteractionHand
@@ -14,9 +16,10 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
+import net.minecraftforge.client.IItemRenderProperties
 import kotlin.math.max
 
-class IgneousShieldItem : AOTDShieldItem("igneous_shield", Properties()) {
+class IgneousShieldItem : AOTDShieldItem("igneous_shield", Properties()), IItemRenderProperties {
     override fun canBeDepleted(): Boolean {
         return false
     }
@@ -27,6 +30,10 @@ class IgneousShieldItem : AOTDShieldItem("igneous_shield", Properties()) {
         } else {
             InteractionResultHolder.fail(playerEntity.getItemInHand(hand))
         }
+    }
+
+    override fun getItemStackRenderer(): BlockEntityWithoutLevelRenderer {
+        return IgneousShieldItemStackRenderer()
     }
 
     override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<Component>, iTooltipFlag: TooltipFlag) {

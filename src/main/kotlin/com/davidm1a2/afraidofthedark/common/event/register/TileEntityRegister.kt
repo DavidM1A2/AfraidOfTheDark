@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
-import net.minecraft.tileentity.TileEntityType
+import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
@@ -15,7 +15,7 @@ class TileEntityRegister {
      * @param event The event to register to
      */
     @SubscribeEvent
-    fun registerTileEntities(event: RegistryEvent.Register<TileEntityType<*>>) {
+    fun registerTileEntities(event: RegistryEvent.Register<BlockEntityType<*>>) {
         val registry = event.registry
 
         // Register all blocks in our mod

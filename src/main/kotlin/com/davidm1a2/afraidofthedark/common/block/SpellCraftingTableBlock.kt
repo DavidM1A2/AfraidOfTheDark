@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.client.gui.screens.SpellListScreen
+import com.davidm1a2.afraidofthedark.client.tileEntity.spellCraftingTable.SpellCraftingTableItemStackRenderer
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
-import com.davidm1a2.afraidofthedark.common.block.core.IUseBlockItemStackRenderer
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
@@ -11,7 +11,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.tileEntity.SpellCraftingTableTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.entity.ItemRenderer
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.particles.ParticleTypes
@@ -34,9 +34,10 @@ import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraftforge.client.IItemRenderProperties
 import java.util.*
 
-class SpellCraftingTableBlock : AOTDTileEntityBlock("spell_crafting_table", Properties.copy(ModBlocks.GRAVEWOOD_PLANKS).lightLevel { 5 }), IUseBlockItemStackRenderer {
+class SpellCraftingTableBlock : AOTDTileEntityBlock("spell_crafting_table", Properties.copy(ModBlocks.GRAVEWOOD_PLANKS).lightLevel { 5 }), IItemRenderProperties {
     init {
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH))
     }
@@ -66,12 +67,8 @@ class SpellCraftingTableBlock : AOTDTileEntityBlock("spell_crafting_table", Prop
         return InteractionResult.SUCCESS
     }
 
-    override fun getItemRenderer(): ItemRenderer {
-        // TODO: Register SpellCraftingTableItemStackRenderer for item via public void initializeClient(@Nonnull Consumer<IItemRenderProperties> consumer) {
-        // override fun getISTER(): ItemStackTileEntityRenderer {
-        //     return SpellCraftingTableItemStackRenderer()
-        // }
-        TODO("Not yet implemented")
+    override fun getItemStackRenderer(): BlockEntityWithoutLevelRenderer {
+        return SpellCraftingTableItemStackRenderer()
     }
 
     override fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity {

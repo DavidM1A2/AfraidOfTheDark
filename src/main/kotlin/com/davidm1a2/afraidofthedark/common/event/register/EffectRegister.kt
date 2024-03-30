@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.ModEffects
-import net.minecraft.potion.Effect
+import net.minecraft.world.effect.MobEffect
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
@@ -15,7 +15,7 @@ class EffectRegister {
      * @param event The event to register to
      */
     @SubscribeEvent
-    fun registerPotions(event: RegistryEvent.Register<Effect>) {
+    fun registerPotions(event: RegistryEvent.Register<MobEffect>) {
         val registry = event.registry
 
         // Register each potion in our potion list

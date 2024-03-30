@@ -2,14 +2,14 @@ package com.davidm1a2.afraidofthedark.client.item.igneousShield
 
 import com.davidm1a2.afraidofthedark.common.constants.ModRenderMaterials
 import com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.block.model.ItemTransforms
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import net.minecraft.client.renderer.entity.ItemRenderer
 import net.minecraft.world.item.ItemStack
 
-class IgneousShieldItemStackRenderer(context: BlockEntityRendererProvider.Context) : BlockEntityWithoutLevelRenderer(context.blockEntityRenderDispatcher, context.modelSet) {
+class IgneousShieldItemStackRenderer : BlockEntityWithoutLevelRenderer(Minecraft.getInstance().blockEntityRenderDispatcher, Minecraft.getInstance().entityModels) {
     override fun renderByItem(
         itemStack: ItemStack,
         ignored: ItemTransforms.TransformType,

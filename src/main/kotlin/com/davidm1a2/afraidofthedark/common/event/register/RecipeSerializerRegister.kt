@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.ModRecipeSerializers
-import net.minecraft.item.crafting.IRecipeSerializer
+import net.minecraft.world.item.crafting.RecipeSerializer
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
@@ -12,7 +12,7 @@ class RecipeSerializerRegister {
      * @param event The event to register to
      */
     @SubscribeEvent
-    fun registerItems(event: RegistryEvent.Register<IRecipeSerializer<*>>) {
+    fun registerItems(event: RegistryEvent.Register<RecipeSerializer<*>>) {
         val registry = event.registry
 
         registry.registerAll(*ModRecipeSerializers.LIST)

@@ -1,13 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.block.core.IShowBlockCreative
-import com.davidm1a2.afraidofthedark.common.block.core.IUseBlockItemStackRenderer
 import com.davidm1a2.afraidofthedark.common.block.core.IUseCustomBlockItem
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
-import net.minecraft.item.BlockItem
-import net.minecraft.item.Item
+import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.Item
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
@@ -35,9 +34,6 @@ class ItemRegister {
                 val properties = Item.Properties()
                 if (block !is IShowBlockCreative || block.displayInCreative()) {
                     properties.tab(Constants.AOTD_CREATIVE_TAB)
-                }
-                if (block is IUseBlockItemStackRenderer) {
-                    properties.setISTER(block.getWrappedISTER())
                 }
                 BlockItem(block, properties)
             }
