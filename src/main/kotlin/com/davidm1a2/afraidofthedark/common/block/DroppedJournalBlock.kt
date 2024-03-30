@@ -93,7 +93,7 @@ class DroppedJournalBlock : AOTDTileEntityBlock(
     }
 
     override fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity {
-        return DroppedJournalTileEntity()
+        return DroppedJournalTileEntity(blockPos, blockState)
     }
 
     override fun getShape(blockState: BlockState, worldIn: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {

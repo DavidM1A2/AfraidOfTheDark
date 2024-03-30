@@ -2,13 +2,12 @@ package com.davidm1a2.afraidofthedark.common.world.feature.tree
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import net.minecraft.block.RotatedPillarBlock
-import net.minecraft.util.Direction
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.MutableBoundingBox
-import net.minecraft.world.ISeedReader
-import net.minecraft.world.gen.ChunkGenerator
-import java.util.Random
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.level.block.RotatedPillarBlock
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration
+import net.minecraft.world.level.levelgen.structure.BoundingBox
 
 class SacredMangroveTreeFeature : AOTDTreeFeature(
     ModBlocks.SACRED_MANGROVE.defaultBlockState().setValue(RotatedPillarBlock.AXIS, Direction.Axis.Y),
@@ -19,14 +18,14 @@ class SacredMangroveTreeFeature : AOTDTreeFeature(
     }
 
     override fun place(
-        world: ISeedReader,
-        chunkGenerator: ChunkGenerator,
-        random: Random,
-        blockPos: BlockPos,
+        featurePlaceContext: FeaturePlaceContext<TreeConfiguration>,
         logPositions: MutableSet<BlockPos>,
         leafPositions: MutableSet<BlockPos>,
-        boundingBox: MutableBoundingBox
+        boundingBox: BoundingBox
     ) {
+        val world = featurePlaceContext.level()
+        val blockPos = featurePlaceContext.origin()
+
         // Create a trunk, it's always 5 blocks tall
         for (yOffset in 0 until TREE_HEIGHT) {
             setLog(world, blockPos.offset(0, yOffset, 0), logPositions, boundingBox)
