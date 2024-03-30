@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.item.void
+package com.davidm1a2.afraidofthedark.common.item.voiid
 
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level

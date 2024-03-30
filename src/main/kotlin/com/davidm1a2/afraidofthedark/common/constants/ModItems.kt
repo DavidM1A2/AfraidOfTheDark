@@ -15,7 +15,7 @@ import com.davidm1a2.afraidofthedark.common.item.gnomishmetal.GnomishMetalShovel
 import com.davidm1a2.afraidofthedark.common.item.igneous.*
 import com.davidm1a2.afraidofthedark.common.item.starmetal.*
 import com.davidm1a2.afraidofthedark.common.item.telescope.*
-import com.davidm1a2.afraidofthedark.common.item.void.*
+import com.davidm1a2.afraidofthedark.common.item.voiid.*
 import net.minecraft.world.entity.EquipmentSlot
 
 /**

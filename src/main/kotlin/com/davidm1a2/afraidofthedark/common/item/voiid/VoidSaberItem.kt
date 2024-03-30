@@ -1,9 +1,9 @@
-package com.davidm1a2.afraidofthedark.common.item.void
+package com.davidm1a2.afraidofthedark.common.item.voiid
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
-import com.davidm1a2.afraidofthedark.common.item.core.AOTDResearchRequiredShovelItem
+import com.davidm1a2.afraidofthedark.common.item.core.AOTDResearchRequiredSwordItem
 import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TranslatableComponent
@@ -12,11 +12,11 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
 
-class VoidShovelItem : AOTDResearchRequiredShovelItem(
-    "void_shovel",
+class VoidSaberItem : AOTDResearchRequiredSwordItem(
+    "void_saber",
     ModToolMaterials.VOID,
-    -20.5f,
-    -3f,
+    3,
+    -1.2f,
     ModResearches.AN_UNSETTLING_MATERIAL,
     Properties()
 ) {

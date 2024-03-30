@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.item.void
+package com.davidm1a2.afraidofthedark.common.item.voiid
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
