@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui.fontLibrary
 
 import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.mojang.blaze3d.platform.TextureUtil
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import com.mojang.blaze3d.vertex.Tesselator
@@ -425,20 +426,14 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
                 // Not very familiar with OpenGl here, but create an int buffer and generate the texture from the byte buffer
 
-                val textureBuffer = BufferUtils.createByteBuffer(4).asIntBuffer()
-                GL11.glGenTextures(textureBuffer)
-
-                val textureId = textureBuffer.get(0)
-                GL11.glEnable(GL11.GL_TEXTURE_2D)
-                RenderSystem.bindTexture(textureId)
+                val textureId = TextureUtil.generateTextureId()
+                RenderSystem.setShaderTexture(0, textureId)
 
                 RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP)
                 RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP)
 
                 RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST)
                 RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST)
-
-                GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE)
 
                 RenderSystem.pixelStore(GL11.GL_UNPACK_ROW_LENGTH, 0)
                 RenderSystem.pixelStore(GL11.GL_UNPACK_SKIP_ROWS, 0)
@@ -456,7 +451,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                     GL11.GL_UNSIGNED_BYTE,
                     byteBuffer
                 )
-                GL11.glDisable(GL11.GL_TEXTURE_2D)
+                RenderSystem.setShaderTexture(0, 0)
 
                 // Return the texture ID
                 return textureId
