@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.item.eldritchmetal.IEldritchItem
+import net.minecraft.world.damagesource.EntityDamageSource
 import net.minecraft.world.entity.player.Player
-import net.minecraft.util.EntityDamageSource
 import net.minecraftforge.event.entity.living.LivingDeathEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 

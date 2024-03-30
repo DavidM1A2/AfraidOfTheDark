@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellCharmData
-import net.minecraft.command.arguments.EntityAnchorArgument
-import net.minecraft.entity.player.ServerPlayer
-import net.minecraft.world.server.ServerWorld
+import net.minecraft.commands.arguments.EntityAnchorArgument
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.LogicalSide
@@ -33,14 +33,14 @@ class SpellCharmHandler {
 
                     // Force the player to look at the entity
                     val charmingEntityId = playerCharmData.charmingEntityId
-                    val charmingEntity = (event.player.level as? ServerWorld)?.getEntity(charmingEntityId!!)
+                    val charmingEntity = (event.player.level as? ServerLevel)?.getEntity(charmingEntityId!!)
 
                     // If the player is non-null set the player's facing
                     if (charmingEntity != null) {
                         // A player cant charm themselves
                         if (entityPlayer.uuid != charmingEntityId) {
                             // Set the player's look to be at the charming entity
-                            (entityPlayer as ServerPlayer).lookAt(EntityAnchorArgument.Type.EYES, charmingEntity, EntityAnchorArgument.Type.EYES)
+                            (entityPlayer as ServerPlayer).lookAt(EntityAnchorArgument.Anchor.EYES, charmingEntity, EntityAnchorArgument.Anchor.EYES)
                         }
                     }
                 }

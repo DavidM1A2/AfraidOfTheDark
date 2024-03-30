@@ -1,23 +1,27 @@
 package com.davidm1a2.afraidofthedark.common.event
 
-import com.davidm1a2.afraidofthedark.common.capabilities.CapabilityProvider
-import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
-import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
-import com.davidm1a2.afraidofthedark.common.capabilities.getSpellInnateData
-import com.davidm1a2.afraidofthedark.common.capabilities.getSpellLunarData
-import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
-import com.davidm1a2.afraidofthedark.common.capabilities.getSpellSolarData
-import com.davidm1a2.afraidofthedark.common.capabilities.getSpellThermalData
+import com.davidm1a2.afraidofthedark.common.capabilities.*
+import com.davidm1a2.afraidofthedark.common.capabilities.chunk.ward.WardedBlockMapCapabilitySerializer
+import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsCapabilitySerializer
+import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.PlayerNightmareDataCapabilitySerializer
+import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.PlayerVoidChestDataCapabilitySerializer
+import com.davidm1a2.afraidofthedark.common.capabilities.player.research.PlayerResearchCapabilitySerializer
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.PlayerSpellManagerCapabilitySerializer
+import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.*
+import com.davidm1a2.afraidofthedark.common.capabilities.world.islandVisitors.WorldIslandVisitorsCapabilitySerializer
+import com.davidm1a2.afraidofthedark.common.capabilities.world.spell.WorldSpellStatesCapabilitySerializer
+import com.davidm1a2.afraidofthedark.common.capabilities.world.structure.WorldStructureMapperCapabilitySerializer
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
+import net.minecraft.nbt.Tag
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.util.ResourceLocation
 import net.minecraft.world.level.Level
-import net.minecraft.world.chunk.Chunk
+import net.minecraft.world.level.chunk.LevelChunk
 import net.minecraftforge.common.capabilities.Capability
+import net.minecraftforge.common.util.INBTSerializable
 import net.minecraftforge.event.AttachCapabilitiesEvent
 import net.minecraftforge.event.entity.EntityJoinWorldEvent
 import net.minecraftforge.event.entity.player.PlayerEvent.Clone
@@ -34,11 +38,8 @@ class CapabilityHandler {
      * @param event The attach event that we will add to
      */
     @SubscribeEvent
-    fun onAttachCapabilitiesChunk(event: AttachCapabilitiesEvent<Chunk>) {
-        event.addCapability(
-            ResourceLocation(Constants.MOD_ID, "warded_block_map"),
-            CapabilityProvider(ModCapabilities.WARDED_BLOCK_MAP)
-        )
+    fun onAttachCapabilitiesChunk(event: AttachCapabilitiesEvent<LevelChunk>) {
+        event.addCapability(ResourceLocation(Constants.MOD_ID, "warded_block_map"), WardedBlockMapCapabilitySerializer())
     }
 
     /**
@@ -47,24 +48,15 @@ class CapabilityHandler {
      * @param event The attach event that we will add to
      */
     @SubscribeEvent
-    fun onAttachCapabilitiesWorld(event: AttachCapabilitiesEvent<World>) {
+    fun onAttachCapabilitiesWorld(event: AttachCapabilitiesEvent<Level>) {
         val world = event.getObject()
         // Some capabilities only exist server side
         if (!world.isClientSide) {
-            event.addCapability(
-                ResourceLocation(Constants.MOD_ID, "spell_states"),
-                CapabilityProvider(ModCapabilities.WORLD_SPELL_STATES)
-            )
-            event.addCapability(
-                ResourceLocation(Constants.MOD_ID, "structure_mapper"),
-                CapabilityProvider(ModCapabilities.WORLD_STRUCTURE_MAPPER)
-            )
+            event.addCapability(ResourceLocation(Constants.MOD_ID, "spell_states"), WorldSpellStatesCapabilitySerializer())
+            event.addCapability(ResourceLocation(Constants.MOD_ID, "structure_mapper"), WorldStructureMapperCapabilitySerializer())
 
             if (world.dimension() == ModDimensions.NIGHTMARE_WORLD || world.dimension() == ModDimensions.VOID_CHEST_WORLD) {
-                event.addCapability(
-                    ResourceLocation(Constants.MOD_ID, "island_visitors"),
-                    CapabilityProvider(ModCapabilities.WORLD_ISLAND_VISITORS)
-                )
+                event.addCapability(ResourceLocation(Constants.MOD_ID, "island_visitors"), WorldIslandVisitorsCapabilitySerializer())
             }
         }
     }
@@ -78,50 +70,17 @@ class CapabilityHandler {
     fun onAttachCapabilitiesEntity(event: AttachCapabilitiesEvent<Entity>) {
         // If the entity is a player then add any player specific capabilities
         if (event.getObject() is Player) {
-            event.addCapability(
-                ResourceLocation(Constants.MOD_ID, "player_basics"),
-                CapabilityProvider(ModCapabilities.PLAYER_BASICS)
-            )
-            event.addCapability(
-                ResourceLocation(Constants.MOD_ID, "player_research"),
-                CapabilityProvider(ModCapabilities.PLAYER_RESEARCH)
-            )
-            event.addCapability(
-                ResourceLocation(Constants.MOD_ID, "player_void_chest_data"),
-                CapabilityProvider(ModCapabilities.PLAYER_VOID_CHEST_DATA)
-            )
-            event.addCapability(
-                ResourceLocation(Constants.MOD_ID, "player_nightmare_data"),
-                CapabilityProvider(ModCapabilities.PLAYER_NIGHTMARE_DATA)
-            )
-            event.addCapability(
-                ResourceLocation(Constants.MOD_ID, "player_spell_manager"),
-                CapabilityProvider(ModCapabilities.PLAYER_SPELL_MANAGER)
-            )
-            event.addCapability(
-                ResourceLocation(Constants.MOD_ID, "player_spell_freeze_data"),
-                CapabilityProvider(ModCapabilities.PLAYER_SPELL_FREEZE_DATA)
-            )
-            event.addCapability(
-                ResourceLocation(Constants.MOD_ID, "player_spell_charm_data"),
-                CapabilityProvider(ModCapabilities.PLAYER_SPELL_CHARM_DATA)
-            )
-            event.addCapability(
-                ResourceLocation(Constants.MOD_ID, "player_spell_lunar_data"),
-                CapabilityProvider(ModCapabilities.PLAYER_SPELL_LUNAR_DATA)
-            )
-            event.addCapability(
-                ResourceLocation(Constants.MOD_ID, "player_spell_solar_data"),
-                CapabilityProvider(ModCapabilities.PLAYER_SPELL_SOLAR_DATA)
-            )
-            event.addCapability(
-                ResourceLocation(Constants.MOD_ID, "player_spell_thermal_data"),
-                CapabilityProvider(ModCapabilities.PLAYER_SPELL_THERMAL_DATA)
-            )
-            event.addCapability(
-                ResourceLocation(Constants.MOD_ID, "player_spell_innate_data"),
-                CapabilityProvider(ModCapabilities.PLAYER_SPELL_INNATE_DATA)
-            )
+            event.addCapability(ResourceLocation(Constants.MOD_ID, "player_basics"), AOTDPlayerBasicsCapabilitySerializer())
+            event.addCapability(ResourceLocation(Constants.MOD_ID, "player_research"), PlayerResearchCapabilitySerializer())
+            event.addCapability(ResourceLocation(Constants.MOD_ID, "player_void_chest_data"), PlayerVoidChestDataCapabilitySerializer())
+            event.addCapability(ResourceLocation(Constants.MOD_ID, "player_nightmare_data"), PlayerNightmareDataCapabilitySerializer())
+            event.addCapability(ResourceLocation(Constants.MOD_ID, "player_spell_manager"), PlayerSpellManagerCapabilitySerializer())
+            event.addCapability(ResourceLocation(Constants.MOD_ID, "player_spell_freeze_data"), PlayerSpellFreezeDataCapabilitySerializer())
+            event.addCapability(ResourceLocation(Constants.MOD_ID, "player_spell_charm_data"), PlayerSpellCharmDataCapabilitySerializer())
+            event.addCapability(ResourceLocation(Constants.MOD_ID, "player_spell_lunar_data"), PlayerSpellLunarDataCapabilitySerializer())
+            event.addCapability(ResourceLocation(Constants.MOD_ID, "player_spell_solar_data"), PlayerSpellSolarDataCapabilitySerializer())
+            event.addCapability(ResourceLocation(Constants.MOD_ID, "player_spell_thermal_data"), PlayerSpellThermalDataCapabilitySerializer())
+            event.addCapability(ResourceLocation(Constants.MOD_ID, "player_spell_innate_data"), PlayerSpellInnateDataCapabilitySerializer())
         }
     }
 
@@ -160,34 +119,34 @@ class CapabilityHandler {
     @SubscribeEvent
     fun onClonePlayer(event: Clone) {
         // Save off data that persists when entering the end portal, and also across deaths
-        copyCapability(event.original, event.player, ModCapabilities.PLAYER_BASICS)
-        copyCapability(event.original, event.player, ModCapabilities.PLAYER_RESEARCH)
-        copyCapability(event.original, event.player, ModCapabilities.PLAYER_VOID_CHEST_DATA)
-        copyCapability(event.original, event.player, ModCapabilities.PLAYER_NIGHTMARE_DATA)
-        copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_MANAGER)
+        copyCapability(event.original, event.player, ModCapabilities.PLAYER_BASICS, ::AOTDPlayerBasicsCapabilitySerializer)
+        copyCapability(event.original, event.player, ModCapabilities.PLAYER_RESEARCH, ::PlayerResearchCapabilitySerializer)
+        copyCapability(event.original, event.player, ModCapabilities.PLAYER_VOID_CHEST_DATA, ::PlayerVoidChestDataCapabilitySerializer)
+        copyCapability(event.original, event.player, ModCapabilities.PLAYER_NIGHTMARE_DATA, ::PlayerNightmareDataCapabilitySerializer)
+        copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_MANAGER, ::PlayerSpellManagerCapabilitySerializer)
 
         // Save off data that ONLY persists when entering the end portal, but not deaths
         if (!event.isWasDeath) {
-            copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_FREEZE_DATA)
-            copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_CHARM_DATA)
-            copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_LUNAR_DATA)
-            copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_SOLAR_DATA)
-            copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_THERMAL_DATA)
-            copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_INNATE_DATA)
+            copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_FREEZE_DATA, ::PlayerSpellFreezeDataCapabilitySerializer)
+            copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_CHARM_DATA, ::PlayerSpellCharmDataCapabilitySerializer)
+            copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_LUNAR_DATA, ::PlayerSpellLunarDataCapabilitySerializer)
+            copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_SOLAR_DATA, ::PlayerSpellSolarDataCapabilitySerializer)
+            copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_THERMAL_DATA, ::PlayerSpellThermalDataCapabilitySerializer)
+            copyCapability(event.original, event.player, ModCapabilities.PLAYER_SPELL_INNATE_DATA, ::PlayerSpellInnateDataCapabilitySerializer)
         }
     }
 
-    private fun <T> copyCapability(oldPlayer: Player, newPlayer: Player, capability: Capability<T>) {
+    private fun <I : Any, T : Tag> copyCapability(oldPlayer: Player, newPlayer: Player, capability: Capability<I>, serializerFactory: ((I) -> INBTSerializable<T>)) {
         val oldCapability = oldPlayer.getCapability(capability).resolve().get()
         val newCapability = newPlayer.getCapability(capability).resolve().get()
         if (oldCapability == null || newCapability == null) {
             LOG.warn("Player was cloned without required capabilities? Missing: ${capability.name}")
             return
         }
-        val storage = capability.storage
-        // Write the old capability to NBT, then read it right back into the new capability
-        val oldCapabilityNbt = storage.writeNBT(capability, oldCapability, null)
-        storage.readNBT(capability, newCapability, null, oldCapabilityNbt)
+
+        val oldSerializer = serializerFactory(oldCapability)
+        val newSerializer = serializerFactory(newCapability)
+        newSerializer.deserializeNBT(oldSerializer.serializeNBT())
     }
 
     companion object {

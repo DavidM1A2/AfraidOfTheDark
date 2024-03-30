@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.event.custom.PlayerChangePowerSourceEvent
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import net.minecraft.util.text.TranslatableComponent
+import net.minecraft.network.chat.TranslatableComponent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
 class SpellPowerSourceHandler {

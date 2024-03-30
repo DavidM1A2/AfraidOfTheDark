@@ -5,19 +5,19 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getWardedBlockMap
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.network.packets.other.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.particle.WardParticleData
-import net.minecraft.block.Blocks
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
-import net.minecraft.entity.player.ServerPlayer
-import net.minecraft.util.Direction
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.BlockRayTraceResult
-import net.minecraft.util.math.ChunkPos
-import net.minecraft.util.math.RayTraceResult
-import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
-import net.minecraft.world.chunk.Chunk
-import net.minecraft.world.chunk.ChunkPrimerWrapper
-import net.minecraft.world.chunk.ChunkStatus
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.chunk.ChunkStatus
+import net.minecraft.world.level.chunk.ImposterProtoChunk
+import net.minecraft.world.level.chunk.LevelChunk
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.HitResult
+import net.minecraft.world.phys.Vec3
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.event.world.BlockEvent
@@ -43,9 +43,9 @@ class SpellWardHandler {
             event.newSpeed = event.originalSpeed * (1f - speedReductionPercent)
             if (!world.isClientSide && entity.tickCount % 5 == 0) {
                 val rayTraceResult = entity.pick(10.0, 0.0f, false)
-                if (rayTraceResult.type == RayTraceResult.Type.BLOCK && rayTraceResult is BlockRayTraceResult) {
+                if (rayTraceResult.type == HitResult.Type.BLOCK && rayTraceResult is BlockHitResult) {
                     val direction = rayTraceResult.direction
-                    val offsetDir = Vector3d(direction.step())
+                    val offsetDir = Vec3(direction.step())
                     spawnWardParticle(world, rayTraceResult.location.add(offsetDir.scale(0.005)), direction)
                 }
             }
@@ -55,7 +55,7 @@ class SpellWardHandler {
     @SubscribeEvent
     fun onBlockBrokenEvent(event: BlockEvent.BreakEvent) {
         val world = event.world
-        if (!world.isClientSide && world is World) {
+        if (!world.isClientSide && world is Level) {
             val blockPos = event.pos
             val chunkPos = ChunkPos(blockPos.x shr 4, blockPos.z shr 4)
             val chunk = world.getChunk(chunkPos.x, chunkPos.z)
@@ -71,7 +71,7 @@ class SpellWardHandler {
     @SubscribeEvent
     fun onPistonPreEvent(event: PistonEvent.Pre) {
         val world = event.world
-        if (!world.isClientSide && world is World) {
+        if (!world.isClientSide && world is Level) {
             val blockPos = event.pos
 
             // Check if the piston arm is warded
@@ -119,7 +119,7 @@ class SpellWardHandler {
     @SubscribeEvent
     fun onNeighborNotifyEvent(event: BlockEvent.NeighborNotifyEvent) {
         val world = event.world
-        if (!world.isClientSide && world is World) {
+        if (!world.isClientSide && world is Level) {
             val blockPos = event.pos
             val blockState = world.getBlockState(blockPos)
             if (blockState.isAir) {
@@ -161,7 +161,7 @@ class SpellWardHandler {
         return wardedBlockMap.getWardStrength(blockPos)
     }
 
-    private fun spawnWardParticle(world: Level, pos: Vector3d, direction: Direction) {
+    private fun spawnWardParticle(world: Level, pos: Vec3, direction: Direction) {
         AfraidOfTheDark.packetHandler.sendToAllAround(
             ParticlePacket.builder()
                 .particle(WardParticleData(direction, 0.5f))
@@ -178,7 +178,7 @@ class SpellWardHandler {
     private fun spawnWardParticle(world: Level, blockPos: BlockPos) {
         val directions = Direction.values().toList()
         val positions = directions.map {
-            Vector3d(blockPos.x + 0.5, blockPos.y + 0.5, blockPos.z + 0.5)
+            Vec3(blockPos.x + 0.5, blockPos.y + 0.5, blockPos.z + 0.5)
                 .add(it.stepX * 0.505, it.stepY * 0.505, it.stepZ * 0.505)
         }
         val particles = directions.map { WardParticleData(it) }
@@ -237,8 +237,8 @@ class SpellWardHandler {
 
     private fun trySyncingWardedBlocks(world: Level, player: Player, chunkPos: ChunkPos): Boolean {
         val wardedBlockMap = when (val chunk = world.getChunk(chunkPos.x, chunkPos.z, ChunkStatus.FULL, false)) {
-            is Chunk -> chunk.getWardedBlockMap()
-            is ChunkPrimerWrapper -> chunk.wrapped.getCapability(ModCapabilities.WARDED_BLOCK_MAP).resolve().orElse(null)
+            is LevelChunk -> chunk.getWardedBlockMap()
+            is ImposterProtoChunk -> chunk.wrapped.getCapability(ModCapabilities.WARDED_BLOCK_MAP).resolve().orElse(null)
             else -> null
         }
 

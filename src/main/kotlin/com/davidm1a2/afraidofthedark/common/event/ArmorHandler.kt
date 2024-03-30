@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDArmorItem
-import net.minecraft.entity.MobEntity
-import net.minecraft.inventory.EquipmentSlotType
-import net.minecraft.item.ArmorItem
+import net.minecraft.world.entity.EquipmentSlot
+import net.minecraft.world.entity.Mob
+import net.minecraft.world.item.ArmorItem
 import net.minecraftforge.event.entity.living.LivingHurtEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
@@ -28,7 +28,7 @@ class ArmorHandler {
             for (armorSlot in armorSlots) {
                 val armorItem = armorSlot.item
                 if (armorItem is AOTDArmorItem) {
-                    val equipmentSlot = MobEntity.getEquipmentSlotForItem(armorSlot)
+                    val equipmentSlot = Mob.getEquipmentSlotForItem(armorSlot)
                     val ratio = getRatio(armorItem, equipmentSlot)
                     damageMultiplierTotal -= ratio * (1 - armorItem.getDamageMultiplier(event.entityLiving, armorSlot, event.source, equipmentSlot))
                 }
@@ -44,13 +44,13 @@ class ArmorHandler {
      * @param slot The slot the armor is in
      * @return The ratio of protection of each piece reduced by the percent damage blocked
      */
-    private fun getRatio(armorItem: ArmorItem, slot: EquipmentSlotType): Double {
+    private fun getRatio(armorItem: ArmorItem, slot: EquipmentSlot): Double {
         val material = armorItem.material
         // Total protection of each piece
-        val totalProtection = material.getDefenseForSlot(EquipmentSlotType.HEAD) +
-                material.getDefenseForSlot(EquipmentSlotType.CHEST) +
-                material.getDefenseForSlot(EquipmentSlotType.LEGS) +
-                material.getDefenseForSlot(EquipmentSlotType.FEET)
+        val totalProtection = material.getDefenseForSlot(EquipmentSlot.HEAD) +
+                material.getDefenseForSlot(EquipmentSlot.CHEST) +
+                material.getDefenseForSlot(EquipmentSlot.LEGS) +
+                material.getDefenseForSlot(EquipmentSlot.FEET)
         // Ratio of protection of this pieces to the rest
         return material.getDefenseForSlot(slot).toDouble() / totalProtection
     }

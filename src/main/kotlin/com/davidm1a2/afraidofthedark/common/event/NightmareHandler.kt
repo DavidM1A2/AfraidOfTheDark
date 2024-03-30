@@ -6,37 +6,29 @@ import com.davidm1a2.afraidofthedark.client.sound.NightmareMusicSound
 import com.davidm1a2.afraidofthedark.common.capabilities.getNightmareData
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.RespawnPosition
-import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
-import com.davidm1a2.afraidofthedark.common.constants.ModEffects
-import com.davidm1a2.afraidofthedark.common.constants.ModEntities
-import com.davidm1a2.afraidofthedark.common.constants.ModItems
-import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.common.constants.*
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility
 import com.davidm1a2.afraidofthedark.common.dimension.teleport
 import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
 import com.davidm1a2.afraidofthedark.common.event.custom.ManualResearchTriggerEvent
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import com.davidm1a2.afraidofthedark.common.world.structure.base.SchematicStructurePiece
-import net.minecraft.block.Blocks
 import net.minecraft.client.Minecraft
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.nbt.ListTag
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.resources.ResourceKey
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.ContainerHelper
 import net.minecraft.world.entity.player.Player
-import net.minecraft.entity.player.ServerPlayer
-import net.minecraft.inventory.ItemStackHelper
 import net.minecraft.world.item.ItemStack
-import net.minecraft.nbt.ListNBT
-import net.minecraft.util.Direction
-import net.minecraft.util.RegistryKey
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.ChunkPos
-import net.minecraft.util.math.MutableBoundingBox
-import net.minecraft.util.math.vector.Vector3d
-import net.minecraft.util.text.TranslatableComponent
+import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
-import net.minecraft.world.chunk.Chunk
-import net.minecraft.world.server.ServerWorld
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.levelgen.structure.BoundingBox
+import net.minecraft.world.phys.Vec3
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.event.entity.EntityJoinWorldEvent
@@ -46,7 +38,7 @@ import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent
 import net.minecraftforge.event.world.ChunkEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.LogicalSide
-import java.util.Random
+import java.util.*
 
 /**
  * Class handling events to send players to and from their nightmare realm
@@ -61,7 +53,8 @@ class NightmareHandler {
             val world = event.world
             if (world.dimension() == ModDimensions.NIGHTMARE_WORLD) {
                 if (world.gameTime % 20 == 0L) {
-                    (world as ServerWorld).entities
+                    (world as ServerLevel).entities
+                        .all
                         .filter { it?.type == ModEntities.GHASTLY_ENARIA }
                         .map { it as GhastlyEnariaEntity }
                         .filter { it.getTouchedPlayer() != null }
@@ -105,7 +98,7 @@ class NightmareHandler {
 
                 // If the player has the nightmare research (or can research it) send them to the nightmare realm
                 if (playerResearch.isResearched(ModResearches.NIGHTMARE_REALM.preRequisite!!)) {
-                    event.setResult(Player.SleepResult.OTHER_PROBLEM)
+                    event.setResult(Player.BedSleepingProblem.OTHER_PROBLEM)
                     (entityPlayer as ServerPlayer).teleport(ModDimensions.NIGHTMARE_WORLD)
                 }
             }
@@ -122,59 +115,60 @@ class NightmareHandler {
         // Server side processing only
         val world = event.world
         if (!world.isClientSide) {
-            if (world !is World) {
+            if (world !is Level) {
                 throw IllegalStateException("Chunk unload event called with an IWorld that was not a world")
             }
 
             // Test if we're in the nightmare dimension
-            if (world.dimension() == ModDimensions.NIGHTMARE_WORLD) {
-                // Search through the list of entities in the chunk
-                val chunk = event.chunk
-                if (chunk is Chunk) {
-                    for (entityMap in chunk.entitySections) {
-                        // Go through each entity
-                        for (entity in entityMap) {
-                            // If an entity is enaria, kill her and respawn her closer to the player if possible
-                            if (entity is GhastlyEnariaEntity) {
-                                // If the enaria entity is dead the player touched her and went back to the overworld
-                                if (entity.isAlive) {
-                                    // Kill any unloaded enaria entities
-                                    entity.remove()
-
-                                    // Grab the nearby player
-                                    val entityPlayer = world.getNearestPlayer(
-                                        entity,
-                                        Constants.DISTANCE_BETWEEN_ISLANDS / 2.toDouble()
-                                    )
-
-                                    // If we have a valid nearby player teleport a new enaria to them. If we don't then just die (the player left the nightmare dimension)
-                                    if (entityPlayer != null && entityPlayer.isAlive) {
-                                        // Compute a random offset in +/- 25-50 in x and z
-                                        val random = entityPlayer.random
-                                        val offsetX =
-                                            if (random.nextBoolean()) random.nextInt(26) - 50 else random.nextInt(26) + 25
-                                        val offsetZ =
-                                            if (random.nextBoolean()) random.nextInt(26) - 50 else random.nextInt(26) + 25
-
-                                        // Compute enaria's new position
-                                        val posX = entityPlayer.x + offsetX
-                                        val posZ = entityPlayer.z + offsetZ
-
-                                        // Spawn a new enaria
-                                        val newEnaria = GhastlyEnariaEntity(ModEntities.GHASTLY_ENARIA, world)
-                                        newEnaria.setBenign(!entityPlayer.getResearch().isResearched(ModResearches.ARCH_SORCERESS))
-                                        newEnaria.setPos(posX, entityPlayer.y, posZ)
-                                        world.addFreshEntity(newEnaria)
-
-                                        // Return out of here, there will only be 1 enaria following the player
-                                        return
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            // TODO: Fix logic by looking at entities in chunk via world not chunk
+//            if (world.dimension() == ModDimensions.NIGHTMARE_WORLD) {
+//                // Search through the list of entities in the chunk
+//                val chunk = event.chunk
+//                if (chunk is LevelChunk) {
+//                    for (entityMap in chunk) {
+//                        // Go through each entity
+//                        for (entity in entityMap) {
+//                            // If an entity is enaria, kill her and respawn her closer to the player if possible
+//                            if (entity is GhastlyEnariaEntity) {
+//                                // If the enaria entity is dead the player touched her and went back to the overworld
+//                                if (entity.isAlive) {
+//                                    // Kill any unloaded enaria entities
+//                                    entity.remove()
+//
+//                                    // Grab the nearby player
+//                                    val entityPlayer = world.getNearestPlayer(
+//                                        entity,
+//                                        Constants.DISTANCE_BETWEEN_ISLANDS / 2.toDouble()
+//                                    )
+//
+//                                    // If we have a valid nearby player teleport a new enaria to them. If we don't then just die (the player left the nightmare dimension)
+//                                    if (entityPlayer != null && entityPlayer.isAlive) {
+//                                        // Compute a random offset in +/- 25-50 in x and z
+//                                        val random = entityPlayer.random
+//                                        val offsetX =
+//                                            if (random.nextBoolean()) random.nextInt(26) - 50 else random.nextInt(26) + 25
+//                                        val offsetZ =
+//                                            if (random.nextBoolean()) random.nextInt(26) - 50 else random.nextInt(26) + 25
+//
+//                                        // Compute enaria's new position
+//                                        val posX = entityPlayer.x + offsetX
+//                                        val posZ = entityPlayer.z + offsetZ
+//
+//                                        // Spawn a new enaria
+//                                        val newEnaria = GhastlyEnariaEntity(ModEntities.GHASTLY_ENARIA, world)
+//                                        newEnaria.setBenign(!entityPlayer.getResearch().isResearched(ModResearches.ARCH_SORCERESS))
+//                                        newEnaria.setPos(posX, entityPlayer.y, posZ)
+//                                        world.addFreshEntity(newEnaria)
+//
+//                                        // Return out of here, there will only be 1 enaria following the player
+//                                        return
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
         }
     }
 
@@ -260,7 +254,7 @@ class NightmareHandler {
      * @param dimensionTo   The dimension the player is going to
      * @return True to cancel the teleport, false otherwise
      */
-    private fun processPreTeleport(entityPlayer: ServerPlayer, dimensionFrom: RegistryKey<World>, dimensionTo: RegistryKey<World>): Boolean {
+    private fun processPreTeleport(entityPlayer: ServerPlayer, dimensionFrom: ResourceKey<Level>, dimensionTo: ResourceKey<Level>): Boolean {
         // If we're going to dimension NIGHTMARE then we need to do some preprocesing and tests to ensure the player can continue
         if (dimensionTo == ModDimensions.NIGHTMARE_WORLD) {
             // We can't go from nightmare to nightmare
@@ -297,7 +291,7 @@ class NightmareHandler {
             playerNightmareData.preTeleportDimension = dimensionFrom
 
             // Write our player's inventory to NBT and save it off
-            val inventoryNBT = entityPlayer.inventory.save(ListNBT())
+            val inventoryNBT = entityPlayer.inventory.save(ListTag())
             playerNightmareData.preTeleportPlayerInventory = inventoryNBT
 
             // Write our player's respawn position to NBT
@@ -343,7 +337,7 @@ class NightmareHandler {
      * @param dimensionFrom The dimension the player was in
      * @param dimensionTo   The dimension the player is now in
      */
-    private fun processPostTeleport(entityPlayer: ServerPlayer, dimensionFrom: RegistryKey<World>, dimensionTo: RegistryKey<World>) {
+    private fun processPostTeleport(entityPlayer: ServerPlayer, dimensionFrom: ResourceKey<Level>, dimensionTo: ResourceKey<Level>) {
         // If the player entered the nightmare dimension then set their position
         val playerNightmareData = entityPlayer.getNightmareData()
 
@@ -401,7 +395,7 @@ class NightmareHandler {
             resetPlayerStats(entityPlayer)
 
             // Figure out how many nightmare stones the player has
-            val numberNightmareStones = ItemStackHelper.clearOrCountMatchingItems(entityPlayer.inventory, { it.item == ModItems.NIGHTMARE_STONE }, -1, true)
+            val numberNightmareStones = ContainerHelper.clearOrCountMatchingItems(entityPlayer.inventory, { it.item == ModItems.NIGHTMARE_STONE }, -1, true)
                 .coerceAtMost(64)
 
             // Clear the nightmare junk out of the player's inventory
@@ -437,7 +431,7 @@ class NightmareHandler {
      * @param entityPlayer The player to reset stats for
      */
     private fun resetPlayerStats(entityPlayer: Player) {
-        entityPlayer.deltaMovement = Vector3d(0.0, 0.0, 0.0)
+        entityPlayer.deltaMovement = Vec3(0.0, 0.0, 0.0)
         entityPlayer.health = 20f
         entityPlayer.foodData.foodLevel = 20
         // Clear active potion effects
@@ -466,7 +460,7 @@ class NightmareHandler {
      * @param nightmareWorld The nightmare world being tested
      * @param islandPos      The position of this player's island realm
      */
-    private fun testForEnariasAltar(entityPlayer: ServerPlayer, nightmareWorld: ServerWorld, islandPos: BlockPos) {
+    private fun testForEnariasAltar(entityPlayer: ServerPlayer, nightmareWorld: ServerLevel, islandPos: BlockPos) {
         // Grab the player's research, if he has enaria generate the altar if needed
         val playerResearch = entityPlayer.getResearch()
         if (playerResearch.isResearched(ModResearches.ARCH_SORCERESS)) {
@@ -492,10 +486,12 @@ class NightmareHandler {
                     nightmareWorld.chunkSource.generator,
                     // Random isn't used
                     throwawayRandom,
-                    MutableBoundingBox(
+                    BoundingBox(
                         posX,
+                        posY,
                         posZ,
                         posX + ModSchematics.ENARIAS_ALTAR.getWidth(),
+                        posY + ModSchematics.ENARIAS_ALTAR.getHeight(),
                         posZ + ModSchematics.ENARIAS_ALTAR.getLength()
                     ),
                     // ChunkPos is ignored

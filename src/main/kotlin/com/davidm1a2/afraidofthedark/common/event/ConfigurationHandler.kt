@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.constants.ModConfigHolder
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.fml.config.ModConfig
+import net.minecraftforge.fml.event.config.ModConfigEvent
 
 /**
  * Class used to maintain mod configurable options
@@ -14,11 +14,11 @@ class ConfigurationHandler {
      * @param event The event that we will use to refresh our config
      */
     @SubscribeEvent
-    fun onModConfigEvent(event: ModConfig.ModConfigEvent) {
+    fun onModConfigEvent(event: ModConfigEvent) {
         // Reload client or server config based on spec type
-        if (event.config.spec === ModConfigHolder.CLIENT_SPEC) {
+        if (event.config.getSpec() === ModConfigHolder.CLIENT_SPEC) {
             ModConfigHolder.reloadClientConfig()
-        } else if (event.config.spec === ModConfigHolder.COMMON_SPEC) {
+        } else if (event.config.getSpec() === ModConfigHolder.COMMON_SPEC) {
             ModConfigHolder.reloadCommonConfig()
         }
     }

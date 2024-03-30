@@ -6,9 +6,9 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
-import net.minecraft.entity.player.ServerPlayer
-import net.minecraft.util.RegistryKey
-import net.minecraft.util.text.TranslatableComponent
+import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.resources.ResourceKey
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.level.Level
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
@@ -50,7 +50,7 @@ class VoidChestHandler {
      * @param dimensionTo   The dimension the player is going to
      * @return True to cancel the teleport, false otherwise
      */
-    private fun processPreTeleport(entityPlayer: ServerPlayer, dimensionFrom: RegistryKey<World>, dimensionTo: RegistryKey<World>): Boolean {
+    private fun processPreTeleport(entityPlayer: ServerPlayer, dimensionFrom: ResourceKey<Level>, dimensionTo: ResourceKey<Level>): Boolean {
         // If we're going to dimension VOID_CHEST then we need to do some preprocesing and tests to ensure the player can continue
         if (dimensionTo == ModDimensions.VOID_CHEST_WORLD) {
             // We can't go from void chest to void chest
@@ -122,7 +122,7 @@ class VoidChestHandler {
      * @param dimensionFrom The dimension the player was in
      * @param dimensionTo   The dimension the player is now in
      */
-    private fun processPostTeleport(entityPlayer: ServerPlayer, dimensionFrom: RegistryKey<World>, dimensionTo: RegistryKey<World>) {
+    private fun processPostTeleport(entityPlayer: ServerPlayer, dimensionFrom: ResourceKey<Level>, dimensionTo: ResourceKey<Level>) {
         // If the player entered the void chest dimension then set their position
         if (dimensionTo == ModDimensions.VOID_CHEST_WORLD) {
             // Grab the player's void chest data
