@@ -19,6 +19,8 @@ class IgneousShieldItemStackRenderer : BlockEntityWithoutLevelRenderer(Minecraft
         packedOverlay: Int
     ) {
         matrixStack.pushPose()
+        // Why? Uhhhh.... no idea.
+        matrixStack.translate(0.0, -1.5, 0.0)
         matrixStack.scale(1.0f, -1.0f, -1.0f)
         val iVertexBuilder = ModRenderMaterials.IGNEOUS_SHIELD.sprite().wrap(
             ItemRenderer.getFoilBufferDirect(renderTypeBuffer, SHIELD_MODEL.renderType(ModRenderMaterials.IGNEOUS_SHIELD.atlasLocation()), true, itemStack.hasFoil())

@@ -17,9 +17,10 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
 import net.minecraftforge.client.IItemRenderProperties
+import java.util.function.Consumer
 import kotlin.math.max
 
-class IgneousShieldItem : AOTDShieldItem("igneous_shield", Properties()), IItemRenderProperties {
+class IgneousShieldItem : AOTDShieldItem("igneous_shield", Properties()) {
     override fun canBeDepleted(): Boolean {
         return false
     }
@@ -32,8 +33,14 @@ class IgneousShieldItem : AOTDShieldItem("igneous_shield", Properties()), IItemR
         }
     }
 
-    override fun getItemStackRenderer(): BlockEntityWithoutLevelRenderer {
-        return IgneousShieldItemStackRenderer()
+    override fun initializeClient(consumer: Consumer<IItemRenderProperties>) {
+        consumer.accept(object : IItemRenderProperties {
+            private val renderer = IgneousShieldItemStackRenderer()
+
+            override fun getItemStackRenderer(): BlockEntityWithoutLevelRenderer {
+                return renderer
+            }
+        })
     }
 
     override fun appendHoverText(itemStack: ItemStack, world: Level?, tooltip: MutableList<Component>, iTooltipFlag: TooltipFlag) {
