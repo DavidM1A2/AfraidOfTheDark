@@ -6,8 +6,30 @@
       "config": {
         "feature": "afraidofthedark:gravewood_tree",
         "decorator": {
-          "type": "minecraft:square",
-          "config": {}
+          "type": "minecraft:decorated",
+          "config": {
+            "outer": {
+              "type": "minecraft:square",
+              "config": {}
+            },
+            "inner": {
+              "type": "minecraft:decorated",
+              "config": {
+                "outer": {
+                  "type": "minecraft:water_depth_threshold",
+                  "config": {
+                    "max_water_depth": 0
+                  }
+                },
+                "inner": {
+                  "type": "minecraft:heightmap",
+                  "config": {
+                    "heightmap": "WORLD_SURFACE_WG"
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
