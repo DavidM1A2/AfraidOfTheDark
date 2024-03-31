@@ -1,13 +1,15 @@
 package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.client.tileEntity.vitaeExtractor.VitaeExtractorItemStackRenderer
+import com.davidm1a2.afraidofthedark.common.block.core.AOTDCustomRendererBlockItem
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
+import com.davidm1a2.afraidofthedark.common.block.core.IUseCustomBlockItem
+import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.item.VitaeLanternItem
 import com.davidm1a2.afraidofthedark.common.tileEntity.VitaeExtractorTileEntity
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.sounds.SoundEvents
@@ -15,6 +17,8 @@ import net.minecraft.sounds.SoundSource
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
@@ -33,7 +37,6 @@ import net.minecraft.world.level.material.Material
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
-import net.minecraftforge.client.IItemRenderProperties
 import java.util.*
 
 class VitaeExtractorBlock : AOTDTileEntityBlock(
@@ -41,7 +44,7 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
     Properties.of(Material.STONE)
         .requiresCorrectToolForDrops()
         .strength(1.5F, 6.0F)
-), IItemRenderProperties {
+), IUseCustomBlockItem {
     init {
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH))
     }
@@ -150,8 +153,8 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
         return SHAPE
     }
 
-    override fun getItemStackRenderer(): BlockEntityWithoutLevelRenderer {
-        return VitaeExtractorItemStackRenderer()
+    override fun getBlockItem(): BlockItem {
+        return AOTDCustomRendererBlockItem(this, VitaeExtractorItemStackRenderer(), Item.Properties().tab(Constants.AOTD_CREATIVE_TAB))
     }
 
     override fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity {
