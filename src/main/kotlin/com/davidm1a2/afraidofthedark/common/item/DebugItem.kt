@@ -1,11 +1,14 @@
 package com.davidm1a2.afraidofthedark.common.item
 
+import com.davidm1a2.afraidofthedark.client.gui.toasts.ResearchToast
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EnchantedFrogEntity
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import com.google.gson.Gson
 import com.google.gson.JsonElement
+import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.TextComponent
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
@@ -27,6 +30,7 @@ class DebugItem : AOTDItem("debug", Properties().stacksTo(1), displayInCreative 
 
     override fun use(worldIn: Level, playerIn: Player, handIn: InteractionHand): InteractionResultHolder<ItemStack> {
         if (worldIn.isClientSide) {
+            Minecraft.getInstance().toasts.addToast(ResearchToast(ModResearches.ENARIA))
         } else {
 //            val time = System.currentTimeMillis()
 //            for (powerSource in ModSpellPowerSources.SPELL_POWER_SOURCES) {

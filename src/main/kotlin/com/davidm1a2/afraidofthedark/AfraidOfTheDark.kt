@@ -75,7 +75,7 @@ class AfraidOfTheDark {
         modBus.register(StructureRegister())
         modBus.register(ConfigurationHandler())
         modBus.register(CapabilityRegister())
-        modBus.register(PacketRegister(proxy.researchOverlayHandler))
+        modBus.register(PacketRegister())
         modBus.register(EntitySpawnPlacementRegister())
         modBus.register(DataSerializerRegister())
         modBus.register(ChunkGeneratorRegister())
