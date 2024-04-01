@@ -55,7 +55,7 @@ object PropertyEditorFactory {
 
         val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png"), ImagePane.DispMode.FIT_TO_PARENT).apply {
             gravity = Gravity.CENTER_RIGHT
-            setHoverText(property.getDescription().string)
+            setHoverText(property.getDescription())
         }
 
         propertyPane.add(propertyEditor)
@@ -79,7 +79,7 @@ object PropertyEditorFactory {
         ratioPane.add(togglePane)
         val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png"), ImagePane.DispMode.FIT_TO_PARENT).apply {
             gravity = Gravity.CENTER_RIGHT
-            setHoverText(property.getDescription().string)
+            setHoverText(property.getDescription())
         }
         propertyPane.add(ratioPane)
         propertyPane.add(infoPane)
@@ -119,14 +119,14 @@ object PropertyEditorFactory {
                 propertyError.isVisible = false
             } catch (e: InvalidValueException) {
                 propertyError.isVisible = true
-                propertyError.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.component_property_error", e.reason).string)
+                propertyError.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.component_property_error", e.reason))
             }
             changeCallback()
         }
 
         val infoPane = ImagePane(ResourceLocation("afraidofthedark:textures/gui/info.png"), ImagePane.DispMode.FIT_TO_PARENT).apply {
             gravity = Gravity.CENTER_RIGHT
-            setHoverText(property.getDescription().string)
+            setHoverText(property.getDescription())
         }
 
         propertyEditor.add(propertyError)

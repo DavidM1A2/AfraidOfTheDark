@@ -29,11 +29,11 @@ class SpellEffectSlot(
         if (componentType != null) {
             val componentInstance = this.getComponentInstance()!!
             this.hoverTexts = arrayOf(
-                TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.effect", componentType.getName()).string,
-                TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", componentType.getCost(componentInstance).round(1)).string
+                TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.effect", componentType.getName()),
+                TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", componentType.getCost(componentInstance).round(1))
             )
         } else {
-            this.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.empty_slot", "effect").string)
+            this.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.empty_slot", "effect"))
         }
     }
 

@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.network.chat.Component
 import net.minecraft.sounds.SoundEvents
 import java.awt.Color
 
@@ -16,7 +17,7 @@ open class ButtonPane(
     silent: Boolean = false,
     margins: Spacing = Spacing(),
     gravity: Gravity = Gravity.TOP_LEFT,
-    hoverTexts: Array<String> = emptyArray(),
+    hoverTexts: Array<Component> = emptyArray(),
     padding: Spacing = Spacing(),
     prefSize: Dimensions = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE),
     offset: Position = Position(0.0, 0.0),

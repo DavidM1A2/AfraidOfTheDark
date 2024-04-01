@@ -70,11 +70,11 @@ class ResearchNode(prefSize: Dimensions, offset: Position, val research: Researc
         // forceShowUnlocked means we've requested that the server unlock a research for us, but we might not have a response yet. Just assume
         // the unlock was successful and show the real tooltip if it's 'true'.
         hoverTexts = if (forceShowUnlocked || playerResearch.isResearched(this.research)) {
-            arrayOf(research.getName().string, "${ChatFormatting.ITALIC}${research.getTooltip().string}")
+            arrayOf(research.getName(), TranslatableComponent("${ChatFormatting.ITALIC}%1\$s", research.getTooltip()))
         } else {
             arrayOf(
-                TranslatableComponent("tooltip.afraidofthedark.gui.journal_research.question_mark").string,
-                TranslatableComponent("tooltip.afraidofthedark.gui.journal_research.unknown_research").string,
+                TranslatableComponent("tooltip.afraidofthedark.gui.journal_research.question_mark"),
+                TranslatableComponent("tooltip.afraidofthedark.gui.journal_research.unknown_research"),
             )
         }
     }

@@ -7,6 +7,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.network.chat.Component
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
 
@@ -18,7 +19,7 @@ open class StackPane(
     offset: Position = Position(0.0, 0.0),
     margins: Spacing = Spacing(),
     gravity: Gravity = Gravity.TOP_LEFT,
-    hoverTexts: Array<String> = emptyArray(),
+    hoverTexts: Array<Component> = emptyArray(),
     padding: Spacing = Spacing(),
     private val scissorEnabled: Boolean = false
 ) :

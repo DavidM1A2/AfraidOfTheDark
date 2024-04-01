@@ -14,9 +14,9 @@ class SpellDeliveryMethodIcon(deliveryMethod: SpellDeliveryMethod) : SpellCompon
         val componentInstance = SpellDeliveryMethodInstance(deliveryMethod)
         componentInstance.setDefaults()
         this.hoverTexts = arrayOf(
-            deliveryMethod.getName().string,
-            TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.cost_multiplier", deliveryMethod.getMultiplicity(componentInstance).round(1)).string,
-            TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", deliveryMethod.getDeliveryCost(componentInstance).round(1)).string
+            deliveryMethod.getName(),
+            TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.cost_multiplier", deliveryMethod.getMultiplicity(componentInstance).round(1)),
+            TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", deliveryMethod.getDeliveryCost(componentInstance).round(1))
         )
     }
 }

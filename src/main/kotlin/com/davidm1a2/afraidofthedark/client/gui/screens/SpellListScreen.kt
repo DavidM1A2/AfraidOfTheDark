@@ -84,7 +84,7 @@ class SpellListScreen : AOTDScreen(TranslatableComponent("screen.afraidofthedark
             prefSize = Dimensions(0.12, 0.1)
         )
         btnCreateSpell.margins = Spacing(0.1, 0.1, 0.0, 0.0)
-        btnCreateSpell.setHoverText("Create a new spell")
+        btnCreateSpell.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.spell_list.create_spell"))
         btnCreateSpell.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click) {
                 // When we click the button create a new spell

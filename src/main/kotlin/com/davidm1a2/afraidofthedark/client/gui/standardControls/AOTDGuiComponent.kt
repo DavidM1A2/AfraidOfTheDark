@@ -11,7 +11,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.player.LocalPlayer
-import net.minecraft.network.chat.TextComponent
+import net.minecraft.network.chat.Component
 import java.awt.Color
 import java.awt.Point
 import java.awt.Rectangle
@@ -26,8 +26,7 @@ abstract class AOTDGuiComponent(
     var prefSize: Dimensions = Dimensions(Double.MAX_VALUE, Double.MAX_VALUE),
     var margins: Spacing = Spacing(),
     var gravity: Gravity = Gravity.TOP_LEFT,
-    // TODO: Use ITextComponent instead of raw strings
-    var hoverTexts: Array<String> = emptyArray(),
+    var hoverTexts: Array<Component> = emptyArray(),
     var color: Color = Color(255, 255, 255, 255)
 ) {
     open var width = 0
@@ -55,7 +54,7 @@ abstract class AOTDGuiComponent(
             // Grab the mouse X and Y coordinates to draw at
             val mouseX = AOTDGuiUtility.getMouseXInMCCoord()
             val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
-            screen.renderComponentTooltip(poseStack, hoverTexts.toList().map { TextComponent(it) }, mouseX, mouseY, fontRenderer)
+            screen.renderComponentTooltip(poseStack, hoverTexts.toList(), mouseX, mouseY, fontRenderer)
         }
     }
 
@@ -143,13 +142,8 @@ abstract class AOTDGuiComponent(
         return this.boundingBox.intersects(rectangle)
     }
 
-    /**
-     * Second setter for hover texts, this one assumes the parameter is a '\n' delimited string to be converted into an array
-     *
-     * @param hoverText The new text to be the hover text of this component
-     */
-    open fun setHoverText(hoverText: String) {
-        hoverTexts = hoverText.split("\n").toTypedArray()
+    open fun setHoverText(hoverText: Component) {
+        hoverTexts = arrayOf(hoverText)
     }
 
     /**

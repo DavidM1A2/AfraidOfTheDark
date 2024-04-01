@@ -1,14 +1,11 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.events.KeyEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.MouseDragEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.MouseMoveEvent
-import com.davidm1a2.afraidofthedark.client.gui.events.MouseScrollEvent
+import com.davidm1a2.afraidofthedark.client.gui.events.*
 import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
 import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
 import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
+import net.minecraft.network.chat.Component
 import java.awt.Color
 import java.awt.Point
 
@@ -20,7 +17,7 @@ abstract class AOTDGuiComponentWithEvents(
     prefSize: Dimensions = Dimensions(0.0, 0.0),
     margins: Spacing = Spacing(),
     gravity: Gravity = Gravity.TOP_LEFT,
-    hoverTexts: Array<String> = emptyArray(),
+    hoverTexts: Array<Component> = emptyArray(),
     color: Color = Color(255, 255, 255, 255)
 ) :
     AOTDGuiComponent(offset, prefSize, margins, gravity, hoverTexts, color) {

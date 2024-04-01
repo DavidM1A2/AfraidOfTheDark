@@ -2,11 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui.customControls
 
 import com.davidm1a2.afraidofthedark.client.gui.FontCache
 import com.davidm1a2.afraidofthedark.client.gui.events.MouseEvent
-import com.davidm1a2.afraidofthedark.client.gui.layout.Dimensions
-import com.davidm1a2.afraidofthedark.client.gui.layout.Gravity
-import com.davidm1a2.afraidofthedark.client.gui.layout.Position
-import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
-import com.davidm1a2.afraidofthedark.client.gui.layout.TextAlignment
+import com.davidm1a2.afraidofthedark.client.gui.layout.*
 import com.davidm1a2.afraidofthedark.client.gui.screens.SpellCraftingScreen
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ButtonPane
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.ImagePane
@@ -15,6 +11,8 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.StackPane
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import net.minecraft.client.Minecraft
+import net.minecraft.network.chat.TextComponent
+import net.minecraft.network.chat.TranslatableComponent
 import java.awt.Color
 
 /**
@@ -42,7 +40,7 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         lblSpellName.textColor = Color(245, 61, 199)
         lblSpellName.textAlignment = TextAlignment.ALIGN_CENTER
         // Update the hover text of the container and add the spell label to it
-        spellNameContainer.setHoverText(lblSpellName.text)
+        spellNameContainer.setHoverText(TextComponent(lblSpellName.text))
         spellNameContainer.gravity = Gravity.TOP_CENTER
         spellNameContainer.add(lblSpellName)
         this.add(spellNameContainer)
@@ -55,7 +53,7 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
                 prefSize = Dimensions(0.145, 0.35),
                 offset = Position(0.82, 0.52)
             )
-        btnEdit.setHoverText("Edit Spell")
+        btnEdit.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.spell_list.edit_spell"))
         btnEdit.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click) {
                 if (it.source.isHovered && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
@@ -73,7 +71,10 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
             prefSize = Dimensions(0.145, 0.35),
             offset = Position(0.035, 0.52)
         )
-        btnDelete.hoverTexts = arrayOf("Delete Spell", "This cannot be undone")
+        btnDelete.hoverTexts = arrayOf(
+            TranslatableComponent("tooltip.afraidofthedark.gui.spell_list.delete_spell"),
+            TranslatableComponent("tooltip.afraidofthedark.gui.spell_list.cannot_undo")
+        )
         btnDelete.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Click) {
                 if (it.source.isHovered && it.source.isVisible && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
@@ -91,8 +92,8 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         lblKeybind.addMouseListener {
             if (it.eventType == MouseEvent.EventType.Release) {
                 if (it.source.isHovered && it.source.isVisible && it.clickedButton == MouseEvent.LEFT_MOUSE_BUTTON) {
-                    lblKeybind.setHoverText("Awaiting keypress...")
-                    lblKeybind.text = "Awaiting keypress..."
+                    lblKeybind.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.spell_list.awaiting_keypress"))
+                    lblKeybind.text = TranslatableComponent("tooltip.afraidofthedark.gui.spell_list.awaiting_keypress").string
                     keybindCallback()
                 }
             }
@@ -113,10 +114,10 @@ class SpellListItem(prefSize: Dimensions, val spell: Spell) : StackPane(prefSize
         val keybindingForSpell = spellManager.getKeybindingForSpell(this.spell)
         // if the keybind is non-null show it, otherwise mention it's unbound
         if (keybindingForSpell != null) {
-            lblKeybind.setHoverText("Spell is bound to: $keybindingForSpell")
+            lblKeybind.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.spell_list.spell_bound_to"))
             lblKeybind.text = keybindingForSpell
         } else {
-            lblKeybind.setHoverText("Spell is unbound.")
+            lblKeybind.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.spell_list.spell_unbound"))
             lblKeybind.text = ""
         }
     }

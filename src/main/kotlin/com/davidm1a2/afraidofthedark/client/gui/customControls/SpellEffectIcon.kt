@@ -13,8 +13,8 @@ class SpellEffectIcon(effect: SpellEffect) : SpellComponentIcon<SpellEffect>(eff
         val componentInstance = SpellEffectInstance(effect)
         componentInstance.setDefaults()
         this.hoverTexts = arrayOf(
-            effect.getName().string,
-            TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", effect.getCost(componentInstance).round(1)).string
+            effect.getName(),
+            TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", effect.getCost(componentInstance).round(1))
         )
     }
 }

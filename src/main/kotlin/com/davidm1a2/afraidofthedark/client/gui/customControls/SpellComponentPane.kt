@@ -60,15 +60,15 @@ class SpellComponentPane(prefSize: Dimensions) : AOTDPane(prefSize = prefSize) {
             componentSlot.updateImageTexture(spellComponent.icon)
             when (spellComponent) {
                 is SpellPowerSource<*> -> {
-                    componentSlot.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.journal_page.power_source", spellComponent.getName()).string)
+                    componentSlot.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.journal_page.power_source", spellComponent.getName()))
                     componentSocket.updateImageTexture(POWER_SOURCE_SOCKET_TEXTURE)
                 }
                 is SpellDeliveryMethod -> {
-                    componentSlot.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.journal_page.delivery_method", spellComponent.getName()).string)
+                    componentSlot.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.journal_page.delivery_method", spellComponent.getName()))
                     componentSocket.updateImageTexture(DELIVERY_METHOD_SOCKET_TEXTURE)
                 }
                 else -> {
-                    componentSlot.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.journal_page.effect", spellComponent.getName()).string)
+                    componentSlot.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.journal_page.effect", spellComponent.getName()))
                     componentSocket.updateImageTexture(EFFECT_SOCKET_TEXTURE)
                 }
             }

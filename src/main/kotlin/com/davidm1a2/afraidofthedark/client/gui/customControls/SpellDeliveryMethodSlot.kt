@@ -24,12 +24,12 @@ class SpellDeliveryMethodSlot(offset: Position, prefSize: Dimensions, spell: Spe
         if (componentType != null) {
             val componentInstance = this.getComponentInstance()!!
             this.hoverTexts = arrayOf(
-                TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.delivery_method", componentType.getName()).string,
-                TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.cost_multiplier", componentType.getMultiplicity(componentInstance).round(1)).string,
-                TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", componentType.getDeliveryCost(componentInstance).round(1)).string
+                TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.delivery_method", componentType.getName()),
+                TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.cost_multiplier", componentType.getMultiplicity(componentInstance).round(1)),
+                TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.cost", componentType.getDeliveryCost(componentInstance).round(1))
             )
         } else {
-            this.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.empty_slot", "delivery method").string)
+            this.setHoverText(TranslatableComponent("tooltip.afraidofthedark.gui.spell_crafting.empty_slot", "delivery method"))
         }
     }
 

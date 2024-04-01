@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.client.gui.layout.Position
 import com.davidm1a2.afraidofthedark.client.gui.layout.Spacing
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.gui.screens.Screen
+import net.minecraft.network.chat.Component
 import java.awt.Color
 import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.math.roundToInt
@@ -20,7 +21,7 @@ abstract class AOTDPane(
     prefSize: Dimensions = Dimensions(1.0, 1.0),
     margins: Spacing = Spacing(),
     gravity: Gravity = Gravity.TOP_LEFT,
-    hoverTexts: Array<String> = emptyArray(),
+    hoverTexts: Array<Component> = emptyArray(),
     var padding: Spacing = Spacing(),
     color: Color = Color(255, 255, 255, 255)
 ) :
