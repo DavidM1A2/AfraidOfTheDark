@@ -65,6 +65,7 @@ object ModBlocks {
     val OBSERVATORY = ObservatoryBlock()
     val WITCH_HUT = WitchHutBlock()
     val ENARIA_SPAWNER = EnariaSpawnerBlock()
+    val GHASTLY_ENARIA_SPAWNER = GhastlyEnariaSpawnerBlock()
     val ENARIAS_ALTAR = EnariasAltarBlock()
     val IMBUED_CACTUS = ImbuedCactusBlock()
     val IMBUED_CACTUS_BLOSSOM = ImbuedCactusBlossomBlock()
@@ -123,6 +124,7 @@ object ModBlocks {
         DARK_FOREST,
         OBSERVATORY,
         ENARIA_SPAWNER,
+        GHASTLY_ENARIA_SPAWNER,
         SUNSTONE_ORE,
         STAR_METAL_ORE,
         IGNEOUS,

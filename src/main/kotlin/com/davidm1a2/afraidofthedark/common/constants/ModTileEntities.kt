@@ -41,7 +41,7 @@ object ModTileEntities {
         }
     val GHASTLY_ENARIA_SPAWNER: BlockEntityType<GhastlyEnariaSpawnerTileEntity> = BlockEntityType
         .Builder
-        .of(::GhastlyEnariaSpawnerTileEntity, ModBlocks.ENARIA_SPAWNER)
+        .of(::GhastlyEnariaSpawnerTileEntity, ModBlocks.GHASTLY_ENARIA_SPAWNER)
         .build(null).apply {
             setRegistryName(Constants.MOD_ID, "ghastly_enaria_spawner")
         }

@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.tileEntity
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.enaria.GhastlyEnariaEntity
@@ -17,10 +18,10 @@ import net.minecraft.world.phys.AABB
  */
 class GhastlyEnariaSpawnerTileEntity(blockPos: BlockPos, blockState: BlockState) : AOTDTickingTileEntity(ModTileEntities.GHASTLY_ENARIA_SPAWNER, blockPos, blockState) {
     companion object {
-        fun serverTick(level: Level, blockPos: BlockPos, blockState: BlockState, blockEntity: FrostPhoenixSpawnerTileEntity) {
+        fun serverTick(level: Level, blockPos: BlockPos, blockState: BlockState, blockEntity: GhastlyEnariaSpawnerTileEntity) {
             baseTick(level, blockPos, blockState, blockEntity)
             // Only check every 100 ticks
-            if (blockEntity.ticksExisted % 100 == 0L) {
+            if (level.dimension() == ModDimensions.NIGHTMARE_WORLD && blockEntity.ticksExisted % 100 == 0L) {
                 // Find all nearby enaria entities
                 val distanceBetweenIslands = Constants.DISTANCE_BETWEEN_ISLANDS / 2
                 val enariaEntities = level.getEntitiesOfClass(
@@ -38,12 +39,12 @@ class GhastlyEnariaSpawnerTileEntity(blockPos: BlockPos, blockState: BlockState)
                 // If she's not alive, spawn her
                 if (!enariaAlive) {
                     // Spawn her at ground level to start
-                    val enariaSpawn = GhastlyEnariaEntity(ModEntities.GHASTLY_ENARIA, level!!)
+                    val enariaSpawn = GhastlyEnariaEntity(ModEntities.GHASTLY_ENARIA, level)
                     enariaSpawn.moveTo(
                         blockPos.x + 0.5,
                         blockPos.y + 10.2,
                         blockPos.z + 0.5,
-                        level!!.random.nextFloat(),
+                        level.random.nextFloat(),
                         0f
                     )
                     level.addFreshEntity(enariaSpawn)

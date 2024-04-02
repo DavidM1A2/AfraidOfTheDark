@@ -16,11 +16,6 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.material.Material
 
-/**
- * Class representing the block that spawns enaria in the nightmare realm
- *
- * @constructor makes the block hard to break and sets the block's name
- */
 class EnariaSpawnerBlock : AOTDTileEntityBlock(
     "enaria_spawner",
     Properties.of(Material.STONE)
@@ -59,9 +54,7 @@ class EnariaSpawnerBlock : AOTDTileEntityBlock(
     }
 
     override fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity {
-        // TODO: Find a way to split Enaria & GhastlyEnariaSpawner TileEntities. Perhaps need to consolidate TEs, or make separate blocks
         return EnariaSpawnerTileEntity(blockPos, blockState)
-        // return GhastlyEnariaSpawnerTileEntity()?
     }
 
     override fun <T : BlockEntity?> getTicker(level: Level, blockState: BlockState, type: BlockEntityType<T>): BlockEntityTicker<T>? {
