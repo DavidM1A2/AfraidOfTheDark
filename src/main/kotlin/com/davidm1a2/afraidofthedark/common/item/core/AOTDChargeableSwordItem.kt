@@ -61,7 +61,7 @@ abstract class AOTDChargeableSwordItem(
      * @return 0 for 100% charged or 1 for 0% charged
      */
     override fun getBarWidth(stack: ItemStack): Int {
-        return (13 * getCharge(stack) / 100.0).roundToInt()
+        return (13 * getCharge(stack) / 100.0).roundToInt().coerceIn(0..13)
     }
 
     override fun getBarColor(itemStack: ItemStack): Int {

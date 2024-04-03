@@ -84,7 +84,7 @@ abstract class AOTDPerItemCooldownItem(
      */
     override fun getBarWidth(stack: ItemStack): Int {
         val millisecondsElapsed = System.currentTimeMillis() - serverClientTimeDifference - getLastUseTime(stack)
-        return (13.0 * max(0.0, millisecondsElapsed.toDouble() / getCooldownInMilliseconds(stack).toDouble())).roundToInt()
+        return (13.0 * max(0.0, millisecondsElapsed.toDouble() / getCooldownInMilliseconds(stack).toDouble())).roundToInt().coerceIn(0..13)
     }
 
     override fun getBarColor(itemStack: ItemStack): Int {

@@ -77,7 +77,7 @@ class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IH
     }
 
     override fun getBarWidth(itemStack: ItemStack): Int {
-        return (13 * getVitae(itemStack) / getMaxVitae(itemStack).toDouble()).roundToInt()
+        return (13 * getVitae(itemStack) / getMaxVitae(itemStack).toDouble()).roundToInt().coerceIn(0..13)
     }
 
     override fun getBarColor(itemStack: ItemStack): Int {

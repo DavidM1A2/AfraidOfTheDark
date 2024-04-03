@@ -113,7 +113,7 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
                 0
             } else {
                 // Bar is 13px wide at max
-                (13 * uses.toDouble() / maxUses.toDouble()).roundToInt()
+                (13 * uses.toDouble() / maxUses.toDouble()).roundToInt().coerceIn(0..13)
             }
         }
     }
