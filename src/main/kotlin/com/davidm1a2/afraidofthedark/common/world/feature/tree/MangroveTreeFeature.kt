@@ -7,7 +7,6 @@ import net.minecraft.core.Direction
 import net.minecraft.world.level.block.RotatedPillarBlock
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration
-import net.minecraft.world.level.levelgen.structure.BoundingBox
 import kotlin.math.sqrt
 
 class MangroveTreeFeature : AOTDTreeFeature(
@@ -21,19 +20,17 @@ class MangroveTreeFeature : AOTDTreeFeature(
     override fun place(
         featurePlaceContext: FeaturePlaceContext<TreeConfiguration>,
         logPositions: MutableSet<BlockPos>,
-        leafPositions: MutableSet<BlockPos>,
-        boundingBox: BoundingBox
+        leafPositions: MutableSet<BlockPos>
     ) {
         // Generate the trunk and root blocks
-        val topOfTrunk = generateBase(featurePlaceContext, logPositions, boundingBox)
+        val topOfTrunk = generateBase(featurePlaceContext, logPositions)
         // Generate branches and leaves
-        generateBranches(featurePlaceContext, topOfTrunk, logPositions, leafPositions, boundingBox)
+        generateBranches(featurePlaceContext, topOfTrunk, logPositions, leafPositions)
     }
 
     private fun generateBase(
         featurePlaceContext: FeaturePlaceContext<TreeConfiguration>,
-        logPositions: MutableSet<BlockPos>,
-        boundingBox: BoundingBox
+        logPositions: MutableSet<BlockPos>
     ): BlockPos {
         // Get fields from the context object
         val random = featurePlaceContext.random()
@@ -73,11 +70,11 @@ class MangroveTreeFeature : AOTDTreeFeature(
                     zDistanceFromTrunk--
                 }
 
-                setLog(level, currentPos, logPositions, boundingBox)
+                setLog(level, currentPos, logPositions)
 
                 // Have a 1/10 chance to generate an extra log one block up or down
                 if (random.nextDouble() < 0.1) {
-                    setLog(level, if (random.nextBoolean()) currentPos.above() else currentPos.below(), logPositions, boundingBox)
+                    setLog(level, if (random.nextBoolean()) currentPos.above() else currentPos.below(), logPositions)
                 }
 
                 // Always move up each iteration
@@ -99,7 +96,7 @@ class MangroveTreeFeature : AOTDTreeFeature(
                 }
 
                 // Set the block to log
-                setLog(level, currentPos, logPositions, boundingBox)
+                setLog(level, currentPos, logPositions)
             }
         }
 
@@ -117,7 +114,7 @@ class MangroveTreeFeature : AOTDTreeFeature(
             }
 
             // Set the block to log
-            setLog(level, currentPos, logPositions, boundingBox)
+            setLog(level, currentPos, logPositions)
 
             // Advance up the trunk
             currentPos = currentPos.above()
@@ -129,15 +126,14 @@ class MangroveTreeFeature : AOTDTreeFeature(
         featurePlaceContext: FeaturePlaceContext<TreeConfiguration>,
         topOfTrunk: BlockPos,
         logPositions: MutableSet<BlockPos>,
-        leafPositions: MutableSet<BlockPos>,
-        boundingBox: BoundingBox
+        leafPositions: MutableSet<BlockPos>
     ) {
         // Get fields from context
         val level = featurePlaceContext.level()
         val random = featurePlaceContext.random()
 
         // Create a leaf cluster at the top of the trunk
-        generateLeafCluster(featurePlaceContext, topOfTrunk, logPositions, leafPositions, boundingBox)
+        generateLeafCluster(featurePlaceContext, topOfTrunk, logPositions, leafPositions)
 
         // 3 to 5 branches
         val numBranches = random.nextInt(3) + 3
@@ -152,10 +148,10 @@ class MangroveTreeFeature : AOTDTreeFeature(
             // Iterate branch length number of times to create the logs required
             for (j in 0 until branchLength) {
                 // Create a log block
-                setLog(level, currentBranchPos, logPositions, boundingBox)
+                setLog(level, currentBranchPos, logPositions)
                 // 10% chance to create a leaf cluster along the way
                 if (random.nextDouble() < 0.1) {
-                    generateLeafCluster(featurePlaceContext, currentBranchPos, logPositions, leafPositions, boundingBox)
+                    generateLeafCluster(featurePlaceContext, currentBranchPos, logPositions, leafPositions)
                 }
                 // Move our position outwards by either moving in the dir1 or dir2 direction
                 currentBranchPos = currentBranchPos.relative(if (random.nextBoolean()) branchDir1 else branchDir2)
@@ -165,7 +161,7 @@ class MangroveTreeFeature : AOTDTreeFeature(
                 }
             }
             // End the branch with a leaf cluster
-            generateLeafCluster(featurePlaceContext, currentBranchPos, logPositions, leafPositions, boundingBox)
+            generateLeafCluster(featurePlaceContext, currentBranchPos, logPositions, leafPositions)
         }
     }
 
@@ -173,15 +169,14 @@ class MangroveTreeFeature : AOTDTreeFeature(
         featurePlaceContext: FeaturePlaceContext<TreeConfiguration>,
         location: BlockPos,
         logPositions: MutableSet<BlockPos>,
-        leafPositions: MutableSet<BlockPos>,
-        boundingBox: BoundingBox
+        leafPositions: MutableSet<BlockPos>
     ) {
         // Grab fields from context
         val random = featurePlaceContext.random()
         val world = featurePlaceContext.level()
 
         // Set the center to a mangrove log
-        setLog(featurePlaceContext.level(), location, logPositions, boundingBox)
+        setLog(featurePlaceContext.level(), location, logPositions)
         // Leaf clusters will be 3 blocks tall and 5 wide
         for (x in -2..2) {
             for (y in -1..1) {
@@ -194,15 +189,15 @@ class MangroveTreeFeature : AOTDTreeFeature(
                             // 3% chance to create a 'vine' of hanging leaf blocks
                             if (random.nextDouble() < 0.03) {
                                 // Create a log at the base of the leaf block
-                                setLog(world, leafPos, logPositions, boundingBox)
+                                setLog(world, leafPos, logPositions)
                                 // Create a random length 'vine' 2-4 blocks long
                                 val vineLength = random.nextInt(3) + 2
                                 // Start at 1 so we don't try and replace our log block
                                 for (i in 1..vineLength) {
-                                    setLeaf(world, leafPos.below(i), leafPositions, boundingBox)
+                                    setLeaf(world, leafPos.below(i), leafPositions)
                                 }
                             } else {
-                                setLeaf(world, leafPos, leafPositions, boundingBox)
+                                setLeaf(world, leafPos, leafPositions)
                             }
                         }
                     }

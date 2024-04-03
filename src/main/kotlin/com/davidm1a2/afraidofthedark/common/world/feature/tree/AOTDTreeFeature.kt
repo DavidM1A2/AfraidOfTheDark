@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.world.feature.tree
 
+import com.google.common.collect.Iterables
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.level.LevelWriter
@@ -22,31 +23,29 @@ abstract class AOTDTreeFeature(
     ): Boolean {
         val logPositions = mutableSetOf<BlockPos>()
         val leafPositions = mutableSetOf<BlockPos>()
-        val boundingBox = BoundingBox.encapsulatingPositions(listOf(featurePlaceContext.origin())).get()
 
-        place(featurePlaceContext, logPositions, leafPositions, boundingBox)
+        place(featurePlaceContext, logPositions, leafPositions)
 
-        updateLeaves(featurePlaceContext, boundingBox, logPositions, leafPositions)
-        return true
+        return BoundingBox.encapsulatingPositions(Iterables.concat(logPositions, leafPositions)).map {
+            updateLeaves(featurePlaceContext, it, logPositions, emptySet())
+            true
+        }.orElse(false)
     }
 
     abstract fun place(
         featurePlaceContext: FeaturePlaceContext<TreeConfiguration>,
         logPositions: MutableSet<BlockPos>,
-        leafPositions: MutableSet<BlockPos>,
-        boundingBox: BoundingBox
+        leafPositions: MutableSet<BlockPos>
     )
 
-    protected fun setLog(world: WorldGenLevel, blockPos: BlockPos, logPositions: MutableSet<BlockPos>, boundingBox: BoundingBox) {
+    protected fun setLog(world: WorldGenLevel, blockPos: BlockPos, logPositions: MutableSet<BlockPos>) {
         setBlock(world, blockPos, log)
         logPositions.add(blockPos)
-        boundingBox.encapsulate(blockPos)
     }
 
-    protected fun setLeaf(world: WorldGenLevel, blockPos: BlockPos, leafPositions: MutableSet<BlockPos>, boundingBox: BoundingBox) {
+    protected fun setLeaf(world: WorldGenLevel, blockPos: BlockPos, leafPositions: MutableSet<BlockPos>) {
         setBlock(world, blockPos, leaves)
         leafPositions.add(blockPos)
-        boundingBox.encapsulate(BoundingBox(blockPos))
     }
 
     /**
@@ -91,7 +90,7 @@ abstract class AOTDTreeFeature(
             val nextSet = leafCheckIterationSets[index]
             for (blockPos in currentSet) {
                 if (boundingBox.isInside(blockPos)) {
-                    voxelShape.fill(blockPos.x - boundingBox.minX(), blockPos.y - boundingBox.minX(), blockPos.z - boundingBox.minZ())
+                    voxelShape.fill(blockPos.x - boundingBox.minX(), blockPos.y - boundingBox.minY(), blockPos.z - boundingBox.minZ())
                 }
                 for (direction in Direction.values()) {
                     tempBlockPos.setWithOffset(blockPos, direction)

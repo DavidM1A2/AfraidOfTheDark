@@ -7,7 +7,6 @@ import net.minecraft.core.Direction
 import net.minecraft.world.level.block.RotatedPillarBlock
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration
-import net.minecraft.world.level.levelgen.structure.BoundingBox
 
 class SacredMangroveTreeFeature : AOTDTreeFeature(
     ModBlocks.SACRED_MANGROVE.defaultBlockState().setValue(RotatedPillarBlock.AXIS, Direction.Axis.Y),
@@ -20,15 +19,14 @@ class SacredMangroveTreeFeature : AOTDTreeFeature(
     override fun place(
         featurePlaceContext: FeaturePlaceContext<TreeConfiguration>,
         logPositions: MutableSet<BlockPos>,
-        leafPositions: MutableSet<BlockPos>,
-        boundingBox: BoundingBox
+        leafPositions: MutableSet<BlockPos>
     ) {
         val world = featurePlaceContext.level()
         val blockPos = featurePlaceContext.origin()
 
         // Create a trunk, it's always 5 blocks tall
         for (yOffset in 0 until TREE_HEIGHT) {
-            setLog(world, blockPos.offset(0, yOffset, 0), logPositions, boundingBox)
+            setLog(world, blockPos.offset(0, yOffset, 0), logPositions)
         }
 
         val topLogPos = blockPos.offset(0, TREE_HEIGHT - 1, 0)
@@ -43,7 +41,7 @@ class SacredMangroveTreeFeature : AOTDTreeFeature(
          */
         for (x in -2..2) {
             for (z in -2..2) {
-                setLeaf(world, topLogPos.offset(x, -1, z), leafPositions, boundingBox)
+                setLeaf(world, topLogPos.offset(x, -1, z), leafPositions)
             }
         }
 
@@ -57,12 +55,12 @@ class SacredMangroveTreeFeature : AOTDTreeFeature(
          */
         for (x in -1..1) {
             for (z in -2..2) {
-                setLeaf(world, topLogPos.offset(x, 0, z), leafPositions, boundingBox)
+                setLeaf(world, topLogPos.offset(x, 0, z), leafPositions)
             }
         }
         for (z in -1..1) {
-            setLeaf(world, topLogPos.offset(-2, 0, z), leafPositions, boundingBox)
-            setLeaf(world, topLogPos.offset(2, 0, z), leafPositions, boundingBox)
+            setLeaf(world, topLogPos.offset(-2, 0, z), leafPositions)
+            setLeaf(world, topLogPos.offset(2, 0, z), leafPositions)
         }
 
         /*
@@ -73,7 +71,7 @@ class SacredMangroveTreeFeature : AOTDTreeFeature(
          */
         for (x in -1..1) {
             for (z in -1..1) {
-                setLeaf(world, topLogPos.offset(x, 1, z), leafPositions, boundingBox)
+                setLeaf(world, topLogPos.offset(x, 1, z), leafPositions)
             }
         }
 
@@ -84,8 +82,8 @@ class SacredMangroveTreeFeature : AOTDTreeFeature(
           x
          */
         for (i in -1..1) {
-            setLeaf(world, topLogPos.offset(0, 2, i), leafPositions, boundingBox)
-            setLeaf(world, topLogPos.offset(i, 2, 0), leafPositions, boundingBox)
+            setLeaf(world, topLogPos.offset(0, 2, i), leafPositions)
+            setLeaf(world, topLogPos.offset(i, 2, 0), leafPositions)
         }
     }
 
