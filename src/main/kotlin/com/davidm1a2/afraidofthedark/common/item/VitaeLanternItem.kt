@@ -13,6 +13,7 @@ import net.minecraft.core.NonNullList
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Mth
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
@@ -76,7 +77,11 @@ class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IH
     }
 
     override fun getBarWidth(itemStack: ItemStack): Int {
-        return (13*(1.0 - getVitae(itemStack) / getMaxVitae(itemStack).toDouble())).roundToInt()
+        return (13 * getVitae(itemStack) / getMaxVitae(itemStack).toDouble()).roundToInt()
+    }
+
+    override fun getBarColor(itemStack: ItemStack): Int {
+        return Mth.hsvToRgb(1f / 3f * getBarWidth(itemStack) / 13f, 1.0f, 1.0f)
     }
 
     override fun fillItemCategory(group: CreativeModeTab, items: NonNullList<ItemStack>) {

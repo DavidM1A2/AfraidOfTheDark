@@ -15,6 +15,7 @@ import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.util.Mth
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.InteractionResultHolder
@@ -112,9 +113,13 @@ class SpellScrollItem : AOTDItem("spell_scroll", Properties().stacksTo(1)) {
                 0
             } else {
                 // Bar is 13px wide at max
-                (13*(1 - (uses.toDouble() / maxUses.toDouble()))).roundToInt()
+                (13 * uses.toDouble() / maxUses.toDouble()).roundToInt()
             }
         }
+    }
+
+    override fun getBarColor(itemStack: ItemStack): Int {
+        return Mth.hsvToRgb(1f / 3f * getBarWidth(itemStack) / 13f, 1.0f, 1.0f)
     }
 
     override fun isFoil(stack: ItemStack): Boolean {

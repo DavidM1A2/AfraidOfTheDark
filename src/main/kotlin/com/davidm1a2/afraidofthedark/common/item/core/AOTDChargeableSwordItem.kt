@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction
 import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Mth
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.Entity
@@ -60,7 +61,11 @@ abstract class AOTDChargeableSwordItem(
      * @return 0 for 100% charged or 1 for 0% charged
      */
     override fun getBarWidth(stack: ItemStack): Int {
-        return (13*(1.0 - getCharge(stack) / 100.0)).roundToInt()
+        return (13 * getCharge(stack) / 100.0).roundToInt()
+    }
+
+    override fun getBarColor(itemStack: ItemStack): Int {
+        return Mth.hsvToRgb(1f / 3f * getBarWidth(itemStack) / 13f, 1.0f, 1.0f)
     }
 
     /**

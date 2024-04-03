@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.network.packets.other.CooldownSyncPacket
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.util.Mth
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import kotlin.math.ceil
@@ -83,7 +84,11 @@ abstract class AOTDPerItemCooldownItem(
      */
     override fun getBarWidth(stack: ItemStack): Int {
         val millisecondsElapsed = System.currentTimeMillis() - serverClientTimeDifference - getLastUseTime(stack)
-        return (13.0*max(0.0, 1 - millisecondsElapsed.toDouble() / getCooldownInMilliseconds(stack).toDouble())).roundToInt()
+        return (13.0 * max(0.0, millisecondsElapsed.toDouble() / getCooldownInMilliseconds(stack).toDouble())).roundToInt()
+    }
+
+    override fun getBarColor(itemStack: ItemStack): Int {
+        return Mth.hsvToRgb(1f / 3f * getBarWidth(itemStack) / 13f, 1.0f, 1.0f)
     }
 
     /**
