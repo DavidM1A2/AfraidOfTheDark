@@ -11,7 +11,7 @@ import java.awt.Color
  * A connector between research nodes used in the Journal Research Screen
  */
 class ResearchConnector(from: Position, to: Position, private val toResearch: Research) :
-    LineComponent(from, to, from.avg(to), 5.0, Color.CYAN, Gravity.CENTER) {
+    LineComponent(from, to, from.avg(to), 5.0, Color.CYAN, Gravity.CENTER, true) {
 
     // The player's research for fast querying
     private val playerResearch = entityPlayer.getResearch()

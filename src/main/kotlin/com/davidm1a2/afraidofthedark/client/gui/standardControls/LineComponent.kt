@@ -11,14 +11,17 @@ import com.mojang.blaze3d.vertex.Tesselator
 import com.mojang.blaze3d.vertex.VertexFormat
 import net.minecraft.client.renderer.GameRenderer
 import java.awt.Color
+import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
  * Class representing a line drawn on a GUI. The provided weight will be scaled to match the size of the window.
  */
-open class LineComponent(lineFrom: Position, lineTo: Position, offset: Position, private val weight: Double, color: Color, gravity: Gravity = Gravity.CENTER) :
+open class LineComponent(lineFrom: Position, lineTo: Position, offset: Position, private val weight: Double, color: Color, gravity: Gravity = Gravity.CENTER, private val scaleWeightWithParent: Boolean) :
     AOTDGuiComponent(color = color, gravity = gravity, offset = offset) {
+
+    private var scale = 1.0
 
     init {
         this.prefSize = lineFrom.dimensionsBetween(lineTo)
@@ -45,8 +48,8 @@ open class LineComponent(lineFrom: Position, lineTo: Position, offset: Position,
             val size = min(AOTDGuiUtility.getWindowWidthInMCCoords(), AOTDGuiUtility.getWindowHeightInMCCoords())
 
             if (mag != 0.0) {
-                newX = deltaY / mag * weight * (size / Constants.REFERENCE_SIZE)
-                newY = -deltaX / mag * weight * (size / Constants.REFERENCE_SIZE)
+                newX = deltaY / mag * weight * scale * (size / Constants.REFERENCE_SIZE)
+                newY = -deltaX / mag * weight * scale * (size / Constants.REFERENCE_SIZE)
             }
 
             val x1 = x - (newX / 2)
@@ -75,6 +78,13 @@ open class LineComponent(lineFrom: Position, lineTo: Position, offset: Position,
             RenderSystem.enableTexture()
             RenderSystem.disableBlend()
             poseStack.popPose()
+        }
+    }
+
+    override fun negotiateDimensions(width: Double, height: Double) {
+        super.negotiateDimensions(width, height)
+        if (this.scaleWeightWithParent) {
+            this.scale = min(width, height) / Constants.REFERENCE_SIZE
         }
     }
 }
