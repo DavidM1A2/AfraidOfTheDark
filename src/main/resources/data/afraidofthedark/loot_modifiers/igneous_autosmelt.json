@@ -7,25 +7,33 @@
         {
           "condition": "minecraft:match_tool",
           "predicate": {
-            "item": "afraidofthedark:igneous_axe"
+            "items": [
+              "afraidofthedark:igneous_axe"
+            ]
           }
         },
         {
           "condition": "minecraft:match_tool",
           "predicate": {
-            "item": "afraidofthedark:igneous_hoe"
+            "items": [
+              "afraidofthedark:igneous_hoe"
+            ]
           }
         },
         {
           "condition": "minecraft:match_tool",
           "predicate": {
-            "item": "afraidofthedark:igneous_pickaxe"
+            "items": [
+              "afraidofthedark:igneous_pickaxe"
+            ]
           }
         },
         {
           "condition": "minecraft:match_tool",
           "predicate": {
-            "item": "afraidofthedark:igneous_shovel"
+            "items": [
+              "afraidofthedark:igneous_shovel"
+            ]
           }
         }
       ]

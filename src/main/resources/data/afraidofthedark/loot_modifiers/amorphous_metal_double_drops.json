@@ -7,31 +7,41 @@
         {
           "condition": "minecraft:match_tool",
           "predicate": {
-            "item": "afraidofthedark:amorphous_metal_axe"
+            "items": [
+              "afraidofthedark:amorphous_metal_axe"
+            ]
           }
         },
         {
           "condition": "minecraft:match_tool",
           "predicate": {
-            "item": "afraidofthedark:amorphous_metal_hoe"
+            "items": [
+              "afraidofthedark:amorphous_metal_hoe"
+            ]
           }
         },
         {
           "condition": "minecraft:match_tool",
           "predicate": {
-            "item": "afraidofthedark:amorphous_metal_pickaxe"
+            "items": [
+              "afraidofthedark:amorphous_metal_pickaxe"
+            ]
           }
         },
         {
           "condition": "minecraft:match_tool",
           "predicate": {
-            "item": "afraidofthedark:amorphous_metal_shovel"
+            "items": [
+              "afraidofthedark:amorphous_metal_shovel"
+            ]
           }
         },
         {
           "condition": "minecraft:match_tool",
           "predicate": {
-            "item": "afraidofthedark:amorphous_metal_sword"
+            "items": [
+              "afraidofthedark:amorphous_metal_sword"
+            ]
           }
         },
         {
