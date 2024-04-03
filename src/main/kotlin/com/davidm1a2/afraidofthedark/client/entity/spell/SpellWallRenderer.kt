@@ -137,6 +137,7 @@ class SpellWallRenderer(renderManager: EntityRendererProvider.Context) : EntityR
             false,
             true,
             RenderType.CompositeState.builder()
+                .setShaderState(RenderStateShard.ShaderStateShard(GameRenderer::getNewEntityShader))
                 .setTextureState(RenderStateShard.TextureStateShard(SPELL_WALL_TEXTURE, false, false))
                 .setTransparencyState(RenderStateShard.TransparencyStateShard("translucent_transparency", {
                     RenderSystem.enableBlend()
@@ -163,6 +164,7 @@ class SpellWallRenderer(renderManager: EntityRendererProvider.Context) : EntityR
             false,
             true,
             RenderType.CompositeState.builder()
+                .setShaderState(RenderStateShard.ShaderStateShard(GameRenderer::getPositionColorShader))
                 .setTransparencyState(RenderStateShard.TransparencyStateShard("translucent_transparency", {
                     RenderSystem.enableBlend()
                     RenderSystem.blendFuncSeparate(

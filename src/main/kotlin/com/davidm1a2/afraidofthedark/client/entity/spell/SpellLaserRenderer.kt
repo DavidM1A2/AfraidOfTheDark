@@ -3,7 +3,10 @@ package com.davidm1a2.afraidofthedark.client.entity.spell
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.computeRotationTo
 import com.davidm1a2.afraidofthedark.common.entity.spell.SpellLaserEntity
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.*
+import com.mojang.blaze3d.vertex.DefaultVertexFormat
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.VertexConsumer
+import com.mojang.blaze3d.vertex.VertexFormat
 import com.mojang.math.Matrix3f
 import com.mojang.math.Matrix4f
 import com.mojang.math.Vector3f
@@ -129,6 +132,7 @@ class SpellLaserRenderer(renderManager: EntityRendererProvider.Context) : Entity
             false,
             true,
             RenderType.CompositeState.builder()
+                .setShaderState(RenderStateShard.ShaderStateShard(GameRenderer::getNewEntityShader))
                 .setTextureState(RenderStateShard.TextureStateShard(SPELL_LASER_TEXTURE, false, false))
                 .setTransparencyState(RenderStateShard.TransparencyStateShard("no_transparency", { RenderSystem.disableBlend() }) {})
                 .setCullState(RenderStateShard.CullStateShard(false))

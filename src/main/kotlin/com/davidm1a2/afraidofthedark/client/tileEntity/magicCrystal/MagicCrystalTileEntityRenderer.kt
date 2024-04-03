@@ -61,9 +61,9 @@ class MagicCrystalTileEntityRenderer(context: BlockEntityRendererProvider.Contex
             false,
             false,
             RenderType.CompositeState.builder()
+                .setShaderState(RenderStateShard.ShaderStateShard(GameRenderer::getNewEntityShader))
                 .setTextureState(RenderStateShard.TextureStateShard(MAGIC_CRYSTAL_TEXTURE, false, false))
                 .setTransparencyState(RenderStateShard.TransparencyStateShard("no_transparency", { RenderSystem.disableBlend() }) {})
-                .setShaderState(RenderStateShard.ShaderStateShard(GameRenderer::getNewEntityShader))
                 .setLightmapState(RenderStateShard.LightmapStateShard(true))
                 .setOverlayState(RenderStateShard.OverlayStateShard(true))
                 .createCompositeState(true)

@@ -10,10 +10,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer
 import com.mojang.blaze3d.vertex.VertexFormat
 import com.mojang.math.Matrix3f
 import com.mojang.math.Matrix4f
-import net.minecraft.client.renderer.LightTexture
-import net.minecraft.client.renderer.MultiBufferSource
-import net.minecraft.client.renderer.RenderStateShard
-import net.minecraft.client.renderer.RenderType
+import net.minecraft.client.renderer.*
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.texture.OverlayTexture
@@ -138,6 +135,7 @@ class SpellAOERenderer(renderManager: EntityRendererProvider.Context) : EntityRe
             false,
             true,
             RenderType.CompositeState.builder()
+                .setShaderState(RenderStateShard.ShaderStateShard(GameRenderer::getNewEntityShader))
                 .setTextureState(RenderStateShard.TextureStateShard(SPELL_AOE_TEXTURE, false, false))
                 .setTransparencyState(RenderStateShard.TransparencyStateShard("translucent_transparency", {
                     RenderSystem.enableBlend()

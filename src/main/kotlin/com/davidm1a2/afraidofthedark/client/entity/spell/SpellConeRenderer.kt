@@ -17,7 +17,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
 import net.minecraft.world.phys.Vec3
-import java.util.*
 import kotlin.math.cos
 import kotlin.math.roundToInt
 import kotlin.math.sin
@@ -159,6 +158,7 @@ class SpellConeRenderer(renderManager: EntityRendererProvider.Context) : EntityR
             false,
             true,
             RenderType.CompositeState.builder()
+                .setShaderState(RenderStateShard.ShaderStateShard(GameRenderer::getNewEntityShader))
                 .setTextureState(RenderStateShard.TextureStateShard(SPELL_CONE_TEXTURE, false, false))
                 .setTransparencyState(RenderStateShard.TransparencyStateShard("translucent_transparency", {
                     RenderSystem.enableBlend()
@@ -185,6 +185,7 @@ class SpellConeRenderer(renderManager: EntityRendererProvider.Context) : EntityR
             false,
             true,
             RenderType.CompositeState.builder()
+                .setShaderState(RenderStateShard.ShaderStateShard(GameRenderer::getPositionColorShader))
                 .setTransparencyState(RenderStateShard.TransparencyStateShard("translucent_transparency", {
                     RenderSystem.enableBlend()
                     RenderSystem.blendFuncSeparate(
