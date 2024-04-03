@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.*
 import com.mojang.math.Vector3f
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientLevel
+import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.resources.ResourceLocation
 import net.minecraftforge.client.ISkyRenderHandler
 
@@ -18,10 +19,11 @@ class VoidChestSkyRenderer : ISkyRenderHandler {
         /// Code below is similar to WorldRenderer::renderSky()
         ///
 
-        RenderSystem.disableDepthTest()
+        RenderSystem.disableTexture()
+        RenderSystem.depthMask(false)
         RenderSystem.enableBlend()
         RenderSystem.defaultBlendFunc()
-        RenderSystem.depthMask(false)
+        RenderSystem.setShader(GameRenderer::getPositionTexShader)
 
         val tessellator = Tesselator.getInstance()
         val bufferBuilder = tessellator.builder
@@ -65,10 +67,9 @@ class VoidChestSkyRenderer : ISkyRenderHandler {
             matrixStack.popPose()
         }
 
-        RenderSystem.depthMask(true)
-        RenderSystem.enableTexture()
         RenderSystem.disableBlend()
-        RenderSystem.enableDepthTest()
+        RenderSystem.enableTexture()
+        RenderSystem.depthMask(true)
     }
 
     companion object {
