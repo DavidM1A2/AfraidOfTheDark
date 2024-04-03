@@ -137,8 +137,8 @@ class CapabilityHandler {
     }
 
     private fun <I : Any, T : Tag> copyCapability(oldPlayer: Player, newPlayer: Player, capability: Capability<I>, serializerFactory: ((I) -> INBTSerializable<T>)) {
-        val oldCapability = oldPlayer.getCapability(capability).resolve().get()
-        val newCapability = newPlayer.getCapability(capability).resolve().get()
+        val oldCapability = getCapabilitySafe(oldPlayer, capability)
+        val newCapability = getCapabilitySafe(newPlayer, capability)
         if (oldCapability == null || newCapability == null) {
             LOG.warn("Player was cloned without required capabilities? Missing: ${capability.name}")
             return
@@ -147,6 +147,28 @@ class CapabilityHandler {
         val oldSerializer = serializerFactory(oldCapability)
         val newSerializer = serializerFactory(newCapability)
         newSerializer.deserializeNBT(oldSerializer.serializeNBT())
+    }
+
+    private fun <I : Any> getCapabilitySafe(player: Player, capability: Capability<I>): I? {
+        val instance = player.getCapability(capability)
+        if (instance.isPresent) {
+            return instance.resolve().get()
+        }
+
+        // If the player just died revive their capabilties for a brief second to clone onto the new player
+        if (player.isRemoved) {
+            player.reviveCaps()
+            try {
+                val revivedInstance = player.getCapability(capability)
+                if (revivedInstance.isPresent) {
+                    return revivedInstance.resolve().get()
+                }
+            } finally {
+                player.invalidateCaps()
+            }
+        }
+
+        return null
     }
 
     companion object {
