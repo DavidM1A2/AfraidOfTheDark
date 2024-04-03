@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.sound
 
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
+import net.minecraft.client.Minecraft
 import net.minecraft.sounds.SoundSource
 
 /**
@@ -14,5 +15,18 @@ class EnariaFightMusicSound(private val enariaId: Int) : PlayerFollowingSound(Mo
         // This sound loops
         looping = true
         delay = 0
+    }
+
+    /**
+     * Ensure that this only players in the nightmare when the player is not dead
+     */
+    override fun tick() {
+        super.tick()
+
+        val enaria = Minecraft.getInstance().player!!.level.getEntity(enariaId)
+        // If the enaria entity doesn't exist kill the sound
+        if (enaria == null) {
+            stop()
+        }
     }
 }
