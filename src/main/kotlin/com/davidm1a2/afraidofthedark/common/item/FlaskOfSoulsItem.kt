@@ -22,6 +22,7 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.HitResult
 import org.apache.logging.log4j.LogManager
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 /**
@@ -117,23 +118,16 @@ class FlaskOfSoulsItem : AOTDPerItemCooldownItem("flask_of_souls", Properties())
         }
     }
 
-    /**
-     * The durability to show for this item is based on how much cooldown is left
-     *
-     * @param stack The itemstack to show durability for
-     * @return Value between 0 to 1 of what percent of the durability bar to show
-     */
-    override fun getDurabilityForDisplay(stack: ItemStack): Double {
+    override fun getBarWidth(stack: ItemStack): Int {
         // If the flask is not charged then show the flask charge
         return if (!isComplete(stack)) {
             if (getSpawnedEntity(stack) == null) {
-                1.0
+                0
             } else {
-                1 - getKills(stack).toDouble() / getKillsRequired(stack)
+                (12 * getKills(stack).toDouble() / getKillsRequired(stack)).roundToInt().coerceIn(0..12)
             }
         } else {
-            // Otherwise default to the standard charge durability
-            super.getDurabilityForDisplay(stack)
+            return super.getBarWidth(stack)
         }
     }
 
