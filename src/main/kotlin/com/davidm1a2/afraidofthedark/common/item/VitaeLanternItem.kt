@@ -8,7 +8,7 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.item.core.IHasModelProperties
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.item.ClampedItemPropertyFunction
+import net.minecraft.client.renderer.item.ItemPropertyFunction
 import net.minecraft.core.NonNullList
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TranslatableComponent
@@ -22,8 +22,8 @@ import kotlin.math.floor
 import kotlin.math.roundToInt
 
 class VitaeLanternItem : AOTDItem("vitae_lantern", Properties().stacksTo(1)), IHasModelProperties {
-    override fun getProperties(): List<Pair<ResourceLocation, ClampedItemPropertyFunction>> {
-        return listOf(ResourceLocation(Constants.MOD_ID, "vitae_step") to ClampedItemPropertyFunction { itemStack, _, _, _ -> getChargeLevel(itemStack).ordinal.toFloat() })
+    override fun getProperties(): List<Pair<ResourceLocation, ItemPropertyFunction>> {
+        return listOf(ResourceLocation(Constants.MOD_ID, "vitae_step") to ItemPropertyFunction { itemStack, _, _, _ -> getChargeLevel(itemStack).ordinal.toFloat() })
     }
 
     fun addVitae(itemStack: ItemStack, vitae: Float): Float {
