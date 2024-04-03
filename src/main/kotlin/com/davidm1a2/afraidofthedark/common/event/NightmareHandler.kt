@@ -22,12 +22,14 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.ContainerHelper
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.levelgen.structure.BoundingBox
+import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.TickEvent
@@ -115,60 +117,52 @@ class NightmareHandler {
         // Server side processing only
         val world = event.world
         if (!world.isClientSide) {
-            if (world !is Level) {
+            if (world !is ServerLevel) {
                 throw IllegalStateException("Chunk unload event called with an IWorld that was not a world")
             }
 
             // Test if we're in the nightmare dimension
-            // TODO: Fix logic by looking at entities in chunk via world not chunk
-//            if (world.dimension() == ModDimensions.NIGHTMARE_WORLD) {
-//                // Search through the list of entities in the chunk
-//                val chunk = event.chunk
-//                if (chunk is LevelChunk) {
-//                    for (entityMap in chunk) {
-//                        // Go through each entity
-//                        for (entity in entityMap) {
-//                            // If an entity is enaria, kill her and respawn her closer to the player if possible
-//                            if (entity is GhastlyEnariaEntity) {
-//                                // If the enaria entity is dead the player touched her and went back to the overworld
-//                                if (entity.isAlive) {
-//                                    // Kill any unloaded enaria entities
-//                                    entity.remove()
-//
-//                                    // Grab the nearby player
-//                                    val entityPlayer = world.getNearestPlayer(
-//                                        entity,
-//                                        Constants.DISTANCE_BETWEEN_ISLANDS / 2.toDouble()
-//                                    )
-//
-//                                    // If we have a valid nearby player teleport a new enaria to them. If we don't then just die (the player left the nightmare dimension)
-//                                    if (entityPlayer != null && entityPlayer.isAlive) {
-//                                        // Compute a random offset in +/- 25-50 in x and z
-//                                        val random = entityPlayer.random
-//                                        val offsetX =
-//                                            if (random.nextBoolean()) random.nextInt(26) - 50 else random.nextInt(26) + 25
-//                                        val offsetZ =
-//                                            if (random.nextBoolean()) random.nextInt(26) - 50 else random.nextInt(26) + 25
-//
-//                                        // Compute enaria's new position
-//                                        val posX = entityPlayer.x + offsetX
-//                                        val posZ = entityPlayer.z + offsetZ
-//
-//                                        // Spawn a new enaria
-//                                        val newEnaria = GhastlyEnariaEntity(ModEntities.GHASTLY_ENARIA, world)
-//                                        newEnaria.setBenign(!entityPlayer.getResearch().isResearched(ModResearches.ARCH_SORCERESS))
-//                                        newEnaria.setPos(posX, entityPlayer.y, posZ)
-//                                        world.addFreshEntity(newEnaria)
-//
-//                                        // Return out of here, there will only be 1 enaria following the player
-//                                        return
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
+            if (world.dimension() == ModDimensions.NIGHTMARE_WORLD) {
+                val cornerOne = BlockPos(event.chunk.pos.minBlockX, event.chunk.minBuildHeight, event.chunk.pos.minBlockZ)
+                val cornerTwo = BlockPos(event.chunk.pos.maxBlockX, event.chunk.maxBuildHeight, event.chunk.pos.maxBlockZ)
+                val ghastlyEnarias = world.getEntitiesOfClass(GhastlyEnariaEntity::class.java, AABB(cornerOne, cornerTwo))
+                for (ghastlyEnaria in ghastlyEnarias) {
+                    // If the enaria entity is dead the player touched her and went back to the overworld
+                    if (ghastlyEnaria.isAlive) {
+                        // Kill any unloaded enaria entities
+                        ghastlyEnaria.remove(Entity.RemovalReason.DISCARDED)
+
+                        // Grab the nearby player
+                        val entityPlayer = world.getNearestPlayer(
+                            ghastlyEnaria,
+                            Constants.DISTANCE_BETWEEN_ISLANDS / 2.toDouble()
+                        )
+
+                        // If we have a valid nearby player teleport a new enaria to them. If we don't then just die (the player left the nightmare dimension)
+                        if (entityPlayer != null && entityPlayer.isAlive) {
+                            // Compute a random offset in +/- 25-50 in x and z
+                            val random = entityPlayer.random
+                            val offsetX =
+                                if (random.nextBoolean()) random.nextInt(26) - 50 else random.nextInt(26) + 25
+                            val offsetZ =
+                                if (random.nextBoolean()) random.nextInt(26) - 50 else random.nextInt(26) + 25
+
+                            // Compute enaria's new position
+                            val posX = entityPlayer.x + offsetX
+                            val posZ = entityPlayer.z + offsetZ
+
+                            // Spawn a new enaria
+                            val newEnaria = GhastlyEnariaEntity(ModEntities.GHASTLY_ENARIA, world)
+                            newEnaria.setBenign(!entityPlayer.getResearch().isResearched(ModResearches.ARCH_SORCERESS))
+                            newEnaria.setPos(posX, entityPlayer.y, posZ)
+                            world.addFreshEntity(newEnaria)
+
+                            // Return out of here, there will only be 1 enaria following the player
+                            return
+                        }
+                    }
+                }
+            }
         }
     }
 
