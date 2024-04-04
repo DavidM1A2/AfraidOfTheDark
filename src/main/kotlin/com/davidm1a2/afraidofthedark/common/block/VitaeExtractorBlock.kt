@@ -1,14 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.block
 
-import com.davidm1a2.afraidofthedark.client.tileEntity.vitaeExtractor.VitaeExtractorItemStackRenderer
-import com.davidm1a2.afraidofthedark.common.block.core.AOTDCustomRendererBlockItem
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
 import com.davidm1a2.afraidofthedark.common.block.core.IUseCustomBlockItem
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModParticles
 import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.item.VitaeLanternItem
+import com.davidm1a2.afraidofthedark.common.item.blockitem.VitaeExtractorBlockItem
 import com.davidm1a2.afraidofthedark.common.tileEntity.VitaeExtractorTileEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -18,7 +16,6 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.BlockItem
-import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
@@ -154,7 +151,7 @@ class VitaeExtractorBlock : AOTDTileEntityBlock(
     }
 
     override fun getBlockItem(): BlockItem {
-        return AOTDCustomRendererBlockItem(this, VitaeExtractorItemStackRenderer(), Item.Properties().tab(Constants.AOTD_CREATIVE_TAB))
+        return VitaeExtractorBlockItem()
     }
 
     override fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity {

@@ -1,12 +1,14 @@
 package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.client.gui.screens.SpellListScreen
-import com.davidm1a2.afraidofthedark.client.tileEntity.spellCraftingTable.SpellCraftingTableItemStackRenderer
-import com.davidm1a2.afraidofthedark.common.block.core.AOTDCustomRendererBlockItem
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDTileEntityBlock
 import com.davidm1a2.afraidofthedark.common.block.core.IUseCustomBlockItem
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.*
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
+import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
+import com.davidm1a2.afraidofthedark.common.constants.ModItems
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.item.blockitem.SpellCraftingTableBlockItem
 import com.davidm1a2.afraidofthedark.common.tileEntity.SpellCraftingTableTileEntity
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
@@ -18,7 +20,6 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.BlockItem
-import net.minecraft.world.item.Item
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
@@ -67,7 +68,7 @@ class SpellCraftingTableBlock : AOTDTileEntityBlock("spell_crafting_table", Prop
     }
 
     override fun getBlockItem(): BlockItem {
-        return AOTDCustomRendererBlockItem(this, SpellCraftingTableItemStackRenderer(), Item.Properties().tab(Constants.AOTD_CREATIVE_TAB))
+        return SpellCraftingTableBlockItem()
     }
 
     override fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity {
