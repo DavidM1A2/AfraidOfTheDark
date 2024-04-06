@@ -1,13 +1,13 @@
 {
   "type": "afraidofthedark:research_required_shaped_recipe",
   "pattern": [
-    "dsd",
-    "sds",
-    "dsd"
+    " s ",
+    "sms",
+    " s "
   ],
   "key": {
-    "d": {
-      "item": "minecraft:diamond"
+    "m": {
+      "item": "afraidofthedark:magic_essence"
     },
     "s": {
       "item": "afraidofthedark:sunstone_fragment"

@@ -2,7 +2,7 @@
   "type": "afraidofthedark:research_required_shaped_recipe",
   "pattern": [
     "blb",
-    "gdg",
+    "ggg",
     "bgb"
   ],
   "key": {
@@ -14,9 +14,6 @@
     },
     "g": {
       "item": "minecraft:glass"
-    },
-    "d": {
-      "item": "minecraft:diamond"
     }
   },
   "result": {

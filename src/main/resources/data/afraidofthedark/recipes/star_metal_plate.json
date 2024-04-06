@@ -1,16 +1,16 @@
 {
   "type": "afraidofthedark:research_required_shaped_recipe",
   "pattern": [
-    "sss",
-    "sis",
-    "sss"
+    " s ",
+    "sms",
+    " s "
   ],
   "key": {
     "s": {
       "item": "afraidofthedark:star_metal_ingot"
     },
-    "i": {
-      "item": "minecraft:iron_ingot"
+    "m": {
+      "item": "afraidofthedark:magic_essence"
     }
   },
   "result": {
