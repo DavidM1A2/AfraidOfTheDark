@@ -9,6 +9,7 @@ import net.minecraft.world.item.crafting.Ingredient
 object ModToolMaterials {
     val BONE = AOTDToolMaterial(0, 150, 0f, 0f, 0, Ingredient.of(ModItems.ENCHANTED_SKELETON_BONE))
     val ASTRAL_SILVER = AOTDToolMaterial(2, 280, 8f, 3.0f, 20, Ingredient.of(ModItems.ASTRAL_SILVER_INGOT))
+    val ARGENTIUM = AOTDToolMaterial(3, 600, 16f, 8f, 15, Ingredient.EMPTY)
     val IGNEOUS = AOTDToolMaterial(3, 600, 16f, 8f, 15, Ingredient.EMPTY)
     val STAR_METAL = AOTDToolMaterial(3, 600, 20f, 7f, 15, Ingredient.EMPTY)
     val GNOMISH_METAL = AOTDToolMaterial(3, 350, 20f, 0f, 10, Ingredient.of(ModItems.GNOMISH_METAL_INGOT))

@@ -25,7 +25,7 @@ object ModArmorMaterials {
         20,
         SoundEvents.ARMOR_EQUIP_GENERIC,
         0f,
-        0f,
+        0.5f,
         Ingredient.of(ModItems.IGNEOUS_GEM)
     )
     val STAR_METAL = AOTDArmorMaterial(
@@ -66,6 +66,16 @@ object ModArmorMaterials {
         SoundEvents.ARMOR_EQUIP_GENERIC,
         0f,
         1f,
+        Ingredient.EMPTY
+    )
+    val ARGENTIUM = AOTDArmorMaterial(
+        "argentium",
+        0,
+        arrayOf(3, 6, 8, 3),
+        20,
+        SoundEvents.ARMOR_EQUIP_GENERIC,
+        0f,
+        0.5f,
         Ingredient.EMPTY
     )
 }
