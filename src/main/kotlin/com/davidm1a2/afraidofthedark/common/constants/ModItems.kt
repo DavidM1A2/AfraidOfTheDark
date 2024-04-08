@@ -113,6 +113,7 @@ object ModItems {
     val ARGENTIUM_CHESTPLATE = ArgentiumArmorItem("argentium_chestplate", EquipmentSlot.CHEST)
     val ARGENTIUM_LEGGINGS = ArgentiumArmorItem("argentium_leggings", EquipmentSlot.LEGS)
     val ARGENTIUM_BOOTS = ArgentiumArmorItem("argentium_boots", EquipmentSlot.FEET)
+    val ASTRAL_COPPER_INGOT = AstralCopperIngotItem()
     val GNOMISH_METAL_INGOT = GnomishMetalIngotItem()
     val GNOMISH_METAL_AXE = GnomishMetalAxeItem()
     val GNOMISH_METAL_HOE = GnomishMetalHoeItem()
@@ -251,6 +252,7 @@ object ModItems {
         ARGENTIUM_CHESTPLATE,
         ARGENTIUM_LEGGINGS,
         ARGENTIUM_BOOTS,
+        ASTRAL_COPPER_INGOT,
         GNOMISH_METAL_INGOT,
         GNOMISH_METAL_AXE,
         GNOMISH_METAL_HOE,

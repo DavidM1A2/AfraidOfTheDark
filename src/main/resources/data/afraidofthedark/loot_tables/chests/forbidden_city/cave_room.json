@@ -1,6 +1,23 @@
 {
   "pools": [
     {
+      "name": "research",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "afraidofthedark:research_scroll",
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{\"research_id\":\"afraidofthedark:metallurgy\"}"
+            }
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
       "name": "main",
       "rolls": {
         "min": 3,

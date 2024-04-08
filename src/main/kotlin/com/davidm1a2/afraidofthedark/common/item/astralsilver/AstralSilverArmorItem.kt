@@ -38,7 +38,7 @@ class AstralSilverArmorItem(baseName: String, equipmentSlot: EquipmentSlot) :
      */
     override fun appendHoverText(stack: ItemStack, world: Level?, tooltip: MutableList<Component>, flag: TooltipFlag) {
         val player = Minecraft.getInstance().player
-        if (player != null && !player.getResearch().isResearched(ModResearches.SILVER_SLAYER)) {
+        if (player != null && !player.getResearch().isResearched(ModResearches.ASTRAL_SILVER)) {
             tooltip.add(TranslatableComponent(LocalizationConstants.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
@@ -50,7 +50,7 @@ class AstralSilverArmorItem(baseName: String, equipmentSlot: EquipmentSlot) :
         }
 
         // Ensure the player has the right research
-        if (!entity.getResearch().isResearched(ModResearches.SILVER_SLAYER)) {
+        if (!entity.getResearch().isResearched(ModResearches.ASTRAL_SILVER)) {
             return 1.0
         }
 

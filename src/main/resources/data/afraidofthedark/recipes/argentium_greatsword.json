@@ -1,0 +1,21 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "a",
+    "a",
+    "s"
+  ],
+  "key": {
+    "a": {
+      "item": "afraidofthedark:argentium_ingot"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:argentium_greatsword",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:metallurgy"
+}

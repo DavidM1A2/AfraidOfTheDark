@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level
  *
  * @constructor sets up the item's name
  */
-class AstralSilverBoltItem : AOTDBoltItem("astral_silver_bolt", Properties(), ModResearches.SILVER_SLAYER) {
+class AstralSilverBoltItem : AOTDBoltItem("astral_silver_bolt", Properties(), ModResearches.ASTRAL_SILVER) {
     override fun createBolt(world: Level): BoltEntity {
         return AstralSilverBoltEntity(world)
     }

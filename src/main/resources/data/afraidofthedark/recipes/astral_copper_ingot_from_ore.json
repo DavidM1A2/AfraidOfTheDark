@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "afraidofthedark:astral_copper_ore"
+  },
+  "result": "afraidofthedark:astral_copper_ingot",
+  "experience": 1.0,
+  "cookingtime": 200
+}

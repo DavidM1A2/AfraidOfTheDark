@@ -9,7 +9,7 @@ import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 
-class ArgentiumGreatswordItem : AOTDResearchRequiredSwordItem("argentium_greatsword", ModToolMaterials.ARGENTIUM, 3, -1.2f, ModResearches.SILVER_SLAYER, Properties()) {
+class ArgentiumGreatswordItem : AOTDResearchRequiredSwordItem("argentium_greatsword", ModToolMaterials.ARGENTIUM, 3, -1.2f, ModResearches.METALLURGY, Properties()) {
     override fun onLeftClickEntity(stack: ItemStack, player: Player, target: Entity): Boolean {
         if (player.getResearch().isResearched(requiredResearch)) {
             target.hurt(ModDamageSources.getSilverDamage(player), damage)

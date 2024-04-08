@@ -11,11 +11,13 @@ object ModMeteorEntries {
     val ASTRAL_SILVER = load("astral_silver")
     val STAR_METAL = load("star_metal")
     val IGNEOUS = load("igneous")
+    val ASTRAL_COPPER = load("astral_copper")
 
     val METEOR_ENTRY_LIST = arrayOf(
         ASTRAL_SILVER,
         STAR_METAL,
-        IGNEOUS
+        IGNEOUS,
+        ASTRAL_COPPER
     )
 
     private fun load(name: String): MeteorEntry {

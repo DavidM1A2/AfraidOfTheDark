@@ -1,0 +1,21 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "sss",
+    "scs",
+    "sss"
+  ],
+  "key": {
+    "s": {
+      "item": "afraidofthedark:astral_silver_ingot"
+    },
+    "c": {
+      "item": "afraidofthedark:astral_copper_ingot"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:argentium_ingot",
+    "count": 2
+  },
+  "required_research": "afraidofthedark:metallurgy"
+}

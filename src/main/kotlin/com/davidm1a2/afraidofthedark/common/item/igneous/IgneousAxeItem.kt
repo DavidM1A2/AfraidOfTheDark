@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
 
-class IgneousAxeItem : AOTDResearchRequiredAxeItem("igneous_axe", ModToolMaterials.IGNEOUS, 5.0f, -3.0f, ModResearches.SILVER_SLAYER, Properties()) {
+class IgneousAxeItem : AOTDResearchRequiredAxeItem("igneous_axe", ModToolMaterials.IGNEOUS, 5.0f, -3.0f, ModResearches.IGNEOUS, Properties()) {
     override fun onLeftClickEntity(stack: ItemStack, player: Player, target: Entity): Boolean {
         if (player.getResearch().isResearched(requiredResearch)) {
             target.hurt(ModDamageSources.getSilverDamage(player), attackDamage)

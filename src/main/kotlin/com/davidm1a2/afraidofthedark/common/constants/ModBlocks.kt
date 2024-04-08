@@ -50,6 +50,7 @@ object ModBlocks {
 
     val METEOR = MeteorBlock()
     val ASTRAL_SILVER_ORE = AstralSilverOreBlock()
+    val ASTRAL_COPPER_ORE = AstralCopperOreBlock()
     val SUNSTONE_ORE = SunstoneOreBlock()
     val STAR_METAL_ORE = StarMetalOreBlock()
     val IGNEOUS = IgneousBlock()
@@ -116,6 +117,7 @@ object ModBlocks {
         ELDRITCH_STONE_WALL,
         METEOR,
         ASTRAL_SILVER_ORE,
+        ASTRAL_COPPER_ORE,
         ELDRITCH_OBSIDIAN,
         AMORPHOUS_ELDRITCH_METAL,
         VOID_CHEST,

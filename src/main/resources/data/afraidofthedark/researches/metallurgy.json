@@ -1,0 +1,22 @@
+{
+  "forge:registry_name": "afraidofthedark:metallurgy",
+  "recipes": [
+    "afraidofthedark:argentium_ingot",
+    "afraidofthedark:argentium_helmet",
+    "afraidofthedark:argentium_chestplate",
+    "afraidofthedark:argentium_leggings",
+    "afraidofthedark:argentium_boots",
+    "afraidofthedark:argentium_greatsword"
+  ],
+  "pre_recipes": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/metallurgy.png",
+  "prerequisite": "afraidofthedark:astral_silver",
+  "triggers": [
+    {
+      "type": "afraidofthedark:manual",
+      "config": {
+        "research": "afraidofthedark:metallurgy"
+      }
+    }
+  ]
+}

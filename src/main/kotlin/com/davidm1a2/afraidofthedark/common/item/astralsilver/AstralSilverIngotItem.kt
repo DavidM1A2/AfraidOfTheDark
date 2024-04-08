@@ -19,7 +19,7 @@ class AstralSilverIngotItem : AOTDItem("astral_silver_ingot", Properties()) {
         // Every 5 seconds check if this item is in a player's inventory, if so unlock the research
         if (!worldIn.isClientSide && entityIn.tickCount % 100 == 0) {
             if (entityIn is Player) {
-                MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(entityIn, ModResearches.SILVER_SLAYER))
+                MinecraftForge.EVENT_BUS.post(ManualResearchTriggerEvent(entityIn, ModResearches.ASTRAL_SILVER))
             }
         }
     }
