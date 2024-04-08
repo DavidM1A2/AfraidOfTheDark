@@ -3,7 +3,7 @@
   "icon": "afraidofthedark:textures/gui/telescope/astral_copper_meteor.png",
   "min_radius": 2,
   "max_radius": 2,
-  "richness_percent": 0.9,
+  "richness_percent": 1.0,
   "interior_block": "afraidofthedark:astral_copper_ore",
   "prerequisite_research": "afraidofthedark:metallurgy"
 }
