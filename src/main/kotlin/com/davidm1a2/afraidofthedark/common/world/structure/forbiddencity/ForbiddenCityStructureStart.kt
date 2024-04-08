@@ -64,7 +64,7 @@ class ForbiddenCityStructureStart(structure: StructureFeature<NoneFeatureConfigu
                     when {
                         // If the room is the stair from surface to level 1 and the floor is upper (1) generate the stair room and stairwell
                         currentRoom == stairSurfaceTo1 && floor == Floor.UPPER -> {
-                            var facing = Direction.Plane.HORIZONTAL.getRandomDirection(random)
+                            val facing = Direction.Plane.HORIZONTAL.getRandomDirection(random)
                             this.pieces.add(
                                 SchematicStructurePiece(
                                     roomPosX,
@@ -112,7 +112,7 @@ class ForbiddenCityStructureStart(structure: StructureFeature<NoneFeatureConfigu
                                         facing = facing
                                     )
                                 )
-                                stairwellTop = stairwellTop + stairwell.getHeight() - 1
+                                stairwellTop = stairwellTop + stairwell.getHeight()
                             }
 
                             this.pieces.add(
