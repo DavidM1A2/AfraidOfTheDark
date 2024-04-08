@@ -3,10 +3,12 @@
   "recipes": [],
   "pre_recipes": [],
   "stickers": [
-    "afraidofthedark:textures/gui/research_stickers/eerie_forest.png"
+    "afraidofthedark:textures/gui/research_stickers/eerie_forest_top.png",
+    "afraidofthedark:textures/gui/research_stickers/eerie_forest_bottom.png"
   ],
   "pre_stickers": [
-    "afraidofthedark:textures/gui/research_stickers/eerie_forest.png"
+    "afraidofthedark:textures/gui/research_stickers/eerie_forest_top.png",
+    "afraidofthedark:textures/gui/research_stickers/eerie_forest_bottom.png"
   ],
   "icon": "afraidofthedark:textures/gui/research_icons/eerie_forest.png",
   "prerequisite": "afraidofthedark:the_journey_begins",
