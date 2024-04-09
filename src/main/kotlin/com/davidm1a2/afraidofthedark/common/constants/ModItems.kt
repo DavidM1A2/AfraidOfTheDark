@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.constants
 import com.davidm1a2.afraidofthedark.common.item.*
 import com.davidm1a2.afraidofthedark.common.item.amorphousmetal.*
 import com.davidm1a2.afraidofthedark.common.item.argentium.ArgentiumArmorItem
-import com.davidm1a2.afraidofthedark.common.item.argentium.ArgentiumGreatswordItem
+import com.davidm1a2.afraidofthedark.common.item.argentium.ArgentiumGreataxeItem
 import com.davidm1a2.afraidofthedark.common.item.argentium.ArgentiumIngotItem
 import com.davidm1a2.afraidofthedark.common.item.astralsilver.*
 import com.davidm1a2.afraidofthedark.common.item.crossbow.WristCrossbowItem
@@ -108,7 +108,7 @@ object ModItems {
     val VOID_LEGGINGS = VoidArmorItem("void_leggings", EquipmentSlot.LEGS)
     val VOID_BOOTS = VoidArmorItem("void_boots", EquipmentSlot.FEET)
     val ARGENTIUM_INGOT = ArgentiumIngotItem()
-    val ARGENTIUM_GREATSWORD = ArgentiumGreatswordItem()
+    val ARGENTIUM_GREATAXE = ArgentiumGreataxeItem()
     val ARGENTIUM_HELMET = ArgentiumArmorItem("argentium_helmet", EquipmentSlot.HEAD)
     val ARGENTIUM_CHESTPLATE = ArgentiumArmorItem("argentium_chestplate", EquipmentSlot.CHEST)
     val ARGENTIUM_LEGGINGS = ArgentiumArmorItem("argentium_leggings", EquipmentSlot.LEGS)
@@ -247,7 +247,7 @@ object ModItems {
         VOID_LEGGINGS,
         VOID_BOOTS,
         ARGENTIUM_INGOT,
-        ARGENTIUM_GREATSWORD,
+        ARGENTIUM_GREATAXE,
         ARGENTIUM_HELMET,
         ARGENTIUM_CHESTPLATE,
         ARGENTIUM_LEGGINGS,

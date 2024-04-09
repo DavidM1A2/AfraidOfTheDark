@@ -1,7 +1,7 @@
 {
-  "parent": "item/handheld",
+  "parent": "item/generated",
   "textures": {
-    "layer0": "afraidofthedark:item/argentium_greatsword"
+    "layer0": "afraidofthedark:item/argentium_greataxe_charged"
   },
   "display": {
     "thirdperson_righthand": {

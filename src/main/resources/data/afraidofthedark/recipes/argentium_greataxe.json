@@ -1,9 +1,9 @@
 {
   "type": "afraidofthedark:research_required_shaped_recipe",
   "pattern": [
-    "a",
-    "a",
-    "s"
+    "aa",
+    "sa",
+    "s "
   ],
   "key": {
     "a": {
@@ -14,7 +14,7 @@
     }
   },
   "result": {
-    "item": "afraidofthedark:argentium_greatsword",
+    "item": "afraidofthedark:argentium_greataxe",
     "count": 1
   },
   "required_research": "afraidofthedark:metallurgy"

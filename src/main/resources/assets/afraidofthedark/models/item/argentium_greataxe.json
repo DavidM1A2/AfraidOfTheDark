@@ -1,0 +1,50 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "afraidofthedark:item/argentium_greataxe_uncharged"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "afraidofthedark:charged": 1
+      },
+      "model": "afraidofthedark:item/argentium_greataxe_charged"
+    }
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        270,
+        270,
+        -55
+      ],
+      "translation": [
+        0,
+        7,
+        1.6
+      ],
+      "scale": [
+        1.15,
+        1.15,
+        1
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        90,
+        -35
+      ],
+      "translation": [
+        0,
+        7,
+        1.6
+      ],
+      "scale": [
+        1.15,
+        1.15,
+        1
+      ]
+    }
+  }
+}
