@@ -1,21 +1,21 @@
 {
   "type": "afraidofthedark:research_required_shaped_recipe",
   "pattern": [
-    " s ",
-    "isi",
-    " s "
+    " i ",
+    "aia",
+    " i "
   ],
   "key": {
-    "i": {
-      "item": "afraidofthedark:gnomish_metal_ingot"
+    "a": {
+      "item": "afraidofthedark:argentium_ingot"
     },
-    "s": {
-      "item": "minecraft:stone"
+    "i": {
+      "item": "minecraft:iron_block"
     }
   },
   "result": {
     "item": "afraidofthedark:gnomish_metal_strut",
     "count": 3
   },
-  "required_research": "afraidofthedark:forbidden_city"
+  "required_research": "afraidofthedark:metallurgy"
 }

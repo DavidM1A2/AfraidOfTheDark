@@ -6,7 +6,9 @@
     "afraidofthedark:argentium_chestplate",
     "afraidofthedark:argentium_leggings",
     "afraidofthedark:argentium_boots",
-    "afraidofthedark:argentium_greataxe"
+    "afraidofthedark:argentium_greataxe",
+    "afraidofthedark:gnomish_metal_plate",
+    "afraidofthedark:gnomish_metal_strut"
   ],
   "pre_recipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/metallurgy.png",
