@@ -7,6 +7,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDChargeableSwordItem
 import com.davidm1a2.afraidofthedark.common.utility.damagesource.AOTDDamageType
 import com.davidm1a2.afraidofthedark.common.utility.damagesource.IDoesAOTDDamageType
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
 import net.minecraft.network.chat.Component
@@ -58,6 +59,9 @@ class IgneousSwordItem : AOTDChargeableSwordItem(
             target.remainingFireTicks = max(target.remainingFireTicks, 100 + EnchantmentHelper.getEnchantmentLevel(
                 Enchantments.FIRE_ASPECT, player) * 100)
         } else {
+            if (!player.level.isClientSide) {
+                player.sendMessage(TranslatableComponent(LocalizationConstants.DONT_UNDERSTAND))
+            }
             return true
         }
 

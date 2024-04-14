@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDChargeableSwordItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.damagesource.AOTDDamageType
 import com.davidm1a2.afraidofthedark.common.utility.damagesource.IDoesAOTDDamageType
+import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TranslatableComponent
@@ -51,6 +52,9 @@ class StarMetalKhopeshItem : AOTDChargeableSwordItem(
     override fun onLeftClickEntity(stack: ItemStack, player: Player, target: Entity): Boolean {
         // If star metal is researched allow the sword to function
         if (!player.getResearch().isResearched(ModResearches.STAR_METAL)) {
+            if (!player.level.isClientSide) {
+                player.sendMessage(TranslatableComponent(LocalizationConstants.DONT_UNDERSTAND))
+            }
             return true
         }
 

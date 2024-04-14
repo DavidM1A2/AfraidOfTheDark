@@ -10,7 +10,6 @@ import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Tier
 import net.minecraft.world.item.TooltipFlag
@@ -39,6 +38,9 @@ abstract class AOTDResearchRequiredShovelItem(
 
     override fun onLeftClickEntity(stack: ItemStack, player: Player, target: Entity): Boolean {
         if (!player.getResearch().isResearched(requiredResearch)) {
+            if (!player.level.isClientSide) {
+                player.sendMessage(TranslatableComponent(LocalizationConstants.DONT_UNDERSTAND))
+            }
             return true
         }
 
