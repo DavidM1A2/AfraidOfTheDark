@@ -4,6 +4,8 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDResearchRequiredHoeItem
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.AOTDDamageType
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.IDoesAOTDDamageType
 import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TranslatableComponent
@@ -18,7 +20,9 @@ import net.minecraft.world.level.Level
 import net.minecraftforge.common.Tags
 import kotlin.random.Random
 
-class VoidHoeItem : AOTDResearchRequiredHoeItem("void_hoe", ModToolMaterials.VOID, -35, 0.0f, ModResearches.AN_UNSETTLING_MATERIAL, Properties()) {
+class VoidHoeItem : AOTDResearchRequiredHoeItem("void_hoe", ModToolMaterials.VOID, -35, 0.0f, ModResearches.AN_UNSETTLING_MATERIAL, Properties()), IDoesAOTDDamageType {
+    override val type: AOTDDamageType = AOTDDamageType.SILVER
+
     override fun inventoryTick(itemStack: ItemStack, world: Level, entity: Entity, itemSlot: Int, isSelected: Boolean) {
         VoidCommons.processItem(itemStack, world)
     }

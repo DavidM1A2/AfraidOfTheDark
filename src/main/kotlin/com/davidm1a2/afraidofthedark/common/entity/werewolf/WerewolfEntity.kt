@@ -13,7 +13,7 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Chann
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.animation.BiteChannel
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.animation.RunChannel
 import com.davidm1a2.afraidofthedark.common.network.packets.animation.AnimationPacket
-import com.davidm1a2.afraidofthedark.common.utility.damagesource.AstralSilverDamageSource
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.AOTDDamageType
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.world.damagesource.DamageSource
@@ -127,11 +127,12 @@ class WerewolfEntity(entityType: EntityType<out WerewolfEntity>, world: Level) :
             }
         }
 
+        val type = AOTDDamageType.resolve(damageSource)
         // If the damage was 'silver_damage' then we can apply it, otherwise we just do 1 'generic' damage. Out of world damage is caused by /kill
-        return when (damageSource) {
-            is AstralSilverDamageSource, DamageSource.OUT_OF_WORLD -> super.hurt(damageSource, damage)
-            else -> super.hurt(damageSource, 1f)
+        if (damageSource == DamageSource.OUT_OF_WORLD || type == AOTDDamageType.SILVER) {
+            return super.hurt(damageSource, damage)
         }
+        return super.hurt(damageSource, 1f)
     }
 
     /**

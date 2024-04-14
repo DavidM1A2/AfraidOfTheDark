@@ -2,10 +2,11 @@ package com.davidm1a2.afraidofthedark.common.item.igneous
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
-import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources.getSilverDamage
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDChargeableSwordItem
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.AOTDDamageType
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.IDoesAOTDDamageType
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
 import net.minecraft.network.chat.Component
@@ -35,7 +36,9 @@ class IgneousSwordItem : AOTDChargeableSwordItem(
     3,
     -2.4f,
     Properties()
-) {
+), IDoesAOTDDamageType {
+    override val type: AOTDDamageType = AOTDDamageType.SILVER
+
     init {
         percentChargePerAttack = 35.0
     }
@@ -54,8 +57,6 @@ class IgneousSwordItem : AOTDChargeableSwordItem(
             // The fire burn time is heavily upgraded by fire aspect enchantment
             target.remainingFireTicks = max(target.remainingFireTicks, 100 + EnchantmentHelper.getEnchantmentLevel(
                 Enchantments.FIRE_ASPECT, player) * 100)
-            // Attack the entity from silver damage
-            target.hurt(getSilverDamage(player), damage)
         } else {
             return true
         }

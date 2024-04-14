@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.entity.bolt
 
+import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.network.protocol.Packet
-import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
@@ -19,14 +19,12 @@ import net.minecraftforge.fmllegacy.network.NetworkHooks
 /**
  * Class representing a bolt entity shot by crossbows
  *
- * @property damageSourceProducer The factory used to compute what type of damage to inflict
  * @property drop The item that is dropped by the bolt
  * @property damage The damage that this bolt will do
  * @property chanceToDropHitEntity The chance that the bolt will drop its item after hitting an entity
  * @property chanceToDropHitGround The chance that the bolt will drop its item after hitting the ground
  */
 abstract class BoltEntity(entityType: EntityType<out BoltEntity>, level: Level) : AbstractArrow(entityType, level) {
-    internal abstract val damageSourceProducer: (Player) -> DamageSource
     internal abstract val drop: Item
     internal open val damage: Int = 6
     internal open val chanceToDropHitEntity: Double = 0.4
@@ -68,7 +66,7 @@ abstract class BoltEntity(entityType: EntityType<out BoltEntity>, level: Level) 
                 val entityHit = (result as EntityHitResult).entity
                 // Test if the shooter of the bolt is a player and the player has the right research
                 if (owner is Player && hasResearch) {
-                    entityHit.hurt(damageSourceProducer(owner as Player), damage.toFloat())
+                    entityHit.hurt(ModDamageSources.getBoltDamage(this, owner), damage.toFloat())
                 }
 
                 if (Math.random() >= chanceToDropHitEntity) {

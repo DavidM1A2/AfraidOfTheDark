@@ -1,15 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.item.argentium
 
-import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
-import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDChargeableAxeItem
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.AOTDDamageType
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.IDoesAOTDDamageType
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.damagesource.DamageSource
-import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -18,19 +15,8 @@ import net.minecraft.world.item.enchantment.Enchantments
 import net.minecraft.world.level.Level
 import kotlin.math.sqrt
 
-class ArgentiumGreataxeItem : AOTDChargeableAxeItem("argentium_greataxe", ModToolMaterials.ARGENTIUM, 3f, -2.4f, Properties()) {
-    init {
-        percentChargePerAttack = 35.0
-    }
-    override fun onLeftClickEntity(stack: ItemStack, player: Player, target: Entity): Boolean {
-        if (player.getResearch().isResearched(ModResearches.METALLURGY)) {
-            target.hurt(ModDamageSources.getSilverDamage(player), attackDamage)
-        } else {
-            return true
-        }
-
-        return super.onLeftClickEntity(stack, player, target)
-    }
+class ArgentiumGreataxeItem : AOTDChargeableAxeItem("argentium_greataxe", ModToolMaterials.ARGENTIUM, 3f, -2.4f, Properties()), IDoesAOTDDamageType {
+    override val type: AOTDDamageType = AOTDDamageType.SILVER
 
     override fun performChargeAttack(itemStack: ItemStack, world: Level, entityPlayer: Player): Boolean {
         val nearbyEntities = world.getEntities(

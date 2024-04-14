@@ -2,11 +2,12 @@ package com.davidm1a2.afraidofthedark.common.item.starmetal
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
-import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources.getSilverDamage
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDChargeableSwordItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.AOTDDamageType
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.IDoesAOTDDamageType
 import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TranslatableComponent
@@ -32,7 +33,9 @@ class StarMetalKhopeshItem : AOTDChargeableSwordItem(
     3,
     -2.4f,
     Properties()
-) {
+), IDoesAOTDDamageType {
+    override val type: AOTDDamageType = AOTDDamageType.SILVER
+
     init {
         percentChargePerAttack = 35.0
     }
@@ -47,10 +50,7 @@ class StarMetalKhopeshItem : AOTDChargeableSwordItem(
      */
     override fun onLeftClickEntity(stack: ItemStack, player: Player, target: Entity): Boolean {
         // If star metal is researched allow the sword to function
-        if (player.getResearch().isResearched(ModResearches.STAR_METAL)) {
-            // Ensure the clicked entity was non-null
-            target.hurt(getSilverDamage(player), damage)
-        } else {
+        if (!player.getResearch().isResearched(ModResearches.STAR_METAL)) {
             return true
         }
 

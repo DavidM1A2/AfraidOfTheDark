@@ -2,29 +2,20 @@ package com.davidm1a2.afraidofthedark.common.item.starmetal
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
-import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDResearchRequiredAxeItem
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.AOTDDamageType
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.IDoesAOTDDamageType
 import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TranslatableComponent
-import net.minecraft.world.entity.Entity
-import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
 
-class StarMetalAxeItem : AOTDResearchRequiredAxeItem("star_metal_axe", ModToolMaterials.STAR_METAL, 5.0f, -3.0f, ModResearches.STAR_METAL, Properties()) {
-
-    override fun onLeftClickEntity(stack: ItemStack, player: Player, target: Entity): Boolean {
-        if (player.getResearch().isResearched(requiredResearch)) {
-            target.hurt(ModDamageSources.getSilverDamage(player), attackDamage)
-            return false
-        }
-
-        return super.onLeftClickEntity(stack, player, target)
-    }
+class StarMetalAxeItem : AOTDResearchRequiredAxeItem("star_metal_axe", ModToolMaterials.STAR_METAL, 5.0f, -3.0f, ModResearches.STAR_METAL, Properties()), IDoesAOTDDamageType {
+    override val type: AOTDDamageType = AOTDDamageType.SILVER
 
     override fun canBeDepleted(): Boolean {
         return false

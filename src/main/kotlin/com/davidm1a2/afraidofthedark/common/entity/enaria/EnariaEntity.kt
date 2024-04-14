@@ -12,7 +12,7 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedMode
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.tileEntity.EnariaSpawnerTileEntity
-import com.davidm1a2.afraidofthedark.common.utility.damagesource.AstralSilverDamageSource
+import com.davidm1a2.afraidofthedark.common.utility.damagesource.AOTDDamageType
 import com.davidm1a2.afraidofthedark.common.utility.sendMessage
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
@@ -150,8 +150,9 @@ class EnariaEntity(entityType: EntityType<out EnariaEntity>, world: Level) : Mob
                     }
                 }
 
+                val type = AOTDDamageType.resolve(source)
                 // If the damage source is silver damage inflict heavy damage
-                if (source is AstralSilverDamageSource) {
+                if (type == AOTDDamageType.SILVER) {
                     // If its been more than a second since the last attack do full damage, otherwise scale the damage
                     val amountModifier = min(1.0f, timeBetweenHits / 1000.0f)
 

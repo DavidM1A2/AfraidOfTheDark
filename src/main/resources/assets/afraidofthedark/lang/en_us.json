@@ -487,8 +487,6 @@
   "meteor_entry.afraidofthedark.star_metal": "Star Metal",
   "meteor_entry.afraidofthedark.igneous": "Igneous",
   "_comment": "Damage sources",
-  "death.attack.afraidofthedark.astral_silver_damage": "%1$s was slain by %2$s",
-  "death.attack.afraidofthedark.astral_silver_damage.item": "%1$s was slain by %2$s using %3$s",
   "death.attack.afraidofthedark.splinter_drone_projectile": "%1$s was shot by %2$s",
   "death.attack.afraidofthedark.splinter_drone_projectile.item": "%1$s was shot by %2$s using %3$s",
   "death.attack.afraidofthedark.frost_phoenix_projectile": "%1$s was shot by %2$s",
